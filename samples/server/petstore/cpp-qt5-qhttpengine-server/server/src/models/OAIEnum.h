@@ -15,6 +15,7 @@
 
 #include <QString>
 #include <QJsonValue>
+#include <QMetaType>
 
 namespace OpenAPI {
 
@@ -60,5 +61,7 @@ private :
 };
 
 }
+
+Q_DECLARE_METATYPE(OpenAPI::OAIEnum)
 
 #endif // OAI_ENUM_H

@@ -74,6 +74,8 @@ private:
 }
 {{/cppNamespaceDeclarations}}
 
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{classname}})
+
 #endif // {{classname}}_H
 {{/model}}
 {{/models}}

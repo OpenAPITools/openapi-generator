@@ -77,23 +77,23 @@ signals:
     void updatePetWithFormSignalFull(OAIHttpRequestWorker* worker);
     void uploadFileSignalFull(OAIHttpRequestWorker* worker, OAIApiResponse summary);
     
-    void addPetSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void deletePetSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByStatusSignalE(QList<OAIPet> summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByTagsSignalE(QList<OAIPet> summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getPetByIdSignalE(OAIPet summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void updatePetSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void updatePetWithFormSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void uploadFileSignalE(OAIApiResponse summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void addPetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void deletePetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void findPetsByStatusSignalE(QList<OAIPet> summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void findPetsByTagsSignalE(QList<OAIPet> summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void getPetByIdSignalE(OAIPet summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void updatePetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void updatePetWithFormSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void uploadFileSignalE(OAIApiResponse summary, QNetworkReply::NetworkError error_type, QString error_str);
     
-    void addPetSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void deletePetSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByStatusSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByTagsSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getPetByIdSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void updatePetSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void updatePetWithFormSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void uploadFileSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    void addPetSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void deletePetSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void findPetsByStatusSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void findPetsByTagsSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void getPetByIdSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void updatePetSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void updatePetWithFormSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void uploadFileSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
     
 };
 
