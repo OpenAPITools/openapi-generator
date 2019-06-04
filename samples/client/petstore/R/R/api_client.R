@@ -81,7 +81,7 @@ ApiClient  <- R6::R6Class(
       headers <- httr::add_headers(c(headerParams, self$defaultHeaders))
 
       if (method == "GET") {
-        httr::GET(url, queryParams, headers, ...)
+        httr::GET(url, query = queryParams, headers, ...)
       } else if (method == "POST") {
         httr::POST(url, query = queryParams, headers, body = body, httr::content_type("application/json"), ...)
       } else if (method == "PUT") {
