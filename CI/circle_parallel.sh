@@ -12,6 +12,10 @@ if [ "$NODE_INDEX" = "1" ]; then
   #cp CI/pom.xml.circleci pom.xml
   java -version
   mvn --quiet verify -Psamples.circleci
+  # generate test scripts
+  ./bin/tests/run-all-test
+  # test all generators with fake petstore spec (2.0, 3.0)
+  ./bin/utils/test-fake-petstore-for-all.sh
 elif [ "$NODE_INDEX" = "2" ]; then
   # run ensure-up-to-date sample script on SNAPSHOT version only
   project_version=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
@@ -51,6 +55,11 @@ else
   java -version
   #cp CI/pom.xml.circleci.java7 pom.xml
   mvn --quiet verify -Psamples.circleci.jdk7
+
+  # generate all petstore samples (client, servers, doc)
+  ./bin/run-all-petstore
+  # generate all petstore samples (openapi3)
+  ./bin/openapi3/run-all-petstore
 fi
 
 
