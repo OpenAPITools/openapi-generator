@@ -11,7 +11,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { exists } from '../runtime';
 /**
  * A category for a pet
  * @export
