@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using {{packageName}}.Attributes;
 using {{packageName}}.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace {{packageName}}.Controllers
 { {{#operations}}
@@ -24,7 +25,8 @@ namespace {{packageName}}.Controllers
         /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
-        [Route("{{{basePathWithoutHost}}}{{{path}}}")]
+        [Route("{{{basePathWithoutHost}}}{{{path}}}")]{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}
+        [Authorize(Policy = "{{name}}")]{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
         [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}

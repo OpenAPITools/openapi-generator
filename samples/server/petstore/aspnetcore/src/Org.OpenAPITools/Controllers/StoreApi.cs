@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Org.OpenAPITools.Controllers
 { 
@@ -55,6 +56,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="200">successful operation</response>
         [HttpGet]
         [Route("/v2/store/inventory")]
+        [Authorize(Policy = "api_key")]
         [ValidateModelState]
         [SwaggerOperation("GetInventory")]
         [SwaggerResponse(statusCode: 200, type: typeof(Dictionary<string, int?>), description: "successful operation")]
@@ -110,7 +112,7 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Place an order for a pet
         /// </summary>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid Order</response>
         [HttpPost]
@@ -118,7 +120,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("PlaceOrder")]
         [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
-        public virtual IActionResult PlaceOrder([FromBody]Order order)
+        public virtual IActionResult PlaceOrder([FromBody]Order body)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Order));
