@@ -118,8 +118,8 @@ export interface ConfigurationParameters {
     middleware?: Middleware[]; // middleware to apply before/after fetch requests
     username?: string; // parameter for basic security
     password?: string; // parameter for basic security
-    apiKey?: string | ((name: string) => string); // parameter for apiKey security
-    accessToken?: string | ((name: string, scopes?: string[]) => string); // parameter for oauth2 security
+    apiKey?: string | (() => string); // parameter for apiKey security
+    accessToken?: string | (() => string); // parameter for oauth2 security
 }
 
 export class Configuration {
@@ -145,7 +145,7 @@ export class Configuration {
         return this.configuration.password;
     }
 
-    get apiKey(): ((name: string) => string) | undefined {
+    get apiKey(): (() => string) | undefined {
         const apiKey = this.configuration.apiKey;
         if (apiKey) {
             return typeof apiKey === 'function' ? apiKey : () => apiKey;
@@ -153,7 +153,7 @@ export class Configuration {
         return undefined;
     }
 
-    get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
+    get accessToken(): (() => string) | undefined {
         const accessToken = this.configuration.accessToken;
         if (accessToken) {
             return typeof accessToken === 'function' ? accessToken : () => accessToken;
