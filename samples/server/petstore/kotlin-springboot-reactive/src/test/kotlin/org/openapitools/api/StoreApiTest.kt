@@ -21,7 +21,7 @@ class StoreApiTest {
     */
     @Test
     fun deleteOrderTest() {
-        val orderId:String? = null
+        val orderId:kotlin.String? = null
         val response: ResponseEntity<Unit> = api.deleteOrder(orderId!!)
 
         // TODO: test validations
@@ -37,7 +37,7 @@ class StoreApiTest {
     */
     @Test
     fun getInventoryTest() {
-        val response: ResponseEntity<Map<String, Int>> = api.getInventory()
+        val response: ResponseEntity<Map<String, kotlin.Int>> = api.getInventory()
 
         // TODO: test validations
     }
@@ -52,7 +52,7 @@ class StoreApiTest {
     */
     @Test
     fun getOrderByIdTest() {
-        val orderId:Long? = null
+        val orderId:kotlin.Long? = null
         val response: ResponseEntity<Order> = api.getOrderById(orderId!!)
 
         // TODO: test validations

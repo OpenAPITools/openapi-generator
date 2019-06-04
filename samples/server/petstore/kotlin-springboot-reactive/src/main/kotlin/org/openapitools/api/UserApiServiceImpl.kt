@@ -18,15 +18,15 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override suspend fun deleteUser(username: String): Unit {
+    override suspend fun deleteUser(username: kotlin.String): Unit {
         TODO("Implement me")
     }
 
-    override suspend fun getUserByName(username: String): User {
+    override suspend fun getUserByName(username: kotlin.String): User {
         TODO("Implement me")
     }
 
-    override suspend fun loginUser(username: String, password: String): String {
+    override suspend fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String {
         TODO("Implement me")
     }
 
@@ -34,7 +34,7 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override suspend fun updateUser(username: String, body: User): Unit {
+    override suspend fun updateUser(username: kotlin.String, body: User): Unit {
         TODO("Implement me")
     }
 }
