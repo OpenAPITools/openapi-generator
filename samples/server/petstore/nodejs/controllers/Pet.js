@@ -4,8 +4,8 @@ var utils = require('../utils/writer.js');
 var Pet = require('../service/PetService');
 
 module.exports.addPet = function addPet (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  Pet.addPet(body)
+  var pet = req.swagger.params['Pet'].value;
+  Pet.addPet(pet)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -39,7 +39,8 @@ module.exports.findPetsByStatus = function findPetsByStatus (req, res, next) {
 
 module.exports.findPetsByTags = function findPetsByTags (req, res, next) {
   var tags = req.swagger.params['tags'].value;
-  Pet.findPetsByTags(tags)
+  var maxCount = req.swagger.params['maxCount'].value;
+  Pet.findPetsByTags(tags,maxCount)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -60,8 +61,8 @@ module.exports.getPetById = function getPetById (req, res, next) {
 };
 
 module.exports.updatePet = function updatePet (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  Pet.updatePet(body)
+  var pet = req.swagger.params['Pet'].value;
+  Pet.updatePet(pet)
     .then(function (response) {
       utils.writeJson(res, response);
     })

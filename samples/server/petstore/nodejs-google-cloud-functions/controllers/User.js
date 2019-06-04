@@ -4,8 +4,8 @@ var utils = require('../utils/writer.js');
 var User = require('../service/UserService');
 
 module.exports.createUser = function createUser (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  User.createUser(body)
+  var user = req.swagger.params['User'].value;
+  User.createUser(user)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -15,8 +15,8 @@ module.exports.createUser = function createUser (req, res, next) {
 };
 
 module.exports.createUsersWithArrayInput = function createUsersWithArrayInput (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  User.createUsersWithArrayInput(body)
+  var user = req.swagger.params['User'].value;
+  User.createUsersWithArrayInput(user)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -26,8 +26,8 @@ module.exports.createUsersWithArrayInput = function createUsersWithArrayInput (r
 };
 
 module.exports.createUsersWithListInput = function createUsersWithListInput (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  User.createUsersWithListInput(body)
+  var user = req.swagger.params['User'].value;
+  User.createUsersWithListInput(user)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -82,8 +82,8 @@ module.exports.logoutUser = function logoutUser (req, res, next) {
 
 module.exports.updateUser = function updateUser (req, res, next) {
   var username = req.swagger.params['username'].value;
-  var body = req.swagger.params['body'].value;
-  User.updateUser(username,body)
+  var user = req.swagger.params['User'].value;
+  User.updateUser(username,user)
     .then(function (response) {
       utils.writeJson(res, response);
     })
