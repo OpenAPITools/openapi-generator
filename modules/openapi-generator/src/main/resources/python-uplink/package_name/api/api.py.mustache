@@ -85,8 +85,14 @@ class {{classname}}(BaseApiConsumer):
     {{/hasProduces}}
     )
 {{/useClassMimeType}}
-{{! TODO: Handle no return type }}
-    @returns{{#opReturnsJson}}.json{{/opReturnsJson}}{{#returnType}}({{returnType}}){{/returnType}}
+{{#returnType}}
+    @returns{{#opReturnsJson}}json{{/opReturnsJson}}({{returnType}})
+{{/returnType}}
+{{^returnType}}
+{{#opReturnsJson}}
+    @returns.json
+{{/opReturnsJson}}
+{{/returnType}}
 {{/vendorExtensions}}
     @{{httpMethod}}("{{{path}}}", args={
 {{#allParams}}
