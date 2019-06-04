@@ -95,48 +95,19 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
 
         // Use lists instead of arrays
-        typeMapping.put("array", "List");
-        typeMapping.put("string", "String");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("integer", "Int");
-        typeMapping.put("float", "Float");
-        typeMapping.put("long", "Long");
-        typeMapping.put("double", "Double");
-        typeMapping.put("ByteArray", "ByteArray");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Map");
-        typeMapping.put("object", "Any");
-        typeMapping.put("binary", "Array<kotlin.Byte>");
+        typeMapping.put("array", "kotlin.collections.List");
+        typeMapping.put("list", "kotlin.collections.List");
 
         typeMapping.put("date", "java.time.LocalDate");
         typeMapping.put("date-time", "java.time.OffsetDateTime");
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.OffsetDateTime");
 
-        importMapping.put("Date", "java.time.LocalDate");
-        importMapping.put("DateTime", "java.time.OffsetDateTime");
-
         // use resource for file handling
         typeMapping.put("file", "org.springframework.core.io.Resource");
 
-
-        languageSpecificPrimitives.addAll(Arrays.asList(
-                "Any",
-                "Byte",
-                "ByteArray",
-                "Short",
-                "Int",
-                "Long",
-                "Float",
-                "Double",
-                "Boolean",
-                "Char",
-                "String",
-                "Array",
-                "List",
-                "Map",
-                "Set"
-        ));
+        importMapping.put("Date", "java.time.LocalDate");
+        importMapping.put("DateTime", "java.time.OffsetDateTime");
 
         addOption(TITLE, "server title name or client service name", title);
         addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);
@@ -543,16 +514,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
         if (returnType == null) {
             dataTypeAssigner.setReturnType("Unit");
-        } else if (returnType.startsWith("List")) {
+        } else if (returnType.startsWith("kotlin.collections.List")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("List<".length(), end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.List<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
-        } else if (returnType.startsWith("Map")) {
+        } else if (returnType.startsWith("kotlin.collections.Map")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
         }
