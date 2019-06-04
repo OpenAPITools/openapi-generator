@@ -55,26 +55,28 @@ export class {{classname}} extends BaseAPI {
             {{/bodyParam}}
             {{#headerParams}}
             {{#isListContainer}}
-            '{{baseName}}': requestParameters.{{paramName}} && requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])),
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) }),
             {{/isListContainer}}
             {{^isListContainer}}
-            '{{baseName}}': String(requestParameters.{{paramName}}),
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': String(requestParameters.{{paramName}}) }),
             {{/isListContainer}}
             {{/headerParams}}
             {{#authMethods}}
             {{#isBasic}}
-            Authorization: this.configuration.username && this.configuration.password && `Basic ${btoa(this.configuration.username + ':' + this.configuration.password)}`,
+            ...(this.configuration.username && this.configuration.password && { Authorization: `Basic ${btoa(this.configuration.username + ':' + this.configuration.password)}` }),
             {{/isBasic}}
             {{#isApiKey}}
             {{#isKeyInHeader}}
-            '{{keyParamName}}': this.configuration.apiKey && this.configuration.apiKey('{{keyParamName}}'), // {{name}} authentication
+            ...(this.configuration.apiKey && { '{{keyParamName}}': this.configuration.apiKey('{{keyParamName}}') }), // {{name}} authentication
             {{/isKeyInHeader}}
             {{/isApiKey}}
             {{#isOAuth}}
             // oauth required
-            Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken('{{name}}', [{{#scopes}}'{{{scope}}}'{{^-last}}, {{/-last}}{{/scopes}}])
-                : this.configuration.accessToken),
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('{{name}}', [{{#scopes}}'{{{scope}}}'{{^-last}}, {{/-last}}{{/scopes}}])
+                    : this.configuration.accessToken)
+            }),
             {{/isOAuth}}
             {{/authMethods}}
         };
@@ -83,22 +85,22 @@ export class {{classname}} extends BaseAPI {
             {{#queryParams}}
             {{#isListContainer}}
             {{#isCollectionFormatMulti}}
-            '{{baseName}}': requestParameters.{{paramName}},
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}} }),
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            '{{baseName}}': requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']),
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']) }),
             {{/isCollectionFormatMulti}}
             {{/isListContainer}}
             {{^isListContainer}}
             {{#isDateTime}}
-            '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString(),
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString() }),
             {{/isDateTime}}
             {{^isDateTime}}
             {{#isDate}}
-            '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString(),
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString() }),
             {{/isDate}}
             {{^isDate}}
-            '{{baseName}}': requestParameters.{{paramName}},
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}} }),
             {{/isDate}}
             {{/isDateTime}}
             {{/isListContainer}}
@@ -106,7 +108,7 @@ export class {{classname}} extends BaseAPI {
             {{#authMethods}}
             {{#isApiKey}}
             {{#isKeyInQuery}}
-            '{{keyParamName}}': this.configuration.apiKey && this.configuration.apiKey('{{keyParamName}}'), // {{name}} authentication
+            ...(this.configuration.apiKey && { '{{keyParamName}}': this.configuration.apiKey && this.configuration.apiKey('{{keyParamName}}') }), // {{name}} authentication
             {{/isKeyInQuery}}
             {{/isApiKey}}
             {{/authMethods}}

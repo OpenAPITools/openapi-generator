@@ -171,8 +171,8 @@ export class UserApi extends BaseAPI {
         };
 
         const query: HttpQuery = {
-            'username': requestParameters.username,
-            'password': requestParameters.password,
+            ...(requestParameters.username && { 'username': requestParameters.username }),
+            ...(requestParameters.password && { 'password': requestParameters.password }),
         };
 
         return this.request<string>({

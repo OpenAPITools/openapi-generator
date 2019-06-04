@@ -69,9 +69,11 @@ export class PetApi extends BaseAPI {
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
             // oauth required
-            Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
-                : this.configuration.accessToken),
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
         };
 
         const query: HttpQuery = {
@@ -93,11 +95,13 @@ export class PetApi extends BaseAPI {
         throwIfRequired(requestParameters, 'petId', 'deletePet');
 
         const headers: HttpHeaders = {
-            'api_key': String(requestParameters.apiKey),
+            ...(requestParameters.apiKey && { 'api_key': String(requestParameters.apiKey) }),
             // oauth required
-            Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
-                : this.configuration.accessToken),
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
         };
 
         const query: HttpQuery = {
@@ -120,13 +124,15 @@ export class PetApi extends BaseAPI {
 
         const headers: HttpHeaders = {
             // oauth required
-            Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
-                : this.configuration.accessToken),
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
         };
 
         const query: HttpQuery = {
-            'status': requestParameters.status.join(COLLECTION_FORMATS['csv']),
+            ...(requestParameters.status && { 'status': requestParameters.status.join(COLLECTION_FORMATS['csv']) }),
         };
 
         return this.request<Array<Pet>>({
@@ -146,13 +152,15 @@ export class PetApi extends BaseAPI {
 
         const headers: HttpHeaders = {
             // oauth required
-            Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
-                : this.configuration.accessToken),
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
         };
 
         const query: HttpQuery = {
-            'tags': requestParameters.tags.join(COLLECTION_FORMATS['csv']),
+            ...(requestParameters.tags && { 'tags': requestParameters.tags.join(COLLECTION_FORMATS['csv']) }),
         };
 
         return this.request<Array<Pet>>({
@@ -171,7 +179,7 @@ export class PetApi extends BaseAPI {
         throwIfRequired(requestParameters, 'petId', 'getPetById');
 
         const headers: HttpHeaders = {
-            'api_key': this.configuration.apiKey && this.configuration.apiKey('api_key'), // api_key authentication
+            ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
         };
 
         const query: HttpQuery = {
@@ -194,9 +202,11 @@ export class PetApi extends BaseAPI {
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
             // oauth required
-            Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
-                : this.configuration.accessToken),
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
         };
 
         const query: HttpQuery = {
@@ -219,9 +229,11 @@ export class PetApi extends BaseAPI {
 
         const headers: HttpHeaders = {
             // oauth required
-            Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
-                : this.configuration.accessToken),
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
         };
 
         const query: HttpQuery = {
@@ -253,9 +265,11 @@ export class PetApi extends BaseAPI {
 
         const headers: HttpHeaders = {
             // oauth required
-            Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
-                : this.configuration.accessToken),
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
         };
 
         const query: HttpQuery = {

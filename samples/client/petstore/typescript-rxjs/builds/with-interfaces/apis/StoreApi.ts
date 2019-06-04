@@ -62,7 +62,7 @@ export class StoreApi extends BaseAPI {
     getInventory = (): Observable<{ [key: string]: number; }> => {
 
         const headers: HttpHeaders = {
-            'api_key': this.configuration.apiKey && this.configuration.apiKey('api_key'), // api_key authentication
+            ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
         };
 
         const query: HttpQuery = {
