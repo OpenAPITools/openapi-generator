@@ -1,4 +1,4 @@
 library(testthat)
-library(petstore)
+library(openapi)
 
-test_check("petstore")
+test_check("openapi")

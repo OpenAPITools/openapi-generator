@@ -21,7 +21,7 @@ Add a new pet to the store
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
@@ -60,7 +60,7 @@ Deletes a pet
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.pet.id <- 56 # integer | Pet id to delete
 var.api.key <- 'api.key_example' # character | 
@@ -103,7 +103,7 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.status <- list("status_example") # character | Status values that need to be considered for filter
 
@@ -145,7 +145,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.tags <- list("inner_example") # character | Tags to filter by
 
@@ -187,7 +187,7 @@ Returns a single pet
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.pet.id <- 56 # integer | ID of pet to return
 
@@ -227,7 +227,7 @@ Update an existing pet
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
@@ -266,7 +266,7 @@ Updates a pet in the store with form data
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.pet.id <- 56 # integer | ID of pet that needs to be updated
 var.name <- 'name_example' # character | Updated name of the pet
@@ -309,7 +309,7 @@ uploads an image
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.pet.id <- 56 # integer | ID of pet to update
 var.additional.metadata <- 'additional.metadata_example' # character | Additional data to pass to server

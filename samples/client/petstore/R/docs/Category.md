@@ -1,4 +1,4 @@
-# petstore::Category
+# openapi::Category
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# R API client for petstore
+# R API client for openapi
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -27,14 +27,14 @@ install.packages("caTools")
 git clone https://github.com/GIT_USER_ID/GIT_REPO_ID
 cd GIT_REPO_ID
 R CMD build .
-R CMD check petstore_1.0.0.tar.gz
-R CMD INSTALL petstore_1.0.0.tar.gz
+R CMD check openapi_1.0.0.tar.gz
+R CMD INSTALL openapi_1.0.0.tar.gz
 ```
 
 ### Install the package
 
 ```R
-install.packages("petstore")
+install.packages("openapi")
 ```
 
 To install directly from Github, use `devtools`:
@@ -47,7 +47,7 @@ install_github("GIT_USER_ID/GIT_REPO_ID")
 ### Usage
 
 ```R
-library(petstore)
+library(openapi)
 ```
 
 ## Documentation for API Endpoints

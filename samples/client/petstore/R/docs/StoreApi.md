@@ -19,7 +19,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.order.id <- 'order.id_example' # character | ID of the order that needs to be deleted
 
@@ -58,7 +58,7 @@ Returns a map of status codes to quantities
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 
 #Returns pet inventories by status
@@ -96,7 +96,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.order.id <- 56 # integer | ID of pet that needs to be fetched
 
@@ -134,7 +134,7 @@ Place an order for a pet
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.body <- Order$new(123, 123, 123, "shipDate_example", "status_example", "complete_example") # Order | order placed for purchasing the pet
 
