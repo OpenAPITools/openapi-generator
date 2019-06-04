@@ -33,7 +33,8 @@ namespace Org.OpenAPITools.Controllers
         /// <param name="body">Created user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
-        [Route("/v2/user")]        [ValidateModelState]
+        [Route("/v2/user")]
+        [ValidateModelState]
         [SwaggerOperation("CreateUser")]
         public virtual IActionResult CreateUser([FromBody]User body)
         { 
@@ -50,7 +51,8 @@ namespace Org.OpenAPITools.Controllers
         /// <param name="body">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
-        [Route("/v2/user/createWithArray")]        [ValidateModelState]
+        [Route("/v2/user/createWithArray")]
+        [ValidateModelState]
         [SwaggerOperation("CreateUsersWithArrayInput")]
         public virtual IActionResult CreateUsersWithArrayInput([FromBody]List<User> body)
         { 
@@ -67,7 +69,8 @@ namespace Org.OpenAPITools.Controllers
         /// <param name="body">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
-        [Route("/v2/user/createWithList")]        [ValidateModelState]
+        [Route("/v2/user/createWithList")]
+        [ValidateModelState]
         [SwaggerOperation("CreateUsersWithListInput")]
         public virtual IActionResult CreateUsersWithListInput([FromBody]List<User> body)
         { 
@@ -86,7 +89,8 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid username supplied</response>
         /// <response code="404">User not found</response>
         [HttpDelete]
-        [Route("/v2/user/{username}")]        [ValidateModelState]
+        [Route("/v2/user/{username}")]
+        [ValidateModelState]
         [SwaggerOperation("DeleteUser")]
         public virtual IActionResult DeleteUser([FromRoute][Required]string username)
         { 
@@ -108,7 +112,8 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid username supplied</response>
         /// <response code="404">User not found</response>
         [HttpGet]
-        [Route("/v2/user/{username}")]        [ValidateModelState]
+        [Route("/v2/user/{username}")]
+        [ValidateModelState]
         [SwaggerOperation("GetUserByName")]
         [SwaggerResponse(statusCode: 200, type: typeof(User), description: "successful operation")]
         public virtual IActionResult GetUserByName([FromRoute][Required]string username)
@@ -141,7 +146,8 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid username/password supplied</response>
         [HttpGet]
-        [Route("/v2/user/login")]        [ValidateModelState]
+        [Route("/v2/user/login")]
+        [ValidateModelState]
         [SwaggerOperation("LoginUser")]
         [SwaggerResponse(statusCode: 200, type: typeof(string), description: "successful operation")]
         public virtual IActionResult LoginUser([FromQuery][Required()]string username, [FromQuery][Required()]string password)
@@ -166,7 +172,8 @@ namespace Org.OpenAPITools.Controllers
         /// </summary>
         /// <response code="0">successful operation</response>
         [HttpGet]
-        [Route("/v2/user/logout")]        [ValidateModelState]
+        [Route("/v2/user/logout")]
+        [ValidateModelState]
         [SwaggerOperation("LogoutUser")]
         public virtual IActionResult LogoutUser()
         { 
@@ -186,7 +193,8 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid user supplied</response>
         /// <response code="404">User not found</response>
         [HttpPut]
-        [Route("/v2/user/{username}")]        [ValidateModelState]
+        [Route("/v2/user/{username}")]
+        [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
         public virtual IActionResult UpdateUser([FromRoute][Required]string username, [FromBody]User body)
         { 

@@ -33,7 +33,6 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet")]
-
         [ValidateModelState]
         [SwaggerOperation("AddPet")]
         public virtual IActionResult AddPet([FromBody]Pet body)
@@ -53,7 +52,6 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid pet value</response>
         [HttpDelete]
         [Route("/v2/pet/{petId}")]
-
         [ValidateModelState]
         [SwaggerOperation("DeletePet")]
         public virtual IActionResult DeletePet([FromRoute][Required]long? petId, [FromHeader]string apiKey)
@@ -74,7 +72,6 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid status value</response>
         [HttpGet]
         [Route("/v2/pet/findByStatus")]
-
         [ValidateModelState]
         [SwaggerOperation("FindPetsByStatus")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Pet>), description: "successful operation")]
@@ -106,7 +103,6 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid tag value</response>
         [HttpGet]
         [Route("/v2/pet/findByTags")]
-
         [ValidateModelState]
         [SwaggerOperation("FindPetsByTags")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Pet>), description: "successful operation")]
@@ -139,7 +135,6 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="404">Pet not found</response>
         [HttpGet]
         [Route("/v2/pet/{petId}")]
-
         [ValidateModelState]
         [SwaggerOperation("GetPetById")]
         [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]
@@ -174,7 +169,6 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="405">Validation exception</response>
         [HttpPut]
         [Route("/v2/pet")]
-
         [ValidateModelState]
         [SwaggerOperation("UpdatePet")]
         public virtual IActionResult UpdatePet([FromBody]Pet body)
@@ -201,7 +195,6 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet/{petId}")]
-
         [ValidateModelState]
         [SwaggerOperation("UpdatePetWithForm")]
         public virtual IActionResult UpdatePetWithForm([FromRoute][Required]long? petId, [FromForm]string name, [FromForm]string status)
@@ -222,7 +215,6 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="200">successful operation</response>
         [HttpPost]
         [Route("/v2/pet/{petId}/uploadImage")]
-
         [ValidateModelState]
         [SwaggerOperation("UploadFile")]
         [SwaggerResponse(statusCode: 200, type: typeof(ApiResponse), description: "successful operation")]

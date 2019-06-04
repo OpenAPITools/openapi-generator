@@ -34,7 +34,8 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Order not found</response>
         [HttpDelete]
-        [Route("/v2/store/order/{orderId}")]        [ValidateModelState]
+        [Route("/v2/store/order/{orderId}")]
+        [ValidateModelState]
         [SwaggerOperation("DeleteOrder")]
         public virtual IActionResult DeleteOrder([FromRoute][Required]string orderId)
         { 
@@ -55,7 +56,6 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="200">successful operation</response>
         [HttpGet]
         [Route("/v2/store/inventory")]
-
         [ValidateModelState]
         [SwaggerOperation("GetInventory")]
         [SwaggerResponse(statusCode: 200, type: typeof(Dictionary<string, int?>), description: "successful operation")]
@@ -82,7 +82,8 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Order not found</response>
         [HttpGet]
-        [Route("/v2/store/order/{orderId}")]        [ValidateModelState]
+        [Route("/v2/store/order/{orderId}")]
+        [ValidateModelState]
         [SwaggerOperation("GetOrderById")]
         [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
         public virtual IActionResult GetOrderById([FromRoute][Required][Range(1, 5)]long? orderId)
@@ -114,7 +115,8 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid Order</response>
         [HttpPost]
-        [Route("/v2/store/order")]        [ValidateModelState]
+        [Route("/v2/store/order")]
+        [ValidateModelState]
         [SwaggerOperation("PlaceOrder")]
         [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
         public virtual IActionResult PlaceOrder([FromBody]Order body)
