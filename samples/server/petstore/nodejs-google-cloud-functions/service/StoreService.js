@@ -63,10 +63,10 @@ exports.getOrderById = function(orderId) {
 /**
  * Place an order for a pet
  *
- * order Order order placed for purchasing the pet
+ * body Order order placed for purchasing the pet
  * returns Order
  **/
-exports.placeOrder = function(order) {
+exports.placeOrder = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
