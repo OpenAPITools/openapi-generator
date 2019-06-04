@@ -19,7 +19,8 @@ VERSION = "{{packageVersion}}"
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["six >= 1.12", "uplink[marshmallow] == 0.8.0.post1", "marshmallow >= 3.0.0rc3"]
+# python2.7 support ends with marshmallow 3.0.0rc6
+REQUIRES = ["six >= 1.12", "uplink[marshmallow] == 0.8.0.post2", "marshmallow >= 3.0.0rc3"]
 
 setup(
     name=NAME,
