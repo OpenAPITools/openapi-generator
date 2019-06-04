@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Org.OpenAPITools.Controllers
 { 
