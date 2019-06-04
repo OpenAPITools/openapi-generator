@@ -80,7 +80,7 @@ PetApi <- R6::R6Class(
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
-                                 user_agent(self$apiClient$`userAgent`),
+                                 httr::user_agent(self$apiClient$`userAgent`),
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -116,7 +116,7 @@ PetApi <- R6::R6Class(
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
-                                 user_agent(self$apiClient$`userAgent`),
+                                 httr::user_agent(self$apiClient$`userAgent`),
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -148,7 +148,7 @@ PetApi <- R6::R6Class(
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
-                                 user_agent(self$apiClient$`userAgent`),
+                                 httr::user_agent(self$apiClient$`userAgent`),
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -180,7 +180,7 @@ PetApi <- R6::R6Class(
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
-                                 user_agent(self$apiClient$`userAgent`),
+                                 httr::user_agent(self$apiClient$`userAgent`),
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -216,7 +216,7 @@ PetApi <- R6::R6Class(
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
-                                 user_agent(self$apiClient$`userAgent`),
+                                 httr::user_agent(self$apiClient$`userAgent`),
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -252,7 +252,7 @@ PetApi <- R6::R6Class(
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
-                                 user_agent(self$apiClient$`userAgent`),
+                                 httr::user_agent(self$apiClient$`userAgent`),
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -291,7 +291,7 @@ PetApi <- R6::R6Class(
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
-                                 user_agent(self$apiClient$`userAgent`),
+                                 httr::user_agent(self$apiClient$`userAgent`),
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -330,7 +330,7 @@ PetApi <- R6::R6Class(
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
-                                 user_agent(self$apiClient$`userAgent`),
+                                 httr::user_agent(self$apiClient$`userAgent`),
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {

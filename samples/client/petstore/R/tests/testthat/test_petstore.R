@@ -37,12 +37,12 @@ test_that("Test Category", {
 
 test_that("GetPetById", {
   response <- petApi$GetPetById(petId)
-  expect_equal(response$content$id, petId)
-  expect_equal(response$content$name, "name_test")
+  expect_equal(response$id, petId)
+  expect_equal(response$name, "name_test")
   #expect_equal(response$category, Category$new(id=450, name="test_cat"))
-  expect_equal(response$content$photoUrls, list("photo_test", "second test"))
-  expect_equal(response$content$status, "available")
-  expect_equal(response$content$tags, list(Tag$new(id=123, name="tag_test"), Tag$new(id=456, name="unknown")))
+  expect_equal(response$photoUrls, list("photo_test", "second test"))
+  expect_equal(response$status, "available")
+  expect_equal(response$tags, list(Tag$new(id=123, name="tag_test"), Tag$new(id=456, name="unknown")))
 })
 
 #test_that("GetPetById", {
