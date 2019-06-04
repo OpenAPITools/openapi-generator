@@ -16,8 +16,8 @@ module.exports.addPet = function addPet (req, res, next) {
 
 module.exports.deletePet = function deletePet (req, res, next) {
   var petId = req.swagger.params['petId'].value;
-  var api_key = req.swagger.params['api_key'].value;
-  Pet.deletePet(petId,api_key)
+  var apiUnderscorekey = req.swagger.params['api_key'].value;
+  Pet.deletePet(petId,apiUnderscorekey)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -39,7 +39,8 @@ module.exports.findPetsByStatus = function findPetsByStatus (req, res, next) {
 
 module.exports.findPetsByTags = function findPetsByTags (req, res, next) {
   var tags = req.swagger.params['tags'].value;
-  Pet.findPetsByTags(tags)
+  var maxCount = req.swagger.params['maxCount'].value;
+  Pet.findPetsByTags(tags,maxCount)
     .then(function (response) {
       utils.writeJson(res, response);
     })
