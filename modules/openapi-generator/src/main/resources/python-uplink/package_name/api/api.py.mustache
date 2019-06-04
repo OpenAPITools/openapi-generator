@@ -86,12 +86,12 @@ class {{classname}}(BaseApiConsumer):
     )
 {{/useClassMimeType}}
 {{#returnType}}
-    @returns{{#opReturnsJson}}json{{/opReturnsJson}}({{returnType}})
+    @returns{{#OpReturnsJson}}json{{/OpReturnsJson}}({{returnType}})
 {{/returnType}}
 {{^returnType}}
-{{#opReturnsJson}}
+{{#OpReturnsJson}}
     @returns.json
-{{/opReturnsJson}}
+{{/OpReturnsJson}}
 {{/returnType}}
 {{/vendorExtensions}}
     @{{httpMethod}}("{{{path}}}", args={
