@@ -61,7 +61,9 @@ namespace {{packageName}}
             // Add framework services.
             services
                 .AddMvc()
-                .SetCompatibilityVersion                (CompatibilityVersion.Version_2_1)
+                {{#compatibilityVersion}}
+                .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
+                {{/compatibilityVersion}}
                 .AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -69,7 +71,8 @@ namespace {{packageName}}
                     {
                         CamelCaseText = true
                     });
-                });{{#useSwashbuckle}}
+                });
+            {{#useSwashbuckle}}
 
             services
                 .AddSwaggerGen(c =>
@@ -98,7 +101,8 @@ namespace {{packageName}}
                     // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
-                });{{/useSwashbuckle}}
+                });
+            {{/useSwashbuckle}}
         }
 
         /// <summary>
@@ -125,7 +129,7 @@ namespace {{packageName}}
                     // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
                 }){{/useSwashbuckle}};
 
-if (env.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

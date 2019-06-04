@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
@@ -32,7 +33,7 @@ public class CodegenParameter {
     public String example; // example value (x-example)
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary,
-            isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
+            isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
     public boolean isFile;
     public boolean isEnum;
@@ -167,6 +168,7 @@ public class CodegenParameter {
         output.isDate = this.isDate;
         output.isDateTime = this.isDateTime;
         output.isUuid = this.isUuid;
+        output.isUri = this.isUri;
         output.isEmail = this.isEmail;
         output.isFreeFormObject = this.isFreeFormObject;
         output.isListContainer = this.isListContainer;
@@ -182,199 +184,139 @@ public class CodegenParameter {
 
         CodegenParameter that = (CodegenParameter) o;
 
-        if (isEnum != that.isEnum) return false;
-        if (isFormParam != that.isFormParam)
-            return false;
-        if (isQueryParam != that.isQueryParam)
-            return false;
-        if (isPathParam != that.isPathParam)
-            return false;
-        if (isHeaderParam != that.isHeaderParam)
-            return false;
-        if (isCookieParam != that.isCookieParam)
-            return false;
-        if (isBodyParam != that.isBodyParam)
-            return false;
-        if (hasMore != that.hasMore)
-            return false;
-        if (isContainer != that.isContainer)
-            return false;
-        if (secondaryParam != that.secondaryParam)
-            return false;
-        if (isCollectionFormatMulti != that.isCollectionFormatMulti)
-            return false;
-        if (isPrimitiveType != that.isPrimitiveType)
-            return false;
-        if (isModel != that.isModel)
-            return false;
-        if (baseName != null ? !baseName.equals(that.baseName) : that.baseName != null)
-            return false;
-        if (paramName != null ? !paramName.equals(that.paramName) : that.paramName != null)
-            return false;
-        if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null)
-            return false;
-        if (datatypeWithEnum != null ? !datatypeWithEnum.equals(that.datatypeWithEnum) : that.datatypeWithEnum != null)
-            return false;
-        if (enumName != null ? !enumName.equals(that.enumName) : that.enumName != null)
-            return false;
-        if (dataFormat != null ? !dataFormat.equals(that.dataFormat) : that.dataFormat != null)
-            return false;
-        if (collectionFormat != null ? !collectionFormat.equals(that.collectionFormat) : that.collectionFormat != null)
-            return false;
-        if (description != null ? !description.equals(that.description) : that.description != null)
-            return false;
-        if (unescapedDescription != null ? !unescapedDescription.equals(that.unescapedDescription) : that.unescapedDescription != null)
-            return false;
-        if (baseType != null ? !baseType.equals(that.baseType) : that.baseType != null)
-            return false;
-        if (defaultValue != null ? !defaultValue.equals(that.defaultValue) : that.defaultValue != null)
-            return false;
-        if (example != null ? !example.equals(that.example) : that.example != null)
-            return false;
-        if (jsonSchema != null ? !jsonSchema.equals(that.jsonSchema) : that.jsonSchema != null)
-            return false;
-        if (isString != that.isString)
-            return false;
-        if (isNumeric != that.isNumeric)
-            return false;
-        if (isInteger != that.isInteger)
-            return false;
-        if (isLong != that.isLong)
-            return false;
-        if (isNumber != that.isNumber)
-            return false;
-        if (isFloat != that.isFloat)
-            return false;
-        if (isDouble != that.isDouble)
-            return false;
-        if (isByteArray != that.isByteArray)
-            return false;
-        if (isBinary != that.isBinary)
-            return false;
-        if (isBoolean != that.isBoolean)
-            return false;
-        if (isDate != that.isDate)
-            return false;
-        if (isDateTime != that.isDateTime)
-            return false;
-        if (isUuid != that.isUuid)
-            return false;
-        if (isEmail != that.isEmail)
-            return false;
-        if (isFreeFormObject != that.isFreeFormObject)
-            return false;
-        if (isListContainer != that.isListContainer)
-            return false;
-        if (isMapContainer != that.isMapContainer)
-            return false;
-        if (isFile != that.isFile)
-            return false;
-        if (_enum != null ? !_enum.equals(that._enum) : that._enum != null)
-            return false;
-        if (allowableValues != null ? !allowableValues.equals(that.allowableValues) : that.allowableValues != null)
-            return false;
-        if (items != null ? !items.equals(that.items) : that.items != null)
-            return false;
-        if (mostInnerItems != null ? !mostInnerItems.equals(that.mostInnerItems) : that.mostInnerItems != null)
-            return false;
-        if (vendorExtensions != null ? !vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions != null)
-            return false;
-        if (hasValidation != that.hasValidation)
-            return false;
-        if (isNullable != that.isNullable)
-            return false;
-        if (required != that.required)
-            return false;
-        if (maximum != null ? !maximum.equals(that.maximum) : that.maximum != null)
-            return false;
-        if (exclusiveMaximum != that.exclusiveMaximum)
-            return false;
-        if (minimum != null ? !minimum.equals(that.minimum) : that.minimum != null)
-            return false;
-        if (exclusiveMinimum != that.exclusiveMinimum)
-            return false;
-        if (maxLength != null ? !maxLength.equals(that.maxLength) : that.maxLength != null)
-            return false;
-        if (minLength != null ? !minLength.equals(that.minLength) : that.minLength != null)
-            return false;
-        if (pattern != null ? !pattern.equals(that.pattern) : that.pattern != null)
-            return false;
-        if (maxItems != null ? !maxItems.equals(that.maxItems) : that.maxItems != null)
-            return false;
-        if (minItems != null ? !minItems.equals(that.minItems) : that.minItems != null)
-            return false;
-        if (uniqueItems != that.uniqueItems)
-            return false;
-        return multipleOf != null ? multipleOf.equals(that.multipleOf) : that.multipleOf == null;
-
+        return Objects.equals(isEnum, that.isEnum) &&
+            Objects.equals(isFormParam, that.isFormParam) &&
+            Objects.equals(isQueryParam, that.isQueryParam) &&
+            Objects.equals(isPathParam, that.isPathParam) &&
+            Objects.equals(isHeaderParam, that.isHeaderParam) &&
+            Objects.equals(isCookieParam, that.isCookieParam) &&
+            Objects.equals(isBodyParam, that.isBodyParam) &&
+            Objects.equals(hasMore, that.hasMore) &&
+            Objects.equals(isContainer, that.isContainer) &&
+            Objects.equals(secondaryParam, that.secondaryParam) &&
+            Objects.equals(isCollectionFormatMulti, that.isCollectionFormatMulti) &&
+            Objects.equals(isPrimitiveType, that.isPrimitiveType) &&
+            Objects.equals(isModel, that.isModel) &&
+            Objects.equals(baseName, that.baseName) &&
+            Objects.equals(paramName, that.paramName) &&
+            Objects.equals(dataType, that.dataType) &&
+            Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
+            Objects.equals(enumName, that.enumName) &&
+            Objects.equals(dataFormat, that.dataFormat) &&
+            Objects.equals(collectionFormat, that.collectionFormat) &&
+            Objects.equals(description, that.description) &&
+            Objects.equals(unescapedDescription, that.unescapedDescription) &&
+            Objects.equals(baseType, that.baseType) &&
+            Objects.equals(defaultValue, that.defaultValue) &&
+            Objects.equals(example, that.example) &&
+            Objects.equals(jsonSchema, that.jsonSchema) &&
+            Objects.equals(isString, that.isString) &&
+            Objects.equals(isNumeric, that.isNumeric) &&
+            Objects.equals(isInteger, that.isInteger) &&
+            Objects.equals(isLong, that.isLong) &&
+            Objects.equals(isNumber, that.isNumber) &&
+            Objects.equals(isFloat, that.isFloat) &&
+            Objects.equals(isDouble, that.isDouble) &&
+            Objects.equals(isByteArray, that.isByteArray) &&
+            Objects.equals(isBinary, that.isBinary) &&
+            Objects.equals(isBoolean, that.isBoolean) &&
+            Objects.equals(isDate, that.isDate) &&
+            Objects.equals(isDateTime, that.isDateTime) &&
+            Objects.equals(isUuid, that.isUuid) &&
+            Objects.equals(isUri, that.isUri) &&
+            Objects.equals(isEmail, that.isEmail) &&
+            Objects.equals(isFreeFormObject, that.isFreeFormObject) &&
+            Objects.equals(isListContainer, that.isListContainer) &&
+            Objects.equals(isMapContainer, that.isMapContainer) &&
+            Objects.equals(isFile, that.isFile) &&
+            Objects.equals(_enum, that._enum) &&
+            Objects.equals(allowableValues, that.allowableValues) &&
+            Objects.equals(items, that.items) &&
+            Objects.equals(mostInnerItems, that.mostInnerItems) &&
+            Objects.equals(vendorExtensions, that.vendorExtensions) &&
+            Objects.equals(hasValidation, that.hasValidation) &&
+            Objects.equals(isNullable, that.isNullable) &&
+            Objects.equals(required, that.required) &&
+            Objects.equals(maximum, that.maximum) &&
+            Objects.equals(exclusiveMaximum, that.exclusiveMaximum) &&
+            Objects.equals(minimum, that.minimum) &&
+            Objects.equals(exclusiveMinimum, that.exclusiveMinimum) &&
+            Objects.equals(maxLength, that.maxLength) &&
+            Objects.equals(minLength, that.minLength) &&
+            Objects.equals(pattern, that.pattern) &&
+            Objects.equals(maxItems, that.maxItems) &&
+            Objects.equals(minItems, that.minItems) &&
+            Objects.equals(uniqueItems, that.uniqueItems) &&
+            Objects.equals(multipleOf, that.multipleOf);
     }
 
     @Override
     public int hashCode() {
-        int result = isFormParam ? 13 : 31;
-        result = 31 * result + (isQueryParam ? 13 : 31);
-        result = 31 * result + (isPathParam ? 13 : 31);
-        result = 31 * result + (isHeaderParam ? 13 : 31);
-        result = 31 * result + (isCookieParam ? 13 : 31);
-        result = 31 * result + (isBodyParam ? 13 : 31);
-        result = 31 * result + (hasMore ? 13 : 31);
-        result = 31 * result + (isContainer ? 13 : 31);
-        result = 31 * result + (secondaryParam ? 13 : 31);
-        result = 31 * result + (isCollectionFormatMulti ? 13 : 31);
-        result = 31 * result + (isPrimitiveType ? 13 : 31);
-        result = 31 * result + (isModel ? 13 : 31);
-        result = 31 * result + (baseName != null ? baseName.hashCode() : 0);
-        result = 31 * result + (paramName != null ? paramName.hashCode() : 0);
-        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
-        result = 31 * result + (datatypeWithEnum != null ? datatypeWithEnum.hashCode() : 0);
-        result = 31 * result + (enumName != null ? enumName.hashCode() : 0);
-        result = 31 * result + (dataFormat != null ? dataFormat.hashCode() : 0);
-        result = 31 * result + (collectionFormat != null ? collectionFormat.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (unescapedDescription != null ? unescapedDescription.hashCode() : 0);
-        result = 31 * result + (baseType != null ? baseType.hashCode() : 0);
-        result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
-        result = 31 * result + (example != null ? example.hashCode() : 0);
-        result = 31 * result + (jsonSchema != null ? jsonSchema.hashCode() : 0);
-        result = 31 * result + (isString ? 13 : 31);
-        result = 31 * result + (isNumeric ? 13 : 31);
-        result = 31 * result + (isInteger ? 13 : 31);
-        result = 31 * result + (isLong ? 13 : 31);
-        result = 31 * result + (isFloat ? 13 : 31);
-        result = 31 * result + (isNumber ? 13 : 31);
-        result = 31 * result + (isDouble ? 13 : 31);
-        result = 31 * result + (isByteArray ? 13 : 31);
-        result = 31 * result + (isBinary ? 13 : 31);
-        result = 31 * result + (isBoolean ? 13 : 31);
-        result = 31 * result + (isDate ? 13 : 31);
-        result = 31 * result + (isDateTime ? 13 : 31);
-        result = 31 * result + (isUuid ? 13 : 31);
-        result = 31 * result + (isEmail ? 13 : 31);
-        result = 31 * result + (isFreeFormObject ? 13 : 31);
-        result = 31 * result + (isListContainer ? 13 : 31);
-        result = 31 * result + (isMapContainer ? 13 : 31);
-        result = 31 * result + (isFile ? 13 : 31);
-        result = 31 * result + (isEnum ? 1 : 0);
-        result = 31 * result + (_enum != null ? _enum.hashCode() : 0);
-        result = 31 * result + (allowableValues != null ? allowableValues.hashCode() : 0);
-        result = 31 * result + (items != null ? items.hashCode() : 0);
-        result = 31 * result + (mostInnerItems != null ? mostInnerItems.hashCode() : 0);
-        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + (hasValidation ? 13 : 31);
-        result = 31 * result + (isNullable ? 13 : 31);
-        result = 31 * result + (required ? 13 : 31);
-        result = 31 * result + (maximum != null ? maximum.hashCode() : 0);
-        result = 31 * result + (exclusiveMaximum ? 13 : 31);
-        result = 31 * result + (minimum != null ? minimum.hashCode() : 0);
-        result = 31 * result + (exclusiveMinimum ? 13 : 31);
-        result = 31 * result + (maxLength != null ? maxLength.hashCode() : 0);
-        result = 31 * result + (minLength != null ? minLength.hashCode() : 0);
-        result = 31 * result + (pattern != null ? pattern.hashCode() : 0);
-        result = 31 * result + (maxItems != null ? maxItems.hashCode() : 0);
-        result = 31 * result + (minItems != null ? minItems.hashCode() : 0);
-        result = 31 * result + (uniqueItems ? 13 : 31);
-        result = 31 * result + (multipleOf != null ? multipleOf.hashCode() : 0);
-        return result;
+        return Objects.hash(
+            isFormParam,
+            isQueryParam,
+            isPathParam,
+            isHeaderParam,
+            isCookieParam,
+            isBodyParam,
+            hasMore,
+            isContainer,
+            secondaryParam,
+            isCollectionFormatMulti,
+            isPrimitiveType,
+            isModel,
+            baseName,
+            paramName,
+            dataType,
+            datatypeWithEnum,
+            enumName,
+            dataFormat,
+            collectionFormat,
+            description,
+            unescapedDescription,
+            baseType,
+            defaultValue,
+            example,
+            jsonSchema,
+            isString,
+            isNumeric,
+            isInteger,
+            isLong,
+            isFloat,
+            isNumber,
+            isDouble,
+            isByteArray,
+            isBinary,
+            isBoolean,
+            isDate,
+            isDateTime,
+            isUuid,
+            isUri,
+            isEmail,
+            isFreeFormObject,
+            isListContainer,
+            isMapContainer,
+            isFile,
+            isEnum,
+            _enum,
+            allowableValues,
+            items,
+            mostInnerItems,
+            vendorExtensions,
+            hasValidation,
+            isNullable,
+            required,
+            maximum,
+            exclusiveMaximum,
+            minimum,
+            exclusiveMinimum,
+            maxLength,
+            minLength,
+            pattern,
+            maxItems,
+            minItems,
+            uniqueItems,
+            multipleOf);
     }
 
     @java.lang.Override
@@ -418,6 +360,7 @@ public class CodegenParameter {
                 ", isDate=" + isDate +
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
+                ", isUri=" + isUri +
                 ", isEmail=" + isEmail +
                 ", isFreeFormObject=" + isFreeFormObject +
                 ", isListContainer=" + isListContainer +

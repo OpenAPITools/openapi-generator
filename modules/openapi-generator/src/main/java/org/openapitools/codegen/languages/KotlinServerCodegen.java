@@ -19,17 +19,12 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.mustache.CamelCaseLambda;
-import org.openapitools.codegen.mustache.IndentedLambda;
-import org.openapitools.codegen.mustache.LowercaseLambda;
-import org.openapitools.codegen.mustache.TitlecaseLambda;
-import org.openapitools.codegen.mustache.UppercaseLambda;
+import org.openapitools.codegen.templating.mustache.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +62,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
 
         artifactId = "kotlin-server";
         packageName = "org.openapitools.server";
+
+        // cliOptions default redefinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
+        updateOption(CodegenConstants.PACKAGE_NAME, this.packageName);
+
         outputFolder = "generated-code" + File.separator + "kotlin-server";
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
@@ -74,10 +74,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
 
-        supportedLibraries.put("ktor", "ktor framework");
+        supportedLibraries.put(Constants.KTOR, "ktor framework");
 
         // TODO: Configurable server engine. Defaults to netty in build.gradle.
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
         library.setDefault(DEFAULT_LIBRARY);
         library.setEnum(supportedLibraries);
 
@@ -152,9 +152,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
 
         // set default library to "ktor"
         if (StringUtils.isEmpty(library)) {
-            this.setLibrary("ktor");
-            additionalProperties.put(CodegenConstants.LIBRARY, "ktor");
-            LOGGER.info("`library` option is empty. Default to 'ktor'.");
+            this.setLibrary(DEFAULT_LIBRARY);
+            additionalProperties.put(CodegenConstants.LIBRARY, DEFAULT_LIBRARY);
+            LOGGER.info("`library` option is empty. Default to " + DEFAULT_LIBRARY);
         }
 
         if (additionalProperties.containsKey(Constants.AUTOMATIC_HEAD_REQUESTS)) {
@@ -187,7 +187,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(Constants.COMPRESSION, getCompressionFeatureEnabled());
         }
 
-        Boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean)additionalProperties.get(CodegenConstants.GENERATE_APIS);
+        boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean)additionalProperties.get(CodegenConstants.GENERATE_APIS);
         String packageFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
         String resourcesFolder = "src/main/resources"; // not sure this can be user configurable.
 
@@ -231,7 +231,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         if (objs.containsKey("lambda")) {
             LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
                     "You'll likely need to use a custom template, " +
-                    "see https://github.com/swagger-api/swagger-codegen#modifying-the-client-library-format. "); // TODO: update the URL
+                    "see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/templating.md. ");
             objs.put("_lambda", lambdas);
         } else {
             objs.put("lambda", lambdas);

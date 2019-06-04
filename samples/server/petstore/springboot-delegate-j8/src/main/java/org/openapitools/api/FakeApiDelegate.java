@@ -10,6 +10,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +34,14 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#createXmlItem
+     */
+    default ResponseEntity<Void> createXmlItem(XmlItem xmlItem) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
      * @see FakeApi#fakeOuterBooleanSerialize
      */
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
@@ -47,7 +56,7 @@ public interface FakeApiDelegate {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}");
+                    ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.8008281904610115,  \"my_boolean\" : true}");
                     break;
                 }
             }

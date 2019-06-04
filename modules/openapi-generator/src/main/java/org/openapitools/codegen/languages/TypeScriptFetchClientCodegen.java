@@ -20,33 +20,22 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.TreeSet;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.List;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
-    public static final String NPM_NAME = "npmName";
-    public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
 
-    protected String npmName = null;
-    protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
 
     public TypeScriptFetchClientCodegen() {
@@ -65,10 +54,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
 
-        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
@@ -80,22 +66,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public String getHelp() {
         return "Generates a TypeScript client library using Fetch API (beta).";
-    }
-
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     public String getNpmRepository() {
@@ -116,6 +86,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
@@ -149,6 +120,44 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            cm.imports = new TreeSet(cm.imports);
+            // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
+            for (CodegenProperty var : cm.vars) {
+                if (Boolean.TRUE.equals(var.isEnum)) {
+                    // behaviour for enum names is specific for Typescript Fetch, not using namespaces
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                }
+            }
+            if (cm.parent != null) {
+                for (CodegenProperty var : cm.allVars) {
+                    if (Boolean.TRUE.equals(var.isEnum)) {
+                        var.datatypeWithEnum = var.datatypeWithEnum
+                                .replace(var.enumName, cm.classname + var.enumName);
+                    }
+                }
+            }
+            if (!cm.oneOf.isEmpty()) {
+                // For oneOfs only import $refs within the oneOf
+                TreeSet<String> oneOfRefs = new TreeSet<>();
+                for (String im : cm.imports) {
+                    if (cm.oneOf.contains(im)) {
+                        oneOfRefs.add(im);
+                    }
+                }
+                cm.imports = oneOfRefs;
+            }
+        }
+
+        return objs;
+    }
+
+    @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         Map<String, Object> result = super.postProcessAllModels(objs);
         for (Map.Entry<String, Object> entry : result.entrySet()) {
@@ -163,18 +172,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void addNpmPackageGeneration() {
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
-        }
-
-        if (additionalProperties.containsKey(NPM_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-        }
-
-        if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
-        }
-        additionalProperties.put(NPM_VERSION, npmVersion);
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
@@ -229,6 +226,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.reservedWords.add("FetchAPI");
         this.reservedWords.add("ConfigurationParameters");
         this.reservedWords.add("Configuration");
+        this.reservedWords.add("configuration");
         this.reservedWords.add("HTTPMethod");
         this.reservedWords.add("HTTPHeaders");
         this.reservedWords.add("HTTPQuery");

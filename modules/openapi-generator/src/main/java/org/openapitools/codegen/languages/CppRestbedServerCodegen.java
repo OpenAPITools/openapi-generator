@@ -17,22 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.media.*;
+import java.io.File;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
@@ -94,6 +89,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "restbed::Bytes");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
 
         super.importMapping = new HashMap<String, String>();
@@ -180,8 +176,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<String>();
@@ -198,12 +194,12 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return toModelName(name);
     }
 
     @Override
     public String toApiFilename(String name) {
-        return initialCaps(name) + "Api";
+        return toApiName(name);
     }
 
     @SuppressWarnings("unchecked")

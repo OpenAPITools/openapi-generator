@@ -17,25 +17,16 @@
 
 package org.openapitools.codegen.swift4;
 
-import io.swagger.v3.oas.models.media.BinarySchema;
-import io.swagger.v3.oas.models.media.ByteArraySchema;
-import io.swagger.v3.oas.models.media.DateSchema;
-import io.swagger.v3.oas.models.media.DateTimeSchema;
-import io.swagger.v3.oas.models.media.Discriminator;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.media.UUIDSchema;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.Swift4Codegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Collections;
 
 @SuppressWarnings("static-method")
 public class Swift4ModelTest {
@@ -55,7 +46,9 @@ public class Swift4ModelTest {
                 .addRequiredItem("name")
                 .discriminator(new Discriminator().propertyName("test"));
         final DefaultCodegen codegen = new Swift4Codegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -66,7 +59,7 @@ public class Swift4ModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "Int64");
-        Assert.assertEquals(property1.name, "_id");
+        Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Int64");
         Assert.assertTrue(property1.hasMore);

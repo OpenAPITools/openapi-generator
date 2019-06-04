@@ -98,6 +98,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("bytearray", "binary()");
         typeMapping.put("byte", "binary()");
         typeMapping.put("uuid", "binary()");
+        typeMapping.put("uri", "binary()");
         typeMapping.put("password", "binary()");
 
         cliOptions.clear();
@@ -108,8 +109,8 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel cm = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel cm = super.fromModel(name, model);
         if(ModelUtils.isArraySchema(model)) {
             return new CodegenArrayModel(cm, (ArraySchema) model);
         } else {

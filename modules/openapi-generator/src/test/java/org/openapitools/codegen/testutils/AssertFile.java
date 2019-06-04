@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.testutils;
 
+import difflib.Delta;
+import difflib.DiffUtils;
+import difflib.Patch;
 import org.testng.Assert;
 
 import java.io.IOException;
@@ -29,10 +32,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
-import difflib.Delta;
-import difflib.DiffUtils;
-import difflib.Patch;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;

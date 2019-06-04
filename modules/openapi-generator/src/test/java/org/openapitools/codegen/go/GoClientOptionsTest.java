@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.go;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.GoClientCodegen;
 import org.openapitools.codegen.options.GoClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class GoClientOptionsTest extends AbstractOptionsTest {
 

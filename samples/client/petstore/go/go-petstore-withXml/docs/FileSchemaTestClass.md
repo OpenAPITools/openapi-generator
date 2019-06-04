@@ -1,6 +1,7 @@
 # FileSchemaTestClass
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **File** | [**File**](File.md) |  | [optional] 

@@ -1,0 +1,27 @@
+<?php
+declare(strict_types=1);
+{{#models}}{{#model}}
+namespace {{package}};
+
+use Articus\DataTransfer\Annotation as DTA;
+
+/**
+{{#description}}
+ * {{description}}
+{{/description}}
+ */
+class {{classname}}
+{
+{{#vars}}
+    /**
+{{#description}}
+     * {{description}}
+{{/description}}
+     * @DTA\Data(field="{{baseName}}"{{^required}}, nullable=true{{/required}}){{#vendorExtensions}}{{#internal.ze-ph.fromQuery}}
+{{>model_query_var}}{{/internal.ze-ph.fromQuery}}{{/vendorExtensions}}{{#vendorExtensions}}{{^internal.ze-ph.fromQuery}}
+{{>model_normal_var}}{{/internal.ze-ph.fromQuery}}{{/vendorExtensions}}{{^vendorExtensions}}
+{{>model_normal_var}}{{/vendorExtensions}}     * @var {{dataType}}
+     */
+    public ${{name}};
+{{/vars}}
+}{{/model}}{{/models}}

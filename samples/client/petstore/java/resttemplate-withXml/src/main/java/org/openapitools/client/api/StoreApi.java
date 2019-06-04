@@ -66,7 +66,7 @@ public class StoreApi {
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
         String path = UriComponentsBuilder.fromPath("/store/order/{order_id}").buildAndExpand(uriVariables).toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -92,7 +92,7 @@ public class StoreApi {
         Object postBody = null;
         
         String path = UriComponentsBuilder.fromPath("/store/inventory").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -131,7 +131,7 @@ public class StoreApi {
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
         String path = UriComponentsBuilder.fromPath("/store/order/{order_id}").buildAndExpand(uriVariables).toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -166,7 +166,7 @@ public class StoreApi {
         }
         
         String path = UriComponentsBuilder.fromPath("/store/order").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();

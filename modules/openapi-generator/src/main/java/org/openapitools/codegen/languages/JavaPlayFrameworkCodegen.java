@@ -18,14 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
-
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 
 import java.io.File;
@@ -69,16 +62,23 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         artifactId = "openapi-java-playframework";
 
         projectFolder = "";
-        sourceFolder = projectFolder + File.separator + "app";
-        projectTestFolder = projectFolder + File.separator + "test";
+        sourceFolder = projectFolder + "/app";
+        projectTestFolder = projectFolder + "/test";
         testFolder = projectTestFolder;
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         additionalProperties.put("java8", true);
         additionalProperties.put("jackson", "true");
 
-        cliOptions.add(new CliOption(TITLE, "server title name or client service name"));
-        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
-        cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code"));
+        cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
+        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(getConfigPackage()));
+        cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code").defaultValue(getBasePackage()));
 
         //Custom options for this generator
         cliOptions.add(createBooleanCliWithDefault(CONTROLLER_ONLY, "Whether to generate only API interface stubs without the server files.", controllerOnly));
@@ -228,8 +228,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel.description != null) {
             codegenModel.imports.remove("ApiModel");
         }

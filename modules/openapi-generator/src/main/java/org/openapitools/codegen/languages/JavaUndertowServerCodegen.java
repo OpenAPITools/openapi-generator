@@ -18,11 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
@@ -43,12 +40,17 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
     public JavaUndertowServerCodegen() {
         super();
 
-        sourceFolder = "src/main/java";
-        apiTestTemplateFiles.clear(); // TODO: add test template
-        embeddedTemplateDir = templateDir = "undertow";
+        embeddedTemplateDir = templateDir = "java-undertow-server";
         invokerPackage = "org.openapitools.handler";
         artifactId = "openapi-undertow-server";
         dateLibrary = "legacy"; //TODO: add joda support
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+
+        apiTestTemplateFiles.clear(); // TODO: add test template
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment

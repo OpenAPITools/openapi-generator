@@ -25,6 +25,7 @@ use std::path::Path;
 use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
+use std::string::ToString;
 
 use mimetypes;
 
@@ -246,17 +247,26 @@ impl<F, C> Api<C> for Client<F> where
     C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<AuthData>>{{/hasAuthMethods}}{
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
     fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{{operationId}}}Response, Error=ApiError>> {
-{{#queryParams}}{{#-first}}
-        // Query parameters
-{{/-first}}{{#required}}        let query_{{{paramName}}} = format!("{{{baseName}}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{{paramName}}}=param_{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
-{{/required}}{{^required}}        let query_{{{paramName}}} = param_{{{paramName}}}.map_or_else(String::new, |query| format!("{{{baseName}}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{{paramName}}}=query{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}}));
-{{/required}}{{/queryParams}}
-
-        let uri = format!(
-            "{}{{{basePathWithoutHost}}}{{path}}{{#queryParams}}{{#-first}}?{{/-first}}{{=<% %>=}}{<% paramName %>}<%={{ }}=%>{{/queryParams}}",
-            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}{{#queryParams}},
-            {{{paramName}}}=utf8_percent_encode(&query_{{{paramName}}}, QUERY_ENCODE_SET){{/queryParams}}
+        let mut uri = format!(
+            "{}{{{basePathWithoutHost}}}{{path}}",
+            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+{{#queryParams}}{{#required}}        query_string.append_pair("{{{baseName}}}", &param_{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});{{/required}}
+{{^required}}        if let Some({{{paramName}}}) = param_{{{paramName}}} {
+            query_string.append_pair("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
+        }{{/required}}{{/queryParams}}
+{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::ApiKey(ref api_key) = *auth_data {
+                query_string.append_pair("{{keyParamName}}", api_key);
+            }
+        }{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -273,38 +283,56 @@ impl<F, C> Api<C> for Client<F> where
         request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}}.clone()));
         request.set_body(body.into_bytes());{{/-last}}{{/formParams}}{{/vendorExtensions}}{{#bodyParam}}{{#-first}}
         // Body parameter
-{{/-first}}{{#vendorExtensions}}{{#required}}{{#consumesPlainText}}        let body = param_{{{paramName}}};{{/consumesPlainText}}{{#consumesXml}}
-{{^has_namespace}}        let body = serde_xml_rs::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");{{/has_namespace}}{{#has_namespace}}
-        let mut namespaces = BTreeMap::new();
-        // An empty string is used to indicate a global namespace in xmltree.
-        namespaces.insert("".to_string(), models::namespaces::{{{uppercase_data_type}}}.clone());
-        let body = serde_xml_rs::to_string_with_namespaces(&param_{{{paramName}}}, namespaces).expect("impossible to fail to serialize");{{/has_namespace}}{{/consumesXml}}{{#consumesJson}}
-        let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");{{/consumesJson}}
-{{/required}}{{^required}}{{#consumesPlainText}}        let body = param_{{{paramName}}};
-{{/consumesPlainText}}{{^consumesPlainText}}        let body = param_{{{paramName}}}.map(|ref body| {
-{{#consumesXml}}
-{{^has_namespace}}        serde_xml_rs::to_string(body).expect("impossible to fail to serialize"){{/has_namespace}}{{#has_namespace}}
-            let mut namespaces = BTreeMap::new();
-            // An empty string is used to indicate a global namespace in xmltree.
-            namespaces.insert("".to_string(), models::namespaces::{{{uppercase_data_type}}}.clone());
-            serde_xml_rs::to_string_with_namespaces(body, namespaces).expect("impossible to fail to serialize"){{/has_namespace}}{{/consumesXml}}{{#consumesJson}}
-            serde_json::to_string(body).expect("impossible to fail to serialize"){{/consumesJson}}
-        });{{/consumesPlainText}}{{/required}}{{/vendorExtensions}}{{/bodyParam}}
+        {{/-first}}
+        {{#vendorExtensions}}
+        {{#consumesPlainText}}
+        {{#isByteArray}}
+        let body = param_{{{paramName}}}.0;
+        {{/isByteArray}}
+        {{^isByteArray}}
+        let body = param_{{{paramName}}};
+        {{/isByteArray}}
+        {{/consumesPlainText}}
+        {{#required}}
+        {{#consumesXml}}
+        let body = param_{{{paramName}}}.to_xml();
+        {{/consumesXml}}
+        {{#consumesJson}}
+        let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");
+        {{/consumesJson}}
+        {{/required}}
+        {{^required}}
+        let body = param_{{{paramName}}}.map(|ref body| {
+            {{#consumesXml}}
+            body.to_xml()
+            {{/consumesXml}}
+            {{#consumesJson}}
+            serde_json::to_string(body).expect("impossible to fail to serialize")
+            {{/consumesJson}}
+        });
+        {{/required}}
+        {{/vendorExtensions}}
+        {{/bodyParam}}
 
 {{#bodyParam}}{{^required}}if let Some(body) = body {
-    {{/required}}        request.set_body(body.into_bytes());
+    {{/required}}        request.set_body(body);
 {{^required}}        }{{/required}}
 
         request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}}.clone()));
 {{/bodyParam}}
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-{{#authMethods}}{{#isBasic}}        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
-            if let &AuthData::Basic(ref basic_header) = auth_data {
+{{#authMethods}}{{#isBasic}}        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::Basic(ref basic_header) = *auth_data {
                 request.headers_mut().set(hyper::header::Authorization(
                     basic_header.clone(),
                 ))
             }
-        });{{/isBasic}}{{/authMethods}}{{#headerParams}}{{#-first}}
+        }{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}        header! { ({{#vendorExtensions}}{{x-apiKeyName}}{{/vendorExtensions}}, "{{keyParamName}}") => [String] }
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::ApiKey(ref api_key) = *auth_data {
+                request.headers_mut().set({{#vendorExtensions}}{{x-apiKeyName}}{{/vendorExtensions}}(api_key.to_string()));
+            }
+        }{{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}{{#headerParams}}{{#-first}}
         // Header parameters
 {{/-first}}{{^isMapContainer}}        header! { (Request{{vendorExtensions.typeName}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
 {{#required}}        request.headers_mut().set(Request{{vendorExtensions.typeName}}(param_{{{paramName}}}{{#isListContainer}}.clone(){{/isListContainer}}));
@@ -330,10 +358,15 @@ impl<F, C> Api<C> for Client<F> where
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+{{#vendorExtensions}}
+{{#producesPlainText}}
+                                                 Ok(swagger::ByteArray(body.to_vec()))
+{{/producesPlainText}}{{^producesPlainText}}
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-{{#vendorExtensions}}{{#producesXml}}
+{{#producesXml}}
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<{{{dataType}}}>(body)
@@ -341,13 +374,13 @@ impl<F, C> Api<C> for Client<F> where
 {{/producesXml}}{{#producesJson}}
                                                  serde_json::from_str::<{{{dataType}}}>(body)
                                                      .map_err(|e| e.into())
-{{/producesJson}}{{#producesPlainText}}
-                                                 Ok(body.to_string())
+{{/producesJson}}
+                                             )
 {{/producesPlainText}}{{/vendorExtensions}}
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body: body, {{/-first}}{{{name}}}: response_{{{name}}}{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/headers}}
-                        )
+                        })
 {{/dataType}}{{^dataType}}
                         future::ok(
                             {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{#headers}}{{#-first}}{ {{/-first}}{{^-first}}, {{/-first}}{{{name}}}: response_{{{name}}}{{#-last}} }{{/-last}}{{/headers}}

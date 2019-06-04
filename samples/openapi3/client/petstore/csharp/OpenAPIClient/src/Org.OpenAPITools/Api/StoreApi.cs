@@ -213,6 +213,17 @@ namespace Org.OpenAPITools.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoreApi"/> class
+        /// </summary>
+        /// <returns></returns>
+        public StoreApi()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StoreApi"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
@@ -350,7 +361,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -415,7 +426,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -480,7 +491,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Dictionary<string, int?>>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (Dictionary<string, int?>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Dictionary<string, int?>)));
         }
 
@@ -546,7 +557,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Dictionary<string, int?>>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (Dictionary<string, int?>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Dictionary<string, int?>)));
         }
 
@@ -613,7 +624,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Order>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (Order) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Order)));
         }
 
@@ -681,7 +692,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Order>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (Order) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Order)));
         }
 
@@ -756,7 +767,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Order>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (Order) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Order)));
         }
 
@@ -832,7 +843,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Order>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (Order) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Order)));
         }
 

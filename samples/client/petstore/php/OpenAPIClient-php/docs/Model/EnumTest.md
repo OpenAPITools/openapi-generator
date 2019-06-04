@@ -1,6 +1,7 @@
-# EnumTest
+# # EnumTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **enum_string** | **string** |  | [optional] 
@@ -9,6 +10,6 @@ Name | Type | Description | Notes
 **enum_number** | **double** |  | [optional] 
 **outer_enum** | [**\OpenAPI\Client\Model\OuterEnum**](OuterEnum.md) |  | [optional] 
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 
 

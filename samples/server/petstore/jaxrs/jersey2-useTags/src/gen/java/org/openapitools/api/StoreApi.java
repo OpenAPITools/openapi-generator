@@ -68,7 +68,7 @@ public class StoreApi  {
     public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathParam("order_id") String orderId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.deleteOrder(orderId,securityContext);
+        return delegate.deleteOrder(orderId, securityContext);
     }
     @GET
     @Path("/inventory")
@@ -97,7 +97,7 @@ public class StoreApi  {
     public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("order_id") Long orderId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getOrderById(orderId,securityContext);
+        return delegate.getOrderById(orderId, securityContext);
     }
     @POST
     @Path("/order")
@@ -108,9 +108,9 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) @Valid Order body
+    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) @NotNull @Valid Order body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.placeOrder(body,securityContext);
+        return delegate.placeOrder(body, securityContext);
     }
 }

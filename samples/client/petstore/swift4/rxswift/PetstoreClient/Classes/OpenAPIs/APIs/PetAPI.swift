@@ -15,12 +15,12 @@ open class PetAPI {
     /**
      Add a new pet to the store
      
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: Observable<Void>
      */
-    open class func addPet(pet: Pet) -> Observable<Void> {
+    open class func addPet(body: Pet) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            addPetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+            addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -38,13 +38,13 @@ open class PetAPI {
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: RequestBuilder<Void> 
      */
-    open class func addPetWithRequestBuilder(pet: Pet) -> RequestBuilder<Void> {
+    open class func addPetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: pet)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -86,7 +86,7 @@ open class PetAPI {
      */
     open class func deletePetWithRequestBuilder(petId: Int64, apiKey: String? = nil) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
-        let petIdPreEscape = "\(petId)"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
@@ -240,7 +240,7 @@ open class PetAPI {
      */
     open class func getPetByIdWithRequestBuilder(petId: Int64) -> RequestBuilder<Pet> {
         var path = "/pet/{petId}"
-        let petIdPreEscape = "\(petId)"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
@@ -256,12 +256,12 @@ open class PetAPI {
     /**
      Update an existing pet
      
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: Observable<Void>
      */
-    open class func updatePet(pet: Pet) -> Observable<Void> {
+    open class func updatePet(body: Pet) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+            updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -279,13 +279,13 @@ open class PetAPI {
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: RequestBuilder<Void> 
      */
-    open class func updatePetWithRequestBuilder(pet: Pet) -> RequestBuilder<Void> {
+    open class func updatePetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: pet)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -329,7 +329,7 @@ open class PetAPI {
      */
     open class func updatePetWithFormWithRequestBuilder(petId: Int64, name: String? = nil, status: String? = nil) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
-        let petIdPreEscape = "\(petId)"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
@@ -385,7 +385,7 @@ open class PetAPI {
      */
     open class func uploadFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> RequestBuilder<ApiResponse> {
         var path = "/pet/{petId}/uploadImage"
-        let petIdPreEscape = "\(petId)"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
@@ -441,7 +441,7 @@ open class PetAPI {
      */
     open class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> RequestBuilder<ApiResponse> {
         var path = "/fake/{petId}/uploadImageWithRequiredFile"
-        let petIdPreEscape = "\(petId)"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path

@@ -20,7 +20,7 @@ package org.openapitools.codegen;
 import java.util.*;
 
 public class CodegenProperty implements Cloneable {
-    public String baseName, complexType, getter, setter, description, dataType,
+    public String openApiType, baseName, complexType, getter, setter, description, dataType,
             datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
             baseType, containerType, title;
 
@@ -55,7 +55,7 @@ public class CodegenProperty implements Cloneable {
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType, isModel, isContainer;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
-            isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
+            isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
     public boolean isReadOnly;
@@ -412,83 +412,83 @@ public class CodegenProperty implements Cloneable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((_enum == null) ? 0 : _enum.hashCode());
-        result = prime * result + ((allowableValues == null) ? 0 : allowableValues.hashCode());
-        result = prime * result + ((baseName == null) ? 0 : baseName.hashCode());
-        result = prime * result + ((baseType == null) ? 0 : baseType.hashCode());
-        result = prime * result + ((complexType == null) ? 0 : complexType.hashCode());
-        result = prime * result + ((containerType == null) ? 0 : containerType.hashCode());
-        result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
-        result = prime * result + ((datatypeWithEnum == null) ? 0 : datatypeWithEnum.hashCode());
-        result = prime * result + ((dataFormat == null) ? 0 : dataFormat.hashCode());
-        result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
-        result = prime * result + ((defaultValueWithParam == null) ? 0 : defaultValueWithParam.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + ((example == null) ? 0 : example.hashCode());
-        result = prime * result + (exclusiveMaximum ? 13 : 31);
-        result = prime * result + (exclusiveMinimum ? 13 : 31);
-        result = prime * result + ((getter == null) ? 0 : getter.hashCode());
-        result = prime * result + (hasMore ? 13 : 31);
-        result = prime * result + ((hasMoreNonReadOnly ? 13 : 31));
-        result = prime * result + ((isContainer ? 13 : 31));
-        result = prime * result + (isEnum ? 1231 : 1237);
-        result = prime * result + ((isPrimitiveType ? 13 : 31));
-        result = prime * result + ((isModel ? 13 : 31));
-        result = prime * result + ((isReadOnly ? 13 : 31));
-        result = prime * result + ((isWriteOnly ? 13 : 31));
-        result = prime * result + ((isNullable ? 13 : 31));
-        result = prime * result + ((isSelfReference ? 13 : 31));
-        result = prime * result + ((items == null) ? 0 : items.hashCode());
-        result = prime * result + ((mostInnerItems == null) ? 0 : mostInnerItems.hashCode());
-        result = prime * result + ((jsonSchema == null) ? 0 : jsonSchema.hashCode());
-        result = prime * result + ((max == null) ? 0 : max.hashCode());
-        result = prime * result + ((maxLength == null) ? 0 : maxLength.hashCode());
-        result = prime * result + ((maximum == null) ? 0 : maximum.hashCode());
-        result = prime * result + ((min == null) ? 0 : min.hashCode());
-        result = prime * result + ((minLength == null) ? 0 : minLength.hashCode());
-        result = prime * result + ((minimum == null) ? 0 : minimum.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((pattern == null) ? 0 : pattern.hashCode());
-        result = prime * result + ((required ? 13 : 31));
-        result = prime * result + ((secondaryParam ? 13 : 31));
-        result = prime * result + ((setter == null) ? 0 : setter.hashCode());
-        result = prime * result + ((unescapedDescription == null) ? 0 : unescapedDescription.hashCode());
-        result = prime * result + ((vendorExtensions == null) ? 0 : vendorExtensions.hashCode());
-        result = prime * result + ((hasValidation ? 13 : 31));
-        result = prime * result + ((isString ? 13 : 31));
-        result = prime * result + ((isNumeric ? 13 : 31));
-        result = prime * result + ((isInteger ? 13 : 31));
-        result = prime * result + ((isLong ? 13 : 31));
-        result = prime * result + ((isNumber ? 13 : 31));
-        result = prime * result + ((isFloat ? 13 : 31));
-        result = prime * result + ((isDouble ? 13 : 31));
-        result = prime * result + ((isByteArray ? 13 : 31));
-        result = prime * result + ((isBinary ? 13 : 31));
-        result = prime * result + ((isFile ? 13 : 31));
-        result = prime * result + ((isBoolean ? 13 : 31));
-        result = prime * result + ((isDate ? 13 : 31));
-        result = prime * result + ((isDateTime ? 13 : 31));
-        result = prime * result + ((isUuid ? 13 : 31));
-        result = prime * result + ((isEmail ? 13 : 31));
-        result = prime * result + ((isFreeFormObject ? 13 : 31));
-        result = prime * result + ((isMapContainer ? 13 : 31));
-        result = prime * result + ((isListContainer ? 13 : 31));
-        result = prime * result + Objects.hashCode(isInherited);
-        result = prime * result + Objects.hashCode(discriminatorValue);
-        result = prime * result + Objects.hashCode(nameInCamelCase);
-        result = prime * result + Objects.hashCode(nameInSnakeCase);
-        result = prime * result + Objects.hashCode(enumName);
-        result = prime * result + ((maxItems == null) ? 0 : maxItems.hashCode());
-        result = prime * result + ((minItems == null) ? 0 : minItems.hashCode());
-        result = prime * result + ((isXmlAttribute ? 13 : 31));
-        result = prime * result + ((xmlPrefix == null) ? 0 : xmlPrefix.hashCode());
-        result = prime * result + ((xmlName == null) ? 0 : xmlName.hashCode());
-        result = prime * result + ((xmlNamespace == null) ? 0 : xmlNamespace.hashCode());
-        result = prime * result + ((isXmlWrapped ? 13 : 31));
-        return result;
+        return Objects.hash(
+            _enum,
+            allowableValues,
+            openApiType,
+            baseName,
+            baseType,
+            complexType,
+            containerType,
+            dataType,
+            datatypeWithEnum,
+            dataFormat,
+            defaultValue,
+            defaultValueWithParam,
+            description,
+            title,
+            example,
+            exclusiveMaximum,
+            exclusiveMinimum,
+            getter,
+            hasMore,
+            hasMoreNonReadOnly,
+            isContainer,
+            isEnum,
+            isPrimitiveType,
+            isModel,
+            isReadOnly,
+            isWriteOnly,
+            isNullable,
+            isSelfReference,
+            items,
+            mostInnerItems,
+            jsonSchema,
+            max,
+            maxLength,
+            maximum,
+            min,
+            minLength,
+            minimum,
+            name,
+            pattern,
+            required,
+            secondaryParam,
+            setter,
+            unescapedDescription,
+            vendorExtensions,
+            hasValidation,
+            isString,
+            isNumeric,
+            isInteger,
+            isLong,
+            isNumber,
+            isFloat,
+            isDouble,
+            isByteArray,
+            isBinary,
+            isFile,
+            isBoolean,
+            isDate,
+            isDateTime,
+            isUuid,
+            isUri,
+            isEmail,
+            isFreeFormObject,
+            isMapContainer,
+            isListContainer,
+            isInherited,
+            discriminatorValue,
+            nameInCamelCase,
+            nameInSnakeCase,
+            enumName,
+            maxItems,
+            minItems,
+            isXmlAttribute,
+            xmlPrefix,
+            xmlName,
+            xmlNamespace,
+            isXmlWrapped);
     }
 
     @Override
@@ -499,216 +499,79 @@ public class CodegenProperty implements Cloneable {
         if (getClass() != obj.getClass()) {
             return false;
         }
+
         final CodegenProperty other = (CodegenProperty) obj;
-        if ((this.baseName == null) ? (other.baseName != null) : !this.baseName.equals(other.baseName)) {
-            return false;
-        }
-        if ((this.complexType == null) ? (other.complexType != null) : !this.complexType.equals(other.complexType)) {
-            return false;
-        }
-        if ((this.getter == null) ? (other.getter != null) : !this.getter.equals(other.getter)) {
-            return false;
-        }
-        if ((this.setter == null) ? (other.setter != null) : !this.setter.equals(other.setter)) {
-            return false;
-        }
-        if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
-            return false;
-        }
-        if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
-            return false;
-        }
-        if ((this.dataType == null) ? (other.dataType != null) : !this.dataType.equals(other.dataType)) {
-            return false;
-        }
-        if ((this.datatypeWithEnum == null) ? (other.datatypeWithEnum != null) : !this.datatypeWithEnum.equals(other.datatypeWithEnum)) {
-            return false;
-        }
-        if ((this.dataFormat == null) ? (other.dataFormat != null) : !this.dataFormat.equals(other.dataFormat)) {
-            return false;
-        }
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        if ((this.min == null) ? (other.min != null) : !this.min.equals(other.min)) {
-            return false;
-        }
-        if ((this.max == null) ? (other.max != null) : !this.max.equals(other.max)) {
-            return false;
-        }
-        if ((this.defaultValue == null) ? (other.defaultValue != null) : !this.defaultValue.equals(other.defaultValue)) {
-            return false;
-        }
-        if ((this.baseType == null) ? (other.baseType != null) : !this.baseType.equals(other.baseType)) {
-            return false;
-        }
-        if ((this.containerType == null) ? (other.containerType != null) : !this.containerType.equals(other.containerType)) {
-            return false;
-        }
-        if (this.maxLength != other.maxLength && (this.maxLength == null || !this.maxLength.equals(other.maxLength))) {
-            return false;
-        }
-        if (this.minLength != other.minLength && (this.minLength == null || !this.minLength.equals(other.minLength))) {
-            return false;
-        }
-        if ((this.pattern == null) ? (other.pattern != null) : !this.pattern.equals(other.pattern)) {
-            return false;
-        }
-        if ((this.example == null) ? (other.example != null) : !this.example.equals(other.example)) {
-            return false;
-        }
-        if ((this.jsonSchema == null) ? (other.jsonSchema != null) : !this.jsonSchema.equals(other.jsonSchema)) {
-            return false;
-        }
-        if (this.minimum != other.minimum && (this.minimum == null || !this.minimum.equals(other.minimum))) {
-            return false;
-        }
-        if (this.maximum != other.maximum && (this.maximum == null || !this.maximum.equals(other.maximum))) {
-            return false;
-        }
-        if (this.exclusiveMinimum != other.exclusiveMinimum) {
-            return false;
-        }
-        if (this.exclusiveMaximum != other.exclusiveMaximum) {
-            return false;
-        }
-        if (this.required != other.required) {
-            return false;
-        }
-        if (this.secondaryParam != other.secondaryParam) {
-            return false;
-        }
-        if (this.isPrimitiveType != other.isPrimitiveType) {
-            return false;
-        }
-        if (this.isModel != other.isModel) {
-            return false;
-        }
-        if (this.isContainer != other.isContainer) {
-            return false;
-        }
-        if (this.isEnum != other.isEnum) {
-            return false;
-        }
-        if (this.isReadOnly != other.isReadOnly) {
-            return false;
-        }
-        if (this.isWriteOnly != other.isWriteOnly) {
-            return false;
-        }
-        if (this.isNullable != other.isNullable) {
-            return false;
-        }
-        if (this.isSelfReference != other.isSelfReference ) {
-            return false;
-        }
-        if (this._enum != other._enum && (this._enum == null || !this._enum.equals(other._enum))) {
-            return false;
-        }
-        if (this.allowableValues != other.allowableValues && (this.allowableValues == null || !this.allowableValues.equals(other.allowableValues))) {
-            return false;
-        }
 
-        if (this.vendorExtensions != other.vendorExtensions && (this.vendorExtensions == null || !this.vendorExtensions.equals(other.vendorExtensions))) {
-            return false;
-        }
-
-        if (this.hasValidation != other.hasValidation) {
-            return false;
-        }
-
-        if (this.isString != other.isString) {
-            return false;
-        }
-
-        if (this.isNumeric != other.isNumeric) {
-            return false;
-        }
-        if (this.isInteger != other.isInteger) {
-            return false;
-        }
-        if (this.isLong != other.isLong) {
-            return false;
-        }
-        if (this.isNumber != other.isNumber) {
-            return false;
-        }
-        if (this.isFloat != other.isFloat) {
-            return false;
-        }
-        if (this.isDouble != other.isDouble) {
-            return false;
-        }
-        if (this.isByteArray != other.isByteArray) {
-            return false;
-        }
-        if (this.isBoolean != other.isBoolean) {
-            return false;
-        }
-        if (this.isDate != other.isDate) {
-            return false;
-        }
-        if (this.isDateTime != other.isDateTime) {
-            return false;
-        }
-        if (this.isUuid != other.isUuid) {
-            return false;
-        }
-        if (this.isEmail != other.isEmail) {
-            return false;
-        }
-        if (this.isFreeFormObject != other.isFreeFormObject) {
-            return false;
-        }
-        if (this.isBinary != other.isBinary) {
-            return false;
-        }
-        if (this.isFile != other.isFile) {
-            return false;
-        }
-        if (this.isListContainer != other.isListContainer) {
-            return false;
-        }
-        if (this.isMapContainer != other.isMapContainer) {
-            return false;
-        }
-        if (!Objects.equals(this.isInherited, other.isInherited)) {
-            return false;
-        }
-        if (!Objects.equals(this.discriminatorValue, other.discriminatorValue)) {
-            return false;
-        }
-        if (!Objects.equals(this.nameInCamelCase, other.nameInCamelCase)) {
-            return false;
-        }
-        if (!Objects.equals(this.nameInSnakeCase, other.nameInSnakeCase)) {
-            return false;
-        }
-        if (!Objects.equals(this.enumName, other.enumName)) {
-            return false;
-        }
-        if (this.maxItems != other.maxItems && (this.maxItems == null || !this.maxItems.equals(other.maxItems))) {
-            return false;
-        }
-        if (this.minItems != other.minItems && (this.minItems == null || !this.minItems.equals(other.minItems))) {
-            return false;
-        }
-        if (!Objects.equals(this.isXmlAttribute, other.isXmlAttribute)) {
-            return false;
-        }
-        if (!Objects.equals(this.xmlPrefix, other.xmlPrefix)) {
-            return false;
-        }
-        if (!Objects.equals(this.xmlName, other.xmlName)) {
-            return false;
-        }
-        if (!Objects.equals(this.xmlNamespace, other.xmlNamespace)) {
-            return false;
-        }
-        if (!Objects.equals(this.isXmlWrapped, other.isXmlWrapped)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(baseName, other.baseName) &&
+            Objects.equals(openApiType, other.openApiType) &&
+            Objects.equals(complexType, other.complexType) &&
+            Objects.equals(getter, other.getter) &&
+            Objects.equals(setter, other.setter) &&
+            Objects.equals(description, other.description) &&
+            Objects.equals(title, other.title) &&
+            Objects.equals(dataType, other.dataType) &&
+            Objects.equals(datatypeWithEnum, other.datatypeWithEnum) &&
+            Objects.equals(dataFormat, other.dataFormat) &&
+            Objects.equals(name, other.name) &&
+            Objects.equals(min, other.min) &&
+            Objects.equals(max, other.max) &&
+            Objects.equals(defaultValue, other.defaultValue) &&
+            Objects.equals(baseType, other.baseType) &&
+            Objects.equals(containerType, other.containerType) &&
+            Objects.equals(maxLength, other.maxLength) &&
+            Objects.equals(minLength, other.minLength) &&
+            Objects.equals(pattern, other.pattern) &&
+            Objects.equals(example, other.example) &&
+            Objects.equals(jsonSchema, other.jsonSchema) &&
+            Objects.equals(minimum, other.minimum) &&
+            Objects.equals(maximum, other.maximum) &&
+            Objects.equals(exclusiveMinimum, other.exclusiveMinimum) &&
+            Objects.equals(exclusiveMaximum, other.exclusiveMaximum) &&
+            Objects.equals(required, other.required) &&
+            Objects.equals(secondaryParam, other.secondaryParam) &&
+            Objects.equals(isPrimitiveType, other.isPrimitiveType) &&
+            Objects.equals(isModel, other.isModel) &&
+            Objects.equals(isContainer, other.isContainer) &&
+            Objects.equals(isEnum, other.isEnum) &&
+            Objects.equals(isReadOnly, other.isReadOnly) &&
+            Objects.equals(isWriteOnly, other.isWriteOnly) &&
+            Objects.equals(isNullable, other.isNullable) &&
+            Objects.equals(isSelfReference, other.isSelfReference) &&
+            Objects.equals(_enum, other._enum) &&
+            Objects.equals(allowableValues, other.allowableValues) &&
+            Objects.equals(vendorExtensions, other.vendorExtensions) &&
+            Objects.equals(hasValidation, other.hasValidation) &&
+            Objects.equals(isString, other.isString) &&
+            Objects.equals(isNumeric, other.isNumeric) &&
+            Objects.equals(isInteger, other.isInteger) &&
+            Objects.equals(isLong, other.isLong) &&
+            Objects.equals(isNumber, other.isNumber) &&
+            Objects.equals(isFloat, other.isFloat) &&
+            Objects.equals(isDouble, other.isDouble) &&
+            Objects.equals(isByteArray, other.isByteArray) &&
+            Objects.equals(isBoolean, other.isBoolean) &&
+            Objects.equals(isDate, other.isDate) &&
+            Objects.equals(isDateTime, other.isDateTime) &&
+            Objects.equals(isUuid, other.isUuid) &&
+            Objects.equals(isUri, other.isUri) &&
+            Objects.equals(isEmail, other.isEmail) &&
+            Objects.equals(isFreeFormObject, other.isFreeFormObject) &&
+            Objects.equals(isBinary, other.isBinary) &&
+            Objects.equals(isFile, other.isFile) &&
+            Objects.equals(isListContainer, other.isListContainer) &&
+            Objects.equals(isMapContainer, other.isMapContainer) &&
+            Objects.equals(isInherited, other.isInherited) &&
+            Objects.equals(discriminatorValue, other.discriminatorValue) &&
+            Objects.equals(nameInCamelCase, other.nameInCamelCase) &&
+            Objects.equals(nameInSnakeCase, other.nameInSnakeCase) &&
+            Objects.equals(enumName, other.enumName) &&
+            Objects.equals(maxItems, other.maxItems) &&
+            Objects.equals(minItems, other.minItems) &&
+            Objects.equals(isXmlAttribute, other.isXmlAttribute) &&
+            Objects.equals(xmlPrefix, other.xmlPrefix) &&
+            Objects.equals(xmlName, other.xmlName) &&
+            Objects.equals(xmlNamespace, other.xmlNamespace) &&
+            Objects.equals(isXmlWrapped, other.isXmlWrapped);
     }
 
     @Override
@@ -741,6 +604,7 @@ public class CodegenProperty implements Cloneable {
     public java.lang.String toString() {
         return "CodegenProperty{" +
                 "baseName='" + baseName + '\'' +
+                ", openApiType='" + openApiType + '\'' +
                 ", complexType='" + complexType + '\'' +
                 ", getter='" + getter + '\'' +
                 ", setter='" + setter + '\'' +
@@ -787,6 +651,7 @@ public class CodegenProperty implements Cloneable {
                 ", isDate=" + isDate +
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
+                ", isUri=" + isUri +
                 ", isEmail=" + isEmail +
                 ", isFreeFormObject=" + isFreeFormObject +
                 ", isListContainer=" + isListContainer +

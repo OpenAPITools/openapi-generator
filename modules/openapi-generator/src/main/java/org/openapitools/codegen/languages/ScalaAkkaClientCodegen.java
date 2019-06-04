@@ -49,13 +49,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean registerNonStandardStatusCodes = true;
     protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
-    /**
-     * If set to true, only the default response (the one with le lowest 2XX code) will be considered as a success, and all
-     * others as ApiErrors.
-     * If set to false, all responses defined in the model will be considered as a success upon reception. Only http errors,
-     * unmarshalling problems and any other RuntimeException will be considered as ApiErrors.
-     */
-    protected boolean onlyOneSuccess = true;
+
 
     @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaClientCodegen.class);
@@ -92,7 +86,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("fnCapitalize", new CapitalizeLambda());
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
-        additionalProperties.put("onlyOneSuccess", onlyOneSuccess);
         additionalProperties.put("mainPackage", mainPackage);
 
         importMapping.remove("Seq");
@@ -102,7 +95,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
         importMapping.put("DateTime", "org.joda.time.DateTime");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");
         typeMapping.put("set", "Set");
         typeMapping.put("boolean", "Boolean");
@@ -114,7 +107,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("byte", "Byte");
         typeMapping.put("short", "Short");
         typeMapping.put("char", "Char");
-        typeMapping.put("long", "Long");
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
@@ -234,16 +226,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
             return null;
         }
         return codegenSecurities;
-    }
-
-    @Override
-    public String toOperationId(String operationId) {
-        // throw exception if method name is empty
-        if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
-        }
-
-        return super.toOperationId(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, operationId));
     }
 
     @Override

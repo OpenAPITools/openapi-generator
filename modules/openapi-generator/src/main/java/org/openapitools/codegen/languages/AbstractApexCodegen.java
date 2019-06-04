@@ -17,24 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
-import java.util.*;
-
 import com.google.common.base.Strings;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.servers.Server;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -79,10 +75,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     public String sanitizeName(String name) {
         name = super.sanitizeName(name);
         if (name.contains("__")) { // Preventing namespacing
-            name.replaceAll("__", "_");
+            name = name.replaceAll("__", "_");
         }
         if (name.matches("^\\d.*")) {  // Prevent named credentials with leading number
-            name.replaceAll("^\\d.*", "");
+            name = name.replaceAll("^\\d.*", "");
         }
         return name;
     }
@@ -297,7 +293,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
         } else if (Boolean.TRUE.equals(p.isString)) {
             p.example = "'" + p.example + "'";
-        } else if ("".equals(p.example) || p.example == null && p.dataType != "Object") {
+        } else if ("".equals(p.example) || p.example == null && "Object".equals(p.dataType)) {
             // Get an example object from the generated model
             if (!isReservedWord(p.dataType.toLowerCase(Locale.ROOT))) {
                 p.example = p.dataType + ".getExample()";
@@ -437,8 +433,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel cm = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel cm = super.fromModel(name, model);
 
         // TODO Check enum model handling
         if (cm.interfaces == null) {
@@ -566,10 +562,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
 
         CodegenOperation op = super.fromOperation(
-                path, httpMethod, operation, definitions, openAPI);
+                path, httpMethod, operation, null);
 
         if (op.getHasExamples()) {
             // prepare examples for Apex test classes
@@ -654,19 +650,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
-    }
-
-    public boolean convertPropertyToBoolean(String propertyKey) {
-        boolean booleanValue = false;
-        if (additionalProperties.containsKey(propertyKey)) {
-            booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
-        }
-
-        return booleanValue;
-    }
-
-    public void writePropertyBack(String propertyKey, boolean value) {
-        additionalProperties.put(propertyKey, value);
     }
 
     @Override

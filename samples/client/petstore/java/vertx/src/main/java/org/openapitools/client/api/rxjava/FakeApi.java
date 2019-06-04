@@ -4,10 +4,11 @@ import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.*;
 
@@ -28,6 +29,27 @@ public class FakeApi {
 	    return delegate;
 	}
 
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param xmlItem XmlItem Body (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void createXmlItem(XmlItem xmlItem, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.createXmlItem(xmlItem, resultHandler);
+    }
+
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param xmlItem XmlItem Body (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxCreateXmlItem(XmlItem xmlItem) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.createXmlItem(xmlItem, fut);
+        }));
+    }
     /**
      * 
      * Test serialization of outer boolean types

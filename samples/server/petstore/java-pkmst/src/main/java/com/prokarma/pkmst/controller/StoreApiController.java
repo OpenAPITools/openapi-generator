@@ -60,7 +60,7 @@ public class StoreApiController implements StoreApi {
         return new ResponseEntity<Order>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )   @RequestBody Order order,
+    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )   @RequestBody Order body,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 

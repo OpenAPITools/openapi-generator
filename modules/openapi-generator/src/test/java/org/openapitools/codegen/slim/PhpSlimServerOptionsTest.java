@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.slim;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpSlimServerCodegen;
 import org.openapitools.codegen.options.PhpSlimServerOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PhpSlimServerOptionsTest extends AbstractOptionsTest {
 
@@ -54,10 +53,6 @@ public class PhpSlimServerOptionsTest extends AbstractOptionsTest {
             clientCodegen.setPackageName(PhpSlimServerOptionsProvider.PACKAGE_NAME_VALUE);
             times = 1;
             clientCodegen.setSrcBasePath(PhpSlimServerOptionsProvider.SRC_BASE_PATH_VALUE);
-            times = 1;
-            clientCodegen.setGitUserId(PhpSlimServerOptionsProvider.GIT_USER_ID_VALUE);
-            times = 1;
-            clientCodegen.setGitRepoId(PhpSlimServerOptionsProvider.GIT_REPO_ID_VALUE);
             times = 1;
             clientCodegen.setArtifactVersion(PhpSlimServerOptionsProvider.ARTIFACT_VERSION_VALUE);
             times = 1;

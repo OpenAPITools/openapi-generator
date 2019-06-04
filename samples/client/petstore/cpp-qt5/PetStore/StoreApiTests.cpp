@@ -8,13 +8,12 @@
 StoreApiTests::StoreApiTests () {}
 
 StoreApiTests::~StoreApiTests () {
-    exit(1);
+
 }
 
 OAIStoreApi* StoreApiTests::getApi() {
     auto api = new OAIStoreApi();
-    api->host = "http://petstore.swagger.io";
-    api->basePath = "/v2";
+    api->setHost("http://petstore.swagger.io");
     return api;
 }
 
@@ -43,6 +42,7 @@ void StoreApiTests::placeOrderTest() {
     };
     connect(this, &StoreApiTests::quit, finalizer);
     connect(api, &OAIStoreApi::placeOrderSignal, this, validator);
+    connect(api, &OAIStoreApi::placeOrderSignalE, this, finalizer);
     connect(&timer, &QTimer::timeout, &loop, finalizer);
 
     OAIOrder order;

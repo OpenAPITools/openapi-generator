@@ -21,7 +21,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.oas.models.servers.ServerVariables;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -31,7 +30,7 @@ import java.util.Arrays;
 public class URLPathUtilsTest {
 
     @Test
-    public void testDefaultValues() throws Exception {
+    public void testDefaultValues() {
         OpenAPI openAPI = new OpenAPI();
         URL serverURL = URLPathUtils.getServerURL(openAPI);
 
@@ -45,7 +44,7 @@ public class URLPathUtilsTest {
     }
 
     @Test
-    public void testUrl() throws Exception {
+    public void testUrl() {
         OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://abcdef.xyz:9999/some/path"));
         URL serverURL = URLPathUtils.getServerURL(openAPI);
@@ -60,7 +59,7 @@ public class URLPathUtilsTest {
     }
 
     @Test
-    public void testSanitizeUrl() throws Exception {
+    public void testSanitizeUrl() {
         String[][] testData = {
             { "https://abc1.xyz:9999/some/path", "https://abc1.xyz:9999/some/path" },
             { "HTTPS://abc2.xyz:9999/some/path", "https://abc2.xyz:9999/some/path" },
@@ -80,7 +79,7 @@ public class URLPathUtilsTest {
     }
 
     @Test
-    public void testGetServerURLWithVariables() throws Exception {
+    public void testGetServerURLWithVariables() {
         Server s1 = new Server().url("http://localhost:{port}/").variables(new ServerVariables().addServerVariable("port", new ServerVariable()._default("8080").description("the server port")));
         Assert.assertEquals(URLPathUtils.getServerURL(s1).toString(), "http://localhost:8080/");
 
@@ -113,5 +112,13 @@ public class URLPathUtilsTest {
                     new ServerVariables().addServerVariable("version", new ServerVariable()._default("v1"))
                         .addServerVariable("user", new ServerVariable()._default("{user}")));
         Assert.assertEquals(URLPathUtils.getServerURL(s9).toString(), "https://{user}.example.com/v1");
+    }
+
+    @Test
+    public void useDefaultUrlWhenServerUrlIsNull() {
+        Server server = new Server().url(null);
+
+        URL serverURL = URLPathUtils.getServerURL(server);
+        Assert.assertEquals(serverURL.toString(), "http://localhost");
     }
 }

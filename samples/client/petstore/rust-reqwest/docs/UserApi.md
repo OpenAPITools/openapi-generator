@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **create_user**
-> create_user(user)
+> create_user(body)
 Create user
 
 This can only be done by the logged in user.
@@ -24,7 +24,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **user** | [**User**](User.md)| Created user object | 
+  **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -42,14 +42,14 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_array_input**
-> create_users_with_array_input(user)
+> create_users_with_array_input(body)
 Creates list of users with given input array
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **user** | [**Vec<::models::User>**](array.md)| List of user object | 
+  **body** | [**Vec<::models::User>**](array.md)| List of user object | 
 
 ### Return type
 
@@ -67,14 +67,14 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_list_input**
-> create_users_with_list_input(user)
+> create_users_with_list_input(body)
 Creates list of users with given input array
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **user** | [**Vec<::models::User>**](array.md)| List of user object | 
+  **body** | [**Vec<::models::User>**](array.md)| List of user object | 
 
 ### Return type
 
@@ -192,7 +192,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_user**
-> update_user(username, user)
+> update_user(username, body)
 Updated user
 
 This can only be done by the logged in user.
@@ -202,7 +202,7 @@ This can only be done by the logged in user.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
   **username** | **String**| name that need to be deleted | 
-  **user** | [**User**](User.md)| Updated user object | 
+  **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 

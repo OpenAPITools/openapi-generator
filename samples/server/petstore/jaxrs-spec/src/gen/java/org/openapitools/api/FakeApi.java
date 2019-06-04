@@ -10,6 +10,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -25,6 +26,17 @@ import javax.validation.Valid;
 @Path("/fake")
 @Api(description = "the fake API")
 public class FakeApi {
+
+    @POST
+    @Path("/create_xml_item")
+    @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
+    @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", response = Void.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response createXmlItem(@Valid XmlItem xmlItem) {
+        return Response.ok().entity("magic!").build();
+    }
 
     @POST
     @Path("/outer/boolean")
@@ -123,7 +135,7 @@ public class FakeApi {
         @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @ApiResponse(code = 404, message = "Not found", response = Void.class)
     })
-    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @DefaultValue("new ArrayList<String>()")  @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")   @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")  @DefaultValue("new ArrayList<String>()")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")   @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
+    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @DefaultValue("new ArrayList<String>()")  @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")   @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")   @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")   @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
         return Response.ok().entity("magic!").build();
     }
 

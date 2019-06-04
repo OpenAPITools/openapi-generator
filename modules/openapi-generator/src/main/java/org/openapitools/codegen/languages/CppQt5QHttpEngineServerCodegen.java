@@ -17,21 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.servers.Server;
+
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.URLPathUtils;
+
 import java.io.File;
+import java.net.URL;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
 
@@ -93,6 +90,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));        
+        supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder + MODEL_DIR, PREFIX + "Enum.h"));
         supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.h"));
         supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.cpp"));
 
@@ -116,6 +114,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
             supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.h"));
             supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.cpp"));
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Object.h"));
+            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Enum.h"));
             supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.h"));
             supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.cpp"));            
                       
@@ -194,10 +193,10 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
         }
         return result;
     }
-
+    
     @Override
     public String toApiFilename(String name) {
-        return modelNamePrefix + sanitizeName(initialCaps(name)) + "ApiHandler";
+        return modelNamePrefix + sanitizeName(camelize(name)) + "ApiHandler";
     }
 
 }

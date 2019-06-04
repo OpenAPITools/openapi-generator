@@ -18,6 +18,8 @@ services:
 
     {{bundleAlias}}.service.validator:
         class: '%{{bundleAlias}}.validator%'
+        arguments:
+            - '@validator'
 
 {{#apiInfo}}
 {{#apis}}
@@ -28,6 +30,8 @@ services:
          - [setSerializer, ['@{{bundleAlias}}.service.serializer']]
          - [setValidator,  ['@{{bundleAlias}}.service.validator']]
          - [setApiServer,  ['@{{bundleAlias}}.api.api_server']]
+        tags: ['controller.service_arguments']
+        autowire: true
 
 {{/operations}}
 {{/apis}}

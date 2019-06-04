@@ -25,6 +25,7 @@ use std::path::Path;
 use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
+use std::string::ToString;
 
 use mimetypes;
 
@@ -277,12 +278,19 @@ impl<F, C> Api<C> for Client<F> where
     C: Has<XSpanIdString> + Has<Option<AuthData>>{
 
     fn test_special_tags(&self, param_body: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/another-fake/dummy",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -293,11 +301,9 @@ impl<F, C> Api<C> for Client<F> where
 
 
         // Body parameter
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_SPECIAL_TAGS.clone()));
@@ -314,17 +320,20 @@ impl<F, C> Api<C> for Client<F> where
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::Client>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             TestSpecialTagsResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -351,13 +360,20 @@ impl<F, C> Api<C> for Client<F> where
 
     }
 
-    fn fake_outer_boolean_serialize(&self, param_body: Option<bool>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+    fn fake_outer_boolean_serialize(&self, param_body: Option<models::OuterBoolean>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
+        let mut uri = format!(
             "{}/v2/fake/outer/boolean",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -369,12 +385,11 @@ impl<F, C> Api<C> for Client<F> where
 
         // Body parameter
         let body = param_body.map(|ref body| {
-
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_BOOLEAN_SERIALIZE.clone()));
@@ -391,17 +406,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<bool>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterBooleanSerializeResponse::OutputBoolean(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -429,12 +447,19 @@ if let Some(body) = body {
     }
 
     fn fake_outer_composite_serialize(&self, param_body: Option<models::OuterComposite>, context: &C) -> Box<Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake/outer/composite",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -444,12 +469,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = param_body.map(|ref body| {
-
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_COMPOSITE_SERIALIZE.clone()));
@@ -466,17 +490,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::OuterComposite>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterCompositeSerializeResponse::OutputComposite(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -503,13 +530,20 @@ if let Some(body) = body {
 
     }
 
-    fn fake_outer_number_serialize(&self, param_body: Option<f64>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+    fn fake_outer_number_serialize(&self, param_body: Option<models::OuterNumber>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
+        let mut uri = format!(
             "{}/v2/fake/outer/number",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -519,12 +553,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = param_body.map(|ref body| {
-
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_NUMBER_SERIALIZE.clone()));
@@ -541,17 +574,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<f64>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterNumberSerializeResponse::OutputNumber(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -578,13 +614,20 @@ if let Some(body) = body {
 
     }
 
-    fn fake_outer_string_serialize(&self, param_body: Option<String>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+    fn fake_outer_string_serialize(&self, param_body: Option<models::OuterString>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
+        let mut uri = format!(
             "{}/v2/fake/outer/string",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -594,12 +637,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = param_body.map(|ref body| {
-
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_STRING_SERIALIZE.clone()));
@@ -616,17 +658,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<String>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterStringSerializeResponse::OutputString(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -654,16 +699,20 @@ if let Some(body) = body {
     }
 
     fn test_body_with_query_params(&self, param_query: String, param_body: models::User, context: &C) -> Box<Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>> {
-
-        // Query parameters
-        let query_query = format!("query={query}&", query=param_query.to_string());
-
-
-        let uri = format!(
-            "{}/v2/fake/body-with-query-params?{query}",
-            self.base_path,
-            query=utf8_percent_encode(&query_query, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/fake/body-with-query-params",
+            self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        query_string.append_pair("query", &param_query.to_string());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -672,11 +721,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_BODY_WITH_QUERY_PARAMS.clone()));
@@ -721,12 +768,19 @@ if let Some(body) = body {
     }
 
     fn test_client_model(&self, param_body: models::Client, context: &C) -> Box<Future<Item=TestClientModelResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -735,11 +789,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Patch, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLIENT_MODEL.clone()));
@@ -756,17 +808,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::Client>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             TestClientModelResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -794,12 +849,19 @@ if let Some(body) = body {
     }
 
     fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_byte: swagger::ByteArray, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Option<swagger::ByteArray>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -828,15 +890,14 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENDPOINT_PARAMETERS.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
-            if let &AuthData::Basic(ref basic_header) = auth_data {
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::Basic(ref basic_header) = *auth_data {
                 request.headers_mut().set(hyper::header::Authorization(
                     basic_header.clone(),
                 ))
             }
-        });
+        }
 
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -885,22 +946,31 @@ if let Some(body) = body {
     }
 
     fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, param_enum_form_string: Option<String>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
-
-        // Query parameters
-        let query_enum_query_string_array = param_enum_query_string_array.map_or_else(String::new, |query| format!("enum_query_string_array={enum_query_string_array}&", enum_query_string_array=query.join(",")));
-        let query_enum_query_string = param_enum_query_string.map_or_else(String::new, |query| format!("enum_query_string={enum_query_string}&", enum_query_string=query.to_string()));
-        let query_enum_query_integer = param_enum_query_integer.map_or_else(String::new, |query| format!("enum_query_integer={enum_query_integer}&", enum_query_integer=query.to_string()));
-        let query_enum_query_double = param_enum_query_double.map_or_else(String::new, |query| format!("enum_query_double={enum_query_double}&", enum_query_double=query.to_string()));
-
-
-        let uri = format!(
-            "{}/v2/fake?{enum_query_string_array}{enum_query_string}{enum_query_integer}{enum_query_double}",
-            self.base_path,
-            enum_query_string_array=utf8_percent_encode(&query_enum_query_string_array, QUERY_ENCODE_SET),
-            enum_query_string=utf8_percent_encode(&query_enum_query_string, QUERY_ENCODE_SET),
-            enum_query_integer=utf8_percent_encode(&query_enum_query_integer, QUERY_ENCODE_SET),
-            enum_query_double=utf8_percent_encode(&query_enum_query_double, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/fake",
+            self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+        if let Some(enum_query_string_array) = param_enum_query_string_array {
+            query_string.append_pair("enum_query_string_array", &enum_query_string_array.join(","));
+        }
+        if let Some(enum_query_string) = param_enum_query_string {
+            query_string.append_pair("enum_query_string", &enum_query_string.to_string());
+        }
+        if let Some(enum_query_integer) = param_enum_query_integer {
+            query_string.append_pair("enum_query_integer", &enum_query_integer.to_string());
+        }
+        if let Some(enum_query_double) = param_enum_query_double {
+            query_string.append_pair("enum_query_double", &enum_query_double.to_string());
+        }
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -916,7 +986,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENUM_PARAMETERS.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
         // Header parameters
@@ -973,12 +1042,19 @@ if let Some(body) = body {
     }
 
     fn test_inline_additional_properties(&self, param_param: HashMap<String, String>, context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake/inline-additionalProperties",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -987,11 +1063,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         let body = serde_json::to_string(&param_param).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_INLINE_ADDITIONAL_PROPERTIES.clone()));
@@ -1036,12 +1110,19 @@ if let Some(body) = body {
     }
 
     fn test_json_form_data(&self, param_param: String, param_param2: String, context: &C) -> Box<Future<Item=TestJsonFormDataResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake/jsonFormData",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1058,7 +1139,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_JSON_FORM_DATA.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1100,12 +1180,23 @@ if let Some(body) = body {
     }
 
     fn test_classname(&self, param_body: models::Client, context: &C) -> Box<Future<Item=TestClassnameResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake_classname_test",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::ApiKey(ref api_key) = *auth_data {
+                query_string.append_pair("api_key_query", api_key);
+            }
+        }
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1116,11 +1207,9 @@ if let Some(body) = body {
 
 
         // Body parameter
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLASSNAME.clone()));
@@ -1137,17 +1226,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::Client>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             TestClassnameResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -1175,12 +1267,19 @@ if let Some(body) = body {
     }
 
     fn add_pet(&self, param_body: models::Pet, context: &C) -> Box<Future<Item=AddPetResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1191,11 +1290,9 @@ if let Some(body) = body {
 
 
         // Body parameter
+        let body = param_body.to_xml();
 
-        let body = serde_xml_rs::to_string(&param_body).expect("impossible to fail to serialize");
-
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::ADD_PET.clone()));
@@ -1240,12 +1337,19 @@ if let Some(body) = body {
     }
 
     fn delete_pet(&self, param_pet_id: i64, param_api_key: Option<String>, context: &C) -> Box<Future<Item=DeletePetResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet/{petId}",
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1253,7 +1357,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Delete, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -1301,16 +1404,20 @@ if let Some(body) = body {
     }
 
     fn find_pets_by_status(&self, param_status: &Vec<String>, context: &C) -> Box<Future<Item=FindPetsByStatusResponse, Error=ApiError>> {
-
-        // Query parameters
-        let query_status = format!("status={status}&", status=param_status.join(","));
-
-
-        let uri = format!(
-            "{}/v2/pet/findByStatus?{status}",
-            self.base_path,
-            status=utf8_percent_encode(&query_status, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/pet/findByStatus",
+            self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        query_string.append_pair("status", &param_status.join(","));
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1318,7 +1425,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -1334,19 +1440,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FindPetsByStatusResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1383,16 +1491,20 @@ if let Some(body) = body {
     }
 
     fn find_pets_by_tags(&self, param_tags: &Vec<String>, context: &C) -> Box<Future<Item=FindPetsByTagsResponse, Error=ApiError>> {
-
-        // Query parameters
-        let query_tags = format!("tags={tags}&", tags=param_tags.join(","));
-
-
-        let uri = format!(
-            "{}/v2/pet/findByTags?{tags}",
-            self.base_path,
-            tags=utf8_percent_encode(&query_tags, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/pet/findByTags",
+            self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        query_string.append_pair("tags", &param_tags.join(","));
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1400,7 +1512,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -1416,19 +1527,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FindPetsByTagsResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1465,12 +1578,19 @@ if let Some(body) = body {
     }
 
     fn get_pet_by_id(&self, param_pet_id: i64, context: &C) -> Box<Future<Item=GetPetByIdResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet/{petId}",
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1480,9 +1600,13 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
+        header! { (ApiKey, "api_key") => [String] }
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::ApiKey(ref api_key) = *auth_data {
+                request.headers_mut().set(ApiKey(api_key.to_string()));
+            }
+        }
 
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1494,19 +1618,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::Pet>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetPetByIdResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1552,12 +1678,19 @@ if let Some(body) = body {
     }
 
     fn update_pet(&self, param_body: models::Pet, context: &C) -> Box<Future<Item=UpdatePetResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1566,11 +1699,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
+        let body = param_body.to_xml();
 
-        let body = serde_xml_rs::to_string(&param_body).expect("impossible to fail to serialize");
-
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET.clone()));
@@ -1633,12 +1764,19 @@ if let Some(body) = body {
     }
 
     fn update_pet_with_form(&self, param_pet_id: i64, param_name: Option<String>, param_status: Option<String>, context: &C) -> Box<Future<Item=UpdatePetWithFormResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet/{petId}",
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1655,7 +1793,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET_WITH_FORM.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1697,12 +1834,19 @@ if let Some(body) = body {
     }
 
     fn upload_file(&self, param_pet_id: i64, param_additional_metadata: Option<String>, param_file: Option<swagger::ByteArray>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet/{petId}/uploadImage",
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1719,7 +1863,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPLOAD_FILE.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1733,17 +1876,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::ApiResponse>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             UploadFileResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -1771,12 +1917,19 @@ if let Some(body) = body {
     }
 
     fn delete_order(&self, param_order_id: String, context: &C) -> Box<Future<Item=DeleteOrderResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/store/order/{order_id}",
             self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1784,7 +1937,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Delete, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -1837,12 +1989,19 @@ if let Some(body) = body {
     }
 
     fn get_inventory(&self, context: &C) -> Box<Future<Item=GetInventoryResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/store/inventory",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1852,9 +2011,13 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
+        header! { (ApiKey, "api_key") => [String] }
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::ApiKey(ref api_key) = *auth_data {
+                request.headers_mut().set(ApiKey(api_key.to_string()));
+            }
+        }
 
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1866,17 +2029,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<HashMap<String, i32>>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetInventoryResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -1904,12 +2070,19 @@ if let Some(body) = body {
     }
 
     fn get_order_by_id(&self, param_order_id: i64, context: &C) -> Box<Future<Item=GetOrderByIdResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/store/order/{order_id}",
             self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1917,7 +2090,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -1933,19 +2105,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::Order>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetOrderByIdResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1991,12 +2165,19 @@ if let Some(body) = body {
     }
 
     fn place_order(&self, param_body: models::Order, context: &C) -> Box<Future<Item=PlaceOrderResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/store/order",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2005,11 +2186,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::PLACE_ORDER.clone()));
@@ -2026,19 +2205,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::Order>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             PlaceOrderResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2075,12 +2256,19 @@ if let Some(body) = body {
     }
 
     fn create_user(&self, param_body: models::User, context: &C) -> Box<Future<Item=CreateUserResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2091,11 +2279,9 @@ if let Some(body) = body {
 
 
         // Body parameter
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USER.clone()));
@@ -2140,12 +2326,19 @@ if let Some(body) = body {
     }
 
     fn create_users_with_array_input(&self, param_body: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/createWithArray",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2154,11 +2347,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_ARRAY_INPUT.clone()));
@@ -2203,12 +2394,19 @@ if let Some(body) = body {
     }
 
     fn create_users_with_list_input(&self, param_body: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithListInputResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/createWithList",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2217,11 +2415,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_LIST_INPUT.clone()));
@@ -2266,12 +2462,19 @@ if let Some(body) = body {
     }
 
     fn delete_user(&self, param_username: String, context: &C) -> Box<Future<Item=DeleteUserResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2279,7 +2482,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Delete, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2332,12 +2534,19 @@ if let Some(body) = body {
     }
 
     fn get_user_by_name(&self, param_username: String, context: &C) -> Box<Future<Item=GetUserByNameResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2345,7 +2554,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2361,19 +2569,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::User>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetUserByNameResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2419,18 +2629,21 @@ if let Some(body) = body {
     }
 
     fn login_user(&self, param_username: String, param_password: String, context: &C) -> Box<Future<Item=LoginUserResponse, Error=ApiError>> {
-
-        // Query parameters
-        let query_username = format!("username={username}&", username=param_username.to_string());
-        let query_password = format!("password={password}&", password=param_password.to_string());
-
-
-        let uri = format!(
-            "{}/v2/user/login?{username}{password}",
-            self.base_path,
-            username=utf8_percent_encode(&query_username, QUERY_ENCODE_SET),
-            password=utf8_percent_encode(&query_password, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/user/login",
+            self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        query_string.append_pair("username", &param_username.to_string());
+        query_string.append_pair("password", &param_password.to_string());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2438,7 +2651,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2464,19 +2676,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<String>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             LoginUserResponse::SuccessfulOperation{ body: body, x_rate_limit: response_x_rate_limit, x_expires_after: response_x_expires_after }
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2513,12 +2727,19 @@ if let Some(body) = body {
     }
 
     fn logout_user(&self, context: &C) -> Box<Future<Item=LogoutUserResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/logout",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2526,7 +2747,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2570,12 +2790,19 @@ if let Some(body) = body {
     }
 
     fn update_user(&self, param_username: String, param_body: models::User, context: &C) -> Box<Future<Item=UpdateUserResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2584,11 +2811,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_USER.clone()));

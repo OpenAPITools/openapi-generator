@@ -15,8 +15,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"fmt"
+	"strings"
 )
 
 // Linger please
@@ -34,7 +34,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 */
 func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Delete")
+		localVarHttpMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -101,7 +101,7 @@ Returns a map of status codes to quantities
 */
 func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -145,7 +145,6 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 			localVarHeaderParams["api_key"] = key
 		}
 	}
-
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -160,14 +159,6 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
-	}
-
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -188,6 +179,15 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
@@ -200,7 +200,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 */
 func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Order, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -255,14 +255,6 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -281,18 +273,27 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
 /*
 StoreApiService Place an order for a pet
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param order order placed for purchasing the pet
+ * @param body order placed for purchasing the pet
 @return Order
 */
-func (a *StoreApiService) PlaceOrder(ctx context.Context, order Order) (Order, *http.Response, error) {
+func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -325,7 +326,7 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, order Order) (Order, *
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &order
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -342,14 +343,6 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, order Order) (Order, *
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -364,6 +357,15 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, order Order) (Order, *
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
 		}
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}

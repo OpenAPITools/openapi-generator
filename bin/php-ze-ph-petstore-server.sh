@@ -25,8 +25,12 @@ then
   mvn -B clean package
 fi
 
+input=modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+out_folder=samples/server/petstore/php-ze-ph
+resources=modules/openapi-generator/src/main/resources/php-ze-ph
+
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/ze-ph -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g php-ze-ph -o samples/server/petstore/php-ze-ph $@"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
+ags="generate -t $resources -i $input -g php-ze-ph -o $out_folder $@"
 
 java $JAVA_OPTS -jar $executable $ags

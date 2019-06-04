@@ -33,11 +33,11 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 import org.openapitools.client.auth.OAuth.AccessTokenListener;
 import org.openapitools.client.auth.OAuthFlow;
-
 
 public class ApiClient {
 
@@ -60,9 +60,7 @@ public class ApiClient {
                 auth = new ApiKeyAuth("query", "api_key_query");
             } else if ("http_basic_test".equals(authName)) {
                 auth = new HttpBasicAuth();
-
             } else if ("petstore_auth".equals(authName)) {
-
                 auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
@@ -116,21 +114,21 @@ public class ApiClient {
                 .setUsername(username)
                 .setPassword(password);
     }
-    
-   public void createDefaultAdapter() {
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-                .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
-                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
-                .create();
 
-        okClient = new OkHttpClient();
+    public void createDefaultAdapter() {
+         Gson gson = new GsonBuilder()
+                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                 .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                 .create();
 
-        adapterBuilder = new RestAdapter
-                .Builder()
-                .setEndpoint("http://petstore.swagger.io:80/v2")
-                .setClient(new OkClient(okClient))
-                .setConverter(new GsonConverterWrapper(gson));
+         okClient = new OkHttpClient();
+
+         adapterBuilder = new RestAdapter
+                 .Builder()
+                 .setEndpoint("http://petstore.swagger.io:80/v2")
+                 .setClient(new OkClient(okClient))
+                 .setConverter(new GsonConverterWrapper(gson));
     }
 
     public <S> S createService(Class<S> serviceClass) {
@@ -147,6 +145,19 @@ public class ApiClient {
             if (apiAuthorization instanceof ApiKeyAuth) {
                 ApiKeyAuth keyAuth = (ApiKeyAuth) apiAuthorization;
                 keyAuth.setApiKey(apiKey);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Helper method to set token for the first Http Bearer authentication found.
+     * @param bearerToken Bearer token
+     */
+    public void setBearerToken(String bearerToken) {
+        for (Interceptor apiAuthorization : apiAuthorizations.values()) {
+            if (apiAuthorization instanceof HttpBearerAuth) {
+                ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
                 return;
             }
         }

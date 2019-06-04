@@ -2,6 +2,14 @@
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\
 
+### Building
+
+To install the required dependencies and to build the elixir project, run:
+```
+mix local.hex --force
+mix do deps.get, compile
+```
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed

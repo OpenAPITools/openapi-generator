@@ -33,6 +33,31 @@ public class {{generatorClass}} extends DefaultCodegen implements CodegenConfig 
   }
 
   /**
+   * Provides an opportunity to inspect and modify operation data before the code is generated.
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+
+    // to try debugging your code generator:
+    // set a break point on the next line.
+    // then debug the JUnit test called LaunchGeneratorInDebugger
+
+    Map<String, Object> results = super.postProcessOperationsWithModels(objs, allModels);
+
+    Map<String, Object> ops = (Map<String, Object>)results.get("operations");
+    ArrayList<CodegenOperation> opList = (ArrayList<CodegenOperation>)ops.get("operation");
+
+    // iterate over the operation and perhaps modify something
+    for(CodegenOperation co : opList){
+      // example:
+      // co.httpMethod = co.httpMethod.toLowerCase();
+    }
+
+    return results;
+  }
+
+  /**
    * Returns human-friendly help for the generator.  Provide the consumer with help
    * tips, parameters here
    * 

@@ -17,18 +17,23 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.info.*;
-import io.swagger.v3.oas.models.OpenAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -42,7 +47,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     private String classPrefix = "OAS";
     private String apiVersion = "42.0";
     private String buildMethod = "sfdx";
-    private String namedCredential = classPrefix;
+    private String namedCredential;
     private String srcPath = "force-app/main/default/";
     private String sfdxConfigPath = "config/";
     private HashMap<String, Object> primitiveDefaults = new HashMap<String, Object>();
@@ -89,6 +94,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         typeMapping.put("number", "Double");
         typeMapping.put("short", "Integer");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
 
         // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_reserved_words.htm
         setReservedWordsLowerCase(
@@ -157,8 +163,10 @@ public class ApexClientCodegen extends AbstractApexCodegen {
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        Info info = openAPI.getInfo();
-        String calloutLabel = info.getTitle();
+        String calloutLabel = openAPI.getInfo().getTitle();
+        if (StringUtils.isNotBlank(namedCredential)) {
+            calloutLabel = namedCredential;
+        }
         additionalProperties.put("calloutLabel", calloutLabel);
         String sanitized = sanitizeName(calloutLabel);
         additionalProperties.put("calloutName", sanitized);

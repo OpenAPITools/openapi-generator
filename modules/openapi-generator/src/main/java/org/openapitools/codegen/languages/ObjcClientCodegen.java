@@ -20,30 +20,14 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.apache.commons.lang3.StringUtils;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -150,6 +134,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("bytearray", "NSData");
         typeMapping.put("byte", "NSData");
         typeMapping.put("uuid", "NSString");
+        typeMapping.put("uri", "NSString");
         typeMapping.put("password", "NSString");
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
@@ -662,7 +647,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Return the default value of the schema
-     *
      * @param p OpenAPI schema object
      * @return string presentation of the default value of the schema
      */

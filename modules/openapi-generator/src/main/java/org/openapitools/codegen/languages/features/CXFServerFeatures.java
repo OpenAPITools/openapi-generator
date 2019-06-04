@@ -33,6 +33,8 @@ public interface CXFServerFeatures
 
     public static final String GENERATE_NON_SPRING_APPLICATION = "generateNonSpringApplication";
 
+    public static final String LOAD_TEST_DATA_FROM_FILE = "loadTestDataFromFile";
+
     public void setUseWadlFeature(boolean useWadlFeature);
 
     public void setUseMultipartFeature(boolean useMultipartFeature);
@@ -42,5 +44,4 @@ public interface CXFServerFeatures
     public void setUseAnnotatedBasePath(boolean useAnnotatedBasePath);
 
     public void setGenerateNonSpringApplication(boolean generateNonSpringApplication);
-
 }

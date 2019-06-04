@@ -55,6 +55,7 @@ import java.util.TimeZone;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
@@ -73,11 +74,11 @@ public class ApiClient {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
-    
+
     private boolean debugging = false;
-    
+
     private HttpHeaders defaultHeaders = new HttpHeaders();
-    
+
     private String basePath = "http://petstore.swagger.io:80/v2";
 
     private RestTemplate restTemplate;
@@ -86,20 +87,20 @@ public class ApiClient {
 
     private HttpStatus statusCode;
     private MultiValueMap<String, String> responseHeaders;
-    
+
     private DateFormat dateFormat;
 
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
         init();
     }
-    
+
     @Autowired
     public ApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
         init();
     }
-    
+
     protected void init() {
         // Use RFC3339 format for date and datetime.
         // See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
@@ -120,7 +121,7 @@ public class ApiClient {
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
-    
+
     /**
      * Get the current base path
      * @return String the base path
@@ -171,6 +172,20 @@ public class ApiClient {
      */
     public Authentication getAuthentication(String authName) {
         return authentications.get(authName);
+    }
+
+    /**
+     * Helper method to set token for HTTP bearer authentication.
+     * @param bearerToken the token
+     */
+    public void setBearerToken(String bearerToken) {
+      for (Authentication auth : authentications.values()) {
+        if (auth instanceof HttpBearerAuth) {
+          ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+          return;
+        }
+      }
+      throw new RuntimeException("No Bearer authentication configured!");
     }
 
     /**
@@ -267,7 +282,7 @@ public class ApiClient {
         defaultHeaders.add(name, value);
         return this;
     }
-    
+
     public void setDebugging(boolean debugging) {
         List<ClientHttpRequestInterceptor> currentInterceptors = this.restTemplate.getInterceptors();
         if(debugging) {
@@ -323,9 +338,11 @@ public class ApiClient {
         }
         return this;
     }
-    
+
     /**
      * Parse the given string into Date object.
+     * @param str the string to parse
+     * @return the Date parsed from the string
      */
     public Date parseDate(String str) {
         try {
@@ -337,6 +354,8 @@ public class ApiClient {
 
     /**
      * Format the given Date object into string.
+     * @param date the date to format
+     * @return the formatted date as string
      */
     public String formatDate(Date date) {
         return dateFormat.format(date);
@@ -364,6 +383,28 @@ public class ApiClient {
         } else {
             return String.valueOf(param);
         }
+    }
+
+    /**
+    * Formats the specified collection path parameter to a string value.
+    *
+    * @param collectionFormat The collection format of the parameter.
+    * @param values The values of the parameter.
+    * @return String representation of the parameter
+    */
+    public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<? extends CharSequence> values) {
+        // create the value based on the collection format
+        if (CollectionFormat.MULTI.equals(collectionFormat)) {
+            // not valid for path params
+            return parameterToString(values);
+        }
+
+        // collectionFormat is assumed to be "csv" by default
+        if(collectionFormat == null) {
+            collectionFormat = CollectionFormat.CSV;
+        }
+
+        return collectionFormat.collectionToString(values);
     }
 
     /**
@@ -515,7 +556,7 @@ public class ApiClient {
      */
     public <T> T invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         updateParamsForAuth(authNames, queryParams, headerParams);
-        
+
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
         if (queryParams != null) {
             //encode the query parameters in case they contain unsafe characters
@@ -532,14 +573,14 @@ public class ApiClient {
             }
             builder.queryParams(queryParams);
         }
-		
+
 		URI uri;
         try {
             uri = new URI(builder.build().toUriString());
         } catch(URISyntaxException ex)  {
             throw new RestClientException("Could not build URL: " + builder.toUriString(), ex);
         }
-        
+
         final BodyBuilder requestBuilder = RequestEntity.method(method, uri);
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
@@ -547,14 +588,14 @@ public class ApiClient {
         if(contentType != null) {
             requestBuilder.contentType(contentType);
         }
-        
+
         addHeadersToRequest(headerParams, requestBuilder);
         addHeadersToRequest(defaultHeaders, requestBuilder);
-        
+
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
         ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
-        
+
         statusCode = responseEntity.getStatusCode();
         responseHeaders = responseEntity.getHeaders();
 
@@ -570,7 +611,7 @@ public class ApiClient {
             throw new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler");
         }
     }
-    
+
     /**
      * Add headers to the request that is being built
      * @param headers The headers to add
@@ -624,7 +665,7 @@ public class ApiClient {
             auth.applyToParams(queryParams, headerParams);
         }
     }
-    
+
     private class ApiClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
         private final Log log = LogFactory.getLog(ApiClientHttpRequestInterceptor.class);
 
@@ -663,7 +704,7 @@ public class ApiClient {
             builder.setLength(builder.length() - 1); // Get rid of trailing comma
             return builder.toString();
         }
-        
+
         private String bodyToString(InputStream body) throws IOException {
             StringBuilder builder = new StringBuilder();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(body, StandardCharsets.UTF_8));

@@ -106,6 +106,12 @@ open class GenerateTask : DefaultTask() {
     val skipOverwrite = project.objects.property<Boolean?>()
 
     /**
+     * Package for generated classes (where supported)
+     */
+    @get:Internal
+    val packageName = project.objects.property<String>()
+
+    /**
      * Package for generated api classes
      */
     @get:Internal
@@ -403,11 +409,25 @@ open class GenerateTask : DefaultTask() {
                 GeneratorProperties.clearProperty(CodegenConstants.APIS)
             }
 
-            GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+            if (generateApiDocumentation.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
+            }
+
+            if (generateModelDocumentation.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
+            }
+
+            if (generateModelTests.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
+            }
+
+            if (generateApiTests.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
+            }
+
+            if (withXml.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+            }
 
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
@@ -440,6 +460,10 @@ open class GenerateTask : DefaultTask() {
 
             templateDir.ifNotEmpty { value ->
                 configurator.templateDir = value
+            }
+
+            packageName.ifNotEmpty { value ->
+                configurator.packageName = value
             }
 
             apiPackage.ifNotEmpty { value ->
@@ -511,7 +535,7 @@ open class GenerateTask : DefaultTask() {
             }
 
             skipValidateSpec.ifNotEmpty { value ->
-                configurator.setValidateSpec(value)
+                configurator.setValidateSpec(!value)
             }
 
             generateAliasAsModel.ifNotEmpty { value ->

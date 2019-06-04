@@ -17,29 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -62,7 +50,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
-    protected String localVariablePrefix = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -86,6 +73,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     // use KellermanSoftware.CompareNetObjects for deep recursive object comparision
     protected boolean useCompareNetObjects = Boolean.FALSE;
 
+    // To make API response's headers dictionary case insensitive
+    protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+
     public CSharpClientCodegen() {
         super();
         supportsInheritance = true;
@@ -98,6 +88,19 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         hideGenerationTimestamp = Boolean.TRUE;
 
         cliOptions.clear();
+
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
+
+        setSupportNullable(Boolean.TRUE);
 
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME,
@@ -171,10 +174,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
 
-        addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
-                CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
-                this.optionalEmitDefaultValue);
-
         addSwitch(CodegenConstants.GENERATE_PROPERTY_CHANGED,
                 CodegenConstants.PACKAGE_DESCRIPTION_DESC,
                 this.generatePropertyChanged);
@@ -202,6 +201,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.USE_COMPARE_NET_OBJECTS,
                 CodegenConstants.USE_COMPARE_NET_OBJECTS_DESC,
                 this.useCompareNetObjects);
+
+        addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
+                CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
+                this.caseInsensitiveResponseHeaders);
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IgnoreCase");
@@ -330,9 +333,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("supportsUWP", this.supportsUWP);
         additionalProperties.put("netStandard", this.netStandard);
         additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
-
-        // TODO: either remove this and update templates to match the "optionalEmitDefaultValues" property, or rename that property.
-        additionalProperties.put("emitDefaultValue", optionalEmitDefaultValue);
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
             setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
@@ -537,12 +537,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
@@ -553,7 +554,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && property.baseName.equals(parentCodegenModel.discriminator)) {
+                    if (property.defaultValue == null && property.baseName.equals(parentCodegenModel.discriminator.getPropertyName())) {
                         property.defaultValue = "\"" + name + "\"";
                     }
                 }
@@ -808,6 +809,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.useCompareNetObjects = useCompareNetObjects;
     }
 
+    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
+        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
+    }
+
     public boolean isNonPublicApi() {
         return nonPublicApi;
     }
@@ -850,4 +855,42 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
         return super.processCompiler(compiler).emptyStringIsFalse(true);
     }
+
+    /**
+     * Return the instantiation type of the property, especially for map and array
+     *
+     * @param schema property schema
+     * @return string presentation of the instantiation type of the property
+     */
+    @Override
+    public String toInstantiationType(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
+            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+            String inner = getSchemaType(additionalProperties);
+            if (ModelUtils.isMapSchema(additionalProperties)) {
+                inner = toInstantiationType(additionalProperties);
+            }
+            return instantiationTypes.get("map") + "<String, " + inner + ">";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            String inner = getSchemaType(arraySchema.getItems());
+            return instantiationTypes.get("array") + "<" + inner + ">";
+        } else {
+            return null;
+        }
+    }
+    
+    @Override
+    public String getNullableType(Schema p, String type) {
+        boolean isNullableExpected = p.getNullable() == null || (p.getNullable() != null && p.getNullable());
+
+        if (isNullableExpected && languageSpecificPrimitives.contains(type + "?")) {
+            return type + "?";
+        } else if (languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return null;
+        }
+    }
+
 }

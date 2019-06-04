@@ -32,6 +32,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         405:
           content: {}
           description: Invalid input
@@ -60,6 +63,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid ID supplied
@@ -131,7 +137,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      description: Multiple tags can be provided with comma separated strings. Use
+        tag1, tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -187,6 +194,9 @@ paths:
           format: int64
           type: integer
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid pet value
@@ -367,7 +377,8 @@ paths:
       - tag: store
   /store/order/{order_id}:
     delete:
-      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+      description: For valid response try integer IDs with value < 1000. Anything
+        above 1000 or nonintegers will generate API errors
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
@@ -390,7 +401,8 @@ paths:
       x-tags:
       - tag: store
     get:
-      description: For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+      description: For valid response try integer IDs with value <= 5 or > 10. Other
+        values will generated exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -1130,6 +1142,44 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: fake
+  /fake/create_xml_item:
+    post:
+      description: this route creates an XmlItem
+      operationId: createXmlItem
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          application/xml; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          application/xml; charset=utf-16:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml; charset=utf-16:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+        description: XmlItem Body
+        required: true
+      responses:
+        200:
+          content: {}
+          description: successful operation
+      summary: creates an XmlItem
+      tags:
+      - fake
+      x-codegen-request-body-name: XmlItem
+      x-contentType: application/xml
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
   /another-fake/dummy:
     patch:
       description: To test special tags and operation ID starting with number
@@ -1158,7 +1208,8 @@ paths:
       - tag: $another-fake?
   /fake/body-with-file-schema:
     put:
-      description: For this test, the body for this request much reference a schema named `File`.
+      description: For this test, the body for this request much reference a schema
+        named `File`.
       operationId: testBodyWithFileSchema
       requestBody:
         content:
@@ -1444,17 +1495,11 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          breed:
-            type: string
-        type: object
+      - $ref: '#/components/schemas/Dog_allOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          declawed:
-            type: boolean
-        type: object
+      - $ref: '#/components/schemas/Cat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -1516,6 +1561,7 @@ components:
           format: date-time
           type: string
         uuid:
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           format: uuid
           type: string
         password:
@@ -1569,16 +1615,112 @@ components:
       type: object
     AdditionalPropertiesClass:
       properties:
-        map_property:
+        map_string:
           additionalProperties:
             type: string
           type: object
-        map_of_map_property:
+        map_number:
+          additionalProperties:
+            type: number
+          type: object
+        map_integer:
+          additionalProperties:
+            type: integer
+          type: object
+        map_boolean:
+          additionalProperties:
+            type: boolean
+          type: object
+        map_array_integer:
+          additionalProperties:
+            items:
+              type: integer
+            type: array
+          type: object
+        map_array_anytype:
+          additionalProperties:
+            items:
+              properties: {}
+              type: object
+            type: array
+          type: object
+        map_map_string:
           additionalProperties:
             additionalProperties:
               type: string
             type: object
           type: object
+        map_map_anytype:
+          additionalProperties:
+            additionalProperties:
+              properties: {}
+              type: object
+            type: object
+          type: object
+        anytype_1:
+          properties: {}
+          type: object
+        anytype_2:
+          type: object
+        anytype_3:
+          properties: {}
+          type: object
+      type: object
+    AdditionalPropertiesString:
+      additionalProperties:
+        type: string
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesInteger:
+      additionalProperties:
+        type: integer
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesNumber:
+      additionalProperties:
+        type: number
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesBoolean:
+      additionalProperties:
+        type: boolean
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesArray:
+      additionalProperties:
+        items:
+          properties: {}
+          type: object
+        type: array
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesObject:
+      additionalProperties:
+        additionalProperties:
+          properties: {}
+          type: object
+        type: object
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesAnyType:
+      additionalProperties:
+        properties: {}
+        type: object
+      properties:
+        name:
+          type: string
       type: object
     MixedPropertiesAndAdditionalPropertiesClass:
       properties:
@@ -1594,8 +1736,6 @@ components:
           type: object
       type: object
     List:
-      example:
-        123-list: 123-list
       properties:
         123-list:
           type: string
@@ -1730,7 +1870,7 @@ components:
     OuterComposite:
       example:
         my_string: my_string
-        my_number: 0.80082819046101150206595775671303272247314453125
+        my_number: 0.8008281904610115
         my_boolean: true
       properties:
         my_number:
@@ -1829,6 +1969,193 @@ components:
       - number_item
       - string_item
       type: object
+    XmlItem:
+      properties:
+        attribute_string:
+          example: string
+          type: string
+          xml:
+            attribute: true
+        attribute_number:
+          example: 1.234
+          type: number
+          xml:
+            attribute: true
+        attribute_integer:
+          example: -2
+          type: integer
+          xml:
+            attribute: true
+        attribute_boolean:
+          example: true
+          type: boolean
+          xml:
+            attribute: true
+        wrapped_array:
+          items:
+            type: integer
+          type: array
+          xml:
+            wrapped: true
+        name_string:
+          example: string
+          type: string
+          xml:
+            name: xml_name_string
+        name_number:
+          example: 1.234
+          type: number
+          xml:
+            name: xml_name_number
+        name_integer:
+          example: -2
+          type: integer
+          xml:
+            name: xml_name_integer
+        name_boolean:
+          example: true
+          type: boolean
+          xml:
+            name: xml_name_boolean
+        name_array:
+          items:
+            type: integer
+            xml:
+              name: xml_name_array_item
+          type: array
+        name_wrapped_array:
+          items:
+            type: integer
+            xml:
+              name: xml_name_wrapped_array_item
+          type: array
+          xml:
+            name: xml_name_wrapped_array
+            wrapped: true
+        prefix_string:
+          example: string
+          type: string
+          xml:
+            prefix: ab
+        prefix_number:
+          example: 1.234
+          type: number
+          xml:
+            prefix: cd
+        prefix_integer:
+          example: -2
+          type: integer
+          xml:
+            prefix: ef
+        prefix_boolean:
+          example: true
+          type: boolean
+          xml:
+            prefix: gh
+        prefix_array:
+          items:
+            type: integer
+            xml:
+              prefix: ij
+          type: array
+        prefix_wrapped_array:
+          items:
+            type: integer
+            xml:
+              prefix: mn
+          type: array
+          xml:
+            prefix: kl
+            wrapped: true
+        namespace_string:
+          example: string
+          type: string
+          xml:
+            namespace: http://a.com/schema
+        namespace_number:
+          example: 1.234
+          type: number
+          xml:
+            namespace: http://b.com/schema
+        namespace_integer:
+          example: -2
+          type: integer
+          xml:
+            namespace: http://c.com/schema
+        namespace_boolean:
+          example: true
+          type: boolean
+          xml:
+            namespace: http://d.com/schema
+        namespace_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://e.com/schema
+          type: array
+        namespace_wrapped_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://g.com/schema
+          type: array
+          xml:
+            namespace: http://f.com/schema
+            wrapped: true
+        prefix_ns_string:
+          example: string
+          type: string
+          xml:
+            namespace: http://a.com/schema
+            prefix: a
+        prefix_ns_number:
+          example: 1.234
+          type: number
+          xml:
+            namespace: http://b.com/schema
+            prefix: b
+        prefix_ns_integer:
+          example: -2
+          type: integer
+          xml:
+            namespace: http://c.com/schema
+            prefix: c
+        prefix_ns_boolean:
+          example: true
+          type: boolean
+          xml:
+            namespace: http://d.com/schema
+            prefix: d
+        prefix_ns_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://e.com/schema
+              prefix: e
+          type: array
+        prefix_ns_wrapped_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://g.com/schema
+              prefix: g
+          type: array
+          xml:
+            namespace: http://f.com/schema
+            prefix: f
+            wrapped: true
+      type: object
+      xml:
+        namespace: http://a.com/schema
+        prefix: pre
+    Dog_allOf:
+      properties:
+        breed:
+          type: string
+    Cat_allOf:
+      properties:
+        declawed:
+          type: boolean
   securitySchemes:
     petstore_auth:
       flows:

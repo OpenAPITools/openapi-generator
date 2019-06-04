@@ -4,10 +4,11 @@ import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -44,6 +45,40 @@ public class FakeApiImpl implements FakeApi {
         this.apiClient = apiClient;
     }
 
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param xmlItem XmlItem Body (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void createXmlItem(XmlItem xmlItem, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = xmlItem;
+        
+        // verify the required parameter 'xmlItem' is set
+        if (xmlItem == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'xmlItem' when calling createXmlItem"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/create_xml_item";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+    }
     /**
      * 
      * Test serialization of outer boolean types

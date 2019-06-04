@@ -4,13 +4,14 @@
     "keywords": [
         "openapitools",
         "openapi-generator",
+        "openapi",
         "php",
         "sdk",
         "rest",
         "api"
     ],
-    "homepage": "http://openapi-generator.tech",
-    "license": "proprietary",
+    "homepage": "https://openapi-generator.tech",
+    "license": "unlicense",
     "authors": [
         {
             "name": "OpenAPI-Generator contributors",

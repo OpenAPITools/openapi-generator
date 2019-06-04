@@ -16,29 +16,13 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
-import java.util.Map;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Locale;
 
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
@@ -133,6 +117,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                         "binary",
                         "file",
                         "UUID",
+                        "URI",
                         "BigDecimal",
                         "mixed",
                         "number",
@@ -164,6 +149,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("binary", "MEDIUMBLOB");
         typeMapping.put("file", "MEDIUMBLOB");
         typeMapping.put("UUID", "TEXT");
+        typeMapping.put("URI", "TEXT");
         typeMapping.put("BigDecimal", "DECIMAL");
 
         embeddedTemplateDir = templateDir = "mysql-schema";

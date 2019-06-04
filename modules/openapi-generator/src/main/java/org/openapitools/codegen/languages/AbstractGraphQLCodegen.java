@@ -82,6 +82,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("string", "String");
         typeMapping.put("UUID", "ID");
+        typeMapping.put("URI", "String");
         typeMapping.put("date", "String");
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
@@ -417,7 +418,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
 
         for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {

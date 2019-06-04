@@ -19,14 +19,14 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.*;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +37,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
@@ -50,11 +50,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     // This is the name of elixir project name;
     protected static final String defaultPackageName = "openapi_client";
 
-    String supportedElixirVersion = "1.4";
+    String supportedElixirVersion = "1.6";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 0.8\"}",
-            "{:poison, \">= 1.0.0\"}"
+            "{:tesla, \"~> 1.2\"}",
+            "{:poison, \"~> 3.0\"}"
     );
 
     public ElixirClientCodegen() {
@@ -175,6 +175,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
 
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay.Pets"));
         cliOptions.add(new CliOption("licenseHeader", "The license header to prepend to the top of all source files."));
@@ -187,6 +188,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * @return the CodegenType for this generator
      * @see org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -197,6 +199,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "elixir";
     }
@@ -207,6 +210,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates an elixir client library (alpha).";
     }
@@ -270,10 +274,10 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) super.postProcessOperationsWithModels(objs, allModels).get("operations");
         List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
-        List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
+        List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}([^\\{]*)");
         for (CodegenOperation o : os) {
-            ArrayList<String> pathTemplateNames = new ArrayList<String>();
+            ArrayList<String> pathTemplateNames = new ArrayList<>();
             Matcher matcher = pattern.matcher(o.path);
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
@@ -306,9 +310,14 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel cm = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel cm = super.fromModel(name, model);
         return new ExtendedCodegenModel(cm);
+    }
+
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse resp) {
+        return new ExtendedCodegenResponse(super.fromResponse(responseCode, resp));
     }
 
     // We should use String.join if we can use Java8
@@ -323,16 +332,16 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         return buf.toString();
     }
 
-    String underscored(String words) {
-        ArrayList<String> underscoredWords = new ArrayList<String>();
+    private String underscored(String words) {
+        ArrayList<String> underscoredWords = new ArrayList<>();
         for (String word : words.split(" ")) {
             underscoredWords.add(underscore(word));
         }
         return join("_", underscoredWords);
     }
 
-    String modulized(String words) {
-        ArrayList<String> modulizedWords = new ArrayList<String>();
+    private String modulized(String words) {
+        ArrayList<String> modulizedWords = new ArrayList<>();
         for (String word : words.split(" ")) {
             modulizedWords.add(camelize(word));
         }
@@ -351,7 +360,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     private String sourceFolder() {
-        ArrayList<String> underscoredWords = new ArrayList<String>();
+        ArrayList<String> underscoredWords = new ArrayList<>();
         for (String word : moduleName.split("\\.")) {
             underscoredWords.add(underscore(word));
         }
@@ -362,6 +371,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
      */
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder() + File.separator + "model";
     }
@@ -516,8 +526,93 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         return toModelName(type);
     }
 
+    class ExtendedCodegenResponse extends CodegenResponse {
+        public boolean isDefinedDefault;
+
+        public ExtendedCodegenResponse(CodegenResponse o) {
+            super();
+
+            this.headers.addAll(o.headers);
+            this.code = o.code;
+            this.message = o.message;
+            this.hasMore = o.hasMore;
+            this.examples = o.examples;
+            this.dataType = o.dataType;
+            this.baseType = o.baseType;
+            this.containerType = o.containerType;
+            this.hasHeaders = o.hasHeaders;
+            this.isString = o.isString;
+            this.isNumeric = o.isNumeric;
+            this.isInteger = o.isInteger;
+            this.isLong = o.isLong;
+            this.isNumber = o.isNumber;
+            this.isFloat = o.isFloat;
+            this.isDouble = o.isDouble;
+            this.isByteArray = o.isByteArray;
+            this.isBoolean = o.isBoolean;
+            this.isDate = o.isDate;
+            this.isDateTime = o.isDateTime;
+            this.isUuid = o.isUuid;
+            this.isEmail = o.isEmail;
+            this.isModel = o.isModel;
+            this.isFreeFormObject = o.isFreeFormObject;
+            this.isDefault = o.isDefault;
+            this.simpleType = o.simpleType;
+            this.primitiveType = o.primitiveType;
+            this.isMapContainer = o.isMapContainer;
+            this.isListContainer = o.isListContainer;
+            this.isBinary = o.isBinary;
+            this.isFile = o.isFile;
+            this.schema = o.schema;
+            this.jsonSchema = o.jsonSchema;
+            this.vendorExtensions = o.vendorExtensions;
+
+            this.isDefinedDefault = (this.code.equals("0") || this.code.equals("default"));
+        }
+
+        public String codeMappingKey(){
+            if(this.isDefinedDefault) {
+                return ":default";
+            }
+
+            if(code.matches("^\\d{3}$")){
+                return code;
+            }
+
+            LOGGER.warn("Unknown HTTP status code: " + this.code);
+            return "\"" + code + "\"";
+        }
+
+        public String decodedStruct() {
+            // Let Poison decode the entire response into a generic blob
+            if (isMapContainer) {
+                return "%{}";
+            }
+            // Primitive return type, don't even try to decode
+            if (baseType == null || (simpleType && primitiveType)) {
+                return "false";
+            } else if (isListContainer && languageSpecificPrimitives().contains(baseType)) {
+                return "[]";
+            }
+            StringBuilder sb = new StringBuilder();
+            if (isListContainer) {
+                sb.append("[");
+            }
+            sb.append("%");
+            sb.append(moduleName);
+            sb.append(".Model.");
+            sb.append(baseType);
+            sb.append("{}");
+            if (isListContainer) {
+                sb.append("]");
+            }
+            return sb.toString();
+        }
+
+    }
+
     class ExtendedCodegenOperation extends CodegenOperation {
-        private List<String> pathTemplateNames = new ArrayList<String>();
+        private List<String> pathTemplateNames = new ArrayList<>();
         private String replacedPathName;
 
         public ExtendedCodegenOperation(CodegenOperation o) {
@@ -688,32 +783,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(property.baseType);
                 sb.append(".t");
             }
-        }
-
-        public String decodedStruct() {
-            // Let Poison decode the entire response into a generic blob
-            if (isMapContainer) {
-                return "";
-            }
-            // Primitive return type, don't even try to decode
-            if (returnBaseType == null || (returnSimpleType && returnTypeIsPrimitive)) {
-                return "false";
-            } else if (isListContainer && languageSpecificPrimitives().contains(returnBaseType)) {
-                return "[]";
-            }
-            StringBuilder sb = new StringBuilder();
-            if (isListContainer) {
-                sb.append("[");
-            }
-            sb.append("%");
-            sb.append(moduleName);
-            sb.append(".Model.");
-            sb.append(returnBaseType);
-            sb.append("{}");
-            if (isListContainer) {
-                sb.append("]");
-            }
-            return sb.toString();
         }
     }
 

@@ -19,15 +19,14 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -99,6 +98,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
@@ -113,7 +113,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
                 .defaultValue("openapi"));
-
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
+                .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
     }
@@ -360,10 +361,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 iterator.remove();
         }
 
-        // this will only import "fmt" if there are items in pathParams
+        // this will only import "fmt" and "strings" if there are items in pathParams
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
                 imports.add(createMapping("import", "fmt"));
+                imports.add(createMapping("import", "strings"));
                 break; //just need to import once
             }
         }

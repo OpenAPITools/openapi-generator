@@ -1,4 +1,5 @@
 # {{appName}} API Client
+
 {{#appDescription}}
 
 {{{appDescription}}}
@@ -13,7 +14,7 @@
 - `ANT_HOME` and `JAVA_HOME` environment variables must be set accordingly
   - On Windows, `JAVA_HOME` will probably look something like this:
 
-    ```
+    ```cmd
     JAVA_HOME = C:\Program Files\Java\jdk1.8.0_121
     ```
 
@@ -38,25 +39,24 @@ If everything is set correctly:
 For more information, see <https://developer.salesforce.com/docs/atlas.en-us.daas.meta/daas/forcemigrationtool_prereq.htm>
 
 ## Installation
+
 {{#gitRepoId}}{{#gitUserId}}
 
 1. Clone the repo from GitHub
 
     ```bash
-    $ git clone git@github.com:{{gitUserId}}/{{gitRepoId}}.git
+    git clone git@github.com:{{gitUserId}}/{{gitRepoId}}.git
     ```
 
     Or, [download](https://github.com/{{gitUserId}}/{{gitRepoId}}/archive/master.zip) the repo as a ZIP and extract it to `{{gitRepoId}}`
 {{/gitUserId}}{{/gitRepoId}}
-1. Set the `SF_USERNAME` and `SF_PASSWORD` environment variables to your Salesforce username and password. Alternatively, they may be set in `build.properties`. Environment variables will override the values in `build.properties` if set.
 
-    `SF_SESSIONID` may also be set instead of `SF_USERNAME` and `SF_PASSWORD` (more info in `build.properties`)
-
-2. Open up a command prompt in the root project directory {{#gitRepoId}}`{{gitRepoId}}` {{/gitRepoId}}(the same directory as this README and `build.xml`)
-3. Deploy to your Salesforce org
+2. Set the `SF_USERNAME` and `SF_PASSWORD` environment variables to your Salesforce username and password. Alternatively, they may be set in `build.properties`. Environment variables will override the values in `build.properties` if set. `SF_SESSIONID` may also be set instead of `SF_USERNAME` and `SF_PASSWORD` (more info in `build.properties`)
+3. Open up a command prompt in the root project directory {{#gitRepoId}}`{{gitRepoId}}` {{/gitRepoId}}(the same directory as this README and `build.xml`)
+4. Deploy to your Salesforce org
 
     ```bash
-    $ ant deploy
+    ant deploy
     ```
 
     This command will:
@@ -83,7 +83,7 @@ For more information, see <https://developer.salesforce.com/docs/atlas.en-us.daa
 To perform a test deployment without committing changes:
 
 ```bash
-$ ant deployCheckOnly
+ant deployCheckOnly
 ```
 
 All of the included tests will run as if it were a real deployment. Tests and other validations will report back while leaving your org untouched, allowing you to verify that a deployment will succeed without affecting anything in the org.
@@ -91,7 +91,7 @@ All of the included tests will run as if it were a real deployment. Tests and ot
 ### Uninstallation
 
 ```bash
-$ ant undeploy
+ant undeploy
 ```
 
 Removes all classes and the Remote Site created by this package.
@@ -160,7 +160,9 @@ Class | Method | HTTP request | Description
 {{/authMethods}}Authentication schemes defined for the API:
 {{#authMethods}}### {{name}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+
+- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}

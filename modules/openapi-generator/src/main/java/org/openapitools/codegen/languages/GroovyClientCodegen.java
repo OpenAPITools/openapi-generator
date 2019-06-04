@@ -20,13 +20,13 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
+
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class GroovyClientCodegen extends AbstractJavaCodegen {
-    public static final String CONFIG_PACKAGE = "configPackage";
-    protected String title = "Petstore Server";
-    protected String configPackage = "";
 
     public GroovyClientCodegen() {
         super();
@@ -37,7 +37,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         languageSpecificPrimitives.add("File");
         languageSpecificPrimitives.add("Map");
 
-        sourceFolder = projectFolder + File.separator + "groovy";
+        sourceFolder = projectFolder + "/groovy";
         outputFolder = "generated-code/groovy";
         modelTemplateFiles.put("model.mustache", ".groovy");
         apiTemplateFiles.put("api.mustache", ".groovy");
@@ -52,15 +52,20 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
 
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
-        configPackage = "org.openapitools.configuration";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-groovy";
         dateLibrary = "legacy"; //TODO: add joda support to groovy
 
-        additionalProperties.put("title", title);
-        additionalProperties.put(CONFIG_PACKAGE, configPackage);
+        // cliOptions default redefinition need to be updated
+        updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
+        removeOption(CodegenConstants.ARTIFACT_URL);
+        removeOption(CodegenConstants.ARTIFACT_DESCRIPTION);
 
-        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
     }
 
     @Override
@@ -75,23 +80,29 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Groovy API client (beta).";
+        return "Generates a Groovy API client.";
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
-            this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
-        }
-
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-        // TODO readme to be added later
-        //supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("ApiUtils.mustache",
                 (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtils.groovy"));
 
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+        for (CodegenOperation op : ops) {
+            // Overwrite path to map variable with path parameters
+            op.path = op.path.replace("{", "${");
+        }
+        return operations;
     }
 
     @Override
@@ -101,10 +112,6 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         }
         name = sanitizeName(name);
         return camelize(name) + "Api";
-    }
-
-    public void setConfigPackage(String configPackage) {
-        this.configPackage = configPackage;
     }
 
     @Override

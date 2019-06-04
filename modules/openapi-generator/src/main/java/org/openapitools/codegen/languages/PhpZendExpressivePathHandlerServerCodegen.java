@@ -26,11 +26,14 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
 public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhpZendExpressivePathHandlerServerCodegen.class);
 
     public static final String VEN_FROM_QUERY = "internal.ze-ph.fromQuery";
     public static final String VEN_COLLECTION_FORMAT = "internal.ze-ph.collectionFormat";
@@ -57,7 +60,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
         //no point to use double - http://php.net/manual/en/language.types.float.php , especially because of PHP 7+ float type declaration
         typeMapping.put("double", "float");
 
-        embeddedTemplateDir = templateDir = "ze-ph";
+        embeddedTemplateDir = templateDir = "php-ze-ph";
         invokerPackage = "App";
         srcBasePath = "src" + File.separator + "App";
         apiDirName = "Handler";
@@ -78,7 +81,8 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
         supportingFiles.add(new SupportingFile("app.yml.mustache", "application" + File.separator + "config", "app.yml"));
         supportingFiles.add(new SupportingFile("path_handler.yml.mustache", "application" + File.separator + "config", "path_handler.yml"));
         supportingFiles.add(new SupportingFile("data_transfer.yml.mustache", "application" + File.separator + "config", "data_transfer.yml"));
-        supportingFiles.add(new SupportingFile("ErrorMiddleware.php.mustache", srcBasePath, "ErrorMiddleware.php"));
+        supportingFiles.add(new SupportingFile("Factory.php.mustache", srcBasePath, "Factory.php"));
+        supportingFiles.add(new SupportingFile("InternalServerError.php.mustache", srcBasePath + File.separator + "Middleware", "InternalServerError.php"));
         supportingFiles.add(new SupportingFile("Date.php.mustache", srcBasePath + File.separator + "Strategy", "Date.php"));
         supportingFiles.add(new SupportingFile("DateTime.php.mustache", srcBasePath + File.separator + "Strategy", "DateTime.php"));
         supportingFiles.add(new SupportingFile("QueryParameter.php.mustache", srcBasePath + File.separator + "Strategy", "QueryParameter.php"));
@@ -291,46 +295,42 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
         objs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        String interfaceToImplement;
-        StringBuilder interfacesToImplement = new StringBuilder();
-        String classMethod;
+        String httpMethodDeclaration;
         String pathPattern = null;
         for (CodegenOperation op : operationList) {
             switch (op.httpMethod) {
                 case "GET":
-                    interfaceToImplement = "Operation\\GetInterface";
-                    classMethod = "handleGet";
+                    httpMethodDeclaration = "Get()";
                     break;
                 case "POST":
-                    interfaceToImplement = "Operation\\PostInterface";
-                    classMethod = "handlePost";
+                    httpMethodDeclaration = "Post()";
                     break;
                 case "PATCH":
-                    interfaceToImplement = "Operation\\PatchInterface";
-                    classMethod = "handlePatch";
+                    httpMethodDeclaration = "Patch()";
                     break;
                 case "PUT":
-                    interfaceToImplement = "Operation\\PutInterface";
-                    classMethod = "handlePut";
+                    httpMethodDeclaration = "Put()";
                     break;
                 case "DELETE":
-                    interfaceToImplement = "Operation\\DeleteInterface";
-                    classMethod = "handleDelete";
+                    httpMethodDeclaration = "Delete()";
                     break;
                 default:
-                    throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
+                    httpMethodDeclaration = "HttpMethod(\"" + op.httpMethod + "\")";
             }
-            if (interfacesToImplement.length() > 0) {
-                interfacesToImplement.append(", ");
+            op.httpMethod = httpMethodDeclaration;
+            //Producing content with media type "*/*" is not supported
+            if (op.produces != null) {
+                for (Map<String, String> p: op.produces) {
+                    if (p.replace("mediaType", "*/*", "n/a")) {
+                        LOGGER.warn("Media type range '*/*' is not supported, using 'n/a' for code generation instead");
+                    }
+                }
             }
-            interfacesToImplement.append(interfaceToImplement);
-            op.httpMethod = classMethod;
             //All operations have same path because of custom operation grouping, so path pattern can be calculated only once
             if (pathPattern == null) {
                 pathPattern = generatePathPattern(op);
             }
         }
-        operations.put("interfacesToImplement", interfacesToImplement.toString());
         operations.put("pathPattern", pathPattern);
 
         return objs;

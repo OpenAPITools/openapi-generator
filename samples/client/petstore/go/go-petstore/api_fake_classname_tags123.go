@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 // Linger please
@@ -33,7 +32,7 @@ To test class name in snake case
 */
 func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body Client) (Client, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Patch")
+		localVarHttpMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -79,7 +78,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 			localVarQueryParams.Add("api_key_query", key)
 		}
 	}
-
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err

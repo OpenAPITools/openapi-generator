@@ -14,8 +14,9 @@ Method | HTTP request | Description
 [**UpdateUser**](UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
 
 
-<a name="createuser"></a>
-# **CreateUser**
+
+## CreateUser
+
 > void CreateUser (User body)
 
 Create user
@@ -23,8 +24,8 @@ Create user
 This can only be done by the logged in user.
 
 ### Example
+
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -34,9 +35,10 @@ namespace Example
 {
     public class CreateUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var body = new User(); // User | Created user object
 
             try
@@ -44,9 +46,11 @@ namespace Example
                 // Create user
                 apiInstance.CreateUser(body);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.CreateUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -54,6 +58,7 @@ namespace Example
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -69,20 +74,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="createuserswitharrayinput"></a>
-# **CreateUsersWithArrayInput**
+
+## CreateUsersWithArrayInput
+
 > void CreateUsersWithArrayInput (List<User> body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -92,9 +101,10 @@ namespace Example
 {
     public class CreateUsersWithArrayInputExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var body = new List<User>(); // List<User> | List of user object
 
             try
@@ -102,9 +112,11 @@ namespace Example
                 // Creates list of users with given input array
                 apiInstance.CreateUsersWithArrayInput(body);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.CreateUsersWithArrayInput: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -113,9 +125,10 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -127,20 +140,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="createuserswithlistinput"></a>
-# **CreateUsersWithListInput**
+
+## CreateUsersWithListInput
+
 > void CreateUsersWithListInput (List<User> body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -150,9 +167,10 @@ namespace Example
 {
     public class CreateUsersWithListInputExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var body = new List<User>(); // List<User> | List of user object
 
             try
@@ -160,9 +178,11 @@ namespace Example
                 // Creates list of users with given input array
                 apiInstance.CreateUsersWithListInput(body);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.CreateUsersWithListInput: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -171,9 +191,10 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -185,13 +206,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="deleteuser"></a>
-# **DeleteUser**
+
+## DeleteUser
+
 > void DeleteUser (string username)
 
 Delete user
@@ -199,8 +224,8 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -210,9 +235,10 @@ namespace Example
 {
     public class DeleteUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var username = username_example;  // string | The name that needs to be deleted
 
             try
@@ -220,9 +246,11 @@ namespace Example
                 // Delete user
                 apiInstance.DeleteUser(username);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.DeleteUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -230,6 +258,7 @@ namespace Example
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -245,20 +274,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="getuserbyname"></a>
-# **GetUserByName**
+
+## GetUserByName
+
 > User GetUserByName (string username)
 
 Get user by user name
 
 ### Example
+
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -268,9 +301,10 @@ namespace Example
 {
     public class GetUserByNameExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var username = username_example;  // string | The name that needs to be fetched. Use user1 for testing.
 
             try
@@ -279,9 +313,11 @@ namespace Example
                 User result = apiInstance.GetUserByName(username);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.GetUserByName: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -289,6 +325,7 @@ namespace Example
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -304,20 +341,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="loginuser"></a>
-# **LoginUser**
+
+## LoginUser
+
 > string LoginUser (string username, string password)
 
 Logs user into the system
 
 ### Example
+
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -327,9 +368,10 @@ namespace Example
 {
     public class LoginUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var username = username_example;  // string | The user name for login
             var password = password_example;  // string | The password for login in clear text
 
@@ -339,9 +381,11 @@ namespace Example
                 string result = apiInstance.LoginUser(username, password);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.LoginUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -349,6 +393,7 @@ namespace Example
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -365,20 +410,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="logoutuser"></a>
-# **LogoutUser**
+
+## LogoutUser
+
 > void LogoutUser ()
 
 Logs out current logged in user session
 
 ### Example
+
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -388,18 +437,21 @@ namespace Example
 {
     public class LogoutUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
 
             try
             {
                 // Logs out current logged in user session
                 apiInstance.LogoutUser();
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.LogoutUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -407,6 +459,7 @@ namespace Example
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -419,13 +472,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="updateuser"></a>
-# **UpdateUser**
+
+## UpdateUser
+
 > void UpdateUser (string username, User body)
 
 Updated user
@@ -433,8 +490,8 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
+
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -444,9 +501,10 @@ namespace Example
 {
     public class UpdateUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var username = username_example;  // string | name that need to be deleted
             var body = new User(); // User | Updated user object
 
@@ -455,9 +513,11 @@ namespace Example
                 // Updated user
                 apiInstance.UpdateUser(username, body);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.UpdateUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -465,6 +525,7 @@ namespace Example
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -481,8 +542,11 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 

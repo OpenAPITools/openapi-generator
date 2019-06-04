@@ -44,9 +44,9 @@ ${nuget_cmd} install src/{{packageName}}/packages.config -o packages;
 
 echo "[INFO] Copy DLLs to the 'bin' folder"
 mkdir -p bin;
-cp packages/Newtonsoft.Json.10.0.3/lib/{{targetFrameworkNuget}}/Newtonsoft.Json.dll bin/Newtonsoft.Json.dll;
+cp packages/Newtonsoft.Json.12.0.1/lib/{{targetFrameworkNuget}}/Newtonsoft.Json.dll bin/Newtonsoft.Json.dll;
 cp packages/RestSharp.105.1.0/lib/{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}/RestSharp.dll bin/RestSharp.dll;
-cp packages/JsonSubTypes.1.2.0/lib/{{targetFrameworkNuget}}/JsonSubTypes.dll bin/JsonSubTypes.dll
+cp packages/JsonSubTypes.1.5.2/lib/{{targetFrameworkNuget}}/JsonSubTypes.dll bin/JsonSubTypes.dll
 {{#generatePropertyChanged}}
 cp packages/Fody.1.29.4/Fody.dll bin/Fody.dll
 cp packages/PropertyChanged.Fody.1.51.3/PropertyChanged.Fody.dll bin/PropertyChanged.Fody.dll

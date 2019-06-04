@@ -2,11 +2,8 @@
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
-    #include "apiClient.h"
-    #include "cJSON.h"
-    #include "order.h"
-    #include "StoreAPI.h"
-    #include "keyValuePair.h"
+    #include "../api/StoreAPI.h"
+
 
     #define ORDER_ID 1234
     #define PET_ID 12345
@@ -44,6 +41,7 @@ int main() {
 	order_free(returnorder);
 	cJSON_Delete(JSONNODE);
 	free(dataToPrint);
+	apiClient_free(apiClient);
 
 // order get by id test
 	apiClient_t *apiClient2 = apiClient_create();
@@ -59,6 +57,7 @@ int main() {
 	order_free(neworder);
 	cJSON_Delete(JSONNODE);
 	free(dataToPrint1);
+	apiClient_free(apiClient2);
 
 // delete order test
 	apiClient_t *apiClient3 = apiClient_create();
@@ -70,6 +69,7 @@ int main() {
 
 	printf("Order Deleted \n");
 	free(orderid);
+	apiClient_free(apiClient3);
 
 
 // get order by id test
@@ -80,21 +80,24 @@ int main() {
 	if(neworder == NULL) {
 		printf("Order Not present \n");
 	}
+	order_free(neworder);
+	apiClient_free(apiClient4);
 
 // get inventory test
 	apiClient_t *apiClient5 = apiClient_create();
 	list_t *elementToReturn;
 	elementToReturn = StoreAPI_getInventory(apiClient5);
 	listEntry_t *listEntry;
-    list_ForEach(listEntry, elementToReturn) {
-    keyValuePair_t *pair = (keyValuePair_t*)listEntry->data;
-    printf("%s - %s\n",pair->key,pair->value );
-    }
 	list_ForEach(listEntry, elementToReturn) {
-    keyValuePair_t *pair = (keyValuePair_t*)listEntry->data;
-    free(pair->key);
-    free(pair->value);
-    keyValuePair_free(pair);
+		keyValuePair_t *pair = (keyValuePair_t *) listEntry->data;
+		printf("%s - %s\n", pair->key, (char *) pair->value);
+	}
+	list_ForEach(listEntry, elementToReturn) {
+		keyValuePair_t *pair = (keyValuePair_t *) listEntry->data;
+		free(pair->key);
+		free(pair->value);
+		keyValuePair_free(pair);
 	}
 	list_free(elementToReturn);
+	apiClient_free(apiClient5);
 }

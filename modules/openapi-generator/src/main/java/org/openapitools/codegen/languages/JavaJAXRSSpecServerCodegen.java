@@ -19,13 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,11 +51,17 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-server";
         outputFolder = "generated-code/JavaJaxRS-Spec";
+        apiPackage = "org.openapitools.api";
+        modelPackage = "org.openapitools.model";
+
+        // cliOptions default redefinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        apiPackage = "org.openapitools.api";
-        modelPackage = "org.openapitools.model";
 
         apiTestTemplateFiles.clear(); // TODO: add api test template
         modelTestTemplateFiles.clear(); // TODO: add model test template
@@ -79,18 +80,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
 
-        for (int i = 0; i < cliOptions.size(); i++) {
-            if (CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
-                cliOptions.remove(i);
-                break;
-            }
-        }
-
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
-
-        Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
-
+        removeOption(CodegenConstants.LIBRARY);
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_LIBRARY);
+        Map<String, String> supportedLibraries = new LinkedHashMap<>();
         supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS");
         library.setEnum(supportedLibraries);
 
@@ -190,8 +182,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (!useSwaggerAnnotations) {
             codegenModel.imports.remove("ApiModelProperty");
             codegenModel.imports.remove("ApiModel");

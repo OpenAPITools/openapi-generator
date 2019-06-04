@@ -42,6 +42,12 @@ public class PetApi {
    * 
    * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+     </table>
    */
   public void addPet(Pet body) throws ApiException {
 
@@ -52,7 +58,14 @@ public class PetApi {
    * Add a new pet to the store
    * 
    * @param body Pet object that needs to be added to the store (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
     Object localVarPostBody = body;
@@ -94,6 +107,12 @@ public class PetApi {
    * @param petId Pet id to delete (required)
    * @param apiKey  (optional)
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
+     </table>
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
 
@@ -105,7 +124,14 @@ public class PetApi {
    * 
    * @param petId Pet id to delete (required)
    * @param apiKey  (optional)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
     Object localVarPostBody = new Object();
@@ -150,6 +176,12 @@ public class PetApi {
    * @param status Status values that need to be considered for filter (required)
    * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
+     </table>
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
     return findPetsByStatusWithHttpInfo(status).getData();
@@ -161,6 +193,12 @@ public class PetApi {
    * @param status Status values that need to be considered for filter (required)
    * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
     Object localVarPostBody = new Object();
@@ -203,6 +241,12 @@ public class PetApi {
    * @param tags Tags to filter by (required)
    * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid tag value </td><td>  -  </td></tr>
+     </table>
    * @deprecated
    */
   @Deprecated
@@ -216,6 +260,12 @@ public class PetApi {
    * @param tags Tags to filter by (required)
    * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid tag value </td><td>  -  </td></tr>
+     </table>
    * @deprecated
    */
   @Deprecated
@@ -260,6 +310,13 @@ public class PetApi {
    * @param petId ID of pet to return (required)
    * @return Pet
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
+     </table>
    */
   public Pet getPetById(Long petId) throws ApiException {
     return getPetByIdWithHttpInfo(petId).getData();
@@ -271,6 +328,13 @@ public class PetApi {
    * @param petId ID of pet to return (required)
    * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
     Object localVarPostBody = new Object();
@@ -312,6 +376,14 @@ public class PetApi {
    * 
    * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
+        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
+     </table>
    */
   public void updatePet(Pet body) throws ApiException {
 
@@ -322,7 +394,16 @@ public class PetApi {
    * Update an existing pet
    * 
    * @param body Pet object that needs to be added to the store (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
+        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
     Object localVarPostBody = body;
@@ -365,6 +446,11 @@ public class PetApi {
    * @param name Updated name of the pet (optional)
    * @param status Updated status of the pet (optional)
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+     </table>
    */
   public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
 
@@ -377,7 +463,13 @@ public class PetApi {
    * @param petId ID of pet that needs to be updated (required)
    * @param name Updated name of the pet (optional)
    * @param status Updated status of the pet (optional)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
     Object localVarPostBody = new Object();
@@ -426,6 +518,11 @@ if (status != null)
    * @param file file to upload (optional)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
     return uploadFileWithHttpInfo(petId, additionalMetadata, file).getData();
@@ -439,6 +536,11 @@ if (status != null)
    * @param file file to upload (optional)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
     Object localVarPostBody = new Object();
@@ -487,6 +589,11 @@ if (file != null)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
     return uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata).getData();
@@ -500,6 +607,11 @@ if (file != null)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
     Object localVarPostBody = new Object();

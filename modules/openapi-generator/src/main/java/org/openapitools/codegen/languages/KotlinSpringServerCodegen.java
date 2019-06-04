@@ -44,7 +44,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
-            new HashSet<String>(Arrays.asList(
+            new HashSet<>(Arrays.asList(
                     "ApiClient",
                     "ApiException",
                     "ApiResponse"
@@ -60,6 +60,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SWAGGER_ANNOTATIONS = "swaggerAnnotations";
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
+    public static final String REACTIVE = "reactive";
+
 
     private String basePackage;
     private String invokerPackage;
@@ -72,20 +74,25 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean swaggerAnnotations = false;
     private boolean serviceInterface = false;
     private boolean serviceImplementation = false;
+    private boolean reactive = false;
 
     public KotlinSpringServerCodegen() {
         super();
 
+        apiTestTemplateFiles.put("api_test.mustache", ".kt");
+
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
         outputFolder = "generated-code/kotlin-spring";
-        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "kotlin-spring";
 
         artifactId = "openapi-spring";
         basePackage = invokerPackage = "org.openapitools";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
+
+        // cliOptions default redefinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
 
         // Use lists instead of arrays
         typeMapping.put("array", "List");
@@ -108,6 +115,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         importMapping.put("Date", "java.time.LocalDate");
         importMapping.put("DateTime", "java.time.OffsetDateTime");
+
+        // use resource for file handling
+        typeMapping.put("file", "org.springframework.core.io.Resource");
+
 
         languageSpecificPrimitives.addAll(Arrays.asList(
                 "Any",
@@ -132,7 +143,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
-        addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers", exceptionHandler);
+        addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )", exceptionHandler);
         addSwitch(GRADLE_BUILD_FILE, "generate a gradle build file using the Kotlin DSL", gradleBuildFile);
         addSwitch(SWAGGER_ANNOTATIONS, "generate swagger annotations to go alongside controllers and models", swaggerAnnotations);
         addSwitch(SERVICE_INTERFACE, "generate service interfaces to go alongside controllers. In most " +
@@ -141,11 +152,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
-
+        addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
-        CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
         cliOpt.setDefault(SPRING_BOOT);
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);
@@ -230,6 +241,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public boolean isReactive() {
+        return reactive;
+    }
+
+    public void setReactive(boolean reactive) {
+        this.reactive = reactive;
     }
 
     @Override
@@ -323,6 +342,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(REACTIVE) && library.equals(SPRING_BOOT)) {
+            this.setReactive(convertPropertyToBoolean(REACTIVE));
+            // spring webflux doesn't support @ControllerAdvice
+            this.setExceptionHandler(false);
+        }
+        writePropertyBack(REACTIVE, reactive);
+        writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
 
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
@@ -554,12 +581,41 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     // Can't figure out the logic in DefaultCodegen but optional vars are getting duplicated when there's
     // inheritance involved. Also, isInherited doesn't seem to be getting set properly ¯\_(ツ)_/¯
     @Override
-    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
-        CodegenModel m = super.fromModel(name, schema, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel m = super.fromModel(name, schema);
 
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
         m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);
 
         return m;
+    }
+
+    /**
+     * Output the proper model name (capitalized).
+     * In case the name belongs to the TypeSystem it won't be renamed.
+     *
+     * @param name the name of the model
+     * @return capitalized model name
+     */
+    @Override
+    public String toModelName(final String name) {
+        // Allow for explicitly configured spring.*
+        if (name.startsWith("org.springframework.") ) {
+            return name;
+        }
+        return super.toModelName(name);
+    }
+
+    /**
+     * Check the type to see if it needs import the library/module/package
+     *
+     * @param type name of the type
+     * @return true if the library/module/package of the corresponding type needs to be imported
+     */
+    @Override
+    protected boolean needToImport(String type) {
+        // provides extra protection against improperly trying to import language primitives and java types
+        boolean imports = !type.startsWith("org.springframework.") && super.needToImport(type);
+        return imports;
     }
 }

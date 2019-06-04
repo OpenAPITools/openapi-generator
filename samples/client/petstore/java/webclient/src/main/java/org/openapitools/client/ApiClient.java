@@ -59,6 +59,7 @@ import java.util.TimeZone;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
@@ -179,6 +180,20 @@ public class ApiClient {
      */
     public Authentication getAuthentication(String authName) {
         return authentications.get(authName);
+    }
+
+    /**
+     * Helper method to set access token for the first Bearer authentication.
+     * @param bearerToken Bearer token
+     */
+    public void setBearerToken(String bearerToken) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBearerAuth) {
+                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                return;
+            }
+        }
+        throw new RuntimeException("No Bearer authentication configured!");
     }
 
     /**
@@ -453,8 +468,20 @@ public class ApiClient {
      * @return Object the selected body
      */
     protected BodyInserter<?, ? super ClientHttpRequest> selectBody(Object obj, MultiValueMap<String, Object> formParams, MediaType contentType) {
-        boolean isForm = MediaType.MULTIPART_FORM_DATA.isCompatibleWith(contentType) || MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(contentType);
-        return isForm ? BodyInserters.fromMultipartData(formParams) : (obj != null ? BodyInserters.fromObject(obj) : null);
+        if(MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
+            MultiValueMap<String, String> map = new LinkedMultiValueMap();
+
+            formParams
+                    .toSingleValueMap()
+                    .entrySet()
+                    .forEach(es -> map.add(es.getKey(), (String) es.getValue()));
+
+            return BodyInserters.fromFormData(map);
+        } else if(MediaType.MULTIPART_FORM_DATA.equals(contentType)) {
+            return BodyInserters.fromMultipartData(formParams);
+        } else {
+            return obj != null ? BodyInserters.fromObject(obj) : null;
+        }
     }
 
     /**
@@ -475,22 +502,7 @@ public class ApiClient {
      */
     public <T> Mono<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
-
-        return requestBuilder.exchange()
-            .flatMap(response -> {
-                HttpStatus statusCode = response.statusCode();
-                if (response.statusCode() == HttpStatus.NO_CONTENT) {
-                    return Mono.empty();
-                } else if (statusCode.is2xxSuccessful()) {
-                    if (returnType == null) {
-                        return Mono.empty();
-                    } else {
-                        return response.bodyToMono(returnType);
-                    }
-                } else {
-                    return Mono.error(new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler"));
-                }
-        });
+        return requestBuilder.retrieve().bodyToMono(returnType);
     }
 
     /**
@@ -511,23 +523,7 @@ public class ApiClient {
      */
     public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
-
-        return requestBuilder.exchange()
-            .flatMapMany(response -> {
-                HttpStatus statusCode = response.statusCode();
-                ClientResponse.Headers headers = response.headers();
-                if (response.statusCode() == HttpStatus.NO_CONTENT) {
-                    return Flux.empty();
-                } else if (statusCode.is2xxSuccessful()) {
-                    if (returnType == null) {
-                        return Flux.empty();
-                    } else {
-                        return response.bodyToFlux(returnType);
-                    }
-                } else {
-                    return Flux.error(new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler"));
-                }
-            });
+        return requestBuilder.retrieve().bodyToFlux(returnType);
     }
 
     private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {

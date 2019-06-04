@@ -22,16 +22,15 @@ Add a new pet to the store
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -64,6 +63,12 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**405** | Invalid input |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_pet**
@@ -73,16 +78,15 @@ Deletes a pet
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -117,6 +121,12 @@ void (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid pet value |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_status**
@@ -128,16 +138,15 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -171,6 +180,12 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid status value |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_tags**
@@ -182,16 +197,15 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -225,6 +239,12 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid tag value |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_pet_by_id**
@@ -236,16 +256,15 @@ Returns a single pet
 
 ### Example
 
-* Api Key Authentication (api_key): 
+* Api Key Authentication (api_key):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure API key authorization: api_key
 configuration = petstore_api.Configuration()
+# Configure API key authorization: api_key
 configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
@@ -281,6 +300,13 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid ID supplied |  -  |
+**404** | Pet not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
@@ -290,16 +316,15 @@ Update an existing pet
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -332,6 +357,14 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid ID supplied |  -  |
+**404** | Pet not found |  -  |
+**405** | Validation exception |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet_with_form**
@@ -341,16 +374,15 @@ Updates a pet in the store with form data
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -387,6 +419,11 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**405** | Invalid input |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file**
@@ -396,16 +433,15 @@ uploads an image
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -443,6 +479,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file_with_required_file**
@@ -452,16 +493,15 @@ uploads an image (required)
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -498,6 +538,11 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
