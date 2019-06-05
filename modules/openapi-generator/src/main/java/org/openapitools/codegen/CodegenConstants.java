@@ -69,6 +69,9 @@ public class CodegenConstants {
     public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
     public static final String WITH_GO_CODEGEN_COMMENT_DESC = "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs";
 
+    public static final String IS_GO_SUBMODULE = "isGoSubmodule";
+    public static final String IS_GO_SUBMODULE_DESC = "whether the generated Go module is a submodule";
+
     public static final String GROUP_ID = "groupId";
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 
