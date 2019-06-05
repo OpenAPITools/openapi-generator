@@ -4,6 +4,9 @@ package {{package}}
 {{/imports}}
 import org.junit.jupiter.api.Test
 
+{{#reactive}}
+import kotlinx.coroutines.flow.Flow;
+{{/reactive}}
 import org.springframework.http.ResponseEntity
 
 class {{classname}}Test {
