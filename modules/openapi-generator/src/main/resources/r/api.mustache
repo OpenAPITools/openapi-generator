@@ -32,7 +32,7 @@
       }
     },
     {{#operation}}
-    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
+    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -119,7 +119,8 @@
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}
-        httr::content(resp, "text", encoding = "UTF-8"
+        content <- httr::content(resp, "text", encoding = "UTF-8")
+        ApiResponse$new(content,resp)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         deserializedRespObj <- self$apiClient$deserialize(resp, "{{returnType}}", "package:{{packageName}}")
@@ -136,6 +137,18 @@
         ApiResponse$new("API server error", resp)
       }
 
+    },
+     
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
+      apiResponse <- self${{{operationId}}}WithHttpInfo({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
     }{{#hasMore}},{{/hasMore}}
     {{/operation}}
   )

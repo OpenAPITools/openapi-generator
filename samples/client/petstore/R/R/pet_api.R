@@ -56,7 +56,7 @@ PetApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    AddPet = function(body, ...){
+    AddPetWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -91,7 +91,19 @@ PetApi <- R6::R6Class(
       }
 
     },
-    DeletePet = function(pet.id, api.key=NULL, ...){
+     
+    AddPet = function(body, ...){
+      apiResponse <- self$AddPetWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    DeletePetWithHttpInfo = function(pet.id, api.key=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -126,7 +138,19 @@ PetApi <- R6::R6Class(
       }
 
     },
-    FindPetsByStatus = function(status, ...){
+     
+    DeletePet = function(pet.id, api.key=NULL, ...){
+      apiResponse <- self$DeletePetWithHttpInfo(pet.id, api.key=NULL, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    FindPetsByStatusWithHttpInfo = function(status, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -158,7 +182,19 @@ PetApi <- R6::R6Class(
       }
 
     },
-    FindPetsByTags = function(tags, ...){
+     
+    FindPetsByStatus = function(status, ...){
+      apiResponse <- self$FindPetsByStatusWithHttpInfo(status, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    FindPetsByTagsWithHttpInfo = function(tags, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -190,7 +226,19 @@ PetApi <- R6::R6Class(
       }
 
     },
-    GetPetById = function(pet.id, ...){
+     
+    FindPetsByTags = function(tags, ...){
+      apiResponse <- self$FindPetsByTagsWithHttpInfo(tags, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    GetPetByIdWithHttpInfo = function(pet.id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -226,7 +274,19 @@ PetApi <- R6::R6Class(
       }
 
     },
-    UpdatePet = function(body, ...){
+     
+    GetPetById = function(pet.id, ...){
+      apiResponse <- self$GetPetByIdWithHttpInfo(pet.id, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    UpdatePetWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -261,7 +321,19 @@ PetApi <- R6::R6Class(
       }
 
     },
-    UpdatePetWithForm = function(pet.id, name=NULL, status=NULL, ...){
+     
+    UpdatePet = function(body, ...){
+      apiResponse <- self$UpdatePetWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    UpdatePetWithFormWithHttpInfo = function(pet.id, name=NULL, status=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -299,7 +371,19 @@ PetApi <- R6::R6Class(
       }
 
     },
-    UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, ...){
+     
+    UpdatePetWithForm = function(pet.id, name=NULL, status=NULL, ...){
+      apiResponse <- self$UpdatePetWithFormWithHttpInfo(pet.id, name=NULL, status=NULL, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    UploadFileWithHttpInfo = function(pet.id, additional.metadata=NULL, file=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -337,6 +421,18 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
 
+    },
+     
+    UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, ...){
+      apiResponse <- self$UploadFileWithHttpInfo(pet.id, additional.metadata=NULL, file=NULL, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
     }
   )
 )

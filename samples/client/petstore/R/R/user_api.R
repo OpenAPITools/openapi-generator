@@ -56,7 +56,7 @@ UserApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    CreateUser = function(body, ...){
+    CreateUserWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -89,7 +89,19 @@ UserApi <- R6::R6Class(
       }
 
     },
-    CreateUsersWithArrayInput = function(body, ...){
+     
+    CreateUser = function(body, ...){
+      apiResponse <- self$CreateUserWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    CreateUsersWithArrayInputWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -122,7 +134,19 @@ UserApi <- R6::R6Class(
       }
 
     },
-    CreateUsersWithListInput = function(body, ...){
+     
+    CreateUsersWithArrayInput = function(body, ...){
+      apiResponse <- self$CreateUsersWithArrayInputWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    CreateUsersWithListInputWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -155,7 +179,19 @@ UserApi <- R6::R6Class(
       }
 
     },
-    DeleteUser = function(username, ...){
+     
+    CreateUsersWithListInput = function(body, ...){
+      apiResponse <- self$CreateUsersWithListInputWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    DeleteUserWithHttpInfo = function(username, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -186,7 +222,19 @@ UserApi <- R6::R6Class(
       }
 
     },
-    GetUserByName = function(username, ...){
+     
+    DeleteUser = function(username, ...){
+      apiResponse <- self$DeleteUserWithHttpInfo(username, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    GetUserByNameWithHttpInfo = function(username, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -218,7 +266,19 @@ UserApi <- R6::R6Class(
       }
 
     },
-    LoginUser = function(username, password, ...){
+     
+    GetUserByName = function(username, ...){
+      apiResponse <- self$GetUserByNameWithHttpInfo(username, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    LoginUserWithHttpInfo = function(username, password, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -254,7 +314,19 @@ UserApi <- R6::R6Class(
       }
 
     },
-    LogoutUser = function(...){
+     
+    LoginUser = function(username, password, ...){
+      apiResponse <- self$LoginUserWithHttpInfo(username, password, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    LogoutUserWithHttpInfo = function(...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -277,7 +349,19 @@ UserApi <- R6::R6Class(
       }
 
     },
-    UpdateUser = function(username, body, ...){
+     
+    LogoutUser = function(...){
+      apiResponse <- self$LogoutUserWithHttpInfo(...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+    UpdateUserWithHttpInfo = function(username, body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -317,6 +401,18 @@ UserApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
 
+    },
+     
+    UpdateUser = function(username, body, ...){
+      apiResponse <- self$UpdateUserWithHttpInfo(username, body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
     }
   )
 )
