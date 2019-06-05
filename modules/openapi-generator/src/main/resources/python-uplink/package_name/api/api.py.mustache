@@ -17,9 +17,11 @@ from uplink.types import *  # type hints for return types
 
 from .consumer import BaseApiConsumer
 from ..decorators import *  # http methods, security, media_type
+{{! TODO: Fix schema imports possibly by removing the modesl from imports altogether. }}
+from {{modelPackage}} import *
 {{#operations}}
 {{#imports}}
-{{import}}  # TODO: fix Schema import
+{{import}}
 {{/imports}}
 
 __all__ = ["{{classname}}"]
