@@ -27,7 +27,6 @@ from {{modelPackage}} import *
 __all__ = ["{{classname}}"]
 
 
-{{#vendorExtensions}}
 {{#useClassSecurity}}
 @security({{#allOpsAuthMethods}}"{{{name}}}"{{#hasMore}}, {{/hasMore}}{{/allOpsAuthMethods}})
 {{/useClassSecurity}}
@@ -44,12 +43,11 @@ __all__ = ["{{classname}}"]
 @returns.json  # deserialization
 {{/allOpsReturnJson}}
 {{#useClassMimeType}}
-@mime_type(
+@media_type(
     content_type=[{{#classContentTypes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/classContentTypes}}],
     accept=[{{#classAcceptMimeTypes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/classAcceptMimeTypes}}],
 )
 {{/useClassMimeType}}
-{{/vendorExtensions}}
 class {{classname}}(BaseApiConsumer):
     """
     Operations that work with {{baseName}} tag
@@ -78,7 +76,7 @@ class {{classname}}(BaseApiConsumer):
 {{/isMultipartOp}}
 {{/allOpsSendMultipart}}
 {{^useClassMimeType}}
-    @mime_type(
+    @media_type(
     {{#hasConsumes}}
         content_type=[{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}],
     {{/hasConsumes}}
@@ -88,12 +86,14 @@ class {{classname}}(BaseApiConsumer):
     )
 {{/useClassMimeType}}
 {{#returnType}}
-    @returns{{#OpReturnsJson}}json{{/OpReturnsJson}}({{returnType}})
+    @returns{{#OpReturnsJson}}.json{{/OpReturnsJson}}({{returnType}})
 {{/returnType}}
 {{^returnType}}
+{{^allOpsSendJson}}
 {{#OpReturnsJson}}
     @returns.json
 {{/OpReturnsJson}}
+{{/allOpsSendJson}}
 {{/returnType}}
 {{/vendorExtensions}}
     @{{httpMethod}}("{{{path}}}", args={
