@@ -47,7 +47,7 @@ Update major version (1.2.3 -> 2.0.0)
 "
 
 version=$(ruby -r rexml/document -e 'include REXML;
-     p XPath.first(Document.new($stdin), "/project/version/text()")' < ${cwd}/../../../pom.xml)
+     p XPath.first(Document.new($stdin), "/project/version/text()")' < ${cwd}/../../../pom.xml | tr -d '"')
 
 if [[ -n "$1" ]]; then
     case $1 in
