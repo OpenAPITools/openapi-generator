@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
-# usage: ./bin/utils/release_version_update.sh 3.0.1-SNAPSHOT 3.0.1
+# This script is used to update reference files to the "next" version.
+#
+# usage: ./bin/utils/release_version_update.sh <from> <to>
+# example: ./bin/utils/release_version_update.sh 3.0.1 3.0.2
 #
 # Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
 #
@@ -20,14 +23,14 @@
 if [[ "$1" != "" ]]; then
     FROM="$1"
 else
-    echo "Missing argument. Usage e.g.: ./bin/utils/release_version_update.sh 3.0.1-SNAPSHOT 3.0.1"
+    echo "Missing argument. Usage e.g.: ./bin/utils/release_version_update.sh 3.0.1 3.0.2"
     exit 1;
 fi
 
 if [[ "$2" != "" ]]; then
     TO="$2"
 else
-    echo "Missing argument. Usage e.g.: ./bin/utils/release_version_update.sh 3.0.1-SNAPSHOT 3.0.1"
+    echo "Missing argument. Usage e.g.: ./bin/utils/release_version_update.sh 3.0.1 3.0.2"
     exit 1;
 fi
 

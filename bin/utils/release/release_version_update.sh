@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
-# usage: ./bin/utils/release_version_update.sh 3.0.1-SNAPSHOT 3.0.1
+# This script is used to update files to the "latest" version.
+#
+# usage: ./bin/utils/release_version_update.sh <from> <to>
+# example: ./bin/utils/release_version_update.sh 3.0.1-SNAPSHOT 3.0.1
 #
 # Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
 #
@@ -16,6 +19,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+declare cwd=$(cd $(dirname "${BASH_SOURCE}") && pwd)
 
 if [[ "$1" != "" ]]; then
     FROM="$1"
@@ -33,10 +38,9 @@ fi
 
 echo "Release preparation: replacing $FROM with $TO in different files"
 
-# This script assumes the files defined here have a version surrounded by angle brackets within an xml node.
-# For example, >4.0.0< becomes >4.0.1-SNAPSHOT<.
-# Verify the sed command below against a file before adding here.
-declare -a files=("modules/openapi-generator-cli/pom.xml"
+# These files should wrap target version replacement blocks with <!-- RELEASE_VERSION --> and <!-- /RELEASE_VERSION -->
+# We can include xml and md files here.
+declare -a xml_files=("modules/openapi-generator-cli/pom.xml"
                   "modules/openapi-generator-gradle-plugin/pom.xml"
                   "modules/openapi-generator-core/pom.xml"
                   "modules/openapi-generator-maven-plugin/pom.xml"
@@ -45,18 +49,16 @@ declare -a files=("modules/openapi-generator-cli/pom.xml"
                   "samples/meta-codegen/lib/pom.xml"
                   "pom.xml")
 
-sedi () {
-  # Cross-platform version of sed -i that works both on Mac and Linux
-  sed --version >/dev/null 2>&1 && sed -i -e "$@" || sed -i "" "$@"
-}
+# These files should wrap target version replacement blocks with # RELEASE_VERSION and # /RELEASE_VERSION
+declare -a properties_files=(
+    "modules/openapi-generator-gradle-plugin/gradle.properties"
+)
 
-for filename in "${files[@]}"; do
-  # e.g. sed -i '' "s/3.0.1-SNAPSHOT/3.0.1/g" CI/pom.xml.bash
-  #echo "Running command: sed -i '' "s/$FROM/$TO/g" $filename"
-  if sedi "s/>$FROM</>$TO</g" $filename; then
-    echo "Updated $filename successfully!"
-  else
-    echo "ERROR: Failed to update $filename with the following command"
-    echo "sed -i '' \"s/$FROM/$TO/g\" $filename"
-  fi
+for filename in "${xml_files[@]}"; do
+  ${cwd}/bump.sh -f $FROM -t $TO $filename
 done
+
+for filename in "${properties_files[@]}"; do
+  ${cwd}/bump.sh -f $FROM -t $TO -s '# RELEASE_VERSION' -e '# \/RELEASE_VERSION' $filename
+done
+
