@@ -21,6 +21,7 @@
 #
 
 declare cwd=$(cd $(dirname "${BASH_SOURCE}") && pwd)
+declare root=$(cd "$cwd" && cd ../../../ && pwd)
 
 USAGE="
 USAGE: $0 target
@@ -71,22 +72,22 @@ echo "Release preparation: Moving from $version to next $inc version."
 # These files should wrap target version replacement blocks with <!-- RELEASE_VERSION --> and <!-- /RELEASE_VERSION -->
 # We can include xml and md files here.
 declare -a xml_files=("modules/openapi-generator-cli/pom.xml"
-                  "modules/openapi-generator-gradle-plugin/pom.xml"
-                  "modules/openapi-generator-core/pom.xml"
-                  "modules/openapi-generator-maven-plugin/pom.xml"
-                  "modules/openapi-generator-online/pom.xml"
-                  "modules/openapi-generator/pom.xml"
-                  "modules/openapi-generator-maven-plugin/examples/multi-module/java-client/pom.xml"
-                  "modules/openapi-generator-maven-plugin/examples/java-client.xml"
-                  "modules/openapi-generator-maven-plugin/examples/non-java-invalid-spec.xml"
-                  "modules/openapi-generator-maven-plugin/examples/non-java.xml"
-                  "samples/meta-codegen/lib/pom.xml"
-                  "pom.xml")
+                  "${root}/modules/openapi-generator-gradle-plugin/pom.xml"
+                  "${root}/modules/openapi-generator-core/pom.xml"
+                  "${root}/modules/openapi-generator-maven-plugin/pom.xml"
+                  "${root}/modules/openapi-generator-online/pom.xml"
+                  "${root}/modules/openapi-generator/pom.xml"
+                  "${root}/modules/openapi-generator-maven-plugin/examples/multi-module/java-client/pom.xml"
+                  "${root}/modules/openapi-generator-maven-plugin/examples/java-client.xml"
+                  "${root}/modules/openapi-generator-maven-plugin/examples/non-java-invalid-spec.xml"
+                  "${root}/modules/openapi-generator-maven-plugin/examples/non-java.xml"
+                  "${root}/samples/meta-codegen/lib/pom.xml"
+                  "${root}/pom.xml")
 
 # These files should wrap target version replacement blocks with # RELEASE_VERSION and # /RELEASE_VERSION
 declare -a properties_files=(
-    "modules/openapi-generator-gradle-plugin/gradle.properties"
-    "modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
+    "${root}/modules/openapi-generator-gradle-plugin/gradle.properties"
+    "${root}/modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
 )
 
 ${cwd}/bump.sh -f ${version} -i ${inc} ${xml_files[@]}

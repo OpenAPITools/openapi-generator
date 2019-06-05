@@ -21,6 +21,7 @@
 #
 
 declare cwd=$(cd $(dirname "${BASH_SOURCE}") && pwd)
+declare root=$(cd "$cwd" && cd ../../../ && pwd)
 
 USAGE="
 USAGE: $0 [version] target
@@ -101,13 +102,13 @@ else
 fi
 
 declare -a xml_files=(
-    "modules/openapi-generator-maven-plugin/README.md"
-    "modules/openapi-generator-gradle-plugin/samples/local-spec/README.md"
-    "README.md"
+    "${root}/modules/openapi-generator-maven-plugin/README.md"
+    "${root}/modules/openapi-generator-gradle-plugin/samples/local-spec/README.md"
+    "${root}/README.md"
 )
 
 declare -a commented_files=(
-    "modules/openapi-generator-gradle-plugin/README.adoc"
+    "${root}/modules/openapi-generator-gradle-plugin/README.adoc"
 )
 
 ${cwd}/bump.sh ${ags} ${xml_files[@]}
