@@ -25,6 +25,7 @@ declare -a scripts=(
 "./bin/kotlin-client-threetenbp.sh"
 "./bin/kotlin-server-petstore.sh"
 "./bin/kotlin-springboot-petstore-server.sh"
+"./bin/kotlin-springboot-petstore-server-reactive.sh"
 "./bin/mysql-schema-petstore.sh"
 "./bin/python-petstore-all.sh"
 "./bin/openapi3/python-petstore.sh"
