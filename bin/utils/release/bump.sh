@@ -181,7 +181,7 @@ fi
 
 cat <<EOF > sedscript.sed
 /${start}/,/${end}/{
-    s/${from}/${to}/
+    s/${from}/${to}/g
 }
 EOF
 
