@@ -20,46 +20,95 @@
 # limitations under the License.
 #
 
-if [[ "$1" != "" ]]; then
-    FROM="$1"
-else
-    echo "Missing argument. Usage e.g.: ./bin/utils/release_version_update.sh 3.0.1 3.0.2"
-    exit 1;
+declare cwd=$(cd $(dirname "${BASH_SOURCE}") && pwd)
+
+USAGE="
+USAGE: $0 [version] target
+
+  This script will convert the specified version in DOC target files to the 'target'
+  where target is one of:
+
+      major
+      minor
+      build
+
+  or an explicitly defined version number.
+
+NOTE:
+
+  Files prepped by this script should never target SNAPSHOT, as the docs should refer to release artifacts.
+  If intending to update to/from snapshots, please add target files to release_version_update.sh instead.
+
+EXAMPLES:
+
+Update build version (1.0.0 -> 1.0.1)
+    $0 build
+Update minor version (1.2.3 -> 1.3.0)
+    $0 minor
+Update major version (1.2.3 -> 2.0.0)
+    $0 major
+"
+
+declare version=$(ruby -r rexml/document -e 'include REXML;
+     p XPath.first(Document.new($stdin), "/project/version/text()")' < ${cwd}/../../../pom.xml)
+
+declare target="${2:-build}"
+declare inc=""
+declare next_version=""
+declare ags=""
+
+if [[ -z "$1" ]]; then
+    echo "Missing argument." >&2
+    echo -e "$USAGE" >&2
+    exit 1
 fi
 
-if [[ "$2" != "" ]]; then
-    TO="$2"
+# Get version number we're changing
+case $1 in
+    --help|-h)
+        echo -e "$USAGE" >&2
+        exit 1
+        ;;
+    *)
+        version="$1"
+        ;;
+esac
+
+# Get the target…
+case ${target} in
+    major|minor|build)
+        inc="$target"
+        ;;
+    snapshot)
+        echo -e "Files prepped by this script should never target SNAPSHOT, as the docs should refer to release artifacts.
+        If intending to update to/from snapshots, please add target files to release_version_update.sh instead.
+        " >&2
+        exit 1
+        ;;
+    *)
+        next_version="$target"
+        ;;
+esac
+
+ags="-f ${version}"
+
+if [[ -n "${next_version}" ]];then
+    echo "Release preparation: Moving from $version to ${next_version}."
+    ags="$ags -t ${next_version}"
 else
-    echo "Missing argument. Usage e.g.: ./bin/utils/release_version_update.sh 3.0.1 3.0.2"
-    exit 1;
+    echo "Release preparation: Moving from $version to next $inc version."
+    ags="$ags -i ${inc}"
 fi
 
-echo "Release preparation: replacing $FROM with $TO in different files"
+declare -a xml_files=(
+    "modules/openapi-generator-maven-plugin/README.md"
+    "modules/openapi-generator-gradle-plugin/samples/local-spec/README.md"
+    "README.md"
+)
 
-declare -a files=("modules/openapi-generator-maven-plugin/README.md"
-                  "modules/openapi-generator-maven-plugin/examples/multi-module/java-client/pom.xml"
-                  "modules/openapi-generator-maven-plugin/examples/java-client.xml"
-                  "modules/openapi-generator-maven-plugin/examples/non-java-invalid-spec.xml"
-                  "modules/openapi-generator-maven-plugin/examples/non-java.xml"
-                  "modules/openapi-generator-gradle-plugin/README.adoc"
-                  "modules/openapi-generator-gradle-plugin/gradle.properties"
-                  "modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
-                  "modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle"
-                  "modules/openapi-generator-gradle-plugin/samples/local-spec/README.md"
-                  "README.md")
+declare -a commented_files=(
+    "modules/openapi-generator-gradle-plugin/README.adoc"
+)
 
-sedi () {
-  # Cross-platform version of sed -i that works both on Mac and Linux
-  sed --version >/dev/null 2>&1 && sed -i -e "$@" || sed -i "" "$@"
-}
-
-for filename in "${files[@]}"; do
-  # e.g. sed -i '' "s/3.0.1-SNAPSHOT/3.0.1/g" CI/pom.xml.bash
-  #echo "Running command: sed -i '' "s/$FROM/$TO/g" $filename"
-  if sedi "s/$FROM/$TO/g" $filename; then
-    echo "Updated $filename successfully!"
-  else
-    echo "ERROR: Failed to update $filename with the following command"
-    echo "sed -i '' \"s/$FROM/$TO/g\" $filename"
-  fi
-done
+${cwd}/bump.sh ${ags} ${xml_files[@]}
+${cwd}/bump.sh ${ags} -s '# RELEASE_VERSION' -e '# \/RELEASE_VERSION' ${commented_files[@]}

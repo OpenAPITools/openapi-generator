@@ -76,12 +76,17 @@ declare -a xml_files=("modules/openapi-generator-cli/pom.xml"
                   "modules/openapi-generator-maven-plugin/pom.xml"
                   "modules/openapi-generator-online/pom.xml"
                   "modules/openapi-generator/pom.xml"
+                  "modules/openapi-generator-maven-plugin/examples/multi-module/java-client/pom.xml"
+                  "modules/openapi-generator-maven-plugin/examples/java-client.xml"
+                  "modules/openapi-generator-maven-plugin/examples/non-java-invalid-spec.xml"
+                  "modules/openapi-generator-maven-plugin/examples/non-java.xml"
                   "samples/meta-codegen/lib/pom.xml"
                   "pom.xml")
 
 # These files should wrap target version replacement blocks with # RELEASE_VERSION and # /RELEASE_VERSION
 declare -a properties_files=(
     "modules/openapi-generator-gradle-plugin/gradle.properties"
+    "modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
 )
 
 ${cwd}/bump.sh -f ${version} -i ${inc} ${xml_files[@]}
