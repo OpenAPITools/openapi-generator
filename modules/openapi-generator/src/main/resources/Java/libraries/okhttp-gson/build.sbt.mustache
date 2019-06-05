@@ -9,11 +9,11 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
-      "io.swagger" % "swagger-annotations" % "1.5.21",
-      "com.squareup.okhttp3" % "okhttp" % "3.13.1",
-      "com.squareup.okhttp3" % "logging-interceptor" % "3.13.1",
+      "io.swagger" % "swagger-annotations" % "1.5.22",
+      "com.squareup.okhttp3" % "okhttp" % "3.14.2",
+      "com.squareup.okhttp3" % "logging-interceptor" % "3.14.2",
       "com.google.code.gson" % "gson" % "2.8.5",
-      "org.apache.commons" % "commons-lang3" % "3.8.1",
+      "org.apache.commons" % "commons-lang3" % "3.9",
       {{#hasOAuthMethods}}
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1",
       {{/hasOAuthMethods}}
