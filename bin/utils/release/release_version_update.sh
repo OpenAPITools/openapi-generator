@@ -22,21 +22,51 @@
 
 declare cwd=$(cd $(dirname "${BASH_SOURCE}") && pwd)
 
-if [[ "$1" != "" ]]; then
-    FROM="$1"
+USAGE="
+USAGE: $0 target
+
+  This script will convert the current version in target files to the specified 'target'
+  where target is one of:
+
+  major
+  minor
+  build
+  snapshot
+
+EXAMPLES:
+
+Update to new snapshot (1.0.0 -> 1.0.1-SNAPSHOT):
+    $0 snapshot
+Update build version (1.0.0 -> 1.0.1)
+    $0 build
+Update minor version (1.2.3 -> 1.3.0)
+    $0 minor
+Update major version (1.2.3 -> 2.0.0)
+    $0 major
+"
+
+version=$(ruby -r rexml/document -e 'include REXML;
+     p XPath.first(Document.new($stdin), "/project/version/text()")' < ${cwd}/../../../pom.xml)
+
+if [[ -n "$1" ]]; then
+    case $1 in
+        --help|-h)
+            echo -e "$USAGE" >&2
+            exit 1
+            ;;
+        major|minor|build|snapshot)
+            inc="$1"
+            ;;
+        *)
+            echo "Invalid target.Must be one of: major minor build or snapshot" >&2
+            exit 1
+            ;;
+    esac
 else
-    echo "Missing argument. Usage e.g.: ./bin/utils/release_version_update.sh 3.0.1-SNAPSHOT 3.0.1"
-    exit 1;
+    inc="snapshot"
 fi
 
-if [[ "$2" != "" ]]; then
-    TO="$2"
-else
-    echo "Missing argument. Usage e.g.: ./bin/utils/release_version_update.sh 3.0.1-SNAPSHOT 3.0.1"
-    exit 1;
-fi
-
-echo "Release preparation: replacing $FROM with $TO in different files"
+echo "Release preparation: Moving from $version to next $inc version."
 
 # These files should wrap target version replacement blocks with <!-- RELEASE_VERSION --> and <!-- /RELEASE_VERSION -->
 # We can include xml and md files here.
@@ -54,11 +84,5 @@ declare -a properties_files=(
     "modules/openapi-generator-gradle-plugin/gradle.properties"
 )
 
-for filename in "${xml_files[@]}"; do
-  ${cwd}/bump.sh -f $FROM -t $TO $filename
-done
-
-for filename in "${properties_files[@]}"; do
-  ${cwd}/bump.sh -f $FROM -t $TO -s '# RELEASE_VERSION' -e '# \/RELEASE_VERSION' $filename
-done
-
+${cwd}/bump.sh -f ${version} -i ${inc} ${xml_files[@]}
+${cwd}/bump.sh -f ${version} -t ${inc} -s '# RELEASE_VERSION' -e '# \/RELEASE_VERSION' ${properties_files[@]}

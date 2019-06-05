@@ -22,10 +22,10 @@ declare start="<!-- RELEASE_VERSION -->"
 declare end="<!-- \/RELEASE_VERSION -->"
 declare from="${version_regex}"
 declare to=""
-declare file=""
 declare debug=${debug:-false}
 declare -a from_parts=()
 declare -a to_parts=()
+declare -ar inc=(major minor build snapshot)
 
 USAGE="
 USAGE: $0 OPTIONS input_file
@@ -39,6 +39,7 @@ OPTIONS:
        default: $start
     -e The end tag regex
        default: $end
+    -i Increase by one of: ${inc[@]}
     -h Print this message
 
 EXAMPLES:
@@ -100,7 +101,7 @@ version()
     fi
 }
 
-while getopts "hf:t:s:e:" OPTION
+while getopts "hf:t:s:e:i:" OPTION
 do
   case ${OPTION} in
     f)
@@ -115,6 +116,12 @@ do
     e)
         end=${OPTARG}
         ;;
+    i)
+        increase=${OPTARG}
+        if [[ ! "${inc[@]}" =~ ${increase} ]];then
+            err "Only support increasing by one of: ${inc[@]}"
+        fi
+        ;;
     h)
         usage
         ;;
@@ -122,9 +129,9 @@ do
 done
 
 shift $((OPTIND-1))
-file="${1}"
+file=( "$@" )
 
-if [[ -z "${file}" ]];then
+if [[ ${#file[@]} -eq 0 ]];then
    echo "No file specified" >&2
    usage
 fi
@@ -132,14 +139,41 @@ fi
 if [[ -z "${from}" ]]; then
    err "No 'from' version specified."
 fi
-if [[ -z "${to}" ]]; then
-   err "No 'to' version specified."
-fi
 
 # TODO: compare steps in from_parts and to_parts.
 # This could be further automated to support bump levels (major/minor/build/SNAPSHOT)
 version "${from}" from_parts
-version "${to}" to_parts
+
+if [[ -z "${to}" ]]; then
+   if [[ -z "${increase}" ]]; then
+    err "No 'to' version specified."
+   else
+    case ${increase} in
+        major)
+            to="$(( ${from_parts[0]} + 1 )).0.0"
+            version "$to" to_parts
+            ;;
+        minor)
+            to="${from_parts[0]}.$(( ${from_parts[1]} + 1 )).0"
+            version "$to" to_parts
+            ;;
+        build)
+            to="${from_parts[0]}.${from_parts[1]}.$(( ${from_parts[2]} + 1 ))"
+            version "$to" to_parts
+            ;;
+        snapshot)
+            if [[ true = ${from_parts[3]} ]]; then
+                err "Can't move from SNAPSHOT to SNAPSHOT (from=${from})."
+            else
+                to="${from_parts[0]}.${from_parts[1]}.$(( ${from_parts[2]} + 1 ))-SNAPSHOT"
+                version "$to" to_parts
+            fi
+            ;;
+    esac
+   fi
+else
+    version "${to}" to_parts
+fi
 
 if [[ ${from_parts[3]} = true && ${to_parts[3]} = true ]]; then
     err "Moving from SNAPSHOT to SNAPSHOT is not supported."
@@ -151,18 +185,21 @@ cat <<EOF > sedscript.sed
 }
 EOF
 
+d "Moving from=${from} to=${to}"
+
 trap 'rm -f sedscript.sed' EXIT
 
 sed_cross () {
-  # Cross-platform sed invocation
-  sed --version >/dev/null 2>&1 && sed -E -i '' -f sedscript.sed "$@" || sed -i '' -f sedscript.sed "$@"
+  # Cross-platform sed invocation. OSX has no option to show a version number in sed.
+  local target=$1
+  sed --version >/dev/null 2>&1 && sed -e -i '' -f sedscript.sed "$target" || sed -i '' -E -f sedscript.sed "$target"
 }
 
-d "Moving from ${from} to ${to}: $file"
-
-if sed_cross $file; then
-    echo "Updated $file successfully!"
-else
-    echo "ERROR: Failed to update $file to target version ${to}" >&2
-fi
+for filename in "${file[@]}"; do
+    if sed_cross ${filename}; then
+        echo "Updated $filename successfully!"
+    else
+        echo "ERROR: Failed to update $filename to target version ${to}" >&2
+    fi
+done
 
