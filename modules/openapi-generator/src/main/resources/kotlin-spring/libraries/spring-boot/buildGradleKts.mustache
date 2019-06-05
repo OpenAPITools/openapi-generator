@@ -54,6 +54,9 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
+{{#reactive}}
+	testCompile("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
+{{/reactive}}
 }
 
 repositories {
