@@ -114,7 +114,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
         }
 
-        if (additionalProperties.containsKey(WITH_GO_CODEGEN_COMMENT)) {
+        if (additionalProperties.containsKey(CodegenConstants.IS_GO_SUBMODULE)) {
             setIsGoSubmodule(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.IS_GO_SUBMODULE).toString()));
             if (isGoSubmodule) {
                 additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, "true");
