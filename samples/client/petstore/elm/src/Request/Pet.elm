@@ -10,7 +10,7 @@
 -}
 
 
-module Request.Pet exposing (addPet, deletePet, findPetsByStatus, findPetsByTags, getPetById, updatePet, updatePetWithForm, uploadFile)
+module Request.Pet exposing (Status(..), addPet, deletePet, findPetsByStatus, findPetsByTags, getPetById, updatePet, updatePetWithForm, uploadFile)
 
 import Data.ApiResponse as ApiResponse exposing (ApiResponse)
 import Data.Pet as Pet exposing (Pet)
@@ -18,6 +18,25 @@ import Dict
 import Http
 import Json.Decode as Decode
 import Url.Builder as Url
+
+
+type Status
+    = Available
+    | Pending
+    | Sold
+
+
+statusToString : Status -> String
+statusToString value =
+    case value of
+        Available ->
+            "available"
+
+        Pending ->
+            "pending"
+
+        Sold ->
+            "sold"
 
 
 basePath : String
@@ -72,7 +91,7 @@ deletePet headers params =
 -}
 findPetsByStatus :
     { onSend : Result Http.Error (List Pet) -> msg
-    , status : List String
+    , status : List Status
     }
     -> Cmd msg
 findPetsByStatus params =
@@ -82,7 +101,7 @@ findPetsByStatus params =
         , url =
             Url.crossOrigin basePath
                 [ "pet", "findByStatus" ]
-                (List.filterMap identity [ Just (Url.string "status" <| String.join "," params.status) ])
+                (List.filterMap identity [ Just (Url.string "status" <| (String.join "," << List.map statusToString) params.status) ])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend (Decode.list Pet.decoder)
         , timeout = Just 30000

@@ -93,6 +93,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         typeMapping.put("date", "inst?");
         typeMapping.put("DateTime", "inst?");
         typeMapping.put("UUID", "uuid?");
+        typeMapping.put("URI", "string?");
 
         // But some type mappings are not really worth/meaningful to check for:
         typeMapping.put("object", "any?"); // Like, everything is an object.

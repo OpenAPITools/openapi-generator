@@ -248,18 +248,12 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Integer != null)
-                    hashCode = hashCode * 59 + this.Integer.GetHashCode();
-                if (this.Int32 != null)
-                    hashCode = hashCode * 59 + this.Int32.GetHashCode();
-                if (this.Int64 != null)
-                    hashCode = hashCode * 59 + this.Int64.GetHashCode();
-                if (this.Number != null)
-                    hashCode = hashCode * 59 + this.Number.GetHashCode();
-                if (this.Float != null)
-                    hashCode = hashCode * 59 + this.Float.GetHashCode();
-                if (this.Double != null)
-                    hashCode = hashCode * 59 + this.Double.GetHashCode();
+                hashCode = hashCode * 59 + this.Integer.GetHashCode();
+                hashCode = hashCode * 59 + this.Int32.GetHashCode();
+                hashCode = hashCode * 59 + this.Int64.GetHashCode();
+                hashCode = hashCode * 59 + this.Number.GetHashCode();
+                hashCode = hashCode * 59 + this.Float.GetHashCode();
+                hashCode = hashCode * 59 + this.Double.GetHashCode();
                 if (this.String != null)
                     hashCode = hashCode * 59 + this.String.GetHashCode();
                 if (this.Byte != null)

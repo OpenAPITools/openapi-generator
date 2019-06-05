@@ -146,6 +146,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "utility::string_t");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "utility::string_t");
+        typeMapping.put("URI", "utility::string_t");
         typeMapping.put("ByteArray", "utility::string_t");
 
         super.importMapping = new HashMap<String, String>();

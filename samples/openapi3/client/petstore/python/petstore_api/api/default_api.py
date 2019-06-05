@@ -44,17 +44,20 @@ class DefaultApi(object):
         >>> thread = api.foo_get(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: InlineResponseDefault
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.foo_get_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.foo_get_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
     def foo_get_with_http_info(self, **kwargs):  # noqa: E501
         """foo_get  # noqa: E501
@@ -64,8 +67,17 @@ class DefaultApi(object):
         >>> thread = api.foo_get_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :return: InlineResponseDefault
+        :param async_req bool: execute request asynchronously
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(InlineResponseDefault, status_code(int), headers(HTTPHeaderDict))
                  If the method is called asynchronously,
                  returns the request thread.
         """

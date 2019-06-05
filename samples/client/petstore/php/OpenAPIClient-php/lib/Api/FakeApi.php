@@ -2807,7 +2807,7 @@ class FakeApi
      */
     public function testGroupParametersWithHttpInfo($associative_array)
     {
-        $request = $this->testGroupParametersRequest($associative_array['required_string_group'], $associative_array['required_boolean_group'], $associative_array['required_int64_group'], $associative_array['string_group'], $associative_array['boolean_group'], $associative_array['int64_group']);
+        $request = $this->testGroupParametersRequest($associative_array);
 
         try {
             $options = $this->createHttpClientOption();
