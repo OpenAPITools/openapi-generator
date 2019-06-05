@@ -16,8 +16,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using Org.OpenAPITools.Attributes;
-using Org.OpenAPITools.Models;
 using Microsoft.AspNetCore.Authorization;
+using Org.OpenAPITools.Models;
 
 namespace Org.OpenAPITools.Controllers
 { 

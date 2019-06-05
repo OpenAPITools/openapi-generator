@@ -40,6 +40,18 @@ pub const API_VERSION: &'static str = "1.0.7";
 
 
 #[derive(Debug, PartialEq)]
+pub enum MultipleAuthSchemeGetResponse {
+    /// Check that limiting to multiple required auth schemes works
+    CheckThatLimitingToMultipleRequiredAuthSchemesWorks ,
+}
+
+#[derive(Debug, PartialEq)]
+pub enum ReadonlyAuthSchemeGetResponse {
+    /// Check that limiting to a single required auth scheme works
+    CheckThatLimitingToASingleRequiredAuthSchemeWorks ,
+}
+
+#[derive(Debug, PartialEq)]
 pub enum RequiredOctetStreamPutResponse {
     /// OK
     OK ,
@@ -90,6 +102,12 @@ pub enum XmlPutResponse {
 pub trait Api<C> {
 
 
+    fn multiple_auth_scheme_get(&self, context: &C) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
+
+
+    fn readonly_auth_scheme_get(&self, context: &C) -> Box<Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>>;
+
+
     fn required_octet_stream_put(&self, body: swagger::ByteArray, context: &C) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
 
 
@@ -111,6 +129,12 @@ pub trait Api<C> {
 
 /// API without a `Context`
 pub trait ApiNoContext {
+
+
+    fn multiple_auth_scheme_get(&self) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
+
+
+    fn readonly_auth_scheme_get(&self) -> Box<Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>>;
 
 
     fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
@@ -145,6 +169,16 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 }
 
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
+
+
+    fn multiple_auth_scheme_get(&self) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {
+        self.api().multiple_auth_scheme_get(&self.context())
+    }
+
+
+    fn readonly_auth_scheme_get(&self) -> Box<Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>> {
+        self.api().readonly_auth_scheme_get(&self.context())
+    }
 
 
     fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {

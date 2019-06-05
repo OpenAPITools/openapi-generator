@@ -33,9 +33,15 @@ namespace {{apiPackage}}
         /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
-        [Route("{{{basePathWithoutHost}}}{{{path}}}")]{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}
-        [Authorize(Policy = "{{name}}")]{{/isApiKey}}{{#isBasicBearer}}
-        [Authorize{{#hasScopes}}(Roles = "{{#scopes}}{{scope}}{{#hasMore}},{{/hasMore}}{{/scopes}}"){{/hasScopes}}]{{/isBasicBearer}}{{/authMethods}}{{/hasAuthMethods}}
+        [Route("{{{basePathWithoutHost}}}{{{path}}}")]
+{{#authMethods}}
+{{#isApiKey}}
+        [Authorize(Policy = "{{name}}")]
+{{/isApiKey}}
+{{#isBasicBearer}}
+        [Authorize{{#scopes}}{{#-first}}(Roles = "{{/-first}}{{scope}}{{^-last}},{{/-last}}{{#-last}}"){{/-last}}{{/scopes}}]
+{{/isBasicBearer}}
+{{/authMethods}}
         [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}{{^useSwashbuckle}}{{#responses}}{{#dataType}}
