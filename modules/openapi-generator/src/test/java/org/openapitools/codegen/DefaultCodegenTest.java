@@ -622,4 +622,20 @@ public class DefaultCodegenTest {
         Map<String, Object> objs = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm)));
         return objs;
     }
+
+    @Test
+    public void objectQueryParamIdentifyAsObject() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/objectQueryParam.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Set<String> imports = new HashSet<>();
+        CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/pony").getGet().getParameters().get(0), imports);
+
+        Assert.assertEquals(parameter.dataType, "PageQuery");
+        Assert.assertEquals(imports.size(), 1);
+        Assert.assertEquals(imports.iterator().next(), "PageQuery");
+    }
+
 }
