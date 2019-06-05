@@ -14,7 +14,7 @@ test_that("AddPet", {
   #               status="available")
   result <-petApi$AddPet(pet)
   expect_equal(petId, 123321)
-  expect_equal(result$content, NULL)
+  expect_equal(result, NULL)
 })
 
 test_that("Test Pet", {
