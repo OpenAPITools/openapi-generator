@@ -24,7 +24,7 @@ declare cwd=$(cd $(dirname "${BASH_SOURCE}") && pwd)
 declare root=$(cd "$cwd" && cd ../../../ && pwd)
 
 USAGE="
-USAGE: $0 [version] target
+USAGE: $0 version target
 
   This script will convert the specified version in DOC target files to the 'target'
   where target is one of:
@@ -43,11 +43,11 @@ NOTE:
 EXAMPLES:
 
 Update build version (1.0.0 -> 1.0.1)
-    $0 build
+    $0 1.0.0 build
 Update minor version (1.2.3 -> 1.3.0)
-    $0 minor
+    $0 1.2.3 minor
 Update major version (1.2.3 -> 2.0.0)
-    $0 major
+    $0 1.2.3 major
 "
 
 declare version=$(ruby -r rexml/document -e 'include REXML;
