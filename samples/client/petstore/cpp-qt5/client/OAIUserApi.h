@@ -76,23 +76,23 @@ signals:
     void logoutUserSignalFull(OAIHttpRequestWorker* worker);
     void updateUserSignalFull(OAIHttpRequestWorker* worker);
     
-    void createUserSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void createUsersWithArrayInputSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void createUsersWithListInputSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void deleteUserSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getUserByNameSignalE(OAIUser summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void loginUserSignalE(QString summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void logoutUserSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void updateUserSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
+    void createUserSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void createUsersWithArrayInputSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void createUsersWithListInputSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void deleteUserSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void getUserByNameSignalE(OAIUser summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void loginUserSignalE(QString summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void logoutUserSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void updateUserSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     
-    void createUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void createUsersWithArrayInputSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void createUsersWithListInputSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void deleteUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getUserByNameSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void loginUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void logoutUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void updateUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    void createUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void createUsersWithArrayInputSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void createUsersWithListInputSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void deleteUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void getUserByNameSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void loginUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void logoutUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void updateUserSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
     
 };
 

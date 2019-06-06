@@ -38,9 +38,9 @@ signals:
     {{/operation}}{{/operations}}
     {{#operations}}{{#operation}}void {{nickname}}SignalFull({{prefix}}HttpRequestWorker* worker{{#returnType}}, {{{returnType}}} summary{{/returnType}});
     {{/operation}}{{/operations}}
-    {{#operations}}{{#operation}}void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str);
+    {{#operations}}{{#operation}}void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);
     {{/operation}}{{/operations}}
-    {{#operations}}{{#operation}}void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    {{#operations}}{{#operation}}void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
     {{/operation}}{{/operations}}
 };
 
