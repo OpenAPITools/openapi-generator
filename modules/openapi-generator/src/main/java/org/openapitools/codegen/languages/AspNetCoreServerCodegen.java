@@ -81,7 +81,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
     private boolean useDefaultRoutng = true;
-    private String newtonsoftVersion = "3.0.0-preview4-19216-03";
+    private String newtonsoftVersion = "3.0.0-preview5-19227-01";
 
     public AspNetCoreServerCodegen() {
         super();
