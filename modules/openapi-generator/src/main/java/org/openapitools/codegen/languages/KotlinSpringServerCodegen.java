@@ -333,10 +333,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         modelTemplateFiles.put("model.mustache", ".kt");
 
         if (interfaceOnly) {
-            apiTemplateFiles.put("api.mustache", ".kt");
+            apiTemplateFiles.put("apiInterface.mustache", ".kt");
         } else {
-            apiTemplateFiles.put("apiController.mustache", ".kt");
-            apiTestTemplateFiles.put("apiController_test.mustache", ".kt");
+            apiTemplateFiles.put("api.mustache", ".kt");
+            apiTestTemplateFiles.put("api_test.mustache", ".kt");
         }
 
         if (this.serviceInterface) {

@@ -14,7 +14,7 @@ import io.swagger.annotations.AuthorizationScope
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
+
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RequestParam
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 {{#useBeanValidation}}
 import org.springframework.validation.annotation.Validated
 {{/useBeanValidation}}
@@ -45,6 +46,7 @@ import kotlinx.coroutines.flow.Flow;
 import kotlin.collections.List
 import kotlin.collections.Map
 
+@RestController
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
@@ -55,7 +57,7 @@ import kotlin.collections.Map
 @RequestMapping("\${api.base-path:<%contextPath%>}")
 <%={{ }}=%>
 {{#operations}}
-interface {{classname}} {
+class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {
 {{#operation}}
 
     {{#swaggerAnnotations}}
@@ -69,12 +71,12 @@ interface {{classname}} {
     @ApiResponses(
         value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}}]){{/swaggerAnnotations}}
     @RequestMapping(
-            value = ["{{#lambda.escapeDoubleQuote}}{{path}}{{/lambda.escapeDoubleQuote}}"],{{#singleContentTypes}}{{#hasProduces}}
-            produces = "{{{vendorExtensions.x-accepts}}}",{{/hasProduces}}{{#hasConsumes}}
-            consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
-            produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
-            consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}],{{/hasConsumes}}{{/singleContentTypes}}
-            method = [RequestMethod.{{httpMethod}}])
+        value = ["{{#lambda.escapeDoubleQuote}}{{path}}{{/lambda.escapeDoubleQuote}}"],{{#singleContentTypes}}{{#hasProduces}}
+        produces = "{{{vendorExtensions.x-accepts}}}",{{/hasProduces}}{{#hasConsumes}}
+        consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
+        produces = [{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
+        consumes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}],{{/hasConsumes}}{{/singleContentTypes}}
+        method = [RequestMethod.{{httpMethod}}])
     {{#reactive}}{{^isListContainer}}suspend {{/isListContainer}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
         return {{>returnValue}}
     }
