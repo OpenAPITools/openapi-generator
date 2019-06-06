@@ -8,11 +8,223 @@
  */
 
 package petstore
+import (
+	"encoding/json"
+	"errors"
+)
 
 type TypeHolderExample struct {
-	StringItem string `json:"string_item"`
-	NumberItem float32 `json:"number_item"`
-	IntegerItem int32 `json:"integer_item"`
-	BoolItem bool `json:"bool_item"`
-	ArrayItem []int32 `json:"array_item"`
+	StringItem *string `json:"string_item,omitempty"`
+
+	NumberItem *float32 `json:"number_item,omitempty"`
+
+	IntegerItem *int32 `json:"integer_item,omitempty"`
+
+	BoolItem *bool `json:"bool_item,omitempty"`
+
+	ArrayItem *[]int32 `json:"array_item,omitempty"`
+
 }
+
+// GetStringItem returns the StringItem field if non-nil, zero value otherwise.
+func (o *TypeHolderExample) GetStringItem() string {
+	if o == nil || o.StringItem == nil {
+		var ret string
+		return ret
+	}
+	return *o.StringItem
+}
+
+// GetStringItemOk returns a tuple with the StringItem field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *TypeHolderExample) GetStringItemOk() (string, bool) {
+	if o == nil || o.StringItem == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.StringItem, true
+}
+
+// HasStringItem returns a boolean if a field has been set.
+func (o *TypeHolderExample) HasStringItem() bool {
+	if o != nil && o.StringItem != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetStringItem gets a reference to the given string and assigns it to the StringItem field.
+func (o *TypeHolderExample) SetStringItem(v string) {
+	o.StringItem = &v
+}
+
+// GetNumberItem returns the NumberItem field if non-nil, zero value otherwise.
+func (o *TypeHolderExample) GetNumberItem() float32 {
+	if o == nil || o.NumberItem == nil {
+		var ret float32
+		return ret
+	}
+	return *o.NumberItem
+}
+
+// GetNumberItemOk returns a tuple with the NumberItem field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *TypeHolderExample) GetNumberItemOk() (float32, bool) {
+	if o == nil || o.NumberItem == nil {
+		var ret float32
+		return ret, false
+	}
+	return *o.NumberItem, true
+}
+
+// HasNumberItem returns a boolean if a field has been set.
+func (o *TypeHolderExample) HasNumberItem() bool {
+	if o != nil && o.NumberItem != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetNumberItem gets a reference to the given float32 and assigns it to the NumberItem field.
+func (o *TypeHolderExample) SetNumberItem(v float32) {
+	o.NumberItem = &v
+}
+
+// GetIntegerItem returns the IntegerItem field if non-nil, zero value otherwise.
+func (o *TypeHolderExample) GetIntegerItem() int32 {
+	if o == nil || o.IntegerItem == nil {
+		var ret int32
+		return ret
+	}
+	return *o.IntegerItem
+}
+
+// GetIntegerItemOk returns a tuple with the IntegerItem field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *TypeHolderExample) GetIntegerItemOk() (int32, bool) {
+	if o == nil || o.IntegerItem == nil {
+		var ret int32
+		return ret, false
+	}
+	return *o.IntegerItem, true
+}
+
+// HasIntegerItem returns a boolean if a field has been set.
+func (o *TypeHolderExample) HasIntegerItem() bool {
+	if o != nil && o.IntegerItem != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIntegerItem gets a reference to the given int32 and assigns it to the IntegerItem field.
+func (o *TypeHolderExample) SetIntegerItem(v int32) {
+	o.IntegerItem = &v
+}
+
+// GetBoolItem returns the BoolItem field if non-nil, zero value otherwise.
+func (o *TypeHolderExample) GetBoolItem() bool {
+	if o == nil || o.BoolItem == nil {
+		var ret bool
+		return ret
+	}
+	return *o.BoolItem
+}
+
+// GetBoolItemOk returns a tuple with the BoolItem field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *TypeHolderExample) GetBoolItemOk() (bool, bool) {
+	if o == nil || o.BoolItem == nil {
+		var ret bool
+		return ret, false
+	}
+	return *o.BoolItem, true
+}
+
+// HasBoolItem returns a boolean if a field has been set.
+func (o *TypeHolderExample) HasBoolItem() bool {
+	if o != nil && o.BoolItem != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetBoolItem gets a reference to the given bool and assigns it to the BoolItem field.
+func (o *TypeHolderExample) SetBoolItem(v bool) {
+	o.BoolItem = &v
+}
+
+// GetArrayItem returns the ArrayItem field if non-nil, zero value otherwise.
+func (o *TypeHolderExample) GetArrayItem() []int32 {
+	if o == nil || o.ArrayItem == nil {
+		var ret []int32
+		return ret
+	}
+	return *o.ArrayItem
+}
+
+// GetArrayItemOk returns a tuple with the ArrayItem field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *TypeHolderExample) GetArrayItemOk() ([]int32, bool) {
+	if o == nil || o.ArrayItem == nil {
+		var ret []int32
+		return ret, false
+	}
+	return *o.ArrayItem, true
+}
+
+// HasArrayItem returns a boolean if a field has been set.
+func (o *TypeHolderExample) HasArrayItem() bool {
+	if o != nil && o.ArrayItem != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetArrayItem gets a reference to the given []int32 and assigns it to the ArrayItem field.
+func (o *TypeHolderExample) SetArrayItem(v []int32) {
+	o.ArrayItem = &v
+}
+
+
+func (o TypeHolderExample) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.StringItem == nil {
+		return nil, errors.New("StringItem is required and not nullable, but was not set on TypeHolderExample")
+	}
+	if o.StringItem != nil {
+		toSerialize["string_item"] = o.StringItem
+	}
+	if o.NumberItem == nil {
+		return nil, errors.New("NumberItem is required and not nullable, but was not set on TypeHolderExample")
+	}
+	if o.NumberItem != nil {
+		toSerialize["number_item"] = o.NumberItem
+	}
+	if o.IntegerItem == nil {
+		return nil, errors.New("IntegerItem is required and not nullable, but was not set on TypeHolderExample")
+	}
+	if o.IntegerItem != nil {
+		toSerialize["integer_item"] = o.IntegerItem
+	}
+	if o.BoolItem == nil {
+		return nil, errors.New("BoolItem is required and not nullable, but was not set on TypeHolderExample")
+	}
+	if o.BoolItem != nil {
+		toSerialize["bool_item"] = o.BoolItem
+	}
+	if o.ArrayItem == nil {
+		return nil, errors.New("ArrayItem is required and not nullable, but was not set on TypeHolderExample")
+	}
+	if o.ArrayItem != nil {
+		toSerialize["array_item"] = o.ArrayItem
+	}
+	return json.Marshal(toSerialize)
+}
+
+

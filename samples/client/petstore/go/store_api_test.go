@@ -11,12 +11,12 @@ import (
 
 func TestPlaceOrder(t *testing.T) {
 	newOrder := sw.Order{
-		Id:       0,
-		PetId:    0,
-		Quantity: 0,
-		ShipDate: time.Now().UTC(),
-		Status:   "placed",
-		Complete: false}
+		Id:       sw.Int64(0),
+		PetId:    sw.Int64(0),
+		Quantity: sw.Int32(0),
+		ShipDate: sw.Time(time.Now().UTC()),
+		Status:   sw.String("placed"),
+		Complete: sw.Bool(false)}
 
 	_, r, err := client.StoreApi.PlaceOrder(context.Background(), newOrder)
 
