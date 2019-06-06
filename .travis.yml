@@ -136,7 +136,7 @@ script:
   - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml
   # test gradle plugin
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
-  - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew generateGoWithInvalidSpec)
+  - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
 after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
