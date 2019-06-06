@@ -19,12 +19,16 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 public class GoClientCodegen extends AbstractGoCodegen {
 
@@ -99,6 +103,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         supportingFiles.add(new SupportingFile("go.sum", "", "go.sum"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
 
         if (additionalProperties.containsKey(WITH_GO_CODEGEN_COMMENT)) {
             setWithGoCodegenComment(Boolean.parseBoolean(additionalProperties.get(WITH_GO_CODEGEN_COMMENT).toString()));
@@ -120,6 +125,32 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, "true");
             }
         }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        objs = super.postProcessModels(objs);
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+
+        boolean addedErrorsImport = false;
+        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+        for (Map<String, Object> m : models) {
+            Object v = m.get("model");
+            if (v instanceof CodegenModel) {
+                CodegenModel model = (CodegenModel) v;
+                if (!model.isEnum) {
+                    imports.add(createMapping("import", "encoding/json"));
+                }
+                for (CodegenProperty param : model.vars) {
+                    if (!addedErrorsImport && param.required) {
+                        imports.add(createMapping("import", "errors"));
+                        addedErrorsImport = true;
+                    }
+                }
+            }
+        }
+
+        return objs;
     }
 
     /**

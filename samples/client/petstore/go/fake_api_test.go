@@ -14,8 +14,8 @@ func TestPutBodyWithFileSchema(t *testing.T) {
 	return // early return to test compilation
 
 	schema := sw.FileSchemaTestClass{
-		File:  sw.File{SourceURI: "https://example.com/image.png"},
-		Files: []sw.File{{SourceURI: "https://example.com/image.png"}}}
+		File:  &sw.File{SourceURI: sw.String("https://example.com/image.png")},
+		Files: &[]sw.File{{SourceURI: sw.String("https://example.com/image.png")}}}
 
 	r, err := client.FakeApi.TestBodyWithFileSchema(context.Background(), schema)
 

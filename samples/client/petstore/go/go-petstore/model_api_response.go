@@ -8,9 +8,131 @@
  */
 
 package petstore
+import (
+	"encoding/json"
+)
 
 type ApiResponse struct {
-	Code int32 `json:"code,omitempty"`
-	Type string `json:"type,omitempty"`
-	Message string `json:"message,omitempty"`
+	Code *int32 `json:"code,omitempty"`
+
+	Type *string `json:"type,omitempty"`
+
+	Message *string `json:"message,omitempty"`
+
 }
+
+// GetCode returns the Code field if non-nil, zero value otherwise.
+func (o *ApiResponse) GetCode() int32 {
+	if o == nil || o.Code == nil {
+		var ret int32
+		return ret
+	}
+	return *o.Code
+}
+
+// GetCodeOk returns a tuple with the Code field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *ApiResponse) GetCodeOk() (int32, bool) {
+	if o == nil || o.Code == nil {
+		var ret int32
+		return ret, false
+	}
+	return *o.Code, true
+}
+
+// HasCode returns a boolean if a field has been set.
+func (o *ApiResponse) HasCode() bool {
+	if o != nil && o.Code != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetCode gets a reference to the given int32 and assigns it to the Code field.
+func (o *ApiResponse) SetCode(v int32) {
+	o.Code = &v
+}
+
+// GetType returns the Type field if non-nil, zero value otherwise.
+func (o *ApiResponse) GetType() string {
+	if o == nil || o.Type == nil {
+		var ret string
+		return ret
+	}
+	return *o.Type
+}
+
+// GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *ApiResponse) GetTypeOk() (string, bool) {
+	if o == nil || o.Type == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.Type, true
+}
+
+// HasType returns a boolean if a field has been set.
+func (o *ApiResponse) HasType() bool {
+	if o != nil && o.Type != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *ApiResponse) SetType(v string) {
+	o.Type = &v
+}
+
+// GetMessage returns the Message field if non-nil, zero value otherwise.
+func (o *ApiResponse) GetMessage() string {
+	if o == nil || o.Message == nil {
+		var ret string
+		return ret
+	}
+	return *o.Message
+}
+
+// GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *ApiResponse) GetMessageOk() (string, bool) {
+	if o == nil || o.Message == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.Message, true
+}
+
+// HasMessage returns a boolean if a field has been set.
+func (o *ApiResponse) HasMessage() bool {
+	if o != nil && o.Message != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMessage gets a reference to the given string and assigns it to the Message field.
+func (o *ApiResponse) SetMessage(v string) {
+	o.Message = &v
+}
+
+
+func (o ApiResponse) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Code != nil {
+		toSerialize["code"] = o.Code
+	}
+	if o.Type != nil {
+		toSerialize["type"] = o.Type
+	}
+	if o.Message != nil {
+		toSerialize["message"] = o.Message
+	}
+	return json.Marshal(toSerialize)
+}
+
+

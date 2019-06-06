@@ -8,9 +8,135 @@
  */
 
 package petstore
+import (
+	"encoding/json"
+	"errors"
+)
 
 type Dog struct {
-	ClassName string `json:"className"`
-	Color string `json:"color,omitempty"`
-	Breed string `json:"breed,omitempty"`
+	ClassName *string `json:"className,omitempty"`
+
+	Color *string `json:"color,omitempty"`
+
+	Breed *string `json:"breed,omitempty"`
+
 }
+
+// GetClassName returns the ClassName field if non-nil, zero value otherwise.
+func (o *Dog) GetClassName() string {
+	if o == nil || o.ClassName == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClassName
+}
+
+// GetClassNameOk returns a tuple with the ClassName field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *Dog) GetClassNameOk() (string, bool) {
+	if o == nil || o.ClassName == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.ClassName, true
+}
+
+// HasClassName returns a boolean if a field has been set.
+func (o *Dog) HasClassName() bool {
+	if o != nil && o.ClassName != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetClassName gets a reference to the given string and assigns it to the ClassName field.
+func (o *Dog) SetClassName(v string) {
+	o.ClassName = &v
+}
+
+// GetColor returns the Color field if non-nil, zero value otherwise.
+func (o *Dog) GetColor() string {
+	if o == nil || o.Color == nil {
+		var ret string
+		return ret
+	}
+	return *o.Color
+}
+
+// GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *Dog) GetColorOk() (string, bool) {
+	if o == nil || o.Color == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.Color, true
+}
+
+// HasColor returns a boolean if a field has been set.
+func (o *Dog) HasColor() bool {
+	if o != nil && o.Color != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetColor gets a reference to the given string and assigns it to the Color field.
+func (o *Dog) SetColor(v string) {
+	o.Color = &v
+}
+
+// GetBreed returns the Breed field if non-nil, zero value otherwise.
+func (o *Dog) GetBreed() string {
+	if o == nil || o.Breed == nil {
+		var ret string
+		return ret
+	}
+	return *o.Breed
+}
+
+// GetBreedOk returns a tuple with the Breed field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *Dog) GetBreedOk() (string, bool) {
+	if o == nil || o.Breed == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.Breed, true
+}
+
+// HasBreed returns a boolean if a field has been set.
+func (o *Dog) HasBreed() bool {
+	if o != nil && o.Breed != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetBreed gets a reference to the given string and assigns it to the Breed field.
+func (o *Dog) SetBreed(v string) {
+	o.Breed = &v
+}
+
+
+func (o Dog) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.ClassName == nil {
+		return nil, errors.New("ClassName is required and not nullable, but was not set on Dog")
+	}
+	if o.ClassName != nil {
+		toSerialize["className"] = o.ClassName
+	}
+	if o.Color != nil {
+		toSerialize["color"] = o.Color
+	}
+	if o.Breed != nil {
+		toSerialize["breed"] = o.Breed
+	}
+	return json.Marshal(toSerialize)
+}
+
+

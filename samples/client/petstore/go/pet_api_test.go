@@ -28,8 +28,9 @@ func TestMain(m *testing.M) {
 }
 
 func TestAddPet(t *testing.T) {
-	newPet := (sw.Pet{Id: 12830, Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
+	newPet := (sw.Pet{Id: sw.Int64(12830), Name: sw.String("gopher"),
+		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.String("pending"),
+		Tags: &[]sw.Tag{sw.Tag{Id: sw.Int64(1), Name: sw.String("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
@@ -86,8 +87,8 @@ func TestUpdatePetWithForm(t *testing.T) {
 		t.Log(r)
 	}
 
-    // get the pet with id 12830 from server to verify the update
-    isPetCorrect(t, 12830, "golang", "available")
+	// get the pet with id 12830 from server to verify the update
+	isPetCorrect(t, 12830, "golang", "available")
 }
 
 func TestFindPetsByTag(t *testing.T) {
@@ -103,8 +104,8 @@ func TestFindPetsByTag(t *testing.T) {
 
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
-				if resp[i].Id == 12830 {
-					assert.Equal(resp[i].Status, "available", "Pet status should be `pending`")
+				if *resp[i].Id == 12830 {
+					assert.Equal(*resp[i].Status, "available", "Pet status should be `pending`")
 					found = true
 				}
 			}
@@ -131,7 +132,7 @@ func TestFindPetsByStatus(t *testing.T) {
 		} else {
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
-				assert.Equal(resp[i].Status, "available", "Pet status should be `available`")
+				assert.Equal(*resp[i].Status, "available", "Pet status should be `available`")
 			}
 		}
 
@@ -284,9 +285,9 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 	if err != nil {
 		t.Fatalf("Error while getting pet by id: %v", err)
 	} else {
-		assert.Equal(resp.Id, int64(id), "Pet id should be equal")
-		assert.Equal(resp.Name, name, fmt.Sprintf("Pet name should be %s", name))
-		assert.Equal(resp.Status, status, fmt.Sprintf("Pet status should be %s", status))
+		assert.Equal(*resp.Id, int64(id), "Pet id should be equal")
+		assert.Equal(*resp.Name, name, fmt.Sprintf("Pet name should be %s", name))
+		assert.Equal(*resp.Status, status, fmt.Sprintf("Pet status should be %s", status))
 
 		//t.Log(resp)
 	}
@@ -294,4 +295,3 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 		t.Log(r)
 	}
 }
-
