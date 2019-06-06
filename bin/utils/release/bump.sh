@@ -137,11 +137,11 @@ if [[ ${#file[@]} -eq 0 ]];then
 fi
 
 if [[ -z "${from}" ]]; then
-   err "No 'from' version specified."
+   echo  "No 'from' version specified." >&2
+   usage
 fi
 
 # TODO: compare steps in from_parts and to_parts.
-# This could be further automated to support bump levels (major/minor/build/SNAPSHOT)
 version "${from}" from_parts
 
 if [[ -z "${to}" ]]; then
@@ -189,17 +189,33 @@ d "Moving from=${from} to=${to}"
 
 trap 'rm -f sedscript.sed' EXIT
 
-sed_cross () {
+sed_cross() {
   # Cross-platform sed invocation. OSX has no option to show a version number in sed.
   local target=$1
   sed --version >/dev/null 2>&1 && sed -e -i '' -f sedscript.sed "$target" || sed -i '' -E -f sedscript.sed "$target"
 }
 
-for filename in "${file[@]}"; do
-    if sed_cross ${filename}; then
-        echo "Updated $filename successfully!"
-    else
+update_file() {
+    local filename=$1
+    local error_message="ERROR: Failed to update $filename to target version ${to}"
+    local original_hash=$(ruby -r digest -e "p Digest::SHA2.file(\"$filename\").hexdigest")
+    local final_hash=""
+    if ! sed_cross ${filename}; then
+        # occurs if, for example, the file doesn't exist.
         echo "ERROR: Failed to update $filename to target version ${to}" >&2
     fi
+
+    local final_hash=$(ruby -r digest -e "p Digest::SHA2.file(\"$filename\").hexdigest")
+
+    if [[ "${original_hash}" = "${final_hash}" ]]; then
+        # occurs if, for example, the file doesn't have expected marker tags for replacement
+        echo "ERROR: $filename was not modified." >&2
+    else
+        echo "Updated $filename successfully!"
+    fi
+}
+
+for filename in "${file[@]}"; do
+    update_file ${filename}
 done
 
