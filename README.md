@@ -604,7 +604,7 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@cbornet](https://github.com/cbornet) (2016/05)
 * [@ackintosh](https://github.com/ackintosh) (2018/02) [:heart:](https://www.patreon.com/ackintosh/overview)
 * [@jmini](https://github.com/jmini) (2018/04)
-* [@sunn](https://github.com/sunn) (2019/06)
+* [@etherealjoy](https://github.com/etherealjoy) (2019/06)
 
 :heart: = Link to support the contributor directly 
 
