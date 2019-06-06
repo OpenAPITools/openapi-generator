@@ -60,15 +60,15 @@ signals:
     void getOrderByIdSignalFull(OAIHttpRequestWorker* worker, OAIOrder summary);
     void placeOrderSignalFull(OAIHttpRequestWorker* worker, OAIOrder summary);
     
-    void deleteOrderSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventorySignalE(QMap<QString, qint32> summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void deleteOrderSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void getInventorySignalE(QMap<QString, qint32> summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void getOrderByIdSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void placeOrderSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString error_str);
     
-    void deleteOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventorySignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    void deleteOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void getInventorySignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void getOrderByIdSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void placeOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
     
 };
 
