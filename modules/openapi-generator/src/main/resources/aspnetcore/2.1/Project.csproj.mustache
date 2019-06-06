@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
 {{/useFrameworkReference}}
 {{#useNewtonsoft}}
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview4-19216-03" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="{{newtonsoftVersion}}" />
 {{/useNewtonsoft}}
 {{#useSwashbuckle}}
     <PackageReference Include="Swashbuckle.AspNetCore" Version="{{swashbuckleVersion}}"/>

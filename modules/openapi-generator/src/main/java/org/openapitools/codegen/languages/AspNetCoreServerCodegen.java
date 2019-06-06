@@ -55,6 +55,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_FRAMEWORK_REFERENCE = "useFrameworkReference";
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRoutng";
+    public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -80,6 +81,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
     private boolean useDefaultRoutng = true;
+    private String newtonsoftVersion = "3.0.0-preview4-19216-03";
 
     public AspNetCoreServerCodegen() {
         super();
@@ -197,6 +199,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Uses the Newtonsoft JSON library.",
                 useNewtonsoft);
 
+        addOption(NEWTONSOFT_VERSION,
+                "Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+",
+                newtonsoftVersion);
+
+
         addSwitch(USE_DEFAULT_ROUTING,
                 "Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.",
                 useDefaultRoutng);
@@ -272,6 +279,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
         additionalProperties.put("packageGuid", packageGuid);
 
+        if (!additionalProperties.containsKey(NEWTONSOFT_VERSION)) {
+            additionalProperties.put(NEWTONSOFT_VERSION, newtonsoftVersion);
+        } else {
+            newtonsoftVersion = (String)additionalProperties.get(NEWTONSOFT_VERSION);
+        }
 
         // CHeck for the modifiers etc.
         // The order of the checks is important.
