@@ -27,8 +27,10 @@ public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel;
-    public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
+    public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, multipartContentType,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
+
+    public List<CodegenParameter> multipartHeaderParams;
 
     public String example; // example value (x-example)
     public String jsonSchema;

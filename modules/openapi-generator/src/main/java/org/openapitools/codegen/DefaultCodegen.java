@@ -2575,9 +2575,18 @@ public class DefaultCodegen implements CodegenConfig {
         if (requestBody != null) {
             if (getContentType(requestBody) != null &&
                     (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data"))) {
+                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
+
+                if (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/")) {
+                    op.isMultipart = true;
+                    handleMultipartRequestBody(imports, formParams, requestBody);
+                } else if (getContentType(requestBody).equalsIgnoreCase("application/x-www-form-urlencoded")) {
+                    // TODO https://github.com/OAI/OpenAPI-Specification/blob/3.0.1/versions/3.0.1.md#encoding-object
+                    // handle properties that should not be ignored in that case
+                }
+
                 for (CodegenParameter cp : formParams) {
                     postProcessParameter(cp);
                 }
@@ -2585,6 +2594,12 @@ public class DefaultCodegen implements CodegenConfig {
                 if (prependFormOrBodyParameters) {
                     for (CodegenParameter cp : formParams) {
                         allParams.add(cp.copy());
+
+                        if (cp.multipartHeaderParams != null) {
+                            for (CodegenParameter mphp : cp.multipartHeaderParams) {
+                                allParams.add(mphp.copy());
+                            }
+                        }
                     }
                 }
             } else {
@@ -2646,6 +2661,13 @@ public class DefaultCodegen implements CodegenConfig {
         if (!prependFormOrBodyParameters) {
             for (CodegenParameter cp : formParams) {
                 allParams.add(cp.copy());
+
+                if (cp.multipartHeaderParams != null) {
+                    for (CodegenParameter mphp : cp.multipartHeaderParams) {
+                        allParams.add(mphp.copy());
+                        op.multipartHeaderParams.add(mphp.copy());
+                    }
+                }
             }
 
             for (CodegenParameter cp : bodyParams) {
@@ -2690,6 +2712,7 @@ public class DefaultCodegen implements CodegenConfig {
         op.pathParams = addHasMore(pathParams);
         op.queryParams = addHasMore(queryParams);
         op.headerParams = addHasMore(headerParams);
+        op.multipartHeaderParams = addHasMore(op.multipartHeaderParams);
         op.cookieParams = addHasMore(cookieParams);
         op.formParams = addHasMore(formParams);
         op.requiredParams = addHasMore(requiredParams);
@@ -2712,6 +2735,53 @@ public class DefaultCodegen implements CodegenConfig {
         op.isRestful = op.isRestful();
 
         return op;
+    }
+
+    private void handleMultipartRequestBody(Set<String> imports, List<CodegenParameter> formParams, RequestBody requestBody) {
+        Map<String, Encoding> contentEncoding = getEncoding(requestBody);
+        if (contentEncoding == null) {
+            return;
+        }
+        for (CodegenParameter cp : formParams) {
+
+            Encoding encoding = contentEncoding.get(cp.baseName);
+            if (encoding == null) {
+                continue;
+            }
+
+            cp.collectionFormat = getCollectionFormat(encoding);
+
+            cp.multipartContentType = encoding.getContentType();
+            Map<String, Header> headers = encoding.getHeaders();
+            if (headers == null) {
+                continue;
+            }
+            cp.multipartHeaderParams = new ArrayList<>();
+            for (Entry<String, Header> entry : headers.entrySet()) {
+                Parameter headerParameter = fromMultipartHeaderParameter(cp.baseName + ":" + entry.getKey(),
+                        entry.getValue());
+                cp.multipartHeaderParams.add(fromParameter(headerParameter, imports));
+            }
+        }
+    }
+
+    private Parameter fromMultipartHeaderParameter(String name, Header header) {
+        Parameter headerParameter = new Parameter();
+        headerParameter.setName(name);
+        headerParameter.setDescription(header.getDescription());
+        headerParameter.set$ref(header.get$ref());
+        headerParameter.setRequired(header.getRequired());
+        headerParameter.setDeprecated(header.getDeprecated());
+        if (header.getStyle().equals(Header.StyleEnum.SIMPLE)) {
+            headerParameter.setStyle(Parameter.StyleEnum.FORM);
+        }
+        headerParameter.setExplode(header.getExplode());
+        headerParameter.setSchema(header.getSchema());
+        headerParameter.setExamples(header.getExamples());
+        headerParameter.setExample(header.getExample());
+        headerParameter.setContent(header.getContent());
+        headerParameter.setExtensions(header.getExtensions());
+        return headerParameter;
     }
 
     public boolean isParameterNameUnique(CodegenParameter p, List<CodegenParameter> parameters) {
@@ -4280,6 +4350,14 @@ public class DefaultCodegen implements CodegenConfig {
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
     }
 
+    protected Map<String, Encoding> getEncoding(RequestBody requestBody) {
+        if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+            return null;
+        }
+        MediaType mediaType = new ArrayList<>(requestBody.getContent().values()).get(0);
+        return mediaType.getEncoding();
+    }
+
     private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
         codegenSecurity.authorizationUrl = flow.getAuthorizationUrl();
         codegenSecurity.tokenUrl = flow.getTokenUrl();
@@ -4358,7 +4436,7 @@ public class DefaultCodegen implements CodegenConfig {
         for (String consume : consumesInfo) {
             if (consume != null &&
                     consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                    consume.toLowerCase(Locale.ROOT).startsWith("multipart/form-data")) {
+                    consume.toLowerCase(Locale.ROOT).startsWith("multipart/")) {
                 return true;
             }
         }
@@ -4457,6 +4535,27 @@ public class DefaultCodegen implements CodegenConfig {
             return "pipe";
         } else if (Parameter.StyleEnum.SPACEDELIMITED.equals(parameter.getStyle())) {
             return "space";
+        } else {
+            return null;
+        }
+    }
+
+    protected String getCollectionFormat(Encoding encoding) {
+        if (Encoding.StyleEnum.FORM.equals(encoding.getStyle())) {
+            // Ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#style-values
+            if (Boolean.TRUE.equals(encoding.getExplode())) { // explode is true (default)
+                return "multi";
+            } else {
+                return "csv";
+            }
+        } else if (Encoding.StyleEnum.FORM.equals(encoding.getStyle())) {
+            return "csv";
+        } else if (Encoding.StyleEnum.PIPE_DELIMITED.equals(encoding.getStyle())) {
+            return "pipe";
+        } else if (Encoding.StyleEnum.SPACE_DELIMITED.equals(encoding.getStyle())) {
+            return "space";
+        } else if (Encoding.StyleEnum.DEEP_OBJECT.equals(encoding.getStyle())) {
+            return "deep";
         } else {
             return null;
         }
