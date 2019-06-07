@@ -196,10 +196,21 @@ class {{classname}}(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 {{#formParams}}
         if '{{paramName}}' in local_var_params:
             {{^isFile}}form_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{/isFile}}{{#isFile}}local_var_files['{{baseName}}'] = local_var_params['{{paramName}}']{{/isFile}}{{#isListContainer}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
+            {{# multipartContentType }}
+            post_content_types['{{baseName}}'] = '{{.}}'
+            {{/ multipartContentType }}
+        {{#multipartHeaderParams}}
+        if '{{paramName}}' in local_var_params:
+            tup = '{{baseName}}'.split(':')
+            multipart_header_params.setdefault(tup[0], {})[tup[1]] = local_var_params['{{paramName}}']{{#isListContainer}}  # noqa: E501
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'  # noqa: E501{{/isListContainer}}
+        {{/multipartHeaderParams}}
 {{/formParams}}
 
         body_params = None
@@ -230,6 +241,10 @@ class {{classname}}(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            {{#isMultipart}}
+            multipart_header_params=multipart_header_params,
+            {{/isMultipart}}
+            post_content_types=post_content_types,
             response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}},  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
