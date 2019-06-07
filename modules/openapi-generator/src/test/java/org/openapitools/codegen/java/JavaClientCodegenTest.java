@@ -329,10 +329,6 @@ public class JavaClientCodegenTest {
         clientOptInput.setOpenAPI(openAPI);
         clientOptInput.setConfig(new JavaClientCodegen());
 
-        final ClientOpts clientOpts = new ClientOpts();
-        clientOpts.setProperties(Collections.emptyMap());
-        clientOptInput.setOpts(clientOpts);
-
         defaultGenerator.opts(clientOptInput);
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
 

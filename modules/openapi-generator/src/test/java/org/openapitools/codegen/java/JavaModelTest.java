@@ -1280,7 +1280,6 @@ public class JavaModelTest {
         final ClientOptInput opts = new ClientOptInput();
         opts.setConfig(config);
         opts.setOpenAPI(openAPI);
-        opts.setOpts(new ClientOpts());
         new DefaultGenerator().opts(opts).generate();
 
         File orderFile = new File(output, "src/main/java/org/openapitools/client/api/DefaultApi.java");
