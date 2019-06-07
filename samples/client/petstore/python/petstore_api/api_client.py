@@ -108,7 +108,7 @@ class ApiClient(object):
     def __call_api(
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
-            files=None, response_type=None, auth_settings=None,
+            files=None, response_types=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
             _preload_content=True, _request_timeout=None, _host=None):
 
@@ -166,18 +166,22 @@ class ApiClient(object):
             # use server/host defined in path or operation instead
             url = _host + resource_path
 
+        _decode_utf8 = {k: v != 'file' for k, v in six.iteritems(response_types)}  # noqa: E501
+
         # perform request and return response
         response_data = self.request(
             method, url, query_params=query_params, headers=header_params,
             post_params=post_params, body=body,
             _preload_content=_preload_content,
-            _request_timeout=_request_timeout)
+            _request_timeout=_request_timeout,
+            _decode_utf8=_decode_utf8)
 
         self.last_response = response_data
 
         return_data = response_data
         if _preload_content:
             # deserialize response data
+            response_type = response_types.get(response_data.status)
             if response_type:
                 return_data = self.deserialize(response_data, response_type)
             else:
@@ -295,7 +299,7 @@ class ApiClient(object):
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_type=None, auth_settings=None, async_req=None,
+                 response_types=None, auth_settings=None, async_req=None,
                  _return_http_data_only=None, collection_formats=None,
                  _preload_content=True, _request_timeout=None, _host=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
@@ -338,15 +342,16 @@ class ApiClient(object):
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
-                                   response_type, auth_settings,
+                                   response_types, auth_settings,
                                    _return_http_data_only, collection_formats,
-                                   _preload_content, _request_timeout, _host)
+                                   _preload_content, _request_timeout,
+                                   _host)
         else:
             thread = self.pool.apply_async(self.__call_api, (resource_path,
                                            method, path_params, query_params,
                                            header_params, body,
                                            post_params, files,
-                                           response_type, auth_settings,
+                                           response_types, auth_settings,
                                            _return_http_data_only,
                                            collection_formats,
                                            _preload_content,
@@ -356,20 +361,22 @@ class ApiClient(object):
 
     def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None, _preload_content=True,
-                _request_timeout=None):
+                _request_timeout=None, _decode_utf8=None):
         """Makes the HTTP request using RESTClient."""
         if method == "GET":
             return self.rest_client.GET(url,
                                         query_params=query_params,
                                         _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
-                                        headers=headers)
+                                        headers=headers,
+                                        _decode_utf8=_decode_utf8)
         elif method == "HEAD":
             return self.rest_client.HEAD(url,
                                          query_params=query_params,
                                          _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
-                                         headers=headers)
+                                         headers=headers,
+                                         _decode_utf8=_decode_utf8)
         elif method == "OPTIONS":
             return self.rest_client.OPTIONS(url,
                                             query_params=query_params,
@@ -377,7 +384,8 @@ class ApiClient(object):
                                             post_params=post_params,
                                             _preload_content=_preload_content,
                                             _request_timeout=_request_timeout,
-                                            body=body)
+                                            body=body,
+                                            _decode_utf8=_decode_utf8)
         elif method == "POST":
             return self.rest_client.POST(url,
                                          query_params=query_params,
@@ -385,7 +393,8 @@ class ApiClient(object):
                                          post_params=post_params,
                                          _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
-                                         body=body)
+                                         body=body,
+                                         _decode_utf8=_decode_utf8)
         elif method == "PUT":
             return self.rest_client.PUT(url,
                                         query_params=query_params,
@@ -393,7 +402,8 @@ class ApiClient(object):
                                         post_params=post_params,
                                         _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
-                                        body=body)
+                                        body=body,
+                                        _decode_utf8=_decode_utf8)
         elif method == "PATCH":
             return self.rest_client.PATCH(url,
                                           query_params=query_params,
@@ -401,14 +411,16 @@ class ApiClient(object):
                                           post_params=post_params,
                                           _preload_content=_preload_content,
                                           _request_timeout=_request_timeout,
-                                          body=body)
+                                          body=body,
+                                          _decode_utf8=_decode_utf8)
         elif method == "DELETE":
             return self.rest_client.DELETE(url,
                                            query_params=query_params,
                                            headers=headers,
                                            _preload_content=_preload_content,
                                            _request_timeout=_request_timeout,
-                                           body=body)
+                                           body=body,
+                                           _decode_utf8=_decode_utf8)
         else:
             raise ApiValueError(
                 "http method must be `GET`, `HEAD`, `OPTIONS`,"
@@ -480,10 +492,9 @@ class ApiClient(object):
 
         accepts = [x.lower() for x in accepts]
 
-        if 'application/json' in accepts:
-            return 'application/json'
-        else:
-            return ', '.join(accepts)
+        accepts = [x + (';q=1' if x == 'application/json' else ';q=0.9') for x in accepts]  # noqa: E501
+
+        return ', '.join(accepts)
 
     def select_header_content_type(self, content_types):
         """Returns `Content-Type` based on an array of content_types provided.

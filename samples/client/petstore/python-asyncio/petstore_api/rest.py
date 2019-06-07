@@ -19,8 +19,6 @@ import ssl
 import aiohttp
 import certifi
 import asyncio
-# python 2 and python 3 compatibility library
-import six
 from six.moves.urllib.parse import urlencode
 
 from petstore_api.exceptions import ApiException, ApiValueError
@@ -88,7 +86,7 @@ class RESTClientObject(object):
 
     async def request(self, method, url, query_params=None, headers=None,
                       body=None, post_params=None, _preload_content=True,
-                      _request_timeout=None):
+                      _request_timeout=None, _decode_utf8=None):
         """Execute request
 
         :param method: http request method
@@ -109,6 +107,9 @@ class RESTClientObject(object):
         method = method.upper()
         assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT',
                           'PATCH', 'OPTIONS']
+
+        if _decode_utf8 is None:
+            _decode_utf8 = {}
 
         if post_params and body:
             raise ApiValueError(
@@ -183,69 +184,80 @@ class RESTClientObject(object):
         return r
 
     async def GET(self, url, headers=None, query_params=None,
-                  _preload_content=True, _request_timeout=None):
+                  _preload_content=True, _request_timeout=None,
+                  _decode_utf8=True):
         return (await self.request("GET", url,
                                    headers=headers,
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
+                                   _decode_utf8=_decode_utf8,
                                    query_params=query_params))
 
     async def HEAD(self, url, headers=None, query_params=None,
-                   _preload_content=True, _request_timeout=None):
+                   _preload_content=True, _request_timeout=None,
+                   _decode_utf8=True):
         return (await self.request("HEAD", url,
                                    headers=headers,
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
+                                   _decode_utf8=_decode_utf8,
                                    query_params=query_params))
 
     async def OPTIONS(self, url, headers=None, query_params=None,
                       post_params=None, body=None, _preload_content=True,
-                      _request_timeout=None):
+                      _request_timeout=None, _decode_utf8=True):
         return (await self.request("OPTIONS", url,
                                    headers=headers,
                                    query_params=query_params,
                                    post_params=post_params,
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
+                                   _decode_utf8=_decode_utf8,
                                    body=body))
 
     async def DELETE(self, url, headers=None, query_params=None, body=None,
-                     _preload_content=True, _request_timeout=None):
+                     _preload_content=True, _request_timeout=None,
+                     _decode_utf8=True):
         return (await self.request("DELETE", url,
                                    headers=headers,
                                    query_params=query_params,
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
+                                   _decode_utf8=_decode_utf8,
                                    body=body))
 
     async def POST(self, url, headers=None, query_params=None,
                    post_params=None, body=None, _preload_content=True,
-                   _request_timeout=None):
+                   _request_timeout=None, _decode_utf8=True):
         return (await self.request("POST", url,
                                    headers=headers,
                                    query_params=query_params,
                                    post_params=post_params,
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
+                                   _decode_utf8=_decode_utf8,
                                    body=body))
 
     async def PUT(self, url, headers=None, query_params=None, post_params=None,
-                  body=None, _preload_content=True, _request_timeout=None):
+                  body=None, _preload_content=True, _request_timeout=None,
+                  _decode_utf8=True):
         return (await self.request("PUT", url,
                                    headers=headers,
                                    query_params=query_params,
                                    post_params=post_params,
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
+                                   _decode_utf8=_decode_utf8,
                                    body=body))
 
     async def PATCH(self, url, headers=None, query_params=None,
                     post_params=None, body=None, _preload_content=True,
-                    _request_timeout=None):
+                    _request_timeout=None, _decode_utf8=True):
         return (await self.request("PATCH", url,
                                    headers=headers,
                                    query_params=query_params,
                                    post_params=post_params,
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
+                                   _decode_utf8=_decode_utf8,
                                    body=body))
