@@ -38,7 +38,7 @@ pub trait PetApi {
     fn get_pet_by_id(&self, pet_id: i64) -> Box<Future<Item = ::models::Pet, Error = Error<serde_json::Value>>>;
     fn update_pet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: &std::path::Path) -> Box<Future<Item = ::models::ApiResponse, Error = Error<serde_json::Value>>>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Box<Future<Item = ::models::ApiResponse, Error = Error<serde_json::Value>>>;
 }
 
 
@@ -103,7 +103,7 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
             .execute(self.configuration.borrow())
     }
 
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: &std::path::Path) -> Box<Future<Item = ::models::ApiResponse, Error = Error<serde_json::Value>>> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Box<Future<Item = ::models::ApiResponse, Error = Error<serde_json::Value>>> {
         __internal_request::Request::new(hyper::Method::Post, "/pet/{petId}/uploadImage".to_string())
             .with_auth(__internal_request::Auth::Oauth)
             .with_path_param("petId".to_string(), pet_id.to_string())
