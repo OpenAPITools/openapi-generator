@@ -55,7 +55,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **body** | [**Vec<::models::User>**](array.md)| List of user object | 
+  **body** | [**Vec<::models::User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -83,7 +83,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **body** | [**Vec<::models::User>**](array.md)| List of user object | 
+  **body** | [**Vec<::models::User>**](User.md)| List of user object | 
 
 ### Return type
 
