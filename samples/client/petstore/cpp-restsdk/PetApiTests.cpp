@@ -28,12 +28,12 @@ void OAIPetApiTests::testAddPet(){
     req->setName("cpprest-pet");
     req->setStatus(U("123"));
 
-    std::function<void()> f = []()
+    std::function<void()> responseCallback = []()
     {
         std::cout << "added pet successfully" << std::endl;
     };
 
-    auto reqTask = api->addPet(req).then(f);
+    auto reqTask = api->addPet(req).then(responseCallback);
     try{
         reqTask.wait();
     }
@@ -49,7 +49,7 @@ void OAIPetApiTests::testAddPet(){
 
 void OAIPetApiTests::testFindPetsByStatus(){
     auto req = std::vector<utility::string_t>();
-    req.push_back(U("pending"));
+    req.push_back(U("123"));
     auto reqTask = api->findPetsByStatus(req)
             .then([=](std::vector<std::shared_ptr<Pet>> pets)
             {
@@ -70,9 +70,9 @@ void OAIPetApiTests::testFindPetsByStatus(){
 
 void OAIPetApiTests::testGetPetById(){
     int req = 12345;
-    auto f = std::bind(&OAIPetApiTests::getPetByIdCallback, this, std::placeholders::_1);
+    auto responseCallback = std::bind(&OAIPetApiTests::getPetByIdCallback, this, std::placeholders::_1);
 
-    auto reqTask = api->getPetById(req).then(f);
+    auto reqTask = api->getPetById(req).then(responseCallback);
 
     try{
         reqTask.wait();
