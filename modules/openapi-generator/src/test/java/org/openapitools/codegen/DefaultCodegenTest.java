@@ -32,6 +32,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -204,6 +205,34 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
+    }
+
+    @Test
+    public void testFormMultipartMixed() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation operation = openAPI.getPaths().get("/pet/{petId}/uploadImageAndMetadata").getPost();
+        CodegenOperation co = codegen.fromOperation("/pet/{petId}/uploadImageAndMetadata", "post", operation, null);
+
+        Map<String, CodegenParameter> parameterMap = co.formParams.stream().collect(Collectors.toMap(obj -> obj.baseName, Function.identity()));
+
+        CodegenParameter additionalMetadata = parameterMap.get("additionalMetadata");
+        Assert.assertEquals(additionalMetadata.multipartContentType, "application/json; charset=utf-8");
+
+        CodegenParameter file = parameterMap.get("file");
+        Assert.assertEquals(file.multipartContentType, "image/png, image/jpeg");
+
+        Assert.assertFalse(co.multipartHeaderParams.isEmpty());
+
+        CodegenParameter headerParameter = co.multipartHeaderParams.get(0);
+
+        Assert.assertEquals(headerParameter.baseName, "file:X-Expires-After");
+        Assert.assertEquals(headerParameter.dataType, "Date");
+        Assert.assertEquals(headerParameter.dataFormat, "date-time");
+        Assert.assertEquals(headerParameter.description, "date in UTC when the image should be expired");
+
     }
 
     @Test

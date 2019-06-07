@@ -280,6 +280,58 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
+  '/pet/{petId}/uploadImageAndMetadata':
+    post:
+      tags:
+        - pet
+      summary: uploads an image
+      description: ''
+      operationId: uploadFileWithComplexMetadata
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        content:
+          multipart/mixed:
+            encoding:
+              additionalMetadata:
+                # require JSON Content-Type in utf-8 encoding
+                contentType: application/json; charset=utf-8
+              file:
+                # only accept png/jpeg
+                contentType: image/png, image/jpeg
+                headers:
+                  X-Expires-After:
+                    description: date in UTC when the image should be expired
+                    schema:
+                      type: string
+                      format: date-time
+            schema:
+              type: object
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: o
+                file:
+                  description: file to upload
+                  type: string
+                  format: binary
   /store/inventory:
     get:
       tags:
