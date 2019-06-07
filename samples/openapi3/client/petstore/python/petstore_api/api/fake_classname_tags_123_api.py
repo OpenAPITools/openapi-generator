@@ -117,6 +117,8 @@ class FakeClassnameTags123Api(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'client' in local_var_params:
@@ -140,6 +142,7 @@ class FakeClassnameTags123Api(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='Client',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),

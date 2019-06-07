@@ -31,74 +31,438 @@ class InlineObject4(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'param': 'str',
-        'param2': 'str'
+        'integer': 'int',
+        'int32': 'int',
+        'int64': 'int',
+        'number': 'float',
+        'float': 'float',
+        'double': 'float',
+        'string': 'str',
+        'pattern_without_delimiter': 'str',
+        'byte': 'str',
+        'binary': 'file',
+        'date': 'date',
+        'date_time': 'datetime',
+        'password': 'str',
+        'callback': 'str'
     }
 
     attribute_map = {
-        'param': 'param',
-        'param2': 'param2'
+        'integer': 'integer',
+        'int32': 'int32',
+        'int64': 'int64',
+        'number': 'number',
+        'float': 'float',
+        'double': 'double',
+        'string': 'string',
+        'pattern_without_delimiter': 'pattern_without_delimiter',
+        'byte': 'byte',
+        'binary': 'binary',
+        'date': 'date',
+        'date_time': 'dateTime',
+        'password': 'password',
+        'callback': 'callback'
     }
 
-    def __init__(self, param=None, param2=None):  # noqa: E501
+    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, pattern_without_delimiter=None, byte=None, binary=None, date=None, date_time=None, password=None, callback=None):  # noqa: E501
         """InlineObject4 - a model defined in OpenAPI"""  # noqa: E501
 
-        self._param = None
-        self._param2 = None
+        self._integer = None
+        self._int32 = None
+        self._int64 = None
+        self._number = None
+        self._float = None
+        self._double = None
+        self._string = None
+        self._pattern_without_delimiter = None
+        self._byte = None
+        self._binary = None
+        self._date = None
+        self._date_time = None
+        self._password = None
+        self._callback = None
         self.discriminator = None
 
-        self.param = param
-        self.param2 = param2
+        if integer is not None:
+            self.integer = integer
+        if int32 is not None:
+            self.int32 = int32
+        if int64 is not None:
+            self.int64 = int64
+        self.number = number
+        if float is not None:
+            self.float = float
+        self.double = double
+        if string is not None:
+            self.string = string
+        self.pattern_without_delimiter = pattern_without_delimiter
+        self.byte = byte
+        if binary is not None:
+            self.binary = binary
+        if date is not None:
+            self.date = date
+        if date_time is not None:
+            self.date_time = date_time
+        if password is not None:
+            self.password = password
+        if callback is not None:
+            self.callback = callback
 
     @property
-    def param(self):
-        """Gets the param of this InlineObject4.  # noqa: E501
+    def integer(self):
+        """Gets the integer of this InlineObject4.  # noqa: E501
 
-        field1  # noqa: E501
+        None  # noqa: E501
 
-        :return: The param of this InlineObject4.  # noqa: E501
-        :rtype: str
+        :return: The integer of this InlineObject4.  # noqa: E501
+        :rtype: int
         """
-        return self._param
+        return self._integer
 
-    @param.setter
-    def param(self, param):
-        """Sets the param of this InlineObject4.
+    @integer.setter
+    def integer(self, integer):
+        """Sets the integer of this InlineObject4.
 
-        field1  # noqa: E501
+        None  # noqa: E501
 
-        :param param: The param of this InlineObject4.  # noqa: E501
-        :type: str
+        :param integer: The integer of this InlineObject4.  # noqa: E501
+        :type: int
         """
-        if param is None:
-            raise ValueError("Invalid value for `param`, must not be `None`")  # noqa: E501
+        if integer is not None and integer > 100:  # noqa: E501
+            raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
+        if integer is not None and integer < 10:  # noqa: E501
+            raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
 
-        self._param = param
+        self._integer = integer
 
     @property
-    def param2(self):
-        """Gets the param2 of this InlineObject4.  # noqa: E501
+    def int32(self):
+        """Gets the int32 of this InlineObject4.  # noqa: E501
 
-        field2  # noqa: E501
+        None  # noqa: E501
 
-        :return: The param2 of this InlineObject4.  # noqa: E501
+        :return: The int32 of this InlineObject4.  # noqa: E501
+        :rtype: int
+        """
+        return self._int32
+
+    @int32.setter
+    def int32(self, int32):
+        """Sets the int32 of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param int32: The int32 of this InlineObject4.  # noqa: E501
+        :type: int
+        """
+        if int32 is not None and int32 > 200:  # noqa: E501
+            raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
+        if int32 is not None and int32 < 20:  # noqa: E501
+            raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
+
+        self._int32 = int32
+
+    @property
+    def int64(self):
+        """Gets the int64 of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The int64 of this InlineObject4.  # noqa: E501
+        :rtype: int
+        """
+        return self._int64
+
+    @int64.setter
+    def int64(self, int64):
+        """Sets the int64 of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param int64: The int64 of this InlineObject4.  # noqa: E501
+        :type: int
+        """
+
+        self._int64 = int64
+
+    @property
+    def number(self):
+        """Gets the number of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The number of this InlineObject4.  # noqa: E501
+        :rtype: float
+        """
+        return self._number
+
+    @number.setter
+    def number(self, number):
+        """Sets the number of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param number: The number of this InlineObject4.  # noqa: E501
+        :type: float
+        """
+        if number is None:
+            raise ValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
+        if number is not None and number > 543.2:  # noqa: E501
+            raise ValueError("Invalid value for `number`, must be a value less than or equal to `543.2`")  # noqa: E501
+        if number is not None and number < 32.1:  # noqa: E501
+            raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
+
+        self._number = number
+
+    @property
+    def float(self):
+        """Gets the float of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The float of this InlineObject4.  # noqa: E501
+        :rtype: float
+        """
+        return self._float
+
+    @float.setter
+    def float(self, float):
+        """Sets the float of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param float: The float of this InlineObject4.  # noqa: E501
+        :type: float
+        """
+        if float is not None and float > 987.6:  # noqa: E501
+            raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
+
+        self._float = float
+
+    @property
+    def double(self):
+        """Gets the double of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The double of this InlineObject4.  # noqa: E501
+        :rtype: float
+        """
+        return self._double
+
+    @double.setter
+    def double(self, double):
+        """Sets the double of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param double: The double of this InlineObject4.  # noqa: E501
+        :type: float
+        """
+        if double is None:
+            raise ValueError("Invalid value for `double`, must not be `None`")  # noqa: E501
+        if double is not None and double > 123.4:  # noqa: E501
+            raise ValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")  # noqa: E501
+        if double is not None and double < 67.8:  # noqa: E501
+            raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
+
+        self._double = double
+
+    @property
+    def string(self):
+        """Gets the string of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The string of this InlineObject4.  # noqa: E501
         :rtype: str
         """
-        return self._param2
+        return self._string
 
-    @param2.setter
-    def param2(self, param2):
-        """Sets the param2 of this InlineObject4.
+    @string.setter
+    def string(self, string):
+        """Sets the string of this InlineObject4.
 
-        field2  # noqa: E501
+        None  # noqa: E501
 
-        :param param2: The param2 of this InlineObject4.  # noqa: E501
+        :param string: The string of this InlineObject4.  # noqa: E501
         :type: str
         """
-        if param2 is None:
-            raise ValueError("Invalid value for `param2`, must not be `None`")  # noqa: E501
+        if string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE):  # noqa: E501
+            raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
-        self._param2 = param2
+        self._string = string
+
+    @property
+    def pattern_without_delimiter(self):
+        """Gets the pattern_without_delimiter of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The pattern_without_delimiter of this InlineObject4.  # noqa: E501
+        :rtype: str
+        """
+        return self._pattern_without_delimiter
+
+    @pattern_without_delimiter.setter
+    def pattern_without_delimiter(self, pattern_without_delimiter):
+        """Sets the pattern_without_delimiter of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param pattern_without_delimiter: The pattern_without_delimiter of this InlineObject4.  # noqa: E501
+        :type: str
+        """
+        if pattern_without_delimiter is None:
+            raise ValueError("Invalid value for `pattern_without_delimiter`, must not be `None`")  # noqa: E501
+        if pattern_without_delimiter is not None and not re.search(r'^[A-Z].*', pattern_without_delimiter):  # noqa: E501
+            raise ValueError(r"Invalid value for `pattern_without_delimiter`, must be a follow pattern or equal to `/^[A-Z].*/`")  # noqa: E501
+
+        self._pattern_without_delimiter = pattern_without_delimiter
+
+    @property
+    def byte(self):
+        """Gets the byte of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The byte of this InlineObject4.  # noqa: E501
+        :rtype: str
+        """
+        return self._byte
+
+    @byte.setter
+    def byte(self, byte):
+        """Sets the byte of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param byte: The byte of this InlineObject4.  # noqa: E501
+        :type: str
+        """
+        if byte is None:
+            raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
+
+        self._byte = byte
+
+    @property
+    def binary(self):
+        """Gets the binary of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The binary of this InlineObject4.  # noqa: E501
+        :rtype: file
+        """
+        return self._binary
+
+    @binary.setter
+    def binary(self, binary):
+        """Sets the binary of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param binary: The binary of this InlineObject4.  # noqa: E501
+        :type: file
+        """
+
+        self._binary = binary
+
+    @property
+    def date(self):
+        """Gets the date of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The date of this InlineObject4.  # noqa: E501
+        :rtype: date
+        """
+        return self._date
+
+    @date.setter
+    def date(self, date):
+        """Sets the date of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param date: The date of this InlineObject4.  # noqa: E501
+        :type: date
+        """
+
+        self._date = date
+
+    @property
+    def date_time(self):
+        """Gets the date_time of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The date_time of this InlineObject4.  # noqa: E501
+        :rtype: datetime
+        """
+        return self._date_time
+
+    @date_time.setter
+    def date_time(self, date_time):
+        """Sets the date_time of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param date_time: The date_time of this InlineObject4.  # noqa: E501
+        :type: datetime
+        """
+
+        self._date_time = date_time
+
+    @property
+    def password(self):
+        """Gets the password of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The password of this InlineObject4.  # noqa: E501
+        :rtype: str
+        """
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        """Sets the password of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param password: The password of this InlineObject4.  # noqa: E501
+        :type: str
+        """
+        if password is not None and len(password) > 64:
+            raise ValueError("Invalid value for `password`, length must be less than or equal to `64`")  # noqa: E501
+        if password is not None and len(password) < 10:
+            raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
+
+        self._password = password
+
+    @property
+    def callback(self):
+        """Gets the callback of this InlineObject4.  # noqa: E501
+
+        None  # noqa: E501
+
+        :return: The callback of this InlineObject4.  # noqa: E501
+        :rtype: str
+        """
+        return self._callback
+
+    @callback.setter
+    def callback(self, callback):
+        """Sets the callback of this InlineObject4.
+
+        None  # noqa: E501
+
+        :param callback: The callback of this InlineObject4.  # noqa: E501
+        :type: str
+        """
+
+        self._callback = callback
 
     def to_dict(self):
         """Returns the model properties as a dict"""

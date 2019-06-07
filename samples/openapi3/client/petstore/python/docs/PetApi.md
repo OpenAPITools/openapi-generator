@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**upload_file_with_complex_metadata**](PetApi.md#upload_file_with_complex_metadata) | **POST** /pet/{petId}/uploadImageAndMetadata | uploads an image
 [**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
@@ -474,6 +475,68 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_file_with_complex_metadata**
+> ApiResponse upload_file_with_complex_metadata(pet_id, additional_metadata=additional_metadata, file=file, file_x_expires_after=file_x_expires_after)
+
+uploads an image
+
+### Example
+
+* OAuth Authentication (petstore_auth):
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
+pet_id = 56 # int | ID of pet to update
+additional_metadata = petstore_api.O() # O | Additional data to pass to server (optional)
+file = '/path/to/file' # file | file to upload (optional)
+file_x_expires_after = '2013-10-20T19:20:30+01:00' # datetime | date in UTC when the image should be expired (optional)
+
+try:
+    # uploads an image
+    api_response = api_instance.upload_file_with_complex_metadata(pet_id, additional_metadata=additional_metadata, file=file, file_x_expires_after=file_x_expires_after)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling PetApi->upload_file_with_complex_metadata: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **int**| ID of pet to update | 
+ **additional_metadata** | [**O**](O.md)| Additional data to pass to server | [optional] 
+ **file** | **file**| file to upload | [optional] 
+ **file_x_expires_after** | **datetime**| date in UTC when the image should be expired | [optional] 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/mixed
  - **Accept**: application/json
 
 ### HTTP response details

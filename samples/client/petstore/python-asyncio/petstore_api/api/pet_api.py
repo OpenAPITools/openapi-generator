@@ -115,6 +115,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'body' in local_var_params:
@@ -134,6 +136,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -227,6 +230,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # Authentication setting
@@ -240,6 +245,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -332,6 +338,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # HTTP header `Accept`
@@ -349,6 +357,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='list[Pet]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -441,6 +450,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # HTTP header `Accept`
@@ -458,6 +469,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='list[Pet]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -549,6 +561,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # HTTP header `Accept`
@@ -566,6 +580,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='Pet',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -653,6 +668,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'body' in local_var_params:
@@ -672,6 +689,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -765,6 +783,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
         if 'name' in local_var_params:
             form_params.append(('name', local_var_params['name']))  # noqa: E501
         if 'status' in local_var_params:
@@ -786,6 +806,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -879,6 +900,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
         if 'additional_metadata' in local_var_params:
             form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
         if 'file' in local_var_params:
@@ -904,6 +927,8 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            multipart_header_params=multipart_header_params,
+            post_content_types=post_content_types,
             response_type='ApiResponse',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -1001,6 +1026,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
         if 'additional_metadata' in local_var_params:
             form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
         if 'required_file' in local_var_params:
@@ -1026,6 +1053,8 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            multipart_header_params=multipart_header_params,
+            post_content_types=post_content_types,
             response_type='ApiResponse',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
