@@ -40,12 +40,23 @@ compileJava.dependsOn tasks.openApiGenerate
 
 == Plugin Setup
 
+[source,group]
+----
+plugins {
+  id "org.openapi.generator" version "4.0.1"
+}
+----
+
+Using https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application[legacy plugin application]:
+
 [source,groovy]
 ----
 buildscript {
   repositories {
     mavenLocal()
     mavenCentral()
+    // or, via Gradle Plugin Portal:
+    // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
     classpath "org.openapitools:openapi-generator-gradle-plugin:4.0.1"
@@ -54,11 +65,6 @@ buildscript {
 
 apply plugin: 'org.openapi.generator'
 ----
-
-[NOTE]
-====
-The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
-====
 
 == Configuration
 
