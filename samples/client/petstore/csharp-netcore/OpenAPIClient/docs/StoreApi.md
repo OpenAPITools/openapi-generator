@@ -20,6 +20,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -88,6 +89,7 @@ Returns a map of status codes to quantities
 
 ### Example
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -157,6 +159,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -225,6 +228,7 @@ Place an order for a pet
 
 ### Example
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;

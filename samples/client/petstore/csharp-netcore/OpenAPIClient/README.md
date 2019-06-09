@@ -48,6 +48,7 @@ using Org.OpenAPITools.Model;
 ## Getting Started
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
