@@ -20,7 +20,6 @@ Method | HTTP request | Description
 
 ### Example
 ```csharp
-using System;
 using System.Diagnostics;
 using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
@@ -30,8 +29,9 @@ namespace Example
 {
     public class {{operationId}}Example
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "{{{basePath}}}";
             {{#hasAuthMethods}}
             {{#authMethods}}
             {{#isBasic}}
@@ -52,7 +52,7 @@ namespace Example
             {{/authMethods}}
 
             {{/hasAuthMethods}}
-            var apiInstance = new {{classname}}();
+            var apiInstance = new {{classname}}(Configuration.Default);
             {{#allParams}}
             {{#isPrimitiveType}}
             var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
@@ -70,9 +70,11 @@ namespace Example
                 {{#returnType}}{{returnType}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
                 Debug.WriteLine(result);{{/returnType}}
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -98,6 +100,15 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
  - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{#responses.0}}
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+| **{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
