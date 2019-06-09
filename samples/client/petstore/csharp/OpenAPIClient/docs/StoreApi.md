@@ -87,7 +87,7 @@ No authorization required
 
 ## GetInventory
 
-> Dictionary<string, int?> GetInventory ()
+> Dictionary&lt;string, int?&gt; GetInventory ()
 
 Returns pet inventories by status
 
@@ -118,7 +118,7 @@ namespace Example
             try
             {
                 // Returns pet inventories by status
-                Dictionary&lt;string, int?&gt; result = apiInstance.GetInventory();
+                Dictionary<string, int?> result = apiInstance.GetInventory();
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
