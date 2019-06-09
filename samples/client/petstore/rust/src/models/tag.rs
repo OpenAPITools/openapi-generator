@@ -13,11 +13,12 @@
 #[allow(unused_imports)]
 use serde_json::Value;
 
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Tag {
-    #[serde(rename = "id")]
+    #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
-    #[serde(rename = "name")]
+    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }
 
@@ -30,3 +31,5 @@ impl Tag {
         }
     }
 }
+
+
