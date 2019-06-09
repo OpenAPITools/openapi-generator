@@ -19,6 +19,7 @@ To test class name in snake case
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;

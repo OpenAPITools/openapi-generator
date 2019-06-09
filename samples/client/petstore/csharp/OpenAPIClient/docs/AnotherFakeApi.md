@@ -19,6 +19,7 @@ To test special tags and operation ID starting with number
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
