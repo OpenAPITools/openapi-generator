@@ -54,7 +54,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String IS_LIBRARY = "isLibrary";
     public static final String USE_FRAMEWORK_REFERENCE = "useFrameworkReference";
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
-    public static final String USE_DEFAULT_ROUTING = "useDefaultRoutng";
+    public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
@@ -80,7 +80,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean isLibrary = false;
     private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
-    private boolean useDefaultRoutng = true;
+    private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0-preview5-19227-01";
 
     public AspNetCoreServerCodegen() {
@@ -162,6 +162,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         swashbuckleVersion.addEnum("3.0.0", "Swashbuckle 3.0.0");
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
+        swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
         swashbuckleVersion.setDefault("3.0.0");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
         addOption(swashbuckleVersion.getOpt(), swashbuckleVersion.getDescription(), swashbuckleVersion.getOptValue());
@@ -206,7 +207,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         addSwitch(USE_DEFAULT_ROUTING,
                 "Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.",
-                useDefaultRoutng);
+                useDefaultRouting);
 
         classModifier.addEnum("", "Keep class default with no modifier");
         classModifier.addEnum("abstract", "Make class abstract");
@@ -558,13 +559,13 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setUseEndpointRouting() {
         if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
             LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so switching to old style endpoint routing.");
-            useDefaultRoutng = false;
-            additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRoutng);
+            useDefaultRouting = false;
+            additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRouting);
         } else {
             if (additionalProperties.containsKey(USE_DEFAULT_ROUTING)) {
-                useDefaultRoutng = convertPropertyToBooleanAndWriteBack(USE_DEFAULT_ROUTING);
+                useDefaultRouting = convertPropertyToBooleanAndWriteBack(USE_DEFAULT_ROUTING);
             } else {
-                additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRoutng);
+                additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRouting);
             }
         }
     }
