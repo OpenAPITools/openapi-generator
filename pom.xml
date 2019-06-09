@@ -153,14 +153,21 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-version}</version>
                 <configuration>
-<!--                    <forkCount>0</forkCount>-->
-<!--                    <reuseForks>false</reuseForks>-->
+                    <!-- Setting forkCount=0 allows for easy debugging of tests using Remote Debugger (in case things fail during testing but pass otherwise) -->
+                    <forkCount>0</forkCount>
+                    <reuseForks>false</reuseForks>
                     <printSummary>true</printSummary>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>-XX:+StartAttachListener</argLine>
                     <argLine>-javaagent:"${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar"</argLine>
+                    <properties>
+                        <property>
+                            <name>surefire.testng.verbose</name>
+                            <value>2</value>
+                        </property>
+                    </properties>
                 </configuration>
             </plugin>
             <plugin>
@@ -1287,12 +1294,12 @@
         </profile>
     </profiles>
     <modules>
+        <module>modules/openapi-generator-core</module>
         <module>modules/openapi-generator</module>
         <module>modules/openapi-generator-cli</module>
         <module>modules/openapi-generator-maven-plugin</module>
         <module>modules/openapi-generator-gradle-plugin</module>
         <module>modules/openapi-generator-online</module>
-        <module>modules/openapi-generator-core</module>
     </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
@@ -1374,8 +1381,8 @@
         <jmustache-version>1.14</jmustache-version>
         <handlebars.java-version>4.1.2</handlebars.java-version>
         <testng-version>6.14.3</testng-version>
-        <surefire-version>2.22.1</surefire-version>
-        <jmockit-version>1.43</jmockit-version>
+        <surefire-version>3.0.0-M3</surefire-version>
+        <jmockit-version>1.44   </jmockit-version>
         <reflections-version>0.9.10</reflections-version>
     </properties>
 </project>
