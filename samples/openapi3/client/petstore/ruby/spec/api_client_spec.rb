@@ -48,6 +48,15 @@ describe Petstore::ApiClient do
           expect(Petstore::Configuration.default.base_path).to eq('')
         end
       end
+
+      describe 'build_request_path' do
+        it 'leaves slashes encoded' do
+          Petstore.configure { |c| c.host = 'http://example.com' }
+          path = '/%2Fpulp%2Fapi%2Fv3%2Fartifacts%2F1%2F%3Fquery'
+          url = Petstore::ApiClient.new.build_request_url(path)
+          expect(url).to eq('http://example.com/%2Fpulp%2Fapi%2Fv3%2Fartifacts%2F1%2F%3Fquery')
+        end
+      end
     end
   end
 

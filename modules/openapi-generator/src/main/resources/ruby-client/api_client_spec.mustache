@@ -40,6 +40,25 @@ describe {{moduleName}}::ApiClient do
           expect({{moduleName}}::Configuration.default.base_path).to eq('')
         end
       end
+
+      describe 'build_request_path' do
+        {{#compatibilitySlashesInPathParameters}}
+        it 'un-does encoding of slashes' do
+          {{moduleName}}.configure { |c| c.host = 'http://example.com' }
+          path = '/%2Fpulp%2Fapi%2Fv3%2Fartifacts%2F1%2F%3Fquery'
+          url = {{moduleName}}::ApiClient.new.build_request_url(path)
+          expect(url).to eq('http://example.com/pulp/api/v3/artifacts/1/%3Fquery')
+        end
+        {{/compatibilitySlashesInPathParameters}}
+        {{^compatibilitySlashesInPathParameters}}
+        it 'leaves slashes encoded' do
+          {{moduleName}}.configure { |c| c.host = 'http://example.com' }
+          path = '/%2Fpulp%2Fapi%2Fv3%2Fartifacts%2F1%2F%3Fquery'
+          url = {{moduleName}}::ApiClient.new.build_request_url(path)
+          expect(url).to eq('http://example.com/%2Fpulp%2Fapi%2Fv3%2Fartifacts%2F1%2F%3Fquery')
+        end
+        {{/compatibilitySlashesInPathParameters}}
+      end
     end
   end
 

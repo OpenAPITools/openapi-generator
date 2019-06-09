@@ -254,6 +254,9 @@ module {{moduleName}}
 
     def build_request_url(path)
       # Add leading and trailing slashes to path
+      {{#compatibilitySlashesInPathParameters}}
+      path = path.gsub('%2F', '/')
+      {{/compatibilitySlashesInPathParameters}}
       path = "/#{path}".gsub(/\/+/, '/')
       @config.base_url + path
     end
