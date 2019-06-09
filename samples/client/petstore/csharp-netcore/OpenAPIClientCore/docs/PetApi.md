@@ -159,7 +159,7 @@ void (empty response body)
 
 <a name="findpetsbystatus"></a>
 # **FindPetsByStatus**
-> List<Pet> FindPetsByStatus (List<string> status)
+> List&lt;Pet&gt; FindPetsByStatus (List<string> status)
 
 Finds Pets by status
 
@@ -189,7 +189,7 @@ namespace Example
             try
             {
                 // Finds Pets by status
-                List&lt;Pet&gt; result = apiInstance.FindPetsByStatus(status);
+                List<Pet> result = apiInstance.FindPetsByStatus(status);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -232,7 +232,7 @@ Name | Type | Description  | Notes
 
 <a name="findpetsbytags"></a>
 # **FindPetsByTags**
-> List<Pet> FindPetsByTags (List<string> tags)
+> List&lt;Pet&gt; FindPetsByTags (List<string> tags)
 
 Finds Pets by tags
 
@@ -262,7 +262,7 @@ namespace Example
             try
             {
                 // Finds Pets by tags
-                List&lt;Pet&gt; result = apiInstance.FindPetsByTags(tags);
+                List<Pet> result = apiInstance.FindPetsByTags(tags);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
