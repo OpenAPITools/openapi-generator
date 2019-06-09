@@ -80,6 +80,7 @@ Then, publish to a [local feed](https://docs.microsoft.com/en-us/nuget/hosting-p
 ## Getting Started
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
@@ -128,7 +129,7 @@ namespace Example
                 {{#summary}}
                 // {{{.}}}
                 {{/summary}}
-                {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+                {{#returnType}}{{returnType}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
                 Debug.WriteLine(result);{{/returnType}}
             }
             catch (ApiException e)
