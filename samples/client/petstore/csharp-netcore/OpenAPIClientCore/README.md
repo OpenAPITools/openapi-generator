@@ -60,7 +60,6 @@ Then, publish to a [local feed](https://docs.microsoft.com/en-us/nuget/hosting-p
 ## Getting Started
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -70,10 +69,11 @@ namespace Example
 {
     public class Example
     {
-        public void main()
+        public static void Main()
         {
 
-            var apiInstance = new AnotherFakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new AnotherFakeApi(Configuration.Default);
             var body = new ModelClient(); // ModelClient | client model
 
             try
@@ -82,9 +82,11 @@ namespace Example
                 ModelClient result = apiInstance.Call123TestSpecialTags(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
 
         }
