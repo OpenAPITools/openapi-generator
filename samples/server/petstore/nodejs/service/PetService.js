@@ -18,10 +18,10 @@ exports.addPet = function(pet) {
  * Deletes a pet
  *
  * petId Long Pet id to delete
- * api_key String  (optional)
+ * apiUnderscorekey String  (optional)
  * no response value expected for this operation
  **/
-exports.deletePet = function(petId,api_key) {
+exports.deletePet = function(petId,apiUnderscorekey) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -69,9 +69,10 @@ exports.findPetsByStatus = function(status) {
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  *
  * tags List Tags to filter by
+ * maxCount Integer Maximum number of items to return (optional)
  * returns List
  **/
-exports.findPetsByTags = function(tags) {
+exports.findPetsByTags = function(tags,maxCount) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

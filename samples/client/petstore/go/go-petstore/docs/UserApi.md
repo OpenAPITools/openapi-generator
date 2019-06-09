@@ -59,7 +59,7 @@ Creates list of users with given input array
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**[]User**](array.md)| List of user object | 
+**body** | [**[]User**](User.md)| List of user object | 
 
 ### Return type
 
@@ -90,7 +90,7 @@ Creates list of users with given input array
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**[]User**](array.md)| List of user object | 
+**body** | [**[]User**](User.md)| List of user object | 
 
 ### Return type
 
