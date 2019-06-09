@@ -603,7 +603,7 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@jimschubert](https://github.com/jimschubert) (2016/05) [:heart:](https://www.patreon.com/jimschubert)
 * [@cbornet](https://github.com/cbornet) (2016/05)
 * [@ackintosh](https://github.com/ackintosh) (2018/02) [:heart:](https://www.patreon.com/ackintosh/overview)
-* [@jmini](https://github.com/jmini) (2018/04)
+* [@jmini](https://github.com/jmini) (2018/04)  [:heart:](https://www.patreon.com/jmini)
 * [@etherealjoy](https://github.com/etherealjoy) (2019/06)
 
 :heart: = Link to support the contributor directly 
@@ -812,7 +812,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Jean-François Côté](https://github.com/JFCote)
 - [Jim Schubert](https://github.com/jimschubert)
 - [Jon Schoning](https://github.com/jonschoning)
-- [Jérémie Bresson](https://github.com/jmini)
+- [Jérémie Bresson](https://github.com/jmini) [:heart:](https://www.patreon.com/jmini)
 - [Jörn Ahrens](https://github.com/jayearn)
 - [Keni Steward](https://github.com/kenisteward)
 - [Marcin Stefaniuk](https://github.com/mstefaniuk)
