@@ -45,7 +45,7 @@ ApiClient  <- R6::R6Class(
     apiKeys = NULL,
     # Access token
     accessToken = NULL,
-    #Time Out
+    # Time Out (seconds)
     timeout = NULL,
     # constructor
     initialize = function(basePath=NULL, userAgent=NULL, defaultHeaders=NULL, username=NULL, password=NULL, apiKeys=NULL, accessToken=NULL, timeout=NULL){
@@ -92,17 +92,17 @@ ApiClient  <- R6::R6Class(
       }
 
       if (method == "GET") {
-        httr::GET(url, query = queryParams, headers, httpTimeout, ...)
+        httr::GET(url, query = queryParams, headers, httpTimeout, httr::user_agent(self$`userAgent`), ...)
       } else if (method == "POST") {
-        httr::POST(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, ...)
+        httr::POST(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, httr::user_agent(self$`userAgent`), ...)
       } else if (method == "PUT") {
-        httr::PUT(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, ...)
+        httr::PUT(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
       } else if (method == "PATCH") {
-        httr::PATCH(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, ...)
+        httr::PATCH(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
       } else if (method == "HEAD") {
-        httr::HEAD(url, query = queryParams, headers, httpTimeout, ...)
+        httr::HEAD(url, query = queryParams, headers, httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
       } else if (method == "DELETE") {
-        httr::DELETE(url, query = queryParams, headers, httpTimeout, ...)
+        httr::DELETE(url, query = queryParams, headers, httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
       } else {
         stop("http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`.")
       }
