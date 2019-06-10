@@ -1,0 +1,58 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import {{packageName}}.RetrofitHolder
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.create
+import retrofit2.http.*
+import okhttp3.*
+import retrofit2.http.Headers
+
+{{#operations}}
+interface {{classname}} {
+    
+    {{#operation}}
+    /**
+    * {{summary}}
+    * {{notes}}
+    * Responses:{{#responses}}
+    *  - {{code}}: {{{message}}}{{/responses}}
+    * 
+    {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    */
+    @{{httpMethod}}("{{{path}}}")
+    {{#isDeprecated}}
+    @Deprecated("")
+    {{/isDeprecated}}
+    {{#formParams}}
+    {{#-first}}
+    {{#isMultipart}}@Multipart{{/isMultipart}}{{^isMultipart}}@FormUrlEncoded{{/isMultipart}}
+    {{/-first}}
+    {{/formParams}}
+    {{^formParams}}
+    {{#prioritizedContentTypes}}
+    {{#-first}}
+    @Headers(
+        "Content-Type:{{{mediaType}}}"
+    )
+    {{/-first}}
+    {{/prioritizedContentTypes}}
+    {{/formParams}}
+    {{#authMethods}}{{#-first}}@Headers({{/-first}}RetrofitHolder.AUTH_NAME_HEADER + ": {{{name}}}"{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/authMethods}}
+    suspend fun {{operationId}}(
+        {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+        {{/hasMore}}{{/allParams}}
+    ): Response<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>
+
+    {{/operation}}
+
+    companion object {
+        fun create(retrofit: Retrofit = RetrofitHolder.retrofit): {{classname}} = retrofit.create()
+    }
+}
+{{/operations}}
