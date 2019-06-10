@@ -141,8 +141,7 @@
      
     {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
       apiResponse <- self${{{operationId}}}WithHttpInfo({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...)
-      {{#backwardCompatible}}
-	  resp <- apiResponse$response
+      resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -150,10 +149,6 @@
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         apiResponse
       }
-	  {{/backwardCompatible}}
-	  {{^backwardCompatible}}
-	  apiResponse
-	  {{/backwardCompatible}}
     }{{#hasMore}},{{/hasMore}}
     {{/operation}}
   )
