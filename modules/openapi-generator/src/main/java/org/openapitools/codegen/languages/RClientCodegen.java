@@ -43,6 +43,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String modelDocPath = "docs/";
     protected String testFolder = "tests/testthat";
 
+	protected boolean backwardCompatible = Boolean.TRUE;
+	public static final String BACKWARD_COMPATIBLE = "backwardCompatible";
+
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -115,6 +118,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
 
+		cliOptions.add(new CliOption(BACKWARD_COMPATIBLE, "Set to true if backward compatibility is required, which doesn't provide some new features.")
+                .defaultValue(Boolean.TRUE.toString()));
+
     }
 
     @Override
@@ -132,9 +138,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             setPackageVersion("1.0.0");
         }
+		
+		if (additionalProperties.containsKey(BACKWARD_COMPATIBLE)) {
+            this.backwardCompatible = convertPropertyToBooleanAndWriteBack(BACKWARD_COMPATIBLE);
+        } else {
+            additionalProperties.put(BACKWARD_COMPATIBLE, backwardCompatible);
+        }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+		
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -159,6 +172,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
+		supportingFiles.add(new SupportingFile("test.mustache","","test.R"));
     }
 
     @Override
