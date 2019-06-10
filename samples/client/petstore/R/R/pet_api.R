@@ -56,6 +56,18 @@ PetApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
+    AddPet = function(body, ...){
+      apiResponse <- self$AddPetWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
     AddPetWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
@@ -89,11 +101,9 @@ PetApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    AddPet = function(body, ...){
-      apiResponse <- self$AddPetWithHttpInfo(body, ...)
+    DeletePet = function(pet.id, api.key=NULL, ...){
+      apiResponse <- self$DeletePetWithHttpInfo(pet.id, api.key=NULL, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -103,6 +113,7 @@ PetApi <- R6::R6Class(
         apiResponse
       }
     },
+
     DeletePetWithHttpInfo = function(pet.id, api.key=NULL, ...){
       args <- list(...)
       queryParams <- list()
@@ -136,11 +147,9 @@ PetApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    DeletePet = function(pet.id, api.key=NULL, ...){
-      apiResponse <- self$DeletePetWithHttpInfo(pet.id, api.key=NULL, ...)
+    FindPetsByStatus = function(status, ...){
+      apiResponse <- self$FindPetsByStatusWithHttpInfo(status, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -150,6 +159,7 @@ PetApi <- R6::R6Class(
         apiResponse
       }
     },
+
     FindPetsByStatusWithHttpInfo = function(status, ...){
       args <- list(...)
       queryParams <- list()
@@ -180,11 +190,9 @@ PetApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    FindPetsByStatus = function(status, ...){
-      apiResponse <- self$FindPetsByStatusWithHttpInfo(status, ...)
+    FindPetsByTags = function(tags, ...){
+      apiResponse <- self$FindPetsByTagsWithHttpInfo(tags, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -194,6 +202,7 @@ PetApi <- R6::R6Class(
         apiResponse
       }
     },
+
     FindPetsByTagsWithHttpInfo = function(tags, ...){
       args <- list(...)
       queryParams <- list()
@@ -224,11 +233,9 @@ PetApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    FindPetsByTags = function(tags, ...){
-      apiResponse <- self$FindPetsByTagsWithHttpInfo(tags, ...)
+    GetPetById = function(pet.id, ...){
+      apiResponse <- self$GetPetByIdWithHttpInfo(pet.id, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -238,6 +245,7 @@ PetApi <- R6::R6Class(
         apiResponse
       }
     },
+
     GetPetByIdWithHttpInfo = function(pet.id, ...){
       args <- list(...)
       queryParams <- list()
@@ -272,11 +280,9 @@ PetApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    GetPetById = function(pet.id, ...){
-      apiResponse <- self$GetPetByIdWithHttpInfo(pet.id, ...)
+    UpdatePet = function(body, ...){
+      apiResponse <- self$UpdatePetWithHttpInfo(body, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -286,6 +292,7 @@ PetApi <- R6::R6Class(
         apiResponse
       }
     },
+
     UpdatePetWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
@@ -319,11 +326,9 @@ PetApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    UpdatePet = function(body, ...){
-      apiResponse <- self$UpdatePetWithHttpInfo(body, ...)
+    UpdatePetWithForm = function(pet.id, name=NULL, status=NULL, ...){
+      apiResponse <- self$UpdatePetWithFormWithHttpInfo(pet.id, name=NULL, status=NULL, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -333,6 +338,7 @@ PetApi <- R6::R6Class(
         apiResponse
       }
     },
+
     UpdatePetWithFormWithHttpInfo = function(pet.id, name=NULL, status=NULL, ...){
       args <- list(...)
       queryParams <- list()
@@ -369,11 +375,9 @@ PetApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    UpdatePetWithForm = function(pet.id, name=NULL, status=NULL, ...){
-      apiResponse <- self$UpdatePetWithFormWithHttpInfo(pet.id, name=NULL, status=NULL, ...)
+    UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, ...){
+      apiResponse <- self$UploadFileWithHttpInfo(pet.id, additional.metadata=NULL, file=NULL, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -383,6 +387,7 @@ PetApi <- R6::R6Class(
         apiResponse
       }
     },
+
     UploadFileWithHttpInfo = function(pet.id, additional.metadata=NULL, file=NULL, ...){
       args <- list(...)
       queryParams <- list()
@@ -419,19 +424,6 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
-      }
-
-    },
-     
-    UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, ...){
-      apiResponse <- self$UploadFileWithHttpInfo(pet.id, additional.metadata=NULL, file=NULL, ...)
-      resp <- apiResponse$response
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        apiResponse
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        apiResponse
       }
     }
   )

@@ -32,6 +32,18 @@
       }
     },
     {{#operation}}
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
+      apiResponse <- self${{{operationId}}}WithHttpInfo({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
     {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
       args <- list(...)
       queryParams <- list()
@@ -135,19 +147,6 @@
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
-      }
-
-    },
-     
-    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
-      apiResponse <- self${{{operationId}}}WithHttpInfo({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...)
-      resp <- apiResponse$response
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        apiResponse
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        apiResponse
       }
     }{{#hasMore}},{{/hasMore}}
     {{/operation}}

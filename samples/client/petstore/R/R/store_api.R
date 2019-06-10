@@ -44,6 +44,18 @@ StoreApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
+    DeleteOrder = function(order.id, ...){
+      apiResponse <- self$DeleteOrderWithHttpInfo(order.id, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
     DeleteOrderWithHttpInfo = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
@@ -73,11 +85,9 @@ StoreApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    DeleteOrder = function(order.id, ...){
-      apiResponse <- self$DeleteOrderWithHttpInfo(order.id, ...)
+    GetInventory = function(...){
+      apiResponse <- self$GetInventoryWithHttpInfo(...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -87,6 +97,7 @@ StoreApi <- R6::R6Class(
         apiResponse
       }
     },
+
     GetInventoryWithHttpInfo = function(...){
       args <- list(...)
       queryParams <- list()
@@ -113,11 +124,9 @@ StoreApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    GetInventory = function(...){
-      apiResponse <- self$GetInventoryWithHttpInfo(...)
+    GetOrderById = function(order.id, ...){
+      apiResponse <- self$GetOrderByIdWithHttpInfo(order.id, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -127,6 +136,7 @@ StoreApi <- R6::R6Class(
         apiResponse
       }
     },
+
     GetOrderByIdWithHttpInfo = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
@@ -157,11 +167,9 @@ StoreApi <- R6::R6Class(
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
-     
-    GetOrderById = function(order.id, ...){
-      apiResponse <- self$GetOrderByIdWithHttpInfo(order.id, ...)
+    PlaceOrder = function(body, ...){
+      apiResponse <- self$PlaceOrderWithHttpInfo(body, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -171,6 +179,7 @@ StoreApi <- R6::R6Class(
         apiResponse
       }
     },
+
     PlaceOrderWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
@@ -202,19 +211,6 @@ StoreApi <- R6::R6Class(
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
-      }
-
-    },
-     
-    PlaceOrder = function(body, ...){
-      apiResponse <- self$PlaceOrderWithHttpInfo(body, ...)
-      resp <- apiResponse$response
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        apiResponse
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        apiResponse
       }
     }
   )
