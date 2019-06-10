@@ -446,14 +446,17 @@ class ApiClient {
         return new Promise((resolve, reject) => {
             request.end((error, response) => {
                 if (error) {
-                    var err = {};
-                    err.status = response.status;
-                    err.statusText = response.statusText;
-                    err.body = response.body;
-                    err.response = response;
-                    err.error = error;
+                     if(response) {
+                        var err = {};
+                        err.status = response.status;
+                        err.statusText = response.statusText;
+                        err.body = response.body;
+                        err.response = response;
+                        err.error = error;
+                        reject(err);
+                    }
 
-                    reject(err);
+                    reject(error);
                 } else {
                     try {
                         var data = this.deserialize(response, returnType);
