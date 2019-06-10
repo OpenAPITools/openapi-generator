@@ -446,7 +446,7 @@ class ApiClient {
         return new Promise((resolve, reject) => {
             request.end((error, response) => {
                 if (error) {
-                     if(response) {
+                     if (response) {
                         var err = {};
                         err.status = response.status;
                         err.statusText = response.statusText;
@@ -454,6 +454,7 @@ class ApiClient {
                         err.response = response;
                         err.error = error;
                         reject(err);
+                        return;
                     }
 
                     reject(error);
