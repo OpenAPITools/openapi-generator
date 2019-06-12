@@ -28,11 +28,12 @@ class OAIStoreApi: public QObject {
 
 public:
     OAIStoreApi();
-    OAIStoreApi(const QString& host, const QString& basePath);
+    OAIStoreApi(const QString& host, const QString& basePath, const int toutMs = 0);
     ~OAIStoreApi();
 
     void setBasePath(const QString& basePath);
     void setHost(const QString& host);
+    void setApiTimeOutMs(const int tout);
     void addHeaders(const QString& key, const QString& value);
     
     void deleteOrder(const QString& order_id);
@@ -43,6 +44,7 @@ public:
 private:
     QString basePath;
     QString host;
+    int timeout;
     QMap<QString, QString> defaultHeaders;
     void deleteOrderCallback (OAIHttpRequestWorker * worker);
     void getInventoryCallback (OAIHttpRequestWorker * worker);
