@@ -6,7 +6,7 @@ from {{{packageName}}}.rest import ApiException
 from pprint import pprint
 {{> python_doc_auth_partial}}
 {{#hasAuthMethods}}
-configuration.host = {{{basePath}}}
+configuration.host = "{{{basePath}}}"
 # create an instance of the API class
 api_instance = {{{packageName}}}.{{{classname}}}({{{packageName}}}.ApiClient(configuration))
 {{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}

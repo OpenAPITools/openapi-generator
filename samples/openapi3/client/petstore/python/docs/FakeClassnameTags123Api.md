@@ -29,6 +29,7 @@ configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key_query'] = 'Bearer'
 
+configuration.host = "http://petstore.swagger.io:80/v2"
 # create an instance of the API class
 api_instance = petstore_api.FakeClassnameTags123Api(petstore_api.ApiClient(configuration))
 client = petstore_api.Client() # Client | client model
