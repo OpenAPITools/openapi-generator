@@ -636,10 +636,10 @@ class ApiClient(object):
                     keyword_args[attr] = self.__deserialize(value, attr_type)
 
         end_index = None
-        if inspect.getfullargspec(klass).defaults:
-            end_index = -len(inspect.getfullargspec(klass).defaults)
+        if inspect.getargspec(klass).defaults:
+            end_index = -len(inspect.getargspec(klass).defaults)
         required_positional_args = (
-            inspect.getfullargspec(klass).args[1:end_index]
+            inspect.getargspec(klass).args[1:end_index]
         )
 
         for index, req_positional_arg in enumerate(required_positional_args):
