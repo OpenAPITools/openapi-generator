@@ -35,7 +35,7 @@ class ModelReturn(object):
     }
 
     attribute_map = {
-        '_return': 'return',
+        '_return': 'return',  # noqa: E501
     }
 
     def __init__(self, _return=None):  # noqa: E501
@@ -51,7 +51,7 @@ class ModelReturn(object):
         self.discriminator = None
 
         if _return is not None:
-            self._return = _return
+            self._return = _return  # noqa: E501
 
     @property
     def _return(self):
@@ -64,7 +64,9 @@ class ModelReturn(object):
         return self.__return
 
     @_return.setter
-    def _return(self, _return):
+    def _return(
+            self,
+            _return):
         """Sets the _return of this ModelReturn.
 
 
@@ -72,7 +74,8 @@ class ModelReturn(object):
         :type: int
         """
 
-        self.__return = _return
+        self.__return = (
+            _return)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

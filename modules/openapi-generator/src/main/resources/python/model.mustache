@@ -43,10 +43,10 @@ class {{classname}}(object):
 
     attribute_map = {
 {{#requiredVars}}
-        '{{name}}': '{{baseName}}',
+        '{{name}}': '{{baseName}}',  # noqa: E501
 {{/requiredVars}}
 {{#optionalVars}}
-        '{{name}}': '{{baseName}}',
+        '{{name}}': '{{baseName}}',  # noqa: E501
 {{/optionalVars}}
     }
 {{#discriminator}}
@@ -83,7 +83,7 @@ class {{classname}}(object):
 {{/isNullable}}
 {{^isNullable}}
         if {{name}} is not None:
-            self.{{name}} = {{name}}
+            self.{{name}} = {{name}}  # noqa: E501
 {{/isNullable}}
 {{/required}}
 {{/vars}}
@@ -103,7 +103,9 @@ class {{classname}}(object):
         return self._{{name}}
 
     @{{name}}.setter
-    def {{name}}(self, {{name}}):
+    def {{name}}(
+            self,
+            {{name}}):
         """Sets the {{name}} of this {{classname}}.
 
 {{#description}}
@@ -181,7 +183,8 @@ class {{classname}}(object):
 {{/hasValidation}}
 {{/isEnum}}
 
-        self._{{name}} = {{name}}
+        self._{{name}} = (
+            {{name}})
 
 {{/vars}}
 {{#discriminator}}

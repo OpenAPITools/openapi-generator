@@ -36,8 +36,8 @@ class InlineObject2(object):
     }
 
     attribute_map = {
-        'enum_form_string_array': 'enum_form_string_array',
-        'enum_form_string': 'enum_form_string',
+        'enum_form_string_array': 'enum_form_string_array',  # noqa: E501
+        'enum_form_string': 'enum_form_string',  # noqa: E501
     }
 
     def __init__(self, enum_form_string_array=None, enum_form_string=None):  # noqa: E501
@@ -55,9 +55,9 @@ class InlineObject2(object):
         self.discriminator = None
 
         if enum_form_string_array is not None:
-            self.enum_form_string_array = enum_form_string_array
+            self.enum_form_string_array = enum_form_string_array  # noqa: E501
         if enum_form_string is not None:
-            self.enum_form_string = enum_form_string
+            self.enum_form_string = enum_form_string  # noqa: E501
 
     @property
     def enum_form_string_array(self):
@@ -71,7 +71,9 @@ class InlineObject2(object):
         return self._enum_form_string_array
 
     @enum_form_string_array.setter
-    def enum_form_string_array(self, enum_form_string_array):
+    def enum_form_string_array(
+            self,
+            enum_form_string_array):
         """Sets the enum_form_string_array of this InlineObject2.
 
         Form parameter enum test (string array)  # noqa: E501
@@ -87,7 +89,8 @@ class InlineObject2(object):
                         ", ".join(map(str, allowed_values)))
             )
 
-        self._enum_form_string_array = enum_form_string_array
+        self._enum_form_string_array = (
+            enum_form_string_array)
 
     @property
     def enum_form_string(self):
@@ -101,7 +104,9 @@ class InlineObject2(object):
         return self._enum_form_string
 
     @enum_form_string.setter
-    def enum_form_string(self, enum_form_string):
+    def enum_form_string(
+            self,
+            enum_form_string):
         """Sets the enum_form_string of this InlineObject2.
 
         Form parameter enum test (string)  # noqa: E501
@@ -116,7 +121,8 @@ class InlineObject2(object):
                 .format(enum_form_string, allowed_values)
             )
 
-        self._enum_form_string = enum_form_string
+        self._enum_form_string = (
+            enum_form_string)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

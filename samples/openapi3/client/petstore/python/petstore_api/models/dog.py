@@ -37,9 +37,9 @@ class Dog(object):
     }
 
     attribute_map = {
-        'class_name': 'className',
-        'breed': 'breed',
-        'color': 'color',
+        'class_name': 'className',  # noqa: E501
+        'breed': 'breed',  # noqa: E501
+        'color': 'color',  # noqa: E501
     }
 
     def __init__(self, class_name, breed=None, color=None):  # noqa: E501
@@ -57,7 +57,7 @@ class Dog(object):
         self.discriminator = None
 
         if breed is not None:
-            self.breed = breed
+            self.breed = breed  # noqa: E501
 
     @property
     def breed(self):
@@ -70,7 +70,9 @@ class Dog(object):
         return self._breed
 
     @breed.setter
-    def breed(self, breed):
+    def breed(
+            self,
+            breed):
         """Sets the breed of this Dog.
 
 
@@ -78,7 +80,8 @@ class Dog(object):
         :type: str
         """
 
-        self._breed = breed
+        self._breed = (
+            breed)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

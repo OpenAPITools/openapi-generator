@@ -36,8 +36,8 @@ class Tag(object):
     }
 
     attribute_map = {
-        'id': 'id',
-        'name': 'name',
+        'id': 'id',  # noqa: E501
+        'name': 'name',  # noqa: E501
     }
 
     def __init__(self, id=None, name=None):  # noqa: E501
@@ -55,9 +55,9 @@ class Tag(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id
+            self.id = id  # noqa: E501
         if name is not None:
-            self.name = name
+            self.name = name  # noqa: E501
 
     @property
     def id(self):
@@ -70,7 +70,9 @@ class Tag(object):
         return self._id
 
     @id.setter
-    def id(self, id):
+    def id(
+            self,
+            id):
         """Sets the id of this Tag.
 
 
@@ -78,7 +80,8 @@ class Tag(object):
         :type: int
         """
 
-        self._id = id
+        self._id = (
+            id)
 
     @property
     def name(self):
@@ -91,7 +94,9 @@ class Tag(object):
         return self._name
 
     @name.setter
-    def name(self, name):
+    def name(
+            self,
+            name):
         """Sets the name of this Tag.
 
 
@@ -99,7 +104,8 @@ class Tag(object):
         :type: str
         """
 
-        self._name = name
+        self._name = (
+            name)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

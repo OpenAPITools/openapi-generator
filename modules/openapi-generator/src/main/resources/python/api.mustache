@@ -10,7 +10,7 @@ import re  # noqa: F401
 import six
 
 from {{packageName}}.api_client import ApiClient
-from {{packageName}}.exceptions import (
+from {{packageName}}.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
@@ -109,11 +109,17 @@ class {{classname}}(object):
         """
 
         {{#servers.0}}
-        local_var_hosts = [{{#servers}}'{{{url}}}'{{^-last}}, {{/-last}}{{/servers}}]  # noqa: E501
+        local_var_hosts = [{{#servers}}
+            '{{{url}}}'{{^-last}},{{/-last}}{{/servers}}
+        ]
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
-            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
-                raise ApiValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
+            if (int(kwargs.get('_host_index')) < 0 or
+                    int(kwargs.get('_host_index')) >= len(local_var_hosts)):
+                raise ApiValueError(
+                    "Invalid host index. Must be 0 <= index < %s" %
+                    len(local_var_host)
+                )
             local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
         {{/servers.0}}
         local_var_params = locals()

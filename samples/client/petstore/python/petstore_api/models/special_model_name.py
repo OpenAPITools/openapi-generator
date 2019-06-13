@@ -35,7 +35,7 @@ class SpecialModelName(object):
     }
 
     attribute_map = {
-        'special_property_name': '$special[property.name]',
+        'special_property_name': '$special[property.name]',  # noqa: E501
     }
 
     def __init__(self, special_property_name=None):  # noqa: E501
@@ -51,7 +51,7 @@ class SpecialModelName(object):
         self.discriminator = None
 
         if special_property_name is not None:
-            self.special_property_name = special_property_name
+            self.special_property_name = special_property_name  # noqa: E501
 
     @property
     def special_property_name(self):
@@ -64,7 +64,9 @@ class SpecialModelName(object):
         return self._special_property_name
 
     @special_property_name.setter
-    def special_property_name(self, special_property_name):
+    def special_property_name(
+            self,
+            special_property_name):
         """Sets the special_property_name of this SpecialModelName.
 
 
@@ -72,7 +74,8 @@ class SpecialModelName(object):
         :type: int
         """
 
-        self._special_property_name = special_property_name
+        self._special_property_name = (
+            special_property_name)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

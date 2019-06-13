@@ -35,7 +35,7 @@ class ArrayOfNumberOnly(object):
     }
 
     attribute_map = {
-        'array_number': 'ArrayNumber',
+        'array_number': 'ArrayNumber',  # noqa: E501
     }
 
     def __init__(self, array_number=None):  # noqa: E501
@@ -51,7 +51,7 @@ class ArrayOfNumberOnly(object):
         self.discriminator = None
 
         if array_number is not None:
-            self.array_number = array_number
+            self.array_number = array_number  # noqa: E501
 
     @property
     def array_number(self):
@@ -64,7 +64,9 @@ class ArrayOfNumberOnly(object):
         return self._array_number
 
     @array_number.setter
-    def array_number(self, array_number):
+    def array_number(
+            self,
+            array_number):
         """Sets the array_number of this ArrayOfNumberOnly.
 
 
@@ -72,7 +74,8 @@ class ArrayOfNumberOnly(object):
         :type: list[float]
         """
 
-        self._array_number = array_number
+        self._array_number = (
+            array_number)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

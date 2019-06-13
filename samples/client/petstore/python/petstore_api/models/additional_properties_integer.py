@@ -35,7 +35,7 @@ class AdditionalPropertiesInteger(object):
     }
 
     attribute_map = {
-        'name': 'name',
+        'name': 'name',  # noqa: E501
     }
 
     def __init__(self, name=None):  # noqa: E501
@@ -51,7 +51,7 @@ class AdditionalPropertiesInteger(object):
         self.discriminator = None
 
         if name is not None:
-            self.name = name
+            self.name = name  # noqa: E501
 
     @property
     def name(self):
@@ -64,7 +64,9 @@ class AdditionalPropertiesInteger(object):
         return self._name
 
     @name.setter
-    def name(self, name):
+    def name(
+            self,
+            name):
         """Sets the name of this AdditionalPropertiesInteger.
 
 
@@ -72,7 +74,8 @@ class AdditionalPropertiesInteger(object):
         :type: str
         """
 
-        self._name = name
+        self._name = (
+            name)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

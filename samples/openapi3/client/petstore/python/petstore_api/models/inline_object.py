@@ -36,8 +36,8 @@ class InlineObject(object):
     }
 
     attribute_map = {
-        'name': 'name',
-        'status': 'status',
+        'name': 'name',  # noqa: E501
+        'status': 'status',  # noqa: E501
     }
 
     def __init__(self, name=None, status=None):  # noqa: E501
@@ -55,9 +55,9 @@ class InlineObject(object):
         self.discriminator = None
 
         if name is not None:
-            self.name = name
+            self.name = name  # noqa: E501
         if status is not None:
-            self.status = status
+            self.status = status  # noqa: E501
 
     @property
     def name(self):
@@ -71,7 +71,9 @@ class InlineObject(object):
         return self._name
 
     @name.setter
-    def name(self, name):
+    def name(
+            self,
+            name):
         """Sets the name of this InlineObject.
 
         Updated name of the pet  # noqa: E501
@@ -80,7 +82,8 @@ class InlineObject(object):
         :type: str
         """
 
-        self._name = name
+        self._name = (
+            name)
 
     @property
     def status(self):
@@ -94,7 +97,9 @@ class InlineObject(object):
         return self._status
 
     @status.setter
-    def status(self, status):
+    def status(
+            self,
+            status):
         """Sets the status of this InlineObject.
 
         Updated status of the pet  # noqa: E501
@@ -103,7 +108,8 @@ class InlineObject(object):
         :type: str
         """
 
-        self._status = status
+        self._status = (
+            status)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

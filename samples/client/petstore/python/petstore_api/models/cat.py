@@ -37,9 +37,9 @@ class Cat(object):
     }
 
     attribute_map = {
-        'class_name': 'className',
-        'declawed': 'declawed',
-        'color': 'color',
+        'class_name': 'className',  # noqa: E501
+        'declawed': 'declawed',  # noqa: E501
+        'color': 'color',  # noqa: E501
     }
 
     def __init__(self, class_name, declawed=None, color=None):  # noqa: E501
@@ -57,7 +57,7 @@ class Cat(object):
         self.discriminator = None
 
         if declawed is not None:
-            self.declawed = declawed
+            self.declawed = declawed  # noqa: E501
 
     @property
     def declawed(self):
@@ -70,7 +70,9 @@ class Cat(object):
         return self._declawed
 
     @declawed.setter
-    def declawed(self, declawed):
+    def declawed(
+            self,
+            declawed):
         """Sets the declawed of this Cat.
 
 
@@ -78,7 +80,8 @@ class Cat(object):
         :type: bool
         """
 
-        self._declawed = declawed
+        self._declawed = (
+            declawed)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

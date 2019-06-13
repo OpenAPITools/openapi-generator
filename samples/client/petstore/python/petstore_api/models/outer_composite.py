@@ -37,9 +37,9 @@ class OuterComposite(object):
     }
 
     attribute_map = {
-        'my_number': 'my_number',
-        'my_string': 'my_string',
-        'my_boolean': 'my_boolean',
+        'my_number': 'my_number',  # noqa: E501
+        'my_string': 'my_string',  # noqa: E501
+        'my_boolean': 'my_boolean',  # noqa: E501
     }
 
     def __init__(self, my_number=None, my_string=None, my_boolean=None):  # noqa: E501
@@ -59,11 +59,11 @@ class OuterComposite(object):
         self.discriminator = None
 
         if my_number is not None:
-            self.my_number = my_number
+            self.my_number = my_number  # noqa: E501
         if my_string is not None:
-            self.my_string = my_string
+            self.my_string = my_string  # noqa: E501
         if my_boolean is not None:
-            self.my_boolean = my_boolean
+            self.my_boolean = my_boolean  # noqa: E501
 
     @property
     def my_number(self):
@@ -76,7 +76,9 @@ class OuterComposite(object):
         return self._my_number
 
     @my_number.setter
-    def my_number(self, my_number):
+    def my_number(
+            self,
+            my_number):
         """Sets the my_number of this OuterComposite.
 
 
@@ -84,7 +86,8 @@ class OuterComposite(object):
         :type: float
         """
 
-        self._my_number = my_number
+        self._my_number = (
+            my_number)
 
     @property
     def my_string(self):
@@ -97,7 +100,9 @@ class OuterComposite(object):
         return self._my_string
 
     @my_string.setter
-    def my_string(self, my_string):
+    def my_string(
+            self,
+            my_string):
         """Sets the my_string of this OuterComposite.
 
 
@@ -105,7 +110,8 @@ class OuterComposite(object):
         :type: str
         """
 
-        self._my_string = my_string
+        self._my_string = (
+            my_string)
 
     @property
     def my_boolean(self):
@@ -118,7 +124,9 @@ class OuterComposite(object):
         return self._my_boolean
 
     @my_boolean.setter
-    def my_boolean(self, my_boolean):
+    def my_boolean(
+            self,
+            my_boolean):
         """Sets the my_boolean of this OuterComposite.
 
 
@@ -126,7 +134,8 @@ class OuterComposite(object):
         :type: bool
         """
 
-        self._my_boolean = my_boolean
+        self._my_boolean = (
+            my_boolean)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

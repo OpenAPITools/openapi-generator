@@ -36,8 +36,8 @@ class Model200Response(object):
     }
 
     attribute_map = {
-        'name': 'name',
-        '_class': 'class',
+        'name': 'name',  # noqa: E501
+        '_class': 'class',  # noqa: E501
     }
 
     def __init__(self, name=None, _class=None):  # noqa: E501
@@ -55,9 +55,9 @@ class Model200Response(object):
         self.discriminator = None
 
         if name is not None:
-            self.name = name
+            self.name = name  # noqa: E501
         if _class is not None:
-            self._class = _class
+            self._class = _class  # noqa: E501
 
     @property
     def name(self):
@@ -70,7 +70,9 @@ class Model200Response(object):
         return self._name
 
     @name.setter
-    def name(self, name):
+    def name(
+            self,
+            name):
         """Sets the name of this Model200Response.
 
 
@@ -78,7 +80,8 @@ class Model200Response(object):
         :type: int
         """
 
-        self._name = name
+        self._name = (
+            name)
 
     @property
     def _class(self):
@@ -91,7 +94,9 @@ class Model200Response(object):
         return self.__class
 
     @_class.setter
-    def _class(self, _class):
+    def _class(
+            self,
+            _class):
         """Sets the _class of this Model200Response.
 
 
@@ -99,7 +104,8 @@ class Model200Response(object):
         :type: str
         """
 
-        self.__class = _class
+        self.__class = (
+            _class)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

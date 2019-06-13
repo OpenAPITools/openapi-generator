@@ -35,7 +35,7 @@ class List(object):
     }
 
     attribute_map = {
-        '_123_list': '123-list',
+        '_123_list': '123-list',  # noqa: E501
     }
 
     def __init__(self, _123_list=None):  # noqa: E501
@@ -51,7 +51,7 @@ class List(object):
         self.discriminator = None
 
         if _123_list is not None:
-            self._123_list = _123_list
+            self._123_list = _123_list  # noqa: E501
 
     @property
     def _123_list(self):
@@ -64,7 +64,9 @@ class List(object):
         return self.__123_list
 
     @_123_list.setter
-    def _123_list(self, _123_list):
+    def _123_list(
+            self,
+            _123_list):
         """Sets the _123_list of this List.
 
 
@@ -72,7 +74,8 @@ class List(object):
         :type: str
         """
 
-        self.__123_list = _123_list
+        self.__123_list = (
+            _123_list)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

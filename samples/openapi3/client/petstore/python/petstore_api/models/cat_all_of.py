@@ -35,7 +35,7 @@ class CatAllOf(object):
     }
 
     attribute_map = {
-        'declawed': 'declawed',
+        'declawed': 'declawed',  # noqa: E501
     }
 
     def __init__(self, declawed=None):  # noqa: E501
@@ -51,7 +51,7 @@ class CatAllOf(object):
         self.discriminator = None
 
         if declawed is not None:
-            self.declawed = declawed
+            self.declawed = declawed  # noqa: E501
 
     @property
     def declawed(self):
@@ -64,7 +64,9 @@ class CatAllOf(object):
         return self._declawed
 
     @declawed.setter
-    def declawed(self, declawed):
+    def declawed(
+            self,
+            declawed):
         """Sets the declawed of this CatAllOf.
 
 
@@ -72,7 +74,8 @@ class CatAllOf(object):
         :type: bool
         """
 
-        self._declawed = declawed
+        self._declawed = (
+            declawed)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

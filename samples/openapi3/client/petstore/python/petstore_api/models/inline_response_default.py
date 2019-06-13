@@ -35,7 +35,7 @@ class InlineResponseDefault(object):
     }
 
     attribute_map = {
-        'string': 'string',
+        'string': 'string',  # noqa: E501
     }
 
     def __init__(self, string=None):  # noqa: E501
@@ -51,7 +51,7 @@ class InlineResponseDefault(object):
         self.discriminator = None
 
         if string is not None:
-            self.string = string
+            self.string = string  # noqa: E501
 
     @property
     def string(self):
@@ -64,7 +64,9 @@ class InlineResponseDefault(object):
         return self._string
 
     @string.setter
-    def string(self, string):
+    def string(
+            self,
+            string):
         """Sets the string of this InlineResponseDefault.
 
 
@@ -72,7 +74,8 @@ class InlineResponseDefault(object):
         :type: Foo
         """
 
-        self._string = string
+        self._string = (
+            string)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

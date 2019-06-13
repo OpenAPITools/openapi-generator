@@ -35,7 +35,7 @@ class NumberOnly(object):
     }
 
     attribute_map = {
-        'just_number': 'JustNumber',
+        'just_number': 'JustNumber',  # noqa: E501
     }
 
     def __init__(self, just_number=None):  # noqa: E501
@@ -51,7 +51,7 @@ class NumberOnly(object):
         self.discriminator = None
 
         if just_number is not None:
-            self.just_number = just_number
+            self.just_number = just_number  # noqa: E501
 
     @property
     def just_number(self):
@@ -64,7 +64,9 @@ class NumberOnly(object):
         return self._just_number
 
     @just_number.setter
-    def just_number(self, just_number):
+    def just_number(
+            self,
+            just_number):
         """Sets the just_number of this NumberOnly.
 
 
@@ -72,7 +74,8 @@ class NumberOnly(object):
         :type: float
         """
 
-        self._just_number = just_number
+        self._just_number = (
+            just_number)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

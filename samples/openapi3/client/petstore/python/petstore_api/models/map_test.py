@@ -38,10 +38,10 @@ class MapTest(object):
     }
 
     attribute_map = {
-        'map_map_of_string': 'map_map_of_string',
-        'map_of_enum_string': 'map_of_enum_string',
-        'direct_map': 'direct_map',
-        'indirect_map': 'indirect_map',
+        'map_map_of_string': 'map_map_of_string',  # noqa: E501
+        'map_of_enum_string': 'map_of_enum_string',  # noqa: E501
+        'direct_map': 'direct_map',  # noqa: E501
+        'indirect_map': 'indirect_map',  # noqa: E501
     }
 
     def __init__(self, map_map_of_string=None, map_of_enum_string=None, direct_map=None, indirect_map=None):  # noqa: E501
@@ -63,13 +63,13 @@ class MapTest(object):
         self.discriminator = None
 
         if map_map_of_string is not None:
-            self.map_map_of_string = map_map_of_string
+            self.map_map_of_string = map_map_of_string  # noqa: E501
         if map_of_enum_string is not None:
-            self.map_of_enum_string = map_of_enum_string
+            self.map_of_enum_string = map_of_enum_string  # noqa: E501
         if direct_map is not None:
-            self.direct_map = direct_map
+            self.direct_map = direct_map  # noqa: E501
         if indirect_map is not None:
-            self.indirect_map = indirect_map
+            self.indirect_map = indirect_map  # noqa: E501
 
     @property
     def map_map_of_string(self):
@@ -82,7 +82,9 @@ class MapTest(object):
         return self._map_map_of_string
 
     @map_map_of_string.setter
-    def map_map_of_string(self, map_map_of_string):
+    def map_map_of_string(
+            self,
+            map_map_of_string):
         """Sets the map_map_of_string of this MapTest.
 
 
@@ -90,7 +92,8 @@ class MapTest(object):
         :type: dict(str, dict(str, str))
         """
 
-        self._map_map_of_string = map_map_of_string
+        self._map_map_of_string = (
+            map_map_of_string)
 
     @property
     def map_of_enum_string(self):
@@ -103,7 +106,9 @@ class MapTest(object):
         return self._map_of_enum_string
 
     @map_of_enum_string.setter
-    def map_of_enum_string(self, map_of_enum_string):
+    def map_of_enum_string(
+            self,
+            map_of_enum_string):
         """Sets the map_of_enum_string of this MapTest.
 
 
@@ -118,7 +123,8 @@ class MapTest(object):
                         ", ".join(map(str, allowed_values)))
             )
 
-        self._map_of_enum_string = map_of_enum_string
+        self._map_of_enum_string = (
+            map_of_enum_string)
 
     @property
     def direct_map(self):
@@ -131,7 +137,9 @@ class MapTest(object):
         return self._direct_map
 
     @direct_map.setter
-    def direct_map(self, direct_map):
+    def direct_map(
+            self,
+            direct_map):
         """Sets the direct_map of this MapTest.
 
 
@@ -139,7 +147,8 @@ class MapTest(object):
         :type: dict(str, bool)
         """
 
-        self._direct_map = direct_map
+        self._direct_map = (
+            direct_map)
 
     @property
     def indirect_map(self):
@@ -152,7 +161,9 @@ class MapTest(object):
         return self._indirect_map
 
     @indirect_map.setter
-    def indirect_map(self, indirect_map):
+    def indirect_map(
+            self,
+            indirect_map):
         """Sets the indirect_map of this MapTest.
 
 
@@ -160,7 +171,8 @@ class MapTest(object):
         :type: dict(str, bool)
         """
 
-        self._indirect_map = indirect_map
+        self._indirect_map = (
+            indirect_map)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

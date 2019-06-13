@@ -18,7 +18,7 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.exceptions import (
+from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
@@ -92,11 +92,18 @@ class PetApi(object):
             None:
         """
 
-        local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
+        local_var_hosts = [
+            'http://petstore.swagger.io/v2',
+            'http://path-server-test.petstore.local/v2'
+        ]
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
-            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
-                raise ApiValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
+            if (int(kwargs.get('_host_index')) < 0 or
+                    int(kwargs.get('_host_index')) >= len(local_var_hosts)):
+                raise ApiValueError(
+                    "Invalid host index. Must be 0 <= index < %s" %
+                    len(local_var_host)
+                )
             local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
         local_var_params = locals()
 
@@ -685,11 +692,18 @@ class PetApi(object):
             None:
         """
 
-        local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
+        local_var_hosts = [
+            'http://petstore.swagger.io/v2',
+            'http://path-server-test.petstore.local/v2'
+        ]
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
-            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
-                raise ApiValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
+            if (int(kwargs.get('_host_index')) < 0 or
+                    int(kwargs.get('_host_index')) >= len(local_var_hosts)):
+                raise ApiValueError(
+                    "Invalid host index. Must be 0 <= index < %s" %
+                    len(local_var_host)
+                )
             local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
         local_var_params = locals()
 

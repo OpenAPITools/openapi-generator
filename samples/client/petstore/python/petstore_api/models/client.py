@@ -35,7 +35,7 @@ class Client(object):
     }
 
     attribute_map = {
-        'client': 'client',
+        'client': 'client',  # noqa: E501
     }
 
     def __init__(self, client=None):  # noqa: E501
@@ -51,7 +51,7 @@ class Client(object):
         self.discriminator = None
 
         if client is not None:
-            self.client = client
+            self.client = client  # noqa: E501
 
     @property
     def client(self):
@@ -64,7 +64,9 @@ class Client(object):
         return self._client
 
     @client.setter
-    def client(self, client):
+    def client(
+            self,
+            client):
         """Sets the client of this Client.
 
 
@@ -72,7 +74,8 @@ class Client(object):
         :type: str
         """
 
-        self._client = client
+        self._client = (
+            client)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -36,8 +36,8 @@ class InlineObject4(object):
     }
 
     attribute_map = {
-        'param': 'param',
-        'param2': 'param2',
+        'param': 'param',  # noqa: E501
+        'param2': 'param2',  # noqa: E501
     }
 
     def __init__(self, param, param2):  # noqa: E501
@@ -69,7 +69,9 @@ class InlineObject4(object):
         return self._param
 
     @param.setter
-    def param(self, param):
+    def param(
+            self,
+            param):
         """Sets the param of this InlineObject4.
 
         field1  # noqa: E501
@@ -80,7 +82,8 @@ class InlineObject4(object):
         if param is None:
             raise ValueError("Invalid value for `param`, must not be `None`")  # noqa: E501
 
-        self._param = param
+        self._param = (
+            param)
 
     @property
     def param2(self):
@@ -94,7 +97,9 @@ class InlineObject4(object):
         return self._param2
 
     @param2.setter
-    def param2(self, param2):
+    def param2(
+            self,
+            param2):
         """Sets the param2 of this InlineObject4.
 
         field2  # noqa: E501
@@ -105,7 +110,8 @@ class InlineObject4(object):
         if param2 is None:
             raise ValueError("Invalid value for `param2`, must not be `None`")  # noqa: E501
 
-        self._param2 = param2
+        self._param2 = (
+            param2)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

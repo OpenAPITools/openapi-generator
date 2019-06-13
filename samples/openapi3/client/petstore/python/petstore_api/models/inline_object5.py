@@ -36,8 +36,8 @@ class InlineObject5(object):
     }
 
     attribute_map = {
-        'required_file': 'requiredFile',
-        'additional_metadata': 'additionalMetadata',
+        'required_file': 'requiredFile',  # noqa: E501
+        'additional_metadata': 'additionalMetadata',  # noqa: E501
     }
 
     def __init__(self, required_file, additional_metadata=None):  # noqa: E501
@@ -55,7 +55,7 @@ class InlineObject5(object):
         self.discriminator = None
 
         if additional_metadata is not None:
-            self.additional_metadata = additional_metadata
+            self.additional_metadata = additional_metadata  # noqa: E501
         self.required_file = required_file
 
     @property
@@ -70,7 +70,9 @@ class InlineObject5(object):
         return self._additional_metadata
 
     @additional_metadata.setter
-    def additional_metadata(self, additional_metadata):
+    def additional_metadata(
+            self,
+            additional_metadata):
         """Sets the additional_metadata of this InlineObject5.
 
         Additional data to pass to server  # noqa: E501
@@ -79,7 +81,8 @@ class InlineObject5(object):
         :type: str
         """
 
-        self._additional_metadata = additional_metadata
+        self._additional_metadata = (
+            additional_metadata)
 
     @property
     def required_file(self):
@@ -93,7 +96,9 @@ class InlineObject5(object):
         return self._required_file
 
     @required_file.setter
-    def required_file(self, required_file):
+    def required_file(
+            self,
+            required_file):
         """Sets the required_file of this InlineObject5.
 
         file to upload  # noqa: E501
@@ -104,7 +109,8 @@ class InlineObject5(object):
         if required_file is None:
             raise ValueError("Invalid value for `required_file`, must not be `None`")  # noqa: E501
 
-        self._required_file = required_file
+        self._required_file = (
+            required_file)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

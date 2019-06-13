@@ -36,8 +36,8 @@ class HasOnlyReadOnly(object):
     }
 
     attribute_map = {
-        'bar': 'bar',
-        'foo': 'foo',
+        'bar': 'bar',  # noqa: E501
+        'foo': 'foo',  # noqa: E501
     }
 
     def __init__(self, bar=None, foo=None):  # noqa: E501
@@ -55,9 +55,9 @@ class HasOnlyReadOnly(object):
         self.discriminator = None
 
         if bar is not None:
-            self.bar = bar
+            self.bar = bar  # noqa: E501
         if foo is not None:
-            self.foo = foo
+            self.foo = foo  # noqa: E501
 
     @property
     def bar(self):
@@ -70,7 +70,9 @@ class HasOnlyReadOnly(object):
         return self._bar
 
     @bar.setter
-    def bar(self, bar):
+    def bar(
+            self,
+            bar):
         """Sets the bar of this HasOnlyReadOnly.
 
 
@@ -78,7 +80,8 @@ class HasOnlyReadOnly(object):
         :type: str
         """
 
-        self._bar = bar
+        self._bar = (
+            bar)
 
     @property
     def foo(self):
@@ -91,7 +94,9 @@ class HasOnlyReadOnly(object):
         return self._foo
 
     @foo.setter
-    def foo(self, foo):
+    def foo(
+            self,
+            foo):
         """Sets the foo of this HasOnlyReadOnly.
 
 
@@ -99,7 +104,8 @@ class HasOnlyReadOnly(object):
         :type: str
         """
 
-        self._foo = foo
+        self._foo = (
+            foo)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

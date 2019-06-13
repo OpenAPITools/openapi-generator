@@ -35,7 +35,7 @@ class ClassModel(object):
     }
 
     attribute_map = {
-        '_class': '_class',
+        '_class': '_class',  # noqa: E501
     }
 
     def __init__(self, _class=None):  # noqa: E501
@@ -51,7 +51,7 @@ class ClassModel(object):
         self.discriminator = None
 
         if _class is not None:
-            self._class = _class
+            self._class = _class  # noqa: E501
 
     @property
     def _class(self):
@@ -64,7 +64,9 @@ class ClassModel(object):
         return self.__class
 
     @_class.setter
-    def _class(self, _class):
+    def _class(
+            self,
+            _class):
         """Sets the _class of this ClassModel.
 
 
@@ -72,7 +74,8 @@ class ClassModel(object):
         :type: str
         """
 
-        self.__class = _class
+        self.__class = (
+            _class)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

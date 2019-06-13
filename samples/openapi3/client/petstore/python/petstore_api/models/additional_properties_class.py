@@ -36,8 +36,8 @@ class AdditionalPropertiesClass(object):
     }
 
     attribute_map = {
-        'map_property': 'map_property',
-        'map_of_map_property': 'map_of_map_property',
+        'map_property': 'map_property',  # noqa: E501
+        'map_of_map_property': 'map_of_map_property',  # noqa: E501
     }
 
     def __init__(self, map_property=None, map_of_map_property=None):  # noqa: E501
@@ -55,9 +55,9 @@ class AdditionalPropertiesClass(object):
         self.discriminator = None
 
         if map_property is not None:
-            self.map_property = map_property
+            self.map_property = map_property  # noqa: E501
         if map_of_map_property is not None:
-            self.map_of_map_property = map_of_map_property
+            self.map_of_map_property = map_of_map_property  # noqa: E501
 
     @property
     def map_property(self):
@@ -70,7 +70,9 @@ class AdditionalPropertiesClass(object):
         return self._map_property
 
     @map_property.setter
-    def map_property(self, map_property):
+    def map_property(
+            self,
+            map_property):
         """Sets the map_property of this AdditionalPropertiesClass.
 
 
@@ -78,7 +80,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, str)
         """
 
-        self._map_property = map_property
+        self._map_property = (
+            map_property)
 
     @property
     def map_of_map_property(self):
@@ -91,7 +94,9 @@ class AdditionalPropertiesClass(object):
         return self._map_of_map_property
 
     @map_of_map_property.setter
-    def map_of_map_property(self, map_of_map_property):
+    def map_of_map_property(
+            self,
+            map_of_map_property):
         """Sets the map_of_map_property of this AdditionalPropertiesClass.
 
 
@@ -99,7 +104,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, dict(str, str))
         """
 
-        self._map_of_map_property = map_of_map_property
+        self._map_of_map_property = (
+            map_of_map_property)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

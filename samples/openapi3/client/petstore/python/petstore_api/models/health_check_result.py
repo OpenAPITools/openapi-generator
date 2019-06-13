@@ -35,7 +35,7 @@ class HealthCheckResult(object):
     }
 
     attribute_map = {
-        'nullable_message': 'NullableMessage',
+        'nullable_message': 'NullableMessage',  # noqa: E501
     }
 
     def __init__(self, nullable_message=None):  # noqa: E501
@@ -63,7 +63,9 @@ class HealthCheckResult(object):
         return self._nullable_message
 
     @nullable_message.setter
-    def nullable_message(self, nullable_message):
+    def nullable_message(
+            self,
+            nullable_message):
         """Sets the nullable_message of this HealthCheckResult.
 
 
@@ -71,7 +73,8 @@ class HealthCheckResult(object):
         :type: str
         """
 
-        self._nullable_message = nullable_message
+        self._nullable_message = (
+            nullable_message)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

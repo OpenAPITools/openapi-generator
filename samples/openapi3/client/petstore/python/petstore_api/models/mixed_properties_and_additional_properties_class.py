@@ -37,9 +37,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
     }
 
     attribute_map = {
-        'uuid': 'uuid',
-        'date_time': 'dateTime',
-        'map': 'map',
+        'uuid': 'uuid',  # noqa: E501
+        'date_time': 'dateTime',  # noqa: E501
+        'map': 'map',  # noqa: E501
     }
 
     def __init__(self, uuid=None, date_time=None, map=None):  # noqa: E501
@@ -59,11 +59,11 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         self.discriminator = None
 
         if uuid is not None:
-            self.uuid = uuid
+            self.uuid = uuid  # noqa: E501
         if date_time is not None:
-            self.date_time = date_time
+            self.date_time = date_time  # noqa: E501
         if map is not None:
-            self.map = map
+            self.map = map  # noqa: E501
 
     @property
     def uuid(self):
@@ -76,7 +76,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         return self._uuid
 
     @uuid.setter
-    def uuid(self, uuid):
+    def uuid(
+            self,
+            uuid):
         """Sets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
@@ -84,7 +86,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         :type: str
         """
 
-        self._uuid = uuid
+        self._uuid = (
+            uuid)
 
     @property
     def date_time(self):
@@ -97,7 +100,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         return self._date_time
 
     @date_time.setter
-    def date_time(self, date_time):
+    def date_time(
+            self,
+            date_time):
         """Sets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
@@ -105,7 +110,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         :type: datetime
         """
 
-        self._date_time = date_time
+        self._date_time = (
+            date_time)
 
     @property
     def map(self):
@@ -118,7 +124,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         return self._map
 
     @map.setter
-    def map(self, map):
+    def map(
+            self,
+            map):
         """Sets the map of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
@@ -126,7 +134,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         :type: dict(str, Animal)
         """
 
-        self._map = map
+        self._map = (
+            map)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

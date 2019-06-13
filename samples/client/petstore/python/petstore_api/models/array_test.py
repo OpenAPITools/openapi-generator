@@ -37,9 +37,9 @@ class ArrayTest(object):
     }
 
     attribute_map = {
-        'array_of_string': 'array_of_string',
-        'array_array_of_integer': 'array_array_of_integer',
-        'array_array_of_model': 'array_array_of_model',
+        'array_of_string': 'array_of_string',  # noqa: E501
+        'array_array_of_integer': 'array_array_of_integer',  # noqa: E501
+        'array_array_of_model': 'array_array_of_model',  # noqa: E501
     }
 
     def __init__(self, array_of_string=None, array_array_of_integer=None, array_array_of_model=None):  # noqa: E501
@@ -59,11 +59,11 @@ class ArrayTest(object):
         self.discriminator = None
 
         if array_of_string is not None:
-            self.array_of_string = array_of_string
+            self.array_of_string = array_of_string  # noqa: E501
         if array_array_of_integer is not None:
-            self.array_array_of_integer = array_array_of_integer
+            self.array_array_of_integer = array_array_of_integer  # noqa: E501
         if array_array_of_model is not None:
-            self.array_array_of_model = array_array_of_model
+            self.array_array_of_model = array_array_of_model  # noqa: E501
 
     @property
     def array_of_string(self):
@@ -76,7 +76,9 @@ class ArrayTest(object):
         return self._array_of_string
 
     @array_of_string.setter
-    def array_of_string(self, array_of_string):
+    def array_of_string(
+            self,
+            array_of_string):
         """Sets the array_of_string of this ArrayTest.
 
 
@@ -84,7 +86,8 @@ class ArrayTest(object):
         :type: list[str]
         """
 
-        self._array_of_string = array_of_string
+        self._array_of_string = (
+            array_of_string)
 
     @property
     def array_array_of_integer(self):
@@ -97,7 +100,9 @@ class ArrayTest(object):
         return self._array_array_of_integer
 
     @array_array_of_integer.setter
-    def array_array_of_integer(self, array_array_of_integer):
+    def array_array_of_integer(
+            self,
+            array_array_of_integer):
         """Sets the array_array_of_integer of this ArrayTest.
 
 
@@ -105,7 +110,8 @@ class ArrayTest(object):
         :type: list[list[int]]
         """
 
-        self._array_array_of_integer = array_array_of_integer
+        self._array_array_of_integer = (
+            array_array_of_integer)
 
     @property
     def array_array_of_model(self):
@@ -118,7 +124,9 @@ class ArrayTest(object):
         return self._array_array_of_model
 
     @array_array_of_model.setter
-    def array_array_of_model(self, array_array_of_model):
+    def array_array_of_model(
+            self,
+            array_array_of_model):
         """Sets the array_array_of_model of this ArrayTest.
 
 
@@ -126,7 +134,8 @@ class ArrayTest(object):
         :type: list[list[ReadOnlyFirst]]
         """
 
-        self._array_array_of_model = array_array_of_model
+        self._array_array_of_model = (
+            array_array_of_model)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

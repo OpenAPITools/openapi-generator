@@ -36,8 +36,8 @@ class Category(object):
     }
 
     attribute_map = {
-        'name': 'name',
-        'id': 'id',
+        'name': 'name',  # noqa: E501
+        'id': 'id',  # noqa: E501
     }
 
     def __init__(self, name='default-name', id=None):  # noqa: E501
@@ -55,7 +55,7 @@ class Category(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id
+            self.id = id  # noqa: E501
         self.name = name
 
     @property
@@ -69,7 +69,9 @@ class Category(object):
         return self._id
 
     @id.setter
-    def id(self, id):
+    def id(
+            self,
+            id):
         """Sets the id of this Category.
 
 
@@ -77,7 +79,8 @@ class Category(object):
         :type: int
         """
 
-        self._id = id
+        self._id = (
+            id)
 
     @property
     def name(self):
@@ -90,7 +93,9 @@ class Category(object):
         return self._name
 
     @name.setter
-    def name(self, name):
+    def name(
+            self,
+            name):
         """Sets the name of this Category.
 
 
@@ -100,7 +105,8 @@ class Category(object):
         if name is None:
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._name = name
+        self._name = (
+            name)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

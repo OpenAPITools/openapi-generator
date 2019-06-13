@@ -45,17 +45,17 @@ class AdditionalPropertiesClass(object):
     }
 
     attribute_map = {
-        'map_string': 'map_string',
-        'map_number': 'map_number',
-        'map_integer': 'map_integer',
-        'map_boolean': 'map_boolean',
-        'map_array_integer': 'map_array_integer',
-        'map_array_anytype': 'map_array_anytype',
-        'map_map_string': 'map_map_string',
-        'map_map_anytype': 'map_map_anytype',
-        'anytype_1': 'anytype_1',
-        'anytype_2': 'anytype_2',
-        'anytype_3': 'anytype_3',
+        'map_string': 'map_string',  # noqa: E501
+        'map_number': 'map_number',  # noqa: E501
+        'map_integer': 'map_integer',  # noqa: E501
+        'map_boolean': 'map_boolean',  # noqa: E501
+        'map_array_integer': 'map_array_integer',  # noqa: E501
+        'map_array_anytype': 'map_array_anytype',  # noqa: E501
+        'map_map_string': 'map_map_string',  # noqa: E501
+        'map_map_anytype': 'map_map_anytype',  # noqa: E501
+        'anytype_1': 'anytype_1',  # noqa: E501
+        'anytype_2': 'anytype_2',  # noqa: E501
+        'anytype_3': 'anytype_3',  # noqa: E501
     }
 
     def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, anytype_1=None, anytype_2=None, anytype_3=None):  # noqa: E501
@@ -91,27 +91,27 @@ class AdditionalPropertiesClass(object):
         self.discriminator = None
 
         if map_string is not None:
-            self.map_string = map_string
+            self.map_string = map_string  # noqa: E501
         if map_number is not None:
-            self.map_number = map_number
+            self.map_number = map_number  # noqa: E501
         if map_integer is not None:
-            self.map_integer = map_integer
+            self.map_integer = map_integer  # noqa: E501
         if map_boolean is not None:
-            self.map_boolean = map_boolean
+            self.map_boolean = map_boolean  # noqa: E501
         if map_array_integer is not None:
-            self.map_array_integer = map_array_integer
+            self.map_array_integer = map_array_integer  # noqa: E501
         if map_array_anytype is not None:
-            self.map_array_anytype = map_array_anytype
+            self.map_array_anytype = map_array_anytype  # noqa: E501
         if map_map_string is not None:
-            self.map_map_string = map_map_string
+            self.map_map_string = map_map_string  # noqa: E501
         if map_map_anytype is not None:
-            self.map_map_anytype = map_map_anytype
+            self.map_map_anytype = map_map_anytype  # noqa: E501
         if anytype_1 is not None:
-            self.anytype_1 = anytype_1
+            self.anytype_1 = anytype_1  # noqa: E501
         if anytype_2 is not None:
-            self.anytype_2 = anytype_2
+            self.anytype_2 = anytype_2  # noqa: E501
         if anytype_3 is not None:
-            self.anytype_3 = anytype_3
+            self.anytype_3 = anytype_3  # noqa: E501
 
     @property
     def map_string(self):
@@ -124,7 +124,9 @@ class AdditionalPropertiesClass(object):
         return self._map_string
 
     @map_string.setter
-    def map_string(self, map_string):
+    def map_string(
+            self,
+            map_string):
         """Sets the map_string of this AdditionalPropertiesClass.
 
 
@@ -132,7 +134,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, str)
         """
 
-        self._map_string = map_string
+        self._map_string = (
+            map_string)
 
     @property
     def map_number(self):
@@ -145,7 +148,9 @@ class AdditionalPropertiesClass(object):
         return self._map_number
 
     @map_number.setter
-    def map_number(self, map_number):
+    def map_number(
+            self,
+            map_number):
         """Sets the map_number of this AdditionalPropertiesClass.
 
 
@@ -153,7 +158,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, float)
         """
 
-        self._map_number = map_number
+        self._map_number = (
+            map_number)
 
     @property
     def map_integer(self):
@@ -166,7 +172,9 @@ class AdditionalPropertiesClass(object):
         return self._map_integer
 
     @map_integer.setter
-    def map_integer(self, map_integer):
+    def map_integer(
+            self,
+            map_integer):
         """Sets the map_integer of this AdditionalPropertiesClass.
 
 
@@ -174,7 +182,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, int)
         """
 
-        self._map_integer = map_integer
+        self._map_integer = (
+            map_integer)
 
     @property
     def map_boolean(self):
@@ -187,7 +196,9 @@ class AdditionalPropertiesClass(object):
         return self._map_boolean
 
     @map_boolean.setter
-    def map_boolean(self, map_boolean):
+    def map_boolean(
+            self,
+            map_boolean):
         """Sets the map_boolean of this AdditionalPropertiesClass.
 
 
@@ -195,7 +206,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, bool)
         """
 
-        self._map_boolean = map_boolean
+        self._map_boolean = (
+            map_boolean)
 
     @property
     def map_array_integer(self):
@@ -208,7 +220,9 @@ class AdditionalPropertiesClass(object):
         return self._map_array_integer
 
     @map_array_integer.setter
-    def map_array_integer(self, map_array_integer):
+    def map_array_integer(
+            self,
+            map_array_integer):
         """Sets the map_array_integer of this AdditionalPropertiesClass.
 
 
@@ -216,7 +230,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, list[int])
         """
 
-        self._map_array_integer = map_array_integer
+        self._map_array_integer = (
+            map_array_integer)
 
     @property
     def map_array_anytype(self):
@@ -229,7 +244,9 @@ class AdditionalPropertiesClass(object):
         return self._map_array_anytype
 
     @map_array_anytype.setter
-    def map_array_anytype(self, map_array_anytype):
+    def map_array_anytype(
+            self,
+            map_array_anytype):
         """Sets the map_array_anytype of this AdditionalPropertiesClass.
 
 
@@ -237,7 +254,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, list[object])
         """
 
-        self._map_array_anytype = map_array_anytype
+        self._map_array_anytype = (
+            map_array_anytype)
 
     @property
     def map_map_string(self):
@@ -250,7 +268,9 @@ class AdditionalPropertiesClass(object):
         return self._map_map_string
 
     @map_map_string.setter
-    def map_map_string(self, map_map_string):
+    def map_map_string(
+            self,
+            map_map_string):
         """Sets the map_map_string of this AdditionalPropertiesClass.
 
 
@@ -258,7 +278,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, dict(str, str))
         """
 
-        self._map_map_string = map_map_string
+        self._map_map_string = (
+            map_map_string)
 
     @property
     def map_map_anytype(self):
@@ -271,7 +292,9 @@ class AdditionalPropertiesClass(object):
         return self._map_map_anytype
 
     @map_map_anytype.setter
-    def map_map_anytype(self, map_map_anytype):
+    def map_map_anytype(
+            self,
+            map_map_anytype):
         """Sets the map_map_anytype of this AdditionalPropertiesClass.
 
 
@@ -279,7 +302,8 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, dict(str, object))
         """
 
-        self._map_map_anytype = map_map_anytype
+        self._map_map_anytype = (
+            map_map_anytype)
 
     @property
     def anytype_1(self):
@@ -292,7 +316,9 @@ class AdditionalPropertiesClass(object):
         return self._anytype_1
 
     @anytype_1.setter
-    def anytype_1(self, anytype_1):
+    def anytype_1(
+            self,
+            anytype_1):
         """Sets the anytype_1 of this AdditionalPropertiesClass.
 
 
@@ -300,7 +326,8 @@ class AdditionalPropertiesClass(object):
         :type: object
         """
 
-        self._anytype_1 = anytype_1
+        self._anytype_1 = (
+            anytype_1)
 
     @property
     def anytype_2(self):
@@ -313,7 +340,9 @@ class AdditionalPropertiesClass(object):
         return self._anytype_2
 
     @anytype_2.setter
-    def anytype_2(self, anytype_2):
+    def anytype_2(
+            self,
+            anytype_2):
         """Sets the anytype_2 of this AdditionalPropertiesClass.
 
 
@@ -321,7 +350,8 @@ class AdditionalPropertiesClass(object):
         :type: object
         """
 
-        self._anytype_2 = anytype_2
+        self._anytype_2 = (
+            anytype_2)
 
     @property
     def anytype_3(self):
@@ -334,7 +364,9 @@ class AdditionalPropertiesClass(object):
         return self._anytype_3
 
     @anytype_3.setter
-    def anytype_3(self, anytype_3):
+    def anytype_3(
+            self,
+            anytype_3):
         """Sets the anytype_3 of this AdditionalPropertiesClass.
 
 
@@ -342,7 +374,8 @@ class AdditionalPropertiesClass(object):
         :type: object
         """
 
-        self._anytype_3 = anytype_3
+        self._anytype_3 = (
+            anytype_3)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

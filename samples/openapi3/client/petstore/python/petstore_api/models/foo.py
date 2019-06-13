@@ -35,7 +35,7 @@ class Foo(object):
     }
 
     attribute_map = {
-        'bar': 'bar',
+        'bar': 'bar',  # noqa: E501
     }
 
     def __init__(self, bar=None):  # noqa: E501
@@ -51,7 +51,7 @@ class Foo(object):
         self.discriminator = None
 
         if bar is not None:
-            self.bar = bar
+            self.bar = bar  # noqa: E501
 
     @property
     def bar(self):
@@ -64,7 +64,9 @@ class Foo(object):
         return self._bar
 
     @bar.setter
-    def bar(self, bar):
+    def bar(
+            self,
+            bar):
         """Sets the bar of this Foo.
 
 
@@ -72,7 +74,8 @@ class Foo(object):
         :type: str
         """
 
-        self._bar = bar
+        self._bar = (
+            bar)
 
     def to_dict(self):
         """Returns the model properties as a dict"""
