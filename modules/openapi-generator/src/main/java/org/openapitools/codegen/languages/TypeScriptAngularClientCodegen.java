@@ -38,10 +38,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
-    public static final String NPM_NAME = "npmName";
-    public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
@@ -52,8 +49,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
 
-    protected String npmName = null;
-    protected String npmVersion = "1.0.0";
     protected String ngVersion = "7.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
@@ -76,14 +71,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         apiPackage = "api";
         modelPackage = "model";
 
-        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
-                " Required to generate a full angular package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
-                "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm",
-                false));
         this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
                 "Setting this property to true will generate interfaces next to the default class implementations.",
                 false));
@@ -200,10 +189,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     private void addNpmPackageGeneration(SemVer ngVersion) {
 
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
-        }
-
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
@@ -278,34 +263,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         //Files for building our lib
         supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("typings.mustache", getIndexDirectory(), "typings.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
-    }
-
-    @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-
-        if (additionalProperties.containsKey(NPM_NAME)) {
-
-            // If no npmVersion is provided in additional properties, version from API specification is used.
-            // If none of them is provided then fallbacks to default version
-            if (additionalProperties.containsKey(NPM_VERSION)) {
-                this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-            } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
-                this.setNpmVersion(openAPI.getInfo().getVersion());
-            }
-
-            if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-                if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
-                    this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
-                } else {
-                    this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
-                }
-            }
-            additionalProperties.put(NPM_VERSION, npmVersion);
-
-        }
-
     }
 
     private String getIndexDirectory() {
@@ -549,22 +507,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public String toModelImport(String name) {
         return modelPackage() + "/" + toModelFilename(name);
-    }
-
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     public String getNpmRepository() {

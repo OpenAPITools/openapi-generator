@@ -36,7 +36,7 @@ describe(`API (functionality)`, () => {
 
   const apiConfigurationParams: ConfigurationParameters = {
     // add configuration params here
-    apiKeys: { api_key: "foobar" }
+    apiKeys: { api_key: 'foobar' }
   };
 
   const apiConfig = new Configuration(apiConfigurationParams);
@@ -107,6 +107,23 @@ describe(`API (functionality)`, () => {
         result => expect(result.name).toEqual(newName),
         error => fail(`expected a result, not the error: ${error.message}`),
       );
+    }));
+
+    it(`should update the pet name by form`, async(() => {
+      const petService = TestBed.get(PetService);
+      const newName = `pet-${Date.now()}`;
+      createdPet.name = newName;
+
+      petService.updatePetWithForm(createdPet.id, createdPet.name).subscribe(
+        result => expect(result).toBeFalsy(),
+        error => fail(`expected a result, not the error: ${error.message}`),
+      );
+
+      return petService.getPetById(createdPet.id).subscribe(
+        result => expect(result.name).toEqual(createdPet.name),
+        error => fail(`expected a result, not the error: ${error.message}`),
+      );
+
     }));
 
     it(`should delete the pet`, async(() => {

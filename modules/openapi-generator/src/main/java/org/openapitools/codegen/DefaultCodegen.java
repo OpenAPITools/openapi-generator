@@ -1015,6 +1015,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "File");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "URI");
         //typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
 
 
@@ -1025,6 +1026,7 @@ public class DefaultCodegen implements CodegenConfig {
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
+        importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
         importMapping.put("Date", "java.util.Date");
         importMapping.put("Timestamp", "java.sql.Timestamp");
@@ -1233,6 +1235,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.example = "2013-10-20T19:20:30+01:00";
         } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
             codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+        } else if (Boolean.TRUE.equals(codegenParameter.isUri)) {
+            codegenParameter.example = "https://openapi-generator.tech";
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
         } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
@@ -1512,6 +1516,8 @@ public class DefaultCodegen implements CodegenConfig {
             return "array";
         } else if (ModelUtils.isUUIDSchema(schema)) {
             return "UUID";
+        } else if (ModelUtils.isURISchema(schema)) {
+            return "URI";
         } else if (ModelUtils.isStringSchema(schema)) {
             return "string";
         } else if (ModelUtils.isFreeFormObject(schema)) {
@@ -2038,6 +2044,9 @@ public class DefaultCodegen implements CodegenConfig {
                 // keep isString to true to make it backward compatible
                 property.isString = true;
                 property.isUuid = true;
+            } else if (ModelUtils.isURISchema(p)) {
+                property.isString = true; // for backward compatibility
+                property.isUri = true;
             } else if (ModelUtils.isEmailSchema(p)) {
                 property.isString = true;
                 property.isEmail = true;
@@ -2201,6 +2210,7 @@ public class DefaultCodegen implements CodegenConfig {
             //    property.baseType = getSimpleRef(p.get$ref());
             //}
             // --END of revision
+            property.isModel = ModelUtils.isModel(p);
             setNonArrayMapProperty(property, type);
         }
 
@@ -3026,6 +3036,9 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 codegenParameter.dataType = codegenProperty.dataType;
             }
+            if (ModelUtils.isObjectSchema(parameterSchema)) {
+                codegenProperty.complexType = codegenParameter.dataType;
+            }
             codegenParameter.dataFormat = codegenProperty.dataFormat;
             codegenParameter.required = codegenProperty.required;
 
@@ -3212,6 +3225,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @return data type
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
+        if (parameter.get$ref() != null) {
+            String refName = ModelUtils.getSimpleRef(parameter.get$ref());
+            return toModelName(refName);
+        }
         return null;
     }
 
@@ -4643,8 +4660,16 @@ public class DefaultCodegen implements CodegenConfig {
                 schema.setAdditionalProperties(inner);
             }
             CodegenProperty codegenProperty = fromProperty("property", schema);
-            // only support 1-dimension map only
+
             imports.add(codegenProperty.baseType);
+
+            CodegenProperty innerCp = codegenProperty;
+            while (innerCp != null) {
+                if (innerCp.complexType != null) {
+                    imports.add(innerCp.complexType);
+                }
+                innerCp = innerCp.items;
+            }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
                 codegenParameter.baseName = "request_body";
@@ -4698,7 +4723,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.items = codegenProperty.items;
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
-            codegenParameter.baseType = getSchemaType(arraySchema);
+            codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isListContainer = Boolean.TRUE;
 
@@ -4833,10 +4858,19 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateOption(String key, String defaultValue) {
+        for (CliOption cliOption : cliOptions) {
+            if (cliOption.getOpt().equals(key)) {
+                cliOption.setDefault(defaultValue);
+                break;
+            }
+        }
+    }
+
+    protected void removeOption(String key) {
         for(int i = 0; i < cliOptions.size(); i++) {
-            if(cliOptions.get(i).getOpt().equals(key)) {
-                cliOptions.get(i).setDefault(defaultValue);
-                return;
+            if (key.equals(cliOptions.get(i).getOpt())) {
+                cliOptions.remove(i);
+                break;
             }
         }
     }
@@ -4853,7 +4887,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param objs map of object
      */
-    public void generateJSONSpecFile(Map<String, Object> objs) {
+    protected void generateJSONSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if (openAPI != null) {
             try {

@@ -40,7 +40,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
     public JavaUndertowServerCodegen() {
         super();
 
-        embeddedTemplateDir = templateDir = "undertow";
+        embeddedTemplateDir = templateDir = "java-undertow-server";
         invokerPackage = "org.openapitools.handler";
         artifactId = "openapi-undertow-server";
         dateLibrary = "legacy"; //TODO: add joda support

@@ -33,7 +33,7 @@ public class CodegenParameter {
     public String example; // example value (x-example)
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary,
-            isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
+            isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
     public boolean isFile;
     public boolean isEnum;
@@ -168,6 +168,7 @@ public class CodegenParameter {
         output.isDate = this.isDate;
         output.isDateTime = this.isDateTime;
         output.isUuid = this.isUuid;
+        output.isUri = this.isUri;
         output.isEmail = this.isEmail;
         output.isFreeFormObject = this.isFreeFormObject;
         output.isListContainer = this.isListContainer;
@@ -222,6 +223,7 @@ public class CodegenParameter {
             Objects.equals(isDate, that.isDate) &&
             Objects.equals(isDateTime, that.isDateTime) &&
             Objects.equals(isUuid, that.isUuid) &&
+            Objects.equals(isUri, that.isUri) &&
             Objects.equals(isEmail, that.isEmail) &&
             Objects.equals(isFreeFormObject, that.isFreeFormObject) &&
             Objects.equals(isListContainer, that.isListContainer) &&
@@ -289,6 +291,7 @@ public class CodegenParameter {
             isDate,
             isDateTime,
             isUuid,
+            isUri,
             isEmail,
             isFreeFormObject,
             isListContainer,
@@ -357,6 +360,7 @@ public class CodegenParameter {
                 ", isDate=" + isDate +
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
+                ", isUri=" + isUri +
                 ", isEmail=" + isEmail +
                 ", isFreeFormObject=" + isFreeFormObject +
                 ", isListContainer=" + isListContainer +

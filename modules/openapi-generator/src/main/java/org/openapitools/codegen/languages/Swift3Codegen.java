@@ -151,6 +151,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "Data");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "String");
 
         importMapping = new HashMap<>();
 

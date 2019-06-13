@@ -38,7 +38,7 @@ public class CodegenSecurity {
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl;
     public List<Map<String, Object>> scopes;
-    public Boolean isCode, isPassword, isApplication, isImplicit;
+    public Boolean isCode, isPassword, isApplication, isImplicit, hasScopes;
 
     @Override
     public String toString() {

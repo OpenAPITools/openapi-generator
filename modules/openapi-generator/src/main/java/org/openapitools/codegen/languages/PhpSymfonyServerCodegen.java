@@ -173,6 +173,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name." +
                 " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
