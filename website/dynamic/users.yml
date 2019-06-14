@@ -69,6 +69,11 @@
   infoLink: "https://myworkout.com/"
   pinned: false
 -
+  caption: OPTiM
+  image: "img/companies/optim.png"
+  infoLink: "https://www.optim.co.jp/"
+  pinned: false
+-
   caption: "Raiffeisen Schweiz Genossenschaft"
   image: "img/companies/raiffeisen.png"
   infoLink: "https://www.raiffeisen.ch/"
@@ -112,6 +117,11 @@
   caption: Xero
   image: "img/companies/xero.png"
   infoLink: "https://www.xero.com/"
+  pinned: false
+-
+  caption: Yelp 
+  image: "img/companies/yelp.png"
+  infoLink: "https://www.yelp.com/"
   pinned: false
 -
   caption: Zalando

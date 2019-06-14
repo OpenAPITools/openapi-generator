@@ -27,7 +27,7 @@ fi
 
 input=modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
 out_folder=samples/server/openapi3/petstore/php-ze-ph
-resources=modules/openapi-generator/src/main/resources/ze-ph
+resources=modules/openapi-generator/src/main/resources/php-ze-ph
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"

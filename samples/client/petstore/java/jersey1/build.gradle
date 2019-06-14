@@ -32,6 +32,7 @@ if(hasProperty('target') && target == 'android') {
             minSdkVersion 14
             targetSdkVersion 25
         }
+
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
@@ -110,7 +111,7 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.17"
+    swagger_annotations_version = "1.5.22"
     jackson_version = "2.6.4"
     jackson_databind_version = "2.6.4"
     jersey_version = "1.19.4"

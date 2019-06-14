@@ -102,6 +102,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("DateTime", "std::string");
         typeMapping.put("Date", "std::string");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("URI", "std::string");
 
         importMapping = new HashMap<String, String>();
 

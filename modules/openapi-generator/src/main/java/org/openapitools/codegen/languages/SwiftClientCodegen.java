@@ -169,6 +169,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("binary", "NSURL");
         typeMapping.put("ByteArray", "NSData");
         typeMapping.put("UUID", "NSUUID");
+        typeMapping.put("URI", "String");
 
         importMapping = new HashMap<String, String>();
 

@@ -107,6 +107,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "std::string");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
 
         super.importMapping = new HashMap<String, String>();
@@ -404,14 +405,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String getTypeDeclaration(String str) {
         return toModelName(str);
     }
-    
-    @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI);
-        String port = URLPathUtils.getPort(url, "8080");
-        this.additionalProperties.put("serverPort", port);
-    }
-    
+
     /**
      * Specify whether external libraries will be added during the generation 
      * @param value the value to be set
