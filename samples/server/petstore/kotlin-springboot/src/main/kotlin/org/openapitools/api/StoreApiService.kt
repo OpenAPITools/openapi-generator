@@ -3,11 +3,11 @@ package org.openapitools.api
 import org.openapitools.model.Order
 interface StoreApiService {
 
-	fun deleteOrder(orderId: String): Unit
+	fun deleteOrder(orderId: kotlin.String): Unit
 
-	fun getInventory(): Map<String, Int>
+	fun getInventory(): Map<String, kotlin.Int>
 
-	fun getOrderById(orderId: Long): Order
+	fun getOrderById(orderId: kotlin.Long): Order
 
 	fun placeOrder(body: Order): Order
 }

@@ -1051,6 +1051,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (securities != null && securities.isEmpty()) {
                     continue;
                 }
+
                 Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
                 if (authMethods == null || authMethods.isEmpty()) {
                     authMethods = getAuthMethods(globalSecurities, securitySchemes);
@@ -1058,6 +1059,39 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 if (authMethods != null && !authMethods.isEmpty()) {
                     codegenOperation.authMethods = config.fromSecurity(authMethods);
+                    List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
+                    if (codegenOperation.authMethods != null){
+                        for (CodegenSecurity security : codegenOperation.authMethods){
+                            if (security != null && security.isBasicBearer != null && security.isBasicBearer &&
+                               securities != null){
+                                for (SecurityRequirement req : securities){
+                                    if (req == null) continue;
+                                    for (String key : req.keySet()){
+                                        if (security.name != null && key.equals(security.name)){
+                                            int count = 0;
+                                            for (String sc : req.get(key)){
+                                                Map<String, Object> scope = new HashMap<String, Object>();
+                                                scope.put("scope", sc);
+                                                scope.put("description", "");
+                                                count++;
+                                                if (req.get(key) != null && count < req.get(key).size()){
+                                                    scope.put("hasMore", "true");
+                                                } else {
+                                                    scope.put("hasMore", null);
+                                                }
+                                                scopes.add(scope);
+                                            }
+                                            //end this inner for 
+                                            break;
+                                        }
+                                    }
+
+                                }
+                                security.hasScopes = scopes.size() > 0;
+                                security.scopes = scopes;
+                            }
+                        }
+                    }
                     codegenOperation.hasAuthMethods = true;
                 }
 

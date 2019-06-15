@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using {{packageName}}.Attributes;
 using Microsoft.AspNetCore.Authorization;
-
+using {{modelPackage}};
 
 namespace {{apiPackage}}
 { {{#operations}}
@@ -34,7 +34,8 @@ namespace {{apiPackage}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
         [Route("{{{basePathWithoutHost}}}{{{path}}}")]{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}
-        [Authorize(Policy = "{{name}}")]{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
+        [Authorize(Policy = "{{name}}")]{{/isApiKey}}{{#isBasicBearer}}
+        [Authorize{{#hasScopes}}(Roles = "{{#scopes}}{{scope}}{{#hasMore}},{{/hasMore}}{{/scopes}}"){{/hasScopes}}]{{/isBasicBearer}}{{/authMethods}}{{/hasAuthMethods}}
         [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}{{^useSwashbuckle}}{{#responses}}{{#dataType}}

@@ -39,21 +39,18 @@
             <name>Christophe Bornet</name>
         </developer>
         <developer>
-            <id>jaz-ah</id>
-            <name>Joseph Zuromski</name>
-        </developer>
-        <developer>
             <id>ackintosh</id>
             <name>Akihito Nakano</name>
-        </developer>
-        <developer>
-            <id>JFCote</id>
-            <name>Jean-François Côté</name>
         </developer>
         <developer>
             <id>jmini</id>
             <name>Jérémie Bresson</name>
             <email>dev@jmini.fr</email>
+        </developer>
+        <developer>
+            <id>etherealjoy</id>
+            <name>Sunn</name>
+            <email>sunn.ssb@live.com</email>
         </developer>
     </developers>
     <issueManagement>
