@@ -28,11 +28,12 @@ class OAIUserApi: public QObject {
 
 public:
     OAIUserApi();
-    OAIUserApi(const QString& host, const QString& basePath);
+    OAIUserApi(const QString& host, const QString& basePath, const int toutMs = 0);
     ~OAIUserApi();
 
     void setBasePath(const QString& basePath);
     void setHost(const QString& host);
+    void setApiTimeOutMs(const int tout);
     void addHeaders(const QString& key, const QString& value);
     
     void createUser(const OAIUser& body);
@@ -47,6 +48,7 @@ public:
 private:
     QString basePath;
     QString host;
+    int timeout;
     QMap<QString, QString> defaultHeaders;
     void createUserCallback (OAIHttpRequestWorker * worker);
     void createUsersWithArrayInputCallback (OAIHttpRequestWorker * worker);
