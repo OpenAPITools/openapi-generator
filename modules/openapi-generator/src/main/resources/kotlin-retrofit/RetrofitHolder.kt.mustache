@@ -39,9 +39,9 @@ object RetrofitHolder {
 
     val retrofit: Retrofit by lazy { retrofitBuilder.build() }
 
+{{#authMethods}}{{#-first}}
     private val securityDefinitions = HashMap<String, String>()
 
-{{#authMethods}}{{#-first}}
     fun setApiKey(authMethod: AuthMethod, apiKey: String) {
         securityDefinitions[authMethod.authName] = apiKey
     }

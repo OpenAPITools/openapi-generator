@@ -1,1 +1,1 @@
-{{#isBodyParam}}@Body {{paramName}}: {{{dataType}}}{{/isBodyParam}}
+{{#isBodyParam}}@Body {{paramName}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{/isBodyParam}}

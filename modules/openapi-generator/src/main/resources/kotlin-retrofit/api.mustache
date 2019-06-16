@@ -23,7 +23,7 @@ interface {{classname}} {
     *  - {{code}}: {{{message}}}{{/responses}}
     * 
     {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-    {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    {{/allParams}}* @return {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     */
     @{{httpMethod}}("{{{path}}}")
     {{#isDeprecated}}
@@ -47,7 +47,7 @@ interface {{classname}} {
     suspend fun {{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
         {{/hasMore}}{{/allParams}}
-    ): Response<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>
+    ): Response<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>
 
     {{/operation}}
 
