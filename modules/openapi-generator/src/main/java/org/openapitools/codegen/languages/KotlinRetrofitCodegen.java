@@ -629,6 +629,11 @@ public class KotlinRetrofitCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return value;
+    }
+
+    @Override
     public String toParamName(String name) {
         // to avoid conflicts with 'callback' parameter for async call
         if ("callback".equals(name)) {
@@ -931,6 +936,38 @@ public class KotlinRetrofitCodegen extends DefaultCodegen implements CodegenConf
             }
         }
         return objs;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessAllModels(objs);
+        Set<String> ifaces = new HashSet<>();
+
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> map = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) map.get("models");
+            for (Map<String, Object> model : models) {
+                CodegenModel cm = (CodegenModel) model.get("model");
+                if (cm.interfaces != null && cm.interfaces.size() > 0) {
+                    ifaces.addAll(cm.interfaces);
+                    model.put("hasInterfaces", true);
+                }
+            }
+        }
+
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> map = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) map.get("models");
+            for (Map<String, Object> model : models) {
+                CodegenModel cm = (CodegenModel) model.get("model");
+                if (ifaces.contains(cm.classFilename)) {
+                    model.put("isInterface", true);
+                }
+            }
+        }
+
+        return result;
     }
 
     @Override

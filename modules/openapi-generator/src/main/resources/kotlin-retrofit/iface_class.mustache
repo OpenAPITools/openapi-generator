@@ -1,0 +1,23 @@
+/**
+ * {{{description}}}
+{{#vars}}
+ * @param {{name}} {{{description}}}
+{{/vars}}
+ */
+interface {{classname}} {
+    {{#requiredVars}}val {{#title}}{{.}}{{/title}}{{^title}}{{name}}{{/title}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^-last}}
+    {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}
+    {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}val {{#title}}{{.}}{{/title}}{{^title}}{{name}}{{/title}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}?{{^-last}}
+    {{/-last}}{{/optionalVars}}
+
+    {{#hasEnums}} {
+    {{#vars}}{{#isEnum}}
+        enum class {{nameInCamelCase}}(val value: {{dataType}}){
+        {{#allowableValues}}{{#enumVars}}
+            @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+            {{^isString}}{{nameInCamelCase}}{{/isString}}{{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{/enumVars}}{{/allowableValues}}
+        }
+    {{/isEnum}}{{/vars}}
+    }{{/hasEnums}}
+}
