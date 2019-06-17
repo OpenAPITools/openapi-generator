@@ -784,6 +784,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return p.getDefault().toString();
             }
             return null;
+        } else if (ModelUtils.isURISchema(p)) {
+            if (p.getDefault() != null) {
+                return "URI.create(\"" + escapeText((String) p.getDefault()) + "\")";
+            }
+            return null;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 String _default = (String) p.getDefault();
