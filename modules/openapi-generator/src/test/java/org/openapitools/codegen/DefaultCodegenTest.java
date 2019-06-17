@@ -634,9 +634,9 @@ public class DefaultCodegenTest {
         Set<String> imports = new HashSet<>();
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/pony").getGet().getParameters().get(0), imports);
 
-        Assert.assertEquals(parameter.dataType, "PageQuery");
+        Assert.assertEquals(parameter.dataType, "pageQuery");
         Assert.assertEquals(imports.size(), 1);
-        Assert.assertEquals(imports.iterator().next(), "PageQuery");
+        Assert.assertEquals(imports.iterator().next(), "pageQuery");
     }
 
     @Test

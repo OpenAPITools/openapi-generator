@@ -469,16 +469,14 @@ public class InlineModelResolverTest {
                 .getContent()
                 .get("application/json");
 
-        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
+        assertEquals("object", mediaType.getSchema().getType());
         Schema ref = (Schema) mediaType.getSchema().getAdditionalProperties();
         assertNotNull(ref);
         assertEquals("#/components/schemas/resolveInlineObjectResponseWithAdditionalPropertiesResponseAddlProps", ref.get$ref());
 
         Schema addlProps = openAPI.getComponents().getSchemas().get("resolveInlineObjectResponseWithAdditionalPropertiesResponseAddlProps");
-        assertTrue(addlProps instanceof ObjectSchema);
-
-        ObjectSchema additionalProperties = (ObjectSchema) addlProps;
-        assertTrue(additionalProperties.getProperties().get("resolve_inline_object_response_with_additional_properties") instanceof StringSchema);
+        assertEquals("object", addlProps.getType());
+        assertTrue(addlProps.getProperties().get("resolve_inline_object_response_with_additional_properties") instanceof StringSchema);
     }
 
     @Test
@@ -550,7 +548,7 @@ public class InlineModelResolverTest {
                 .getContent()
                 .get("application/json");
 
-        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
+        assertEquals("object", mediaType.getSchema().getType());
     }
 
     @Test
@@ -732,10 +730,10 @@ public class InlineModelResolverTest {
     }
 
 
-    private void checkComposedChildren(OpenAPI openAPI, List<Schema> children, String key) {
+    private void checkComposedChildren(OpenAPI openAPI, List<Schema> children, String schemaName, String key) {
         assertNotNull(children);
         Schema inlined = children.get(0);
-        assertEquals("#/components/schemas/ComposedObjectModelInline_" + key, inlined.get$ref());
+        assertEquals("#/components/schemas/ComposedObjectModelInline" + schemaName, inlined.get$ref());
         Schema child = ModelUtils.getReferencedSchema(openAPI, inlined);
         assertNotNull(child.getProperties());
         assertNotNull(child.getProperties().get("composed_object_model_inline_" + key));
@@ -750,9 +748,9 @@ public class InlineModelResolverTest {
 
         ComposedSchema schema = (ComposedSchema) openAPI.getComponents().getSchemas().get("ComposedObjectModelInline");
 
-        checkComposedChildren(openAPI, schema.getAllOf(), "allOf");
-        checkComposedChildren(openAPI, schema.getAnyOf(), "anyOf");
-        checkComposedChildren(openAPI, schema.getOneOf(), "oneOf");
+        checkComposedChildren(openAPI, schema.getAllOf(), "AllOf", "allOf");
+        checkComposedChildren(openAPI, schema.getAnyOf(), "AnyOf", "anyOf");
+        checkComposedChildren(openAPI, schema.getOneOf(), "OneOf", "oneOf");
     }
 
     @Test
@@ -893,13 +891,13 @@ public class InlineModelResolverTest {
         assertEquals(5, cute.getEnum().get(2));
 
         // preferences is an object with additional props that are its own enum model
-        Schema prefsSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("preferences"));
-        assertTrue(prefsSchema instanceof ObjectSchema);
-        ObjectSchema prefs = (ObjectSchema) prefsSchema;
+        Schema prefs = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("preferences"));
+        assertEquals("object", prefs.getType());
         // has a favoriteToy property
         assertEquals(1, prefs.getProperties().size());
         assertNotNull(prefs.getProperties().get("favoriteToy"));
-        assertEquals("string", prefs.getProperties().get("favoriteToy").getType());
+        Schema toy = (Schema) prefs.getProperties().get("favoriteToy");
+        assertEquals("string", toy.getType());
         // has additionalProperties with its own Metadata schema name from its title
         assertTrue(prefs.getAdditionalProperties() instanceof Schema);
         Schema addlProps = (Schema) prefs.getAdditionalProperties();
