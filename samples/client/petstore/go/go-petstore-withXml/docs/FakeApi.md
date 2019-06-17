@@ -400,14 +400,14 @@ Optional parameters are passed through a pointer to a TestEnumParametersOpts str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**optional.Interface of []string**](string.md)| Header parameter enum test (string array) | 
- **enumHeaderString** | **optional.String**| Header parameter enum test (string) | [default to -efg]
- **enumQueryStringArray** | [**optional.Interface of []string**](string.md)| Query parameter enum test (string array) | 
- **enumQueryString** | **optional.String**| Query parameter enum test (string) | [default to -efg]
- **enumQueryInteger** | **optional.Int32**| Query parameter enum test (double) | 
- **enumQueryDouble** | **optional.Float64**| Query parameter enum test (double) | 
- **enumFormStringArray** | [**optional.Interface of []string**](string.md)| Form parameter enum test (string array) | [default to $]
- **enumFormString** | **optional.String**| Form parameter enum test (string) | [default to -efg]
+ **enumHeaderStringArray** | [**optional.Interface of []TestEnumParametersBodyEnumFormStringArrayItems**](TestEnumParametersBodyEnumFormStringArrayItems.md)| Header parameter enum test (string array) | 
+ **enumHeaderString** | [**optional.Interface of EnumHeaderString**](.md)| Header parameter enum test (string) | 
+ **enumQueryStringArray** | [**optional.Interface of []TestEnumParametersBodyEnumFormStringArrayItems**](TestEnumParametersBodyEnumFormStringArrayItems.md)| Query parameter enum test (string array) | 
+ **enumQueryString** | [**optional.Interface of EnumHeaderString**](.md)| Query parameter enum test (string) | 
+ **enumQueryInteger** | [**optional.Interface of EnumQueryInteger**](.md)| Query parameter enum test (double) | 
+ **enumQueryDouble** | [**optional.Interface of EnumQueryDouble**](.md)| Query parameter enum test (double) | 
+ **enumFormStringArray** | [**optional.Interface of []TestEnumParametersBodyEnumFormStringArrayItems**](TestEnumParametersBodyEnumFormStringArrayItems.md)| Form parameter enum test (string array) | 
+ **enumFormString** | [**optional.Interface of TestEnumParametersBodyEnumFormString**](testEnumParametersBodyEnumFormString.md)|  | 
 
 ### Return type
 

@@ -102,7 +102,7 @@ Multiple status values can be provided with comma separated strings
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**status** | [**[]string**](string.md)| Status values that need to be considered for filter | 
+**status** | [**[]StatusItems**](StatusItems.md)| Status values that need to be considered for filter | 
 
 ### Return type
 

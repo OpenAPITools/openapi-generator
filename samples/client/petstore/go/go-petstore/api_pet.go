@@ -177,7 +177,7 @@ Multiple status values can be provided with comma separated strings
  * @param status Status values that need to be considered for filter
 @return []Pet
 */
-func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []string) ([]Pet, *http.Response, error) {
+func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []StatusItems) ([]Pet, *http.Response, error) {
 	var (
 		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}

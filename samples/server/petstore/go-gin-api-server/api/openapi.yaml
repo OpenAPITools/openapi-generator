@@ -84,12 +84,7 @@ paths:
         required: true
         schema:
           items:
-            default: available
-            enum:
-            - available
-            - pending
-            - sold
-            type: string
+            $ref: '#/components/schemas/statusItems'
           type: array
         style: form
       responses:
@@ -229,13 +224,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
+              $ref: '#/components/schemas/updatePetWithFormBody'
       responses:
         405:
           content: {}
@@ -262,14 +251,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
+              $ref: '#/components/schemas/uploadFileBody'
       responses:
         200:
           content:
@@ -584,7 +566,6 @@ components:
         id: 0
         shipDate: 2000-01-23T04:56:07.000+00:00
         complete: false
-        status: placed
       properties:
         id:
           format: int64
@@ -599,12 +580,7 @@ components:
           format: date-time
           type: string
         status:
-          description: Order Status
-          enum:
-          - placed
-          - approved
-          - delivered
-          type: string
+          $ref: '#/components/schemas/OrderStatus'
         complete:
           default: false
           type: boolean
@@ -693,7 +669,6 @@ components:
           id: 1
         - name: name
           id: 1
-        status: available
       properties:
         id:
           format: int64
@@ -718,12 +693,7 @@ components:
             name: tag
             wrapped: true
         status:
-          description: pet status in the store
-          enum:
-          - available
-          - pending
-          - sold
-          type: string
+          $ref: '#/components/schemas/PetStatus'
       required:
       - name
       - photoUrls
@@ -747,6 +717,44 @@ components:
           type: string
       title: An uploaded response
       type: object
+    statusItems:
+      default: available
+      enum:
+      - available
+      - pending
+      - sold
+      type: string
+    updatePetWithFormBody:
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
+          type: string
+    uploadFileBody:
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        file:
+          description: file to upload
+          format: binary
+          type: string
+    OrderStatus:
+      description: Order Status
+      enum:
+      - placed
+      - approved
+      - delivered
+      type: string
+    PetStatus:
+      description: pet status in the store
+      enum:
+      - available
+      - pending
+      - sold
+      type: string
   securitySchemes:
     petstore_auth:
       flows:

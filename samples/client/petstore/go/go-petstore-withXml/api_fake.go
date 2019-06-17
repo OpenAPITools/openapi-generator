@@ -873,25 +873,25 @@ FakeApiService To test enum parameters
 To test enum parameters
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *TestEnumParametersOpts - Optional Parameters:
- * @param "EnumHeaderStringArray" (optional.Interface of []string) -  Header parameter enum test (string array)
- * @param "EnumHeaderString" (optional.String) -  Header parameter enum test (string)
- * @param "EnumQueryStringArray" (optional.Interface of []string) -  Query parameter enum test (string array)
- * @param "EnumQueryString" (optional.String) -  Query parameter enum test (string)
- * @param "EnumQueryInteger" (optional.Int32) -  Query parameter enum test (double)
- * @param "EnumQueryDouble" (optional.Float64) -  Query parameter enum test (double)
- * @param "EnumFormStringArray" (optional.Interface of []string) -  Form parameter enum test (string array)
- * @param "EnumFormString" (optional.String) -  Form parameter enum test (string)
+ * @param "EnumHeaderStringArray" (optional.Interface of []TestEnumParametersBodyEnumFormStringArrayItems) -  Header parameter enum test (string array)
+ * @param "EnumHeaderString" (optional.Interface of EnumHeaderString) -  Header parameter enum test (string)
+ * @param "EnumQueryStringArray" (optional.Interface of []TestEnumParametersBodyEnumFormStringArrayItems) -  Query parameter enum test (string array)
+ * @param "EnumQueryString" (optional.Interface of EnumHeaderString) -  Query parameter enum test (string)
+ * @param "EnumQueryInteger" (optional.Interface of EnumQueryInteger) -  Query parameter enum test (double)
+ * @param "EnumQueryDouble" (optional.Interface of EnumQueryDouble) -  Query parameter enum test (double)
+ * @param "EnumFormStringArray" (optional.Interface of []TestEnumParametersBodyEnumFormStringArrayItems) -  Form parameter enum test (string array)
+ * @param "EnumFormString" (optional.Interface of TestEnumParametersBodyEnumFormString) - 
 */
 
 type TestEnumParametersOpts struct {
 	EnumHeaderStringArray optional.Interface
-	EnumHeaderString optional.String
+	EnumHeaderString optional.Interface
 	EnumQueryStringArray optional.Interface
-	EnumQueryString optional.String
-	EnumQueryInteger optional.Int32
-	EnumQueryDouble optional.Float64
+	EnumQueryString optional.Interface
+	EnumQueryInteger optional.Interface
+	EnumQueryDouble optional.Interface
 	EnumFormStringArray optional.Interface
-	EnumFormString optional.String
+	EnumFormString optional.Interface
 }
 
 func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptionals *TestEnumParametersOpts) (*http.Response, error) {

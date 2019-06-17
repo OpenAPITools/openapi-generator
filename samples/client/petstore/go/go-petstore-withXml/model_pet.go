@@ -16,6 +16,5 @@ type Pet struct {
 	Name string `json:"name" xml:"name"`
 	PhotoUrls []string `json:"photoUrls" xml:"photoUrls"`
 	Tags []Tag `json:"tags,omitempty" xml:"tags"`
-	// pet status in the store
-	Status string `json:"status,omitempty" xml:"status"`
+	Status PetStatus `json:"status,omitempty" xml:"status"`
 }
