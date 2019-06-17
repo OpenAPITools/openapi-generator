@@ -814,4 +814,81 @@ public class InlineModelResolverTest {
         assertNotNull(prop2);
         assertEquals("string", prop2.getType());
     }
+
+    @Test
+    public void complexModelWithInlineModels() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        assertTrue(openAPI.getComponents().getSchemas().get("Cat") instanceof ObjectSchema);
+        ObjectSchema cat = (ObjectSchema) openAPI.getComponents().getSchemas().get("Cat");
+
+        // assert properties should be pulled into their own schemas
+        assertEquals("#/components/schemas/CatMyFood", cat.getProperties().get("myFood").get$ref());
+        assertEquals("#/components/schemas/CatMyHabitat", cat.getProperties().get("myHabitat").get$ref());
+        assertEquals("#/components/schemas/CatMyTaxonomy", cat.getProperties().get("myTaxonomy").get$ref());
+        assertEquals("#/components/schemas/CatCuteness", cat.getProperties().get("cuteness").get$ref());
+        assertEquals("#/components/schemas/CatPreferences", cat.getProperties().get("preferences").get$ref());
+
+        // kittens should be an array, but its items should be their own schema
+        assertTrue(cat.getProperties().get("kittens") instanceof ArraySchema);
+        ArraySchema kittens = (ArraySchema) cat.getProperties().get("kittens");
+        assertEquals("#/components/schemas/CatKittensItems", kittens.getItems().get$ref());
+
+        // assert that schemas pulled out contain expected details
+        // myFood is a oneOf
+        Schema foodSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("myFood"));
+        assertTrue(foodSchema instanceof ComposedSchema);
+        ComposedSchema food = (ComposedSchema) foodSchema;
+        assertEquals(1, food.getOneOf().size());
+        assertEquals("#/components/schemas/Food", food.getOneOf().get(0).get$ref());
+
+        // myHabitat is an allOf
+        Schema habSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("myHabitat"));
+        assertTrue(habSchema instanceof ComposedSchema);
+        ComposedSchema hab = (ComposedSchema) habSchema;
+        assertEquals(1, hab.getAllOf().size());
+        assertEquals("#/components/schemas/Habitat", hab.getAllOf().get(0).get$ref());
+
+        // myTaxonomy is an anyOf
+        Schema taxSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("myTaxonomy"));
+        assertTrue(taxSchema instanceof ComposedSchema);
+        ComposedSchema tax = (ComposedSchema) taxSchema;
+        assertEquals(2, tax.getAnyOf().size());
+        assertEquals("#/components/schemas/Species", tax.getAnyOf().get(0).get$ref());
+        assertEquals("#/components/schemas/Order", tax.getAnyOf().get(1).get$ref());
+
+        // cuteness is a string enum
+        Schema cute = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("cuteness"));
+        assertEquals("integer", cute.getType());
+        assertNotNull(cute.getEnum());
+        assertEquals(3, cute.getEnum().size());
+        assertEquals(1, cute.getEnum().get(0));
+        assertEquals(3, cute.getEnum().get(1));
+        assertEquals(5, cute.getEnum().get(2));
+
+        // preferences is an object with additional props that are its own enum model
+        Schema prefsSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("preferences"));
+        assertTrue(prefsSchema instanceof ObjectSchema);
+        ObjectSchema prefs = (ObjectSchema) prefsSchema;
+        // has a favoriteToy property
+        assertEquals(1, prefs.getProperties().size());
+        assertNotNull(prefs.getProperties().get("favoriteToy"));
+        assertEquals("string", prefs.getProperties().get("favoriteToy").getType());
+        // has additionalProperties with its own Metadata schema name from its title
+        assertTrue(prefs.getAdditionalProperties() instanceof Schema);
+        Schema addlProps = (Schema) prefs.getAdditionalProperties();
+        assertEquals("#/components/schemas/Metadata", addlProps.get$ref());
+
+        // Metadata should be string enum with hidden,createdOn,createdBy,modifiedOn,modifiedBy
+        Schema meta = ModelUtils.getReferencedSchema(openAPI, addlProps);
+        assertEquals("string", meta.getType());
+        assertNotNull(meta.getEnum());
+        assertEquals(5, meta.getEnum().size());
+        assertEquals("hidden", meta.getEnum().get(0));
+        assertEquals("createdOn", meta.getEnum().get(1));
+        assertEquals("createdBy", meta.getEnum().get(2));
+        assertEquals("modifiedOn", meta.getEnum().get(3));
+        assertEquals("modifiedBy", meta.getEnum().get(4));
+    }
 }

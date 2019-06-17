@@ -293,6 +293,16 @@ paths:
       responses:
         '200':
           description: OK
+  /cats:
+    get:
+      operationId: getCats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
 components:
   schemas:
     Users:
@@ -337,3 +347,65 @@ components:
           properties:
             nullable_property_name:
               type: string
+    Cat:
+      description: Complex model with many inline models defined within it.
+      type: object
+      properties:
+        myFood:
+          oneOf: # inline oneOf
+            - $ref: '#/components/schemas/Food'
+        myHabitat:
+          allOf: # inline allOf
+            - $ref: '#/components/schemas/Habitat'
+        myTaxonomy:
+          anyOf: # inline anyOf
+            - $ref: '#/components/schemas/Species'
+            - $ref: '#/components/schemas/Order'
+        cuteness: # inline enum
+          type: integer
+          enum: [1,3,5]
+        kittens:
+          type: array
+          items: # inline array where the items are inline models
+            allOf:
+              - $ref: '#/components/schemas/Cat'
+        preferences:
+          type: object
+          properties:
+            favoriteToy: # inline object with properties defined
+              type: string
+          additionalProperties: # inline object with additionalProperties containing inline models
+            title: Metadata
+            type: string
+            enum: [hidden,createdOn,createdBy,modifiedOn,modifiedBy]
+    Food:
+      type: object
+      properties:
+        ingredients:
+          type: array
+          items:
+            type: string
+        pounds:
+          type: integer
+      required:
+        - fooProp
+    Habitat:
+      type: object
+      properties:
+        lat:
+          type: string
+        long:
+          type: string
+      required: [lat, long]
+    Species:
+      type: object
+      properties:
+        name:
+          type: string
+      required: [name]
+    Order:
+      type: object
+      properties:
+        name:
+          type: string
+      required: [name]
