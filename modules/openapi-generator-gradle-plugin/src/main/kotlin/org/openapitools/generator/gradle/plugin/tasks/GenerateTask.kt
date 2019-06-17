@@ -106,6 +106,12 @@ open class GenerateTask : DefaultTask() {
     val skipOverwrite = project.objects.property<Boolean?>()
 
     /**
+     * Package for generated classes (where supported)
+     */
+    @get:Internal
+    val packageName = project.objects.property<String>()
+
+    /**
      * Package for generated api classes
      */
     @get:Internal
@@ -454,6 +460,10 @@ open class GenerateTask : DefaultTask() {
 
             templateDir.ifNotEmpty { value ->
                 configurator.templateDir = value
+            }
+
+            packageName.ifNotEmpty { value ->
+                configurator.packageName = value
             }
 
             apiPackage.ifNotEmpty { value ->

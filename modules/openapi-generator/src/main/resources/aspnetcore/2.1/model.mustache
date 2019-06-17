@@ -15,7 +15,7 @@ namespace {{modelPackage}}
     /// {{description}}
     /// </summary>
     [DataContract]
-    public {{#modelClassModifier}}{{modelClassModifier}} {{/modelClassModifier}} class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
+    public {{#modelClassModifier}}{{modelClassModifier}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
     { {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}{{>enumClass}}{{/items}}{{/items.isEnum}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
@@ -26,6 +26,9 @@ namespace {{modelPackage}}
         {{#required}}
         [Required]
         {{/required}}
+        {{#pattern}}
+        [RegularExpression("{{{pattern}}}")]
+        {{/pattern}}
         [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
         {{#isEnum}}
         public {{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} { get; set; }
@@ -86,13 +89,14 @@ namespace {{modelPackage}}
             return {{#vars}}{{^isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{name}} != null &&
+                    {{^vendorExtensions.isValueType}}{{name}} != null &&{{/vendorExtensions.isValueType}}
                     {{name}}.Equals(other.{{name}})
                 ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{name}} != null &&
-                    {{name}}.SequenceEqual(other.{{name}})
+                    {{^vendorExtensions.isValueType}}{{name}} != null &&
+                    other.{{name}} != null &&
+                    {{/vendorExtensions.isValueType}}{{name}}.SequenceEqual(other.{{name}})
                 ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
@@ -107,7 +111,7 @@ namespace {{modelPackage}}
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
-                    if ({{name}} != null)
+                    {{^vendorExtensions.isValueType}}if ({{name}} != null){{/vendorExtensions.isValueType}}
                     hashCode = hashCode * 59 + {{name}}.GetHashCode();
                 {{/vars}}
                 return hashCode;

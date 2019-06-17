@@ -37,7 +37,7 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
 void from_json(const nlohmann::json& j, {{classname}}& o)
 {
     {{#vars}}
-    {{#required}}j.at("{{baseName}}").get_to(o.m_{{name}});{{/required}}{{^required}}if(!j.at("{{baseName}}").is_null())
+    {{#required}}j.at("{{baseName}}").get_to(o.m_{{name}});{{/required}}{{^required}}if(j.contains("{{baseName}}"))
     {
         j.at("{{baseName}}").get_to(o.m_{{name}});
         o.m_{{name}}IsSet = true;

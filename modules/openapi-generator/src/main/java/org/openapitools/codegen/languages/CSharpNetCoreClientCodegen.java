@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -99,6 +100,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
         typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
 
         setSupportNullable(Boolean.TRUE);
         hideGenerationTimestamp = Boolean.TRUE;
@@ -824,6 +826,30 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         protected String getTargetFrameworkVersion() {
             if (this.isNetStandard) return "v" + this.name.replace("netstandard", "");
             else return "v" + this.name.replace("netcoreapp", "");
+        }
+    }
+
+    /**
+     * Return the instantiation type of the property, especially for map and array
+     *
+     * @param schema property schema
+     * @return string presentation of the instantiation type of the property
+     */
+    @Override
+    public String toInstantiationType(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
+            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+            String inner = getSchemaType(additionalProperties);
+            if (ModelUtils.isMapSchema(additionalProperties)) {
+                inner = toInstantiationType(additionalProperties);
+            }
+            return instantiationTypes.get("map") + "<String, " + inner + ">";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            String inner = getSchemaType(arraySchema.getItems());
+            return instantiationTypes.get("array") + "<" + inner + ">";
+        } else {
+            return null;
         }
     }
 }

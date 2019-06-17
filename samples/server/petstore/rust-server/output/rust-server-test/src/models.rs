@@ -7,6 +7,8 @@ use serde::ser::Serializer;
 use std::collections::HashMap;
 use models;
 use swagger;
+use std::string::ParseError;
+
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

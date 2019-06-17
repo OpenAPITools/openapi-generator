@@ -8,10 +8,13 @@ use serde::ser::Serializer;
 use std::collections::{HashMap, BTreeMap};
 use models;
 use swagger;
+use std::string::ParseError;
+
 
 
 // Utility function for wrapping list elements when serializing xml
-fn wrap_another_xml_array_in_xml_name<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
+#[allow(non_snake_case)]
+fn wrap_in_snake_another_xml_inner<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {
@@ -19,7 +22,7 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct AnotherXmlArray(#[serde(serialize_with = "wrap_another_xml_array_in_xml_name")]Vec<String>);
+pub struct AnotherXmlArray(#[serde(serialize_with = "wrap_in_snake_another_xml_inner")]Vec<String>);
 
 impl ::std::convert::From<Vec<String>> for AnotherXmlArray {
     fn from(x: Vec<String>) -> Self {
@@ -99,6 +102,13 @@ impl ::std::convert::From<String> for AnotherXmlInner {
     }
 }
 
+impl std::str::FromStr for AnotherXmlInner {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok(AnotherXmlInner(x.to_string()))
+    }
+}
+
 impl ::std::convert::From<AnotherXmlInner> for String {
     fn from(x: AnotherXmlInner) -> Self {
         x.0
@@ -173,12 +183,13 @@ pub struct DuplicateXmlObject {
     pub inner_string: Option<String>,
 
     #[serde(rename = "inner_array")]
-    pub inner_array: Vec<models::XmlInner>,
+    #[serde(serialize_with = "wrap_in_camelXmlInner")]
+    pub inner_array: models::XmlArray,
 
 }
 
 impl DuplicateXmlObject {
-    pub fn new(inner_array: Vec<models::XmlInner>, ) -> DuplicateXmlObject {
+    pub fn new(inner_array: models::XmlArray, ) -> DuplicateXmlObject {
         DuplicateXmlObject {
             inner_string: None,
             inner_array: inner_array,
@@ -204,8 +215,50 @@ impl DuplicateXmlObject {
     }
 }
 
+/// Test a model containing a UUID
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct UuidObject(uuid::Uuid);
+
+impl ::std::convert::From<uuid::Uuid> for UuidObject {
+    fn from(x: uuid::Uuid) -> Self {
+        UuidObject(x)
+    }
+}
+
+
+impl ::std::convert::From<UuidObject> for uuid::Uuid {
+    fn from(x: UuidObject) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for UuidObject {
+    type Target = uuid::Uuid;
+    fn deref(&self) -> &uuid::Uuid {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for UuidObject {
+    fn deref_mut(&mut self) -> &mut uuid::Uuid {
+        &mut self.0
+    }
+}
+
+
+impl UuidObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 // Utility function for wrapping list elements when serializing xml
-fn wrap_xml_array_in_xml_name<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
+#[allow(non_snake_case)]
+fn wrap_in_camelXmlInner<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {
@@ -213,7 +266,7 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct XmlArray(#[serde(serialize_with = "wrap_xml_array_in_xml_name")]Vec<String>);
+pub struct XmlArray(#[serde(serialize_with = "wrap_in_camelXmlInner")]Vec<String>);
 
 impl ::std::convert::From<Vec<String>> for XmlArray {
     fn from(x: Vec<String>) -> Self {
@@ -293,6 +346,13 @@ impl ::std::convert::From<String> for XmlInner {
     }
 }
 
+impl std::str::FromStr for XmlInner {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok(XmlInner(x.to_string()))
+    }
+}
+
 impl ::std::convert::From<XmlInner> for String {
     fn from(x: XmlInner) -> Self {
         x.0
@@ -332,7 +392,7 @@ pub struct XmlObject {
 
     #[serde(rename = "other_inner_rename")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub other_inner_rename: Option<i32>,
+    pub other_inner_rename: Option<isize>,
 
 }
 

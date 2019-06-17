@@ -96,6 +96,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "character");
         typeMapping.put("string", "character");
         typeMapping.put("UUID", "character");
+        typeMapping.put("URI", "character");
         typeMapping.put("date", "character");
         typeMapping.put("DateTime", "character");
         typeMapping.put("password", "character");
@@ -569,7 +570,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + p.getDefault() + "'";
+                    return "'" + ((String) p.getDefault()).replaceAll("'","\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {

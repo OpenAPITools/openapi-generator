@@ -37,6 +37,9 @@ public class CodegenConstants {
     public static final String API_PACKAGE = "apiPackage";
     public static final String API_PACKAGE_DESC = "package for generated api classes";
 
+    public static final String API_SUFFIX = "apiSuffix";
+    public static final String API_SUFFIX_DESC = "suffix for api classes";
+
     public static final String MODEL_PACKAGE = "modelPackage";
     public static final String MODEL_PACKAGE_DESC = "package for generated models";
 
@@ -66,14 +69,17 @@ public class CodegenConstants {
     public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
     public static final String WITH_GO_CODEGEN_COMMENT_DESC = "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs";
 
+    public static final String IS_GO_SUBMODULE = "isGoSubmodule";
+    public static final String IS_GO_SUBMODULE_DESC = "whether the generated Go module is a submodule";
+
     public static final String GROUP_ID = "groupId";
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 
     public static final String ARTIFACT_ID = "artifactId";
-    public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml";
+    public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml. This also becomes part of the generated library's filename";
 
     public static final String ARTIFACT_VERSION = "artifactVersion";
-    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml";
+    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename";
 
     public static final String ARTIFACT_URL = "artifactUrl";
     public static final String ARTIFACT_URL_DESC = "artifact URL in generated pom.xml";
@@ -137,6 +143,8 @@ public class CodegenConstants {
 
     public static final String PROJECT_NAME = "projectName";
     public static final String PACKAGE_NAME = "packageName";
+    public static final String PACKAGE_NAME_DESC = "package for generated classes (where supported)";
+
     public static final String PACKAGE_VERSION = "packageVersion";
 
     public static final String PACKAGE_TITLE = "packageTitle";
@@ -184,6 +192,9 @@ public class CodegenConstants {
     public static final String DOTNET_FRAMEWORK = "targetFramework";
     public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version.";
 
+    public static final String TEMPLATING_ENGINE = "templatingEngine";
+    public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
+
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
     public static enum ENUM_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original, UPPERCASE}
@@ -224,6 +235,8 @@ public class CodegenConstants {
     public static final String PARCELIZE_MODELS = "parcelizeModels";
     public static final String PARCELIZE_MODELS_DESC = "toggle \"@Parcelize\" for generated models";
 
+    public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
+    public static final String CASE_INSENSITIVE_RESPONSE_HEADERS_DESC = "Make API response's headers case-insensitive";
 
     // Not user-configurable. System provided for use in templates.
 

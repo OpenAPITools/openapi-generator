@@ -100,6 +100,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
 
         setSupportNullable(Boolean.TRUE);
 
@@ -142,9 +143,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         addOption(COMPATIBILITY_VERSION, "ASP.Net Core CompatibilityVersion", compatibilityVersion);
 
-        aspnetCoreVersion.addEnum("2.0", "ASP.NET COre V2.0");
-        aspnetCoreVersion.addEnum("2.1", "ASP.NET COre V2.1");
-        aspnetCoreVersion.addEnum("2.2", "ASP.NET COre V2.2");
+        aspnetCoreVersion.addEnum("2.0", "ASP.NET COre 2.0");
+        aspnetCoreVersion.addEnum("2.1", "ASP.NET Core 2.1");
+        aspnetCoreVersion.addEnum("2.2", "ASP.NET Core 2.2");
         aspnetCoreVersion.setDefault("2.2");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
@@ -180,13 +181,13 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         classModifier.setOptValue(classModifier.getDefault());
         addOption(classModifier.getOpt(), classModifier.getDescription(), classModifier.getOptValue());
 
-        operationModifier.addEnum("virtual", "Keep method virtual ");
+        operationModifier.addEnum("virtual", "Keep method virtual");
         operationModifier.addEnum("abstract", "Make method abstract");
         operationModifier.setDefault("virtual");
         operationModifier.setOptValue(operationModifier.getDefault());
         addOption(operationModifier.getOpt(), operationModifier.getDescription(), operationModifier.getOptValue());
 
-        buildTarget.addEnum("program", "Generate code for standalone server");
+        buildTarget.addEnum("program", "Generate code for a standalone server");
         buildTarget.addEnum("library", "Generate code for a server abstract class lbrary");
         buildTarget.setDefault("program");
         buildTarget.setOptValue(buildTarget.getDefault());
@@ -197,7 +198,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 generateBody);
 
         addSwitch(OPERATION_IS_ASYNC,
-                "Set methods to async or sync.",
+                "Set methods to async or sync (default).",
                 operationIsAsync);
 
         addSwitch(OPERATION_RESULT_TASK,

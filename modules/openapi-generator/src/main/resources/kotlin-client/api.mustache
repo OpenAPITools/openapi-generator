@@ -4,10 +4,17 @@ package {{apiPackage}}
 {{#imports}}import {{import}}
 {{/imports}}
 
-import {{packageName}}.infrastructure.*
-{{#threetenbp}}
-import org.threeten.bp.LocalDateTime
-{{/threetenbp}}
+import {{packageName}}.infrastructure.ApiClient
+import {{packageName}}.infrastructure.ClientException
+import {{packageName}}.infrastructure.ClientError
+import {{packageName}}.infrastructure.ServerException
+import {{packageName}}.infrastructure.ServerError
+import {{packageName}}.infrastructure.MultiValueMap
+import {{packageName}}.infrastructure.RequestConfig
+import {{packageName}}.infrastructure.RequestMethod
+import {{packageName}}.infrastructure.ResponseType
+import {{packageName}}.infrastructure.Success
+import {{packageName}}.infrastructure.toMultiValue
 
 {{#operations}}
 class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
@@ -23,7 +30,7 @@ class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(base
     fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         val localVariableBody: kotlin.Any? = {{#hasBodyParam}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}null{{/hasFormParams}}{{#hasFormParams}}mapOf({{#formParams}}"{{{baseName}}}" to "${{paramName}}"{{#hasMore}}, {{/hasMore}}{{/formParams}}){{/hasFormParams}}{{/hasBodyParam}}
         val localVariableQuery: MultiValueMap = {{^hasQueryParams}}mapOf(){{/hasQueryParams}}{{#hasQueryParams}}mapOf({{#queryParams}}"{{paramName}}" to {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{paramName}}"){{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}){{/hasQueryParams}}
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf({{#hasFormParams}}"Content-Type" to "multipart/form-data"{{/hasFormParams}}{{^hasHeaderParams}}){{/hasHeaderParams}}{{#hasHeaderParams}}{{#hasFormParams}}, {{/hasFormParams}}{{#headerParams}}"{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}{{paramName}}.toString(){{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/headerParams}}){{/hasHeaderParams}}
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf({{#hasFormParams}}"Content-Type" to {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{MediaType}}"{{/consumes.0}}{{/hasFormParams}}{{^hasHeaderParams}}){{/hasHeaderParams}}{{#hasHeaderParams}}{{#hasFormParams}}, {{/hasFormParams}}{{#headerParams}}"{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}{{paramName}}.toString(){{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/headerParams}}){{/hasHeaderParams}}
         val localVariableConfig = RequestConfig(
             RequestMethod.{{httpMethod}},
             "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},

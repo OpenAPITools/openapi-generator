@@ -21,7 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.mustache.*;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -358,7 +358,15 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return camelize(property.name);
+        return camelizeStripReservedEscape(property.name);
+    }
+
+    public String camelizeStripReservedEscape(String str) {
+        if (str.startsWith("`") && str.endsWith("`")) {
+            str = str.substring(1, str.length() - 1);
+        }
+
+        return camelize(str);
     }
 
     @Override

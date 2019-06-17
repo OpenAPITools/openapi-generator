@@ -1,11 +1,17 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
-import io.swagger.annotations.*
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.Authorization
+import io.swagger.annotations.AuthorizationScope
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
+
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RequestParam
@@ -13,17 +19,24 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
 
 import javax.validation.Valid
-import javax.validation.constraints.*
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 
 import kotlin.collections.List
 import kotlin.collections.Map
 
-@Controller
+@RestController
 @Validated
 @Api(value = "User", description = "The User API")
 @RequestMapping("\${api.base-path:/v2}")
@@ -40,7 +53,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
             method = [RequestMethod.POST])
     fun createUser(@ApiParam(value = "Created user object" ,required=true ) @Valid @RequestBody body: User
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUser(body), HttpStatus.OK)
+        return ResponseEntity(service.createUser(body), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -52,9 +65,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
             value = ["/user/createWithArray"],
             method = [RequestMethod.POST])
-    fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: List<User>
+    fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: kotlin.collections.List<User>
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.OK)
+        return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -66,9 +79,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
             value = ["/user/createWithList"],
             method = [RequestMethod.POST])
-    fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: List<User>
+    fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: kotlin.collections.List<User>
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.OK)
+        return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -80,9 +93,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
             value = ["/user/{username}"],
             method = [RequestMethod.DELETE])
-    fun deleteUser(@ApiParam(value = "The name that needs to be deleted", required=true) @PathVariable("username") username: String
+    fun deleteUser(@ApiParam(value = "The name that needs to be deleted", required=true) @PathVariable("username") username: kotlin.String
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.deleteUser(username), HttpStatus.OK)
+        return ResponseEntity(service.deleteUser(username), HttpStatus.valueOf(400))
     }
 
     @ApiOperation(
@@ -96,26 +109,26 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
             value = ["/user/{username}"],
             produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required=true) @PathVariable("username") username: String
+    fun getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required=true) @PathVariable("username") username: kotlin.String
 ): ResponseEntity<User> {
-        return ResponseEntity(service.getUserByName(username), HttpStatus.OK)
+        return ResponseEntity(service.getUserByName(username), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
             value = "Logs user into the system",
             nickname = "loginUser",
             notes = "",
-            response = String::class)
+            response = kotlin.String::class)
     @ApiResponses(
-            value = [ApiResponse(code = 200, message = "successful operation", response = String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
+            value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
     @RequestMapping(
             value = ["/user/login"],
             produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: String
-,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: String
-): ResponseEntity<String> {
-        return ResponseEntity(service.loginUser(username, password), HttpStatus.OK)
+    fun loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String
+,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+): ResponseEntity<kotlin.String> {
+        return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -128,7 +141,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
             value = ["/user/logout"],
             method = [RequestMethod.GET])
     fun logoutUser(): ResponseEntity<Unit> {
-        return ResponseEntity(service.logoutUser(), HttpStatus.OK)
+        return ResponseEntity(service.logoutUser(), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -140,9 +153,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
             value = ["/user/{username}"],
             method = [RequestMethod.PUT])
-    fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: String
+    fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: kotlin.String
 ,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody body: User
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.updateUser(username, body), HttpStatus.OK)
+        return ResponseEntity(service.updateUser(username, body), HttpStatus.valueOf(400))
     }
 }

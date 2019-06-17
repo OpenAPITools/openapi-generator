@@ -22,12 +22,15 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
 import java.util.*;
+import java.net.URL;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -104,6 +107,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "std::string");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
 
         super.importMapping = new HashMap<String, String>();
@@ -261,7 +265,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name));
+        return toModelName(name);
     }
 
     @Override
@@ -282,7 +286,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toApiFilename(String name) {
-        return  modelNamePrefix + camelize(name) + "Api";
+        return toApiName(name);
     }
 
     /**

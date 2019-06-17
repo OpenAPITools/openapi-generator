@@ -83,7 +83,7 @@ public class Meta implements Runnable {
                 ImmutableList.of(
                         new SupportingFile("pom.mustache", "", "pom.xml"),
                         new SupportingFile("generatorClass.mustache", on(File.separator).join("src/main/java", asPath(targetPackage)), mainClass.concat(".java")),
-                        new SupportingFile("debugGeneratorTest.mustache", on(File.separator).join("src/test/java", asPath("org.openapitools.codegen.debug")), "DebugCodegenLauncher.java"),
+                        new SupportingFile("generatorClassTest.mustache", on(File.separator).join("src/test/java", asPath(targetPackage)), mainClass.concat("Test.java")),
                         new SupportingFile("README.mustache", "", "README.md"),
                         new SupportingFile("api.template", "src/main/resources" + File.separator + name,"api.mustache"),
                         new SupportingFile("model.template", "src/main/resources" + File.separator + name,"model.mustache"),

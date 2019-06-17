@@ -24,6 +24,16 @@
   infoLink: "https://www.boxever.com/"
   pinned: false
 -
+  caption: CAM
+  image: "img/companies/cam.png"
+  infoLink: "https://www.cam-inc.co.jp"
+  pinned: false
+-
+  caption: FiNC Technologies
+  image: "img/companies/finc-technologies.png"
+  infoLink: "https://company.finc.com/"
+  pinned: false
+-
   caption: "GMO Pepabo"
   image: "img/companies/pepabo.png"
   infoLink: "https://pepabo.com/en/"
@@ -57,6 +67,11 @@
   caption: Myworkout
   image: "img/companies/myworkout.png"
   infoLink: "https://myworkout.com/"
+  pinned: false
+-
+  caption: OPTiM
+  image: "img/companies/optim.png"
+  infoLink: "https://www.optim.co.jp/"
   pinned: false
 -
   caption: "Raiffeisen Schweiz Genossenschaft"
@@ -102,6 +117,11 @@
   caption: Xero
   image: "img/companies/xero.png"
   infoLink: "https://www.xero.com/"
+  pinned: false
+-
+  caption: Yelp 
+  image: "img/companies/yelp.png"
+  infoLink: "https://www.yelp.com/"
   pinned: false
 -
   caption: Zalando

@@ -28,7 +28,7 @@ defmodule OpenapiPetstore.Connection do
   """
   @spec new(String.t, String.t) :: Tesla.Env.client
   def new(username, password) do
-    Tesla.build_client([
+    Tesla.client([
       {Tesla.Middleware.BasicAuth, %{username: username, password: password}}
     ])
   end
@@ -50,7 +50,7 @@ defmodule OpenapiPetstore.Connection do
   """
   @spec new(String.t) :: Tesla.Env.client
   def new(token) when is_binary(token) do
-    Tesla.build_client([
+    Tesla.client([
       {Tesla.Middleware.Headers,  [{"authorization", "Bearer #{token}"}]}
     ])
   end
@@ -81,6 +81,6 @@ defmodule OpenapiPetstore.Connection do
   """
   @spec new() :: Tesla.Env.client
   def new do
-    Tesla.build_client([])
+    Tesla.client([])
   end
 end

@@ -18,19 +18,12 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.StringUtils;
 
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCodegen {
-
-    public static final String NPM_NAME = "npmName";
-    public static final String NPM_VERSION = "npmVersion";
-
-    protected String npmName = null;
-    protected String npmVersion = "1.0.0";
 
     public TypeScriptAureliaClientCodegen() {
         super();
@@ -43,8 +36,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
         outputFolder = "generated-code/typescript-aurelia";
         embeddedTemplateDir = templateDir = "typescript-aurelia";
-        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
+
     }
 
     @Override
@@ -76,14 +68,6 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
-        }
-
-        if (additionalProperties.containsKey(NPM_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-        }
 
         // Set supporting files
         supportingFiles.add(new SupportingFile("models.mustache", "", "models.ts"));

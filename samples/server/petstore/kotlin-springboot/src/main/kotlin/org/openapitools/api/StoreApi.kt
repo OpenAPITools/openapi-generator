@@ -1,11 +1,17 @@
 package org.openapitools.api
 
 import org.openapitools.model.Order
-import io.swagger.annotations.*
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.Authorization
+import io.swagger.annotations.AuthorizationScope
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
+
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RequestParam
@@ -13,17 +19,24 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
 
 import javax.validation.Valid
-import javax.validation.constraints.*
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 
 import kotlin.collections.List
 import kotlin.collections.Map
 
-@Controller
+@RestController
 @Validated
 @Api(value = "Store", description = "The Store API")
 @RequestMapping("\${api.base-path:/v2}")
@@ -38,26 +51,26 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     @RequestMapping(
             value = ["/store/order/{orderId}"],
             method = [RequestMethod.DELETE])
-    fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: String
+    fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: kotlin.String
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.deleteOrder(orderId), HttpStatus.OK)
+        return ResponseEntity(service.deleteOrder(orderId), HttpStatus.valueOf(400))
     }
 
     @ApiOperation(
             value = "Returns pet inventories by status",
             nickname = "getInventory",
             notes = "Returns a map of status codes to quantities",
-            response = Int::class,
+            response = kotlin.Int::class,
             responseContainer = "Map",
             authorizations = [Authorization(value = "api_key")])
     @ApiResponses(
-            value = [ApiResponse(code = 200, message = "successful operation", response = Map::class, responseContainer = "Map")])
+            value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")])
     @RequestMapping(
             value = ["/store/inventory"],
             produces = ["application/json"], 
             method = [RequestMethod.GET])
-    fun getInventory(): ResponseEntity<Map<String, Int>> {
-        return ResponseEntity(service.getInventory(), HttpStatus.OK)
+    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
+        return ResponseEntity(service.getInventory(), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -71,9 +84,9 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = ["/store/order/{orderId}"],
             produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: Long
+    fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: kotlin.Long
 ): ResponseEntity<Order> {
-        return ResponseEntity(service.getOrderById(orderId), HttpStatus.OK)
+        return ResponseEntity(service.getOrderById(orderId), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -89,6 +102,6 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             method = [RequestMethod.POST])
     fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody body: Order
 ): ResponseEntity<Order> {
-        return ResponseEntity(service.placeOrder(body), HttpStatus.OK)
+        return ResponseEntity(service.placeOrder(body), HttpStatus.valueOf(200))
     }
 }

@@ -40,6 +40,7 @@ use swagger;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
 use {Api,
+     RequiredOctetStreamPutResponse,
      XmlExtraPostResponse,
      XmlOtherPostResponse,
      XmlOtherPutResponse,
@@ -250,11 +251,90 @@ impl<F, C> Api<C> for Client<F> where
     F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
     C: Has<XSpanIdString> {
 
+    fn required_octet_stream_put(&self, param_body: swagger::ByteArray, context: &C) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
+        let mut uri = format!(
+            "{}/required_octet_stream",
+            self.base_path
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Put, uri);
+
+
+        // Body parameter
+        let body = param_body.0;
+
+        request.set_body(body);
+
+
+        request.headers_mut().set(ContentType(mimetypes::requests::REQUIRED_OCTET_STREAM_PUT.clone()));
+        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+
+                        future::ok(
+                            RequiredOctetStreamPutResponse::OK
+                        )
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
     fn xml_extra_post(&self, param_duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml_extra",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -263,14 +343,12 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
-        // Body parameter
         let body = param_duplicate_xml_object.map(|ref body| {
             body.to_xml()
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_EXTRA_POST.clone()));
@@ -329,6 +407,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -341,7 +428,7 @@ if let Some(body) = body {
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_OTHER_POST.clone()));
@@ -400,6 +487,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -412,7 +508,7 @@ if let Some(body) = body {
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_OTHER_PUT.clone()));
@@ -471,6 +567,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -483,7 +588,7 @@ if let Some(body) = body {
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_POST.clone()));
@@ -542,6 +647,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -554,7 +668,7 @@ if let Some(body) = body {
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_PUT.clone()));

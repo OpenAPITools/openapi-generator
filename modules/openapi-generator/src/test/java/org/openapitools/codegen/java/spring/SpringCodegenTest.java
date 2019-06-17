@@ -17,13 +17,28 @@
 
 package org.openapitools.codegen.java.spring;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+
+import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 
 public class SpringCodegenTest {
 
@@ -109,5 +124,48 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xyz.yyyyy.cccc.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.TITLE), "someTest");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
+    }
+
+    @Test
+    public void interfaceDefaultImplDisableWithReponseWrapper() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
+        codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), false);
+    }
+
+    @Test
+    public void doNotGenerateRequestParamForObjectQueryParam() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/objectQueryParam.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOpts opts = new ClientOpts();
+        opts.getProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+        input.setOpts(opts);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/PonyApi.java",  "@RequestParam");
+    }
+
+    private void checkFileNotContains(MockDefaultGenerator generator, String path, String... lines) {
+        String file = generator.getFiles().get(path);
+        assertNotNull(file);
+        for (String line : lines)
+            assertFalse(file.contains(line));
     }
 }

@@ -40,6 +40,12 @@ pub const API_VERSION: &'static str = "1.0.7";
 
 
 #[derive(Debug, PartialEq)]
+pub enum RequiredOctetStreamPutResponse {
+    /// OK
+    OK ,
+}
+
+#[derive(Debug, PartialEq)]
 pub enum XmlExtraPostResponse {
     /// OK
     OK ,
@@ -84,6 +90,9 @@ pub enum XmlPutResponse {
 pub trait Api<C> {
 
 
+    fn required_octet_stream_put(&self, body: swagger::ByteArray, context: &C) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
+
+
     fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>>;
 
 
@@ -102,6 +111,9 @@ pub trait Api<C> {
 
 /// API without a `Context`
 pub trait ApiNoContext {
+
+
+    fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
 
 
     fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>>;
@@ -133,6 +145,11 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 }
 
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
+
+
+    fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
+        self.api().required_octet_stream_put(body, &self.context())
+    }
 
 
     fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>> {

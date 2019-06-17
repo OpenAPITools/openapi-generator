@@ -69,16 +69,24 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'username': username,
-      'firstName': firstName,
-      'lastName': lastName,
-      'email': email,
-      'password': password,
-      'phone': phone,
-      'userStatus': userStatus
-    };
+    Map <String, dynamic> json = {};
+    if (id != null)
+      json['id'] = id;
+    if (username != null)
+      json['username'] = username;
+    if (firstName != null)
+      json['firstName'] = firstName;
+    if (lastName != null)
+      json['lastName'] = lastName;
+    if (email != null)
+      json['email'] = email;
+    if (password != null)
+      json['password'] = password;
+    if (phone != null)
+      json['phone'] = phone;
+    if (userStatus != null)
+      json['userStatus'] = userStatus;
+    return json;
   }
 
   static List<User> listFromJson(List<dynamic> json) {

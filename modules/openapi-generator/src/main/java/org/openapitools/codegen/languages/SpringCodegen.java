@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -36,6 +37,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class SpringCodegen extends AbstractJavaCodegen
@@ -90,20 +92,28 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public SpringCodegen() {
         super();
+
         outputFolder = "generated-code/javaSpring";
-        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpring";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-spring";
 
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+
+        apiTestTemplateFiles.clear(); // TODO: add test template
+
         // spring uses the jackson lib
         additionalProperties.put("jackson", "true");
 
-        cliOptions.add(new CliOption(TITLE, "server title name or client service name"));
-        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
-        cliOptions.add(new CliOption(BASE_PACKAGE, "base package (invokerPackage) for generated code"));
+        cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
+        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(this.getConfigPackage()));
+        cliOptions.add(new CliOption(BASE_PACKAGE, "base package (invokerPackage) for generated code").defaultValue(this.getBasePackage()));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly));
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
@@ -126,11 +136,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY, "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
-
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(SPRING_BOOT);
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(SPRING_BOOT);
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
+
     }
 
     @Override
@@ -370,7 +379,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (this.java8) {
             additionalProperties.put("javaVersion", "1.8");
             if (!SPRING_CLOUD_LIBRARY.equals(library)) {
-                additionalProperties.put("jdk8", "true");
+                additionalProperties.put("jdk8", true);
             }
             if (this.async) {
                 additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
@@ -388,29 +397,32 @@ public class SpringCodegen extends AbstractJavaCodegen
 
 
         // Some well-known Spring or Spring-Cloud response wrappers
-        switch (this.responseWrapper) {
-            case "Future":
-            case "Callable":
-            case "CompletableFuture":
-                additionalProperties.put(RESPONSE_WRAPPER, "java.util.concurrent." + this.responseWrapper);
-                break;
-            case "ListenableFuture":
-                additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.util.concurrent.ListenableFuture");
-                break;
-            case "DeferredResult":
-                additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.web.context.request.async.DeferredResult");
-                break;
-            case "HystrixCommand":
-                additionalProperties.put(RESPONSE_WRAPPER, "com.netflix.hystrix.HystrixCommand");
-                break;
-            case "RxObservable":
-                additionalProperties.put(RESPONSE_WRAPPER, "rx.Observable");
-                break;
-            case "RxSingle":
-                additionalProperties.put(RESPONSE_WRAPPER, "rx.Single");
-                break;
-            default:
-                break;
+        if (isNotEmpty(this.responseWrapper)) {
+            additionalProperties.put("jdk8", false);
+            switch (this.responseWrapper) {
+                case "Future":
+                case "Callable":
+                case "CompletableFuture":
+                    additionalProperties.put(RESPONSE_WRAPPER, "java.util.concurrent." + this.responseWrapper);
+                    break;
+                case "ListenableFuture":
+                    additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.util.concurrent.ListenableFuture");
+                    break;
+                case "DeferredResult":
+                    additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.web.context.request.async.DeferredResult");
+                    break;
+                case "HystrixCommand":
+                    additionalProperties.put(RESPONSE_WRAPPER, "com.netflix.hystrix.HystrixCommand");
+                    break;
+                case "RxObservable":
+                    additionalProperties.put(RESPONSE_WRAPPER, "rx.Observable");
+                    break;
+                case "RxSingle":
+                    additionalProperties.put(RESPONSE_WRAPPER, "rx.Single");
+                    break;
+                default:
+                    break;
+            }
         }
 
         // add lambda for mustache templates

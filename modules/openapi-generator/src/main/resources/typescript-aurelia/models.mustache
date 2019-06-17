@@ -1,6 +1,8 @@
 {{>licenseInfo}}
 {{#models}}
 {{#model}}
+{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}
+{{^oneOf}}
 {{#description}}
 /**
  * {{{description}}}
@@ -35,5 +37,6 @@ export type {{{enumName}}} = {{#allowableValues}}{{#values}}'{{{.}}}'{{^-last}} 
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}
+{{/oneOf}}
 {{/model}}
 {{/models}}

@@ -38,11 +38,12 @@ build:
     - mix --version
     # test samples defined in pom.xml
     - mvn --quiet verify -P samples.shippable -Dmaven.javadoc.skip=true
-    # generate all petstore samples (client, servers, doc)
-    - ./bin/run-all-petstore
-    # generate all petstore samples (openapi3)
-    - ./bin/openapi3/run-all-petstore
-    # generate test scripts
-    - ./bin/tests/run-all-test
-    # test all generators with fake petstore spec (2.0, 3.0)
-    - ./bin/utils/test-fake-petstore-for-all.sh
+    # below moved to CircleCI
+    ## generate all petstore samples (client, servers, doc)
+    #- ./bin/run-all-petstore
+    ## generate all petstore samples (openapi3)
+    #- ./bin/openapi3/run-all-petstore
+    ## generate test scripts
+    #- ./bin/tests/run-all-test
+    ## test all generators with fake petstore spec (2.0, 3.0)
+    #- ./bin/utils/test-fake-petstore-for-all.sh

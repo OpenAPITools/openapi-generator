@@ -68,11 +68,11 @@ __PACKAGE__->mk_classdata('class_documentation' => {});
 sub new { 
     my ($class, %args) = @_; 
 
-	my $self = bless {}, $class;
+    my $self = bless {}, $class;
 
-	$self->init(%args);
-	
-	return $self;
+    $self->init(%args);
+    
+    return $self;
 }
 
 # initialize the object
@@ -80,10 +80,10 @@ sub init
 {
     my ($self, %args) = @_;
 
-	foreach my $attribute (keys %{$self->attribute_map}) {
-		my $args_key = $self->attribute_map->{$attribute};
-		$self->$attribute( $args{ $args_key } );
-	}
+    foreach my $attribute (keys %{$self->attribute_map}) {
+        my $args_key = $self->attribute_map->{$attribute};
+        $self->$attribute( $args{ $args_key } );
+    }
 }
 
 # return perl hash
@@ -113,18 +113,25 @@ sub from_hash {
 
     # loop through attributes and use openapi_types to deserialize the data
     while ( my ($_key, $_type) = each %{$self->openapi_types} ) {
-    	my $_json_attribute = $self->attribute_map->{$_key}; 
-        if ($_type =~ /^array\[/i) { # array
-            my $_subclass = substr($_type, 6, -1);
+        my $_json_attribute = $self->attribute_map->{$_key}; 
+        if ($_type =~ /^array\[(.+)\]$/i) { # array
+            my $_subclass = $1;
             my @_array = ();
             foreach my $_element (@{$hash->{$_json_attribute}}) {
                 push @_array, $self->_deserialize($_subclass, $_element);
             }
             $self->{$_key} = \@_array;
+        } elsif ($_type =~ /^hash\[string,(.+)\]$/i) { # hash
+            my $_subclass = $1;
+            my %_hash = ();
+            while (my($_key, $_element) = each %{$hash->{$_json_attribute}}) {
+                $_hash{$_key} = $self->_deserialize($_subclass, $_element);
+            }
+            $self->{$_key} = \%_hash;
         } elsif (exists $hash->{$_json_attribute}) { #hash(model), primitive, datetime
             $self->{$_key} = $self->_deserialize($_type, $hash->{$_json_attribute});
         } else {
-        	$log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
+            $log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
         }
     }
   
@@ -135,7 +142,7 @@ sub from_hash {
 sub _deserialize {
     my ($self, $type, $data) = @_;
     $log->debugf("deserializing %s with %s",Dumper($data), $type);
-        
+
     if ($type eq 'DateTime') {
         return DateTime->from_epoch(epoch => str2time($data));
     } elsif ( grep( /^$type$/, ('int', 'double', 'string', 'boolean'))) {
@@ -155,103 +162,103 @@ __PACKAGE__->class_documentation({description => '',
 
 __PACKAGE__->method_documentation({
     'integer' => {
-    	datatype => 'int',
-    	base_name => 'integer',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'int',
+        base_name => 'integer',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'int32' => {
-    	datatype => 'int',
-    	base_name => 'int32',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'int',
+        base_name => 'int32',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'int64' => {
-    	datatype => 'int',
-    	base_name => 'int64',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'int',
+        base_name => 'int64',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'number' => {
-    	datatype => 'double',
-    	base_name => 'number',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'double',
+        base_name => 'number',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'float' => {
-    	datatype => 'double',
-    	base_name => 'float',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'double',
+        base_name => 'float',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'double' => {
-    	datatype => 'double',
-    	base_name => 'double',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'double',
+        base_name => 'double',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'string' => {
-    	datatype => 'string',
-    	base_name => 'string',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'string',
+        base_name => 'string',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'pattern_without_delimiter' => {
-    	datatype => 'string',
-    	base_name => 'pattern_without_delimiter',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'string',
+        base_name => 'pattern_without_delimiter',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'byte' => {
-    	datatype => 'string',
-    	base_name => 'byte',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'string',
+        base_name => 'byte',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'binary' => {
-    	datatype => 'string',
-    	base_name => 'binary',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'string',
+        base_name => 'binary',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'date' => {
-    	datatype => 'DateTime',
-    	base_name => 'date',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'DateTime',
+        base_name => 'date',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'date_time' => {
-    	datatype => 'DateTime',
-    	base_name => 'dateTime',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'DateTime',
+        base_name => 'dateTime',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'password' => {
-    	datatype => 'string',
-    	base_name => 'password',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'string',
+        base_name => 'password',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
     'callback' => {
-    	datatype => 'string',
-    	base_name => 'callback',
-    	description => 'None',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'string',
+        base_name => 'callback',
+        description => 'None',
+        format => '',
+        read_only => '',
+            },
 });
 
 __PACKAGE__->openapi_types( {

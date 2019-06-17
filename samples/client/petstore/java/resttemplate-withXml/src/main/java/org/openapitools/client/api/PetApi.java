@@ -51,6 +51,7 @@ public class PetApi {
     /**
      * Add a new pet to the store
      * 
+     * <p><b>200</b> - successful operation
      * <p><b>405</b> - Invalid input
      * @param body Pet object that needs to be added to the store
      * @throws RestClientException if an error occurs while attempting to invoke the API
@@ -84,6 +85,7 @@ public class PetApi {
     /**
      * Deletes a pet
      * 
+     * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid pet value
      * @param petId Pet id to delete
      * @param apiKey The apiKey parameter
@@ -235,6 +237,7 @@ public class PetApi {
     /**
      * Update an existing pet
      * 
+     * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception

@@ -164,4 +164,32 @@ public class JavaModelEnumTest {
         Assert.assertEquals(cm.parent, "ParentModel");
         Assert.assertTrue(cm.imports.contains("ParentModel"));
     }
+
+    @Test
+    public void testEnumTestSchema() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema enumTest = openAPI.getComponents().getSchemas().get("Enum_Test");
+        CodegenModel cm = codegen.fromModel("Enum_Test", enumTest);
+
+        Assert.assertEquals(cm.getVars().size(), 8);
+        CodegenProperty cp0 = cm.getVars().get(0);
+        Assert.assertEquals(cp0.dataType, "String");
+        CodegenProperty cp1 = cm.getVars().get(1);
+        Assert.assertEquals(cp1.dataType, "String");
+        CodegenProperty cp2 = cm.getVars().get(2);
+        Assert.assertEquals(cp2.dataType, "Integer");
+        CodegenProperty cp3 = cm.getVars().get(3);
+        Assert.assertEquals(cp3.dataType, "Double");
+        CodegenProperty cp4 = cm.getVars().get(4);
+        Assert.assertEquals(cp4.dataType, "OuterEnum");
+        CodegenProperty cp5 = cm.getVars().get(5);
+        Assert.assertEquals(cp5.dataType, "OuterEnumInteger");
+        CodegenProperty cp6 = cm.getVars().get(6);
+        Assert.assertEquals(cp6.dataType, "OuterEnumDefaultValue");
+        CodegenProperty cp7 = cm.getVars().get(7);
+        Assert.assertEquals(cp7.dataType, "OuterEnumIntegerDefaultValue");
+    }
 }

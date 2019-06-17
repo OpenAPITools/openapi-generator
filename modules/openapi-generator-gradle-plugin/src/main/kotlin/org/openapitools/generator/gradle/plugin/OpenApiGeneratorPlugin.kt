@@ -91,6 +91,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     systemProperties.set(generate.systemProperties)
                     configFile.set(generate.configFile)
                     skipOverwrite.set(generate.skipOverwrite)
+                    packageName.set(generate.packageName)
                     apiPackage.set(generate.apiPackage)
                     modelPackage.set(generate.modelPackage)
                     modelNamePrefix.set(generate.modelNamePrefix)

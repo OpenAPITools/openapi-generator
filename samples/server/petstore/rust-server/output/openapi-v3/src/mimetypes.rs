@@ -9,6 +9,10 @@ pub mod responses {
 
 pub mod requests {
     use hyper::mime::*;
+   /// Create Mime objects for the request content types for RequiredOctetStreamPut
+    lazy_static! {
+        pub static ref REQUIRED_OCTET_STREAM_PUT: Mime = "application/octet-stream".parse().unwrap();
+    }
    /// Create Mime objects for the request content types for XmlExtraPost
     lazy_static! {
         pub static ref XML_EXTRA_POST: Mime = "application/xml".parse().unwrap();

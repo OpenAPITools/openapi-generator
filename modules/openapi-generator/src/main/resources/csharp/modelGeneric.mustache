@@ -171,6 +171,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
                 (
                     this.{{name}} == input.{{name}} ||
                     this.{{name}} != null &&
+                    input.{{name}} != null &&
                     this.{{name}}.SequenceEqual(input.{{name}})
                 ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
         }

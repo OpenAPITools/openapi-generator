@@ -18,7 +18,7 @@ declare -a scripts=(
 "./bin/java-jaxrs-petstore-server-all.sh"
 "./bin/java-msf4j-petstore-server.sh"
 "./bin/openapi3/jaxrs-jersey-petstore.sh"
-"./bin/spring-all-pestore.sh"
+"./bin/spring-all-petstore.sh"
 "./bin/javascript-petstore-all.sh"
 "./bin/kotlin-client-petstore.sh"
 "./bin/kotlin-client-string.sh"
@@ -48,14 +48,20 @@ declare -a scripts=(
 "./bin/r-petstore.sh"
 "./bin/haskell-http-client-petstore.sh"
 "./bin/csharp-petstore.sh"
+"./bin/csharp-netcore-petstore-all.sh"
+"./bin/elixir-petstore.sh"
+"./bin/go-petstore.sh"
+"./bin/go-petstore-withxml.sh"
+"./bin/go-gin-petstore-server.sh"
+"./bin/groovy-petstore.sh"
+"./bin/apex-petstore.sh"
+#"./bin/elm-petstore-all.sh"
 "./bin/meta-codegen.sh"
 # OTHERS
 "./bin/utils/export_docs_generators.sh"
 "./bin/utils/export_generators_docusaurus_index.sh"
 "./bin/utils/copy-to-website.sh"
-"./bin/utils/export_generators_readme.sh"
-"./bin/go-petstore.sh"
-"./bin/go-gin-petstore-server.sh")
+"./bin/utils/export_generators_readme.sh")
 
 for script in "${scripts[@]}"; do
   if eval $script > /dev/null 2>&1; then

@@ -337,7 +337,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let body = serde_json::to_string(&param_nested_response).expect("impossible to fail to serialize");
 
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::DUMMY_PUT.clone()));
@@ -417,17 +417,20 @@ impl<F, C> Api<C> for Client<F> where
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<swagger::ByteArray>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FileResponseGetResponse::Success(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -478,7 +481,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let body = param_body;
 
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::HTML_POST.clone()));
@@ -495,16 +498,20 @@ impl<F, C> Api<C> for Client<F> where
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
-                                                 Ok(body.to_string())
+                                                 serde_json::from_str::<String>(body)
+                                                     .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             HtmlPostResponse::Success(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -567,17 +574,20 @@ impl<F, C> Api<C> for Client<F> where
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<serde_json::Value>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             RawJsonGetResponse::Success(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {

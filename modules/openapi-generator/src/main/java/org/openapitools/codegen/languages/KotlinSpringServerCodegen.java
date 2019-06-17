@@ -60,6 +60,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SWAGGER_ANNOTATIONS = "swaggerAnnotations";
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
+    public static final String REACTIVE = "reactive";
+
 
     private String basePackage;
     private String invokerPackage;
@@ -72,14 +74,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean swaggerAnnotations = false;
     private boolean serviceInterface = false;
     private boolean serviceImplementation = false;
+    private boolean reactive = false;
 
     public KotlinSpringServerCodegen() {
         super();
 
+        apiTestTemplateFiles.put("api_test.mustache", ".kt");
+
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
         outputFolder = "generated-code/kotlin-spring";
-        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "kotlin-spring";
 
         artifactId = "openapi-spring";
@@ -87,56 +91,30 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
+        // cliOptions default redefinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
+
         // Use lists instead of arrays
-        typeMapping.put("array", "List");
-        typeMapping.put("string", "String");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("integer", "Int");
-        typeMapping.put("float", "Float");
-        typeMapping.put("long", "Long");
-        typeMapping.put("double", "Double");
-        typeMapping.put("ByteArray", "ByteArray");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Map");
-        typeMapping.put("object", "Any");
-        typeMapping.put("binary", "Array<kotlin.Byte>");
+        typeMapping.put("array", "kotlin.collections.List");
+        typeMapping.put("list", "kotlin.collections.List");
 
         typeMapping.put("date", "java.time.LocalDate");
         typeMapping.put("date-time", "java.time.OffsetDateTime");
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.OffsetDateTime");
 
-        importMapping.put("Date", "java.time.LocalDate");
-        importMapping.put("DateTime", "java.time.OffsetDateTime");
-
         // use resource for file handling
         typeMapping.put("file", "org.springframework.core.io.Resource");
 
-
-        languageSpecificPrimitives.addAll(Arrays.asList(
-                "Any",
-                "Byte",
-                "ByteArray",
-                "Short",
-                "Int",
-                "Long",
-                "Float",
-                "Double",
-                "Boolean",
-                "Char",
-                "String",
-                "Array",
-                "List",
-                "Map",
-                "Set"
-        ));
+        importMapping.put("Date", "java.time.LocalDate");
+        importMapping.put("DateTime", "java.time.OffsetDateTime");
 
         addOption(TITLE, "server title name or client service name", title);
         addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
-        addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers", exceptionHandler);
+        addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )", exceptionHandler);
         addSwitch(GRADLE_BUILD_FILE, "generate a gradle build file using the Kotlin DSL", gradleBuildFile);
         addSwitch(SWAGGER_ANNOTATIONS, "generate swagger annotations to go alongside controllers and models", swaggerAnnotations);
         addSwitch(SERVICE_INTERFACE, "generate service interfaces to go alongside controllers. In most " +
@@ -145,11 +123,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
-
+        addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
-        CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
         cliOpt.setDefault(SPRING_BOOT);
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);
@@ -234,6 +212,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public boolean isReactive() {
+        return reactive;
+    }
+
+    public void setReactive(boolean reactive) {
+        this.reactive = reactive;
     }
 
     @Override
@@ -327,6 +313,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(REACTIVE) && library.equals(SPRING_BOOT)) {
+            this.setReactive(convertPropertyToBoolean(REACTIVE));
+            // spring webflux doesn't support @ControllerAdvice
+            this.setExceptionHandler(false);
+        }
+        writePropertyBack(REACTIVE, reactive);
+        writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
 
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
@@ -520,16 +514,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
         if (returnType == null) {
             dataTypeAssigner.setReturnType("Unit");
-        } else if (returnType.startsWith("List")) {
+        } else if (returnType.startsWith("kotlin.collections.List")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("List<".length(), end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.List<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
-        } else if (returnType.startsWith("Map")) {
+        } else if (returnType.startsWith("kotlin.collections.Map")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
         }

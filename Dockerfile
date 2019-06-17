@@ -18,6 +18,7 @@ COPY ./modules/openapi-generator-gradle-plugin ${GEN_DIR}/modules/openapi-genera
 COPY ./modules/openapi-generator-maven-plugin ${GEN_DIR}/modules/openapi-generator-maven-plugin
 COPY ./modules/openapi-generator-online ${GEN_DIR}/modules/openapi-generator-online
 COPY ./modules/openapi-generator-cli ${GEN_DIR}/modules/openapi-generator-cli
+COPY ./modules/openapi-generator-core ${GEN_DIR}/modules/openapi-generator-core
 COPY ./modules/openapi-generator ${GEN_DIR}/modules/openapi-generator
 COPY ./pom.xml ${GEN_DIR}
 

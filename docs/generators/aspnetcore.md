@@ -28,6 +28,6 @@ sidebar_label: aspnetcore
 |operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
 |buildTarget|Target to build an application or library| |program|
 |generateBody|Generates method body.| |true|
-|operationIsAsync|Set methods to async or sync.| |false|
+|operationIsAsync|Set methods to async or sync (default).| |false|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|

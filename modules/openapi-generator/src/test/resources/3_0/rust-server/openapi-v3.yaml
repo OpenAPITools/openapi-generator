@@ -76,8 +76,24 @@ paths:
           description: 'OK'
         '400':
           description: Bad Request
+  /required_octet_stream:
+    put:
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
+      responses:
+        '200':
+          description: 'OK'
 components:
   schemas:
+    UuidObject:
+      description: Test a model containing a UUID
+      type: string
+      format: uuid
     xml_array:
       xml:
         name: CamelXmlArray

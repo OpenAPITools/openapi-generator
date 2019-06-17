@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.2-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -39,21 +39,18 @@
             <name>Christophe Bornet</name>
         </developer>
         <developer>
-            <id>jaz-ah</id>
-            <name>Joseph Zuromski</name>
-        </developer>
-        <developer>
             <id>ackintosh</id>
             <name>Akihito Nakano</name>
-        </developer>
-        <developer>
-            <id>JFCote</id>
-            <name>Jean-François Côté</name>
         </developer>
         <developer>
             <id>jmini</id>
             <name>Jérémie Bresson</name>
             <email>dev@jmini.fr</email>
+        </developer>
+        <developer>
+            <id>etherealjoy</id>
+            <name>Sunn</name>
+            <email>sunn.ssb@live.com</email>
         </developer>
     </developers>
     <issueManagement>
@@ -993,7 +990,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-undertowr</id>
+            <id>java-undertow</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -1001,7 +998,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/undertow</module>
+                <module>samples/server/petstore/java-undertow</module>
             </modules>
         </profile>
         <profile>
@@ -1019,7 +1016,6 @@
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>-->
                 <!--<module>samples/client/petstore/dart2/petstore</module>-->
                 <module>samples/client/petstore/elm-0.18</module>
-                <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust-reqwest</module>
                 <!--<module>samples/client/petstore/perl</module>-->
@@ -1051,6 +1047,7 @@
                 <module>samples/client/petstore/typescript-angular-v4/npm</module>
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
                 <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/server/petstore/rust-server</module>
                 <module>samples/server/petstore/python-aiohttp</module>
@@ -1071,7 +1068,6 @@
                 <!-- clients -->
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
-                <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
@@ -1096,6 +1092,7 @@
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/java/rest-assured</module>
+                <module>samples/client/petstore/groovy</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1114,7 +1111,7 @@
                 <module>samples/server/petstore/java-play-framework-fake-endpoints</module>
                 <module>samples/server/petstore/java-play-framework-controller-only</module>
                 <module>samples/server/petstore/java-play-framework-api-package-override</module>
-                <module>samples/server/petstore/undertow</module>
+                <module>samples/server/petstore/java-undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
                 <!-- move to other CI as the following fails often in CircleCI
@@ -1143,7 +1140,7 @@
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scalatra</module>
-                <module>samples/server/petstore/finch</module>
+                <module>samples/server/petstore/scala-finch</module>
                 <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
@@ -1176,7 +1173,6 @@
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
-                <!-- <module>samples/client/petstore/kotlin/</module> -->
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1185,7 +1181,7 @@
                 <module>samples/server/petstore/java-vertx/rx</module>
                 <module>samples/server/petstore/java-vertx/async</module>
                 <module>samples/server/petstore/java-inflector</module>
-                <module>samples/server/petstore/undertow</module>
+                <module>samples/server/petstore/java-undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
@@ -1222,6 +1218,9 @@
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
+                <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-threetenbp/</module>
+                <module>samples/client/petstore/kotlin-string/</module>
                 <!-- servers -->
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
@@ -1229,9 +1228,6 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
-                <module>samples/client/petstore/kotlin/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
             </modules>
         </profile>
         <!-- test with Haskell -->
@@ -1293,6 +1289,7 @@
         <module>modules/openapi-generator-maven-plugin</module>
         <module>modules/openapi-generator-gradle-plugin</module>
         <module>modules/openapi-generator-online</module>
+        <module>modules/openapi-generator-core</module>
     </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
@@ -1359,7 +1356,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-parser-version>2.0.11-OpenAPITools.org-1</swagger-parser-version>
+        <swagger-parser-version>2.0.13-OpenAPITools.org-1</swagger-parser-version>
         <swagger-core-version>2.0.7</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
@@ -1372,6 +1369,7 @@
         <slf4j-version>1.7.12</slf4j-version>
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
+        <handlebars.java-version>4.1.2</handlebars.java-version>
         <testng-version>6.14.3</testng-version>
         <surefire-version>2.22.1</surefire-version>
         <jmockit-version>1.43</jmockit-version>

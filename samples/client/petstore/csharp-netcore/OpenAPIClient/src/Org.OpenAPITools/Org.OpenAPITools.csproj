@@ -4,7 +4,7 @@ OpenAPI Petstore
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
-OpenAPI spec version: 1.0.0
+The version of the OpenAPI document: 1.0.0
 
 -->
 <Project Sdk="Microsoft.NET.Sdk">
@@ -23,6 +23,7 @@ OpenAPI spec version: 1.0.0
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
     <FileAlignment>512</FileAlignment>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Org.OpenAPITools.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->

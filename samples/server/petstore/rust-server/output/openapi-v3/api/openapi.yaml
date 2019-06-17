@@ -65,8 +65,24 @@ paths:
           description: OK
         400:
           description: Bad Request
+  /required_octet_stream:
+    put:
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: byte
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
 components:
   schemas:
+    UuidObject:
+      description: Test a model containing a UUID
+      format: uuid
+      type: string
     xml_array:
       items:
         $ref: '#/components/schemas/xml_inner'
@@ -84,7 +100,6 @@ components:
         innerString:
           type: string
         other_inner_rename:
-          format: int32
           type: integer
       title: an XML object
       type: object
@@ -97,12 +112,7 @@ components:
         inner_string:
           type: string
         inner_array:
-          items:
-            $ref: '#/components/schemas/xml_inner'
-          type: array
-          xml:
-            name: CamelXmlArray
-            wrapped: true
+          $ref: '#/components/schemas/xml_array'
       required:
       - inner_array
       type: object

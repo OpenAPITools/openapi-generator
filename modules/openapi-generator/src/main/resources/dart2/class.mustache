@@ -60,21 +60,24 @@ class {{classname}} {
   }
 
   Map<String, dynamic> toJson() {
-    return {
+    Map <String, dynamic> json = {};
     {{#vars}}
-      {{#isDateTime}}
-      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+        {{^isNullable}}
+    if ({{name}} != null)
+        {{/isNullable}}
+        {{#isDateTime}}
+      json['{{baseName}}'] = {{name}} == null ? null : {{name}}.toUtc().toIso8601String();
       {{/isDateTime}}
       {{#isDate}}
-      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+      json['{{baseName}}'] = {{name}} == null ? null : {{name}}.toUtc().toIso8601String();
       {{/isDate}}
       {{^isDateTime}}
       {{^isDate}}
-      '{{baseName}}': {{name}}{{^-last}},{{/-last}}
+      json['{{baseName}}'] = {{name}};
       {{/isDate}}
       {{/isDateTime}}
     {{/vars}}
-    };
+    return json;
   }
 
   static List<{{classname}}> listFromJson(List<dynamic> json) {

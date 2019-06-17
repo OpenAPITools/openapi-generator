@@ -26,7 +26,7 @@ then
 fi
 
 for spec_path in modules/openapi-generator/src/test/resources/*/rust-server/* ; do
-  export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
+  export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
   spec=$(basename "$spec_path" | sed 's/.yaml//')
   args="generate --template-dir modules/openapi-generator/src/main/resources/rust-server
                  --input-spec $spec_path
@@ -34,6 +34,7 @@ for spec_path in modules/openapi-generator/src/test/resources/*/rust-server/* ; 
                  --output samples/server/petstore/rust-server/output/$spec
                  -DpackageName=$spec
                  --additional-properties hideGenerationTimestamp=true
+                 --generate-alias-as-model
 		 $@"
 
   java $JAVA_OPTS -jar $executable $args
