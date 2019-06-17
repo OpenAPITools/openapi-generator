@@ -13,7 +13,7 @@ type TestEnumParametersBodyEnumFormString string
 
 // List of testEnumParametersBodyEnumFormString
 const (
-	ABC TestEnumParametersBodyEnumFormString = "_abc"
-	EFG TestEnumParametersBodyEnumFormString = "-efg"
-	XYZ TestEnumParametersBodyEnumFormString = "(xyz)"
+	TEST_ENUM_PARAMETERS_BODY_ENUM_FORM_STRING_ABC TestEnumParametersBodyEnumFormString = "_abc"
+	TEST_ENUM_PARAMETERS_BODY_ENUM_FORM_STRING_EFG TestEnumParametersBodyEnumFormString = "-efg"
+	TEST_ENUM_PARAMETERS_BODY_ENUM_FORM_STRING_XYZ TestEnumParametersBodyEnumFormString = "(xyz)"
 )

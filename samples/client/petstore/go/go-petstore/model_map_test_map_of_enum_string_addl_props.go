@@ -12,6 +12,6 @@ type MapTestMapOfEnumStringAddlProps string
 
 // List of MapTestMapOfEnumStringAddlProps
 const (
-	UPPER MapTestMapOfEnumStringAddlProps = "UPPER"
-	LOWER MapTestMapOfEnumStringAddlProps = "lower"
+	MAP_TEST_MAP_OF_ENUM_STRING_ADDL_PROPS_UPPER MapTestMapOfEnumStringAddlProps = "UPPER"
+	MAP_TEST_MAP_OF_ENUM_STRING_ADDL_PROPS_LOWER MapTestMapOfEnumStringAddlProps = "lower"
 )

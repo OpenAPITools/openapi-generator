@@ -511,6 +511,57 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // For enum var names prepend with this model's name to help prevent namespace collision
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                String prefix = toEnumVarName(cm.name, "string") + "_";
+                cm.allowableValues = prefixAllowableValues(cm.allowableValues, prefix);
+            }
+            // Also prepend var names used for defining inline enums with inline enum's name
+            if (Boolean.TRUE.equals(cm.hasEnums)) {
+                for (CodegenProperty param : cm.vars) {
+                    if (Boolean.TRUE.equals(param.isEnum) && param.allowableValues != null) {
+                        String prefix = toEnumVarName(param.name, "string") + "_";
+                        param.allowableValues = prefixAllowableValues(param.allowableValues, prefix);
+                        // Form datatype for this field: use ClassNameFieldName syntax
+                        param.dataType = cm.classname + param.nameInCamelCase;
+                        if (Boolean.TRUE.equals(param.isListContainer)) {
+                            // Special case: slice of enums, use []ClassNameFieldName
+                            param.datatypeWithEnum = "[]" + param.dataType;
+                        } else if (Boolean.TRUE.equals(param.isMapContainer)) {
+                            // Special case: map of enums, use map[string]ClassNameFieldName
+                            param.datatypeWithEnum = "map[string]" + param.dataType;
+                        } else {
+                            param.datatypeWithEnum = param.dataType;
+                        }
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    public Map<String, Object> prefixAllowableValues(Map<String, Object> allowableValues, String prefix) {
+        if (allowableValues.get("enumVars") != null) {
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+            for (Map<String, Object> enumVar : enumVars) {
+                String enumName = (String) enumVar.get("name");
+                if (enumName != null) {
+                    enumVar.put("name", prefix + enumName);
+                }
+            }
+        }
+        return allowableValues;
+    }
+
+    @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
@@ -545,10 +596,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            return value;
+        if ("string".equals(datatype)) {
+            return "\"" + escapeText(value) + "\"";
         } else {
-            return escapeText(value);
+            return value;
         }
     }
 
@@ -564,7 +615,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // number
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if (datatype.startsWith("float") || datatype.startsWith("int") || datatype.startsWith("uint")) {
             String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -585,7 +636,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);
         } else if (enumName.matches("\\d.*")) { // starts with a number
-            return "_" + enumName;
+            return "NUM_" + enumName;
         } else {
             return enumName;
         }

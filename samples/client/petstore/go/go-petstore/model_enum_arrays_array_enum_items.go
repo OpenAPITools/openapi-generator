@@ -12,6 +12,6 @@ type EnumArraysArrayEnumItems string
 
 // List of EnumArraysArrayEnumItems
 const (
-	FISH EnumArraysArrayEnumItems = "fish"
-	CRAB EnumArraysArrayEnumItems = "crab"
+	ENUM_ARRAYS_ARRAY_ENUM_ITEMS_FISH EnumArraysArrayEnumItems = "fish"
+	ENUM_ARRAYS_ARRAY_ENUM_ITEMS_CRAB EnumArraysArrayEnumItems = "crab"
 )

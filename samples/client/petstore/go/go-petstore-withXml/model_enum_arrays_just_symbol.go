@@ -13,6 +13,6 @@ type EnumArraysJustSymbol string
 
 // List of EnumArraysJustSymbol
 const (
-	GREATER_THAN_OR_EQUAL_TO EnumArraysJustSymbol = ">="
-	DOLLAR EnumArraysJustSymbol = "$"
+	ENUM_ARRAYS_JUST_SYMBOL_GREATER_THAN_OR_EQUAL_TO EnumArraysJustSymbol = ">="
+	ENUM_ARRAYS_JUST_SYMBOL_DOLLAR EnumArraysJustSymbol = "$"
 )

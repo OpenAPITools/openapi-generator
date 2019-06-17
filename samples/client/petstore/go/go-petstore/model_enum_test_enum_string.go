@@ -12,7 +12,7 @@ type EnumTestEnumString string
 
 // List of Enum_TestEnumString
 const (
-	UPPER EnumTestEnumString = "UPPER"
-	LOWER EnumTestEnumString = "lower"
-	EMPTY EnumTestEnumString = ""
+	ENUM_TEST_ENUM_STRING_UPPER EnumTestEnumString = "UPPER"
+	ENUM_TEST_ENUM_STRING_LOWER EnumTestEnumString = "lower"
+	ENUM_TEST_ENUM_STRING_EMPTY EnumTestEnumString = ""
 )

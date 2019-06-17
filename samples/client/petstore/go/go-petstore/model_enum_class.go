@@ -12,7 +12,7 @@ type EnumClass string
 
 // List of EnumClass
 const (
-	ABC EnumClass = "_abc"
-	EFG EnumClass = "-efg"
-	XYZ EnumClass = "(xyz)"
+	ENUM_CLASS_ABC EnumClass = "_abc"
+	ENUM_CLASS_EFG EnumClass = "-efg"
+	ENUM_CLASS_XYZ EnumClass = "(xyz)"
 )

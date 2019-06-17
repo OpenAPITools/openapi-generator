@@ -12,6 +12,6 @@ type EnumQueryInteger int32
 
 // List of enum_query_integer
 const (
-	_1 EnumQueryInteger = "1"
-	_2 EnumQueryInteger = "-2"
+	ENUM_QUERY_INTEGER_1 EnumQueryInteger = 1
+	ENUM_QUERY_INTEGER_MINUS_2 EnumQueryInteger = -2
 )

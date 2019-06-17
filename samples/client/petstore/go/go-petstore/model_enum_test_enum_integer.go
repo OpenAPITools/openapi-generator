@@ -12,6 +12,6 @@ type EnumTestEnumInteger int32
 
 // List of Enum_TestEnumInteger
 const (
-	_1 EnumTestEnumInteger = "1"
-	_1 EnumTestEnumInteger = "-1"
+	ENUM_TEST_ENUM_INTEGER_1 EnumTestEnumInteger = 1
+	ENUM_TEST_ENUM_INTEGER_MINUS_1 EnumTestEnumInteger = -1
 )

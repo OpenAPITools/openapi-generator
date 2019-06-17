@@ -13,6 +13,6 @@ type EnumQueryDouble float64
 
 // List of enum_query_double
 const (
-	_1_1 EnumQueryDouble = "1.1"
-	_1_2 EnumQueryDouble = "-1.2"
+	ENUM_QUERY_DOUBLE_1_DOT_1 EnumQueryDouble = 1.1
+	ENUM_QUERY_DOUBLE_MINUS_1_DOT_2 EnumQueryDouble = -1.2
 )

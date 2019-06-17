@@ -13,7 +13,7 @@ type EnumHeaderString string
 
 // List of enum_header_string
 const (
-	ABC EnumHeaderString = "_abc"
-	EFG EnumHeaderString = "-efg"
-	XYZ EnumHeaderString = "(xyz)"
+	ENUM_HEADER_STRING_ABC EnumHeaderString = "_abc"
+	ENUM_HEADER_STRING_EFG EnumHeaderString = "-efg"
+	ENUM_HEADER_STRING_XYZ EnumHeaderString = "(xyz)"
 )

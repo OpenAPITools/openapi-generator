@@ -13,7 +13,7 @@ type OrderStatus string
 
 // List of OrderStatus
 const (
-	PLACED OrderStatus = "placed"
-	APPROVED OrderStatus = "approved"
-	DELIVERED OrderStatus = "delivered"
+	ORDER_STATUS_PLACED OrderStatus = "placed"
+	ORDER_STATUS_APPROVED OrderStatus = "approved"
+	ORDER_STATUS_DELIVERED OrderStatus = "delivered"
 )

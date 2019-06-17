@@ -12,6 +12,6 @@ type TestEnumParametersBodyEnumFormStringArrayItems string
 
 // List of testEnumParametersBodyEnumFormStringArrayItems
 const (
-	GREATER_THAN TestEnumParametersBodyEnumFormStringArrayItems = ">"
-	DOLLAR TestEnumParametersBodyEnumFormStringArrayItems = "$"
+	TEST_ENUM_PARAMETERS_BODY_ENUM_FORM_STRING_ARRAY_ITEMS_GREATER_THAN TestEnumParametersBodyEnumFormStringArrayItems = ">"
+	TEST_ENUM_PARAMETERS_BODY_ENUM_FORM_STRING_ARRAY_ITEMS_DOLLAR TestEnumParametersBodyEnumFormStringArrayItems = "$"
 )
