@@ -622,7 +622,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
 
         String reFindPetsByStatusTest = "(?s)(?m)public void findPetsByStatusTest\\(\\) throws Exception \\{\\s+"
                 + ".*" // split
-                + "List<String> status = new ArrayList<>\\(\\);" // split
+                + "List<StatusItems> status = new ArrayList<>\\(\\);" // split
                 + ".*" // split
                 + "List<Pet> response = api\\.findPetsByStatus\\(status\\);" // split
                 + ".*" // split
