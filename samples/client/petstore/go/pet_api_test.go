@@ -124,7 +124,7 @@ func TestFindPetsByTag(t *testing.T) {
 }
 
 func TestFindPetsByStatus(t *testing.T) {
-	resp, r, err := client.PetApi.FindPetsByStatus(context.Background(), []string{"available"})
+	resp, r, err := client.PetApi.FindPetsByStatus(context.Background(), []sw.StatusItems{sw.STATUS_ITEMS_AVAILABLE})
 	if err != nil {
 		t.Errorf("Error while getting pet by id")
 		t.Log(err)
@@ -135,7 +135,7 @@ func TestFindPetsByStatus(t *testing.T) {
 		} else {
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
-				assert.Equal(resp[i].Status, "available", "Pet status should be `available`")
+				assert.Equal(resp[i].Status, sw.PET_STATUS_AVAILABLE, "Pet status should be `available`")
 			}
 		}
 
