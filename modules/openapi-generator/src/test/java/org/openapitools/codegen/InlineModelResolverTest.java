@@ -62,9 +62,9 @@ public class InlineModelResolverTest {
         assertNotNull(user);
         assertNotNull(user.getProperties().get("address"));
         assertNotNull(((Schema) user.getProperties().get("address")).get$ref());
-        assertEquals(((Schema) user.getProperties().get("address")).get$ref(), "#/components/schemas/User_address");
+        assertEquals(((Schema) user.getProperties().get("address")).get$ref(), "#/components/schemas/UserAddress");
 
-        Schema address = openapi.getComponents().getSchemas().get("User_address");
+        Schema address = openapi.getComponents().getSchemas().get("UserAddress");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
@@ -380,7 +380,7 @@ public class InlineModelResolverTest {
 
         ArraySchema requestBody = (ArraySchema) mediaType.getSchema();
         assertNotNull(requestBody.getItems().get$ref());
-        assertEquals("#/components/schemas/InlineObject", requestBody.getItems().get$ref());
+        assertEquals("#/components/schemas/resolveInlineArrayRequestBodyBodyItems", requestBody.getItems().get$ref());
 
         Schema items = ModelUtils.getReferencedSchema(openAPI, ((ArraySchema) mediaType.getSchema()).getItems());
         assertTrue(items.getProperties().get("street") instanceof StringSchema);
@@ -422,7 +422,7 @@ public class InlineModelResolverTest {
         assertTrue(mediaType.getSchema() instanceof ArraySchema);
 
         ArraySchema responseSchema = (ArraySchema) mediaType.getSchema();
-        assertEquals("#/components/schemas/inline_response_200", responseSchema.getItems().get$ref());
+        assertEquals("#/components/schemas/resolveInlineArrayResponseResponseItems", responseSchema.getItems().get$ref());
 
         Schema items = ModelUtils.getReferencedSchema(openAPI, responseSchema.getItems());
         assertTrue(items.getProperties().get("array_response_property") instanceof StringSchema);

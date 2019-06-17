@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,10 +137,10 @@ public class InlineModelResolver {
                 for (String propName : props.keySet()) {
                     Schema prop = props.get(propName);
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(prop, modelPrefix + "_" + propName);
+                    gatherInlineModels(prop, modelPrefix + StringUtils.camelize(propName));
                     if (isModelNeeded(prop)) {
                         // If this schema should be split into its own model, do so
-                        Schema refSchema = this.makeSchema(modelPrefix + "_" + propName, schema);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix + StringUtils.camelize(propName), prop);
                         props.put(propName, refSchema);
                     }
                 }
@@ -149,10 +150,10 @@ public class InlineModelResolver {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_addl_props");
+                    gatherInlineModels(inner, modelPrefix + "AddlProps");
                     if (isModelNeeded(inner)) {
                         // If this schema should be split into its own model, do so
-                        Schema refSchema = this.makeSchema(modelPrefix + "_addl_props", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix + "AddlProps", inner);
                         schema.setAdditionalProperties(refSchema);
                     }
                 }
@@ -179,10 +180,10 @@ public class InlineModelResolver {
                 return;
             }
             // Recurse to create $refs for inner models
-            gatherInlineModels(items, modelPrefix + "_items");
+            gatherInlineModels(items, modelPrefix + "Items");
             if (isModelNeeded(items)) {
                 // If this schema should be split into its own model, do so
-                Schema refSchema = this.makeSchema(modelPrefix + "_items", items);
+                Schema refSchema = this.makeSchemaResolve(modelPrefix + "Items", items);
                 array.setItems(refSchema);
             }
         }
@@ -193,9 +194,9 @@ public class InlineModelResolver {
                 List<Schema> newAllOf = new ArrayList<Schema>();
                 for (Schema inner : m.getAllOf()) {
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_all_of");
+                    gatherInlineModels(inner, modelPrefix + "AllOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchema(modelPrefix + "_all_of", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix + "AllOf", inner);
                         newAllOf.add(refSchema); // replace with ref
                     } else {
                         newAllOf.add(inner);
@@ -207,9 +208,9 @@ public class InlineModelResolver {
                 List<Schema> newAnyOf = new ArrayList<Schema>();
                 for (Schema inner : m.getAnyOf()) {
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_any_of");
+                    gatherInlineModels(inner, modelPrefix + "AnyOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchema(modelPrefix + "_any_of", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix + "AnyOf", inner);
                         newAnyOf.add(refSchema); // replace with ref
                     } else {
                         newAnyOf.add(inner);
@@ -221,9 +222,9 @@ public class InlineModelResolver {
                 List<Schema> newOneOf = new ArrayList<Schema>();
                 for (Schema inner : m.getOneOf()) {
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "_one_of");
+                    gatherInlineModels(inner, modelPrefix + "OneOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchema(modelPrefix + "_one_of", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix + "OneOf", inner);
                         newOneOf.add(refSchema); // replace with ref
                     } else {
                         newOneOf.add(inner);
@@ -236,9 +237,9 @@ public class InlineModelResolver {
         if (schema.getNot() != null) {
             Schema not = schema.getNot();
             // Recurse to create $refs for inner models
-            gatherInlineModels(not, modelPrefix + "_not");
+            gatherInlineModels(not, modelPrefix + "Not");
             if (isModelNeeded(not)) {
-                Schema refSchema = this.makeSchema(modelPrefix + "_not", not);
+                Schema refSchema = this.makeSchemaResolve(modelPrefix + "Not", not);
                 schema.setNot(refSchema);
             }
         }
@@ -287,7 +288,7 @@ public class InlineModelResolver {
         if (requestBody == null) {
             return;
         }
-        flattenContent(requestBody.getContent(), operation.getOperationId() + "_body");
+        flattenContent(requestBody.getContent(), operation.getOperationId() + "Body");
     }
 
     /**
@@ -340,9 +341,9 @@ public class InlineModelResolver {
             ApiResponse response = responses.get(key);
             String name;
             if ("200".equals(key)) {
-                name = operation.getOperationId() + "_response";
+                name = operation.getOperationId() + "Response";
             } else {
-                name = operation.getOperationId() + "_response_" + key;
+                name = operation.getOperationId() + "Response" + StringUtils.camelize(key);
             }
             flattenContent(response.getContent(), name);
         }
@@ -428,6 +429,10 @@ public class InlineModelResolver {
         return key;
     }
 
+    private Schema makeSchemaResolve(String name, Schema schema) {
+        return makeSchema(resolveModelName(schema.getTitle(), name), schema);
+    }
+
     /**
      * Move schema to components (if new) and return $ref to schema or
      * existing schema.
@@ -446,8 +451,7 @@ public class InlineModelResolver {
             addGenerated(name, schema);
             openapi.getComponents().addSchemas(name, schema);
         }
-        // TODO: @fantavlik verify that this can be removed
-        // this.copyVendorExtensions(schema, refSchema);
+        this.copyVendorExtensions(schema, refSchema);
         return refSchema;
     }
 
