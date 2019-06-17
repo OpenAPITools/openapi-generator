@@ -113,6 +113,22 @@ r, err := client.Service.Operation(auth, args)
 {{/isOAuth}}
 {{/authMethods}}
 
+## Documentation for Utility Methods
+
+Due to the fact that model structure members are all pointers, this package contains
+a number of utility functions to easily obtain pointers to values of basic types.
+Each of these functions takes a value of the given basic type and returns a pointer to it:
+
+* `Bool`
+* `Int`
+* `Int32`
+* `Int64`
+* `Float`
+* `Float32`
+* `Float64`
+* `String`
+* `Time`
+
 ## Author
 
 {{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
