@@ -1,93 +1,29 @@
-'use strict';
+const Controller = require('./Controller');
 
-var utils = require('../utils/writer.js');
-var User = require('../service/UserService');
+class User {
+  constructor(Service) {
+    this.service = Service;
+  }
 
-module.exports.createUser = function createUser (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  User.createUser(body)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  async loginUser(request, response) {
+    await Controller.handleRequest(request, response, this.service.loginUser);
+  }
 
-module.exports.createUsersWithArrayInput = function createUsersWithArrayInput (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  User.createUsersWithArrayInput(body)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  async logoutUser(request, response) {
+    await Controller.handleRequest(request, response, this.service.logoutUser);
+  }
 
-module.exports.createUsersWithListInput = function createUsersWithListInput (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  User.createUsersWithListInput(body)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  async deleteUser(request, response) {
+    await Controller.handleRequest(request, response, this.service.deleteUser);
+  }
 
-module.exports.deleteUser = function deleteUser (req, res, next) {
-  var username = req.swagger.params['username'].value;
-  User.deleteUser(username)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  async getUserByName(request, response) {
+    await Controller.handleRequest(request, response, this.service.getUserByName);
+  }
 
-module.exports.getUserByName = function getUserByName (req, res, next) {
-  var username = req.swagger.params['username'].value;
-  User.getUserByName(username)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  async updateUser(request, response) {
+    await Controller.handleRequest(request, response, this.service.updateUser);
+  }
+}
 
-module.exports.loginUser = function loginUser (req, res, next) {
-  var username = req.swagger.params['username'].value;
-  var password = req.swagger.params['password'].value;
-  User.loginUser(username,password)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
-
-module.exports.logoutUser = function logoutUser (req, res, next) {
-  User.logoutUser()
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
-
-module.exports.updateUser = function updateUser (req, res, next) {
-  var username = req.swagger.params['username'].value;
-  var body = req.swagger.params['body'].value;
-  User.updateUser(username,body)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+module.exports = User;

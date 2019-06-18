@@ -1,6 +1,6 @@
 const ExpressServer = require('./expressServer');
 const logger = require('./logger');
-const swaggerRouter = require('./utils/swaggerRouter');
+// const swaggerRouter = require('./utils/swaggerRouter');
 
 class App {
   constructor(config) {
@@ -10,7 +10,7 @@ class App {
   async launch() {
     try {
       this.expressServer = new ExpressServer(this.config.URL_PORT, this.config.OPENAPI_YAML);
-      this.expressServer.app.use(swaggerRouter());
+      // this.expressServer.app.use(swaggerRouter());
       await this.expressServer.launch();
       logger.info('Express server running');
     } catch (error) {

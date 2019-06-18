@@ -1,29 +1,20 @@
+/* eslint-disable no-unused-vars */
 const Service = require('./Service');
 
 class PetService {
-  static deletePet({ apiKey, petId }) {
-    return new Promise(
-      async (resolve, reject) => {
-        try {
-          const responseMessage = `success: apiKey ${apiKey}, petId: ${petId}`;
-          resolve(Service.successResponse(responseMessage, 200));
-        } catch (err) {
-          const message = err.getMessage() || 'Invalid pet value';
-          const code = err.status || 400;
-          reject(Service.rejectResponse(message, code));
-        }
-      },
-    );
-  }
-
+  /**
+   *  Add a new pet to the store
+   * @param body
+   * @returns {Promise<any>}
+   */
   static addPet({ body }) {
     return new Promise(
-      async (resolve, reject) => {
+      async (resolve) => {
         try {
           resolve(Service.successResponse(body));
         } catch (e) {
-          reject(Service.rejectResponse(
-            e.getMessage() || 'Invalid input',
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
             e.status || 405,
           ));
         }
@@ -31,36 +22,67 @@ class PetService {
     );
   }
 
+  static updatePet({ body }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(body));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            'Invalid ID supplied',
+            400,
+          ));
+        }
+      },
+    );
+  }
+
+  /**
+   * Multiple status values can be provided with comma separated strings
+   * @param status
+   * @returns {Promise<any>}
+   */
   static findPetsByStatus({ status }) {
     return new Promise(
-      async (resolve, reject) => {
+      async (resolve) => {
         try {
-          const examples = {};
-          examples['application/json'] = [
+          resolve([
             {
-              photoUrls: ['photoUrls', 'photoUrls'],
-              name: 'doggie',
+              photoUrls: ['photoUrls_1', 'photoUrls_2'],
+              name: 'dog_0',
               id: 0,
               category: {
-                name: 'name',
-                id: 6,
+                name: 'category',
+                id: 1,
               },
               tags: [{
-                name: 'name',
+                name: 'tag_1',
                 id: 1,
               }, {
-                name: 'name',
-                id: 1,
+                name: 'tag_2',
+                id: 2,
               }],
               status: 'available',
             },
-          ];
-          resolve(Service.successResponse(
-            Object.keys(examples)[0] || {},
-            200,
-          ));
+            {
+              photoUrls: ['photoUrls_1', 'photoUrls_2'],
+              name: 'dog_1',
+              id: 1,
+              category: {
+                name: 'category',
+                id: 1,
+              },
+              tags: [{
+                name: 'tags_1',
+                id: 1,
+              }, {
+                name: 'tags_2',
+                id: 2,
+              }],
+              status: 'available',
+            }], 200);
         } catch (e) {
-          reject(
+          resolve(
             Service.rejectResponse(
               e.getMessage() || 'Invalid status value',
               400,
@@ -71,38 +93,58 @@ class PetService {
     );
   }
 
+  /**
+   * Multiple tags can be provided with comma separated strings. Use
+   tag1, tag2, tag3 for testing.
+   * @param tags
+   * @returns {Promise<any>}
+   */
   static findPetsByTags({ tags }) {
     return new Promise(
-      async (resolve, reject) => {
+      async (resolve) => {
         try {
-          const examples = {};
-          examples['application/json'] = [
-            {
-              photoUrls: ['photoUrls', 'photoUrls'],
-              name: 'doggie',
-              id: 0,
-              category: {
-                name: 'name',
-                id: 6,
-              },
-              tags: [{
-                name: 'name',
-                id: 1,
-              }, {
-                name: 'name',
-                id: 1,
-              }],
-              status: 'available',
-            },
-          ];
           resolve(Service.successResponse(
-            Object.keys(examples)[0] || {},
-            200,
+            [
+              {
+                photoUrls: ['photoUrls_1', 'photoUrls_2'],
+                name: 'dog_0',
+                id: 0,
+                category: {
+                  name: 'category',
+                  id: 1,
+                },
+                tags: [{
+                  name: 'tag_1',
+                  id: 1,
+                }, {
+                  name: 'tag_2',
+                  id: 2,
+                }],
+                status: 'available',
+              },
+              {
+                photoUrls: ['photoUrls_1', 'photoUrls_2'],
+                name: 'dog_1',
+                id: 1,
+                category: {
+                  name: 'category',
+                  id: 1,
+                },
+                tags: [{
+                  name: 'tags_1',
+                  id: 1,
+                }, {
+                  name: 'tags_2',
+                  id: 2,
+                }],
+                status: 'available',
+              },
+            ], 200,
           ));
         } catch (e) {
-          reject(
+          resolve(
             Service.rejectResponse(
-              e.getMessage() || 'Invalid tag value',
+              'Invalid tag value',
               400,
             ),
           );
@@ -111,76 +153,90 @@ class PetService {
     );
   }
 
+  static deletePet({ apiKey, petId }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(`success. apiKey ${apiKey}, petId: ${petId}`));
+        } catch (err) {
+          resolve(Service.rejectResponse('Invalid pet value', 400));
+        }
+      },
+    );
+  }
+
+
+  /**
+   * Returns a single pet
+   * @param petId
+   * @returns {Promise<any>}
+   */
   static getPetById({ petId }) {
     return new Promise(
-      async (resolve, reject) => {
+      async (resolve) => {
         try {
-          const examples = {};
-          examples['application/json'] = {
-            photoUrls: ['photoUrls', 'photoUrls'],
-            name: 'doggie',
+          resolve({
+            photoUrls: ['photoUrls_1', 'photoUrls_2'],
+            name: 'dog_0',
             id: 0,
             category: {
-              name: 'name',
-              id: 6,
+              name: 'category',
+              id: 1,
             },
             tags: [{
-              name: 'name',
+              name: 'tag_1',
               id: 1,
             }, {
-              name: 'name',
-              id: 1,
+              name: 'tag_2',
+              id: 2,
             }],
             status: 'available',
-          };
-          if (Object.keys(examples).length > 0) {
-            resolve(Service.successResponse(examples[Object.keys(examples)[0]], 200));
-          } else {
-            reject(Service.rejectResponse('Pet not found', 404));
-          }
+          }, 200);
         } catch (e) {
-          reject(Service.rejectResponse(e.getMessage() || 'Invalid ID supplied', 400));
+          resolve(Service.rejectResponse(e.getMessage() || 'Invalid ID supplied', 400));
         }
       },
     );
   }
 
-  static updatePet({ petId, name, status }) {
+  /**
+   *
+   * @param petId -- ID of pet that needs to be updated -- required
+   * @param body
+   * @returns {Promise<any>}
+   */
+  static updatePetWithForm({ petId, body }) {
     return new Promise(
-      async (resolve, reject) => {
+      (resolve) => {
         try {
-          resolve(Service.successResponse(
-            `Success. petId: ${petId}, name: ${name}, status: ${status}`,
-            200,
-          ));
+          resolve(Service.successResponse(''));
         } catch (e) {
-          reject(Service.rejectResponse(
-            e.getMessage || 'Invalid input',
-            405,
-          ));
+          resolve(Service.rejectResponse('Invalid input', 405));
         }
       },
     );
   }
 
-  static uploadFile({ petId, additionalMetadata, file }) {
+  /**
+   *
+   * @param petId --  ID of pet to update
+   * @param body -- additionalMetadata, file
+   * @returns {Promise<any>}
+   */
+  static uploadFile({ petId, body }) {
     return new Promise(
-      async (resolve, reject) => {
+      async (resolve) => {
         try {
-          const examples = {};
-          examples['application/json'] = {
-            code: 0,
-            type: 'type',
-            message: 'message',
-          };
           resolve(Service.successResponse(
-            Object.keys((examples)[0]) || {},
+            {
+              code: 0,
+              type: 'type',
+              message: 'message',
+            },
             200,
           ));
         } catch (e) {
-          reject(Service.rejectResponse(
-            e.getMessage() || '',
-          ));
+          resolve(Service.rejectResponse(''));
         }
       },
     );

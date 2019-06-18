@@ -29,6 +29,10 @@ class Pet {
     await Controller.handleRequest(request, response, this.service.updatePet);
   }
 
+  async updatePetWithForm(request, response) {
+    await Controller.handleRequest(request, response, this.service.updatePetWithForm);
+  }
+
   async uploadFile(request, response) {
     await Controller.handleRequest(request, response, this.service.uploadFile);
   }

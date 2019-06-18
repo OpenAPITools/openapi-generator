@@ -13,8 +13,12 @@
   "license": "Unlicense",
   "private": true,
   "dependencies": {
+    "body-parser": "^1.19.0",
     "connect": "^3.2.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
+    "express-openapi-validator": "^1.0.0",
     "js-yaml": "^3.3.0",
     "swagger-express-middleware": "^2.0.2",
     "swagger-tools": "^0.10.4",
@@ -23,13 +27,13 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.2",
-    "mocha": "^6.1.4",
-    "form-data": "^2.3.3"
+    "form-data": "^2.3.3",
+    "mocha": "^6.1.4"
   }
 }
