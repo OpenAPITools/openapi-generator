@@ -56,22 +56,23 @@ UserApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    CreateUser = function(body, ...){
+    CreateUser = function(user, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`user`)) {
+        stop("Missing required parameter `user`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }
 
       urlPath <- "/user"
+      # API key authentication
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
@@ -89,22 +90,23 @@ UserApi <- R6::R6Class(
       }
 
     },
-    CreateUsersWithArrayInput = function(body, ...){
+    CreateUsersWithArrayInput = function(user, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`user`)) {
+        stop("Missing required parameter `user`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }
 
       urlPath <- "/user/createWithArray"
+      # API key authentication
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
@@ -122,22 +124,23 @@ UserApi <- R6::R6Class(
       }
 
     },
-    CreateUsersWithListInput = function(body, ...){
+    CreateUsersWithListInput = function(user, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`user`)) {
+        stop("Missing required parameter `user`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }
 
       urlPath <- "/user/createWithList"
+      # API key authentication
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
@@ -169,6 +172,7 @@ UserApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "DELETE",
@@ -258,6 +262,7 @@ UserApi <- R6::R6Class(
       headerParams <- c()
 
       urlPath <- "/user/logout"
+      # API key authentication
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -275,7 +280,7 @@ UserApi <- R6::R6Class(
       }
 
     },
-    UpdateUser = function(username, body, ...){
+    UpdateUser = function(username, user, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -284,12 +289,12 @@ UserApi <- R6::R6Class(
         stop("Missing required parameter `username`.")
       }
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`user`)) {
+        stop("Missing required parameter `user`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }
@@ -299,6 +304,7 @@ UserApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "PUT",

@@ -70,7 +70,7 @@ ModelApiResponse <- R6::R6Class(
       sprintf(
         '{
            "code":
-             %d,
+             %f,
            "type":
              "%s",
            "message":

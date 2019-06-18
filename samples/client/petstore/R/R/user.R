@@ -135,7 +135,7 @@ User <- R6::R6Class(
       sprintf(
         '{
            "id":
-             %d,
+             %f,
            "username":
              "%s",
            "firstName":
@@ -149,7 +149,7 @@ User <- R6::R6Class(
            "phone":
              "%s",
            "userStatus":
-             %d
+             %f
         }',
         self$`id`,
         self$`username`,

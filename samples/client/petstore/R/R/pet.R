@@ -117,7 +117,7 @@ Pet <- R6::R6Class(
       sprintf(
         '{
            "id":
-             %d,
+             %f,
            "category":
              %s,
            "name":
