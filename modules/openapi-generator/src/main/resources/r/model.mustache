@@ -164,7 +164,7 @@
            "{{baseName}}":
            {{#isListContainer}}
            {{#isPrimitiveType}}
-             {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}{{#hasMore}},{{/hasMore}}
+             {{#isNumeric}}[%f]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}{{#hasMore}},{{/hasMore}}
            {{/isPrimitiveType}}
            {{^isPrimitiveType}}
              [%s]{{#hasMore}},{{/hasMore}}
@@ -172,7 +172,7 @@
            {{/isListContainer}}
            {{^isListContainer}}
            {{#isPrimitiveType}}
-             {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}"%s"{{/isNumeric}}{{#hasMore}},{{/hasMore}}
+             {{#isNumeric}}%f{{/isNumeric}}{{^isNumeric}}"%s"{{/isNumeric}}{{#hasMore}},{{/hasMore}}
            {{/isPrimitiveType}}
            {{^isPrimitiveType}}
              %s{{#hasMore}},{{/hasMore}}
