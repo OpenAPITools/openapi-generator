@@ -536,6 +536,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [codecentric AG](https://www.codecentric.de/)
 - [Cupix](https://www.cupix.com/)
 - [FormAPI](https://formapi.io/)
+- [Fuse](https://www.fuse.no/)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [GoDaddy](https://godaddy.com)
