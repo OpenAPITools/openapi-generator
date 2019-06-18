@@ -1,6 +1,7 @@
 # EnumTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EnumString** | **string** |  | [optional] 

@@ -1,6 +1,7 @@
 # Capitalization
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SmallCamel** | **string** |  | [optional] 

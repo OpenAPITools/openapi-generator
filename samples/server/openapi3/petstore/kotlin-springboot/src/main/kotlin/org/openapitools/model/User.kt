@@ -2,8 +2,13 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
-import javax.validation.Valid
-import javax.validation.constraints.*
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -20,28 +25,28 @@ import io.swagger.annotations.ApiModelProperty
 data class User (
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") val id: Long? = null,
+        @JsonProperty("id") val id: kotlin.Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("username") val username: String? = null,
+        @JsonProperty("username") val username: kotlin.String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("firstName") val firstName: String? = null,
+        @JsonProperty("firstName") val firstName: kotlin.String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("lastName") val lastName: String? = null,
+        @JsonProperty("lastName") val lastName: kotlin.String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("email") val email: String? = null,
+        @JsonProperty("email") val email: kotlin.String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("password") val password: String? = null,
+        @JsonProperty("password") val password: kotlin.String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("phone") val phone: String? = null,
+        @JsonProperty("phone") val phone: kotlin.String? = null,
 
         @ApiModelProperty(example = "null", value = "User Status")
-        @JsonProperty("userStatus") val userStatus: Int? = null
+        @JsonProperty("userStatus") val userStatus: kotlin.Int? = null
 ) {
 
 }

@@ -173,6 +173,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "Double");
         typeMapping.put("any", "Value");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "Text");
         typeMapping.put("ByteArray", "Text");
         typeMapping.put("object", "Value");
 
