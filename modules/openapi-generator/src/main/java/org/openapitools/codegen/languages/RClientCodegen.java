@@ -96,6 +96,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "character");
         typeMapping.put("string", "character");
         typeMapping.put("UUID", "character");
+        typeMapping.put("URI", "character");
         typeMapping.put("date", "character");
         typeMapping.put("DateTime", "character");
         typeMapping.put("password", "character");

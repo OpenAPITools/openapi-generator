@@ -2,6 +2,7 @@ import datetime
 
 import typing
 from typing import Union
+from openapi_server import typing_utils
 
 T = typing.TypeVar('T')
 Class = typing.Type[T]
@@ -26,10 +27,10 @@ def _deserialize(data: Union[dict, list, str], klass: Union[Class, str]) -> Unio
         return deserialize_date(data)
     elif klass == datetime.datetime:
         return deserialize_datetime(data)
-    elif type(klass) == typing.GenericMeta:
-        if klass.__extra__ == list:
+    elif typing_utils.is_generic(klass):
+        if typing_utils.is_list(klass):
             return _deserialize_list(data, klass.__args__[0])
-        if klass.__extra__ == dict:
+        if typing_utils.is_dict(klass):
             return _deserialize_dict(data, klass.__args__[1])
     else:
         return deserialize_model(data, klass)

@@ -40,6 +40,11 @@ public class UserApi {
    * This can only be done by the logged in user.
    * @param body Created user object (required)
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public void createUser(User body) throws ApiException {
 
@@ -50,7 +55,13 @@ public class UserApi {
    * Create user
    * This can only be done by the logged in user.
    * @param body Created user object (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
     Object localVarPostBody = body;
@@ -91,6 +102,11 @@ public class UserApi {
    * 
    * @param body List of user object (required)
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
 
@@ -101,7 +117,13 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
     Object localVarPostBody = body;
@@ -142,6 +164,11 @@ public class UserApi {
    * 
    * @param body List of user object (required)
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
 
@@ -152,7 +179,13 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
     Object localVarPostBody = body;
@@ -193,6 +226,12 @@ public class UserApi {
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted (required)
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
    */
   public void deleteUser(String username) throws ApiException {
 
@@ -203,7 +242,14 @@ public class UserApi {
    * Delete user
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
     Object localVarPostBody = new Object();
@@ -246,6 +292,13 @@ public class UserApi {
    * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return User
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
    */
   public User getUserByName(String username) throws ApiException {
     return getUserByNameWithHttpInfo(username).getData();
@@ -257,6 +310,13 @@ public class UserApi {
    * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return ApiResponse&lt;User&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
     Object localVarPostBody = new Object();
@@ -300,6 +360,12 @@ public class UserApi {
    * @param password The password for login in clear text (required)
    * @return String
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  </td></tr>
+        <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
+     </table>
    */
   public String loginUser(String username, String password) throws ApiException {
     return loginUserWithHttpInfo(username, password).getData();
@@ -312,6 +378,12 @@ public class UserApi {
    * @param password The password for login in clear text (required)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  </td></tr>
+        <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
     Object localVarPostBody = new Object();
@@ -358,6 +430,11 @@ public class UserApi {
    * Logs out current logged in user session
    * 
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public void logoutUser() throws ApiException {
 
@@ -367,7 +444,13 @@ public class UserApi {
   /**
    * Logs out current logged in user session
    * 
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
     Object localVarPostBody = new Object();
@@ -404,6 +487,12 @@ public class UserApi {
    * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid user supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
    */
   public void updateUser(String username, User body) throws ApiException {
 
@@ -415,7 +504,14 @@ public class UserApi {
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid user supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
     Object localVarPostBody = body;

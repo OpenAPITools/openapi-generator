@@ -10,6 +10,8 @@
 
 {{{defaultInclude}}}
 #include <memory>
+#include <utility>
+
 #include <corvusoft/restbed/session.hpp>
 #include <corvusoft/restbed/resource.hpp>
 #include <corvusoft/restbed/service.hpp>
@@ -49,6 +51,31 @@ public:
     {{#vendorExtensions.x-codegen-otherMethods}}
     void {{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session);
     {{/vendorExtensions.x-codegen-otherMethods}}
+
+	void set_handler_{{httpMethod}}(
+		std::function<std::pair<int, std::string>(
+			{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		)> handler
+	);
+
+	{{#vendorExtensions.x-codegen-otherMethods}}
+	void set_handler_{{httpMethod}}(
+		std::function<std::pair<int, std::string>(
+			{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		)> handler
+	);
+	{{/vendorExtensions.x-codegen-otherMethods}}
+
+private:
+	std::function<std::pair<int, std::string>(
+		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+	)> handler_{{httpMethod}}_;
+
+	{{#vendorExtensions.x-codegen-otherMethods}}
+	std::function<std::pair<int, std::string>(
+		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+	)> handler_{{httpMethod}}_;
+	{{/vendorExtensions.x-codegen-otherMethods}}
 };
 
 {{/operation}}

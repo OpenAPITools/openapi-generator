@@ -171,6 +171,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("map", "IDictionary");
         typeMapping.put("object", "obj");
         typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
 
         // nullable type
         nullableType = new HashSet<String>(
