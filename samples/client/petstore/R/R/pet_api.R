@@ -103,7 +103,7 @@ PetApi <- R6::R6Class(
       }
     },
     DeletePet = function(pet.id, api.key=NULL, ...){
-      apiResponse <- self$DeletePetWithHttpInfo(pet.id, api.key=NULL, ...)
+      apiResponse <- self$DeletePetWithHttpInfo(pet.id, api.key, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -328,7 +328,7 @@ PetApi <- R6::R6Class(
       }
     },
     UpdatePetWithForm = function(pet.id, name=NULL, status=NULL, ...){
-      apiResponse <- self$UpdatePetWithFormWithHttpInfo(pet.id, name=NULL, status=NULL, ...)
+      apiResponse <- self$UpdatePetWithFormWithHttpInfo(pet.id, name, status, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -377,7 +377,7 @@ PetApi <- R6::R6Class(
       }
     },
     UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, ...){
-      apiResponse <- self$UploadFileWithHttpInfo(pet.id, additional.metadata=NULL, file=NULL, ...)
+      apiResponse <- self$UploadFileWithHttpInfo(pet.id, additional.metadata, file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
