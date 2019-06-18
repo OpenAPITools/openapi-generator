@@ -191,7 +191,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        } 
+        }
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
@@ -633,7 +633,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toDefaultValue(Schema p) {
         // if a variable has no default set and only has one allowed value
-        // using enum of length == 1 we use that value for python clients:
+        // using enum of length == 1 we use that value. Server/client usage:
         // python servers: should only use default values for optional params
         // python clients: should only use default values for required params
         Object defaultObject = null;
