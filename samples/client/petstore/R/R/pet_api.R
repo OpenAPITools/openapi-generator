@@ -56,17 +56,17 @@ PetApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    AddPet = function(pet, ...){
+    AddPet = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`pet`)) {
-        stop("Missing required parameter `pet`.")
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
       }
 
-      if (!missing(`pet`)) {
-        body <- `pet`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
@@ -157,7 +157,7 @@ PetApi <- R6::R6Class(
       }
 
     },
-    FindPetsByTags = function(tags, max.count=NULL, ...){
+    FindPetsByTags = function(tags, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -167,8 +167,6 @@ PetApi <- R6::R6Class(
       }
 
       queryParams['tags'] <- tags
-
-      queryParams['maxCount'] <- max.count
 
       urlPath <- "/pet/findByTags"
       # OAuth token
@@ -225,17 +223,17 @@ PetApi <- R6::R6Class(
       }
 
     },
-    UpdatePet = function(pet, ...){
+    UpdatePet = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`pet`)) {
-        stop("Missing required parameter `pet`.")
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
       }
 
-      if (!missing(`pet`)) {
-        body <- `pet`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }

@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **AddPet**
-> AddPet(pet)
+> AddPet(body)
 
 Add a new pet to the store
 
@@ -23,20 +23,20 @@ Add a new pet to the store
 ```R
 library(petstore)
 
-var.pet <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
 #Add a new pet to the store
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$AddPet(var.pet)
+api.instance$AddPet(var.body)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -137,7 +137,7 @@ Name | Type | Description  | Notes
 
 
 # **FindPetsByTags**
-> Pet FindPetsByTags(tags, max.count=var.max.count)
+> Pet FindPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -148,13 +148,12 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 library(petstore)
 
 var.tags <- list("inner_example") # character | Tags to filter by
-var.max.count <- 56 # integer | Maximum number of items to return
 
 #Finds Pets by tags
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result <- api.instance$FindPetsByTags(var.tags, max.count=var.max.count)
+result <- api.instance$FindPetsByTags(var.tags)
 dput(result)
 ```
 
@@ -163,7 +162,6 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**character**](character.md)| Tags to filter by | 
- **max.count** | **integer**| Maximum number of items to return | [optional] 
 
 ### Return type
 
@@ -223,7 +221,7 @@ Name | Type | Description  | Notes
 
 
 # **UpdatePet**
-> UpdatePet(pet)
+> UpdatePet(body)
 
 Update an existing pet
 
@@ -231,20 +229,20 @@ Update an existing pet
 ```R
 library(petstore)
 
-var.pet <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
 #Update an existing pet
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$UpdatePet(var.pet)
+api.instance$UpdatePet(var.body)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
