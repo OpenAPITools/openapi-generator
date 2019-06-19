@@ -690,7 +690,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(codegenModel.vars.size(), 1);
     }
     @Test
-    public void modelWithSuffuxDoNotContainInheritedVars() {
+    public void modelWithSuffixDoNotContainInheritedVars() {
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.supportsInheritance = true;
         codegen.setModelNameSuffix("suffix");
