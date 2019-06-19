@@ -123,8 +123,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         // TODO(bcourtine): review file mapping.
         // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
         // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
-        // Reference is required here because Path does not implement the "Sized" trait.
-        typeMapping.put("file", "&std::path::Path");
+        typeMapping.put("file", "std::path::PathBuf");
         typeMapping.put("binary", "::models::File");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("object", "Value");
@@ -149,6 +148,12 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         libraryOption.setDefault(HYPER_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(HYPER_LIBRARY);
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 
     @Override
@@ -488,25 +493,25 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
-            return "EMPTY";
+            return "Empty";
         }
 
         // number
         if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
             String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = varName.replaceAll("-", "Minus");
+            varName = varName.replaceAll("\\+", "Plus");
+            varName = varName.replaceAll("\\.", "Dot");
             return varName;
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return getSymbolName(name).toUpperCase(Locale.ROOT);
+            return getSymbolName(name);
         }
 
         // string
-        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(camelize(name));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -519,7 +524,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        // camelize the enum name
+        // phone_number => PhoneNumber
+        String enumName = camelize(toModelName(property.name));
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");

@@ -74,8 +74,8 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
             value = ["{{#lambda.escapeDoubleQuote}}{{path}}{{/lambda.escapeDoubleQuote}}"],{{#singleContentTypes}}{{#hasProduces}}
             produces = "{{{vendorExtensions.x-accepts}}}",{{/hasProduces}}{{#hasConsumes}}
             consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
-            produces = [{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
-            consumes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}],{{/hasConsumes}}{{/singleContentTypes}}
+            produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
+            consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}],{{/hasConsumes}}{{/singleContentTypes}}
             method = [RequestMethod.{{httpMethod}}])
     {{#reactive}}{{^isListContainer}}suspend {{/isListContainer}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
         return {{>returnValue}}
