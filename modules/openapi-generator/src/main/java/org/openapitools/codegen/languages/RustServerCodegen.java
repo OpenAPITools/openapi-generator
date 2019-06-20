@@ -1235,6 +1235,17 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (!property.required) {
             property.defaultValue = (property.defaultValue != null) ? "Some(" + property.defaultValue + ")" : "None";
         }
+
+        // If a property has no type defined in the schema, it can take values of any type.
+        // This clashes with Rust being statically typed. Hence, assume it's sent as a json
+        // blob and return the json value to the user of the API and let the user determine
+        // the type from the value. If the property has no type, at this point it will have
+        // baseType "object" allowing us to identify such properties. Moreover, set to not
+        // nullable, we can use the serde_json::Value::Null enum variant.
+        if ("object".equals(property.baseType)) {
+            property.dataType = "serde_json::Value";
+            property.isNullable = false;
+        }
     }
 
     private long requiredBits(Long bound, boolean unsigned) {
