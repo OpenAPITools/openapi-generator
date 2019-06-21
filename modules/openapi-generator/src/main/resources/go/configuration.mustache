@@ -26,7 +26,11 @@ var (
 	ContextAccessToken = contextKey("accesstoken")
 
 	// ContextAPIKey takes an APIKey as authentication for the request
-	ContextAPIKey = contextKey("apikey")
+	{{#authMethods}}
+    {{#isApiKey}}
+		Context{{name}} = contextKey("{{name}}")
+    {{/isApiKey}}
+	{{/authMethods}}
 )
 
 // BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth
@@ -37,12 +41,8 @@ type BasicAuth struct {
 
 // APIKey provides API key based authentication to a request passed via context using ContextAPIKey
 type APIKey struct {
-	{{#authMethods}}
-	{{#isApiKey}}
-		{{name}}    string
-	{{/isApiKey}}
-	{{/authMethods}}
-		Prefix string
+	Key    string
+	Prefix string
 }
 
 type Configuration struct {

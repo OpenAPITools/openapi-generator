@@ -238,12 +238,12 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{^isKeyInCookie}}
 	if ctx != nil {
 		// API Key Authentication
-		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
+		if auth, ok := ctx.Value(Context{{name}}).(APIKey); ok {
 			var key string
 			if auth.Prefix != "" {
-				key = auth.Prefix + " " + auth.{{name}}
+				key = auth.Prefix + " " + auth.Key
 			} else {
-				key = auth.{{name}}
+				key = auth.Key
 			}
 			{{#isKeyInHeader}}
 			localVarHeaderParams["{{keyParamName}}"] = key
