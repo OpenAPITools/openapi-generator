@@ -95,7 +95,7 @@ void (empty response body)
 
 
 # **FindPetsByStatus**
-> Pet FindPetsByStatus(status)
+> array[Pet] FindPetsByStatus(status)
 
 Finds Pets by status
 
@@ -105,7 +105,7 @@ Multiple status values can be provided with comma separated strings
 ```R
 library(petstore)
 
-var.status <- list("status_example") # character | Status values that need to be considered for filter
+var.status <- list("status_example") # array[character] | Status values that need to be considered for filter
 
 #Finds Pets by status
 api.instance <- PetApi$new()
@@ -119,11 +119,11 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**character**](character.md)| Status values that need to be considered for filter | 
+ **status** | [**array[character]**](character.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**array[Pet]**](Pet.md)
 
 ### Authorization
 
@@ -137,7 +137,7 @@ Name | Type | Description  | Notes
 
 
 # **FindPetsByTags**
-> Pet FindPetsByTags(tags)
+> array[Pet] FindPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -147,7 +147,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```R
 library(petstore)
 
-var.tags <- list("inner_example") # character | Tags to filter by
+var.tags <- list("inner_example") # array[character] | Tags to filter by
 
 #Finds Pets by tags
 api.instance <- PetApi$new()
@@ -161,11 +161,11 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**character**](character.md)| Tags to filter by | 
+ **tags** | [**array[character]**](character.md)| Tags to filter by | 
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**array[Pet]**](Pet.md)
 
 ### Authorization
 

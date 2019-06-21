@@ -21,6 +21,8 @@ using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Org.OpenAPITools.Filters;
+using Org.OpenAPITools.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Org.OpenAPITools
 {
@@ -49,6 +51,13 @@ namespace Org.OpenAPITools
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IAuthorizationHandler, ApiKeyRequirementHandler>();
+            services.AddAuthorization(authConfig =>
+            {
+                authConfig.AddPolicy("api_key",
+                    policyBuilder => policyBuilder
+                        .AddRequirements(new ApiKeyRequirement(new[] { "my-secret-key" },"api_key")));
+
             // Add framework services.
             services
                 .AddMvc()

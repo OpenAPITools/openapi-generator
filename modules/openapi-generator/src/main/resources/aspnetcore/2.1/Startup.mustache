@@ -12,6 +12,8 @@ using Newtonsoft.Json.Serialization;{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using {{packageName}}.Filters;{{/useSwashbuckle}}
+using {{packageName}}.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace {{packageName}}
 {
@@ -40,6 +42,22 @@ namespace {{packageName}}
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+{{#authMethods}}
+{{#isApiKey}}
+{{#-first}}
+            services.AddTransient<IAuthorizationHandler, ApiKeyRequirementHandler>();
+            services.AddAuthorization(authConfig =>
+            {
+{{/-first}}            
+                authConfig.AddPolicy("{{name}}",
+                    policyBuilder => policyBuilder
+                        .AddRequirements(new ApiKeyRequirement(new[] { "my-secret-key" },"{{name}}")));
+{{#-last}}
+            });
+{{/-last}}
+{{/isApiKey}}
+{{/authMethods}}
+
             // Add framework services.
             services
                 .AddMvc()

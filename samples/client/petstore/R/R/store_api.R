@@ -45,6 +45,18 @@ StoreApi <- R6::R6Class(
       }
     },
     DeleteOrder = function(order.id, ...){
+      apiResponse <- self$DeleteOrderWithHttpInfo(order.id, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    DeleteOrderWithHttpInfo = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -67,15 +79,26 @@ StoreApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+        ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     GetInventory = function(...){
+      apiResponse <- self$GetInventoryWithHttpInfo(...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    GetInventoryWithHttpInfo = function(...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -94,15 +117,27 @@ StoreApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        integer$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        deserializedRespObj <- self$apiClient$deserialize(resp, "map(integer)", "package:petstore")
+        ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     GetOrderById = function(order.id, ...){
+      apiResponse <- self$GetOrderByIdWithHttpInfo(order.id, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    GetOrderByIdWithHttpInfo = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -125,15 +160,27 @@ StoreApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        Order$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        deserializedRespObj <- self$apiClient$deserialize(resp, "Order", "package:petstore")
+        ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     PlaceOrder = function(body, ...){
+      apiResponse <- self$PlaceOrderWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    PlaceOrderWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -158,13 +205,13 @@ StoreApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        Order$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        deserializedRespObj <- self$apiClient$deserialize(resp, "Order", "package:petstore")
+        ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     }
   )
 )
