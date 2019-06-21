@@ -50,7 +50,7 @@ No authorization required
 
 
 # **GetInventory**
-> integer GetInventory()
+> map(integer) GetInventory()
 
 Returns pet inventories by status
 
@@ -74,7 +74,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**integer**
+**map(integer)**
 
 ### Authorization
 

@@ -57,6 +57,18 @@ UserApi <- R6::R6Class(
       }
     },
     CreateUser = function(body, ...){
+      apiResponse <- self$CreateUserWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    CreateUserWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -81,15 +93,26 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+        ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     CreateUsersWithArrayInput = function(body, ...){
+      apiResponse <- self$CreateUsersWithArrayInputWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    CreateUsersWithArrayInputWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -114,15 +137,26 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+        ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     CreateUsersWithListInput = function(body, ...){
+      apiResponse <- self$CreateUsersWithListInputWithHttpInfo(body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    CreateUsersWithListInputWithHttpInfo = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -147,15 +181,26 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+        ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     DeleteUser = function(username, ...){
+      apiResponse <- self$DeleteUserWithHttpInfo(username, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    DeleteUserWithHttpInfo = function(username, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -178,15 +223,26 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+        ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     GetUserByName = function(username, ...){
+      apiResponse <- self$GetUserByNameWithHttpInfo(username, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    GetUserByNameWithHttpInfo = function(username, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -209,15 +265,27 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        User$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        deserializedRespObj <- self$apiClient$deserialize(resp, "User", "package:petstore")
+        ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     LoginUser = function(username, password, ...){
+      apiResponse <- self$LoginUserWithHttpInfo(username, password, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    LoginUserWithHttpInfo = function(username, password, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -244,15 +312,27 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        character$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        deserializedRespObj <- self$apiClient$deserialize(resp, "character", "package:petstore")
+        ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     LogoutUser = function(...){
+      apiResponse <- self$LogoutUserWithHttpInfo(...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    LogoutUserWithHttpInfo = function(...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -267,15 +347,26 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+        ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     },
     UpdateUser = function(username, body, ...){
+      apiResponse <- self$UpdateUserWithHttpInfo(username, body, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    UpdateUserWithHttpInfo = function(username, body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -308,13 +399,12 @@ UserApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+        ApiResponse$new(NULL, resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     }
   )
 )
