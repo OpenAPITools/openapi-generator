@@ -1,0 +1,23 @@
+{
+  "photoUrls": [
+    "http://my.photo.com/123",
+    "http://my.photo.com/456"
+  ],
+  "name": "doggie",
+  "id": 0,
+  "category": {
+    "name": "Hush Puppy",
+    "id": 6
+  },
+  "tags": [
+    {
+      "name": "small",
+      "id": 1
+    },
+    {
+      "name": "fluffy",
+      "id": 1
+    }
+  ],
+  "status": "available"
+}
