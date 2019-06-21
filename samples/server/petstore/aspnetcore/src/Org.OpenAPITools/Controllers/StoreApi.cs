@@ -57,6 +57,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="200">successful operation</response>
         [HttpGet]
         [Route("/v2/store/inventory")]
+        [Authorize(Policy = "api_key")]
         [ValidateModelState]
         [SwaggerOperation("GetInventory")]
         [SwaggerResponse(statusCode: 200, type: typeof(Dictionary<string, int?>), description: "successful operation")]
