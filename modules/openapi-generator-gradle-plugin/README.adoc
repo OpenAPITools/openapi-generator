@@ -43,7 +43,7 @@ compileJava.dependsOn tasks.openApiGenerate
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.0.1"
+  id "org.openapi.generator" version "4.0.3-SNAPSHOT"
 }
 ----
 
@@ -59,7 +59,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:4.0.1"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.0.3-SNAPSHOT"
   }
 }
 
@@ -605,7 +605,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:4.0.1') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:4.0.3-SNAPSHOT') {
             exclude group: 'com.google.guava'
         }
     }
