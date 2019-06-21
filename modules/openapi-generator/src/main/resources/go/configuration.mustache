@@ -37,8 +37,12 @@ type BasicAuth struct {
 
 // APIKey provides API key based authentication to a request passed via context using ContextAPIKey
 type APIKey struct {
-	Key    string
-	Prefix string
+	{{#authMethods}}
+	{{#isApiKey}}
+		{{name}}    string
+	{{/isApiKey}}
+	{{/authMethods}}
+		Prefix string
 }
 
 type Configuration struct {

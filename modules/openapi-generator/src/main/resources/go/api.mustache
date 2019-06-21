@@ -241,9 +241,9 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
 			var key string
 			if auth.Prefix != "" {
-				key = auth.Prefix + " " + auth.Key
+				key = auth.Prefix + " " + auth.{{name}}
 			} else {
-				key = auth.Key
+				key = auth.{{name}}
 			}
 			{{#isKeyInHeader}}
 			localVarHeaderParams["{{keyParamName}}"] = key
