@@ -160,6 +160,15 @@
                     <argLine>-XX:+StartAttachListener</argLine>
                     <argLine>-javaagent:"${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar"</argLine>
                 </configuration>
+                <dependencies>
+                    <!-- Required to be set so it can be downloaded for surefire plugin -->
+                    <dependency>
+                        <groupId>org.jmockit</groupId>
+                        <artifactId>jmockit</artifactId>
+                        <version>${jmockit-version}</version>
+                        <scope>compile</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
