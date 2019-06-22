@@ -53,12 +53,11 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         return "Creates a static openapi.yaml file (OpenAPI spec v3).";
     }
 
-
     @Override
     public void processOpts() {
         super.processOpts();
         if (additionalProperties.containsKey(OUTPUT_NAME)) {
-            this.outputFile = additionalProperties.get(OUTPUT_NAME).toString();
+            outputFile = additionalProperties.get(OUTPUT_NAME).toString();
         }
         LOGGER.info("Output file [outputFile={}]", outputFile);
         supportingFiles.add(new SupportingFile("openapi.mustache", outputFile));
@@ -69,7 +68,6 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
-
 
     @Override
     public String escapeQuotationMark(String input) {
