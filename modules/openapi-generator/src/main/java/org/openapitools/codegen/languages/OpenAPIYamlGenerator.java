@@ -28,7 +28,7 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OpenAPIYamlGenerator.class);
 
-    protected String outputFile = "openapi.yaml";
+    protected String outputFile = "openapi/openapi.yaml";
 
     public OpenAPIYamlGenerator() {
         super();
@@ -36,9 +36,6 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         outputFolder = "generated-code/openapi-yaml";
         cliOptions.add(new CliOption(OUTPUT_NAME, "output filename"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
-        supportingFiles.add(new SupportingFile("openapi.mustache",
-                "openapi",
-                "openapi.yaml"));
     }
 
     @Override
@@ -63,6 +60,8 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         if (additionalProperties.containsKey(OUTPUT_NAME)) {
             this.outputFile = additionalProperties.get(OUTPUT_NAME).toString();
         }
+        LOGGER.info("Output file [outputFile={}]", outputFile);
+        supportingFiles.add(new SupportingFile("openapi.mustache", outputFile));
     }
 
     @Override
