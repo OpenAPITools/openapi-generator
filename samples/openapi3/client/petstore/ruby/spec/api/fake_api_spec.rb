@@ -32,6 +32,17 @@ describe 'FakeApi' do
     end
   end
 
+  # unit tests for fake_dynamic_resource_dynamic_get
+  # https://github.com/OpenAPITools/openapi-generator/issues/3119
+  # @param dynamic 
+  # @param [Hash] opts the optional parameters
+  # @return [nil]
+  describe 'fake_dynamic_resource_dynamic_get test' do
+    it 'should work' do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
   # unit tests for fake_health_get
   # Health check endpoint
   # @param [Hash] opts the optional parameters

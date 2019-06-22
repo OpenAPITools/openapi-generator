@@ -26,6 +26,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
 public abstract class FakeApiService {
+    public abstract Response fakeDynamicResourceDynamicGet(String dynamic,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeHealthGet(SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterBooleanSerialize(Boolean body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterCompositeSerialize(OuterComposite outerComposite,SecurityContext securityContext) throws NotFoundException;

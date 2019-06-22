@@ -73,6 +73,16 @@ class FakeApiTest extends TestCase
     }
 
     /**
+     * Test case for fakeDynamicResourceDynamicGet
+     *
+     * https://github.com/OpenAPITools/openapi-generator/issues/3119.
+     *
+     */
+    public function testFakeDynamicResourceDynamicGet()
+    {
+    }
+
+    /**
      * Test case for fakeHealthGet
      *
      * Health check endpoint.

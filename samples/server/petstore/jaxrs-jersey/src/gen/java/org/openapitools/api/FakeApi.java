@@ -65,6 +65,18 @@ public class FakeApi  {
    }
 
     @GET
+    @Path("/dynamic-resource/{dynamic}")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "https://github.com/OpenAPITools/openapi-generator/issues/3119", notes = "", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = Void.class) })
+    public Response fakeDynamicResourceDynamicGet(@ApiParam(value = "",required=true) @PathParam("dynamic") String dynamic
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.fakeDynamicResourceDynamicGet(dynamic, securityContext);
+    }
+    @GET
     @Path("/health")
     
     @Produces({ "application/json" })

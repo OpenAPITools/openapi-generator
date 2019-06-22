@@ -27,6 +27,11 @@ import javax.validation.constraints.*;
 
 public class FakeApiServiceImpl extends FakeApiService {
     @Override
+    public Response fakeDynamicResourceDynamicGet(String dynamic, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
     public Response fakeHealthGet(SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

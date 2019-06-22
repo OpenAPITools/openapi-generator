@@ -1030,6 +1030,21 @@ paths:
                   format: binary
               required:
                 - requiredFile
+  /fake/dynamic-resource/{dynamic}:
+    get:
+      tags:
+        - fake
+      summary: https://github.com/OpenAPITools/openapi-generator/issues/3119
+      responses:
+        200:
+          description: OK
+      parameters:
+        - name: dynamic
+          in: path
+          required: true
+          x-allow-dynamic-resource: true
+          schema:
+            type: string
   /fake/health:
     get:
       tags:

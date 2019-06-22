@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**fake_dynamic_resource_dynamic_get**](FakeApi.md#fake_dynamic_resource_dynamic_get) | **GET** /fake/dynamic-resource/{dynamic} | https://github.com/OpenAPITools/openapi-generator/issues/3119
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
@@ -18,6 +19,57 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
+
+# **fake_dynamic_resource_dynamic_get**
+> fake_dynamic_resource_dynamic_get(dynamic)
+
+https://github.com/OpenAPITools/openapi-generator/issues/3119
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = petstore_api.FakeApi()
+dynamic = 'dynamic_example' # str | 
+
+try:
+    # https://github.com/OpenAPITools/openapi-generator/issues/3119
+    api_instance.fake_dynamic_resource_dynamic_get(dynamic)
+except ApiException as e:
+    print("Exception when calling FakeApi->fake_dynamic_resource_dynamic_get: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dynamic** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_health_get**
 > HealthCheckResult fake_health_get()
