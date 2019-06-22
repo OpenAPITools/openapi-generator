@@ -86,7 +86,7 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
-configuration.host = "http://petstore.swagger.io:80/v2"
+configuration.host = "http://petstore.swagger.io:80/v2" # Optional and default to http://petstore.swagger.io:80/v2
 # create an instance of the API class
 api_instance = petstore_api.StoreApi(petstore_api.ApiClient(configuration))
 
