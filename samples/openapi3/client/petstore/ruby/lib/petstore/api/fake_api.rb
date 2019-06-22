@@ -41,7 +41,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'dynamic' when calling FakeApi.fake_dynamic_resource_dynamic_get"
       end
       # resource path
-      local_var_path = '/fake/dynamic-resource/{dynamic}'.sub('{' + 'dynamic' + '}', CGI.escape(dynamic.to_s))
+      local_var_path = '/fake/dynamic-resource/{dynamic}'.sub('{' + 'dynamic' + '}', CGI.escape(dynamic.to_s).gsub('%2F', '/'))
 
       # query parameters
       query_params = opts[:query_params] || {}

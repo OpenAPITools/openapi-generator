@@ -841,6 +841,31 @@ produces:
 x-content-type: application/json
 ```
 
+### Ruby-client
+
+#### x-allow-dynamic-resource
+
+Each parameter object located in a path (path parameter) may specify `x-allow-dynamic-resource`.
+This will encode `%`, `?` and `#` characters as usual, but not encode `/` characters.
+
+```yaml
+paths:
+  /account/{id}/{resource}:
+    get:
+      operationId:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+        - name: resource
+          in: path
+          # allows slashes to be used in the path parameter
+          x-allow-dynamic-resource: true
+          schema:
+            type: string
+```
+
 ### Rust-server
 
 #### x-responseId
