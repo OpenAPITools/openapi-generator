@@ -562,6 +562,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 operation.put("classVarName", config.toApiVarName(tag));
                 operation.put("importPath", config.toApiImport(tag));
                 operation.put("classFilename", config.toApiFilename(tag));
+                operation.put("strictSpecBehavior", config.isStrictSpecBehavior());
 
                 if (allModels == null || allModels.isEmpty()) {
                     operation.put("hasModel", false);
