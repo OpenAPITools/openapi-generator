@@ -29,7 +29,7 @@ this route creates an XmlItem
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -39,9 +39,10 @@ namespace Example
 {
     public class CreateXmlItemExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var xmlItem = new XmlItem(); // XmlItem | XmlItem Body
 
             try
@@ -49,9 +50,11 @@ namespace Example
                 // creates an XmlItem
                 apiInstance.CreateXmlItem(xmlItem);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.CreateXmlItem: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -77,6 +80,11 @@ No authorization required
  - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeouterbooleanserialize"></a>
@@ -89,7 +97,7 @@ Test serialization of outer boolean types
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -99,9 +107,10 @@ namespace Example
 {
     public class FakeOuterBooleanSerializeExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var body = true;  // bool? | Input boolean as post body (optional) 
 
             try
@@ -109,9 +118,11 @@ namespace Example
                 bool result = apiInstance.FakeOuterBooleanSerialize(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterBooleanSerialize: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -137,6 +148,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Output boolean |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeoutercompositeserialize"></a>
@@ -149,7 +165,7 @@ Test serialization of object with outer number type
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -159,9 +175,10 @@ namespace Example
 {
     public class FakeOuterCompositeSerializeExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var body = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
 
             try
@@ -169,9 +186,11 @@ namespace Example
                 OuterComposite result = apiInstance.FakeOuterCompositeSerialize(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterCompositeSerialize: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -197,6 +216,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Output composite |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeouternumberserialize"></a>
@@ -209,7 +233,7 @@ Test serialization of outer number types
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -219,9 +243,10 @@ namespace Example
 {
     public class FakeOuterNumberSerializeExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var body = 8.14;  // decimal? | Input number as post body (optional) 
 
             try
@@ -229,9 +254,11 @@ namespace Example
                 decimal result = apiInstance.FakeOuterNumberSerialize(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterNumberSerialize: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -257,6 +284,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Output number |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeouterstringserialize"></a>
@@ -269,7 +301,7 @@ Test serialization of outer string types
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -279,9 +311,10 @@ namespace Example
 {
     public class FakeOuterStringSerializeExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var body = body_example;  // string | Input string as post body (optional) 
 
             try
@@ -289,9 +322,11 @@ namespace Example
                 string result = apiInstance.FakeOuterStringSerialize(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterStringSerialize: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -317,6 +352,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Output string |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testbodywithfileschema"></a>
@@ -329,7 +369,7 @@ For this test, the body for this request much reference a schema named `File`.
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -339,18 +379,21 @@ namespace Example
 {
     public class TestBodyWithFileSchemaExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var body = new FileSchemaTestClass(); // FileSchemaTestClass | 
 
             try
             {
                 apiInstance.TestBodyWithFileSchema(body);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.TestBodyWithFileSchema: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -376,6 +419,11 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Success |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testbodywithqueryparams"></a>
@@ -386,7 +434,7 @@ No authorization required
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -396,9 +444,10 @@ namespace Example
 {
     public class TestBodyWithQueryParamsExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var query = query_example;  // string | 
             var body = new User(); // User | 
 
@@ -406,9 +455,11 @@ namespace Example
             {
                 apiInstance.TestBodyWithQueryParams(query, body);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.TestBodyWithQueryParams: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -435,6 +486,11 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Success |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testclientmodel"></a>
@@ -447,7 +503,7 @@ To test \"client\" model
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -457,9 +513,10 @@ namespace Example
 {
     public class TestClientModelExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var body = new ModelClient(); // ModelClient | client model
 
             try
@@ -468,9 +525,11 @@ namespace Example
                 ModelClient result = apiInstance.TestClientModel(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.TestClientModel: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -496,6 +555,11 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testendpointparameters"></a>
@@ -508,7 +572,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -518,13 +582,14 @@ namespace Example
 {
     public class TestEndpointParametersExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure HTTP basic authorization: http_basic_test
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new FakeApi();
+            var apiInstance = new FakeApi(Configuration.Default);
             var number = 8.14;  // decimal | None
             var _double = 1.2D;  // double | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
@@ -545,9 +610,11 @@ namespace Example
                 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
                 apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.TestEndpointParameters: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -586,6 +653,12 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid username supplied |  -  |
+| **404** | User not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testenumparameters"></a>
@@ -598,7 +671,7 @@ To test enum parameters
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -608,9 +681,10 @@ namespace Example
 {
     public class TestEnumParametersExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var enumHeaderStringArray = enumHeaderStringArray_example;  // List<string> | Header parameter enum test (string array) (optional) 
             var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = enumQueryStringArray_example;  // List<string> | Query parameter enum test (string array) (optional) 
@@ -625,9 +699,11 @@ namespace Example
                 // To test enum parameters
                 apiInstance.TestEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.TestEnumParameters: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -660,6 +736,12 @@ No authorization required
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid request |  -  |
+| **404** | Not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testgroupparameters"></a>
@@ -672,7 +754,7 @@ Fake endpoint to test group parameters (optional)
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -682,9 +764,10 @@ namespace Example
 {
     public class TestGroupParametersExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var requiredStringGroup = 56;  // int | Required String in group parameters
             var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
             var requiredInt64Group = 789;  // long | Required Integer in group parameters
@@ -697,9 +780,11 @@ namespace Example
                 // Fake endpoint to test group parameters (optional)
                 apiInstance.TestGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.TestGroupParameters: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -730,6 +815,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Someting wrong |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testinlineadditionalproperties"></a>
@@ -740,7 +830,7 @@ test inline additionalProperties
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -750,9 +840,10 @@ namespace Example
 {
     public class TestInlineAdditionalPropertiesExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var param = new Dictionary<string, string>(); // Dictionary<string, string> | request body
 
             try
@@ -760,9 +851,11 @@ namespace Example
                 // test inline additionalProperties
                 apiInstance.TestInlineAdditionalProperties(param);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.TestInlineAdditionalProperties: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -788,6 +881,11 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testjsonformdata"></a>
@@ -798,7 +896,7 @@ test json serialization of form data
 
 ### Example
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -808,9 +906,10 @@ namespace Example
 {
     public class TestJsonFormDataExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new FakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
             var param = param_example;  // string | field1
             var param2 = param2_example;  // string | field2
 
@@ -819,9 +918,11 @@ namespace Example
                 // test json serialization of form data
                 apiInstance.TestJsonFormData(param, param2);
             }
-            catch (Exception e)
+            catch (ApiException  e)
             {
                 Debug.Print("Exception when calling FakeApi.TestJsonFormData: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -847,6 +948,11 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

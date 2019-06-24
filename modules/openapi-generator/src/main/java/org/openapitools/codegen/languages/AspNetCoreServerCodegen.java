@@ -309,6 +309,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Filters" + File.separator + "GeneratePathParamsValidationFilter.mustache",
                     packageFolder + File.separator + "Filters", "GeneratePathParamsValidationFilter.cs"));
         }
+ 
+        supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache",packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
     }
 
     public void setPackageGuid(String packageGuid) {

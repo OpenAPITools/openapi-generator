@@ -175,7 +175,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
-        CliOption java8Mode = new CliOption(JAVA8_MODE, "Option. Use Java8 classes instead of third party equivalents").defaultValue(String.valueOf(this.java8Mode));
+        CliOption java8Mode = CliOption.newBoolean(JAVA8_MODE, "Option. Use Java8 classes instead of third party equivalents", this.java8Mode);
         Map<String, String> java8ModeOptions = new HashMap<>();
         java8ModeOptions.put("true", "Use Java 8 classes such as Base64");
         java8ModeOptions.put("false", "Various third party libraries as needed");

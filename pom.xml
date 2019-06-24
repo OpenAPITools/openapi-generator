@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.0.2-SNAPSHOT</version>
+    <version>4.0.3-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -41,21 +41,18 @@
             <name>Christophe Bornet</name>
         </developer>
         <developer>
-            <id>jaz-ah</id>
-            <name>Joseph Zuromski</name>
-        </developer>
-        <developer>
             <id>ackintosh</id>
             <name>Akihito Nakano</name>
-        </developer>
-        <developer>
-            <id>JFCote</id>
-            <name>Jean-François Côté</name>
         </developer>
         <developer>
             <id>jmini</id>
             <name>Jérémie Bresson</name>
             <email>dev@jmini.fr</email>
+        </developer>
+        <developer>
+            <id>etherealjoy</id>
+            <name>Sunn</name>
+            <email>sunn.ssb@live.com</email>
         </developer>
     </developers>
     <issueManagement>

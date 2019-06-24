@@ -114,20 +114,13 @@ sub from_hash {
     # loop through attributes and use openapi_types to deserialize the data
     while ( my ($_key, $_type) = each %{$self->openapi_types} ) {
         my $_json_attribute = $self->attribute_map->{$_key}; 
-        if ($_type =~ /^array\[(.+)\]$/i) { # array
-            my $_subclass = $1;
+        if ($_type =~ /^array\[/i) { # array
+            my $_subclass = substr($_type, 6, -1);
             my @_array = ();
             foreach my $_element (@{$hash->{$_json_attribute}}) {
                 push @_array, $self->_deserialize($_subclass, $_element);
             }
             $self->{$_key} = \@_array;
-        } elsif ($_type =~ /^hash\[string,(.+)\]$/i) { # hash
-            my $_subclass = $1;
-            my %_hash = ();
-            while (my($_key, $_element) = each %{$hash->{$_json_attribute}}) {
-                $_hash{$_key} = $self->_deserialize($_subclass, $_element);
-            }
-            $self->{$_key} = \%_hash;
         } elsif (exists $hash->{$_json_attribute}) { #hash(model), primitive, datetime
             $self->{$_key} = $self->_deserialize($_type, $hash->{$_json_attribute});
         } else {
@@ -142,10 +135,10 @@ sub from_hash {
 sub _deserialize {
     my ($self, $type, $data) = @_;
     $log->debugf("deserializing %s with %s",Dumper($data), $type);
-
+        
     if ($type eq 'DateTime') {
         return DateTime->from_epoch(epoch => str2time($data));
-    } elsif ( grep( /^$type$/, ('int', 'double', 'string', 'boolean'))) {
+    } elsif ( grep {$type=~/^(ARRAY\[|HASH\[string,)?$_(\])?$/} ('int', 'double', 'string', 'boolean') ) {
         return $data;
     } else { # hash(model)
         my $_instance = eval "WWW::OpenAPIClient::Object::$type->new()";

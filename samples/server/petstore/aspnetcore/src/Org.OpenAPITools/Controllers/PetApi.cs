@@ -136,6 +136,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="404">Pet not found</response>
         [HttpGet]
         [Route("/v2/pet/{petId}")]
+        [Authorize(Policy = "api_key")]
         [ValidateModelState]
         [SwaggerOperation("GetPetById")]
         [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]

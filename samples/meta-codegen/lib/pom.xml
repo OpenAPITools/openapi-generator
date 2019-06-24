@@ -122,7 +122,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- RELEASE_VERSION -->
-        <openapi-generator-version>4.0.2-SNAPSHOT</openapi-generator-version>
+        <openapi-generator-version>4.0.3-SNAPSHOT</openapi-generator-version>
         <!-- /RELEASE_VERSION -->
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.8.1</junit-version>

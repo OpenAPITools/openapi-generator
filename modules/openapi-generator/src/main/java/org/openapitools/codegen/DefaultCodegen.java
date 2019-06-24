@@ -4660,8 +4660,16 @@ public class DefaultCodegen implements CodegenConfig {
                 schema.setAdditionalProperties(inner);
             }
             CodegenProperty codegenProperty = fromProperty("property", schema);
-            // only support 1-dimension map only
+
             imports.add(codegenProperty.baseType);
+
+            CodegenProperty innerCp = codegenProperty;
+            while (innerCp != null) {
+                if (innerCp.complexType != null) {
+                    imports.add(innerCp.complexType);
+                }
+                innerCp = innerCp.items;
+            }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
                 codegenParameter.baseName = "request_body";

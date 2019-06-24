@@ -103,4 +103,6 @@ private:
 
 }
 
+Q_DECLARE_METATYPE(OpenAPI::OAIPet)
+
 #endif // OAIPet_H

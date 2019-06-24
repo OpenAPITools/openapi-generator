@@ -19,7 +19,8 @@
 namespace OpenAPI {
 
 OAIUserApi::OAIUserApi() : basePath("/v2"),
-    host("petstore.swagger.io") {
+    host("petstore.swagger.io"),
+    timeout(0){
 
 }
 
@@ -27,9 +28,10 @@ OAIUserApi::~OAIUserApi() {
 
 }
 
-OAIUserApi::OAIUserApi(const QString& host, const QString& basePath) {
+OAIUserApi::OAIUserApi(const QString& host, const QString& basePath, const int tout) {
     this->host = host;
     this->basePath = basePath;
+    this->timeout = tout;
 }
 
 void OAIUserApi::setBasePath(const QString& basePath){
@@ -38,6 +40,10 @@ void OAIUserApi::setBasePath(const QString& basePath){
 
 void OAIUserApi::setHost(const QString& host){
     this->host = host;
+}
+
+void OAIUserApi::setApiTimeOutMs(const int tout){
+    timeout = tout;
 }
 
 void OAIUserApi::addHeaders(const QString& key, const QString& value){
@@ -51,6 +57,7 @@ OAIUserApi::createUser(const OAIUser& body) {
     fullPath.append(this->host).append(this->basePath).append("/user");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "POST");
 
     
@@ -99,6 +106,7 @@ OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& body) {
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "POST");
 
     
@@ -148,6 +156,7 @@ OAIUserApi::createUsersWithListInput(const QList<OAIUser>& body) {
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "POST");
 
     
@@ -200,6 +209,7 @@ OAIUserApi::deleteUser(const QString& username) {
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "DELETE");
 
 
@@ -247,6 +257,7 @@ OAIUserApi::getUserByName(const QString& username) {
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -308,6 +319,7 @@ OAIUserApi::loginUser(const QString& username, const QString& password) {
         .append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(password)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -354,6 +366,7 @@ OAIUserApi::logoutUser() {
     fullPath.append(this->host).append(this->basePath).append("/user/logout");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -401,6 +414,7 @@ OAIUserApi::updateUser(const QString& username, const OAIUser& body) {
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "PUT");
 
     
