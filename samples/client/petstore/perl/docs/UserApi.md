@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **create_user**
-> create_user(user => $user)
+> create_user(body => $body)
 
 Create user
 
@@ -33,10 +33,10 @@ use WWW::OpenAPIClient::UserApi;
 my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
-my $user = WWW::OpenAPIClient::Object::User->new(); # User | Created user object
+my $body = WWW::OpenAPIClient::Object::User->new(); # User | Created user object
 
 eval { 
-    $api_instance->create_user(user => $user);
+    $api_instance->create_user(body => $body);
 };
 if ($@) {
     warn "Exception when calling UserApi->create_user: $@\n";
@@ -47,7 +47,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -59,13 +59,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_array_input**
-> create_users_with_array_input(user => $user)
+> create_users_with_array_input(body => $body)
 
 Creates list of users with given input array
 
@@ -76,10 +76,10 @@ use WWW::OpenAPIClient::UserApi;
 my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
-my $user = [WWW::OpenAPIClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
+my $body = [WWW::OpenAPIClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
 
 eval { 
-    $api_instance->create_users_with_array_input(user => $user);
+    $api_instance->create_users_with_array_input(body => $body);
 };
 if ($@) {
     warn "Exception when calling UserApi->create_users_with_array_input: $@\n";
@@ -90,7 +90,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**ARRAY[User]**](ARRAY.md)| List of user object | 
+ **body** | [**ARRAY[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -102,13 +102,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_list_input**
-> create_users_with_list_input(user => $user)
+> create_users_with_list_input(body => $body)
 
 Creates list of users with given input array
 
@@ -119,10 +119,10 @@ use WWW::OpenAPIClient::UserApi;
 my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
-my $user = [WWW::OpenAPIClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
+my $body = [WWW::OpenAPIClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
 
 eval { 
-    $api_instance->create_users_with_list_input(user => $user);
+    $api_instance->create_users_with_list_input(body => $body);
 };
 if ($@) {
     warn "Exception when calling UserApi->create_users_with_list_input: $@\n";
@@ -133,7 +133,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**ARRAY[User]**](ARRAY.md)| List of user object | 
+ **body** | [**ARRAY[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -145,7 +145,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -325,7 +325,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_user**
-> update_user(username => $username, user => $user)
+> update_user(username => $username, body => $body)
 
 Updated user
 
@@ -339,10 +339,10 @@ my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
 my $username = "username_example"; # string | name that need to be deleted
-my $user = WWW::OpenAPIClient::Object::User->new(); # User | Updated user object
+my $body = WWW::OpenAPIClient::Object::User->new(); # User | Updated user object
 
 eval { 
-    $api_instance->update_user(username => $username, user => $user);
+    $api_instance->update_user(username => $username, body => $body);
 };
 if ($@) {
     warn "Exception when calling UserApi->update_user: $@\n";
@@ -354,7 +354,7 @@ if ($@) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -366,7 +366,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

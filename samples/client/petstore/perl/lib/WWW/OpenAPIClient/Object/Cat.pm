@@ -31,6 +31,7 @@ use Date::Parse;
 use DateTime;
 
 use WWW::OpenAPIClient::Object::Animal;
+use WWW::OpenAPIClient::Object::CatAllOf;
 
 use base ("Class::Accessor", "Class::Data::Inheritable", "WWW::OpenAPIClient::Object::Animal");
 
