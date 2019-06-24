@@ -133,7 +133,7 @@ func TestAccessToken(t *testing.T) {
 }
 
 func TestAPIKeyNoPrefix(t *testing.T) {
-	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{Key: "TEST123"})
+	auth := context.WithValue(context.Background(), sw.Contextapi_key, sw.APIKey{Key: "TEST123"})
 
 	newPet := (sw.Pet{Id: 12992, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
@@ -170,7 +170,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 }
 
 func TestAPIKeyWithPrefix(t *testing.T) {
-	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{Key: "TEST123", Prefix: "Bearer"})
+	auth := context.WithValue(context.Background(), sw.Contextapi_key, sw.APIKey{Key: "TEST123", Prefix: "Bearer"})
 
 	newPet := (sw.Pet{Id: 12992, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
