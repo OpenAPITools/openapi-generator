@@ -98,9 +98,9 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 OpenAPI Generator Version    | Release Date | Notes
 ---------------------------- | ------------ | -----
 5.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.0.0-SNAPSHOT/)| 13.05.2020 | Major release with breaking changes (no fallback)
-4.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.1.0-SNAPSHOT/)| 31.07.2019 | Minor release (breaking changes with fallbacks)
+4.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.1.0-SNAPSHOT/)| 15.07.2019 | Minor release (breaking changes with fallbacks)
 4.0.3 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.3-SNAPSHOT/)| 04.07.2019 | Patch release (minor bug fixes, etc)
-[4.0.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.0.2) (latest stable release) | 20.06.2019 | Patch release (bug fixes, minor enhancements, etc)
+<!-- RELEASE_VERSION -->[4.0.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.0.2) (latest stable release) | 20.06.2019 | Patch release (bug fixes, minor enhancements, etc)<!-- /RELEASE_VERSION -->
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
 
@@ -153,7 +153,7 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 * [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc)
 
 ### [1.3 - Download JAR](#table-of-contents)
-
+<!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
 JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.0.2/openapi-generator-cli-4.0.2.jar`
@@ -175,7 +175,7 @@ For Mac users, please make sure Java 8 is installed (Tips: run `java -version` t
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
 ```
-
+<!-- /RELEASE_VERSION -->
 ### Launcher Script
 
 One downside to manual jar downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator.cli.sh](./bin/utils/openapi-generator-cli.sh) which resolves this issue.
@@ -368,7 +368,8 @@ npm install @openapitools/openapi-generator-cli -g
 openapi-generator version
 ```
 
-Or install a particualar OpenAPI Generator version (e.g. v4.0.2):
+<!-- RELEASE_VERSION -->
+Or install a particular OpenAPI Generator version (e.g. v4.0.2):
 
 ```sh
 npm install @openapitools/openapi-generator-cli@cli-4.0.2 -g
@@ -379,7 +380,7 @@ Or install it as dev-dependency:
 ```sh
 npm install @openapitools/openapi-generator-cli -D
 ```
-
+<!-- /RELEASE_VERSION -->
 ## [2 - Getting Started](#table-of-contents)
 
 To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml), please run the following
@@ -394,7 +395,9 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 ```
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
+<!-- RELEASE_VERSION -->
 You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.0.2/openapi-generator-cli-4.0.2.jar)
+<!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
 

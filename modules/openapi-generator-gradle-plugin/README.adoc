@@ -40,6 +40,8 @@ compileJava.dependsOn tasks.openApiGenerate
 
 == Plugin Setup
 
+//# RELEASE_VERSION
+
 [source,group]
 ----
 plugins {
@@ -65,6 +67,7 @@ buildscript {
 
 apply plugin: 'org.openapi.generator'
 ----
+//# /RELEASE_VERSION
 
 == Configuration
 
@@ -597,6 +600,7 @@ Android Studio may experience a Windows-specific Guava dependency conflict with 
 
 As a workaround, you may force exclude conflicting Guava dependencies.
 
+//# RELEASE_VERSION
 ```gradle
 buildscript {
     repositories {
@@ -618,5 +622,6 @@ configurations {
 // …
 apply plugin: 'org.openapi.generator'
 ```
+//# /RELEASE_VERSION
 
 See https://github.com/OpenAPITools/openapi-generator/issues/1818[OpenAPITools/openapi-generator#1818] for more details.
