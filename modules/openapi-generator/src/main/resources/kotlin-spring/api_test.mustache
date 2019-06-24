@@ -4,6 +4,10 @@ package {{package}}
 {{/imports}}
 import org.junit.jupiter.api.Test
 
+{{#reactive}}
+import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.test.runBlockingTest
+{{/reactive}}
 import org.springframework.http.ResponseEntity
 
 class {{classname}}Test {
@@ -21,7 +25,7 @@ class {{classname}}Test {
     *          if the Api call fails
     */
     @Test
-    fun {{operationId}}Test() {
+    fun {{operationId}}Test() {{#reactive}}= runBlockingTest {{/reactive}}{
         {{#allParams}}
         val {{paramName}}:{{{dataType}}}? = null
         {{/allParams}}
