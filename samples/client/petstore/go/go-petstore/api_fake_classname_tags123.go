@@ -68,7 +68,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 	localVarPostBody = &body
 	if ctx != nil {
 		// API Key Authentication
-		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
+		if auth, ok := ctx.Value(Contextapi_key_query).(APIKey); ok {
 			var key string
 			if auth.Prefix != "" {
 				key = auth.Prefix + " " + auth.Key

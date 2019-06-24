@@ -134,7 +134,7 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 	}
 	if ctx != nil {
 		// API Key Authentication
-		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
+		if auth, ok := ctx.Value(Contextapi_key).(APIKey); ok {
 			var key string
 			if auth.Prefix != "" {
 				key = auth.Prefix + " " + auth.Key

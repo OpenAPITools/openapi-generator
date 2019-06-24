@@ -34,7 +34,8 @@ var (
 	ContextAccessToken = contextKey("accesstoken")
 
 	// ContextAPIKey takes an APIKey as authentication for the request
-	ContextAPIKey = contextKey("apikey")
+		Contextapi_key = contextKey("api_key")
+		Contextapi_key_query = contextKey("api_key_query")
 )
 
 // BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth
