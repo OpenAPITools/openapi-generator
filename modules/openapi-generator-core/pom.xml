@@ -15,4 +15,11 @@
   <artifactId>openapi-generator-core</artifactId>
   <name>openapi-generator-core</name>
   <url>https://github.com/openapitools/openapi-generator</url>
+  <dependencies>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
