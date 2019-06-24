@@ -340,9 +340,17 @@ sub update_params_for_auth {
             {{/isKeyInQuery}}
             {{/isApiKey}}
             {{#isBasic}}
+            {{^isBasicBearer}}
             if ($self->{config}{username} || $self->{config}{password}) {
                 $header_params->{'Authorization'} = 'Basic ' . encode_base64($self->{config}{username} . ":" . $self->{config}{password});
             }
+            {{/isBasicBearer}}
+            {{#isBasicBearer}}
+            // this endpoint requires Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authentication (access token)
+            if ($self->{config}{access_token}) {
+                $headers['Authorization'] = 'Bearer ' . $self->{config}{access_token};
+            }
+            {{/isBasicBearer}}
             {{/isBasic}}
             {{#isOAuth}}
             if ($self->{config}{access_token}) {

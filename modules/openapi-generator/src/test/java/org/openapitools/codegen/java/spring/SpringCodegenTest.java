@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenConstants;
@@ -35,10 +36,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import static java.util.stream.Collectors.groupingBy;
+import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 
 public class SpringCodegenTest {
 
@@ -167,5 +169,14 @@ public class SpringCodegenTest {
         assertNotNull(file);
         for (String line : lines)
             assertFalse(file.contains(line));
+    }
+
+    @Test
+    public void clientOptsUnicity() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.cliOptions()
+                .stream()
+                .collect(groupingBy(CliOption::getOpt))
+                .forEach((k,v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
     }
 }

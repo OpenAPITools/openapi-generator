@@ -33,6 +33,18 @@
     },
     {{#operation}}
     {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
+      apiResponse <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -125,21 +137,23 @@
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}
-        httr::content(resp, "text", encoding = "UTF-8"
+        content <- httr::content(resp, "text", encoding = "UTF-8")
+        ApiResponse$new(content,resp)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{returnType}}$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        deserializedRespObj <- self$apiClient$deserialize(resp, "{{returnType}}", "package:{{packageName}}")
+        ApiResponse$new(deserializedRespObj, resp)
         {{/isPrimitiveType}}
         {{/returnType}}
         {{^returnType}}
-        # void response, no need to return anything
+        {{! Returning the ApiResponse object with NULL object when the endpoint doesn't return anything}}
+        ApiResponse$new(NULL, resp)
         {{/returnType}}
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
         ApiResponse$new("API server error", resp)
       }
-
     }{{#hasMore}},{{/hasMore}}
     {{/operation}}
   )

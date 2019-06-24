@@ -62,7 +62,7 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # User | List of user object
+var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
@@ -73,7 +73,7 @@ api.instance$CreateUsersWithArrayInput(var.body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| List of user object | 
+ **body** | [**array[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -99,7 +99,7 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # User | List of user object
+var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
@@ -110,7 +110,7 @@ api.instance$CreateUsersWithListInput(var.body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| List of user object | 
+ **body** | [**array[User]**](User.md)| List of user object | 
 
 ### Return type
 

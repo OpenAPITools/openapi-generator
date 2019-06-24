@@ -41,7 +41,6 @@ declare -a files=("modules/openapi-generator-maven-plugin/README.md"
                   "modules/openapi-generator-gradle-plugin/README.adoc"
                   "modules/openapi-generator-gradle-plugin/gradle.properties"
                   "modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
-                  "modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle"
                   "modules/openapi-generator-gradle-plugin/samples/local-spec/README.md"
                   "README.md")
 

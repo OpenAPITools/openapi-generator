@@ -106,6 +106,48 @@ ApiClient  <- R6::R6Class(
       } else {
         stop("http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`.")
       }
+    },
+
+    deserialize = function(resp, returnType, pkgEnv) {
+      respObj <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+      self$deserializeObj(respObj, returnType, pkgEnv)
+    },
+
+    deserializeObj = function(obj, returnType, pkgEnv) {
+      returnObj <- NULL
+      primitiveTypes <- c("character", "numeric", "integer", "logical", "complex")
+
+      if (startsWith(returnType, "map(")) {
+        innerReturnType <- regmatches(returnType, regexec(pattern = "map\\((.*)\\)", returnType))[[1]][2]
+        returnObj <- lapply(names(obj), function(name) {
+          self$deserializeObj(obj[[name]], innerReturnType, pkgEnv)
+        })
+        names(returnObj) <- names(obj)
+      } else if (startsWith(returnType, "array[")) {
+        innerReturnType <- regmatches(returnType, regexec(pattern = "array\\[(.*)\\]", returnType))[[1]][2]
+        if (c(innerReturnType) %in% primitiveTypes) {
+          returnObj <- vector("list", length = length(obj))
+          if (length(obj) > 0) {
+            for (row in 1:length(obj)) {
+              returnObj[[row]] <- self$deserializeObj(obj[row], innerReturnType, pkgEnv)
+            }
+          }
+        } else {
+          returnObj <- vector("list", length = nrow(obj))
+          if (nrow(obj) > 0) {
+            for (row in 1:nrow(obj)) {
+              returnObj[[row]] <- self$deserializeObj(obj[row, , drop = FALSE], innerReturnType, pkgEnv)
+            }
+          }
+        }
+      } else if (exists(returnType, pkgEnv) && !(c(returnType) %in% primitiveTypes)) {
+        returnType <- get(returnType, envir = as.environment(pkgEnv))
+        returnObj <- returnType$new()
+        returnObj$fromJSON(jsonlite::toJSON(obj, digits = NA))
+      } else {
+        returnObj <- obj
+      }
+      returnObj
     }
   )
 )
