@@ -44,7 +44,7 @@ type {{classname}}Service service
 */
 {{#hasOptionalParams}}
 
-type {{{nickname}}}Opts struct {
+type {{{classname}}}_{{{nickname}}}Opts struct {
 {{#allParams}}
 {{^required}}
 {{#isPrimitiveType}}

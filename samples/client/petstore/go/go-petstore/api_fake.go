@@ -102,7 +102,7 @@ Test serialization of outer boolean types
 @return bool
 */
 
-type FakeOuterBooleanSerializeOpts struct {
+type FakeApi_FakeOuterBooleanSerializeOpts struct {
 	Body optional.Bool
 }
 
@@ -200,7 +200,7 @@ Test serialization of object with outer number type
 @return OuterComposite
 */
 
-type FakeOuterCompositeSerializeOpts struct {
+type FakeApi_FakeOuterCompositeSerializeOpts struct {
 	Body optional.Interface
 }
 
@@ -302,7 +302,7 @@ Test serialization of outer number types
 @return float32
 */
 
-type FakeOuterNumberSerializeOpts struct {
+type FakeApi_FakeOuterNumberSerializeOpts struct {
 	Body optional.Float32
 }
 
@@ -400,7 +400,7 @@ Test serialization of outer string types
 @return string
 */
 
-type FakeOuterStringSerializeOpts struct {
+type FakeApi_FakeOuterStringSerializeOpts struct {
 	Body optional.String
 }
 
@@ -736,7 +736,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
  * @param "Callback" (optional.String) -  None
 */
 
-type TestEndpointParametersOpts struct {
+type FakeApi_TestEndpointParametersOpts struct {
 	Integer optional.Int32
 	Int32_ optional.Int32
 	Int64_ optional.Int64
@@ -882,7 +882,7 @@ To test enum parameters
  * @param "EnumFormString" (optional.String) -  Form parameter enum test (string)
 */
 
-type TestEnumParametersOpts struct {
+type FakeApi_TestEnumParametersOpts struct {
 	EnumHeaderStringArray optional.Interface
 	EnumHeaderString optional.String
 	EnumQueryStringArray optional.Interface
@@ -990,7 +990,7 @@ Fake endpoint to test group parameters (optional)
  * @param "Int64Group" (optional.Int64) -  Integer in group parameters
 */
 
-type TestGroupParametersOpts struct {
+type FakeApi_TestGroupParametersOpts struct {
 	StringGroup optional.Int32
 	BooleanGroup optional.Bool
 	Int64Group optional.Int64

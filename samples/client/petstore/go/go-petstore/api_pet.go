@@ -102,7 +102,7 @@ PetApiService Deletes a pet
  * @param "ApiKey" (optional.String) - 
 */
 
-type DeletePetOpts struct {
+type PetApi_DeletePetOpts struct {
 	ApiKey optional.String
 }
 
@@ -522,7 +522,7 @@ PetApiService Updates a pet in the store with form data
  * @param "Status" (optional.String) -  Updated status of the pet
 */
 
-type UpdatePetWithFormOpts struct {
+type PetApi_UpdatePetWithFormOpts struct {
 	Name optional.String
 	Status optional.String
 }
@@ -604,7 +604,7 @@ PetApiService uploads an image
 @return ApiResponse
 */
 
-type UploadFileOpts struct {
+type PetApi_UploadFileOpts struct {
 	AdditionalMetadata optional.String
 	File optional.Interface
 }
@@ -718,7 +718,7 @@ PetApiService uploads an image (required)
 @return ApiResponse
 */
 
-type UploadFileWithRequiredFileOpts struct {
+type PetApi_UploadFileWithRequiredFileOpts struct {
 	AdditionalMetadata optional.String
 }
 
