@@ -235,6 +235,13 @@
             <artifactId>jersey-client</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+        {{^supportJava6}}
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        {{/supportJava6}}
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>
