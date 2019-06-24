@@ -9,23 +9,23 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun createUsersWithArrayInput(user: List<User>): Unit {
+    override fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Unit {
         TODO("Implement me")
     }
 
-    override fun createUsersWithListInput(user: List<User>): Unit {
+    override fun createUsersWithListInput(user: kotlin.collections.List<User>): Unit {
         TODO("Implement me")
     }
 
-    override fun deleteUser(username: String): Unit {
+    override fun deleteUser(username: kotlin.String): Unit {
         TODO("Implement me")
     }
 
-    override fun getUserByName(username: String): User {
+    override fun getUserByName(username: kotlin.String): User {
         TODO("Implement me")
     }
 
-    override fun loginUser(username: String, password: String): String {
+    override fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String {
         TODO("Implement me")
     }
 
@@ -33,7 +33,7 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun updateUser(username: String, user: User): Unit {
+    override fun updateUser(username: kotlin.String, user: User): Unit {
         TODO("Implement me")
     }
 }
