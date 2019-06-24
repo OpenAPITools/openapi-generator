@@ -4,6 +4,7 @@
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends ResourceSupport {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 
@@ -36,7 +37,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
 
   {{/vars}}
   {{#vars}}
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>optionalDataType}} {{name}}) {
     this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
     return this;
   }
@@ -84,7 +85,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
   {{{vendorExtensions.extraAnnotation}}}
   {{/vendorExtensions.extraAnnotation}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>nullableDataType}} {{getter}}() {
+{{#useBeanValidation}}{{#useOptional}}{{#required}}{{>beanValidation}}{{/required}}{{/useOptional}}{{/useBeanValidation}}{{#useBeanValidation}}{{^useOptional}}{{>beanValidation}}{{/useOptional}}{{/useBeanValidation}}  public {{>optionalDataTypeGetter}} {{getter}}() {
     return {{name}};
   }
 
