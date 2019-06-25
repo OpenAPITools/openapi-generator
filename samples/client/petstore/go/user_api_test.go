@@ -11,14 +11,14 @@ import (
 
 func TestCreateUser(t *testing.T) {
 	newUser := sw.User{
-		Id:         sw.Int64(1000),
-		FirstName:  sw.String("gopher"),
-		LastName:   sw.String("lang"),
-		Username:   sw.String("gopher"),
-		Password:   sw.String("lang"),
-		Email:      sw.String("lang@test.com"),
-		Phone:      sw.String("5101112222"),
-		UserStatus: sw.Int32(1)}
+		Id:         sw.PtrInt64(1000),
+		FirstName:  sw.PtrString("gopher"),
+		LastName:   sw.PtrString("lang"),
+        Username:   sw.PtrString("gopher"),
+		Password:   sw.PtrString("lang"),
+		Email:      sw.PtrString("lang@test.com"),
+		Phone:      sw.PtrString("5101112222"),
+		UserStatus: sw.PtrInt32(1)}
 
 	apiResponse, err := client.UserApi.CreateUser(context.Background(), newUser)
 
@@ -35,24 +35,24 @@ func TestCreateUser(t *testing.T) {
 func TestCreateUsersWithArrayInput(t *testing.T) {
 	newUsers := []sw.User{
 		sw.User{
-			Id:         sw.Int64(1001),
-			FirstName:  sw.String("gopher1"),
-			LastName:   sw.String("lang1"),
-			Username:   sw.String("gopher1"),
-			Password:   sw.String("lang1"),
-			Email:      sw.String("lang1@test.com"),
-			Phone:      sw.String("5101112222"),
-			UserStatus: sw.Int32(1),
+			Id:         sw.PtrInt64(1001),
+			FirstName:  sw.PtrString("gopher1"),
+			LastName:   sw.PtrString("lang1"),
+			Username:   sw.PtrString("gopher1"),
+			Password:   sw.PtrString("lang1"),
+			Email:      sw.PtrString("lang1@test.com"),
+			Phone:      sw.PtrString("5101112222"),
+			UserStatus: sw.PtrInt32(1),
 		},
 		sw.User{
-			Id:         sw.Int64(1002),
-			FirstName:  sw.String("gopher2"),
-			LastName:   sw.String("lang2"),
-			Username:   sw.String("gopher2"),
-			Password:   sw.String("lang2"),
-			Email:      sw.String("lang2@test.com"),
-			Phone:      sw.String("5101112222"),
-			UserStatus: sw.Int32(1),
+			Id:         sw.PtrInt64(1002),
+			FirstName:  sw.PtrString("gopher2"),
+			LastName:   sw.PtrString("lang2"),
+			Username:   sw.PtrString("gopher2"),
+			Password:   sw.PtrString("lang2"),
+			Email:      sw.PtrString("lang2@test.com"),
+			Phone:      sw.PtrString("5101112222"),
+			UserStatus: sw.PtrInt32(1),
 		},
 	}
 
@@ -117,14 +117,14 @@ func TestUpdateUser(t *testing.T) {
 	assert := assert.New(t)
 
 	newUser := sw.User{
-		Id:         sw.Int64(1000),
-		FirstName:  sw.String("gopher20"),
-		LastName:   sw.String("lang20"),
-		Username:   sw.String("gopher"),
-		Password:   sw.String("lang"),
-		Email:      sw.String("lang@test.com"),
-		Phone:      sw.String("5101112222"),
-		UserStatus: sw.Int32(1)}
+		Id:         sw.PtrInt64(1000),
+		FirstName:  sw.PtrString("gopher20"),
+		LastName:   sw.PtrString("lang20"),
+		Username:   sw.PtrString("gopher"),
+		Password:   sw.PtrString("lang"),
+		Email:      sw.PtrString("lang@test.com"),
+		Phone:      sw.PtrString("5101112222"),
+		UserStatus: sw.PtrInt32(1)}
 
 	apiResponse, err := client.UserApi.UpdateUser(context.Background(), "gopher", newUser)
 	if err != nil {

@@ -26,9 +26,9 @@ func TestMain(m *testing.M) {
 }
 
 func TestAddPet(t *testing.T) {
-	newPet := (sw.Pet{Id: sw.Int64(12830), Name: sw.String("gopher"),
-		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.String("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.Int64(1), Name: sw.String("tag2")}}})
+	newPet := (sw.Pet{Id: sw.PtrInt64(12830), Name: sw.PtrString("gopher"),
+		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
