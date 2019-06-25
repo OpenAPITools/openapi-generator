@@ -52,9 +52,9 @@ from petstore_api.rest import ApiException
 from pprint import pprint
 
 
-# defining host is optional and default to http://petstore.swagger.io:80/v2
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
 client = petstore_api.Client() # Client | client model
 
