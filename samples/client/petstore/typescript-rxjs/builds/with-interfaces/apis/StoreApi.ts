@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, RequiredError, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, throwIfRequired, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
 import {
     Order,
 } from '../models';
@@ -38,20 +38,20 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    deleteOrder(requestParameters: DeleteOrderRequest): Observable<void> {
-        if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
-            throw new RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
-        }
+    deleteOrder = (requestParameters: DeleteOrderRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'orderId', 'deleteOrder');
 
-        const queryParameters: HttpQuery = {};
+        const headers: HttpHeaders = {
+        };
 
-        const headerParameters: HttpHeaders = {};
+        const query: HttpQuery = {
+        };
 
         return this.request<void>({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: `/store/order/{orderId}`.replace(`{orderId}`, encodeURIComponent(String(requestParameters.orderId))),
             method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
         });
     }
 
@@ -59,20 +59,20 @@ export class StoreApi extends BaseAPI {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    getInventory(): Observable<{ [key: string]: number; }> {
-        const queryParameters: HttpQuery = {};
+    getInventory = (): Observable<{ [key: string]: number; }> => {
 
-        const headerParameters: HttpHeaders = {};
+        const headers: HttpHeaders = {
+            ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
+        };
 
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["api_key"] = this.configuration.apiKey("api_key"); // api_key authentication
-        }
+        const query: HttpQuery = {
+        };
 
         return this.request<{ [key: string]: number; }>({
             path: `/store/inventory`,
             method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
         });
     }
 
@@ -80,42 +80,41 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    getOrderById(requestParameters: GetOrderByIdRequest): Observable<Order> {
-        if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
-            throw new RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
-        }
+    getOrderById = (requestParameters: GetOrderByIdRequest): Observable<Order> => {
+        throwIfRequired(requestParameters, 'orderId', 'getOrderById');
 
-        const queryParameters: HttpQuery = {};
+        const headers: HttpHeaders = {
+        };
 
-        const headerParameters: HttpHeaders = {};
+        const query: HttpQuery = {
+        };
 
         return this.request<Order>({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: `/store/order/{orderId}`.replace(`{orderId}`, encodeURIComponent(String(requestParameters.orderId))),
             method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
         });
     }
 
     /**
      * Place an order for a pet
      */
-    placeOrder(requestParameters: PlaceOrderRequest): Observable<Order> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
-        }
+    placeOrder = (requestParameters: PlaceOrderRequest): Observable<Order> => {
+        throwIfRequired(requestParameters, 'body', 'placeOrder');
 
-        const queryParameters: HttpQuery = {};
+        const headers: HttpHeaders = {
+            'Content-Type': 'application/json',
+        };
 
-        const headerParameters: HttpHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
+        const query: HttpQuery = {
+        };
 
         return this.request<Order>({
             path: `/store/order`,
             method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
             body: requestParameters.body,
         });
     }

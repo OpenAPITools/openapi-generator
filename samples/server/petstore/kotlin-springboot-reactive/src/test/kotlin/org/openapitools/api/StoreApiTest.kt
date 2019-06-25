@@ -3,6 +3,8 @@ package org.openapitools.api
 import org.openapitools.model.Order
 import org.junit.jupiter.api.Test
 
+import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.test.runBlockingTest
 import org.springframework.http.ResponseEntity
 
 class StoreApiTest {
@@ -20,7 +22,7 @@ class StoreApiTest {
     *          if the Api call fails
     */
     @Test
-    fun deleteOrderTest() {
+    fun deleteOrderTest() = runBlockingTest {
         val orderId:kotlin.String? = null
         val response: ResponseEntity<Unit> = api.deleteOrder(orderId!!)
 
@@ -36,7 +38,7 @@ class StoreApiTest {
     *          if the Api call fails
     */
     @Test
-    fun getInventoryTest() {
+    fun getInventoryTest() = runBlockingTest {
         val response: ResponseEntity<Map<String, kotlin.Int>> = api.getInventory()
 
         // TODO: test validations
@@ -51,7 +53,7 @@ class StoreApiTest {
     *          if the Api call fails
     */
     @Test
-    fun getOrderByIdTest() {
+    fun getOrderByIdTest() = runBlockingTest {
         val orderId:kotlin.Long? = null
         val response: ResponseEntity<Order> = api.getOrderById(orderId!!)
 
@@ -67,7 +69,7 @@ class StoreApiTest {
     *          if the Api call fails
     */
     @Test
-    fun placeOrderTest() {
+    fun placeOrderTest() = runBlockingTest {
         val body:Order? = null
         val response: ResponseEntity<Order> = api.placeOrder(body!!)
 

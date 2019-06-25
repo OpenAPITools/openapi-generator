@@ -91,7 +91,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // local variable names used in API methods (endpoints)
         for (String word : Arrays.asList(
                 "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
-                "_header_content_type", "form_params", "post_body", "auth_names")) {
+                "_header_content_type", "form_params", "post_body", "auth_names", "send")) {
             reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
 

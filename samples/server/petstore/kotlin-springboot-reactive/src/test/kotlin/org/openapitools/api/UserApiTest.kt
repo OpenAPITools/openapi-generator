@@ -3,6 +3,8 @@ package org.openapitools.api
 import org.openapitools.model.User
 import org.junit.jupiter.api.Test
 
+import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.test.runBlockingTest
 import org.springframework.http.ResponseEntity
 
 class UserApiTest {
@@ -20,7 +22,7 @@ class UserApiTest {
     *          if the Api call fails
     */
     @Test
-    fun createUserTest() {
+    fun createUserTest() = runBlockingTest {
         val body:User? = null
         val response: ResponseEntity<Unit> = api.createUser(body!!)
 
@@ -36,7 +38,7 @@ class UserApiTest {
     *          if the Api call fails
     */
     @Test
-    fun createUsersWithArrayInputTest() {
+    fun createUsersWithArrayInputTest() = runBlockingTest {
         val body:kotlin.collections.List<User>? = null
         val response: ResponseEntity<Unit> = api.createUsersWithArrayInput(body!!)
 
@@ -52,7 +54,7 @@ class UserApiTest {
     *          if the Api call fails
     */
     @Test
-    fun createUsersWithListInputTest() {
+    fun createUsersWithListInputTest() = runBlockingTest {
         val body:kotlin.collections.List<User>? = null
         val response: ResponseEntity<Unit> = api.createUsersWithListInput(body!!)
 
@@ -68,7 +70,7 @@ class UserApiTest {
     *          if the Api call fails
     */
     @Test
-    fun deleteUserTest() {
+    fun deleteUserTest() = runBlockingTest {
         val username:kotlin.String? = null
         val response: ResponseEntity<Unit> = api.deleteUser(username!!)
 
@@ -84,7 +86,7 @@ class UserApiTest {
     *          if the Api call fails
     */
     @Test
-    fun getUserByNameTest() {
+    fun getUserByNameTest() = runBlockingTest {
         val username:kotlin.String? = null
         val response: ResponseEntity<User> = api.getUserByName(username!!)
 
@@ -100,7 +102,7 @@ class UserApiTest {
     *          if the Api call fails
     */
     @Test
-    fun loginUserTest() {
+    fun loginUserTest() = runBlockingTest {
         val username:kotlin.String? = null
         val password:kotlin.String? = null
         val response: ResponseEntity<kotlin.String> = api.loginUser(username!!, password!!)
@@ -117,7 +119,7 @@ class UserApiTest {
     *          if the Api call fails
     */
     @Test
-    fun logoutUserTest() {
+    fun logoutUserTest() = runBlockingTest {
         val response: ResponseEntity<Unit> = api.logoutUser()
 
         // TODO: test validations
@@ -132,7 +134,7 @@ class UserApiTest {
     *          if the Api call fails
     */
     @Test
-    fun updateUserTest() {
+    fun updateUserTest() = runBlockingTest {
         val username:kotlin.String? = null
         val body:User? = null
         val response: ResponseEntity<Unit> = api.updateUser(username!!, body!!)

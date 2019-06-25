@@ -4,7 +4,9 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>4.0.2-SNAPSHOT</version>
+        <!-- RELEASE_VERSION -->
+        <version>4.0.3-SNAPSHOT</version>
+        <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
     <artifactId>openapi-generator-maven-plugin</artifactId>

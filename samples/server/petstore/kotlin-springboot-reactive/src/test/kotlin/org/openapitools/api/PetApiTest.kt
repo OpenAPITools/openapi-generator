@@ -4,6 +4,8 @@ import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 import org.junit.jupiter.api.Test
 
+import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.test.runBlockingTest
 import org.springframework.http.ResponseEntity
 
 class PetApiTest {
@@ -21,7 +23,7 @@ class PetApiTest {
     *          if the Api call fails
     */
     @Test
-    fun addPetTest() {
+    fun addPetTest() = runBlockingTest {
         val body:Pet? = null
         val response: ResponseEntity<Unit> = api.addPet(body!!)
 
@@ -37,7 +39,7 @@ class PetApiTest {
     *          if the Api call fails
     */
     @Test
-    fun deletePetTest() {
+    fun deletePetTest() = runBlockingTest {
         val petId:kotlin.Long? = null
         val apiKey:kotlin.String? = null
         val response: ResponseEntity<Unit> = api.deletePet(petId!!, apiKey!!)
@@ -54,7 +56,7 @@ class PetApiTest {
     *          if the Api call fails
     */
     @Test
-    fun findPetsByStatusTest() {
+    fun findPetsByStatusTest() = runBlockingTest {
         val status:kotlin.collections.List<kotlin.String>? = null
         val response: ResponseEntity<Flow<Pet>> = api.findPetsByStatus(status!!)
 
@@ -70,7 +72,7 @@ class PetApiTest {
     *          if the Api call fails
     */
     @Test
-    fun findPetsByTagsTest() {
+    fun findPetsByTagsTest() = runBlockingTest {
         val tags:kotlin.collections.List<kotlin.String>? = null
         val response: ResponseEntity<Flow<Pet>> = api.findPetsByTags(tags!!)
 
@@ -86,7 +88,7 @@ class PetApiTest {
     *          if the Api call fails
     */
     @Test
-    fun getPetByIdTest() {
+    fun getPetByIdTest() = runBlockingTest {
         val petId:kotlin.Long? = null
         val response: ResponseEntity<Pet> = api.getPetById(petId!!)
 
@@ -102,7 +104,7 @@ class PetApiTest {
     *          if the Api call fails
     */
     @Test
-    fun updatePetTest() {
+    fun updatePetTest() = runBlockingTest {
         val body:Pet? = null
         val response: ResponseEntity<Unit> = api.updatePet(body!!)
 
@@ -118,7 +120,7 @@ class PetApiTest {
     *          if the Api call fails
     */
     @Test
-    fun updatePetWithFormTest() {
+    fun updatePetWithFormTest() = runBlockingTest {
         val petId:kotlin.Long? = null
         val name:kotlin.String? = null
         val status:kotlin.String? = null
@@ -136,7 +138,7 @@ class PetApiTest {
     *          if the Api call fails
     */
     @Test
-    fun uploadFileTest() {
+    fun uploadFileTest() = runBlockingTest {
         val petId:kotlin.Long? = null
         val additionalMetadata:kotlin.String? = null
         val file:org.springframework.core.io.Resource? = null

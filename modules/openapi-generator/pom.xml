@@ -3,7 +3,9 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>4.0.2-SNAPSHOT</version>
+        <!-- RELEASE_VERSION -->
+        <version>4.0.3-SNAPSHOT</version>
+        <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -313,7 +315,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator-core</artifactId>
-            <version>4.0.2-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
     <repositories>
