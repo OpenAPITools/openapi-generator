@@ -6,7 +6,9 @@ from __future__ import absolute_import
 
 import copy
 import logging
+{{^asyncio}}
 import multiprocessing
+{{/asyncio}}
 import sys
 import urllib3
 
@@ -116,6 +118,13 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         """Set this to True/False to enable/disable SSL hostname verification.
         """
 
+        {{#asyncio}}
+        self.connection_pool_maxsize = 100
+        """This value is passed to the aiohttp to limit simultaneous connections.
+           Default values is 100, None means no-limit.
+        """
+        {{/asyncio}}
+        {{^asyncio}}
         self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
         """urllib3 connection pool's maximum number of connections saved
            per pool. urllib3 uses 1 connection as default value, but this is
@@ -123,6 +132,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
            requests to the same host, which is often the case here.
            cpu_count * 5 is used as default value to increase performance.
         """
+        {{/asyncio}}
 
         self.proxy = None
         """Proxy URL
