@@ -37,9 +37,9 @@ func TestOAuth2(t *testing.T) {
 	tokenSource := cfg.TokenSource(createContext(nil), &tok)
 	auth := context.WithValue(context.Background(), sw.ContextOAuth2, tokenSource)
 
-	newPet := (sw.Pet{Id: sw.Int64(12992), Name: sw.String("gopher"),
-		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.String("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.Int64(1), Name: sw.String("tag2")}}})
+	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: sw.PtrString("gopher"),
+		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
@@ -72,9 +72,9 @@ func TestBasicAuth(t *testing.T) {
 		Password: "f4k3p455",
 	})
 
-	newPet := (sw.Pet{Id: sw.Int64(12992), Name: sw.String("gopher"),
-		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.String("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.Int64(1), Name: sw.String("tag2")}}})
+	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: sw.PtrString("gopher"),
+		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(auth, newPet)
 
@@ -102,9 +102,9 @@ func TestBasicAuth(t *testing.T) {
 func TestAccessToken(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextAccessToken, "TESTFAKEACCESSTOKENISFAKE")
 
-	newPet := (sw.Pet{Id: sw.Int64(12992), Name: sw.String("gopher"),
-		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.String("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.Int64(1), Name: sw.String("tag2")}}})
+	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: sw.PtrString("gopher"),
+		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(nil, newPet)
 
@@ -132,9 +132,9 @@ func TestAccessToken(t *testing.T) {
 func TestAPIKeyNoPrefix(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{Key: "TEST123"})
 
-	newPet := (sw.Pet{Id: sw.Int64(12992), Name: sw.String("gopher"),
-		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.String("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.Int64(1), Name: sw.String("tag2")}}})
+	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: sw.PtrString("gopher"),
+		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
@@ -167,9 +167,9 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 func TestAPIKeyWithPrefix(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{Key: "TEST123", Prefix: "Bearer"})
 
-	newPet := (sw.Pet{Id: sw.Int64(12992), Name: sw.String("gopher"),
-		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.String("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.Int64(1), Name: sw.String("tag2")}}})
+	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: sw.PtrString("gopher"),
+		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(nil, newPet)
 
@@ -201,9 +201,9 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 
 func TestDefaultHeader(t *testing.T) {
 
-	newPet := (sw.Pet{Id: sw.Int64(12992), Name: sw.String("gopher"),
-		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.String("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.Int64(1), Name: sw.String("tag2")}}})
+	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: sw.PtrString("gopher"),
+		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
