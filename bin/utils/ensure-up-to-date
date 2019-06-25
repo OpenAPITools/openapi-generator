@@ -56,6 +56,7 @@ declare -a scripts=(
 "./bin/go-gin-petstore-server.sh"
 "./bin/groovy-petstore.sh"
 "./bin/apex-petstore.sh"
+"./bin/perl-petstore-all.sh"
 #"./bin/elm-petstore-all.sh"
 "./bin/meta-codegen.sh"
 # OTHERS

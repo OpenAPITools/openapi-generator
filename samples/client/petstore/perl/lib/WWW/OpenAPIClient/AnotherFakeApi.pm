@@ -53,10 +53,10 @@ sub new {
 #
 # To test special tags
 # 
-# @param Client $client client model (required)
+# @param Client $body client model (required)
 {
     my $params = {
-    'client' => {
+    'body' => {
         data_type => 'Client',
         description => 'client model',
         required => '1',
@@ -73,9 +73,9 @@ sub new {
 sub call_123_test_special_tags {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'client' is set
-    unless (exists $args{'client'}) {
-      croak("Missing the required parameter 'client' when calling call_123_test_special_tags");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling call_123_test_special_tags");
     }
 
     # parse inputs
@@ -95,8 +95,8 @@ sub call_123_test_special_tags {
 
     my $_body_data;
     # body params
-    if ( exists $args{'client'}) {
-        $_body_data = $args{'client'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
