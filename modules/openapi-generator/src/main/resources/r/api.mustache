@@ -79,7 +79,13 @@
       {{#hasBodyParam}}
       {{#bodyParams}}
       if (!missing(`{{paramName}}`)) {
+        {{#isListContainer}}
+        body.items = paste(unlist(lapply({{paramName}}, function(param){param$toJSONString()})), collapse = ",")
+        body <- paste0('[', body.items, ']')
+        {{/isListContainer}}
+        {{^isListContainer}}
         body <- `{{paramName}}`$toJSONString()
+        {{/isListContainer}}
       } else {
         body <- NULL
       }
