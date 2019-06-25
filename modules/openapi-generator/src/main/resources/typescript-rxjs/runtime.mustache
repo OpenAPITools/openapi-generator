@@ -55,30 +55,26 @@ export class Configuration {
  * This is the base class for all generated API classes.
  */
 export class BaseAPI {
-    private middleware: Middleware[];
+    private middleware: Middleware[] = [];
 
     constructor(protected configuration = new Configuration()) {
         this.middleware = configuration.middleware;
     }
 
-    withMiddleware<T extends BaseAPI>(this: T, ...middlewares: Middleware[]) {
+    withMiddleware = <T extends BaseAPI>(middlewares: Middleware[]) => {
         const next = this.clone<T>();
-        next.middleware = next.middleware.concat(...middlewares);
+        next.middleware = next.middleware.concat(middlewares);
         return next;
     }
 
-    withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware['pre']>) {
-        const middlewares = preMiddlewares.map((pre) => ({ pre }));
-        return this.withMiddleware<T>(...middlewares);
-    }
+    withPreMiddleware = <T extends BaseAPI>(preMiddlewares: Array<Middleware['pre']>) =>
+        this.withMiddleware<T>(preMiddlewares.map((pre) => ({ pre })));
 
-    withPostMiddleware<T extends BaseAPI>(this: T, ...postMiddlewares: Array<Middleware['post']>) {
-        const middlewares = postMiddlewares.map((post) => ({ post }));
-        return this.withMiddleware<T>(...middlewares);
-    }
+    withPostMiddleware = <T extends BaseAPI>(postMiddlewares: Array<Middleware['post']>) =>
+        this.withMiddleware<T>(postMiddlewares.map((post) => ({ post })));
 
-    protected request<T>(context: RequestOpts): Observable<T> {
-        return this.rxjsRequest(this.createRequestArgs(context)).pipe(
+    protected request = <T>(context: RequestOpts): Observable<T> => 
+        this.rxjsRequest(this.createRequestArgs(context)).pipe(
             map((res) => {
                 if (res.status >= 200 && res.status < 300) {
                     return res.response as T;
@@ -86,15 +82,14 @@ export class BaseAPI {
                 throw res;
             })
         );
-    }
 
-    private createRequestArgs(context: RequestOpts): RequestArgs {
+    private createRequestArgs = (context: RequestOpts): RequestArgs => {
         let url = this.configuration.basePath + context.path;
         if (context.query !== undefined && Object.keys(context.query).length !== 0) {
-            // only add the querystring to the URL if there are query parameters.
+            // only add the queryString to the URL if there are query parameters.
             // this is done to avoid urls ending with a '?' character which buggy webservers
             // do not handle correctly sometimes.
-            url += '?' + querystring(context.query);
+            url += '?' + queryString(context.query);
         }
         const body = context.body instanceof FormData ? context.body : JSON.stringify(context.body);
         const options = {
@@ -105,9 +100,9 @@ export class BaseAPI {
         return { url, options };
     }
 
-    private rxjsRequest(params: RequestContext): Observable<AjaxResponse> {
-        const preMiddlewares = this.middleware && this.middleware.filter((item) => item.pre);
-        const postMiddlewares = this.middleware && this.middleware.filter((item) => item.post);
+    private rxjsRequest = (params: RequestContext): Observable<AjaxResponse> => {
+        const preMiddlewares = this.middleware.filter((item) => item.pre);
+        const postMiddlewares = this.middleware.filter((item) => item.post);
 
         return of(params).pipe(
             map((args) => {
@@ -133,19 +128,13 @@ export class BaseAPI {
      * Create a shallow clone of `this` by constructing a new instance
      * and then shallow cloning data members.
      */
-    private clone<T extends BaseAPI>(this: T): T {
-        const constructor = this.constructor as any;
-        const next = new constructor(this.configuration);
-        next.middleware = this.middleware.slice();
-        return next;
-    }
+    private clone = <T extends BaseAPI>(): T => 
+        Object.assign(Object.create(Object.getPrototypeOf(this)), this)
 }
 
+// export for not being a breaking change
 export class RequiredError extends Error {
     name: 'RequiredError' = 'RequiredError';
-    constructor(public field: string, msg?: string) {
-        super(msg);
-    }
 }
 
 export const COLLECTION_FORMATS = {
@@ -175,17 +164,24 @@ export interface RequestOpts {
     body?: HttpBody;
 }
 
-export function querystring(params: HttpQuery): string {
-    return Object.keys(params)
-        .map((key) => {
-            const value = params[key];
-            if (value instanceof Array) {
-                return value.map((val) => `${encodeURIComponent(key)}=${encodeURIComponent(String(val))}`)
-                    .join('&');
-            }
-            return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
-        })
-        .join('&');
+const queryString = (params: HttpQuery): string => Object.keys(params)
+    .map((key) => {
+        const value = params[key];
+        if (value instanceof Array) {
+            return value.map((val) => `${encodeURIComponent(key)}=${encodeURIComponent(String(val))}`)
+                .join('&');
+        }
+        return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
+    })
+    .join('&');
+
+// alias fallback for not being a breaking change
+export const querystring = queryString;
+
+export const throwIfRequired = (params: {[key: string]: any}, key: string, nickname: string) => {
+    if (!params || params[key] === null || params[key] === undefined) {
+        throw new RequiredError(`Required parameter ${key} was null or undefined when calling ${nickname}.`);
+    }
 }
 
 export interface RequestContext extends RequestArgs {}
