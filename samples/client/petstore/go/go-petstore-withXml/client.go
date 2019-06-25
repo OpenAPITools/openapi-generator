@@ -161,6 +161,16 @@ func parameterToString(obj interface{}, collectionFormat string) string {
 	return fmt.Sprintf("%v", obj)
 }
 
+// helper for converting interface{} parameters to json strings
+func parameterToJson(obj interface{}) (string, error) {
+	jsonBuf, err := json.Marshal(obj)
+	if err != nil {
+		return "", err
+	}
+	return string(jsonBuf), err
+}
+
+
 // callAPI do the request.
 func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
 	return c.cfg.HTTPClient.Do(request)
