@@ -463,7 +463,8 @@ configuration = petstore_api.Configuration()
 configuration.username = 'YOUR_USERNAME'
 configuration.password = 'YOUR_PASSWORD'
 
-configuration.host = "http://petstore.swagger.io:80/v2" # Optional and default to http://petstore.swagger.io:80/v2
+# defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
 # create an instance of the API class
 api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
 number = 3.4 # float | None
