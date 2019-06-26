@@ -142,6 +142,9 @@
 #' }
 #' @importFrom R6 R6Class
 #' @importFrom caTools base64encode
+{{#useRlangExceptionHandling}}
+#' @importFrom rlang abort
+{{/useRlangExceptionHandling}}
 #' @export
 {{classname}} <- R6::R6Class(
   '{{classname}}',
