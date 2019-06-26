@@ -3,7 +3,9 @@ package {{package}};
 import java.util.Objects;
 {{#imports}}import {{import}};
 {{/imports}}
+{{^useOptional}}
 import org.openapitools.jackson.nullable.JsonNullable;
+{{/useOptional}}
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
@@ -14,14 +16,9 @@ import javax.validation.constraints.*;
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}
-{{#jdk8-no-delegate}}
+{{#useOptional}}
 import java.util.Optional;
-{{/jdk8-no-delegate}}
-{{^jdk8-no-delegate}}
-    {{#useOptional}}
-import java.util.Optional;
-    {{/useOptional}}
-{{/jdk8-no-delegate}}
+{{/useOptional}}
 {{#jackson}}
 {{#withXml}}
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;

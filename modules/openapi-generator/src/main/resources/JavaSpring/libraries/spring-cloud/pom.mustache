@@ -81,11 +81,13 @@
             <version>2.6.4</version>
         </dependency>
         {{/threetenbp}}
+        {{^useOptional}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>0.1.0</version>
         </dependency>
+        {{/useOptional}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

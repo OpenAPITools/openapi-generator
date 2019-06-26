@@ -4,7 +4,6 @@
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends ResourceSupport {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
-
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 
@@ -29,15 +28,15 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
   {{/gson}}
   {{#isContainer}}
   {{#useBeanValidation}}@Valid{{/useBeanValidation}}
-  private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
+  private {{>dataTypePojo}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
   {{/isContainer}}
   {{^isContainer}}
-  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  private {{>dataTypePojo}} {{name}}{{>defaultValuePojo}};
   {{/isContainer}}
 
   {{/vars}}
   {{#vars}}
-  public {{classname}} {{name}}({{>optionalDataType}} {{name}}) {
+  public {{classname}} {{name}}({{>dataTypePojo}} {{name}}) {
     this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
     return this;
   }
@@ -85,11 +84,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
   {{{vendorExtensions.extraAnnotation}}}
   {{/vendorExtensions.extraAnnotation}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
-{{#useBeanValidation}}{{#useOptional}}{{#required}}{{>beanValidation}}{{/required}}{{/useOptional}}{{/useBeanValidation}}{{#useBeanValidation}}{{^useOptional}}{{>beanValidation}}{{/useOptional}}{{/useBeanValidation}}  public {{>optionalDataTypeGetter}} {{getter}}() {
+{{#useBeanValidation}}{{#useOptional}}{{#required}}{{>beanValidation}}{{/required}}{{/useOptional}}{{/useBeanValidation}}{{#useBeanValidation}}{{^useOptional}}{{>beanValidation}}{{/useOptional}}{{/useBeanValidation}}  public {{>dataTypeGetter}} {{getter}}() {
     return {{name}};
   }
 
-  public void {{setter}}({{>nullableDataType}} {{name}}) {
+  public void {{setter}}({{>dataTypePojo}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
