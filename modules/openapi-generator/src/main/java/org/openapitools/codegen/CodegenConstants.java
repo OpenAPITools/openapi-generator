@@ -306,4 +306,7 @@ public class CodegenConstants {
     public static final String SNAPSHOT_VERSION = "snapshotVersion";
     public static final String SNAPSHOT_VERSION_DESC = "Uses a SNAPSHOT version.";
 
+    //CLI options for R language
+    public static final String EXCEPTION_ON_FAILURE = "returnExceptionOnFailure";
+    public static final String EXCEPTION_ON_FAILURE_DESC = "Throw an exception on non success response codes";
 }

@@ -166,7 +166,12 @@
 
       {{#requiredParams}}
       if (missing(`{{paramName}}`)) {
-         rlang::abort(message = "Missing required parameter `{{{paramName}}}`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `{{{paramName}}}`."))
+      {{#useDefaultExceptionHandling}}
+        stop("Missing required parameter `{{{paramName}}}`.")
+      {{/useDefaultExceptionHandling}}
+      {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Missing required parameter `{{{paramName}}}`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `{{{paramName}}}`."))
+      {{/useRlangExceptionHandling}}
       }
 
       {{/requiredParams}}
@@ -259,7 +264,12 @@
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "{{returnType}}", "package:{{packageName}}"),
           error = function(e){
-            rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+           {{#useDefaultExceptionHandling}}
+             stop("Failed to deserialize response")
+           {{/useDefaultExceptionHandling}}
+           {{#useRlangExceptionHandling}}
+             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+           {{/useRlangExceptionHandling}}
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
@@ -269,13 +279,38 @@
         {{! Returning the ApiResponse object with NULL object when the endpoint doesn't return anything}}
         ApiResponse$new(NULL, resp)
         {{/returnType}}
-      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 599) {
-        {{! Throwing error object containing the ApiException when status code is between 400 to 599}}
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+      {{#returnExceptionOnFailure}}
         errorMsg <- toString(content(resp))
         if(errorMsg == ""){
-          errorMsg <- "Api exception encountered."
+          errorMsg <- "Api client exception encountered."
         }
+        {{#useDefaultExceptionHandling}}
+        stop(errorMsg)
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
         rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        {{/useRlangExceptionHandling}}
+      {{/returnExceptionOnFailure}}
+      {{^returnExceptionOnFailure}}
+        ApiResponse$new("API client error", resp)
+      {{/returnExceptionOnFailure}}
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+      {{#returnExceptionOnFailure}}
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- "Api server exception encountered."
+        }
+        {{#useDefaultExceptionHandling}}
+        stop(errorMsg)
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        {{/useRlangExceptionHandling}}
+      {{/returnExceptionOnFailure}}
+      {{^returnExceptionOnFailure}}
+        ApiResponse$new("API server error", resp)
+      {{/returnExceptionOnFailure}}
       }
     }{{#hasMore}},{{/hasMore}}
     {{/operation}}

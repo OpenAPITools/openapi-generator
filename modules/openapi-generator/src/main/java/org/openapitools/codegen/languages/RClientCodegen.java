@@ -42,6 +42,20 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String testFolder = "tests/testthat";
+    protected boolean returnExceptionOnFailure = false;
+    protected String exceptionPackage = "default";
+    protected Map<String, String> exceptionPackages = new LinkedHashMap<String, String>();
+
+    public static final String EXCEPTION_PACKAGE = "exceptionPackage";
+    public static final String USE_DEFAULT_EXCEPTION = "useDefaultExceptionHandling";
+    public static final String USE_RLANG_EXCEPTION = "useRlangExceptionHandling";
+    public static final String DEFAULT = "default";
+    public static final String RLANG = "rlang";
+
+    protected boolean useDefaultExceptionHandling = false;
+    protected boolean useRlangExceptionHandling = false;
+
+
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -114,7 +128,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.EXCEPTION_ON_FAILURE, CodegenConstants.EXCEPTION_ON_FAILURE_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
 
+        exceptionPackages.put(DEFAULT, "user stop() for raising exceptions.");
+        exceptionPackages.put(RLANG, "uses rlang package for exceptions.");
+
+        CliOption exceptionPackage = new CliOption(EXCEPTION_PACKAGE, "library template (sub-template) to use");
+        exceptionPackage.setEnum(exceptionPackages);
+        exceptionPackage.setDefault(DEFAULT);
+        cliOptions.add(exceptionPackage);
     }
 
     @Override
@@ -133,8 +156,27 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             setPackageVersion("1.0.0");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.EXCEPTION_ON_FAILURE)) {
+            boolean booleanValue = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString());
+            setReturnExceptionOnFailure(booleanValue);
+        } else {
+            setReturnExceptionOnFailure(false);
+        }
+
+        if (additionalProperties.containsKey(EXCEPTION_PACKAGE)) {
+            String exceptionPackage = additionalProperties.get(EXCEPTION_PACKAGE).toString();
+            setExceptionPackageToUse(exceptionPackage);
+        } else {
+            setExceptionPackageToUse(DEFAULT);
+        }
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+        additionalProperties.put(CodegenConstants.EXCEPTION_ON_FAILURE, returnExceptionOnFailure);
+        
+        additionalProperties.put(USE_DEFAULT_EXCEPTION, this.useDefaultExceptionHandling);
+        additionalProperties.put(USE_RLANG_EXCEPTION, this.useRlangExceptionHandling);
+
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -384,6 +426,19 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
+
+    public void setReturnExceptionOnFailure(boolean returnExceptionOnFailure) {
+        this.returnExceptionOnFailure = returnExceptionOnFailure;
+    }
+
+    public void setExceptionPackageToUse(String exceptionPackage) {
+        if("default".equals(exceptionPackage))
+          this.useDefaultExceptionHandling = true;
+        if("rlang".equals(exceptionPackage))
+          this.useRlangExceptionHandling = true;
+    }
+
+
 
     @Override
     public String escapeQuotationMark(String input) {

@@ -250,7 +250,7 @@ StoreApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`order.id`)) {
-         rlang::abort(message = "Missing required parameter `order.id`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `order.id`."))
+        stop("Missing required parameter `order.id`.")
       }
 
       urlPath <- "/store/order/{orderId}"
@@ -268,12 +268,10 @@ StoreApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         ApiResponse$new(NULL, resp)
-      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 599) {
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- "Api exception encountered."
-        }
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
       }
     },
     GetInventory = function(...){
@@ -310,16 +308,14 @@ StoreApi <- R6::R6Class(
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "map(integer)", "package:petstore"),
           error = function(e){
-            rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+             stop("Failed to deserialize response")
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
-      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 599) {
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- "Api exception encountered."
-        }
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
       }
     },
     GetOrderById = function(order.id, ...){
@@ -340,7 +336,7 @@ StoreApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`order.id`)) {
-         rlang::abort(message = "Missing required parameter `order.id`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `order.id`."))
+        stop("Missing required parameter `order.id`.")
       }
 
       urlPath <- "/store/order/{orderId}"
@@ -360,16 +356,14 @@ StoreApi <- R6::R6Class(
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "Order", "package:petstore"),
           error = function(e){
-            rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+             stop("Failed to deserialize response")
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
-      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 599) {
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- "Api exception encountered."
-        }
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
       }
     },
     PlaceOrder = function(body, ...){
@@ -390,7 +384,7 @@ StoreApi <- R6::R6Class(
       headerParams <- c()
 
       if (missing(`body`)) {
-         rlang::abort(message = "Missing required parameter `body`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `body`."))
+        stop("Missing required parameter `body`.")
       }
 
       if (!missing(`body`)) {
@@ -412,16 +406,14 @@ StoreApi <- R6::R6Class(
         deserializedRespObj <- tryCatch(
           self$apiClient$deserialize(resp, "Order", "package:petstore"),
           error = function(e){
-            rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+             stop("Failed to deserialize response")
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
-      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 599) {
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- "Api exception encountered."
-        }
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
       }
     }
   )

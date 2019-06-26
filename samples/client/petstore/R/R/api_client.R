@@ -111,7 +111,7 @@ ApiClient  <- R6::R6Class(
         httr::DELETE(url, query = queryParams, headers, httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
       } else {
         errMsg <- "http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
-        rlang::abort(message = errMsg, .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = errMsg))
+        stop(errMsg)
       }
     },
 
