@@ -58,7 +58,7 @@ void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistac
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -77,7 +77,7 @@ void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Reques
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -96,7 +96,7 @@ void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -113,7 +113,7 @@ void UserApi::delete_user_handler(const Pistache::Rest::Request &request, Pistac
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -130,7 +130,7 @@ void UserApi::get_user_by_name_handler(const Pistache::Rest::Request &request, P
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -163,7 +163,7 @@ void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistach
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -178,7 +178,7 @@ void UserApi::logout_user_handler(const Pistache::Rest::Request &request, Pistac
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -200,7 +200,7 @@ void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistac
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
