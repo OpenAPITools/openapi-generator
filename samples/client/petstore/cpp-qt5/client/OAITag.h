@@ -68,4 +68,6 @@ private:
 
 }
 
+Q_DECLARE_METATYPE(OpenAPI::OAITag)
+
 #endif // OAITag_H

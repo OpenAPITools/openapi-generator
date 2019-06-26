@@ -67,19 +67,31 @@ ModelApiResponse <- R6::R6Class(
       }
     },
     toJSONString = function() {
-      sprintf(
-        '{
-           "code":
-             %d,
-           "type":
-             "%s",
-           "message":
-             "%s"
-        }',
-        self$`code`,
-        self$`type`,
+      jsoncontent <- c(
+        if (!is.null(self$`code`)) {
+        sprintf(
+        '"code":
+          %d
+                ',
+        self$`code`
+        )},
+        if (!is.null(self$`type`)) {
+        sprintf(
+        '"type":
+          "%s"
+                ',
+        self$`type`
+        )},
+        if (!is.null(self$`message`)) {
+        sprintf(
+        '"message":
+          "%s"
+                ',
         self$`message`
+        )}
       )
+      jsoncontent <- paste(jsoncontent, collapse = ",")
+      paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(ModelApiResponseJson) {
       ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson)

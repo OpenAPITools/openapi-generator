@@ -32,6 +32,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         405:
           content: {}
           description: Invalid input
@@ -56,6 +59,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid ID supplied
@@ -120,7 +126,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      description: Multiple tags can be provided with comma separated strings. Use
+        tag1, tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -173,6 +180,9 @@ paths:
           format: int64
           type: integer
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid pet value
@@ -332,7 +342,8 @@ paths:
       x-codegen-request-body-name: body
   /store/order/{order_id}:
     delete:
-      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+      description: For valid response try integer IDs with value < 1000. Anything
+        above 1000 or nonintegers will generate API errors
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
@@ -352,7 +363,8 @@ paths:
       tags:
       - store
     get:
-      description: For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+      description: For valid response try integer IDs with value <= 5 or > 10. Other
+        values will generated exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -1072,7 +1084,8 @@ paths:
       x-codegen-request-body-name: body
   /fake/body-with-file-schema:
     put:
-      description: For this test, the body for this request much reference a schema named `File`.
+      description: For this test, the body for this request much reference a schema
+        named `File`.
       operationId: testBodyWithFileSchema
       requestBody:
         content:
@@ -1350,17 +1363,11 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          breed:
-            type: string
-        type: object
+      - $ref: '#/components/schemas/Dog_allOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          declawed:
-            type: boolean
-        type: object
+      - $ref: '#/components/schemas/Cat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -2009,6 +2016,14 @@ components:
       xml:
         namespace: http://a.com/schema
         prefix: pre
+    Dog_allOf:
+      properties:
+        breed:
+          type: string
+    Cat_allOf:
+      properties:
+        declawed:
+          type: boolean
   securitySchemes:
     petstore_auth:
       flows:

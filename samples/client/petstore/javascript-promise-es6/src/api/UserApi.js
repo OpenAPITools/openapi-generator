@@ -84,7 +84,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     createUsersWithArrayInputWithHttpInfo(body) {
@@ -116,7 +116,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     createUsersWithArrayInput(body) {
@@ -129,7 +129,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     createUsersWithListInputWithHttpInfo(body) {
@@ -161,7 +161,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     createUsersWithListInput(body) {

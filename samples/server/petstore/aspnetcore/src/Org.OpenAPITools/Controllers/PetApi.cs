@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Org.OpenAPITools.Controllers
 { 
@@ -135,6 +136,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="404">Pet not found</response>
         [HttpGet]
         [Route("/v2/pet/{petId}")]
+        [Authorize(Policy = "api_key")]
         [ValidateModelState]
         [SwaggerOperation("GetPetById")]
         [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]

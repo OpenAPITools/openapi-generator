@@ -41,6 +41,11 @@ public class FakeClassnameTags123Api {
    * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public Client testClassname(Client body) throws ApiException {
     return testClassnameWithHttpInfo(body).getData();
@@ -52,6 +57,11 @@ public class FakeClassnameTags123Api {
    * @param body client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
   public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
     Object localVarPostBody = body;

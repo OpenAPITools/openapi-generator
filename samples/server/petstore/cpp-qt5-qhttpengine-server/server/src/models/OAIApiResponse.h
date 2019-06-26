@@ -76,4 +76,6 @@ private:
 
 }
 
+Q_DECLARE_METATYPE(OpenAPI::OAIApiResponse)
+
 #endif // OAIApiResponse_H

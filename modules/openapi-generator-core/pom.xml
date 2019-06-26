@@ -5,7 +5,9 @@
   <parent>
     <artifactId>openapi-generator-project</artifactId>
     <groupId>org.openapitools</groupId>
+    <!-- RELEASE_VERSION -->
     <version>4.1.0-SNAPSHOT</version>
+    <!-- /RELEASE_VERSION -->
     <relativePath>../..</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -24,6 +26,11 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
