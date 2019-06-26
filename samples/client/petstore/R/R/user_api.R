@@ -20,7 +20,6 @@
 #' \itemize{
 #' \item \emph{ @param } body \link[petstore:User]{ User }
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 0 | successful operation
 #'
@@ -37,7 +36,6 @@
 #' \itemize{
 #' \item \emph{ @param } body list( \link[petstore:User]{ User } )
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 0 | successful operation
 #'
@@ -54,7 +52,6 @@
 #' \itemize{
 #' \item \emph{ @param } body list( \link[petstore:User]{ User } )
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 0 | successful operation
 #'
@@ -71,7 +68,6 @@
 #' \itemize{
 #' \item \emph{ @param } username character
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 400 | Invalid username supplied
 #'
@@ -96,7 +92,6 @@
 #' \item \emph{ @param } username character
 #' \item \emph{ @returnType } \link[petstore:User]{ User }   \cr
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -128,7 +123,6 @@
 #' \item \emph{ @param } username character
 #' \item \emph{ @param } password character
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -153,7 +147,6 @@
 #'
 #' \itemize{
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 0 | successful operation
 #'
@@ -171,7 +164,6 @@
 #' \item \emph{ @param } username character
 #' \item \emph{ @param } body \link[petstore:User]{ User }
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 400 | Invalid user supplied
 #'
@@ -202,19 +194,7 @@
 #' #Create user
 #' api.instance <- UserApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$CreateUser(var.body),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$CreateUser(var.body)
 #'
 #'
 #' ####################  CreateUsersWithArrayInput  ####################
@@ -225,19 +205,7 @@
 #' #Creates list of users with given input array
 #' api.instance <- UserApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$CreateUsersWithArrayInput(var.body),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$CreateUsersWithArrayInput(var.body)
 #'
 #'
 #' ####################  CreateUsersWithListInput  ####################
@@ -248,19 +216,7 @@
 #' #Creates list of users with given input array
 #' api.instance <- UserApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$CreateUsersWithListInput(var.body),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$CreateUsersWithListInput(var.body)
 #'
 #'
 #' ####################  DeleteUser  ####################
@@ -271,19 +227,7 @@
 #' #Delete user
 #' api.instance <- UserApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$DeleteUser(var.username),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$DeleteUser(var.username)
 #'
 #'
 #' ####################  GetUserByName  ####################
@@ -294,21 +238,7 @@
 #' #Get user by user name
 #' api.instance <- UserApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$GetUserByName(var.username),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$GetUserByName(var.username)
 #'
 #'
 #' ####################  LoginUser  ####################
@@ -320,21 +250,7 @@
 #' #Logs user into the system
 #' api.instance <- UserApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$LoginUser(var.username, var.password),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$LoginUser(var.username, var.password)
 #'
 #'
 #' ####################  LogoutUser  ####################
@@ -344,19 +260,7 @@
 #' #Logs out current logged in user session
 #' api.instance <- UserApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$LogoutUser(),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$LogoutUser()
 #'
 #'
 #' ####################  UpdateUser  ####################
@@ -368,19 +272,7 @@
 #' #Updated user
 #' api.instance <- UserApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$UpdateUser(var.username, var.body),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$UpdateUser(var.username, var.body)
 #'
 #'
 #' }

@@ -20,7 +20,6 @@
 #' \itemize{
 #' \item \emph{ @param } order.id character
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 400 | Invalid ID supplied
 #'
@@ -43,7 +42,6 @@
 #'
 #' \itemize{
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -61,7 +59,6 @@
 #' \item \emph{ @param } order.id integer
 #' \item \emph{ @returnType } \link[petstore:Order]{ Order }   \cr
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -93,7 +90,6 @@
 #' \item \emph{ @param } body \link[petstore:Order]{ Order }
 #' \item \emph{ @returnType } \link[petstore:Order]{ Order }   \cr
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -124,19 +120,7 @@
 #' #Delete purchase order by ID
 #' api.instance <- StoreApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$DeleteOrder(var.order.id),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$DeleteOrder(var.order.id)
 #'
 #'
 #' ####################  GetInventory  ####################
@@ -149,21 +133,7 @@
 #' #Configure API key authorization: api_key
 #' api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
 #'
-#'result <- tryCatch(
-#'             api.instance$GetInventory(),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$GetInventory()
 #'
 #'
 #' ####################  GetOrderById  ####################
@@ -174,21 +144,7 @@
 #' #Find purchase order by ID
 #' api.instance <- StoreApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$GetOrderById(var.order.id),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$GetOrderById(var.order.id)
 #'
 #'
 #' ####################  PlaceOrder  ####################
@@ -199,21 +155,7 @@
 #' #Place an order for a pet
 #' api.instance <- StoreApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$PlaceOrder(var.body),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$PlaceOrder(var.body)
 #'
 #'
 #' }

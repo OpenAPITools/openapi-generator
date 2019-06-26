@@ -20,7 +20,6 @@
 #' \itemize{
 #' \item \emph{ @param } body \link[petstore:Pet]{ Pet }
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 405 | Invalid input
 #'
@@ -38,7 +37,6 @@
 #' \item \emph{ @param } pet.id integer
 #' \item \emph{ @param } api.key character
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 400 | Invalid pet value
 #'
@@ -56,7 +54,6 @@
 #' \item \emph{ @param } status Enum < [available, pending, sold] > 
 #' \item \emph{ @returnType } \link[petstore:Pet]{ list(Pet) }   \cr
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -81,7 +78,6 @@
 #' \item \emph{ @param } tags list( character )
 #' \item \emph{ @returnType } \link[petstore:Pet]{ list(Pet) }   \cr
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -106,7 +102,6 @@
 #' \item \emph{ @param } pet.id integer
 #' \item \emph{ @returnType } \link[petstore:Pet]{ Pet }   \cr
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -137,7 +132,6 @@
 #' \itemize{
 #' \item \emph{ @param } body \link[petstore:Pet]{ Pet }
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 400 | Invalid ID supplied
 #'
@@ -170,7 +164,6 @@
 #' \item \emph{ @param } name character
 #' \item \emph{ @param } status character
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 405 | Invalid input
 #'
@@ -190,7 +183,6 @@
 #' \item \emph{ @param } file data.frame
 #' \item \emph{ @returnType } \link[petstore:ApiResponse]{ ModelApiResponse }   \cr
 #'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
 #' \item status code : 200 | successful operation
 #'
@@ -217,19 +209,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#'result <- tryCatch(
-#'             api.instance$AddPet(var.body),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$AddPet(var.body)
 #'
 #'
 #' ####################  DeletePet  ####################
@@ -244,19 +224,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#'result <- tryCatch(
-#'             api.instance$DeletePet(var.pet.id, api.key=var.api.key),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$DeletePet(var.pet.id, api.key=var.api.key)
 #'
 #'
 #' ####################  FindPetsByStatus  ####################
@@ -270,21 +238,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#'result <- tryCatch(
-#'             api.instance$FindPetsByStatus(var.status),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$FindPetsByStatus(var.status)
 #'
 #'
 #' ####################  FindPetsByTags  ####################
@@ -298,21 +252,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#'result <- tryCatch(
-#'             api.instance$FindPetsByTags(var.tags),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$FindPetsByTags(var.tags)
 #'
 #'
 #' ####################  GetPetById  ####################
@@ -326,21 +266,7 @@
 #' #Configure API key authorization: api_key
 #' api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
 #'
-#'result <- tryCatch(
-#'             api.instance$GetPetById(var.pet.id),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$GetPetById(var.pet.id)
 #'
 #'
 #' ####################  UpdatePet  ####################
@@ -354,19 +280,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#'result <- tryCatch(
-#'             api.instance$UpdatePet(var.body),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$UpdatePet(var.body)
 #'
 #'
 #' ####################  UpdatePetWithForm  ####################
@@ -382,19 +296,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#'result <- tryCatch(
-#'             api.instance$UpdatePetWithForm(var.pet.id, name=var.name, status=var.status),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$UpdatePetWithForm(var.pet.id, name=var.name, status=var.status)
 #'
 #'
 #' ####################  UploadFile  ####################
@@ -410,21 +312,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#'result <- tryCatch(
-#'             api.instance$UploadFile(var.pet.id, additional.metadata=var.additional.metadata, file=var.file),
-#'             ApiException = function(ex) ex 
-#'          )
-#' # In case of error, print the error object 
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' result <- api.instance$UploadFile(var.pet.id, additional.metadata=var.additional.metadata, file=var.file)
 #'
 #'
 #' }

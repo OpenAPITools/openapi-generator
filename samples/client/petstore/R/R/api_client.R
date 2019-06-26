@@ -23,14 +23,14 @@
 #' @title ApiClient
 #' @description ApiClient Class
 #' @format An \code{R6Class} generator object
-#' @field basePath base url
-#' @field userAgent default user agent
+#' @field basePath Base url
+#' @field userAgent Default user agent
 #' @field defaultHeaders
-#' @field username username for HTTP basic authentication
-#' @field password password for HTTP basic authentication
+#' @field username Username for HTTP basic authentication
+#' @field password Password for HTTP basic authentication
 #' @field apiKeys
 #' @field accessToken
-#' @field timeout default timeout in seconds
+#' @field timeout Default timeout in seconds
 #' @importFrom httr add_headers accept timeout content
 #' @importFrom rlang abort
 #' @export
@@ -110,19 +110,19 @@ ApiClient  <- R6::R6Class(
       } else if (method == "DELETE") {
         httr::DELETE(url, query = queryParams, headers, httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
       } else {
-        errMsg <- "http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
+        errMsg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
         stop(errMsg)
       }
     },
 
-    # function to deserialize the content of api response to the given type.
+    # Deserialize the content of api response to the given type.
     deserialize = function(resp, returnType, pkgEnv) {
       respObj <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       self$deserializeObj(respObj, returnType, pkgEnv)
     },
 
 
-    # function to deserialize the response from jsonlite object based on the given type
+    # Deserialize the response from jsonlite object based on the given type
     # by handling complex and nested types by iterating recursively
     # Example returnTypes will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.,
 
@@ -130,7 +130,7 @@ ApiClient  <- R6::R6Class(
       returnObj <- NULL
       primitiveTypes <- c("character", "numeric", "integer", "logical", "complex")
 
-      # to handle the "map" type 
+      # To handle the "map" type 
       if (startsWith(returnType, "map(")) {
         innerReturnType <- regmatches(returnType, regexec(pattern = "map\\((.*)\\)", returnType))[[1]][2]
         returnObj <- lapply(names(obj), function(name) {
@@ -139,7 +139,7 @@ ApiClient  <- R6::R6Class(
         names(returnObj) <- names(obj)
       }
 
-      # to handle the "array" type
+      # To handle the "array" type
       else if (startsWith(returnType, "array[")) {
         innerReturnType <- regmatches(returnType, regexec(pattern = "array\\[(.*)\\]", returnType))[[1]][2]
         if (c(innerReturnType) %in% primitiveTypes) {
@@ -159,14 +159,14 @@ ApiClient  <- R6::R6Class(
         }
       }
 
-      # to handle model objects which are not array or map containers. Ex:"Pet"
+      # To handle model objects which are not array or map containers. Ex:"Pet"
       else if (exists(returnType, pkgEnv) && !(c(returnType) %in% primitiveTypes)) {
         returnType <- get(returnType, envir = as.environment(pkgEnv))
         returnObj <- returnType$new()
         returnObj$fromJSON(jsonlite::toJSON(obj, digits = NA))
       } 
 
-      # to handle primitive type
+      # To handle primitive type
       else {
         returnObj <- obj
       }

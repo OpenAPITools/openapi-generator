@@ -55,8 +55,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean useDefaultExceptionHandling = false;
     protected boolean useRlangExceptionHandling = false;
 
-
-
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -134,7 +132,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         exceptionPackages.put(DEFAULT, "user stop() for raising exceptions.");
         exceptionPackages.put(RLANG, "uses rlang package for exceptions.");
 
-        CliOption exceptionPackage = new CliOption(EXCEPTION_PACKAGE, "library template (sub-template) to use");
+        CliOption exceptionPackage = new CliOption(EXCEPTION_PACKAGE, "Specify the exception handling packages");
         exceptionPackage.setEnum(exceptionPackages);
         exceptionPackage.setDefault(DEFAULT);
         cliOptions.add(exceptionPackage);
@@ -201,7 +199,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
-        supportingFiles.add(new SupportingFile("api_exception.mustache", File.separator + "R", "api_exception.R"));
     }
 
     @Override
@@ -434,11 +431,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setExceptionPackageToUse(String exceptionPackage) {
         if("default".equals(exceptionPackage))
           this.useDefaultExceptionHandling = true;
-        if("rlang".equals(exceptionPackage))
+        if("rlang".equals(exceptionPackage)){
+          supportingFiles.add(new SupportingFile("api_exception.mustache", File.separator + "R", "api_exception.R"));
           this.useRlangExceptionHandling = true;
+        }
     }
-
-
 
     @Override
     public String escapeQuotationMark(String input) {
