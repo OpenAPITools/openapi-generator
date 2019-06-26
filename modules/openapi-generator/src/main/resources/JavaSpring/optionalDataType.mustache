@@ -1,1 +1,1 @@
-{{#isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}{{^isContainer}}{{#required}}{{{dataType}}}{{/required}}{{^required}}Optional<{{{dataType}}}>{{/required}}{{/isContainer}}
+{{#useOptional}}{{#required}}{{{dataType}}}{{/required}}{{^required}}Optional<{{{dataType}}}>{{/required}}{{/useOptional}}{{^useOptional}}{{{dataType}}}{{/useOptional}}
