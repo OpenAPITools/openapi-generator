@@ -11,4 +11,4 @@ sidebar_label: r
 |packageVersion|R package version.| |1.0.0|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |returnExceptionOnFailure|Throw an exception on non success response codes| |false|
-|exceptionPackage|Specify the exception handling packages|<dl><dt>**default**</dt><dd>user stop() for raising exceptions.</dd><dt>**rlang**</dt><dd>uses rlang package for exceptions.</dd><dl>|default|
+|exceptionPackage|Specify the exception handling package|<dl><dt>**default**</dt><dd>Use stop() for raising exceptions.</dd><dt>**rlang**</dt><dd>Use rlang package for exceptions.</dd><dl>|default|

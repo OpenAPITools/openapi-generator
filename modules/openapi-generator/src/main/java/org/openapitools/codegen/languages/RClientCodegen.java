@@ -129,10 +129,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.EXCEPTION_ON_FAILURE, CodegenConstants.EXCEPTION_ON_FAILURE_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 
-        exceptionPackages.put(DEFAULT, "user stop() for raising exceptions.");
-        exceptionPackages.put(RLANG, "uses rlang package for exceptions.");
+        exceptionPackages.put(DEFAULT, "Use stop() for raising exceptions.");
+        exceptionPackages.put(RLANG, "Use rlang package for exceptions.");
 
-        CliOption exceptionPackage = new CliOption(EXCEPTION_PACKAGE, "Specify the exception handling packages");
+        CliOption exceptionPackage = new CliOption(EXCEPTION_PACKAGE, "Specify the exception handling package");
         exceptionPackage.setEnum(exceptionPackages);
         exceptionPackage.setDefault(DEFAULT);
         cliOptions.add(exceptionPackage);
@@ -429,9 +429,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public void setExceptionPackageToUse(String exceptionPackage) {
-        if("default".equals(exceptionPackage))
+        if(DEFAULT.equals(exceptionPackage))
           this.useDefaultExceptionHandling = true;
-        if("rlang".equals(exceptionPackage)){
+        if(RLANG.equals(exceptionPackage)){
           supportingFiles.add(new SupportingFile("api_exception.mustache", File.separator + "R", "api_exception.R"));
           this.useRlangExceptionHandling = true;
         }
