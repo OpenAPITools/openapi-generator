@@ -245,7 +245,7 @@ public class CodeGenMojo extends AbstractMojo {
      * To treat a document strictly against the spec.
      */
     @Parameter(name = "strictSpec", property = "openapi.generator.maven.plugin.strictSpec", required = false)
-    private Boolean strictSpecBehavior;
+    private Boolean strictSpec;
 
     /**
      * To generate alias (array, map) as model
@@ -471,8 +471,8 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setValidateSpec(!skipValidateSpec);
             }
 
-            if (strictSpecBehavior != null) {
-                configurator.setStrictSpecBehavior(strictSpecBehavior);
+            if (strictSpec != null) {
+                configurator.setStrictSpecBehavior(strictSpec);
             }
 
             if (logToStderr != null) {

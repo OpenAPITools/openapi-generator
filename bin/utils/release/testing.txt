@@ -1,0 +1,17 @@
+This is a test simple:
+<!-- RELEASE_VERSION -->3.0.1<!-- /RELEASE_VERSION -->
+
+Testing with other data:
+<!-- RELEASE_VERSION -->
+Version 1.2.3
+<!-- /RELEASE_VERSION -->
+
+Testing with -SNAPSHOT data:
+<!-- RELEASE_VERSION -->
+Version 2.3.4-SNAPSHOT
+<!-- /RELEASE_VERSION -->
+
+Testing with a value not to be replaced:
+<!-- RELEASE_VERSION -->
+Version 3.2.2
+<!-- /RELEASE_VERSION -->

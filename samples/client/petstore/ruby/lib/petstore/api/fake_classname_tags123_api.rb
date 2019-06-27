@@ -10,7 +10,6 @@ OpenAPI Generator version: 4.1.0-SNAPSHOT
 
 =end
 
-require 'uri'
 require 'cgi'
 
 module Petstore

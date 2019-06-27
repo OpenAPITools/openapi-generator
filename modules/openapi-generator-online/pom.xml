@@ -3,7 +3,9 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
+        <!-- RELEASE_VERSION -->
         <version>4.1.0-SNAPSHOT</version>
+        <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
     <artifactId>openapi-generator-online</artifactId>

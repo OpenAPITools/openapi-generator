@@ -1,5 +1,7 @@
 package org.openapitools.codegen;
 
+import static org.testng.Assert.assertTrue;
+
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -8,12 +10,15 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.testng.Assert;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TestUtils {
 
@@ -54,5 +59,15 @@ public class TestUtils {
         Optional<WrittenTemplateBasedFile> optional = generator.getTemplateBasedFiles().stream().filter(f -> defaultApiFilename.equals(f.getOutputFilename())).findFirst();
         Assert.assertTrue(optional.isPresent());
         return optional.get();
+    }
+
+    public static void ensureContainsFile(Map<String, String> generatedFiles, File root, String filename) {
+        File file = new File(root, filename);
+        String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
+        if (!generatedFiles.containsKey(absoluteFilename)) {
+            Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" +
+                    generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
+        }
+        assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not fould in the list of generated files");
     }
 }

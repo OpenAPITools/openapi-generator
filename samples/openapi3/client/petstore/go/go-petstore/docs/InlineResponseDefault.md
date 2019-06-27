@@ -1,6 +1,7 @@
 # InlineResponseDefault
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **String** | [**Foo**](Foo.md) |  | [optional] 
