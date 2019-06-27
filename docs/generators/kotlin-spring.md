@@ -27,4 +27,5 @@ sidebar_label: kotlin-spring
 |serviceImplementation|generate stub service implementations that extends service interfaces. If this is set to true service interfaces will also be generated| |false|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
 |reactive|use coroutines for reactive behavior| |false|
+|interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dl>|spring-boot|
