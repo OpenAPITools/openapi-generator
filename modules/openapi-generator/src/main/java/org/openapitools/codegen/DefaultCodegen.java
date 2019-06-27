@@ -42,7 +42,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
-import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -1756,10 +1756,10 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
-                        if (allParents.contains(modelName) && supportsMultipleInheritance) {
+                        if (allParents.contains(ref) && supportsMultipleInheritance) {
                             // multiple inheritance
                             addProperties(allProperties, allRequired, refSchema);
-                        } else if (parentName != null && parentName.equals(modelName) && supportsInheritance) {
+                        } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
                             // single inheritance
                             addProperties(allProperties, allRequired, refSchema);
                         } else {
@@ -2210,6 +2210,7 @@ public class DefaultCodegen implements CodegenConfig {
             //    property.baseType = getSimpleRef(p.get$ref());
             //}
             // --END of revision
+            property.isModel = ModelUtils.isModel(p);
             setNonArrayMapProperty(property, type);
         }
 
@@ -2932,7 +2933,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         codegenParameter.jsonSchema = Json.pretty(parameter);
 
-        if (GeneratorProperties.getProperty("debugParser") != null) {
+        if (GlobalSettings.getProperty("debugParser") != null) {
             LOGGER.info("working on Parameter " + parameter.getName());
             LOGGER.info("JSON schema: " + codegenParameter.jsonSchema);
         }
@@ -3034,6 +3035,9 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.dataType = parameterDataType;
             } else {
                 codegenParameter.dataType = codegenProperty.dataType;
+            }
+            if (ModelUtils.isObjectSchema(parameterSchema)) {
+                codegenProperty.complexType = codegenParameter.dataType;
             }
             codegenParameter.dataFormat = codegenProperty.dataFormat;
             codegenParameter.required = codegenProperty.required;
@@ -3221,6 +3225,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @return data type
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
+        if (parameter.get$ref() != null) {
+            String refName = ModelUtils.getSimpleRef(parameter.get$ref());
+            return toModelName(refName);
+        }
         return null;
     }
 
@@ -4652,8 +4660,16 @@ public class DefaultCodegen implements CodegenConfig {
                 schema.setAdditionalProperties(inner);
             }
             CodegenProperty codegenProperty = fromProperty("property", schema);
-            // only support 1-dimension map only
+
             imports.add(codegenProperty.baseType);
+
+            CodegenProperty innerCp = codegenProperty;
+            while (innerCp != null) {
+                if (innerCp.complexType != null) {
+                    imports.add(innerCp.complexType);
+                }
+                innerCp = innerCp.items;
+            }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
                 codegenParameter.baseName = "request_body";
@@ -4707,7 +4723,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.items = codegenProperty.items;
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
-            codegenParameter.baseType = getSchemaType(arraySchema);
+            codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isListContainer = Boolean.TRUE;
 

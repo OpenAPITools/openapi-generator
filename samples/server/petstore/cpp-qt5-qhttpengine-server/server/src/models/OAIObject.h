@@ -15,6 +15,7 @@
 
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QMetaType>
 
 namespace OpenAPI {
 
@@ -62,5 +63,7 @@ private :
 };
 
 }
+
+Q_DECLARE_METATYPE(OpenAPI::OAIObject)
 
 #endif // OAI_OBJECT_H

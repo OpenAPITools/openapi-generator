@@ -64,6 +64,7 @@ Then, publish to a [local feed](https://docs.microsoft.com/en-us/nuget/hosting-p
 ## Getting Started
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;

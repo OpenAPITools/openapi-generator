@@ -27,7 +27,9 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +59,11 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     public NodeJSServerCodegen() {
         super();
+
+        // mark the generator as deprecated in the documentation
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         // set the output folder here
         outputFolder = "generated-code/nodejs";
@@ -142,7 +149,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getName() {
-        return "nodejs-server";
+        return "nodejs-server-deprecated";
     }
 
     /**
@@ -153,7 +160,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getHelp() {
-        return "Generates a nodejs server library using the swagger-tools project.  By default, " +
+        return "[DEPRECATED] Generates a nodejs server library using the swagger-tools project.  By default, " +
                 "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";
     }
 
@@ -303,6 +310,8 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         message.append(System.lineSeparator()).append(System.lineSeparator())
                 .append("=======================================================================================")
                 .append(System.lineSeparator())
+                .append("IMPORTANT: The nodejs-server generator has been deprecated.")
+                .append(System.lineSeparator())
                 .append("Currently, Node.js server doesn't work as its dependency doesn't support OpenAPI Spec3.")
                 .append(System.lineSeparator())
                 .append("For further details, see https://github.com/OpenAPITools/openapi-generator/issues/34")
@@ -340,7 +349,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         }
         writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        if (GeneratorProperties.getProperty("noservice") == null) {
+        if (GlobalSettings.getProperty("noservice") == null) {
             apiTemplateFiles.put(
                     "service.mustache",   // the template to use
                     "Service.js");       // the extension for each file to write

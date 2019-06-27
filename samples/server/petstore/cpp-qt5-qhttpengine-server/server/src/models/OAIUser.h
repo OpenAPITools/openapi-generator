@@ -116,4 +116,6 @@ private:
 
 }
 
+Q_DECLARE_METATYPE(OpenAPI::OAIUser)
+
 #endif // OAIUser_H

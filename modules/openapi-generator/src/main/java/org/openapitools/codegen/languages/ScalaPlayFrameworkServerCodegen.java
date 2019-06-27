@@ -358,7 +358,15 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return camelize(property.name);
+        return camelizeStripReservedEscape(property.name);
+    }
+
+    public String camelizeStripReservedEscape(String str) {
+        if (str.startsWith("`") && str.endsWith("`")) {
+            str = str.substring(1, str.length() - 1);
+        }
+
+        return camelize(str);
     }
 
     @Override

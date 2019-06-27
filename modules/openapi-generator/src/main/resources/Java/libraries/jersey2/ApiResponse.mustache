@@ -4,6 +4,10 @@ package {{invokerPackage}};
 
 import java.util.List;
 import java.util.Map;
+{{#caseInsensitiveResponseHeaders}}
+import java.util.Map.Entry;		
+import java.util.TreeMap;
+{{/caseInsensitiveResponseHeaders}}
 
 /**
  * API response returned by API call.
@@ -30,7 +34,13 @@ public class ApiResponse<T> {
      */
     public ApiResponse(int statusCode, Map<String, List<String>> headers, T data) {
         this.statusCode = statusCode;
-        this.headers = headers;
+        {{#caseInsensitiveResponseHeaders}}
+        Map<String, List<String>> responseHeaders = new TreeMap<String, List<String>>(String.CASE_INSENSITIVE_ORDER);
+        for(Entry<String, List<String>> entry : headers.entrySet()){
+           responseHeaders.put(entry.getKey().toLowerCase(), entry.getValue());
+        }
+        {{/caseInsensitiveResponseHeaders}}
+        this.headers = {{#caseInsensitiveResponseHeaders}}responseHeaders{{/caseInsensitiveResponseHeaders}}{{^caseInsensitiveResponseHeaders}}headers{{/caseInsensitiveResponseHeaders}};
         this.data = data;
     }
 

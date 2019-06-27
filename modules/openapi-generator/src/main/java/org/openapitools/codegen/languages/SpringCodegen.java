@@ -21,7 +21,6 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -117,7 +116,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly));
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
-        cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface", java8));
+        updateJava8CliOptions();
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)", reactive));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
@@ -140,6 +139,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
 
+    }
+
+    private void updateJava8CliOptions() {
+        CliOption option = cliOptions.stream().filter(o -> JAVA_8.equals(o.getOpt())).findFirst()
+                .orElseThrow(() -> new RuntimeException("Missing java8 option"));
+        Map<String, String> java8ModeOptions = option.getEnum();
+        java8ModeOptions.put("true", "Use Java 8 classes such as Base64. Use java8 default interface when a responseWrapper is used");
     }
 
     @Override
