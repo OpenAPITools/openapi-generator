@@ -44,6 +44,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
@@ -407,6 +408,18 @@ public class JavaClientCodegenTest {
         CodegenModel cm = codegen.fromModel("OtherObj", other);
         Assert.assertEquals(cm.getDataType(), "Object");
         Assert.assertEquals(cm.getClassname(), "OtherObj");
+    }
+
+    @Test
+    public void testBearerAuth() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/pingBearerAuth.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        
+        List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
+        Assert.assertEquals(security.size(), 1);
+        Assert.assertEquals(security.get(0).isBasic, Boolean.TRUE);
+        Assert.assertEquals(security.get(0).isBasicBasic, Boolean.FALSE);
+        Assert.assertEquals(security.get(0).isBasicBearer, Boolean.TRUE);
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
