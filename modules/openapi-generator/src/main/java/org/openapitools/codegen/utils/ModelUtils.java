@@ -176,17 +176,14 @@ public class ModelUtils {
                         if (parameter.getSchema() != null) {
                             visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
                         }
+                        visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
                     }
                 }
 
                 //RequestBody:
                 RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
-                if (requestBody != null && requestBody.getContent() != null) {
-                    for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
-                        if (e.getValue().getSchema() != null) {
-                            visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
-                        }
-                    }
+                if (requestBody != null) {
+                    visitContent(openAPI, requestBody.getContent(), visitor, visitedSchemas);
                 }
 
                 //Responses:
@@ -194,19 +191,14 @@ public class ModelUtils {
                     for (ApiResponse r : operation.getResponses().values()) {
                         ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
                         if (apiResponse != null) {
-                            if (apiResponse.getContent() != null) {
-                                for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
-                                    if (e.getValue().getSchema() != null) {
-                                        visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
-                                    }
-                                }
-                            }
+                            visitContent(openAPI, apiResponse.getContent(), visitor, visitedSchemas);
                             if (apiResponse.getHeaders() != null) {
                                 for (Entry<String, Header> e : apiResponse.getHeaders().entrySet()) {
                                     Header header = getReferencedHeader(openAPI, e.getValue());
                                     if (header.getSchema() != null) {
                                         visitSchema(openAPI, header.getSchema(), e.getKey(), visitedSchemas, visitor);
                                     }
+                                    visitContent(openAPI, header.getContent(), visitor, visitedSchemas);
                                 }
                             }
                         }
@@ -223,6 +215,16 @@ public class ModelUtils {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private static void visitContent(OpenAPI openAPI, Content content, OpenAPISchemaVisitor visitor, List<String> visitedSchemas) {
+        if (content != null) {
+            for (Entry<String, MediaType> e : content.entrySet()) {
+                if (e.getValue().getSchema() != null) {
+                    visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
                 }
             }
         }
