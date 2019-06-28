@@ -16,26 +16,16 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.media.*;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import io.swagger.v3.oas.models.media.Schema;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
