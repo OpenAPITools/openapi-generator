@@ -32,7 +32,7 @@ resources=modules/openapi-generator/src/main/resources/python-flask
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t $resources -i $input -g python-flask -o $out_folder -c bin/supportPython2.json -D service $@"
+ags="generate -t $resources -i $input -g python-flask -o $out_folder -c bin/supportPython2.json $@"
 
 rm -rf $out_folder/.openapi*
 rm -rf $out_folder/openapi_server

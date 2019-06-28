@@ -99,7 +99,7 @@
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     this.createUsersWithArrayInputWithHttpInfo = function(body) {
@@ -133,7 +133,7 @@
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.createUsersWithArrayInput = function(body) {
@@ -146,7 +146,7 @@
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     this.createUsersWithListInputWithHttpInfo = function(body) {
@@ -180,7 +180,7 @@
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.createUsersWithListInput = function(body) {

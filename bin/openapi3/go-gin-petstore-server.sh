@@ -35,7 +35,7 @@ rm -rf $STUB_DIR
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 
-ags="generate -t modules/openapi-generator/src/main/resources/go-gin-server -i $SPEC -g $GENERATOR -o $STUB_DIR -DpackageName=petstoreserver --additional-properties hideGenerationTimestamp=true -Dservice $@"
+ags="generate -t modules/openapi-generator/src/main/resources/go-gin-server -i $SPEC -g $GENERATOR -o $STUB_DIR --additional-properties packageName=petstoreserver --additional-properties hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags
 #!/usr/bin/env bash

@@ -10,7 +10,6 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 
 =end
 
-require 'uri'
 require 'cgi'
 
 module Petstore
@@ -104,7 +103,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.delete_pet"
       end
       # resource path
-      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
+      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -291,7 +290,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.get_pet_by_id"
       end
       # resource path
-      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
+      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -415,7 +414,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.update_pet_with_form"
       end
       # resource path
-      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
+      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -481,7 +480,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.upload_file"
       end
       # resource path
-      local_var_path = '/pet/{petId}/uploadImage'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
+      local_var_path = '/pet/{petId}/uploadImage'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -553,7 +552,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'required_file' when calling PetApi.upload_file_with_required_file"
       end
       # resource path
-      local_var_path = '/fake/{petId}/uploadImageWithRequiredFile'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
+      local_var_path = '/fake/{petId}/uploadImageWithRequiredFile'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
 
       # query parameters
       query_params = opts[:query_params] || {}

@@ -54,6 +54,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
+    public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -90,6 +91,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useGzipFeature = false;
     protected boolean useRuntimeException = false;
     protected boolean useReflectionEqualsHashCode = false;
+    protected boolean caseInsensitiveResponseHeaders = false;
     protected String authFolder;
 
     public JavaClientCodegen() {
@@ -122,6 +124,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
         cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x', '9.x' (default)"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
+        cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
+
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.8.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.8.x");
@@ -230,6 +234,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(USE_REFLECTION_EQUALS_HASHCODE)) {
             this.setUseReflectionEqualsHashCode(convertPropertyToBooleanAndWriteBack(USE_REFLECTION_EQUALS_HASHCODE));
+        }
+
+        if (additionalProperties.containsKey(CASE_INSENSITIVE_RESPONSE_HEADERS)) {
+            this.setUseReflectionEqualsHashCode(convertPropertyToBooleanAndWriteBack(CASE_INSENSITIVE_RESPONSE_HEADERS));
         }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
@@ -657,6 +665,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setUseReflectionEqualsHashCode(boolean useReflectionEqualsHashCode) {
         this.useReflectionEqualsHashCode = useReflectionEqualsHashCode;
+    }
+
+    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
+        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
     final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");

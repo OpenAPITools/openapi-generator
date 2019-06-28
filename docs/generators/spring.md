@@ -35,7 +35,7 @@ sidebar_label: spring
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date (if you really have a good reason not to use threetenbp</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets &quot;java8&quot; to true</dd><dt>**threetenbp**</dt><dd>Backport of JSR310 (preferred for jdk &lt; 1.8)</dd><dl>|threetenbp|
-|java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd><dl>|false|
+|java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64. Use java8 default interface when a responseWrapper is used</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd><dl>|false|
 |disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -48,7 +48,6 @@ sidebar_label: spring
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |singleContentTypes|Whether to select only one produces/consumes content-type by operation.| |false|
-|java8|use java8 default interface| |true|
 |async|use async Callable controllers| |false|
 |reactive|wrap responses in Mono/Flux Reactor types (spring-boot only)| |false|
 |responseWrapper|wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)| |null|

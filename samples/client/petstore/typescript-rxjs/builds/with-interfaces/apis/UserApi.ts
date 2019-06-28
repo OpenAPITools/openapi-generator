@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, RequiredError, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, throwIfRequired, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
 import {
     User,
 } from '../models';
@@ -56,22 +56,21 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Create user
      */
-    createUser(requestParameters: CreateUserRequest): Observable<void> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUser.');
-        }
+    createUser = (requestParameters: CreateUserRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'body', 'createUser');
 
-        const queryParameters: HttpQuery = {};
+        const headers: HttpHeaders = {
+            'Content-Type': 'application/json',
+        };
 
-        const headerParameters: HttpHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
+        const query: HttpQuery = {
+        };
 
         return this.request<void>({
             path: `/user`,
             method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
             body: requestParameters.body,
         });
     }
@@ -79,22 +78,21 @@ export class UserApi extends BaseAPI {
     /**
      * Creates list of users with given input array
      */
-    createUsersWithArrayInput(requestParameters: CreateUsersWithArrayInputRequest): Observable<void> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithArrayInput.');
-        }
+    createUsersWithArrayInput = (requestParameters: CreateUsersWithArrayInputRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'body', 'createUsersWithArrayInput');
 
-        const queryParameters: HttpQuery = {};
+        const headers: HttpHeaders = {
+            'Content-Type': 'application/json',
+        };
 
-        const headerParameters: HttpHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
+        const query: HttpQuery = {
+        };
 
         return this.request<void>({
             path: `/user/createWithArray`,
             method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
             body: requestParameters.body,
         });
     }
@@ -102,22 +100,21 @@ export class UserApi extends BaseAPI {
     /**
      * Creates list of users with given input array
      */
-    createUsersWithListInput(requestParameters: CreateUsersWithListInputRequest): Observable<void> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithListInput.');
-        }
+    createUsersWithListInput = (requestParameters: CreateUsersWithListInputRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'body', 'createUsersWithListInput');
 
-        const queryParameters: HttpQuery = {};
+        const headers: HttpHeaders = {
+            'Content-Type': 'application/json',
+        };
 
-        const headerParameters: HttpHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
+        const query: HttpQuery = {
+        };
 
         return this.request<void>({
             path: `/user/createWithList`,
             method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
             body: requestParameters.body,
         });
     }
@@ -126,88 +123,82 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Delete user
      */
-    deleteUser(requestParameters: DeleteUserRequest): Observable<void> {
-        if (requestParameters.username === null || requestParameters.username === undefined) {
-            throw new RequiredError('username','Required parameter requestParameters.username was null or undefined when calling deleteUser.');
-        }
+    deleteUser = (requestParameters: DeleteUserRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'username', 'deleteUser');
 
-        const queryParameters: HttpQuery = {};
+        const headers: HttpHeaders = {
+        };
 
-        const headerParameters: HttpHeaders = {};
+        const query: HttpQuery = {
+        };
 
         return this.request<void>({
-            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
+            path: `/user/{username}`.replace(`{username}`, encodeURIComponent(String(requestParameters.username))),
             method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
         });
     }
 
     /**
      * Get user by user name
      */
-    getUserByName(requestParameters: GetUserByNameRequest): Observable<User> {
-        if (requestParameters.username === null || requestParameters.username === undefined) {
-            throw new RequiredError('username','Required parameter requestParameters.username was null or undefined when calling getUserByName.');
-        }
+    getUserByName = (requestParameters: GetUserByNameRequest): Observable<User> => {
+        throwIfRequired(requestParameters, 'username', 'getUserByName');
 
-        const queryParameters: HttpQuery = {};
+        const headers: HttpHeaders = {
+        };
 
-        const headerParameters: HttpHeaders = {};
+        const query: HttpQuery = {
+        };
 
         return this.request<User>({
-            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
+            path: `/user/{username}`.replace(`{username}`, encodeURIComponent(String(requestParameters.username))),
             method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
         });
     }
 
     /**
      * Logs user into the system
      */
-    loginUser(requestParameters: LoginUserRequest): Observable<string> {
-        if (requestParameters.username === null || requestParameters.username === undefined) {
-            throw new RequiredError('username','Required parameter requestParameters.username was null or undefined when calling loginUser.');
-        }
+    loginUser = (requestParameters: LoginUserRequest): Observable<string> => {
+        throwIfRequired(requestParameters, 'username', 'loginUser');
+        throwIfRequired(requestParameters, 'password', 'loginUser');
 
-        if (requestParameters.password === null || requestParameters.password === undefined) {
-            throw new RequiredError('password','Required parameter requestParameters.password was null or undefined when calling loginUser.');
-        }
+        const headers: HttpHeaders = {
+        };
 
-        const queryParameters: HttpQuery = {};
-
-        if (requestParameters.username !== undefined && requestParameters.username !== null) {
-            queryParameters['username'] = requestParameters.username;
-        }
-
-        if (requestParameters.password !== undefined && requestParameters.password !== null) {
-            queryParameters['password'] = requestParameters.password;
-        }
-
-        const headerParameters: HttpHeaders = {};
+        const query: HttpQuery = {
+            ...(requestParameters.username && { 'username': requestParameters.username }),
+            ...(requestParameters.password && { 'password': requestParameters.password }),
+        };
 
         return this.request<string>({
             path: `/user/login`,
             method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
         });
     }
 
     /**
      * Logs out current logged in user session
      */
-    logoutUser(): Observable<void> {
-        const queryParameters: HttpQuery = {};
+    logoutUser = (): Observable<void> => {
 
-        const headerParameters: HttpHeaders = {};
+        const headers: HttpHeaders = {
+        };
+
+        const query: HttpQuery = {
+        };
 
         return this.request<void>({
             path: `/user/logout`,
             method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
         });
     }
 
@@ -215,26 +206,22 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Updated user
      */
-    updateUser(requestParameters: UpdateUserRequest): Observable<void> {
-        if (requestParameters.username === null || requestParameters.username === undefined) {
-            throw new RequiredError('username','Required parameter requestParameters.username was null or undefined when calling updateUser.');
-        }
+    updateUser = (requestParameters: UpdateUserRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'username', 'updateUser');
+        throwIfRequired(requestParameters, 'body', 'updateUser');
 
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updateUser.');
-        }
+        const headers: HttpHeaders = {
+            'Content-Type': 'application/json',
+        };
 
-        const queryParameters: HttpQuery = {};
-
-        const headerParameters: HttpHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
+        const query: HttpQuery = {
+        };
 
         return this.request<void>({
-            path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
+            path: `/user/{username}`.replace(`{username}`, encodeURIComponent(String(requestParameters.username))),
             method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
             body: requestParameters.body,
         });
     }

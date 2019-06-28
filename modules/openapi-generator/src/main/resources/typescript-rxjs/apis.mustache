@@ -1,7 +1,7 @@
 // tslint:disable
 {{>licenseInfo}}
 import { Observable } from 'rxjs';
-import { BaseAPI, RequiredError, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, throwIfRequired, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
 {{#imports.0}}
 import {
     {{#imports}}
@@ -37,105 +37,83 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}}({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    {{nickname}} = ({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
         {{#allParams}}
         {{#required}}
-        if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
-            throw new RequiredError('{{paramName}}','Required parameter requestParameters.{{paramName}} was null or undefined when calling {{nickname}}.');
-        }
-
+        throwIfRequired(requestParameters, '{{paramName}}', '{{nickname}}');
         {{/required}}
         {{/allParams}}
-        const queryParameters: HttpQuery = {};
 
-        {{#queryParams}}
-        {{#isListContainer}}
-        if (requestParameters.{{paramName}}) {
+        const headers: HttpHeaders = {
+            {{#bodyParam}}
+            {{^consumes}}
+            'Content-Type': 'application/json',
+            {{/consumes}}
+            {{#consumes.0}}
+            'Content-Type': '{{{mediaType}}}',
+            {{/consumes.0}}
+            {{/bodyParam}}
+            {{#headerParams}}
+            {{#isListContainer}}
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) }),
+            {{/isListContainer}}
+            {{^isListContainer}}
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': String(requestParameters.{{paramName}}) }),
+            {{/isListContainer}}
+            {{/headerParams}}
+            {{#authMethods}}
+            {{#isBasic}}
+            ...(this.configuration.username && this.configuration.password && { Authorization: `Basic ${btoa(this.configuration.username + ':' + this.configuration.password)}` }),
+            {{/isBasic}}
+            {{#isApiKey}}
+            {{#isKeyInHeader}}
+            ...(this.configuration.apiKey && { '{{keyParamName}}': this.configuration.apiKey('{{keyParamName}}') }), // {{name}} authentication
+            {{/isKeyInHeader}}
+            {{/isApiKey}}
+            {{#isOAuth}}
+            // oauth required
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('{{name}}', [{{#scopes}}'{{{scope}}}'{{^-last}}, {{/-last}}{{/scopes}}])
+                    : this.configuration.accessToken)
+            }),
+            {{/isOAuth}}
+            {{/authMethods}}
+        };
+
+        const query: HttpQuery = {
+            {{#queryParams}}
+            {{#isListContainer}}
             {{#isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}} }),
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']) }),
             {{/isCollectionFormatMulti}}
-        }
-
-        {{/isListContainer}}
-        {{^isListContainer}}
-        if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
+            {{/isListContainer}}
+            {{^isListContainer}}
             {{#isDateTime}}
-            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString() }),
             {{/isDateTime}}
             {{^isDateTime}}
             {{#isDate}}
-            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString() }),
             {{/isDate}}
             {{^isDate}}
-            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}} }),
             {{/isDate}}
             {{/isDateTime}}
-        }
+            {{/isListContainer}}
+            {{/queryParams}}
+            {{#authMethods}}
+            {{#isApiKey}}
+            {{#isKeyInQuery}}
+            ...(this.configuration.apiKey && { '{{keyParamName}}': this.configuration.apiKey && this.configuration.apiKey('{{keyParamName}}') }), // {{name}} authentication
+            {{/isKeyInQuery}}
+            {{/isApiKey}}
+            {{/authMethods}}
+        };
 
-        {{/isListContainer}}
-        {{/queryParams}}
-        const headerParameters: HttpHeaders = {};
-
-        {{#bodyParam}}
-        {{^consumes}}
-        headerParameters['Content-Type'] = 'application/json';
-
-        {{/consumes}}
-        {{#consumes.0}}
-        headerParameters['Content-Type'] = '{{{mediaType}}}';
-
-        {{/consumes.0}}
-        {{/bodyParam}}
-        {{#headerParams}}
-        {{#isListContainer}}
-        if (requestParameters.{{paramName}}) {
-            headerParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
-        }
-
-        {{/isListContainer}}
-        {{^isListContainer}}
-        if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
-            headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
-        }
-
-        {{/isListContainer}}
-        {{/headerParams}}
-        {{#authMethods}}
-        {{#isBasic}}
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
-        }
-
-        {{/isBasic}}
-        {{#isApiKey}}
-        {{#isKeyInHeader}}
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["{{keyParamName}}"] = this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
-        }
-
-        {{/isKeyInHeader}}
-        {{#isKeyInQuery}}
-        if (this.configuration && this.configuration.apiKey) {
-            queryParameters["{{keyParamName}}"] = this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
-        }
-
-        {{/isKeyInQuery}}
-        {{/isApiKey}}
-        {{#isOAuth}}
-        if (this.configuration && this.configuration.accessToken) {
-            // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
-        }
-
-        {{/isOAuth}}
-        {{/authMethods}}
         {{#hasFormParams}}
         const formData = new FormData();
         {{/hasFormParams}}
@@ -148,7 +126,7 @@ export class {{classname}} extends BaseAPI {
             })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formData.append('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+            formData.append('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
             {{/isCollectionFormatMulti}}
         }
 
@@ -161,10 +139,10 @@ export class {{classname}} extends BaseAPI {
         {{/isListContainer}}
         {{/formParams}}
         return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
-            path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+            path: `{{{path}}}`{{#pathParams}}.replace({{=<% %>=}}`{<%baseName%>}`<%={{ }}=%>, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
             {{#hasBodyParam}}
             {{#bodyParam}}
             {{#isContainer}}
@@ -196,9 +174,9 @@ export class {{classname}} extends BaseAPI {
 {{#allParams}}
 {{#isEnum}}
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum {{operationIdCamelCase}}{{enumName}} {
 {{#allowableValues}}
     {{#enumVars}}

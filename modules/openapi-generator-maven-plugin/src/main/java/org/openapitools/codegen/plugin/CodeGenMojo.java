@@ -54,7 +54,7 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
@@ -245,7 +245,7 @@ public class CodeGenMojo extends AbstractMojo {
      * To treat a document strictly against the spec.
      */
     @Parameter(name = "strictSpec", property = "openapi.generator.maven.plugin.strictSpec", required = false)
-    private Boolean strictSpecBehavior;
+    private Boolean strictSpec;
 
     /**
      * To generate alias (array, map) as model
@@ -471,8 +471,8 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setValidateSpec(!skipValidateSpec);
             }
 
-            if (strictSpecBehavior != null) {
-                configurator.setStrictSpecBehavior(strictSpecBehavior);
+            if (strictSpec != null) {
+                configurator.setStrictSpecBehavior(strictSpec);
             }
 
             if (logToStderr != null) {
@@ -562,28 +562,28 @@ public class CodeGenMojo extends AbstractMojo {
 
             // Set generation options
             if (null != generateApis && generateApis) {
-                GeneratorProperties.setProperty(CodegenConstants.APIS, "");
+                GlobalSettings.setProperty(CodegenConstants.APIS, "");
             } else {
-                GeneratorProperties.clearProperty(CodegenConstants.APIS);
+                GlobalSettings.clearProperty(CodegenConstants.APIS);
             }
 
             if (null != generateModels && generateModels) {
-                GeneratorProperties.setProperty(CodegenConstants.MODELS, modelsToGenerate);
+                GlobalSettings.setProperty(CodegenConstants.MODELS, modelsToGenerate);
             } else {
-                GeneratorProperties.clearProperty(CodegenConstants.MODELS);
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
             }
 
             if (null != generateSupportingFiles && generateSupportingFiles) {
-                GeneratorProperties.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
+                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
             } else {
-                GeneratorProperties.clearProperty(CodegenConstants.SUPPORTING_FILES);
+                GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES);
             }
 
-            GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.toString());
-            GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
-            GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
-            GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
-            GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.toString());
+            GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.toString());
+            GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
+            GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
+            GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
+            GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.toString());
 
             if (configOptions != null) {
                 // Retained for backwards-compataibility with configOptions -> instantiation-types
@@ -656,13 +656,13 @@ public class CodeGenMojo extends AbstractMojo {
             if (environmentVariables != null) {
 
                 for (String key : environmentVariables.keySet()) {
-                    originalEnvironmentVariables.put(key, GeneratorProperties.getProperty(key));
+                    originalEnvironmentVariables.put(key, GlobalSettings.getProperty(key));
                     String value = environmentVariables.get(key);
                     if (value == null) {
                         // don't put null values
                         value = "";
                     }
-                    GeneratorProperties.setProperty(key, value);
+                    GlobalSettings.setProperty(key, value);
                     configurator.addSystemProperty(key, value);
                 }
             }
@@ -748,9 +748,9 @@ public class CodeGenMojo extends AbstractMojo {
         // when running the plugin multiple consecutive times with different configurations.
         for (Map.Entry<String, String> entry : originalEnvironmentVariables.entrySet()) {
             if (entry.getValue() == null) {
-                GeneratorProperties.clearProperty(entry.getKey());
+                GlobalSettings.clearProperty(entry.getKey());
             } else {
-                GeneratorProperties.setProperty(entry.getKey(), entry.getValue());
+                GlobalSettings.setProperty(entry.getKey(), entry.getValue());
             }
         }
     }

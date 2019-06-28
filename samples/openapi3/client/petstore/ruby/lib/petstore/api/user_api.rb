@@ -10,7 +10,6 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 
 =end
 
-require 'uri'
 require 'cgi'
 
 module Petstore
@@ -226,7 +225,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.delete_user"
       end
       # resource path
-      local_var_path = '/user/{username}'.sub('{' + 'username' + '}', CGI.escape(username.to_s))
+      local_var_path = '/user/{username}'.sub('{' + 'username' + '}', CGI.escape(username.to_s).gsub('%2F', '/'))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -284,7 +283,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.get_user_by_name"
       end
       # resource path
-      local_var_path = '/user/{username}'.sub('{' + 'username' + '}', CGI.escape(username.to_s))
+      local_var_path = '/user/{username}'.sub('{' + 'username' + '}', CGI.escape(username.to_s).gsub('%2F', '/'))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -472,7 +471,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'user' when calling UserApi.update_user"
       end
       # resource path
-      local_var_path = '/user/{username}'.sub('{' + 'username' + '}', CGI.escape(username.to_s))
+      local_var_path = '/user/{username}'.sub('{' + 'username' + '}', CGI.escape(username.to_s).gsub('%2F', '/'))
 
       # query parameters
       query_params = opts[:query_params] || {}
