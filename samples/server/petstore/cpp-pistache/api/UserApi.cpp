@@ -23,7 +23,7 @@ using namespace org::openapitools::server::model;
 
 UserApi::UserApi(std::shared_ptr<Pistache::Rest::Router> rtr) { 
     router = rtr;
-};
+}
 
 void UserApi::init() {
     setupRoutes();
@@ -170,7 +170,7 @@ void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistach
     }
 
 }
-void UserApi::logout_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void UserApi::logout_user_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
 
     try {
       this->logout_user(response);
@@ -208,7 +208,7 @@ void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistac
 
 }
 
-void UserApi::user_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void UserApi::user_api_default_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
     response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 
