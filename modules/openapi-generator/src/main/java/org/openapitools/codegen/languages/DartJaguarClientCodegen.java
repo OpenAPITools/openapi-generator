@@ -16,19 +16,26 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.io.FilenameUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.media.*;
-
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import io.swagger.v3.oas.models.media.Schema;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -38,8 +45,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String IS_FORMAT_PROTO = "protoFormat";
     private static final String CLIENT_NAME = "clientName";
-
-    private String clientName = "JaguarApiGen";
 
     private static Set<String> modelToIgnore = new HashSet<>();
     private HashMap<String, String> protoTypeMapping = new HashMap<>();
@@ -67,7 +72,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         cliOptions.add(new CliOption(SERIALIZATION_FORMAT, "Choose serialization format JSON or PROTO is supported"));
-        cliOptions.add(new CliOption(CLIENT_NAME, "Name of the generated API client"));
 
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
@@ -146,13 +150,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             //not set, use to be passed to template
             additionalProperties.put(PUB_NAME, pubName);
         }
-
-        if (additionalProperties.containsKey(CLIENT_NAME)) {
-            this.setClientName((String) additionalProperties.get(CLIENT_NAME));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CLIENT_NAME, clientName);
-        }
+        additionalProperties.put(CLIENT_NAME, org.openapitools.codegen.utils.StringUtils.camelize(pubName));
 
         if (additionalProperties.containsKey(PUB_VERSION)) {
             this.setPubVersion((String) additionalProperties.get(PUB_VERSION));
@@ -198,10 +196,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
-    }
-
-    public void setClientName(String name) {
-        this.clientName = name;
     }
 
     @Override
