@@ -170,15 +170,7 @@ public class ModelUtils {
         if (allOperations != null) {
             for (Operation operation : allOperations) {
                 //Params:
-                if (operation.getParameters() != null) {
-                    for (Parameter p : operation.getParameters()) {
-                        Parameter parameter = getReferencedParameter(openAPI, p);
-                        if (parameter.getSchema() != null) {
-                            visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
-                        }
-                        visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
-                    }
-                }
+                visitParameters(openAPI, operation.getParameters(), visitor, visitedSchemas);
 
                 //RequestBody:
                 RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
@@ -216,6 +208,21 @@ public class ModelUtils {
                         }
                     }
                 }
+            }
+        }
+        //Params:
+        visitParameters(openAPI, pathItem.getParameters(), visitor, visitedSchemas);
+    }
+
+    private static void visitParameters(OpenAPI openAPI, List<Parameter> parameters, OpenAPISchemaVisitor visitor,
+            List<String> visitedSchemas) {
+        if (parameters != null) {
+            for (Parameter p : parameters) {
+                Parameter parameter = getReferencedParameter(openAPI, p);
+                if (parameter.getSchema() != null) {
+                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                }
+                visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
             }
         }
     }

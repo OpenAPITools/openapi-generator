@@ -328,6 +328,30 @@ paths:
                 application/json:
                   schema:
                     $ref: "#/components/schemas/SomeObj26"
+  /some/p27/{q}:
+    parameters:
+     - name: q
+       in: path
+       schema:
+         $ref: "#/components/schemas/Param27"
+    post:
+      operationId: op27
+      responses:
+        '200':
+          description: OK
+  /some/p28/{q}:
+    parameters:
+     - name: q
+       in: path
+       content:
+         application/json:
+           schema:
+             $ref: "#/components/schemas/Param28"
+    post:
+      operationId: op27
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     UnusedObj1:
@@ -604,6 +628,18 @@ components:
         q1:
           type: string
         q2:
+          type: string
+    Param27:
+      type: string
+      enum:
+        - alpha
+        - beta
+    Param28:
+      type: object
+      properties:
+        r1:
+          type: string
+        r2:
           type: string
     SomeObjShared:
       type: object
