@@ -1860,8 +1860,10 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
-                String name = toModelName(ModelUtils.getSimpleRef(e.getValue())); // e.g e.getValue => #/components/schemas/Dog
-                discriminator.getMappedModels().add(new MappedModel(e.getKey(), name));
+                String nameOrRef = e.getValue();
+                String name = nameOrRef.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(nameOrRef) : nameOrRef;
+                String modelName = toModelName(name);
+                discriminator.getMappedModels().add(new MappedModel(e.getKey(), modelName));
             }
         } else {
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
