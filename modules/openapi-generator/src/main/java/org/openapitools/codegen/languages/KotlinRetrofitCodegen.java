@@ -1,7 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
- * Copyright 2019 kroegerama
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,19 +32,6 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class KotlinRetrofitCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(KotlinRetrofitCodegen.class);
-
-//    private class EnumCaseLambda implements Mustache.Lambda {
-//        @Override
-//        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-//            String text = fragment.execute();
-//            text = camelize(text);
-//            text = toVarName(text);
-//            if (text.length() > 0) {
-//                text = text.substring(0, 1).toUpperCase(Locale.ROOT) + text.substring(1);
-//            }
-//            writer.write(text);
-//        }
-//    }
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String COLLECTION_TYPE = "collectionType";
@@ -114,12 +99,6 @@ public class KotlinRetrofitCodegen extends DefaultCodegen implements CodegenConf
         apiTemplateFiles.put("api.mustache", ".kt");
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
-
-//        additionalProperties.put("enumcase", new EnumCaseLambda());
-//        CamelCaseLambda camelCase = new CamelCaseLambda();
-//        camelCase.generator(this);
-//        camelCase.escapeAsParamName(true);
-//        additionalProperties.put("camelcase", camelCase);
 
         initCliOptions();
     }
