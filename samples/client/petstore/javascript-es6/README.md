@@ -22,7 +22,7 @@ Then install it via:
 npm install open_api_petstore --save
 ```
 
-Finaly, you need to build the module:
+Finally, you need to build the module:
 
 ```shell
 npm run build
@@ -48,7 +48,7 @@ To use the link you just defined in your project, switch to the directory you wa
 npm link /path/to/<JAVASCRIPT_CLIENT_DIR>
 ```
 
-Finaly, you need to build the module:
+Finally, you need to build the module:
 
 ```shell
 npm run build
