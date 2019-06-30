@@ -1,10 +1,9 @@
-# OpenApiPetstore.ReadOnlyFirst
+# OpenApiPetstore.CatAllOf
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**bar** | **String** |  | [optional] 
-**baz** | **String** |  | [optional] 
+**declawed** | **Boolean** |  | [optional] 
 
 
