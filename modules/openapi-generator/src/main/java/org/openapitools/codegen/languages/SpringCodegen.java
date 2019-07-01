@@ -65,6 +65,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String API_FIRST = "apiFirst";
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
+    public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
 
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
@@ -87,6 +88,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean virtualService = false;
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
+    protected boolean unhandledException = false;
 
     public SpringCodegen() {
         super();
@@ -121,6 +123,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,"Use Optional container for optional parameters", useOptional));
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
+        cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -269,6 +272,12 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
             this.setReturnSuccessCode(Boolean.valueOf(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
+        }
+
+        if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
+            this.setUnhandledException(Boolean.valueOf(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
+        } else {
+            additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
         }
 
         typeMapping.put("file", "Resource");
@@ -669,6 +678,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         return this.configPackage;
     }
 
+    public boolean isUnhandledException() {
+        return unhandledException;
+    }
+
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
     }
@@ -717,6 +730,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setReturnSuccessCode(boolean returnSuccessCode) {
         this.returnSuccessCode = returnSuccessCode;
+    }
+
+    public void setUnhandledException(boolean unhandledException) {
+        this.unhandledException = unhandledException;
     }
 
     @Override
