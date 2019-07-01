@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 **map_string** | **Hash&lt;String, String&gt;** |  | [optional] 
 **map_number** | **Hash&lt;String, Float&gt;** |  | [optional] 
 **map_integer** | **Hash&lt;String, Integer&gt;** |  | [optional] 
-**map_boolean** | **Hash&lt;String, BOOLEAN&gt;** |  | [optional] 
+**map_boolean** | **Hash&lt;String, Boolean&gt;** |  | [optional] 
 **map_array_integer** | **Hash&lt;String, Array&lt;Integer&gt;&gt;** |  | [optional] 
 **map_array_anytype** | **Hash&lt;String, Array&lt;Object&gt;&gt;** |  | [optional] 
 **map_map_string** | **Hash&lt;String, Hash&lt;String, String&gt;&gt;** |  | [optional] 

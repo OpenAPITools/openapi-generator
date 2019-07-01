@@ -82,11 +82,11 @@ instance HasBodyParam CreateXmlItem XmlItem
 -- | @application/xml@
 instance Consumes CreateXmlItem MimeXML
 -- | @text/xml@
-instance Consumes CreateXmlItem MimeTextxml
+instance Consumes CreateXmlItem MimeTextXml
 -- | @text/xml; charset=utf-8@
-instance Consumes CreateXmlItem MimeTextxmlCharsetutf8
+instance Consumes CreateXmlItem MimeTextXmlCharsetutf8
 -- | @text/xml; charset=utf-16@
-instance Consumes CreateXmlItem MimeTextxmlCharsetutf16
+instance Consumes CreateXmlItem MimeTextXmlCharsetutf16
 -- | @application/xml; charset=utf-8@
 instance Consumes CreateXmlItem MimeXmlCharsetutf8
 -- | @application/xml; charset=utf-16@

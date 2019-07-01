@@ -26,6 +26,7 @@ import tornado.gen
 from petstore_api.configuration import Configuration
 import petstore_api.models
 from petstore_api import rest
+from petstore_api.exceptions import ApiValueError
 
 
 class ApiClient(object):
@@ -408,7 +409,7 @@ class ApiClient(object):
                                            _request_timeout=_request_timeout,
                                            body=body)
         else:
-            raise ValueError(
+            raise ApiValueError(
                 "http method must be `GET`, `HEAD`, `OPTIONS`,"
                 " `POST`, `PATCH`, `PUT` or `DELETE`."
             )
@@ -525,7 +526,7 @@ class ApiClient(object):
                 elif auth_setting['in'] == 'query':
                     querys.append((auth_setting['key'], auth_setting['value']))
                 else:
-                    raise ValueError(
+                    raise ApiValueError(
                         'Authentication token must be in `query` or `header`'
                     )
 

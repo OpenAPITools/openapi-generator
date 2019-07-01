@@ -59,7 +59,7 @@ module Petstore
         :'map_string' => :'Hash<String, String>',
         :'map_number' => :'Hash<String, Float>',
         :'map_integer' => :'Hash<String, Integer>',
-        :'map_boolean' => :'Hash<String, BOOLEAN>',
+        :'map_boolean' => :'Hash<String, Boolean>',
         :'map_array_integer' => :'Hash<String, Array<Integer>>',
         :'map_array_anytype' => :'Hash<String, Array<Object>>',
         :'map_map_string' => :'Hash<String, Hash<String, String>>',
