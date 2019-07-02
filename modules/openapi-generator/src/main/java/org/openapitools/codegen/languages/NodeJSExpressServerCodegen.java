@@ -42,49 +42,21 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class NodeJSExpressServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSExpressServerCodegen.class);
-    protected String implFolder = "service";
     public static final String EXPORTED_NAME = "exportedName";
     public static final String SERVER_PORT = "serverPort";
 
     protected String apiVersion = "1.0.0";
-    protected String projectName = "openapi-server";
     protected String defaultServerPort = "8080";
-
-    protected boolean googleCloudFunctions;
+    protected String implFolder = "service";
+    protected String projectName = "openapi-server";
     protected String exportedName;
 
     public NodeJSExpressServerCodegen() {
         super();
 
-        // set the output folder here
-        outputFolder = "generated-code/nodejs";
+        outputFolder = "generated-code/nodejs-express-server";
+        embeddedTemplateDir = templateDir = "nodejs-express-server";
 
-        /*
-         * Models.  You can write model files using the modelTemplateFiles map.
-         * if you want to create one template for file, you can do so here.
-         * for multiple files for model, just put another entry in the `modelTemplateFiles` with
-         * a different extension
-         */
-        modelTemplateFiles.clear();
-
-        /*
-         * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
-         * as with models, add multiple entries with different extensions for multiple files per
-         * class
-         */
-        apiTemplateFiles.put(
-                "controller.mustache",   // the template to use
-                ".js");       // the extension for each file to write
-
-        /*
-         * Template Location.  This is the location which templates will be read from.  The generator
-         * will use the resource stream to attempt to read the templates.
-         */
-        embeddedTemplateDir = templateDir = "nodejs";
-
-        /*
-         * Reserved words.  Override this with reserved words specific to your language
-         */
         setReservedWordsLowerCase(
                 Arrays.asList(
                         "break", "case", "class", "catch", "const", "continue", "debugger",
@@ -94,19 +66,39 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                         "void", "while", "with", "yield")
         );
 
-        /*
-         * Additional Properties.  These values can be passed to the templates and
-         * are available in models, apis, and supporting files
-         */
         additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("implFolder", implFolder);
 
-        supportingFiles.add(new SupportingFile("writer.mustache", ("utils").replace(".", File.separator), "writer.js"));
+        // no model file
+        modelTemplateFiles.clear();
 
-        cliOptions.add(new CliOption(EXPORTED_NAME,
-                "When the generated code will be deployed to Google Cloud Functions, this option can be "
-                        + "used to update the name of the exported function. By default, it refers to the "
-                        + "basePath. This does not affect normal standalone nodejs server code."));
+        apiTemplateFiles.put("controller.mustache", ".js");
+        apiTemplateFiles.put("service.mustache", ".js");
+
+        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("app.mustache", "", "app.js"));
+        supportingFiles.add(new SupportingFile("config.mustache", "", "config.js"));
+        supportingFiles.add(new SupportingFile("expressServer.mustache", "", "expressServer.js"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.js"));
+        supportingFiles.add(new SupportingFile("logger.mustache", "", "logger.js"));
+        supportingFiles.add(new SupportingFile("eslintrc.mustache", "", ".eslintrc.json"));
+
+        // utils folder
+        supportingFiles.add(new SupportingFile("utils" + File.separator + "openapiRouter.mustache", "utils", "openapiRouter.js"));
+        supportingFiles.add(new SupportingFile("utils" + File.separator + "swaggerRouter.mustache", "utils", "swaggerRouter.js"));
+        supportingFiles.add(new SupportingFile("utils" + File.separator + "writer.mustache", "utils", "writer.js"));
+
+        // controllers folder
+        supportingFiles.add(new SupportingFile("controllers" + File.separator + "index.mustache", "controllers", "index.js"));
+        supportingFiles.add(new SupportingFile("controllers" + File.separator + "Controller.mustache", "controllers", "Controller.js"));
+        // service folder
+        supportingFiles.add(new SupportingFile("service" + File.separator + "index.mustache", "service", "index.js"));
+        supportingFiles.add(new SupportingFile("service" + File.separator + "Service.mustache", "service", "Service.js"));
+
+        // do not overwrite if the file is already present
+        writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+
         cliOptions.add(new CliOption(SERVER_PORT,
                 "TCP port to listen on."));
     }
@@ -154,14 +146,13 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         if (name.length() == 0) {
             return "DefaultController";
         }
-        return camelize(name);
+        return camelize(name) + "Controller";
     }
 
     @Override
     public String toApiFilename(String name) {
         return toApiName(name);
     }
-
 
     @Override
     public String apiFilename(String templateName, String tag) {
@@ -171,13 +162,20 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             String stringToMatch = File.separator + "controllers" + File.separator;
             String replacement = File.separator + implFolder + File.separator;
             result = result.replaceAll(Pattern.quote(stringToMatch), replacement);
+            
+            stringToMatch = "Controller.js";
+            replacement = "Service.js";
+            result = result.replaceAll(Pattern.quote(stringToMatch), replacement);
         }
         return result;
     }
 
-    private String implFileFolder(String output) {
+/*
+    @Override
+    protected String implFileFolder(String output) {
         return outputFolder + File.separator + output + File.separator + apiPackage().replace('.', File.separatorChar);
     }
+*/
 
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
@@ -200,14 +198,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
-    }
-
-    public boolean getGoogleCloudFunctions() {
-        return googleCloudFunctions;
-    }
-
-    public void setGoogleCloudFunctions(boolean value) {
-        googleCloudFunctions = value;
     }
 
     public String getExportedName() {
@@ -304,22 +294,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         //   "controllers",
         //   "controller.js")
         // );
-        supportingFiles.add(new SupportingFile("openapi.mustache",
-                "api",
-                "openapi.yaml")
-        );
-        if (getGoogleCloudFunctions()) {
-            writeOptional(outputFolder, new SupportingFile("index-gcf.mustache", "", "index.js"));
-        } else {
-            writeOptional(outputFolder, new SupportingFile("index.mustache", "", "index.js"));
-        }
-        writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        if (GeneratorProperties.getProperty("noservice") == null) {
-            apiTemplateFiles.put(
-                    "service.mustache",   // the template to use
-                    "Service.js");       // the extension for each file to write
-        }
     }
 
     @Override
@@ -349,21 +323,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             }
         }
 
-        if (getGoogleCloudFunctions()) {
-            // Note that Cloud Functions don't allow customizing port name, simply checking host
-            // is good enough.
-            if (!host.endsWith(".cloudfunctions.net")) {
-                LOGGER.warn("Host " + host + " seems not matching with cloudfunctions.net URL.");
-            }
-            if (!additionalProperties.containsKey(EXPORTED_NAME)) {
-                if (basePath == null || basePath.equals("/")) {
-                    LOGGER.warn("Cannot find the exported name properly. Using 'openapi' as the exported name");
-                    basePath = "/openapi";
-                }
-                additionalProperties.put(EXPORTED_NAME, basePath.substring(1));
-            }
-        }
-
+/*
         // need vendor extensions for x-swagger-router-controller
         Paths paths = openAPI.getPaths();
         if (paths != null) {
@@ -388,6 +348,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                 }
             }
         }
+*/
     }
 
     @Override

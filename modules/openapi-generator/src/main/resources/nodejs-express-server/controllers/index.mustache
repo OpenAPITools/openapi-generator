@@ -1,0 +1,11 @@
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+const {{classname}} = require('./{{classname}}');
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+const Test = require('./Test');
+
+module.exports = {
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+  {{classname}},
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+  Test,
+};

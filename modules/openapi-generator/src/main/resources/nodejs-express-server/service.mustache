@@ -1,44 +1,45 @@
-'use strict';
+/* eslint-disable no-unused-vars */
+const Service = require('./Service');
+
+class {{{classname}}}Service {
 
 {{#operations}}
 {{#operation}}
-
-/**
- {{#summary}}
- * {{{summary}}}
- {{/summary}}
- {{#notes}}
- * {{{notes}}}
- {{/notes}}
- *
-{{#allParams}}
- * {{paramName}} {{{dataType}}} {{{description}}}{{^required}} (optional){{/required}}
-{{/allParams}}
-{{^returnType}}
- * no response value expected for this operation
-{{/returnType}}
-{{#returnType}}
- * returns {{{returnType}}}
-{{/returnType}}
- **/
-exports.{{{operationId}}} = function({{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
-  return new Promise(function(resolve, reject) {
+  /**
+   {{#summary}}
+   * {{{summary}}}
+   {{/summary}}
+   {{#notes}}
+   * {{{notes}}}
+   {{/notes}}
+   *
+  {{#allParams}}
+   * {{paramName}} {{{dataType}}} {{{description}}}{{^required}} (optional){{/required}}
+  {{/allParams}}
+  {{^returnType}}
+   * no response value expected for this operation
+  {{/returnType}}
   {{#returnType}}
-    var examples = {};
-    {{#examples}}
-    examples['{{contentType}}'] = {{{example}}};
-    {{/examples}}
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-    {{/returnType}}
-    {{^returnType}}
-    resolve();
-    {{/returnType}}
-  });
-}
+   * returns {{{returnType}}}
+  {{/returnType}}
+   **/
+  static.{{{operationId}}} = function({ {{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}} }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(body));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
 
 {{/operation}}
+}
+
+module.exports = {{{classname}}}Service;
 {{/operations}}
