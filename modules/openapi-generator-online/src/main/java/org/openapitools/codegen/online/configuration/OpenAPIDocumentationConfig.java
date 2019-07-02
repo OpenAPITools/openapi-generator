@@ -68,7 +68,11 @@ public class OpenAPIDocumentationConfig {
     public Docket customImplementation(){
         String host;
         try {
-            host = new URI(System.getProperty("GENERATOR_HOST", "http://localhost")).getHost();
+            String baseUrl = System.getenv("GENERATOR_HOST");
+            if (baseUrl == null) {
+                baseUrl = System.getProperty("generator.host", "http://localhost");
+            }
+            host = new URI(baseUrl).getHost();
         } catch (URISyntaxException e) {
             host = "";
         }
