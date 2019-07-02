@@ -68,7 +68,7 @@ import java.util.stream.Collectors;
 public class JavaClientCodegenTest {
 
     @Test
-    public void arraysInRequestBody() throws Exception {
+    public void arraysInRequestBody() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
@@ -103,8 +103,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void nullValuesInComposedSchema() throws Exception {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
+    public void nullValuesInComposedSchema() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         ComposedSchema schema = new ComposedSchema();
         CodegenModel result = codegen.fromModel("CompSche",
@@ -192,7 +191,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testPackageNamesSetInvokerDerivedFromApi() throws Exception {
+    public void testPackageNamesSetInvokerDerivedFromApi() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.zzzzzzz.aaaaa.api");
@@ -207,7 +206,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testPackageNamesSetInvokerDerivedFromModel() throws Exception {
+    public void testPackageNamesSetInvokerDerivedFromModel() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
         codegen.processOpts();
@@ -454,5 +453,13 @@ public class JavaClientCodegenTest {
         codegenParameter.baseName = name;
         codegenParameter.dataType = "String";
         return codegenParameter;
+    }
+
+    @Test
+    public void escapeName() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        assertEquals("_default", codegen.toApiVarName("Default"));
+        assertEquals("_int", codegen.toApiVarName("int"));
+        assertEquals("pony", codegen.toApiVarName("pony"));
     }
 }

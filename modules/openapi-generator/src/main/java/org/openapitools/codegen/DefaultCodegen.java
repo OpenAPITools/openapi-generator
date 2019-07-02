@@ -810,7 +810,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the snake-cased variable name
      */
     public String toApiVarName(String name) {
-        return snakeCase(name);
+        return lowerCamelCase(name);
     }
 
     /**
@@ -1533,13 +1533,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return the snake-case of the string
+     * Return the lowerCamelCase of the string
      *
-     * @param name string to be snake-cased
-     * @return snake-cased string
+     * @param name string to be lowerCamelCased
+     * @return lowerCamelCase string
      */
     @SuppressWarnings("static-method")
-    public String snakeCase(String name) {
+    public String lowerCamelCase(String name) {
         return (name.length() > 0) ? (Character.toLowerCase(name.charAt(0)) + name.substring(1)) : "";
     }
 
