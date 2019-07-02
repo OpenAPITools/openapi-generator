@@ -61,7 +61,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
     public static final String REACTIVE = "reactive";
-
+    public static final String INTERFACE_ONLY = "interfaceOnly";
 
     private String basePackage;
     private String invokerPackage;
@@ -75,11 +75,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean serviceInterface = false;
     private boolean serviceImplementation = false;
     private boolean reactive = false;
+    private boolean interfaceOnly = false;
 
     public KotlinSpringServerCodegen() {
         super();
-
-        apiTestTemplateFiles.put("api_test.mustache", ".kt");
 
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
@@ -124,6 +123,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
+        addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
@@ -207,6 +207,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public boolean getUseBeanValidation() {
         return this.useBeanValidation;
+    }
+
+    public void setInterfaceOnly(boolean interfaceOnly) {
+        this.interfaceOnly = interfaceOnly;
     }
 
     @Override
@@ -322,9 +326,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
 
+        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
+            this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
+        }
+
         modelTemplateFiles.put("model.mustache", ".kt");
-        apiTemplateFiles.put("api.mustache", ".kt");
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        if (interfaceOnly) {
+            apiTemplateFiles.put("apiInterface.mustache", ".kt");
+        } else {
+            apiTemplateFiles.put("api.mustache", ".kt");
+            apiTestTemplateFiles.put("api_test.mustache", ".kt");
+        }
 
         if (this.serviceInterface) {
             apiTemplateFiles.put("service.mustache", "Service.kt");
@@ -334,6 +347,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             apiTemplateFiles.put("service.mustache", "Service.kt");
             apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
         }
+
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
 
         if (this.exceptionHandler) {
             supportingFiles.add(new SupportingFile("exceptions.mustache",

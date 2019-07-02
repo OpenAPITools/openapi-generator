@@ -832,7 +832,11 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 		localVarFormParams.Add("date", parameterToString(localVarOptionals.Date.Value(), ""))
 	}
 	if localVarOptionals != nil && localVarOptionals.DateTime.IsSet() {
-		localVarFormParams.Add("dateTime", parameterToString(localVarOptionals.DateTime.Value(), ""))
+		paramJson, err := parameterToJson(localVarOptionals.DateTime.Value())
+		if err != nil {
+			return nil, err
+		}
+		localVarFormParams.Add("dateTime", paramJson)
 	}
 	if localVarOptionals != nil && localVarOptionals.Password.IsSet() {
 		localVarFormParams.Add("password", parameterToString(localVarOptionals.Password.Value(), ""))

@@ -200,7 +200,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         if (alias != null && !alias.isEmpty()) {
             this.bundleAlias = alias.toLowerCase(Locale.ROOT);
         } else {
-            this.bundleAlias = snakeCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
+            this.bundleAlias = lowerCamelCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
         }
     }
 
