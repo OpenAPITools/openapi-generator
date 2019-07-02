@@ -695,4 +695,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return mime != null && JSON_VENDOR_MIME_PATTERN.matcher(mime).matches();
     }
 
+    @Override
+    public String toApiVarName(String name) {
+        String apiVarName = super.toApiVarName(name);
+        if (reservedWords.contains(apiVarName)) {
+            apiVarName = escapeReservedWord(apiVarName);
+        }
+        return apiVarName;
+    }
 }

@@ -100,7 +100,7 @@ OpenAPI Generator Version    | Release Date | Notes
 5.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.0.0-SNAPSHOT/)| 13.05.2020 | Major release with breaking changes (no fallback)
 4.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.1.0-SNAPSHOT/)| 15.07.2019 | Minor release (breaking changes with fallbacks)
 4.0.3 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.3-SNAPSHOT/)| 04.07.2019 | Patch release (minor bug fixes, etc)
-<!-- RELEASE_VERSION -->[4.0.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.0.2) (latest stable release) | 20.06.2019 | Patch release (bug fixes, minor enhancements, etc)<!-- /RELEASE_VERSION -->
+[4.0.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.0.2) (latest stable release) | 20.06.2019 | Patch release (bug fixes, minor enhancements, etc)
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
 
@@ -681,7 +681,8 @@ Here is a list of template creators:
    * TypeScript (Inversify): @gualtierim
  * Server Stubs
    * Ada: @stcarrez
-   * C# ASP.NET5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
+   * C# ASP.NET 5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
+   * C# ASP.NET Core 3.0: @A-Joshi 
    * C# NancyFX: @mstefaniuk
    * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano

@@ -203,9 +203,20 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 	localVarFormParams.Add("{{baseName}}", parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
 {{/required}}
 {{^required}}
+{{#isModel}}
+	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
+		paramJson, err := parameterToJson(localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value())
+		if err != nil {
+			return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
+		}
+		localVarFormParams.Add("{{baseName}}", paramJson)
+	}
+{{/isModel}}
+{{^isModel}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
 		localVarFormParams.Add("{{baseName}}", parameterToString(localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value(), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
 	}
+{{/isModel}}
 {{/required}}
 {{/isFile}}
 {{/formParams}}
