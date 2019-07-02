@@ -1,11 +1,87 @@
-const Pet = require('./Pet');
-const Store = require('./Store');
-const User = require('./User');
+
+const PetController = require('./PetController');
+
+const PetController = require('./PetController');
+
+const PetController = require('./PetController');
+
+const PetController = require('./PetController');
+
+const PetController = require('./PetController');
+
+const PetController = require('./PetController');
+
+const PetController = require('./PetController');
+
+const PetController = require('./PetController');
+
+const StoreController = require('./StoreController');
+
+const StoreController = require('./StoreController');
+
+const StoreController = require('./StoreController');
+
+const StoreController = require('./StoreController');
+
+const UserController = require('./UserController');
+
+const UserController = require('./UserController');
+
+const UserController = require('./UserController');
+
+const UserController = require('./UserController');
+
+const UserController = require('./UserController');
+
+const UserController = require('./UserController');
+
+const UserController = require('./UserController');
+
+const UserController = require('./UserController');
+
 const Test = require('./Test');
 
 module.exports = {
-  Pet,
-  Store,
-  User,
+
+  PetController,
+
+  PetController,
+
+  PetController,
+
+  PetController,
+
+  PetController,
+
+  PetController,
+
+  PetController,
+
+  PetController,
+
+  StoreController,
+
+  StoreController,
+
+  StoreController,
+
+  StoreController,
+
+  UserController,
+
+  UserController,
+
+  UserController,
+
+  UserController,
+
+  UserController,
+
+  UserController,
+
+  UserController,
+
+  UserController,
+
   Test,
 };
