@@ -16,7 +16,7 @@ import Data.Category as Category exposing (Category)
 import Data.Tag as Tag exposing (Tag)
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 
 
@@ -33,15 +33,15 @@ type alias Pet =
 
 
 type Status
-    = Available
-    | Pending
-    | Sold
+    = StatusAvailable
+    | StatusPending
+    | StatusSold
 
 
 
 decoder : Decoder Pet
 decoder =
-    decode Pet
+    Decode.succeed Pet
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "category" (Decode.nullable Category.decoder) Nothing
         |> required "name" Decode.string
@@ -57,8 +57,8 @@ encode model =
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
         , ( "category", Maybe.withDefault Encode.null (Maybe.map Category.encode model.category) )
         , ( "name", Encode.string model.name )
-        , ( "photoUrls", (Encode.list << List.map Encode.string) model.photoUrls )
-        , ( "tags", Maybe.withDefault Encode.null (Maybe.map (Encode.list << List.map Tag.encode) model.tags) )
+        , ( "photoUrls", (Encode.list Encode.string) model.photoUrls )
+        , ( "tags", Maybe.withDefault Encode.null (Maybe.map (Encode.list Tag.encode) model.tags) )
         , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
 
         ]
@@ -72,13 +72,13 @@ statusDecoder =
             (\str ->
                 case str of
                     "available" ->
-                        Decode.succeed Available
+                        Decode.succeed StatusAvailable
 
                     "pending" ->
-                        Decode.succeed Pending
+                        Decode.succeed StatusPending
 
                     "sold" ->
-                        Decode.succeed Sold
+                        Decode.succeed StatusSold
 
                     other ->
                         Decode.fail <| "Unknown type: " ++ other
@@ -89,13 +89,13 @@ statusDecoder =
 encodeStatus : Status -> Encode.Value
 encodeStatus model =
     case model of
-        Available ->
+        StatusAvailable ->
             Encode.string "available"
 
-        Pending ->
+        StatusPending ->
             Encode.string "pending"
 
-        Sold ->
+        StatusSold ->
             Encode.string "sold"
 
 

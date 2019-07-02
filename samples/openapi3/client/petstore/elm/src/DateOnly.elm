@@ -1,4 +1,4 @@
-module DateTime exposing (DateTime, decoder, encode, toString)
+module DateOnly exposing (DateOnly, decoder, encode, toString)
 
 import Iso8601
 import Json.Decode as Decode exposing (Decoder)
@@ -7,24 +7,24 @@ import Result
 import Time
 
 
-type alias DateTime =
+type alias DateOnly =
     Time.Posix
 
 
-decoder : Decoder DateTime
+decoder : Decoder DateOnly
 decoder =
     Decode.string
         |> Decode.andThen decodeIsoString
 
 
-encode : DateTime -> Encode.Value
+encode : DateOnly -> Encode.Value
 encode =
     Encode.string << toString
 
 
-decodeIsoString : String -> Decoder DateTime
+decodeIsoString : String -> Decoder DateOnly
 decodeIsoString str =
-    case Iso8601.toTime str of
+    case Iso8601.toTime (str ++ "T00:00:00.000Z") of
         Result.Ok posix ->
             Decode.succeed posix
 
@@ -32,6 +32,6 @@ decodeIsoString str =
             Decode.fail <| "Invalid date: " ++ str
 
 
-toString : DateTime -> String
+toString : DateOnly -> String
 toString =
-    Iso8601.fromTime
+    String.left 10 << Iso8601.fromTime

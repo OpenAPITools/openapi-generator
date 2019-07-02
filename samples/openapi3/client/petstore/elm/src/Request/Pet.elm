@@ -21,20 +21,20 @@ import Url.Builder as Url
 
 
 type Status
-    = Available
-    | Pending
-    | Sold
+    = StatusAvailable
+    | StatusPending
+    | StatusSold
 
 statusToString : Status -> String
 statusToString value =
     case value of
-        Available ->
+        StatusAvailable ->
             "available"
 
-        Pending ->
+        StatusPending ->
             "pending"
 
-        Sold ->
+        StatusSold ->
             "sold"
 
 
@@ -127,7 +127,7 @@ findPetsByTags :
 
 
 
-    , tags : List String
+    , tags : List String    , maxCount : Maybe (Int)
     }
     -> Cmd msg
 findPetsByTags params =
@@ -136,7 +136,7 @@ findPetsByTags params =
         , headers = []
         , url = Url.crossOrigin basePath
             ["pet", "findByTags"]
-            (List.filterMap identity [Just (Url.string "tags" <| (String.join ",") params.tags)])
+            (List.filterMap identity [Just (Url.string "tags" <| (String.join ",") params.tags), Maybe.map (Url.string "maxCount" << String.fromInt) params.maxCount])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend (Decode.list Pet.decoder)
         , timeout = Just 30000
