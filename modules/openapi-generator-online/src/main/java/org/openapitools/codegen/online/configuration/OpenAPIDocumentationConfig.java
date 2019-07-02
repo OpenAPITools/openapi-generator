@@ -31,6 +31,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 
@@ -64,7 +66,14 @@ public class OpenAPIDocumentationConfig {
 
     @Bean
     public Docket customImplementation(){
+        String host;
+        try {
+            host = new URI(System.getProperty("GENERATOR_HOST", "http://localhost")).getHost();
+        } catch (URISyntaxException e) {
+            host = "";
+        }
         return new Docket(DocumentationType.SWAGGER_2)
+                .host(host)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("org.openapitools.codegen.online.api"))
                     .build()
