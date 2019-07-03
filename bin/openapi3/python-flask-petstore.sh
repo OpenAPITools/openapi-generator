@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 input=modules/openapi-generator/src/test/resources/3_0/petstore.yaml
-out_folder=samples/server/openapi3/petstore/python-flask
+out_folder=samples/openapi3/server/petstore/python-flask
 resources=modules/openapi-generator/src/main/resources/python-flask
 
 # if you've executed sbt assembly previously it will use that instead.
