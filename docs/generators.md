@@ -27,6 +27,7 @@ The following generators are available:
     - [erlang-proper](generators/erlang-proper.md)
     - [flash](generators/flash.md)
     - [go](generators/go.md)
+    - [go-experimental](generators/go-experimental.md)
     - [groovy](generators/groovy.md)
     - [haskell-http-client](generators/haskell-http-client.md)
     - [java](generators/java.md)
