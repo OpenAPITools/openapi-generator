@@ -10,35 +10,33 @@
 -}
 
 
-module Data.Category exposing (Category, decoder, encode)
+module Data.InlineObject exposing (InlineObject, decoder, encode)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 
 
-{-| A category for a pet
--}
-type alias Category =
-    { id : Maybe (Int)
-    , name : Maybe (String)
+type alias InlineObject =
+    { name : Maybe (String)
+    , status : Maybe (String)
     }
 
 
-decoder : Decoder Category
+decoder : Decoder InlineObject
 decoder =
-    decode Category
-        |> optional "id" (Decode.nullable Decode.int) Nothing
+    Decode.succeed InlineObject
         |> optional "name" (Decode.nullable Decode.string) Nothing
+        |> optional "status" (Decode.nullable Decode.string) Nothing
 
 
 
-encode : Category -> Encode.Value
+encode : InlineObject -> Encode.Value
 encode model =
     Encode.object
-        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
-        , ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
+        [ ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
+        , ( "status", Maybe.withDefault Encode.null (Maybe.map Encode.string model.status) )
 
         ]
 

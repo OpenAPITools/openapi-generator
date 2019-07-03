@@ -32,9 +32,9 @@ type alias Order_ =
 
 
 type Status
-    = Placed
-    | Approved
-    | Delivered
+    = StatusPlaced
+    | StatusApproved
+    | StatusDelivered
 
 
 
@@ -71,13 +71,13 @@ statusDecoder =
             (\str ->
                 case str of
                     "placed" ->
-                        Decode.succeed Placed
+                        Decode.succeed StatusPlaced
 
                     "approved" ->
-                        Decode.succeed Approved
+                        Decode.succeed StatusApproved
 
                     "delivered" ->
-                        Decode.succeed Delivered
+                        Decode.succeed StatusDelivered
 
                     other ->
                         Decode.fail <| "Unknown type: " ++ other
@@ -88,13 +88,13 @@ statusDecoder =
 encodeStatus : Status -> Encode.Value
 encodeStatus model =
     case model of
-        Placed ->
+        StatusPlaced ->
             Encode.string "placed"
 
-        Approved ->
+        StatusApproved ->
             Encode.string "approved"
 
-        Delivered ->
+        StatusDelivered ->
             Encode.string "delivered"
 
 
