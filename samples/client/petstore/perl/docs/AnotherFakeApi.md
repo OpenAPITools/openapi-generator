@@ -19,7 +19,7 @@ To test special tags
 
 To test special tags and operation ID starting with number
 
-### Example
+### Example 
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::AnotherFakeApi;
@@ -28,7 +28,7 @@ my $api_instance = WWW::OpenAPIClient::AnotherFakeApi->new(
 
 my $body = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
 
-eval {
+eval { 
     my $result = $api_instance->call_123_test_special_tags(body => $body);
     print Dumper($result);
 };
@@ -41,7 +41,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -57,3 +57,4 @@ No authorization required
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
