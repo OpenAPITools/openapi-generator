@@ -67,6 +67,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
+    protected List<String> additionalSchemasInputSpecs;
     protected String outputFolder = "";
     protected Set<String> defaultIncludes = new HashSet<String>();
     protected Map<String, String> typeMapping = new HashMap<String, String>();
@@ -701,6 +702,16 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setInputSpec(String inputSpec) {
         this.inputSpec = inputSpec;
+    }
+
+    @Override
+    public List<String> getAdditionalSchemasInputSpecs() {
+        return additionalSchemasInputSpecs;
+    }
+
+    @Override
+    public void setAdditionalSchemasInputSpecs(List<String> additionalSchemasInputSpecs) {
+        this.additionalSchemasInputSpecs = additionalSchemasInputSpecs;
     }
 
     public void setTemplateDir(String templateDir) {

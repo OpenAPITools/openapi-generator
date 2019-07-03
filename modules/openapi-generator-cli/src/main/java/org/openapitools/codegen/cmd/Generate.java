@@ -66,6 +66,10 @@ public class Generate implements Runnable {
             description = "location of the OpenAPI spec, as URL or file (required)")
     private String spec;
 
+    @Option(name = {"--additional-schemas-input-specs"}, title = "additional spec files", required = false,
+            description = "comma separated list of locations of OpenAPI specs, as URL or file for which components should be generated (optional)")
+    private String additionalSchemasInputSpecs;
+
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
             description = "folder containing the template files")
     private String templateDir;
@@ -272,12 +276,15 @@ public class Generate implements Runnable {
         }
 
         if (isNotEmpty(spec)) {
-            if (!spec.matches("^http(s)?://.*") && !new File(spec).exists()) {
-                System.err.println("[error] The spec file is not found: " + spec);
-                System.err.println("[error] Check the path of the OpenAPI spec and try again.");
-                System.exit(1);
-            }
+            checkSpecPath(spec);
             configurator.setInputSpec(spec);
+        }
+
+        if (isNotEmpty(additionalSchemasInputSpecs)) {
+            for (String additionalModelInputSpec : additionalSchemasInputSpecs.split(",")) {
+                checkSpecPath(additionalModelInputSpec);
+                configurator.getAdditionalSchemasInputSpecs().add(additionalModelInputSpec);
+            }
         }
 
         if (isNotEmpty(generatorName)) {
@@ -397,6 +404,14 @@ public class Generate implements Runnable {
         } catch (GeneratorNotFoundException e) {
             System.err.println(e.getMessage());
             System.err.println("[error] Check the spelling of the generator's name and try again.");
+            System.exit(1);
+        }
+    }
+
+    private void checkSpecPath(String spec) {
+        if (!spec.matches("^http(s)?://.*") && !new File(spec).exists()) {
+            System.err.println("[error] The spec file is not found: " + spec);
+            System.err.println("[error] Check the path of the OpenAPI spec and try again.");
             System.exit(1);
         }
     }
