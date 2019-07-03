@@ -538,6 +538,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Camptocamp](https://www.camptocamp.com/en)
 - [codecentric AG](https://www.codecentric.de/)
 - [Cupix](https://www.cupix.com/)
+- [DB Systel](https://www.dbsystel.de)
 - [FormAPI](https://formapi.io/)
 - [Fuse](https://www.fuse.no/)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
