@@ -810,7 +810,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the snake-cased variable name
      */
     public String toApiVarName(String name) {
-        return snakeCase(name);
+        return lowerCamelCase(name);
     }
 
     /**
@@ -1475,7 +1475,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schema
      * @return type
      */
-    private static String getPrimitiveType(Schema schema) {
+    private String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
         } else if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
@@ -1519,6 +1519,13 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isURISchema(schema)) {
             return "URI";
         } else if (ModelUtils.isStringSchema(schema)) {
+            if(typeMapping.containsKey(schema.getFormat())) {
+                // If the format matches a typeMapping (supplied with the --typeMappings flag)
+                // then treat the format as a primitive type.
+                // This allows the typeMapping flag to add a new custom type which can then
+                // be used in the format field.   
+                return schema.getFormat();
+            }
             return "string";
         } else if (ModelUtils.isFreeFormObject(schema)) {
             return "object";
@@ -1533,13 +1540,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return the snake-case of the string
+     * Return the lowerCamelCase of the string
      *
-     * @param name string to be snake-cased
-     * @return snake-cased string
+     * @param name string to be lowerCamelCased
+     * @return lowerCamelCase string
      */
     @SuppressWarnings("static-method")
-    public String snakeCase(String name) {
+    public String lowerCamelCase(String name) {
         return (name.length() > 0) ? (Character.toLowerCase(name.charAt(0)) + name.substring(1)) : "";
     }
 
@@ -3668,7 +3675,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schemas The complete set of model definitions (schemas).
      * @return A mapping from model name to type alias
      */
-    static Map<String, String> getAllAliases(Map<String, Schema> schemas) {
+    Map<String, String> getAllAliases(Map<String, Schema> schemas) {
         if (schemas == null || schemas.isEmpty()) {
             return new HashMap<>();
         }
