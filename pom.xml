@@ -1080,6 +1080,7 @@
                 <!-- clients -->
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
+                <module>samples/client/petstore/go-experimental</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
@@ -1254,7 +1255,7 @@
             <modules>
                 <!-- clients -->
                 <module>samples/client/petstore/R</module>
-                <module>samples/client/petstore/haskell-http-client</module>
+                <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
                 <module>samples/server/petstore/haskell-servant</module>
             </modules>
