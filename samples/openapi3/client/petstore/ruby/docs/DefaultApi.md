@@ -7,12 +7,15 @@ Method | HTTP request | Description
 [**foo_get**](DefaultApi.md#foo_get) | **GET** /foo | 
 
 
-# **foo_get**
+
+## foo_get
+
 > InlineResponseDefault foo_get
 
 
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -28,6 +31,7 @@ end
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -40,8 +44,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
+- **Content-Type**: Not defined
+- **Accept**: application/json
 

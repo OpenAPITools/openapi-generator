@@ -1,4 +1,4 @@
-import { exists } from '../runtime';
+import { exists, mapValues } from '../runtime';
 {{#hasImports}}
 import {
     {{#imports}}
@@ -46,12 +46,22 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         {{/isDate}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{#isContainer}}
+        {{#isListContainer}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
-        {{/isContainer}}
-        {{^isContainer}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}mapValues(json['{{baseName}}'], {{#items}}{{datatype}}{{/items}}FromJSON),
+        {{/isMapContainer}}
+        {{^isListContainer}}
+        {{^isMapContainer}}
+        {{^isFreeFormObject}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
-        {{/isContainer}}
+        {{/isFreeFormObject}}
+        {{#isFreeFormObject}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
+        {{/isFreeFormObject}}
+        {{/isMapContainer}}
+        {{/isListContainer}}
         {{/isPrimitiveType}}
         {{/allVars}}
     };
@@ -73,12 +83,22 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString().substr(0,10){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{#isContainer}}
+        {{#isListContainer}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
-        {{/isContainer}}
-        {{^isContainer}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}mapValues(value.{{name}}, {{#items}}{{datatype}}{{/items}}ToJSON),
+        {{/isMapContainer}}
+        {{^isListContainer}}
+        {{^isMapContainer}}
+        {{^isFreeFormObject}}
         '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
-        {{/isContainer}}
+        {{/isFreeFormObject}}
+        {{#isFreeFormObject}}
+        '{{baseName}}': value.{{name}},
+        {{/isFreeFormObject}}
+        {{/isMapContainer}}
+        {{/isListContainer}}        
         {{/isPrimitiveType}}
         {{/isReadOnly}}
         {{/allVars}}

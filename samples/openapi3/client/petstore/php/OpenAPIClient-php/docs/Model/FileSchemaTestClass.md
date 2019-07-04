@@ -1,6 +1,7 @@
-# FileSchemaTestClass
+# # FileSchemaTestClass
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **file** | [**\OpenAPI\Client\Model\File**](File.md) |  | [optional] 

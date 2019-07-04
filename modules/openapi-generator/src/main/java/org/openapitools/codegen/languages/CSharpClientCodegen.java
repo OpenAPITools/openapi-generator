@@ -73,6 +73,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     // use KellermanSoftware.CompareNetObjects for deep recursive object comparision
     protected boolean useCompareNetObjects = Boolean.FALSE;
 
+    // To make API response's headers dictionary case insensitive
+    protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+
     public CSharpClientCodegen() {
         super();
         supportsInheritance = true;
@@ -85,6 +88,19 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         hideGenerationTimestamp = Boolean.TRUE;
 
         cliOptions.clear();
+
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
+
+        setSupportNullable(Boolean.TRUE);
 
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME,
@@ -158,10 +174,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
 
-        addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
-                CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
-                this.optionalEmitDefaultValue);
-
         addSwitch(CodegenConstants.GENERATE_PROPERTY_CHANGED,
                 CodegenConstants.PACKAGE_DESCRIPTION_DESC,
                 this.generatePropertyChanged);
@@ -189,6 +201,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.USE_COMPARE_NET_OBJECTS,
                 CodegenConstants.USE_COMPARE_NET_OBJECTS_DESC,
                 this.useCompareNetObjects);
+
+        addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
+                CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
+                this.caseInsensitiveResponseHeaders);
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IgnoreCase");
@@ -317,9 +333,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("supportsUWP", this.supportsUWP);
         additionalProperties.put("netStandard", this.netStandard);
         additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
-
-        // TODO: either remove this and update templates to match the "optionalEmitDefaultValues" property, or rename that property.
-        additionalProperties.put("emitDefaultValue", optionalEmitDefaultValue);
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
             setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
@@ -796,6 +809,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.useCompareNetObjects = useCompareNetObjects;
     }
 
+    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
+        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
+    }
+
     public boolean isNonPublicApi() {
         return nonPublicApi;
     }
@@ -862,4 +879,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return null;
         }
     }
+    
+    @Override
+    public String getNullableType(Schema p, String type) {
+        boolean isNullableExpected = p.getNullable() == null || (p.getNullable() != null && p.getNullable());
+
+        if (isNullableExpected && languageSpecificPrimitives.contains(type + "?")) {
+            return type + "?";
+        } else if (languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return null;
+        }
+    }
+
 }

@@ -50,7 +50,7 @@ No authorization required
 
 
 # **GetInventory**
-> integer GetInventory()
+> map(integer) GetInventory()
 
 Returns pet inventories by status
 
@@ -74,7 +74,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**integer**
+**map(integer)**
 
 ### Authorization
 
@@ -136,7 +136,7 @@ Place an order for a pet
 ```R
 library(petstore)
 
-var.body <- Order$new() # Order | order placed for purchasing the pet
+var.body <- Order$new(123, 123, 123, "shipDate_example", "status_example", "complete_example") # Order | order placed for purchasing the pet
 
 #Place an order for a pet
 api.instance <- StoreApi$new()

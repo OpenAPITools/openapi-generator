@@ -50,11 +50,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     // This is the name of elixir project name;
     protected static final String defaultPackageName = "openapi_client";
 
-    String supportedElixirVersion = "1.4";
+    String supportedElixirVersion = "1.6";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 1.0.0\"}",
-            "{:poison, \"~> 3.0.0\"}"
+            "{:tesla, \"~> 1.2\"}",
+            "{:poison, \"~> 3.0\"}"
     );
 
     public ElixirClientCodegen() {
@@ -175,6 +175,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
 
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay.Pets"));
         cliOptions.add(new CliOption("licenseHeader", "The license header to prepend to the top of all source files."));
@@ -187,6 +188,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * @return the CodegenType for this generator
      * @see org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -197,6 +199,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "elixir";
     }
@@ -207,6 +210,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates an elixir client library (alpha).";
     }
@@ -270,10 +274,10 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) super.postProcessOperationsWithModels(objs, allModels).get("operations");
         List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
-        List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
+        List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}([^\\{]*)");
         for (CodegenOperation o : os) {
-            ArrayList<String> pathTemplateNames = new ArrayList<String>();
+            ArrayList<String> pathTemplateNames = new ArrayList<>();
             Matcher matcher = pattern.matcher(o.path);
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
@@ -328,16 +332,16 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         return buf.toString();
     }
 
-    String underscored(String words) {
-        ArrayList<String> underscoredWords = new ArrayList<String>();
+    private String underscored(String words) {
+        ArrayList<String> underscoredWords = new ArrayList<>();
         for (String word : words.split(" ")) {
             underscoredWords.add(underscore(word));
         }
         return join("_", underscoredWords);
     }
 
-    String modulized(String words) {
-        ArrayList<String> modulizedWords = new ArrayList<String>();
+    private String modulized(String words) {
+        ArrayList<String> modulizedWords = new ArrayList<>();
         for (String word : words.split(" ")) {
             modulizedWords.add(camelize(word));
         }
@@ -356,7 +360,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     private String sourceFolder() {
-        ArrayList<String> underscoredWords = new ArrayList<String>();
+        ArrayList<String> underscoredWords = new ArrayList<>();
         for (String word : moduleName.split("\\.")) {
             underscoredWords.add(underscore(word));
         }
@@ -367,6 +371,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
      */
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder() + File.separator + "model";
     }
@@ -607,7 +612,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
-        private List<String> pathTemplateNames = new ArrayList<String>();
+        private List<String> pathTemplateNames = new ArrayList<>();
         private String replacedPathName;
 
         public ExtendedCodegenOperation(CodegenOperation o) {

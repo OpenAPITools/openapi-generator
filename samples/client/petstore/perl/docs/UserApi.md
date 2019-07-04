@@ -90,7 +90,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ARRAY[User]**](ARRAY.md)| List of user object | 
+ **body** | [**ARRAY[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -133,7 +133,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ARRAY[User]**](ARRAY.md)| List of user object | 
+ **body** | [**ARRAY[User]**](User.md)| List of user object | 
 
 ### Return type
 

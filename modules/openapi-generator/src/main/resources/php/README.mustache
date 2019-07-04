@@ -1,4 +1,5 @@
 # {{packageName}}
+
 {{#appDescription}}
 {{{appDescription}}}
 {{/appDescription}}
@@ -22,11 +23,12 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 PHP 5.5 and later
 
 ## Installation & Usage
+
 ### Composer
 
 To install the bindings via [Composer](http://getcomposer.org/), add the following to `composer.json`:
 
-```
+```json
 {
   "repositories": [
     {
@@ -54,7 +56,7 @@ Download the files and include `autoload.php`:
 
 To run the unit tests:
 
-```
+```bash
 composer install
 ./vendor/bin/phpunit
 ```
@@ -109,22 +111,28 @@ All endpoints do not require authorization.
 {{/authMethods}}
 {{#authMethods}}
 {{#last}} Authentication schemes defined for the API:{{/last}}
+
 ## {{{name}}}
 
 {{#isApiKey}}
+
 - **Type**: API key
 - **API key parameter name**: {{{keyParamName}}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
+
 {{/isApiKey}}
 {{#isBasic}}
 {{^isBasicBearer}}
+
 - **Type**: HTTP basic authentication
 {{/isBasicBearer}}
 {{#isBasicBearer}}
+
 - **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
+
 - **Type**: OAuth
 - **Flow**: {{{flow}}}
 - **Authorization URL**: {{{authorizationUrl}}}
@@ -140,4 +148,3 @@ All endpoints do not require authorization.
 
 {{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
 {{/hasMore}}{{/apis}}{{/apiInfo}}
-

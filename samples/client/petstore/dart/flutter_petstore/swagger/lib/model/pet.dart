@@ -72,7 +72,7 @@ class Pet {
 
   static Map<String, Pet> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Pet>();
-    if (json != null && json.length > 0) {
+    if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = new Pet.fromJson(value));
     }
     return map;

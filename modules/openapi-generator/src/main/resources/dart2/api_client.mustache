@@ -18,7 +18,7 @@ class ApiClient {
   final _regList = RegExp(r'^List<(.*)>$');
   final _regMap = RegExp(r'^Map<String,(.*)>$');
 
-  ApiClient({this.basePath: "{{{basePath}}}"}) {
+  ApiClient({this.basePath = "{{{basePath}}}"}) {
     // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}
     _authentications['{{name}}'] = HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
     _authentications['{{name}}'] = ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}

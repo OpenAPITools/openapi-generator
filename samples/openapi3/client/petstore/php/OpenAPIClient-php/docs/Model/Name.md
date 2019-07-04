@@ -1,6 +1,7 @@
-# Name
+# # Name
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **int** |  | 

@@ -1,6 +1,7 @@
-# Animal
+# # Animal
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **class_name** | **string** |  | 

@@ -102,6 +102,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("DateTime", "std::string");
         typeMapping.put("Date", "std::string");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("URI", "std::string");
 
         importMapping = new HashMap<String, String>();
 
@@ -247,17 +248,17 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return camelize(name);
     }
 
     @Override
     public String toApiName(String name) {
-        return initialCaps(name) + "Manager";
+        return camelize(name) + "Manager";
     }
 
     @Override
     public String toApiFilename(String name) {
-        return initialCaps(name) + "Manager";
+        return camelize(name) + "Manager";
     }
 
     @Override

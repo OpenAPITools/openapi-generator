@@ -15,13 +15,15 @@ Method | HTTP request | Description
 [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
-<a name="addPet"></a>
-# **addPet**
+
+## addPet
+
 > addPet(body)
 
 Add a new pet to the store
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -41,6 +43,8 @@ apiInstance.addPet(body).then(function() {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
@@ -55,16 +59,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
-<a name="deletePet"></a>
-# **deletePet**
+
+## deletePet
+
 > deletePet(petId, opts)
 
 Deletes a pet
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -87,6 +93,8 @@ apiInstance.deletePet(petId, opts).then(function() {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Number**| Pet id to delete | 
@@ -102,11 +110,12 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
-# **findPetsByStatus**
+
+## findPetsByStatus
+
 > [Pet] findPetsByStatus(status)
 
 Finds Pets by status
@@ -114,6 +123,7 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -133,6 +143,8 @@ apiInstance.findPetsByStatus(status).then(function(data) {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **status** | [**[String]**](String.md)| Status values that need to be considered for filter | 
@@ -147,11 +159,12 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="findPetsByTags"></a>
-# **findPetsByTags**
+
+## findPetsByTags
+
 > [Pet] findPetsByTags(tags)
 
 Finds Pets by tags
@@ -159,6 +172,7 @@ Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -178,6 +192,8 @@ apiInstance.findPetsByTags(tags).then(function(data) {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**[String]**](String.md)| Tags to filter by | 
@@ -192,11 +208,12 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="getPetById"></a>
-# **getPetById**
+
+## getPetById
+
 > Pet getPetById(petId)
 
 Find pet by ID
@@ -204,6 +221,7 @@ Find pet by ID
 Returns a single pet
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -225,6 +243,8 @@ apiInstance.getPetById(petId).then(function(data) {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Number**| ID of pet to return | 
@@ -239,16 +259,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="updatePet"></a>
-# **updatePet**
+
+## updatePet
+
 > updatePet(body)
 
 Update an existing pet
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -268,6 +290,8 @@ apiInstance.updatePet(body).then(function() {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
@@ -282,16 +306,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
-# **updatePetWithForm**
+
+## updatePetWithForm
+
 > updatePetWithForm(petId, opts)
 
 Updates a pet in the store with form data
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -315,6 +341,8 @@ apiInstance.updatePetWithForm(petId, opts).then(function() {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Number**| ID of pet that needs to be updated | 
@@ -331,16 +359,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-<a name="uploadFile"></a>
-# **uploadFile**
+
+## uploadFile
+
 > ApiResponse uploadFile(petId, opts)
 
 uploads an image
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -364,6 +394,8 @@ apiInstance.uploadFile(petId, opts).then(function(data) {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Number**| ID of pet to update | 
@@ -380,16 +412,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 
-<a name="uploadFileWithRequiredFile"></a>
-# **uploadFileWithRequiredFile**
+
+## uploadFileWithRequiredFile
+
 > ApiResponse uploadFileWithRequiredFile(petId, requiredFile, opts)
 
 uploads an image (required)
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -413,6 +447,8 @@ apiInstance.uploadFileWithRequiredFile(petId, requiredFile, opts).then(function(
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Number**| ID of pet to update | 
@@ -429,6 +465,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 

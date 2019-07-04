@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen.config;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,41 +27,26 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.Validate;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
+import org.openapitools.codegen.auth.AuthParser;
+import org.openapitools.codegen.languages.*;
+import org.openapitools.codegen.templating.HandlebarsEngineAdapter;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.Validate;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConfigLoader;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SpecValidationException;
-import org.openapitools.codegen.auth.AuthParser;
-import org.openapitools.codegen.languages.CSharpNancyFXServerCodegen;
-import org.openapitools.codegen.languages.CppQt5ClientCodegen;
-import org.openapitools.codegen.languages.CppRestSdkClientCodegen;
-import org.openapitools.codegen.languages.CppTizenClientCodegen;
-import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
-import org.openapitools.codegen.languages.PhpLumenServerCodegen;
-import org.openapitools.codegen.languages.PhpSlimServerCodegen;
-import org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen;
-import org.openapitools.codegen.languages.RubySinatraServerCodegen;
-import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
-import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
-import org.openapitools.codegen.languages.SwiftClientCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.*;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * A class that contains all codegen configuration properties a user would want to manipulate. An
@@ -75,23 +58,6 @@ public class CodegenConfigurator implements Serializable {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
-    private static Map<String, String> nameMigrationMap = new HashMap<>();
-
-    static {
-        nameMigrationMap.put("akka-scala", new ScalaAkkaClientCodegen().getName());
-        nameMigrationMap.put("scala", new ScalaHttpClientCodegen().getName());
-        nameMigrationMap.put("jaxrs", new JavaJerseyServerCodegen().getName());
-        nameMigrationMap.put("qt5cpp", new CppQt5ClientCodegen().getName());
-        nameMigrationMap.put("cpprest", new CppRestSdkClientCodegen().getName());
-        nameMigrationMap.put("tizen", new CppTizenClientCodegen().getName());
-        nameMigrationMap.put("sinatra", new RubySinatraServerCodegen().getName());
-        nameMigrationMap.put("swift", new SwiftClientCodegen().getName());
-        nameMigrationMap.put("lumen", new PhpLumenServerCodegen().getName());
-        nameMigrationMap.put("slim", new PhpSlimServerCodegen().getName());
-        nameMigrationMap.put("ze-ph", new PhpZendExpressivePathHandlerServerCodegen().getName());
-        nameMigrationMap.put("nancyfx", new CSharpNancyFXServerCodegen().getName());
-    }
-
     private String generatorName;
     private String inputSpec;
     private String outputDir;
@@ -102,11 +68,14 @@ public class CodegenConfigurator implements Serializable {
     private boolean validateSpec;
     private boolean enablePostProcessFile;
     private boolean enableMinimalUpdate;
+    private boolean strictSpecBehavior;
     private String templateDir;
+    private String templatingEngineName;
     private String auth;
     private String apiPackage;
     private String modelPackage;
     private String invokerPackage;
+    private String packageName;
     private String modelNamePrefix;
     private String modelNameSuffix;
     private String groupId;
@@ -132,10 +101,9 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator() {
         this.validateSpec = true;
+        this.strictSpecBehavior = true;
         this.setOutputDir(".");
     }
-
-    // TODO: When setLang is removed, please remove nameMigrationMap and its usage(s).
 
     /**
      * Set the "language". This has drifted away from language-only to include framework and
@@ -165,15 +133,7 @@ public class CodegenConfigurator implements Serializable {
      * @return The fluent instance of {@link CodegenConfigurator}
      */
     public CodegenConfigurator setGeneratorName(final String generatorName) {
-        if (nameMigrationMap.containsKey(generatorName)) {
-            String newValue = nameMigrationMap.get(generatorName);
-            LOGGER.warn(String.format(Locale.ROOT,
-                    "The name '%s' is a deprecated. Please update to the new name of '%s'.",
-                    generatorName, newValue));
-            this.generatorName = newValue;
-        } else {
-            this.generatorName = generatorName;
-        }
+        this.generatorName = generatorName;
         return this;
     }
 
@@ -267,6 +227,15 @@ public class CodegenConfigurator implements Serializable {
         return this;
     }
 
+    public boolean isStrictSpecBehavior() {
+        return strictSpecBehavior;
+    }
+
+    public CodegenConfigurator setStrictSpecBehavior(boolean strictSpecBehavior) {
+        this.strictSpecBehavior = strictSpecBehavior;
+        return this;
+    }
+
     public boolean isVerbose() {
         return verbose;
     }
@@ -356,6 +325,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
+        return this;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public CodegenConfigurator setPackageName(String packageName) {
+        this.packageName = packageName;
         return this;
     }
 
@@ -563,14 +541,18 @@ public class CodegenConfigurator implements Serializable {
         config.languageSpecificPrimitives().addAll(languageSpecificPrimitives);
         config.reservedWordsMappings().putAll(reservedWordMappings);
 
+        config.setStrictSpecBehavior(isStrictSpecBehavior());
+
         checkAndSetAdditionalProperty(apiPackage, CodegenConstants.API_PACKAGE);
         checkAndSetAdditionalProperty(modelPackage, CodegenConstants.MODEL_PACKAGE);
         checkAndSetAdditionalProperty(invokerPackage, CodegenConstants.INVOKER_PACKAGE);
+        checkAndSetAdditionalProperty(packageName, CodegenConstants.PACKAGE_NAME);
         checkAndSetAdditionalProperty(groupId, CodegenConstants.GROUP_ID);
         checkAndSetAdditionalProperty(artifactId, CodegenConstants.ARTIFACT_ID);
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir),
                 CodegenConstants.TEMPLATE_DIR);
+        checkAndSetAdditionalProperty(templatingEngineName, CodegenConstants.TEMPLATING_ENGINE);
         checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
         checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
         checkAndSetAdditionalProperty(gitUserId, CodegenConstants.GIT_USER_ID);
@@ -584,6 +566,16 @@ public class CodegenConfigurator implements Serializable {
             config.setLibrary(library);
         }
 
+        String templatingEngineId;
+        if (isEmpty(templatingEngineName)) {
+            // Built-in templates are mustache, but allow users to use a simplified handlebars engine for their custom templates.
+            templatingEngineId = "mustache";
+        }
+        else { templatingEngineId = templatingEngineName; }
+
+        TemplatingEngineAdapter templatingEngine = TemplatingEngineLoader.byIdentifier(templatingEngineId);
+        config.setTemplatingEngine(templatingEngine);
+
         config.additionalProperties().putAll(additionalProperties);
 
         ClientOptInput input = new ClientOptInput().config(config);
@@ -591,8 +583,7 @@ public class CodegenConfigurator implements Serializable {
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(auth);
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
-        SwaggerParseResult result =
-                new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
+        SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
 
         Set<String> validationMessages = new HashSet<>(result.getMessages());
         OpenAPI specification = result.getOpenAPI();
@@ -720,5 +711,10 @@ public class CodegenConfigurator implements Serializable {
             }
         }
         return null;
+    }
+
+    public CodegenConfigurator setTemplatingEngineName(String templatingEngineName) {
+        this.templatingEngineName = templatingEngineName;
+        return this;
     }
 }

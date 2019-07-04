@@ -67,6 +67,6 @@ public class FakeClassnameTags123Api  {
     public Response testClassname(@ApiParam(value = "client model" ,required=true) @NotNull @Valid Client body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testClassname(body,securityContext);
+        return delegate.testClassname(body, securityContext);
     }
 }

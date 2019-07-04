@@ -33,7 +33,7 @@
         {{#description}}
         /// <value>{{description}}</value>
         {{/description}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}{{emitDefaultValue}}{{/isNullable}})]
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
         public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
         {{/isEnum}}
         {{/vars}}
@@ -116,7 +116,7 @@
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{description}}</value>{{/description}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}{{emitDefaultValue}}{{/isNullable}})]{{#isDate}}
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]{{#isDate}}
         [JsonConverter(typeof(OpenAPIDateConverter))]{{/isDate}}
         public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
 
@@ -182,18 +182,19 @@
             return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{^isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
-                    {{^isEnum}}
+                    {{^vendorExtensions.isValueType}}
                     (this.{{name}} != null &&
                     this.{{name}}.Equals(input.{{name}}))
-                    {{/isEnum}}
-                    {{#isEnum}}
+                    {{/vendorExtensions.isValueType}}
+                    {{#vendorExtensions.isValueType}}
                     this.{{name}}.Equals(input.{{name}})
-                    {{/isEnum}}
+                    {{/vendorExtensions.isValueType}}
                 ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
-                    this.{{name}} != null &&
-                    this.{{name}}.SequenceEqual(input.{{name}})
+                    {{^vendorExtensions.isValueType}}this.{{name}} != null &&
+                    input.{{name}} != null &&
+                    {{/vendorExtensions.isValueType}}this.{{name}}.SequenceEqual(input.{{name}})
                 ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
             {{/useCompareNetObjects}}
         }
@@ -213,13 +214,13 @@
                 int hashCode = 41;
                 {{/parent}}
                 {{#vars}}
-                {{^isEnum}}
+                {{^vendorExtensions.isValueType}}
                 if (this.{{name}} != null)
                     hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
-                {{/isEnum}}
-                {{#isEnum}}
+                {{/vendorExtensions.isValueType}}
+                {{#vendorExtensions.isValueType}}
                 hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
-                {{/isEnum}}
+                {{/vendorExtensions.isValueType}}
                 {{/vars}}
                 return hashCode;
             }

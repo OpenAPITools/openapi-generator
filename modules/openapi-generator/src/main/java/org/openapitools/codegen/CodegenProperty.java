@@ -20,7 +20,7 @@ package org.openapitools.codegen;
 import java.util.*;
 
 public class CodegenProperty implements Cloneable {
-    public String baseName, complexType, getter, setter, description, dataType,
+    public String openApiType, baseName, complexType, getter, setter, description, dataType,
             datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
             baseType, containerType, title;
 
@@ -55,7 +55,7 @@ public class CodegenProperty implements Cloneable {
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType, isModel, isContainer;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
-            isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
+            isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
     public boolean isReadOnly;
@@ -415,6 +415,7 @@ public class CodegenProperty implements Cloneable {
         return Objects.hash(
             _enum,
             allowableValues,
+            openApiType,
             baseName,
             baseType,
             complexType,
@@ -471,6 +472,7 @@ public class CodegenProperty implements Cloneable {
             isDate,
             isDateTime,
             isUuid,
+            isUri,
             isEmail,
             isFreeFormObject,
             isMapContainer,
@@ -501,6 +503,7 @@ public class CodegenProperty implements Cloneable {
         final CodegenProperty other = (CodegenProperty) obj;
 
         return Objects.equals(baseName, other.baseName) &&
+            Objects.equals(openApiType, other.openApiType) &&
             Objects.equals(complexType, other.complexType) &&
             Objects.equals(getter, other.getter) &&
             Objects.equals(setter, other.setter) &&
@@ -550,6 +553,7 @@ public class CodegenProperty implements Cloneable {
             Objects.equals(isDate, other.isDate) &&
             Objects.equals(isDateTime, other.isDateTime) &&
             Objects.equals(isUuid, other.isUuid) &&
+            Objects.equals(isUri, other.isUri) &&
             Objects.equals(isEmail, other.isEmail) &&
             Objects.equals(isFreeFormObject, other.isFreeFormObject) &&
             Objects.equals(isBinary, other.isBinary) &&
@@ -600,6 +604,7 @@ public class CodegenProperty implements Cloneable {
     public java.lang.String toString() {
         return "CodegenProperty{" +
                 "baseName='" + baseName + '\'' +
+                ", openApiType='" + openApiType + '\'' +
                 ", complexType='" + complexType + '\'' +
                 ", getter='" + getter + '\'' +
                 ", setter='" + setter + '\'' +
@@ -646,6 +651,7 @@ public class CodegenProperty implements Cloneable {
                 ", isDate=" + isDate +
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
+                ", isUri=" + isUri +
                 ", isEmail=" + isEmail +
                 ", isFreeFormObject=" + isFreeFormObject +
                 ", isListContainer=" + isListContainer +

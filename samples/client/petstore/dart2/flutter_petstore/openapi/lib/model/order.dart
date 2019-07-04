@@ -56,14 +56,20 @@ class Order {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'petId': petId,
-      'quantity': quantity,
-      'shipDate': shipDate == null ? '' : shipDate.toUtc().toIso8601String(),
-      'status': status,
-      'complete': complete
-    };
+    Map <String, dynamic> json = {};
+    if (id != null)
+      json['id'] = id;
+    if (petId != null)
+      json['petId'] = petId;
+    if (quantity != null)
+      json['quantity'] = quantity;
+    if (shipDate != null)
+      json['shipDate'] = shipDate == null ? null : shipDate.toUtc().toIso8601String();
+    if (status != null)
+      json['status'] = status;
+    if (complete != null)
+      json['complete'] = complete;
+    return json;
   }
 
   static List<Order> listFromJson(List<dynamic> json) {
@@ -72,7 +78,7 @@ class Order {
 
   static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Order>();
-    if (json != null && json.length > 0) {
+    if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = new Order.fromJson(value));
     }
     return map;

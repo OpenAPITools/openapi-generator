@@ -1,0 +1,30 @@
+package {{package}}
+
+{{#supportAsync}}
+import scala.concurrent.Future
+{{/supportAsync}}
+{{#imports}}
+import {{import}}
+{{/imports}}
+{{#operations}}
+
+/**
+  * Provides a default implementation for [[{{classname}}]].
+  */
+{{>generatedAnnotation}}
+class {{classname}}Impl extends {{classname}} {
+{{#operation}}
+  /**
+    * @inheritdoc
+    */
+  override {{>app/defOperationSignature}} = {
+    // TODO: Implement better logic
+
+    {{#supportAsync}}Future.successful({{/supportAsync}}{{^returnType}}{{#supportAsync}}(): Unit{{/supportAsync}}{{/returnType}}{{#returnType}}{{&defaultResponse}}{{/returnType}}{{#supportAsync}}){{/supportAsync}}
+  }
+{{#hasMore}}
+
+{{/hasMore}}
+{{/operation}}
+}
+{{/operations}}

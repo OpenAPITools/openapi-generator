@@ -91,6 +91,12 @@ while getopts ":hcsdtn:" arg; do
   esac
 done
 
+if [ -z "$gen_type" ]; then
+    echo "[error] You may set a generator type" >&2
+    usage >&2
+    exit 1
+fi
+
 [ -z "${gen_name}" ] && usage
 
 titleCase() {
@@ -103,7 +109,19 @@ titleCase() {
 }
 
 kebabCase() {
-  echo $1 | tr '-' ' ' | tr '_' ' ' | tr '[:upper:]' '[:lower:]' | tr ' ' '-'
+  echo $1 | tr '_' ' ' | tr ' ' '-' | tr '[:upper:]' '[:lower:]'
+}
+
+kebabCasePath() {
+  echo $1 | tr '_' ' ' | tr ' ' '-' | tr '-' '/' | tr '[:upper:]' '[:lower:]'
+}
+
+kebabCasePathWin() {
+  echo $1 | tr '_' ' ' | tr ' ' '-' | tr '-' '\\' | tr '[:upper:]' '[:lower:]'
+}
+
+kebabCasePkg() {
+  echo $1 | tr '_' ' ' | tr ' ' '-' | tr '-' '.' | tr '[:upper:]' '[:lower:]'
 }
 
 upperCase() {
@@ -112,6 +130,9 @@ upperCase() {
 
 declare lang_classname=$(titleCase "${gen_name}-${gen_type}-Codegen")
 declare gen_name_camel=$(kebabCase "${gen_name}")
+declare gen_name_camel_path=$(kebabCasePath "${gen_name}")
+declare gen_name_camel_pathwin=$(kebabCasePathWin "${gen_name}")
+declare gen_name_camel_pkg=$(kebabCasePkg "${gen_name}")
 declare codegen_type_enum=$(upperCase "${gen_type}")
 
 # Step 1: Add Language Generator
@@ -146,20 +167,20 @@ public class ${lang_classname} extends DefaultCodegen implements CodegenConfig {
     }
 
     public String getName() {
-        return "${gen_name}";
+        return "${gen_name_camel}";
     }
 
     public String getHelp() {
-        return "Generates a ${gen_name} ${gen_type}.";
+        return "Generates a ${gen_name_camel} ${gen_type}.";
     }
 
     public ${lang_classname}() {
         super();
 
-        outputFolder = "generated-code" + File.separator + "${gen_name}";
+        outputFolder = "generated-code" + File.separator + "${gen_name_camel}";
         modelTemplateFiles.put("model.mustache", ".zz");
         apiTemplateFiles.put("api.mustache", ".zz");
-        embeddedTemplateDir = templateDir = "${gen_name}-${gen_type}";
+        embeddedTemplateDir = templateDir = "${gen_name_camel}-${gen_type}";
         apiPackage = File.separator + "Apis";
         modelPackage = File.separator + "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -172,19 +193,19 @@ EOF
 echo -e "\norg.openapitools.codegen.languages.${lang_classname}" >> "${root}/modules/openapi-generator/src/main/resources/META-INF/services/org.openapitools.codegen.CodegenConfig"
 
 # Step 3: Create resource files
-mkdir -p "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/README.mustache" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/README.mustache"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/model.mustache" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/model.mustache"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/api.mustache" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/api.mustache"
+mkdir -p "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/README.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/README.mustache"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/model.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/model.mustache"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/api.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/api.mustache"
 
 # Step 4: Create bash/batch scripts
 
 ## Windows batch file
-echo "Creating bin/windows/${gen_name}-${gen_type}-petstore.bat"
-cat > "${root}/bin/windows/${gen_name}-${gen_type}-petstore.bat"<<EOF
+echo "Creating bin/windows/${gen_name_camel}-${gen_type}-petstore.bat"
+cat > "${root}/bin/windows/${gen_name_camel}-${gen_type}-petstore.bat"<<EOF
 set executable=.\modules\openapi-generator-cli\target\openapi-generator-cli.jar
 
 If Not Exist %executable% (
@@ -192,14 +213,14 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate  --artifact-id "${gen_name}-petstore-${gen_type}" -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g ${gen_name} -o samples\\${gen_type}\petstore\\${gen_name}
+set ags=generate  --artifact-id "${gen_name_camel}-petstore-${gen_type}" -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g ${gen_name_camel} -o samples\\${gen_type}\petstore\\${gen_name_camel_pathwin}
 
 java %JAVA_OPTS% -jar %executable% %ags%
 EOF
 
 ## Bash file
-echo "Creating bin/${gen_name}-${gen_type}-petstore.sh"
-cat > "${root}/bin/${gen_name}-${gen_type}-petstore.sh"<<EOF
+echo "Creating bin/${gen_name_camel}-${gen_type}-petstore.sh"
+cat > "${root}/bin/${gen_name_camel}-${gen_type}-petstore.sh"<<EOF
 #!/bin/sh
 
 SCRIPT="\$0"
@@ -227,21 +248,21 @@ then
 fi
 
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="\${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="\$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ${gen_name} -o samples/${gen_type}/petstore/${gen_name}"
+export JAVA_OPTS="\${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
+ags="\$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ${gen_name_camel} -o samples/${gen_type}/petstore/${gen_name_camel_path}"
 
 java \${JAVA_OPTS} -jar \${executable} \${ags}
 EOF
 
-chmod u+x "${root}/bin/${gen_name}-${gen_type}-petstore.sh"
+chmod u+x "${root}/bin/${gen_name_camel}-${gen_type}-petstore.sh"
 
 # Step 5: (optional) Create OpenAPI Generator test files
 if [ "1" -eq "${tests}" ]; then
-    mkdir -p "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}"
+    mkdir -p "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel_path}"
     # Codegen
-    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}Test.java"
-    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}Test.java"<<EOF
-package org.openapitools.codegen.${gen_name_camel};
+    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel_path}/${lang_classname}Test.java"
+    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel_path}/${lang_classname}Test.java"<<EOF
+package org.openapitools.codegen.${gen_name_camel_pkg};
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.${lang_classname};
@@ -263,9 +284,9 @@ public class ${lang_classname}Test {
 EOF
 
     # Model
-    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}ModelTest.java"
-    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}ModelTest.java"<<EOF
-package org.openapitools.codegen.${gen_name_camel};
+    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel_path}/${lang_classname}ModelTest.java"
+    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel_path}/${lang_classname}ModelTest.java"<<EOF
+package org.openapitools.codegen.${gen_name_camel_pkg};
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.${lang_classname};
@@ -297,9 +318,9 @@ public class ${lang_classname}ModelTest {
 EOF
 
     # Options
-    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}OptionsTest.java"
-    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}OptionsTest.java"<<EOF
-package org.openapitools.codegen.${gen_name_camel};
+    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel_path}/${lang_classname}OptionsTest.java"
+    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel_path}/${lang_classname}OptionsTest.java"<<EOF
+package org.openapitools.codegen.${gen_name_camel_pkg};
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;

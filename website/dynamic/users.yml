@@ -24,9 +24,24 @@
   infoLink: "https://www.boxever.com/"
   pinned: false
 -
+  caption: CAM
+  image: "img/companies/cam.png"
+  infoLink: "https://www.cam-inc.co.jp"
+  pinned: false
+-
+  caption: FiNC Technologies
+  image: "img/companies/finc-technologies.png"
+  infoLink: "https://company.finc.com/"
+  pinned: false
+-
   caption: "GMO Pepabo"
   image: "img/companies/pepabo.png"
   infoLink: "https://pepabo.com/en/"
+  pinned: false
+-
+  caption: "GoDaddy"
+  image: "img/companies/godaddy.png"
+  infoLink: "https://www.godaddy.com/"
   pinned: false
 -
   caption: JustStar
@@ -44,9 +59,19 @@
   infoLink: "https://www.metaswitch.com/"
   pinned: true
 -
+  caption: NamSor
+  image: "img/companies/namsor.png"
+  infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  pinned: false
+-
   caption: Myworkout
   image: "img/companies/myworkout.png"
   infoLink: "https://myworkout.com/"
+  pinned: false
+-
+  caption: OPTiM
+  image: "img/companies/optim.png"
+  infoLink: "https://www.optim.co.jp/"
   pinned: false
 -
   caption: "Raiffeisen Schweiz Genossenschaft"
@@ -89,7 +114,22 @@
   infoLink: "https://www.unblu.com/"
   pinned: true
 -
+  caption: Xero
+  image: "img/companies/xero.png"
+  infoLink: "https://www.xero.com/"
+  pinned: false
+-
+  caption: Yelp 
+  image: "img/companies/yelp.png"
+  infoLink: "https://www.yelp.com/"
+  pinned: false
+-
   caption: Zalando
   image: "img/companies/zalando.jpg"
   infoLink: "https://www.zalando.com/"
   pinned: true
+-
+  caption: ZOZO Technologies
+  image: "img/companies/zozo-technologies.png"
+  infoLink: "https://tech.zozo.com/en/"
+  pinned: false

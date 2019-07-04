@@ -93,10 +93,10 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         String setter;
         String testDataPath;
         int index;
-        Map<String, Object> vendorExtensions;
+        Map<String, Object> varVendorExtensions;
 
         private CodegenVariable() {
-            vendorExtensions = new HashMap<>();
+            varVendorExtensions = new HashMap<>();
         }
 
         private CodegenVariable(CodegenVariable parent, CodegenOperation op, String testDataPath,
@@ -120,7 +120,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             maxLength = null;// op.maxLength;
             pattern = null;// op.pattern;
             setter = null;// op.getSetter();
-            vendorExtensions = op.vendorExtensions;
+            varVendorExtensions = op.vendorExtensions;
             init(parent, testDataPath, models);
 
             if (op.isListContainer || op.isMapContainer) {
@@ -155,7 +155,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             maxLength = param.maxLength;
             pattern = param.pattern;
             setter = null;
-            vendorExtensions = param.vendorExtensions;
+            varVendorExtensions = param.vendorExtensions;
             init(parent, testDataPath, models);
 
             items = param.items == null ? null : new CodegenVariable(this, param.items, null, models);
@@ -182,7 +182,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             maxLength = prop.maxLength;
             pattern = prop.pattern;
             setter = prop.getSetter();
-            vendorExtensions = prop.vendorExtensions;
+            varVendorExtensions = prop.vendorExtensions;
             init(parent, testDataPath, models);
 
             items = prop.items == null ? null : new CodegenVariable(this, prop.items, null, models);
@@ -267,7 +267,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                     + minItems + ", itemCount=" + itemCount + ", minimum=" + minimum + ", maximum=" + maximum
                     + ", exclusiveMinimum=" + exclusiveMinimum + ", exclusiveMaximum=" + exclusiveMaximum
                     + ", minLength=" + minLength + ", maxLength=" + maxLength + ", pattern=" + pattern + ", setter="
-                    + setter + ", vendorExtensions=" + vendorExtensions + "]";
+                    + setter + ", vendorExtensions=" + varVendorExtensions + "]";
         }
     }
 
@@ -659,7 +659,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             int i = (int) (values.size() * Math.random());
             Object randomEnum = values.get(i);
             boolean usingEnumLiteral = false;
-            String definingClass = (String) var.vendorExtensions.get("x-defining-class");
+            String definingClass = (String) var.varVendorExtensions.get("x-defining-class");
             if (definingClass != null) {
                 @SuppressWarnings("unchecked")
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");

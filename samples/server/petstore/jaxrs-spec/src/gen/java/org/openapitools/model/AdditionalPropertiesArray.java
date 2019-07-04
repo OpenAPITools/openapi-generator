@@ -48,12 +48,13 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
       return false;
     }
     AdditionalPropertiesArray additionalPropertiesArray = (AdditionalPropertiesArray) o;
-    return Objects.equals(name, additionalPropertiesArray.name);
+    return Objects.equals(this.name, additionalPropertiesArray.name) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(name, super.hashCode());
   }
 
   @Override

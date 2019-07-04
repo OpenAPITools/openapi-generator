@@ -21,8 +21,6 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.HashMap;
@@ -32,7 +30,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String COLLECTION_TYPE = "collectionType";
-    private static final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String collectionType = CollectionType.ARRAY.value;
@@ -69,6 +66,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         artifactId = "kotlin-client";
         packageName = "org.openapitools.client";
 
+        // cliOptions default redefinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
+        updateOption(CodegenConstants.PACKAGE_NAME, this.packageName);
+
         outputFolder = "generated-code" + File.separator + "kotlin-client";
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
@@ -78,14 +79,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
 
-        enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
-
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DateLibrary.THREETENBP.value, "Threetenbp");
         dateOptions.put(DateLibrary.STRING.value, "String");
         dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310");
         dateLibrary.setEnum(dateOptions);
+        dateLibrary.setDefault(this.dateLibrary);
         cliOptions.add(dateLibrary);
 
         CliOption collectionType = new CliOption(COLLECTION_TYPE, "Option. Collection type to use");
@@ -93,6 +93,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         collectionOptions.put(CollectionType.ARRAY.value, "kotlin.Array");
         collectionOptions.put(CollectionType.LIST.value, "kotlin.collections.List");
         collectionType.setEnum(collectionOptions);
+        collectionType.setDefault(this.collectionType);
         cliOptions.add(collectionType);
     }
 
@@ -130,6 +131,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
             importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
+            defaultIncludes.add("org.threeten.bp.LocalDate");
             defaultIncludes.add("org.threeten.bp.LocalDateTime");
         } else if (DateLibrary.STRING.value.equals(dateLibrary)) {
             typeMapping.put("date-time", "kotlin.String");
@@ -165,5 +167,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
     }
 }

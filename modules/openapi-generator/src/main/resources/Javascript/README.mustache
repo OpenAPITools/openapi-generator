@@ -22,8 +22,7 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 #### npm
 
-To publish the library as a [npm](https://www.npmjs.com/),
-please follow the procedure in ["Publishing npm packages"](https://docs.npmjs.com/getting-started/publishing-npm-packages).
+To publish the library as a [npm](https://www.npmjs.com/), please follow the procedure in ["Publishing npm packages"](https://docs.npmjs.com/getting-started/publishing-npm-packages).
 
 Then install it via:
 
@@ -33,8 +32,7 @@ npm install {{{projectName}}} --save
 
 ##### Local development
 
-To use the library locally without publishing to a remote npm registry, first install the dependencies by changing 
-into the directory containing `package.json` (and this README). Let's call this `JAVASCRIPT_CLIENT_DIR`. Then run:
+To use the library locally without publishing to a remote npm registry, first install the dependencies by changing into the directory containing `package.json` (and this README). Let's call this `JAVASCRIPT_CLIENT_DIR`. Then run:
 
 ```shell
 npm install
@@ -52,13 +50,11 @@ Finally, switch to the directory you want to use your {{{projectName}}} from, an
 npm link /path/to/<JAVASCRIPT_CLIENT_DIR>
 ```
 
-You should now be able to `require('{{{projectName}}}')` in javascript files from the directory you ran the last 
-command above from.
+You should now be able to `require('{{{projectName}}}')` in javascript files from the directory you ran the last command above from.
 
-#### git
-#
-If the library is hosted at a git repository, e.g.
-https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{projectName}}{{/gitRepoId}}
+### git
+
+If the library is hosted at a git repository, e.g. https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{projectName}}{{/gitRepoId}}
 then install it via:
 
 ```shell
@@ -67,10 +63,7 @@ then install it via:
 
 ### For browser
 
-The library also works in the browser environment via npm and [browserify](http://browserify.org/). After following
-the above steps with Node.js and installing browserify with `npm install -g browserify`,
-perform the following (assuming *main.js* is your entry file, that's to say your javascript file where you actually 
-use this library):
+The library also works in the browser environment via npm and [browserify](http://browserify.org/). After following the above steps with Node.js and installing browserify with `npm install -g browserify`, perform the following (assuming *main.js* is your entry file, that's to say your javascript file where you actually use this library):
 
 ```shell
 browserify main.js > bundle.js
@@ -189,21 +182,28 @@ All endpoints do not require authorization.
 {{/authMethods}}
 {{#authMethods}}
 {{#last}} Authentication schemes defined for the API:{{/last}}
+
 ### {{name}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+
+- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
 {{#isBasic}}
 {{^isBasicBearer}}
+
 - **Type**: HTTP basic authentication
 {{/isBasicBearer}}
 {{#isBasicBearer}}
+
 - **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+
+- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}

@@ -10,17 +10,16 @@ import org.openapitools.model.Tag;
 
 @Canonical
 class Pet {
+    
     Long id
-
+    
     Category category = null
-
+    
     String name
-
+    
     List<String> photoUrls = new ArrayList<String>()
-
+    
     List<Tag> tags = new ArrayList<Tag>()
-
     /* pet status in the store */
     String status
-
 }

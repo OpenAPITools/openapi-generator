@@ -2,7 +2,7 @@
 {{> api_info}}
 =end
 
-require 'uri'
+require 'cgi'
 
 module {{moduleName}}
 {{#operations}}
@@ -37,7 +37,7 @@ module {{moduleName}}
 {{#allParams}}{{#required}}    # @param {{paramName}} [{{{dataType}}}] {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
-{{/required}}{{/allParams}}    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Fixnum, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
+{{/required}}{{/allParams}}    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
     def {{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: {{classname}}.{{operationId}} ...'
@@ -123,10 +123,10 @@ module {{moduleName}}
       {{/hasValidation}}
       {{/allParams}}
       # resource path
-      local_var_path = '{{{path}}}'{{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
+      local_var_path = '{{{path}}}'{{#pathParams}}.sub('{' + '{{baseName}}' + '}', CGI.escape({{paramName}}.to_s){{^strictSpecBehavior}}.gsub('%2F', '/'){{/strictSpecBehavior}}){{/pathParams}}
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
       {{#queryParams}}
       {{#required}}
       query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
@@ -139,7 +139,7 @@ module {{moduleName}}
       {{/queryParams}}
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       {{#hasProduces}}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept([{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
@@ -160,7 +160,7 @@ module {{moduleName}}
       {{/headerParams}}
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
       {{#formParams}}
       {{#required}}
       form_params['{{baseName}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
@@ -173,20 +173,24 @@ module {{moduleName}}
       {{/formParams}}
 
       # http body (model)
-      {{^bodyParam}}
-      post_body = nil
-      {{/bodyParam}}
-      {{#bodyParam}}
-      post_body = @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
-      {{/bodyParam}}
-      auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
-      data, status_code, headers = @api_client.call_api(:{{httpMethod}}, local_var_path,
+      post_body = opts[:body] {{#bodyParam}}|| @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}) {{/bodyParam}}
+
+      # return_type
+      return_type = opts[:return_type] {{#returnType}}|| '{{{returnType}}}' {{/returnType}}
+
+      # auth_names
+      auth_names = opts[:auth_names] || [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
+
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
-        :auth_names => auth_names{{#returnType}},
-        :return_type => '{{{returnType}}}'{{/returnType}})
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:{{httpMethod}}, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

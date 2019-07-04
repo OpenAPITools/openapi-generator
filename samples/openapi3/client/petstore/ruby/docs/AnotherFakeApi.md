@@ -7,7 +7,9 @@ Method | HTTP request | Description
 [**call_123_test_special_tags**](AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-# **call_123_test_special_tags**
+
+## call_123_test_special_tags
+
 > Client call_123_test_special_tags(client)
 
 To test special tags
@@ -15,6 +17,7 @@ To test special tags
 To test special tags and operation ID starting with number
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -33,6 +36,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **client** | [**Client**](Client.md)| client model | 
@@ -47,8 +51,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
+- **Content-Type**: application/json
+- **Accept**: application/json
 

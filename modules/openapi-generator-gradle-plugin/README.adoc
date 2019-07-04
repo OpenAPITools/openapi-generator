@@ -40,25 +40,34 @@ compileJava.dependsOn tasks.openApiGenerate
 
 == Plugin Setup
 
+//# RELEASE_VERSION
+
+[source,group]
+----
+plugins {
+  id "org.openapi.generator" version "4.0.3-SNAPSHOT"
+}
+----
+
+Using https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application[legacy plugin application]:
+
 [source,groovy]
 ----
 buildscript {
   repositories {
     mavenLocal()
     mavenCentral()
+    // or, via Gradle Plugin Portal:
+    // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.4"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.0.3-SNAPSHOT"
   }
 }
 
 apply plugin: 'org.openapi.generator'
 ----
-
-[NOTE]
-====
-The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
-====
+//# /RELEASE_VERSION
 
 == Configuration
 
@@ -117,6 +126,11 @@ The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
 |Boolean
 |false
 |Specifies if the existing files should be overwritten during the generation.
+
+|packageName
+|String
+|(generator specific)
+|Package for generated classes (where supported).
 
 |apiPackage
 |String
@@ -266,7 +280,7 @@ The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
 |configOptions
 |Map(String,String)
 |None
-|A map of options specific to a generator.
+|A map of options specific to a generator. To see the full list of generator-specified parameters, please refer to [generators docs](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators.md)
 
 |logToStderr
 |Boolean
@@ -586,6 +600,7 @@ Android Studio may experience a Windows-specific Guava dependency conflict with 
 
 As a workaround, you may force exclude conflicting Guava dependencies.
 
+//# RELEASE_VERSION
 ```gradle
 buildscript {
     repositories {
@@ -594,7 +609,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:3.3.4') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:4.0.3-SNAPSHOT') {
             exclude group: 'com.google.guava'
         }
     }
@@ -607,5 +622,6 @@ configurations {
 // …
 apply plugin: 'org.openapi.generator'
 ```
+//# /RELEASE_VERSION
 
 See https://github.com/OpenAPITools/openapi-generator/issues/1818[OpenAPITools/openapi-generator#1818] for more details.

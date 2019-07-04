@@ -312,6 +312,35 @@ public class InlineModelResolver {
         }
     }
 
+    private void flattenComposedChildren(OpenAPI openAPI, String key, List<Schema> children) {
+        if (children == null || children.isEmpty()) {
+            return;
+        }
+        ListIterator<Schema> listIterator = children.listIterator();
+        while (listIterator.hasNext()) {
+            Schema component = listIterator.next();
+            if (component instanceof ObjectSchema) {
+                ObjectSchema op = (ObjectSchema) component;
+                if (op.get$ref() == null && op.getProperties() != null && op.getProperties().size() > 0) {
+                    String innerModelName = resolveModelName(op.getTitle(), key);
+                    Schema innerModel = modelFromProperty(op, innerModelName);
+                    String existing = matchGenerated(innerModel);
+                    if (existing == null) {
+                        openAPI.getComponents().addSchemas(innerModelName, innerModel);
+                        addGenerated(innerModelName, innerModel);
+                        Schema schema = new Schema().$ref(innerModelName);
+                        schema.setRequired(op.getRequired());
+                        listIterator.set(schema);
+                    } else {
+                        Schema schema = new Schema().$ref(existing);
+                        schema.setRequired(op.getRequired());
+                        listIterator.set(schema);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Flatten inline models in components
      *
@@ -326,7 +355,13 @@ public class InlineModelResolver {
         List<String> modelNames = new ArrayList<String>(models.keySet());
         for (String modelName : modelNames) {
             Schema model = models.get(modelName);
-            if (model instanceof Schema) {
+            if (ModelUtils.isComposedSchema(model)) {
+                ComposedSchema m = (ComposedSchema) model;
+                // inline child schemas
+                flattenComposedChildren(openAPI, modelName + "_allOf", m.getAllOf());
+                flattenComposedChildren(openAPI, modelName + "_anyOf", m.getAnyOf());
+                flattenComposedChildren(openAPI, modelName + "_oneOf", m.getOneOf());
+            } else if (model instanceof Schema) {
                 Schema m = (Schema) model;
                 Map<String, Schema> properties = m.getProperties();
                 flattenProperties(properties, modelName);
@@ -351,20 +386,6 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             m.setItems(schema);
                         }
-                    }
-                }
-            } else if (ModelUtils.isComposedSchema(model)) {
-                ComposedSchema m = (ComposedSchema) model;
-                if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
-                    Schema child = null;
-                    for (Schema component : m.getAllOf()) {
-                        if (component.get$ref() == null) {
-                            child = component;
-                        }
-                    }
-                    if (child != null) {
-                        Map<String, Schema> properties = child.getProperties();
-                        flattenProperties(properties, modelName);
                     }
                 }
             }
@@ -408,8 +429,8 @@ public class InlineModelResolver {
 
     private String uniqueName(String key) {
         if (key == null) {
-            key = "NULL_UNIQUE_NAME";
-            LOGGER.warn("null key found. Default to NULL_UNIQUE_NAME");
+            key = "InlineObject";
+            LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused throughout the spec.");
         }
         int count = 0;
         boolean done = false;

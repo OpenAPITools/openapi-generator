@@ -1,0 +1,142 @@
+openapi: 3.0.1
+info:
+  description: API under test
+  title: My title
+  version: 1.0.7
+servers:
+- url: /
+paths:
+  /xml:
+    post:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/xml_array'
+      responses:
+        201:
+          description: OK
+        400:
+          description: Bad Request
+      summary: Post an array
+    put:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/xml_object'
+      responses:
+        201:
+          description: OK
+        400:
+          description: Bad Request
+  /xml_other:
+    post:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/anotherXmlObject'
+      responses:
+        201:
+          description: OK
+        400:
+          description: Bad Request
+    put:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/anotherXmlArray'
+      responses:
+        201:
+          description: OK
+        400:
+          description: Bad Request
+  /xml_extra:
+    post:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/duplicate_xml_object'
+      responses:
+        201:
+          description: OK
+        400:
+          description: Bad Request
+  /required_octet_stream:
+    put:
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: byte
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+components:
+  schemas:
+    UuidObject:
+      description: Test a model containing a UUID
+      format: uuid
+      type: string
+    xml_array:
+      items:
+        $ref: '#/components/schemas/xml_inner'
+      type: array
+      xml:
+        name: CamelXmlArray
+        wrapped: true
+    xml_inner:
+      type: string
+      xml:
+        name: camelXmlInner
+    xml_object:
+      description: An XML object
+      properties:
+        innerString:
+          type: string
+        other_inner_rename:
+          type: integer
+      title: an XML object
+      type: object
+      xml:
+        name: camelXmlObject
+        namespace: http://foo.bar
+    duplicate_xml_object:
+      description: An XML object
+      properties:
+        inner_string:
+          type: string
+        inner_array:
+          $ref: '#/components/schemas/xml_array'
+      required:
+      - inner_array
+      type: object
+      xml:
+        name: camelDuplicateXmlObject
+        namespace: http://different.bar
+    anotherXmlArray:
+      items:
+        $ref: '#/components/schemas/anotherXmlInner'
+      type: array
+      xml:
+        name: snake_another_xml_array
+        wrapped: true
+    anotherXmlInner:
+      type: string
+      xml:
+        name: snake_another_xml_inner
+    anotherXmlObject:
+      description: An XML object
+      properties:
+        inner_string:
+          type: string
+      type: object
+      xml:
+        name: snake_another_xml_object
+        namespace: http://foo.bar
+

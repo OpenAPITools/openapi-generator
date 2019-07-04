@@ -2,20 +2,20 @@
 
 {{=< >=}}
 import ApiClient from "../ApiClient";
-<#imports>import <import> from '../<#modelPackage><&modelPackage>/</modelPackage><import>';
+<#imports>import <&import> from '../<#modelPackage><&modelPackage>/</modelPackage><import>';
 </imports>
 
 <#emitJSDoc>/**
 * <baseName> service.
 * @module <#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><classname>
-* @version <projectVersion>
+* @version <&projectVersion>
 */</emitJSDoc>
-export default class <classname> {
+export default class <&classname> {
 
     <#emitJSDoc>/**
     * Constructs a new <&classname>. <#description>
     * <description></description>
-    * @alias module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><apiPackage>/</apiPackage><classname>
+    * @alias module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><classname>
     * @class
     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage>ApiClient} [apiClient] Optional API client implementation to use,
     * default to {@link module:<#invokerPackage><&invokerPackage>/</invokerPackage>ApiClient#instance} if unspecified.
@@ -26,20 +26,20 @@ export default class <classname> {
 
 <#operations><#operation><#emitJSDoc><^usePromises>
     /**
-     * Callback function to receive the result of the <operationId> operation.
-     * @callback module:<#invokerPackage><invokerPackage>/</invokerPackage><#apiPackage><apiPackage>/</apiPackage><classname>~<operationId>Callback
+     * Callback function to receive the result of the <&operationId> operation.
+     * @callback module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<&operationId>Callback
      * @param {String} error Error message, if any.
      * @param <#vendorExtensions.x-jsdoc-type>{<&vendorExtensions.x-jsdoc-type>} data The data returned by the service call.</vendorExtensions.x-jsdoc-type><^vendorExtensions.x-jsdoc-type>data This operation does not return a value.</vendorExtensions.x-jsdoc-type>
      * @param {String} response The complete HTTP response.
      */</usePromises>
 
     /**<#summary>
-     * <summary></summary><#notes>
-     * <notes></notes><#allParams><#required>
-     * @param {<&vendorExtensions.x-jsdoc-type>} <paramName> <description></required></allParams><#hasOptionalParams>
+     * <&summary></summary><#notes>
+     * <&notes></notes><#allParams><#required>
+     * @param {<&vendorExtensions.x-jsdoc-type>} <&paramName> <&description></required></allParams><#hasOptionalParams>
      * @param {Object} opts Optional parameters<#allParams><^required>
-     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<paramName> <description><#defaultValue> (default to <.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
-     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
+     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<&paramName> <&description><#defaultValue> (default to <&.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
+     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<&operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
@@ -95,12 +95,12 @@ export default class <classname> {
 <#emitJSDoc>
 
     /**<#summary>
-     * <summary></summary><#notes>
-     * <notes></notes><#allParams><#required>
-     * @param {<&vendorExtensions.x-jsdoc-type>} <paramName> <description></required></allParams><#hasOptionalParams>
+     * <&summary></summary><#notes>
+     * <&notes></notes><#allParams><#required>
+     * @param {<&vendorExtensions.x-jsdoc-type>} <&paramName> <&description></required></allParams><#hasOptionalParams>
      * @param {Object} opts Optional parameters<#allParams><^required>
-     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<paramName> <description><#defaultValue> (default to <.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
-     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
+     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<&paramName> <&description><#defaultValue> (default to <&.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
+     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<&operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with data of type {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises>
      */

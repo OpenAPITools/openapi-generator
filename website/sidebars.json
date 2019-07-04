@@ -4,8 +4,7 @@
       "installation",
       "plugins",
       "online",
-      "usage",
-      "general-faq"
+      "usage"
     ],
     "Extending": [
       "templating",

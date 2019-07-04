@@ -323,10 +323,36 @@ class Index extends React.Component {
       );
     };
 
+    const Sponsors = () => {
+      if ((siteConfig.sponsors || []).length === 0) {
+        return null;
+      }
+
+      const bronze_sponsors = siteConfig.sponsors
+        .filter(user => user.bronze)
+        .map(user => (
+          <a href={user.infoLink} key={user.infoLink}>
+            <img src={baseUrl + user.image} alt={user.caption} title={user.caption} />
+          </a>
+        ));
+
+      const pageUrl = page => baseUrl + (language ? `${language}/` : '') + page;
+
+      return (
+        <div className="productShowcaseSection paddingBottom">
+          <h2><b>Sponsors</b></h2>
+          <p>If you find OpenAPI Generator useful for work, please consider asking your company to support this Open Source project by <a href="https://opencollective.com/openapi_generator">becoming a sponsor</a>. You can also individually sponsor the project by <a href="https://opencollective.com/openapi_generator">becoming a backer</a>.</p>
+          <h3>Thank you to our bronze sponsors!</h3>
+          <div className="logos">{bronze_sponsors}</div>
+        </div>
+      );
+    };
+
     return (
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer">
+          <Sponsors />
           <Features />
           {/*<FeatureCallout />*/}
           <LearnHow />

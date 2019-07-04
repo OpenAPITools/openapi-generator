@@ -24,6 +24,8 @@ import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
     // source folder where to write the files
@@ -75,6 +77,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
         supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, PREFIX + "HttpRequest.h"));
         supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, PREFIX + "HttpRequest.cpp"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
+        supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, PREFIX + "Enum.h"));        
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "client.pri"));
         }
@@ -100,6 +103,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
             supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, modelNamePrefix + "HttpRequest.h"));
             supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, modelNamePrefix + "HttpRequest.cpp"));
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
+            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));            
 
             typeMapping.put("file", modelNamePrefix + "HttpRequestInputFileElement");
             typeMapping.put("binary", modelNamePrefix + "HttpRequestInputFileElement");
@@ -163,7 +167,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
 
     @Override
     public String toApiFilename(String name) {
-        return modelNamePrefix + sanitizeName(initialCaps(name)) + "Api";
+        return modelNamePrefix + sanitizeName(camelize(name)) + "Api";
     }
 
     public void setOptionalProjectFileFlag(boolean flag) {

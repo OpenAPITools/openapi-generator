@@ -1,6 +1,7 @@
-# InlineResponseDefault
+# # InlineResponseDefault
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **string** | [**\OpenAPI\Client\Model\Foo**](Foo.md) |  | [optional] 

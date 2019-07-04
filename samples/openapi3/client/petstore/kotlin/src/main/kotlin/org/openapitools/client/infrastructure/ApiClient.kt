@@ -60,7 +60,9 @@ open class ApiClient(val baseUrl: String) {
                     fun toJson(uuid: UUID) = uuid.toString()
                     @FromJson
                     fun fromJson(s: String) = UUID.fromString(s)
-                }).build().adapter(T::class.java).fromJson(body.source())
+                })
+                .add(ByteArrayAdapter())
+                .build().adapter(T::class.java).fromJson(body.source())
             else -> TODO()
         }
     }

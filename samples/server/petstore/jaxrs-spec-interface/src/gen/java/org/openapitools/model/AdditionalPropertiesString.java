@@ -47,12 +47,13 @@ public class AdditionalPropertiesString extends HashMap<String, String> implemen
       return false;
     }
     AdditionalPropertiesString additionalPropertiesString = (AdditionalPropertiesString) o;
-    return Objects.equals(name, additionalPropertiesString.name);
+    return Objects.equals(this.name, additionalPropertiesString.name) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(name, super.hashCode());
   }
 
   @Override

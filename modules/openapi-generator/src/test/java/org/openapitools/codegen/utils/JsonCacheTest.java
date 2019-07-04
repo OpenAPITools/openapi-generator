@@ -16,13 +16,19 @@
 
 package org.openapitools.codegen.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonPointer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+import org.openapitools.codegen.utils.JsonCache.CacheException;
+import org.openapitools.codegen.utils.JsonCache.Root.MergePolicy;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,20 +42,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.openapitools.codegen.utils.JsonCache.CacheException;
-import org.openapitools.codegen.utils.JsonCache.Root.MergePolicy;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonPointer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+import static org.testng.Assert.*;
 
 /**
  * Tests the JsonCache class.
@@ -216,7 +209,7 @@ public class JsonCacheTest {
         root.load(new ByteArrayInputStream(JSON.getBytes("UTF-8")));
     }
 
-    @Before
+    @BeforeMethod(alwaysRun = true)
     public void setUp() throws Exception {
         // NOTE: we want each test to have its own pristine cache instance.
         root = JsonCache.Factory.instance.create();
@@ -232,54 +225,54 @@ public class JsonCacheTest {
     public void testAddBigDecimal() throws Exception {
         BigDecimal value = new BigDecimal(5.1);
         cache.add("/array/1", value);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", value,
-                cache.getBigDecimal("/array/1"));
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals(value, cache.getBigDecimal("/array/1"),
+                "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         value = new BigDecimal(6.2);
         cache.add("/object/nestedArray/5", value);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", value,
-                cache.getBigDecimal("/object/nestedArray/5"));
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals(value, cache.getBigDecimal("/object/nestedArray/5"),
+                "Array element at index 1 incorrect after add(path, value);");
     }
 
     @Test
     public void testAddBigInteger() throws Exception {
         BigInteger value = new BigInteger("5");
         cache.add("/array/1", value);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", value,
-                cache.getBigInteger("/array/1"));
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals(value, cache.getBigInteger("/array/1"),
+                "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         value = new BigInteger("6");
         cache.add("/object/nestedArray/5", value);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", value,
-                cache.getBigInteger("/object/nestedArray/5"));
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals(value, cache.getBigInteger("/object/nestedArray/5"),
+                "Array element at index 1 incorrect after add(path, value);");
     }
 
     @Test
     public void testAddBoolean() throws Exception {
         cache.add("/array/1", true);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", true, cache.getBoolean("/array/1"));
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals(true, cache.getBoolean("/array/1"), "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         cache.add("/object/nestedArray/5", true);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", true,
-                cache.getBoolean("/object/nestedArray/5"));
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals(true, cache.getBoolean("/object/nestedArray/5"),
+                "Array element at index 1 incorrect after add(path, value);");
     }
 
     @Test
@@ -289,18 +282,18 @@ public class JsonCacheTest {
 
     private void testAddDate0(String dateStr, Object date) throws Exception {
         cache.add("/array/1", dateStr);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", date,
-                cache.getObject("/array/1", date.getClass()));
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals(date, cache.getObject("/array/1", date.getClass()),
+                "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         cache.add("/object/nestedArray/5", date);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", date,
-                cache.getObject("/object/nestedArray/5", date.getClass()));
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals(date, cache.getObject("/object/nestedArray/5", date.getClass()),
+                "Array element at index 1 incorrect after add(path, value);");
     }
 
     @Test
@@ -321,51 +314,56 @@ public class JsonCacheTest {
     @Test
     public void testAddDouble() throws Exception {
         cache.add("/array/1", 5.1D);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", 5.1D, cache.getDouble("/array/1"),
-                Double.MIN_VALUE);
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals(5.1D, cache.getDouble("/array/1"), Double.MIN_VALUE,
+                "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         cache.add("/object/nestedArray/5", 6.2D);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", 6.2D,
-                cache.getDouble("/object/nestedArray/5"), Double.MIN_VALUE);
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals(6.2D, cache.getDouble("/object/nestedArray/5"),
+                Double.MIN_VALUE, "Array element at index 1 incorrect after add(path, value);");
     }
 
     @Test
     public void testAddFloat() throws Exception {
         cache.add("/array/1", 5.1F);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", 5.1F, cache.getFloat("/array/1"),
-                Float.MIN_VALUE);
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals(5.1F, cache.getFloat("/array/1"), Float.MIN_VALUE,
+                "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         cache.add("/object/nestedArray/5", 6.2F);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", 6.2F,
-                cache.getFloat("/object/nestedArray/5"), Float.MIN_VALUE);
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals(6.2F, cache.getFloat("/object/nestedArray/5"),
+                Float.MIN_VALUE, "Array element at index 1 incorrect after add(path, value);");
     }
+
+//    private void assertEquals(String string, float f, float float1, float minValue) {
+//        // TODO Auto-generated method stub
+//        
+//    }
 
     @Test
     public void testAddInt() throws Exception {
         cache.add("/array/1", 5);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", 5, cache.getInt("/array/1"));
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals(5, cache.getInt("/array/1"), "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         cache.add("/object/nestedArray/5", 6);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", 6,
-                cache.getInt("/object/nestedArray/5"));
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals(6, cache.getInt("/object/nestedArray/5"),
+                "Array element at index 1 incorrect after add(path, value);");
     }
 
     @Test
@@ -386,196 +384,197 @@ public class JsonCacheTest {
     @Test
     public void testAddLong() throws Exception {
         cache.add("/array/1", 5L);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", 5L, cache.getLong("/array/1"));
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals(5L, cache.getLong("/array/1"), "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         cache.add("/object/nestedArray/5", 6L);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", 6L,
-                cache.getLong("/object/nestedArray/5"));
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals(6L, cache.getLong("/object/nestedArray/5"),
+                "Array element at index 1 incorrect after add(path, value);");
     }
 
     public void testAddObject() throws Exception {
         cache.add("/array/1", TEST_OBJECT_0);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", TEST_OBJECT_0,
-                cache.getObject("/array/1", TestObject.class));
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals(TEST_OBJECT_0, cache.getObject("/array/1", TestObject.class),
+                "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         cache.add("/object/nestedArray/5", TEST_OBJECT_1);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", TEST_OBJECT_1,
-                cache.getObject("/object/nestedArray/5", TestObject.class));
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals(TEST_OBJECT_1, cache.getObject("/object/nestedArray/5", TestObject.class),
+                "Array element at index 1 incorrect after add(path, value);");
     }
 
     @Test
     public void testAddShort() throws Exception {
         cache.add("/array/1", (short) 5);
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", (short) 5,
-                cache.getShort("/array/1"));
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals((short) 5, cache.getShort("/array/1"),
+                "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         cache.add("/object/nestedArray/5", (short) 6);
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", (short) 6,
-                cache.getShort("/object/nestedArray/5"));
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals((short) 6, cache.getShort("/object/nestedArray/5"),
+                "Array element at index 1 incorrect after add(path, value);");
     }
 
     @Test
     public void testAddString() throws Exception {
         cache.add("/array/1", "5");
-        assertEquals("Array size incorrect after add(path, value)", 5, cache.size("/array"));
-        assertEquals("Array element at index 0 incorrect after add(path, value);", 1, cache.get("/array/0"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", "5", cache.getString("/array/1"));
-        assertEquals("Array element at index 2 incorrect after add(path, value);", "2", cache.get("/array/2"));
+        assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
+        assertEquals(1, cache.get("/array/0"), "Array element at index 0 incorrect after add(path, value);");
+        assertEquals("5", cache.getString("/array/1"), "Array element at index 1 incorrect after add(path, value);");
+        assertEquals("2", cache.get("/array/2"), "Array element at index 2 incorrect after add(path, value);");
 
         cache.add("/object/nestedArray/5", "6");
-        assertEquals("Array size incorrect after add(path, value)", 6, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 4 incorrect after add(path, value);", null,
-                cache.get("/object/nestedArray/4"));
-        assertEquals("Array element at index 1 incorrect after add(path, value);", "6",
-                cache.getString("/object/nestedArray/5"));
+        assertEquals(6, cache.size("/object/nestedArray"), "Array size incorrect after add(path, value)");
+        assertEquals(null, cache.get("/object/nestedArray/4"),
+                "Array element at index 4 incorrect after add(path, value);");
+        assertEquals("6", cache.getString("/object/nestedArray/5"),
+                "Array element at index 1 incorrect after add(path, value);");
     }
 
     @Test
     public void testDelete() throws Exception {
-        assertTrue("existing root element is not an object;", cache.get("") instanceof ObjectNode);
+        assertTrue(cache.get("") instanceof ObjectNode, "existing root element is not an object;");
 
         cache.delete("/array/2");
-        assertEquals("Array size incorrect after delete element;", 3, cache.size("/array"));
-        assertEquals("Array element at index 1 incorrect after delete;", "2", cache.getString("/array/1"));
-        assertEquals("Array element at index 2 incorrect after delete;", 4.0D, cache.getDouble("/array/2"),
-                Double.MIN_VALUE);
+        assertEquals(3, cache.size("/array"), "Array size incorrect after delete element;");
+        assertEquals("2", cache.getString("/array/1"), "Array element at index 1 incorrect after delete;");
+        assertEquals(4.0D, cache.getDouble("/array/2"), Double.MIN_VALUE,
+                "Array element at index 2 incorrect after delete;");
 
         cache.delete("/object/nestedArray/2");
-        assertEquals("Array size incorrect after delete element;", 3, cache.size("/object/nestedArray"));
-        assertEquals("Array element at index 1 incorrect after delete;", "b", cache.getString("/object/nestedArray/1"));
-        assertEquals("Array element at index 2 incorrect after delete;", "d", cache.getString("/object/nestedArray/2"));
+        assertEquals(3, cache.size("/object/nestedArray"), "Array size incorrect after delete element;");
+        assertEquals("b", cache.getString("/object/nestedArray/1"), "Array element at index 1 incorrect after delete;");
+        assertEquals("d", cache.getString("/object/nestedArray/2"), "Array element at index 2 incorrect after delete;");
 
         cache.delete("/object");
-        assertFalse("delete object failed;", cache.exists("/object"));
+        assertFalse(cache.exists("/object"), "delete object failed;");
 
         cache.delete("");
-        assertFalse("delete root failed;", cache.exists(""));
+        assertFalse(cache.exists(""), "delete root failed;");
 
         // This call should have reinstated the missing root as an array.
         cache.set("/0", true);
-        assertTrue("new root element is not an array;", cache.get("") instanceof ArrayNode);
-        assertEquals("Failed to set root array element 0 when root is null;", true, cache.getBoolean("/0"));
+        assertTrue(cache.get("") instanceof ArrayNode, "new root element is not an array;");
+        assertEquals(true, cache.getBoolean("/0"), "Failed to set root array element 0 when root is null;");
 
         cache.set("/1", 3.14);
-        assertEquals("Failed to set root array element 1;", 3.14, cache.getDouble("/1"), Double.MIN_VALUE);
+        assertEquals(3.14, cache.getDouble("/1"), Double.MIN_VALUE, "Failed to set root array element 1;");
 
         cache.set("/2", "a string element");
-        assertEquals("Failed to set root array element 2;", "a string element", cache.getString("/2"));
+        assertEquals("a string element", cache.getString("/2"), "Failed to set root array element 2;");
 
         // Now that root has been reallocated as an array, try and set a non-integer property on it.
         try {
             cache.set("/astring", "won't work!");
             fail("attempting to set a non-integer property on an array should have failed");
         } catch (NumberFormatException e) {
-            assertFalse("setting a non-numeric property on an array worked!;", cache.exists("/astring"));
+            assertFalse(cache.exists("/astring"), "setting a non-numeric property on an array worked!;");
         }
     }
+
 
     @Test
     public void testFlushSaveLoad() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         root.flush(out);
-        assertTrue("non-dirty flush() should not have written bytes;", out.size() == 0);
-        assertFalse("cache should not be dirty after no-op flush();", root.isDirty());
+        assertTrue(out.size() == 0, "non-dirty flush() should not have written bytes;");
+        assertFalse(root.isDirty(), "cache should not be dirty after no-op flush();");
 
         root.save(out);
-        assertTrue("save() wrote no bytes;", out.size() > 0);
-        assertFalse("cache should not be dirty after save();", root.isDirty());
+        assertTrue(out.size() > 0, "save() wrote no bytes;");
+        assertFalse(root.isDirty(), "cache should not be dirty after save();");
 
         root.delete("");
-        assertFalse("cache not empty;", cache.exists(""));
+        assertFalse(cache.exists(""), "cache not empty;");
 
         root.unload();
-        assertFalse("cache should not be dirty after unload();", root.isDirty());
+        assertFalse(root.isDirty(), "cache should not be dirty after unload();");
 
         root.load(new ByteArrayInputStream(out.toByteArray()));
-        assertFalse("cache should not be dirty after load();", root.isDirty());
+        assertFalse(root.isDirty(), "cache should not be dirty after load();");
 
         testGet();
 
-        assertFalse("cache should not be dirty after reads;", root.isDirty());
+        assertFalse(root.isDirty(), "cache should not be dirty after reads;");
     }
 
     @Test
     public void testGet() throws Exception {
-        assertEquals("boolean get() returned incorrect result;", true, cache.get("/boolean"));
-        assertEquals("number get() returned incorrect result;", 3.14, cache.get("/number"));
-        assertEquals("string get() returned incorrect result;", "a string", cache.get("/string"));
+        assertEquals(true, cache.get("/boolean"), "boolean get() returned incorrect result;");
+        assertEquals(3.14, cache.get("/number"), "number get() returned incorrect result;");
+        assertEquals("a string", cache.get("/string"), "string get() returned incorrect result;");
         Object array = cache.get("/array");
-        assertNotNull("array get() returned null;", array);
-        assertTrue("array get() returned incorrect type;", array instanceof ArrayNode);
-        assertEquals("array size() returned incorrect result;", 4, cache.size("/array"));
-        assertEquals("array get element 0 returned incorrect result;", 1, cache.get("/array/0"));
-        assertEquals("array get element 2 returned incorrect result;", JsonNodeType.NUMBER,
-                cache.getNodeType("/array/0"));
-        assertEquals("array get element 1 returned incorrect result;", "2", cache.get("/array/1"));
-        assertEquals("array get element 2 returned incorrect result;", 3.0, cache.get("/array/2"));
-        assertEquals("array get element 2 returned incorrect result;", JsonNodeType.NUMBER,
-                cache.getNodeType("/array/2"));
-        assertEquals("array get element 3 returned incorrect result;", 4.0D, cache.get("/array/3"));
+        assertNotNull(array, "array get() returned null;");
+        assertTrue(array instanceof ArrayNode, "array get() returned incorrect type;");
+        assertEquals(4, cache.size("/array"), "array size() returned incorrect result;");
+        assertEquals(1, cache.get("/array/0"), "array get element 0 returned incorrect result;");
+        assertEquals(JsonNodeType.NUMBER, cache.getNodeType("/array/0"),
+                "array get element 2 returned incorrect result;");
+        assertEquals("2", cache.get("/array/1"), "array get element 1 returned incorrect result;");
+        assertEquals(3.0, cache.get("/array/2"), "array get element 2 returned incorrect result;");
+        assertEquals(JsonNodeType.NUMBER, cache.getNodeType("/array/2"),
+                "array get element 2 returned incorrect result;");
+        assertEquals(4.0D, cache.get("/array/3"), "array get element 3 returned incorrect result;");
         Object object = cache.get("/object");
-        assertNotNull("object get() returned null;", object);
-        assertTrue("object get() returned incorrect type;", object instanceof ObjectNode);
+        assertNotNull(object, "object get() returned null;");
+        assertTrue(object instanceof ObjectNode, "object get() returned incorrect type;");
 
-        assertEquals("nested boolean get() returned incorrect result;", true, cache.get("/object/nestedBoolean"));
-        assertEquals("nested number get() returned incorrect result;", 2.72, cache.get("/object/nestedNumber"));
-        assertEquals("nested string get() returned incorrect result;", "a nested string",
-                cache.get("/object/nestedString"));
+        assertEquals(true, cache.get("/object/nestedBoolean"), "nested boolean get() returned incorrect result;");
+        assertEquals(2.72, cache.get("/object/nestedNumber"), "nested number get() returned incorrect result;");
+        assertEquals("a nested string", cache.get("/object/nestedString"),
+                "nested string get() returned incorrect result;");
         Object nestedArray = cache.get("/object/nestedArray");
-        assertNotNull("nested array get() returned null;", nestedArray);
-        assertTrue("nested array get() returned incorrect type;", nestedArray instanceof ArrayNode);
-        assertEquals("nested array size() returned incorrect result;", 4, cache.size("/object/nestedArray"));
-        assertEquals("nested array get element returned incorrect result;", "a", cache.get("/object/nestedArray/0"));
-        assertEquals("nested array get element returned incorrect result;", "d", cache.get("/object/nestedArray/3"));
+        assertNotNull(nestedArray, "nested array get() returned null;");
+        assertTrue(nestedArray instanceof ArrayNode, "nested array get() returned incorrect type;");
+        assertEquals(4, cache.size("/object/nestedArray"), "nested array size() returned incorrect result;");
+        assertEquals("a", cache.get("/object/nestedArray/0"), "nested array get element returned incorrect result;");
+        assertEquals("d", cache.get("/object/nestedArray/3"), "nested array get element returned incorrect result;");
         Object nestedObject = cache.get("/object/nestedObject");
-        assertNotNull("object get() returned null;", nestedObject);
-        assertTrue("object get() returned incorrect type;", nestedObject instanceof ObjectNode);
+        assertNotNull(nestedObject, "object get() returned null;");
+        assertTrue(nestedObject instanceof ObjectNode, "object get() returned incorrect type;");
 
-        assertEquals("test object 0 booleanField is incorrect;", true, cache.get("/testObjects/0/booleanField"));
-        assertEquals("test object 0 shortField is incorrect;", 1, cache.get("/testObjects/0/shortField"));
-        assertEquals("test object 0 intField is incorrect;", 2, cache.get("/testObjects/0/intField"));
-        assertEquals("test object 0 longField is incorrect;", 3, cache.get("/testObjects/0/longField"));
-        assertEquals("test object 0 floatField is incorrect;", 1.23, cache.get("/testObjects/0/floatField"));
-        assertEquals("test object 0 doubleField is incorrect;", 4.56, cache.get("/testObjects/0/doubleField"));
-        assertEquals("test object 0 stringField is incorrect;", "a test string field",
-                cache.get("/testObjects/0/stringField"));
+        assertEquals(true, cache.get("/testObjects/0/booleanField"), "test object 0 booleanField is incorrect;");
+        assertEquals(1, cache.get("/testObjects/0/shortField"), "test object 0 shortField is incorrect;");
+        assertEquals(2, cache.get("/testObjects/0/intField"), "test object 0 intField is incorrect;");
+        assertEquals(3, cache.get("/testObjects/0/longField"), "test object 0 longField is incorrect;");
+        assertEquals(1.23, cache.get("/testObjects/0/floatField"), "test object 0 floatField is incorrect;");
+        assertEquals(4.56, cache.get("/testObjects/0/doubleField"), "test object 0 doubleField is incorrect;");
+        assertEquals("a test string field", cache.get("/testObjects/0/stringField"),
+                "test object 0 stringField is incorrect;");
 
-        assertEquals("test object 1 booleanField is incorrect;", false, cache.get("/testObjects/1/booleanField"));
-        assertEquals("test object 1 shortField is incorrect;", 4, cache.get("/testObjects/1/shortField"));
-        assertEquals("test object 1 intField is incorrect;", 5, cache.get("/testObjects/1/intField"));
-        assertEquals("test object 1 longField is incorrect;", 6, cache.get("/testObjects/1/longField"));
-        assertEquals("test object 1 floatField is incorrect;", 8.23, cache.get("/testObjects/1/floatField"));
-        assertEquals("test object 1 doubleField is incorrect;", 9.56, cache.get("/testObjects/1/doubleField"));
-        assertEquals("test object 1 stringField is incorrect;", "another test string field",
-                cache.get("/testObjects/1/stringField"));
+        assertEquals(false, cache.get("/testObjects/1/booleanField"), "test object 1 booleanField is incorrect;");
+        assertEquals(4, cache.get("/testObjects/1/shortField"), "test object 1 shortField is incorrect;");
+        assertEquals(5, cache.get("/testObjects/1/intField"), "test object 1 intField is incorrect;");
+        assertEquals(6, cache.get("/testObjects/1/longField"), "test object 1 longField is incorrect;");
+        assertEquals(8.23, cache.get("/testObjects/1/floatField"), "test object 1 floatField is incorrect;");
+        assertEquals(9.56, cache.get("/testObjects/1/doubleField"), "test object 1 doubleField is incorrect;");
+        assertEquals("another test string field", cache.get("/testObjects/1/stringField"),
+                "test object 1 stringField is incorrect;");
     }
 
     @Test
     public void testGetBigDecimal() throws Exception {
-        assertEquals("getBigDecimal(path) returned incorrect result;", new BigDecimal("3.14"),
-                cache.getBigDecimal("/number"));
-        assertEquals("getBigDecimal(nestedPath) returned incorrect result;", new BigDecimal("2.72"),
-                cache.getBigDecimal("/object/nestedNumber"));
-        assertFalse("cache should not be dirty after getBigDecimal(path);", root.isDirty());
+        assertEquals(new BigDecimal("3.14"), cache.getBigDecimal("/number"),
+                "getBigDecimal(path) returned incorrect result;");
+        assertEquals(new BigDecimal("2.72"), cache.getBigDecimal("/object/nestedNumber"),
+                "getBigDecimal(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getBigDecimal(path);");
     }
 
     @Test
@@ -585,22 +584,22 @@ public class JsonCacheTest {
         BigDecimal bd314 = new BigDecimal("3.14");
         BigDecimal bd628 = new BigDecimal("3.14");
 
-        assertEquals("getBigDecimal(path, default) returned incorrect result;", bd314,
-                cache.getBigDecimal("/number", bd162));
-        assertEquals("getBigDecimal(nestedPath, default) returned incorrect result;", bd272,
-                cache.getBigDecimal("/object/nestedNumber", bd628));
-        assertFalse("cache should not be dirty after getBigDecimal(path, default);", root.isDirty());
+        assertEquals(bd314, cache.getBigDecimal("/number", bd162),
+                "getBigDecimal(path, default) returned incorrect result;");
+        assertEquals(bd272, cache.getBigDecimal("/object/nestedNumber", bd628),
+                "getBigDecimal(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getBigDecimal(path, default);");
 
-        assertEquals("getBigDecimal(nonExistentPath, default) returned incorrect result;", bd162,
-                cache.getBigDecimal("/nonExistentNumber", bd162));
-        assertEquals("nested getBigDecimal(nonExistentNestedPath, default) returned incorrect result;", bd628,
-                cache.getBigDecimal("/object/nonExistentNestedNumber", bd628));
-        assertTrue("cache should be dirty after getBigDecimal(nonExistentPath, default);", root.isDirty());
+        assertEquals(bd162, cache.getBigDecimal("/nonExistentNumber", bd162),
+                "getBigDecimal(nonExistentPath, default) returned incorrect result;");
+        assertEquals(bd628, cache.getBigDecimal("/object/nonExistentNestedNumber", bd628),
+                "nested getBigDecimal(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getBigDecimal(nonExistentPath, default);");
 
-        assertEquals("getBigDecimal(path) returned incorrect result after update;", bd162,
-                cache.getBigDecimal("/nonExistentNumber"));
-        assertEquals("nested getBigDecimal(path) returned incorrect result after update;", bd628,
-                cache.getBigDecimal("/object/nonExistentNestedNumber"));
+        assertEquals(bd162, cache.getBigDecimal("/nonExistentNumber"),
+                "getBigDecimal(path) returned incorrect result after update;");
+        assertEquals(bd628, cache.getBigDecimal("/object/nonExistentNestedNumber"),
+                "nested getBigDecimal(path) returned incorrect result after update;");
     }
 
     @Test
@@ -608,10 +607,10 @@ public class JsonCacheTest {
         BigInteger bi2 = new BigInteger("2");
         BigInteger bi3 = new BigInteger("3");
 
-        assertEquals("getBigInteger(path) returned incorrect result;", bi3, cache.getBigInteger("/number"));
-        assertEquals("getBigInteger(nestedPath) returned incorrect result;", bi2,
-                cache.getBigInteger("/object/nestedNumber"));
-        assertFalse("cache should not be dirty after getBigInteger(path);", root.isDirty());
+        assertEquals(bi3, cache.getBigInteger("/number"), "getBigInteger(path) returned incorrect result;");
+        assertEquals(bi2, cache.getBigInteger("/object/nestedNumber"),
+                "getBigInteger(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getBigInteger(path);");
     }
 
     @Test
@@ -621,353 +620,353 @@ public class JsonCacheTest {
         BigInteger bi4 = new BigInteger("4");
         BigInteger bi5 = new BigInteger("5");
 
-        assertEquals("getBigInteger(path, default) returned incorrect result;", bi3,
-                cache.getBigInteger("/number", bi4));
-        assertEquals("getBigInteger(nestedPath, default) returned incorrect result;", bi2,
-                cache.getBigInteger("/object/nestedNumber", bi5));
-        assertFalse("cache should not be dirty after getBigInteger(path, default);", root.isDirty());
+        assertEquals(bi3, cache.getBigInteger("/number", bi4),
+                "getBigInteger(path, default) returned incorrect result;");
+        assertEquals(bi2, cache.getBigInteger("/object/nestedNumber", bi5),
+                "getBigInteger(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getBigInteger(path, default);");
 
-        assertEquals("getBigInteger(nonExistentPath, default) returned incorrect result;", bi4,
-                cache.getBigInteger("/nonExistentNumber", bi4));
-        assertEquals("getBigInteger(nonExistentNestedPath, default) returned incorrect result;", bi5,
-                cache.getBigInteger("/object/nonExistentNestedNumber", bi5));
-        assertTrue("cache should be dirty after getBigInteger(nonExistentPath, default);", root.isDirty());
+        assertEquals(bi4, cache.getBigInteger("/nonExistentNumber", bi4),
+                "getBigInteger(nonExistentPath, default) returned incorrect result;");
+        assertEquals(bi5, cache.getBigInteger("/object/nonExistentNestedNumber", bi5),
+                "getBigInteger(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getBigInteger(nonExistentPath, default);");
 
-        assertEquals("getBigInteger(path) returned incorrect result after update;", bi4,
-                cache.getBigInteger("/nonExistentNumber"));
-        assertEquals("getBigInteger(nestedPath) returned incorrect result after update;", bi5,
-                cache.getBigInteger("/object/nonExistentNestedNumber"));
+        assertEquals(bi4, cache.getBigInteger("/nonExistentNumber"),
+                "getBigInteger(path) returned incorrect result after update;");
+        assertEquals(bi5, cache.getBigInteger("/object/nonExistentNestedNumber"),
+                "getBigInteger(nestedPath) returned incorrect result after update;");
     }
 
     @Test
     public void testGetBoolean() throws Exception {
-        assertEquals("getBoolean(path) returned incorrect result;", true, cache.getBoolean("/boolean"));
-        assertEquals("getBoolean(nestedPath) returned incorrect result;", true,
-                cache.getBoolean("/object/nestedBoolean"));
-        assertFalse("cache should not be dirty after getBoolean(path);", root.isDirty());
+        assertEquals(true, cache.getBoolean("/boolean"), "getBoolean(path) returned incorrect result;");
+        assertEquals(true, cache.getBoolean("/object/nestedBoolean"),
+                "getBoolean(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getBoolean(path);");
     }
 
     @Test
     public void testGetBooleanWithDefault() throws Exception {
-        assertEquals("getBoolean(path, default) returned incorrect result;", true, cache.getBoolean("/boolean", false));
-        assertEquals("getBoolean(nestedPath, default) returned incorrect result;", true,
-                cache.getBoolean("/object/nestedBoolean", false));
-        assertFalse("cache should not be dirty after getBoolean(path, default);", root.isDirty());
+        assertEquals(true, cache.getBoolean("/boolean", false), "getBoolean(path, default) returned incorrect result;");
+        assertEquals(true, cache.getBoolean("/object/nestedBoolean", false),
+                "getBoolean(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getBoolean(path, default);");
 
-        assertEquals("getBoolean(nonExistentPath, default) returned incorrect result;", true,
-                cache.getBoolean("/nonExistentBoolean", true));
-        assertEquals("getBoolean(nonExistentNestedPath, default) returned incorrect result;", true,
-                cache.getBoolean("/object/nonExistentNestedBoolean", true));
-        assertTrue("cache should be dirty after getBoolean(nonExistentPath, default);", root.isDirty());
+        assertEquals(true, cache.getBoolean("/nonExistentBoolean", true),
+                "getBoolean(nonExistentPath, default) returned incorrect result;");
+        assertEquals(true, cache.getBoolean("/object/nonExistentNestedBoolean", true),
+                "getBoolean(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getBoolean(nonExistentPath, default);");
 
-        assertEquals("getBoolean(nonExistentPath, default) returned incorrect result;", true,
-                cache.getBoolean("/nonExistentBoolean"));
-        assertEquals("getBoolean(nonExistentNestedPath, default) returned incorrect result;", true,
-                cache.getBoolean("/object/nonExistentNestedBoolean"));
+        assertEquals(true, cache.getBoolean("/nonExistentBoolean"),
+                "getBoolean(nonExistentPath, default) returned incorrect result;");
+        assertEquals(true, cache.getBoolean("/object/nonExistentNestedBoolean"),
+                "getBoolean(nonExistentNestedPath, default) returned incorrect result;");
     }
 
     @Test
     public void testGetDate() throws Exception {
-        assertEquals("getDate(path) returned incorrect result;", EXPECTED_DATE_JAVA,
-                cache.getObject("/dateTimeZ", Date.class));
-        assertEquals("getDate(nestedPath) returned incorrect result;", EXPECTED_DATE_JAVA,
-                cache.getObject("/object/nestedDateTimeZ", Date.class));
-        assertFalse("cache should not be dirty after getDate(path);", root.isDirty());
+        assertEquals(EXPECTED_DATE_JAVA, cache.getObject("/dateTimeZ", Date.class),
+                "getDate(path) returned incorrect result;");
+        assertEquals(EXPECTED_DATE_JAVA, cache.getObject("/object/nestedDateTimeZ", Date.class),
+                "getDate(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getDate(path);");
     }
 
     @Test
     public void testGetDateWithDefault() throws Exception {
         Date defaultDate = new Date();
-        assertEquals("getDate(path, default) returned incorrect result;", EXPECTED_DATE_JAVA,
-                cache.getObject("/dateTimeZ", defaultDate));
-        assertEquals("getDate(nestedPath, default) returned incorrect result;", EXPECTED_DATE_JAVA,
-                cache.getObject("/object/nestedDateTimeZ", defaultDate));
-        assertFalse("cache should not be dirty after getDate(path, default);", root.isDirty());
+        assertEquals(EXPECTED_DATE_JAVA, cache.getObject("/dateTimeZ", defaultDate),
+                "getDate(path, default) returned incorrect result;");
+        assertEquals(EXPECTED_DATE_JAVA, cache.getObject("/object/nestedDateTimeZ", defaultDate),
+                "getDate(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getDate(path, default);");
 
-        assertEquals("getDate(nonExistentPath, default) returned incorrect result;", defaultDate,
-                cache.getObject("/nonExistentDate", defaultDate));
-        assertEquals("getDate(nonExistentNestedPath, default) returned incorrect result;", defaultDate,
-                cache.getObject("/object/nonExistentNestedDate", defaultDate));
-        assertTrue("cache should be dirty after getDate(nonExistentPath, default);", root.isDirty());
+        assertEquals(defaultDate, cache.getObject("/nonExistentDate", defaultDate),
+                "getDate(nonExistentPath, default) returned incorrect result;");
+        assertEquals(defaultDate, cache.getObject("/object/nonExistentNestedDate", defaultDate),
+                "getDate(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getDate(nonExistentPath, default);");
 
-        assertEquals("getDate(path) returned incorrect result after update;", defaultDate,
-                cache.getObject("/nonExistentDate", Date.class));
-        assertEquals("getDate(nestedPath) returned incorrect result after update;", defaultDate,
-                cache.getObject("/object/nonExistentNestedDate", Date.class));
+        assertEquals(defaultDate, cache.getObject("/nonExistentDate", Date.class),
+                "getDate(path) returned incorrect result after update;");
+        assertEquals(defaultDate, cache.getObject("/object/nonExistentNestedDate", Date.class),
+                "getDate(nestedPath) returned incorrect result after update;");
     }
 
     @Test
     public void testGetDouble() throws Exception {
-        assertEquals("getDouble(path) returned incorrect result;", 3.14D, cache.getDouble("/number"), Double.MIN_VALUE);
-        assertEquals("getDouble(nestedPath) returned incorrect result;", 2.72D, cache.getDouble("/object/nestedNumber"),
-                Double.MIN_VALUE);
-        assertFalse("cache should not be dirty after getDouble(path);", root.isDirty());
+        assertEquals(3.14D, cache.getDouble("/number"), Double.MIN_VALUE, "getDouble(path) returned incorrect result;");
+        assertEquals(2.72D, cache.getDouble("/object/nestedNumber"), Double.MIN_VALUE,
+                "getDouble(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getDouble(path);");
     }
 
     @Test
     public void testGetDoubleWithDefault() throws Exception {
-        assertEquals("getDouble(path, default) returned incorrect result;", 3.14D, cache.getDouble("/number", 7.77D),
-                Double.MIN_VALUE);
-        assertEquals("getDouble(nestedPath, default) returned incorrect result;", 2.72D,
-                cache.getDouble("/object/nestedNumber", 8.88D), Double.MIN_VALUE);
-        assertFalse("cache should not be dirty after getDouble(path, default);", root.isDirty());
+        assertEquals(3.14D, cache.getDouble("/number", 7.77D), Double.MIN_VALUE,
+                "getDouble(path, default) returned incorrect result;");
+        assertEquals(2.72D, cache.getDouble("/object/nestedNumber", 8.88D),
+                Double.MIN_VALUE, "getDouble(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getDouble(path, default);");
 
-        assertEquals("getDouble(nonExistentPath, default) returned incorrect result;", 7.77D,
-                cache.getDouble("/nonExistentNumber", 7.77D), Double.MIN_VALUE);
-        assertEquals("getDouble(nonExistentNestedPath, default) returned incorrect result;", 8.88D,
-                cache.getDouble("/object/nonExistentNestedNumber", 8.88D), Double.MIN_VALUE);
-        assertTrue("cache should be dirty after getDouble(nonExistentPath, default);", root.isDirty());
+        assertEquals(7.77D, cache.getDouble("/nonExistentNumber", 7.77D),
+                Double.MIN_VALUE, "getDouble(nonExistentPath, default) returned incorrect result;");
+        assertEquals(8.88D, cache.getDouble("/object/nonExistentNestedNumber", 8.88D),
+                Double.MIN_VALUE, "getDouble(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getDouble(nonExistentPath, default);");
 
-        assertEquals("getDouble(path) returned incorrect result after update;", 7.77D,
-                cache.getDouble("/nonExistentNumber"), Double.MIN_VALUE);
-        assertEquals("getDouble(nestedPath) returned incorrect result after update;", 8.88D,
-                cache.getDouble("/object/nonExistentNestedNumber"), Double.MIN_VALUE);
+        assertEquals(7.77D, cache.getDouble("/nonExistentNumber"),
+                Double.MIN_VALUE, "getDouble(path) returned incorrect result after update;");
+        assertEquals(8.88D, cache.getDouble("/object/nonExistentNestedNumber"),
+                Double.MIN_VALUE, "getDouble(nestedPath) returned incorrect result after update;");
     }
 
     @Test
     public void testGetFloat() throws Exception {
-        assertEquals("getFloat(path) returned incorrect result;", 3.14F, cache.getFloat("/number"), Float.MIN_VALUE);
-        assertEquals("nested getFloat(nestedPath) returned incorrect result;", 2.72F,
-                cache.getFloat("/object/nestedNumber"), Float.MIN_VALUE);
-        assertFalse("cache should not be dirty after getFloat(path);", root.isDirty());
+        assertEquals(3.14F, cache.getFloat("/number"), Float.MIN_VALUE, "getFloat(path) returned incorrect result;");
+        assertEquals(2.72F, cache.getFloat("/object/nestedNumber"),
+                Float.MIN_VALUE, "nested getFloat(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getFloat(path);");
     }
 
     @Test
     public void testGetFloatWithDefault() throws Exception {
-        assertEquals("getFloat(path, default) returned incorrect result;", 3.14F, cache.getFloat("/number", 7.77F),
-                Float.MIN_VALUE);
-        assertEquals("nested getFloat(nestedPath, default) returned incorrect result;", 2.72F,
-                cache.getFloat("/object/nestedNumber", 8.88F), Float.MIN_VALUE);
-        assertFalse("cache should not be dirty after getFloat(path, default);", root.isDirty());
+        assertEquals(3.14F, cache.getFloat("/number", 7.77F), Float.MIN_VALUE,
+                "getFloat(path, default) returned incorrect result;");
+        assertEquals(2.72F, cache.getFloat("/object/nestedNumber", 8.88F),
+                Float.MIN_VALUE, "nested getFloat(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getFloat(path, default);");
 
-        assertEquals("getFloat(nonExistentPath, default) returned incorrect result;", 7.77F,
-                cache.getFloat("/nonExistentNumber", 7.77F), Float.MIN_VALUE);
-        assertEquals("nested getFloat(nonExistentNestedPath, default) returned incorrect result;", 8.88F,
-                cache.getFloat("/object/nonExistentNestedNumber", 8.88F), Float.MIN_VALUE);
-        assertTrue("cache should be dirty after getFloat(nonExistentPath, default);", root.isDirty());
+        assertEquals(7.77F, cache.getFloat("/nonExistentNumber", 7.77F),
+                Float.MIN_VALUE, "getFloat(nonExistentPath, default) returned incorrect result;");
+        assertEquals(8.88F, cache.getFloat("/object/nonExistentNestedNumber", 8.88F),
+                Float.MIN_VALUE, "nested getFloat(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getFloat(nonExistentPath, default);");
 
-        assertEquals("getFloat(path) returned incorrect result after update;", 7.77F,
-                cache.getFloat("/nonExistentNumber"), Float.MIN_VALUE);
-        assertEquals("nested getFloat(nestedPath) returned incorrect result after update;", 8.88F,
-                cache.getFloat("/object/nonExistentNestedNumber"), Float.MIN_VALUE);
+        assertEquals(7.77F, cache.getFloat("/nonExistentNumber"),
+                Float.MIN_VALUE, "getFloat(path) returned incorrect result after update;");
+        assertEquals(8.88F, cache.getFloat("/object/nonExistentNestedNumber"),
+                Float.MIN_VALUE, "nested getFloat(nestedPath) returned incorrect result after update;");
     }
 
     @Test
     public void testGetInt() throws Exception {
-        assertEquals("getInt(path) returned incorrect result;", 3, cache.getInt("/number"));
-        assertEquals("getInt(nestedPath) returned incorrect result;", 2, cache.getInt("/object/nestedNumber"));
-        assertFalse("cache should not be dirty after getInt(path);", root.isDirty());
+        assertEquals(3, cache.getInt("/number"), "getInt(path) returned incorrect result;");
+        assertEquals(2, cache.getInt("/object/nestedNumber"), "getInt(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getInt(path);");
     }
 
     @Test
     public void testGetIntWithDefault() throws Exception {
-        assertEquals("getInt(path, default) returned incorrect result;", 3, cache.getInt("/number", 5));
-        assertEquals("getInt(nestedPath, default) returned incorrect result;", 4, cache.getInt("/object/nestedNumber"),
-                2);
-        assertFalse("cache should not be dirty after getInt(path, default);", root.isDirty());
+        assertEquals(3, cache.getInt("/number", 5), "getInt(path, default) returned incorrect result;");
+        assertEquals(4, cache.getInt("/object/nestedNumber"), 2,
+                "getInt(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getInt(path, default);");
 
-        assertEquals("getInt(nonExistentPath, default) returned incorrect result;", 5,
-                cache.getInt("/nonExistentNumber", 5));
-        assertEquals("getInt(nonExistentNestedPath, default) returned incorrect result;", 4,
-                cache.getInt("/object/nonExistentNestedNumber", 4));
-        assertTrue("cache should be dirty after getInt(nonExistentPath, default);", root.isDirty());
+        assertEquals(5, cache.getInt("/nonExistentNumber", 5),
+                "getInt(nonExistentPath, default) returned incorrect result;");
+        assertEquals(4, cache.getInt("/object/nonExistentNestedNumber", 4),
+                "getInt(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getInt(nonExistentPath, default);");
 
-        assertEquals("getInt(path) returned incorrect result after update;", 5, cache.getInt("/nonExistentNumber"));
-        assertEquals("getInt(nestedPath) returned incorrect result after update;", 4,
-                cache.getInt("/object/nonExistentNestedNumber"));
+        assertEquals(5, cache.getInt("/nonExistentNumber"), "getInt(path) returned incorrect result after update;");
+        assertEquals(4, cache.getInt("/object/nonExistentNestedNumber"),
+                "getInt(nestedPath) returned incorrect result after update;");
     }
 
     @Test
     public void testGetLocalDate() throws Exception {
-        assertEquals("getLocalDate(path) returned incorrect result;", EXPECTED_DATE_JODA,
-                cache.getObject("/date", org.joda.time.LocalDate.class));
-        assertFalse("cache should not be dirty after getLocalDate(path);", root.isDirty());
+        assertEquals(EXPECTED_DATE_JODA, cache.getObject("/date", org.joda.time.LocalDate.class),
+                "getLocalDate(path) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getLocalDate(path);");
     }
 
     public void testGetLocalDateWithDefault() throws Exception {
         org.joda.time.LocalDate defaultDate = new org.joda.time.LocalDate();
-        assertEquals("getLocalDate(path, default) returned incorrect result;", EXPECTED_DATE_JODA,
-                cache.getObject("/dateTimeZ", defaultDate));
-        assertEquals("getLocalDate(nestedPath, default) returned incorrect result;", EXPECTED_DATE_JODA,
-                cache.getObject("/object/nestedLocalDate", defaultDate));
-        assertFalse("cache should not be dirty after getLocalDate(path, default);", root.isDirty());
+        assertEquals(EXPECTED_DATE_JODA, cache.getObject("/dateTimeZ", defaultDate),
+                "getLocalDate(path, default) returned incorrect result;");
+        assertEquals(EXPECTED_DATE_JODA, cache.getObject("/object/nestedLocalDate", defaultDate),
+                "getLocalDate(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getLocalDate(path, default);");
 
-        assertEquals("getLocalDate(nonExistentPath, default) returned incorrect result;", defaultDate,
-                cache.getObject("/nonExistentLocalDate", defaultDate));
-        assertEquals("getLocalDate(nonExistentNestedPath, default) returned incorrect result;", defaultDate,
-                cache.getObject("/object/nonExistentNestedLocalDate", defaultDate));
-        assertTrue("cache should be dirty after getLocalDate(nonExistentPath, default);", root.isDirty());
+        assertEquals(defaultDate, cache.getObject("/nonExistentLocalDate", defaultDate),
+                "getLocalDate(nonExistentPath, default) returned incorrect result;");
+        assertEquals(defaultDate, cache.getObject("/object/nonExistentNestedLocalDate", defaultDate),
+                "getLocalDate(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getLocalDate(nonExistentPath, default);");
 
-        assertEquals("getLocalDate(path) returned incorrect result after update;", defaultDate,
-                cache.getObject("/nonExistentLocalDate", org.joda.time.LocalDate.class));
-        assertEquals("getLocalDate(nestedPath) returned incorrect result after update;", defaultDate,
-                cache.getObject("/object/nonExistentNestedLocalDate", org.joda.time.LocalDate.class));
+        assertEquals(defaultDate, cache.getObject("/nonExistentLocalDate", org.joda.time.LocalDate.class),
+                "getLocalDate(path) returned incorrect result after update;");
+        assertEquals(defaultDate, cache.getObject("/object/nonExistentNestedLocalDate", org.joda.time.LocalDate.class),
+                "getLocalDate(nestedPath) returned incorrect result after update;");
     }
 
     @Test
     public void testGetLong() throws Exception {
-        assertEquals("getLong(path) returned incorrect result;", 3L, cache.getLong("/number"));
-        assertEquals("getLong(nestedPath) returned incorrect result;", 2L, cache.getLong("/object/nestedNumber"));
-        assertFalse("cache should not be dirty after getLong(path);", root.isDirty());
+        assertEquals(3L, cache.getLong("/number"), "getLong(path) returned incorrect result;");
+        assertEquals(2L, cache.getLong("/object/nestedNumber"), "getLong(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getLong(path);");
     }
 
     @Test
     public void testGetLongWithDefault() throws Exception {
-        assertEquals("getLong(path, default) returned incorrect result;", 3L, cache.getLong("/number", 5L));
-        assertEquals("getLong(nestedPath, default) returned incorrect result;", 2L,
-                cache.getLong("/object/nestedNumber", 4L));
-        assertFalse("cache should not be dirty after getLong(path, default);", root.isDirty());
+        assertEquals(3L, cache.getLong("/number", 5L), "getLong(path, default) returned incorrect result;");
+        assertEquals(2L, cache.getLong("/object/nestedNumber", 4L),
+                "getLong(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getLong(path, default);");
 
-        assertEquals("getLong(nonExistentPath, default) returned incorrect result;", 5L,
-                cache.getLong("/nonExistentNumber", 5L));
-        assertEquals("getLong(nonExistentNestedPath, default) returned incorrect result;", 4L,
-                cache.getLong("/object/nonExistentNestedNumber", 4L));
-        assertTrue("cache should be dirty after getLong(nonExistentPath, default);", root.isDirty());
+        assertEquals(5L, cache.getLong("/nonExistentNumber", 5L),
+                "getLong(nonExistentPath, default) returned incorrect result;");
+        assertEquals(4L, cache.getLong("/object/nonExistentNestedNumber", 4L),
+                "getLong(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getLong(nonExistentPath, default);");
 
-        assertEquals("getLong(path, default) returned incorrect result after update;", 5L,
-                cache.getLong("/nonExistentNumber"));
-        assertEquals("getLong(nestedPath, default) returned incorrect result after update;", 4L,
-                cache.getLong("/object/nonExistentNestedNumber"));
+        assertEquals(5L, cache.getLong("/nonExistentNumber"),
+                "getLong(path, default) returned incorrect result after update;");
+        assertEquals(4L, cache.getLong("/object/nonExistentNestedNumber"),
+                "getLong(nestedPath, default) returned incorrect result after update;");
     }
 
     @Test
     public void testGetNumber() throws Exception {
         Number number = cache.getNumber("/number");
-        assertTrue("getNumber(path) returned incorrect type;", number instanceof Double);
-        assertEquals("getNumber(path) returned incorrect result;", 3.14D, number);
+        assertTrue(number instanceof Double, "getNumber(path) returned incorrect type;");
+        assertEquals(3.14D, number, "getNumber(path) returned incorrect result;");
         Number nestedNumber = cache.getNumber("/object/nestedNumber");
-        assertTrue("getNumber(nestedPath) returned incorrect type;", nestedNumber instanceof Double);
-        assertEquals("nested getNumber(nestedPath) returned incorrect result;", 2.72D, nestedNumber);
-        assertFalse("cache should not be dirty after getNumber(path);", root.isDirty());
+        assertTrue(nestedNumber instanceof Double, "getNumber(nestedPath) returned incorrect type;");
+        assertEquals(2.72D, nestedNumber, "nested getNumber(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getNumber(path);");
     }
 
     @Test
     public void testGetNumberWithDefault() throws Exception {
-        assertEquals("getNumber(path, default) returned incorrect result;", 3.14D, cache.getNumber("/number", 7.77D));
-        assertEquals("getNumber(nestedPath, default) returned incorrect result;", 2.72D,
-                cache.getNumber("/object/nestedNumber", 8.88D));
-        assertFalse("cache should not be dirty after getNumber(path, default);", root.isDirty());
+        assertEquals(3.14D, cache.getNumber("/number", 7.77D), "getNumber(path, default) returned incorrect result;");
+        assertEquals(2.72D, cache.getNumber("/object/nestedNumber", 8.88D),
+                "getNumber(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getNumber(path, default);");
 
-        assertEquals("getNumber(nonExistentPath, default) returned incorrect result;", 7.77D,
-                cache.getNumber("/nonExistentNumber", 7.77D));
-        assertEquals("getNumber(nonExistentNestedPath, default) returned incorrect result;", 8.88D,
-                cache.getNumber("/object/nonExistentNestedNumber", 8.88D));
-        assertTrue("cache should be dirty after getNumber(nonExistentPath, default);", root.isDirty());
+        assertEquals(7.77D, cache.getNumber("/nonExistentNumber", 7.77D),
+                "getNumber(nonExistentPath, default) returned incorrect result;");
+        assertEquals(8.88D, cache.getNumber("/object/nonExistentNestedNumber", 8.88D),
+                "getNumber(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getNumber(nonExistentPath, default);");
 
-        assertEquals("getNumber(path, default) returned incorrect result after update;", 7.77D,
-                cache.getNumber("/nonExistentNumber"));
-        assertEquals("getNumber(nestedPath, default) returned incorrect result after update;", 8.88D,
-                cache.getNumber("/object/nonExistentNestedNumber"));
+        assertEquals(7.77D, cache.getNumber("/nonExistentNumber"),
+                "getNumber(path, default) returned incorrect result after update;");
+        assertEquals(8.88D, cache.getNumber("/object/nonExistentNestedNumber"),
+                "getNumber(nestedPath, default) returned incorrect result after update;");
     }
 
     @Test
     public void testGetObject() throws Exception {
         TestObject testObject0 = cache.getObject("/testObjects/0", TestObject.class);
-        assertEquals("getObject(path) returned incorrect result;", TEST_OBJECT_0, testObject0);
+        assertEquals(TEST_OBJECT_0, testObject0, "getObject(path) returned incorrect result;");
         TestObject testObject1 = cache.getObject("/testObjects/1", TestObject.class);
-        assertEquals("getObject(path) returned incorrect result;", TEST_OBJECT_1, testObject1);
-        assertFalse("cache should not be dirty after getObject(path, type);", root.isDirty());
+        assertEquals(TEST_OBJECT_1, testObject1, "getObject(path) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getObject(path, type);");
     }
 
     @Test
     public void testGetObjects() throws Exception {
         List<TestObject> testObjects = cache.getObjects("/testObjects", TestObject.class);
-        assertEquals("getObjects(path, type) returned incorrect result;", TEST_OBJECT_0, testObjects.get(0));
-        assertEquals("getObjects(path, type) returned incorrect result;", TEST_OBJECT_1, testObjects.get(1));
-        assertFalse("cache should not be dirty after getObjects(path, type);", root.isDirty());
+        assertEquals(TEST_OBJECT_0, testObjects.get(0), "getObjects(path, type) returned incorrect result;");
+        assertEquals(TEST_OBJECT_1, testObjects.get(1), "getObjects(path, type) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getObjects(path, type);");
     }
 
     @Test
     public void testGetObjectsWithDefault() throws Exception {
         List<TestObject> defaultValue = Arrays.asList(TEST_OBJECT_1, TEST_OBJECT_0);
         List<TestObject> testObjects = cache.getObjects("/testObjects", TestObject.class, defaultValue);
-        assertEquals("getObjects(path, type, defaultValue) returned incorrect result;", TEST_OBJECT_0,
-                testObjects.get(0));
-        assertEquals("getObjects(path, type, defaultValue) returned incorrect result;", TEST_OBJECT_1,
-                testObjects.get(1));
-        assertFalse("cache should not be dirty after getObjects(path, type, defaultValue);", root.isDirty());
+        assertEquals(TEST_OBJECT_0, testObjects.get(0),
+                "getObjects(path, type, defaultValue) returned incorrect result;");
+        assertEquals(TEST_OBJECT_1, testObjects.get(1),
+                "getObjects(path, type, defaultValue) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getObjects(path, type, defaultValue);");
 
         testObjects = cache.getObjects("/nonExistentTestObjects", TestObject.class, defaultValue);
-        assertEquals("getObjects(nonExistentPath, type, defaultValue) returned incorrect result;", TEST_OBJECT_1,
-                testObjects.get(0));
-        assertEquals("getObjects(nonExistentPath, type, defaultValue) returned incorrect result;", TEST_OBJECT_0,
-                testObjects.get(1));
-        assertTrue("cache should be dirty after getObjects(nonExistentPath, type, defaultValue);", root.isDirty());
+        assertEquals(TEST_OBJECT_1, testObjects.get(0),
+                "getObjects(nonExistentPath, type, defaultValue) returned incorrect result;");
+        assertEquals(TEST_OBJECT_0, testObjects.get(1),
+                "getObjects(nonExistentPath, type, defaultValue) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getObjects(nonExistentPath, type, defaultValue);");
 
         testObjects = cache.getObjects("/nonExistentTestObjects", TestObject.class);
-        assertEquals("getObjects(path, type) returned incorrect result after update;", TEST_OBJECT_1,
-                testObjects.get(0));
-        assertEquals("getObjects(path, type) returned incorrect result after update;", TEST_OBJECT_0,
-                testObjects.get(1));
+        assertEquals(TEST_OBJECT_1, testObjects.get(0),
+                "getObjects(path, type) returned incorrect result after update;");
+        assertEquals(TEST_OBJECT_0, testObjects.get(1),
+                "getObjects(path, type) returned incorrect result after update;");
     }
 
     @Test
     public void testGetObjectWithDefault() throws Exception {
-        assertEquals("getObject(path, default) returned incorrect result;", TEST_OBJECT_0,
-                cache.getObject("/testObjects/0", TEST_OBJECT_1));
-        assertFalse("cache should not be dirty after getObject(path, default);", root.isDirty());
+        assertEquals(TEST_OBJECT_0, cache.getObject("/testObjects/0", TEST_OBJECT_1),
+                "getObject(path, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getObject(path, default);");
 
-        assertSame("getObject(nonExistentPath, default) returned incorrect result;", TEST_OBJECT_1,
-                cache.getObject("/testObjects/2", TEST_OBJECT_1));
-        assertTrue("cache should be dirty after getObject(nonExistentPath, default);", root.isDirty());
+        assertSame(TEST_OBJECT_1, cache.getObject("/testObjects/2", TEST_OBJECT_1),
+                "getObject(nonExistentPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getObject(nonExistentPath, default);");
 
-        assertSame("getObject(path, type) returned incorrect result after update;", TEST_OBJECT_1,
-                cache.getObject("/testObjects/2", TestObject.class));
+        assertSame(TEST_OBJECT_1, cache.getObject("/testObjects/2", TestObject.class),
+                "getObject(path, type) returned incorrect result after update;");
     }
 
     @Test
     public void testGetShort() throws Exception {
-        assertEquals("getShort(path) returned incorrect result;", 3, cache.getShort("/number"));
-        assertEquals("nested getShort(nestedPath) returned incorrect result;", 2,
-                cache.getShort("/object/nestedNumber"));
-        assertFalse("cache should not be dirty after getShort(path);", root.isDirty());
+        assertEquals(3, cache.getShort("/number"), "getShort(path) returned incorrect result;");
+        assertEquals(2, cache.getShort("/object/nestedNumber"),
+                "nested getShort(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getShort(path);");
     }
 
     @Test
     public void testGetShortWithDefault() throws Exception {
-        assertEquals("getShort(path, default) returned incorrect result;", 3, cache.getShort("/number", (short) 5));
-        assertEquals("nested getShort(nestedPath, default) returned incorrect result;", 2,
-                cache.getShort("/object/nestedNumber", (short) 4));
-        assertFalse("cache should not be dirty after getShort(path, default);", root.isDirty());
+        assertEquals(3, cache.getShort("/number", (short) 5), "getShort(path, default) returned incorrect result;");
+        assertEquals(2, cache.getShort("/object/nestedNumber", (short) 4),
+                "nested getShort(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getShort(path, default);");
 
-        assertEquals("getShort(nonExistentPath, default) returned incorrect result;", 5,
-                cache.getShort("/nonExistentNumber", (short) 5));
-        assertEquals("nested getShort(nonExistentPathNestedPath, default) returned incorrect result;", 4,
-                cache.getShort("/object/nonExistentNestedNumber", (short) 4));
-        assertTrue("cache should be dirty after getShort(nonExistentPath, default);", root.isDirty());
+        assertEquals(5, cache.getShort("/nonExistentNumber", (short) 5),
+                "getShort(nonExistentPath, default) returned incorrect result;");
+        assertEquals(4, cache.getShort("/object/nonExistentNestedNumber", (short) 4),
+                "nested getShort(nonExistentPathNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getShort(nonExistentPath, default);");
 
-        assertEquals("getShort(path) returned incorrect result after update;", 5, cache.getShort("/nonExistentNumber"));
-        assertEquals("nested getShort(nestedPath) returned incorrect result after update;", 4,
-                cache.getShort("/object/nonExistentNestedNumber"));
+        assertEquals(5, cache.getShort("/nonExistentNumber"), "getShort(path) returned incorrect result after update;");
+        assertEquals(4, cache.getShort("/object/nonExistentNestedNumber"),
+                "nested getShort(nestedPath) returned incorrect result after update;");
     }
 
     @Test
     public void testGetString() throws Exception {
-        assertEquals("getString(path) returned incorrect result;", "a string", cache.getString("/string"));
-        assertEquals("getString(nestedPath) returned incorrect result;", "a nested string",
-                cache.getString("/object/nestedString"));
-        assertFalse("cache should not be dirty after getString(path);", root.isDirty());
+        assertEquals("a string", cache.getString("/string"), "getString(path) returned incorrect result;");
+        assertEquals("a nested string", cache.getString("/object/nestedString"),
+                "getString(nestedPath) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getString(path);");
     }
 
     @Test
     public void testGetStringWithDefault() throws Exception {
-        assertEquals("getString(path, default) returned incorrect result;", "a string",
-                cache.getString("/string", "a different string"));
-        assertEquals("getString(nestedPath, default) returned incorrect result;", "a nested string",
-                cache.getString("/object/nestedString", "a different nested string"));
-        assertFalse("cache should not be dirty after getString(path, default);", root.isDirty());
+        assertEquals("a string", cache.getString("/string", "a different string"),
+                "getString(path, default) returned incorrect result;");
+        assertEquals("a nested string", cache.getString("/object/nestedString", "a different nested string"),
+                "getString(nestedPath, default) returned incorrect result;");
+        assertFalse(root.isDirty(), "cache should not be dirty after getString(path, default);");
 
-        assertEquals("getString(nonExistentPath, default) returned incorrect result;", "a different string",
-                cache.getString("/nonExistentString", "a different string"));
-        assertEquals("getString(nonExistentNestedPath, default) returned incorrect result;",
-                "a different nested string",
-                cache.getString("/object/nonExistentNestedString", "a different nested string"));
-        assertTrue("cache should be dirty after getString(nonExistentPath, default);", root.isDirty());
+        assertEquals("a different string", cache.getString("/nonExistentString", "a different string"),
+                "getString(nonExistentPath, default) returned incorrect result;");
+        assertEquals("a different nested string",
+                cache.getString("/object/nonExistentNestedString", "a different nested string"),
+                "getString(nonExistentNestedPath, default) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after getString(nonExistentPath, default);");
 
-        assertEquals("getString(path) returned incorrect result after update;", "a different string",
-                cache.getString("/nonExistentString"));
-        assertEquals("getString(nestedPath) returned incorrect result after update;", "a different nested string",
-                cache.getString("/object/nonExistentNestedString"));
+        assertEquals("a different string", cache.getString("/nonExistentString"),
+                "getString(path) returned incorrect result after update;");
+        assertEquals("a different nested string", cache.getString("/object/nonExistentNestedString"),
+                "getString(nestedPath) returned incorrect result after update;");
     }
 
     @Test
@@ -994,70 +993,70 @@ public class JsonCacheTest {
         ByteArrayInputStream in = new ByteArrayInputStream(incoming.getBytes("UTF-8"));
 
         root.mergePolicy(MergePolicy.NO_MERGE).load(in);
-        assertFalse("cache should not be dirty after second load() in NO_MERGE mode", root.isDirty());
-        assertEquals("root size incorrect after second load() in NO_MERGE mode;", 1, root.size(""));
-        assertEquals("cache size incorrect after second load() in NO_MERGE mode;", 8, cache.size(""));
+        assertFalse(root.isDirty(), "cache should not be dirty after second load() in NO_MERGE mode");
+        assertEquals(1, root.size(""), "root size incorrect after second load() in NO_MERGE mode;");
+        assertEquals(8, cache.size(""), "cache size incorrect after second load() in NO_MERGE mode;");
         testGet();
 
         in.reset();
         root.mergePolicy(MergePolicy.KEEP_EXISTING).load(in);
-        assertTrue("cache should be dirty after second load() in KEEP_EXISTING mode", root.isDirty());
-        assertEquals("root size incorrect after second load() in KEEP_EXISTING mode;", 2, root.size(""));
-        assertEquals("cache size incorrect after second load() in KEEP_EXISTING mode;", 8, cache.size(""));
-        assertFalse("descendent elements should not be merged in KEEP_EXISTING mode", cache.exists("/anotherString"));
-        assertFalse("descendent elements should not be merged in KEEP_EXISTING mode",
-                cache.exists("/object/nestedObject/nestedNested"));
-        assertEquals("added root property not merged in KEEP_EXISTING mode", 10, root.get("/JsonCacheMerge/number"));
-        assertEquals("added array elements merged in KEEP_EXISTING mode", 4, cache.size("/array"));
-        assertEquals("added array elements merged in KEEP_EXISTING mode", 4, cache.size("/object/nestedArray"));
+        assertTrue(root.isDirty(), "cache should be dirty after second load() in KEEP_EXISTING mode");
+        assertEquals(2, root.size(""), "root size incorrect after second load() in KEEP_EXISTING mode;");
+        assertEquals(8, cache.size(""), "cache size incorrect after second load() in KEEP_EXISTING mode;");
+        assertFalse(cache.exists("/anotherString"), "descendent elements should not be merged in KEEP_EXISTING mode");
+        assertFalse(cache.exists("/object/nestedObject/nestedNested"),
+                "descendent elements should not be merged in KEEP_EXISTING mode");
+        assertEquals(10, root.get("/JsonCacheMerge/number"), "added root property not merged in KEEP_EXISTING mode");
+        assertEquals(4, cache.size("/array"), "added array elements merged in KEEP_EXISTING mode");
+        assertEquals(4, cache.size("/object/nestedArray"), "added array elements merged in KEEP_EXISTING mode");
         testGet();
 
         reload();
         in.reset();
         root.mergePolicy(MergePolicy.MERGE_RECURSIVE).load(in);
-        assertTrue("cache should be dirty after second load() in MERGE_RECURSIVE mode", root.isDirty());
-        assertEquals("root size incorrect after second load() in MERGE_RECURSIVE mode;", 2, root.size(""));
-        assertEquals("added root property not merged in MERGE_RECURSIVE mode", 10, root.get("/JsonCacheMerge/number"));
-        assertEquals("added string property not merged in MERGE_RECURSIVE mode", "another string",
-                cache.get("/anotherString"));
-        assertEquals("added child array elements not merged in MERGE_RECURSIVE mode", 7, cache.size("/array"));
-        assertEquals("added child array element 4 not merged in MERGE_RECURSIVE mode", JsonNodeType.BOOLEAN,
-                cache.getNodeType("/array/4"));
-        assertEquals("added child array element 5 not merged in MERGE_RECURSIVE mode", JsonNodeType.OBJECT,
-                cache.getNodeType("/array/5"));
-        assertEquals("added child array element 6 not merged in MERGE_RECURSIVE mode", JsonNodeType.ARRAY,
-                cache.getNodeType("/array/6"));
-        assertEquals("array not merged correctly in MERGE_RECURSIVE mode",
-                Arrays.asList("a", "b", "c", "d", "e", "f", "g"),
-                cache.getObjects("/object/nestedArray", String.class));
-        assertEquals("nested object not merged correctly in MERGE_RECURSIVE mode", "waz",
-                cache.get("/object/nestedObject/nestedNested/d"));
+        assertTrue(root.isDirty(), "cache should be dirty after second load() in MERGE_RECURSIVE mode");
+        assertEquals(2, root.size(""), "root size incorrect after second load() in MERGE_RECURSIVE mode;");
+        assertEquals(10, root.get("/JsonCacheMerge/number"), "added root property not merged in MERGE_RECURSIVE mode");
+        assertEquals("another string", cache.get("/anotherString"),
+                "added string property not merged in MERGE_RECURSIVE mode");
+        assertEquals(7, cache.size("/array"), "added child array elements not merged in MERGE_RECURSIVE mode");
+        assertEquals(JsonNodeType.BOOLEAN, cache.getNodeType("/array/4"),
+                "added child array element 4 not merged in MERGE_RECURSIVE mode");
+        assertEquals(JsonNodeType.OBJECT, cache.getNodeType("/array/5"),
+                "added child array element 5 not merged in MERGE_RECURSIVE mode");
+        assertEquals(JsonNodeType.ARRAY, cache.getNodeType("/array/6"),
+                "added child array element 6 not merged in MERGE_RECURSIVE mode");
+        assertEquals(Arrays.asList("a", "b", "c", "d", "e", "f", "g"),
+                cache.getObjects("/object/nestedArray", String.class),
+                "array not merged correctly in MERGE_RECURSIVE mode");
+        assertEquals("waz", cache.get("/object/nestedObject/nestedNested/d"),
+                "nested object not merged correctly in MERGE_RECURSIVE mode");
 
         reload();
         in.reset();
         root.mergePolicy(MergePolicy.OVERWRITE_EXISTING).load(in);
-        assertTrue("cache should be dirty after second load() in OVERWRITE_EXISTING mode", root.isDirty());
-        assertEquals("existing boolean not overwritten by load() in OVERWRITE_EXISTING mode;", false,
-                cache.get("/boolean"));
-        assertFalse("existing number not deleted by load() in OVERWRITE_EXISTING mode;", cache.exists("/number"));
-        assertEquals("existing string not overwritten by load() in OVERWRITE_EXISTING mode;", "a different string",
-                cache.get("/string"));
-        assertEquals("added string not merged in OVERWRITE_EXISTING mode;", "another string",
-                cache.get("/anotherString"));
-        assertEquals("added array size incorrect in OVERWRITE_EXISTING mode;", 7, cache.size("/array"));
-        assertEquals("added object size incorrect in OVERWRITE_EXISTING mode;", 3, cache.size("/object"));
-        assertEquals("added nested string incorrect in OVERWRITE_EXISTING mode;", "a different nested string",
-                cache.get("/object/nestedString"));
-        assertEquals("added nested array size incorrect in OVERWRITE_EXISTING mode;", 5,
-                cache.size("/object/nestedArray"));
-        assertFalse("added nested string incorrect in OVERWRITE_EXISTING mode;",
-                cache.exists("/object/nestedObject/a"));
-        assertEquals("added nested string incorrect in OVERWRITE_EXISTING mode;", "baz",
-                cache.get("/object/nestedObject/b"));
-        assertEquals("added deep nested string incorrect in OVERWRITE_EXISTING mode;", "waz",
-                cache.get("/object/nestedObject/nestedNested/d"));
-        assertEquals("added root property not merged in OVERWRITE_EXISTING mode", 10,
-                root.get("/JsonCacheMerge/number"));
+        assertTrue(root.isDirty(), "cache should be dirty after second load() in OVERWRITE_EXISTING mode");
+        assertEquals(false, cache.get("/boolean"),
+                "existing boolean not overwritten by load() in OVERWRITE_EXISTING mode;");
+        assertFalse(cache.exists("/number"), "existing number not deleted by load() in OVERWRITE_EXISTING mode;");
+        assertEquals("a different string", cache.get("/string"),
+                "existing string not overwritten by load() in OVERWRITE_EXISTING mode;");
+        assertEquals("another string", cache.get("/anotherString"),
+                "added string not merged in OVERWRITE_EXISTING mode;");
+        assertEquals(7, cache.size("/array"), "added array size incorrect in OVERWRITE_EXISTING mode;");
+        assertEquals(3, cache.size("/object"), "added object size incorrect in OVERWRITE_EXISTING mode;");
+        assertEquals("a different nested string", cache.get("/object/nestedString"),
+                "added nested string incorrect in OVERWRITE_EXISTING mode;");
+        assertEquals(5, cache.size("/object/nestedArray"),
+                "added nested array size incorrect in OVERWRITE_EXISTING mode;");
+        assertFalse(cache.exists("/object/nestedObject/a"),
+                "added nested string incorrect in OVERWRITE_EXISTING mode;");
+        assertEquals("baz", cache.get("/object/nestedObject/b"),
+                "added nested string incorrect in OVERWRITE_EXISTING mode;");
+        assertEquals("waz", cache.get("/object/nestedObject/nestedNested/d"),
+                "added deep nested string incorrect in OVERWRITE_EXISTING mode;");
+        assertEquals(10, root.get("/JsonCacheMerge/number"),
+                "added root property not merged in OVERWRITE_EXISTING mode");
     }
 
     @Test
@@ -1067,126 +1066,126 @@ public class JsonCacheTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         root.save(out);
         cache.delete("");
-        assertNull("root is not null;", cache.get(""));
+        assertNull(cache.get(""), "root is not null;");
 
         root.unload();
         root.load(new ByteArrayInputStream(out.toByteArray()));
 
         testGet();
 
-        assertFalse("cache should not be dirty after reads;", root.isDirty());
+        assertFalse(root.isDirty(), "cache should not be dirty after reads;");
     }
 
     @Test
     public void testSet() throws Exception {
         cache.set("/boolean", false);
-        assertEquals("boolean get() returned incorrect result;", false, cache.get("/boolean"));
+        assertEquals(false, cache.get("/boolean"), "boolean get() returned incorrect result;");
 
         cache.set("/number", 6.28);
-        assertEquals("number get() returned incorrect result;", 6.28, cache.get("/number"));
+        assertEquals(6.28, cache.get("/number"), "number get() returned incorrect result;");
 
         cache.set("/string", "another string");
-        assertEquals("string get() returned incorrect result;", "another string", cache.get("/string"));
+        assertEquals("another string", cache.get("/string"), "string get() returned incorrect result;");
 
         Object array = cache.get("/array");
-        assertNotNull("array get() returned null;", array);
-        assertTrue("array get() returned incorrect type;", array instanceof ArrayNode);
+        assertNotNull(array, "array get() returned null;");
+        assertTrue(array instanceof ArrayNode, "array get() returned incorrect type;");
 
         cache.set("/array/0", 2);
-        assertEquals("array get element returned incorrect result;", 2, cache.get("/array/0"));
+        assertEquals(2, cache.get("/array/0"), "array get element returned incorrect result;");
         cache.set("/array/3", 8.0D);
-        assertEquals("array get element returned incorrect result;", 8.0D, cache.get("/array/3"));
+        assertEquals(8.0D, cache.get("/array/3"), "array get element returned incorrect result;");
 
         Object object = cache.get("/object");
-        assertNotNull("object get() returned null;", object);
-        assertTrue("object get() returned incorrect type;", object instanceof ObjectNode);
+        assertNotNull(object, "object get() returned null;");
+        assertTrue(object instanceof ObjectNode, "object get() returned incorrect type;");
 
         cache.set("/object/nestedBoolean", false);
-        assertEquals("nested boolean get() returned incorrect result;", false, cache.get("/object/nestedBoolean"));
+        assertEquals(false, cache.get("/object/nestedBoolean"), "nested boolean get() returned incorrect result;");
 
         cache.set("/object/nestedNumber", 1.618);
-        assertEquals("nested number get() returned incorrect result;", 1.618, cache.get("/object/nestedNumber"));
+        assertEquals(1.618, cache.get("/object/nestedNumber"), "nested number get() returned incorrect result;");
 
         cache.set("/object/nestedString", "another nested string");
-        assertEquals("nested string get() returned incorrect result;", "another nested string",
-                cache.get("/object/nestedString"));
+        assertEquals("another nested string", cache.get("/object/nestedString"),
+                "nested string get() returned incorrect result;");
 
         Object nestedArray = cache.get("/object/nestedArray");
-        assertNotNull("nested array get() returned null;", nestedArray);
-        assertTrue("nested array get() returned incorrect type;", nestedArray instanceof ArrayNode);
+        assertNotNull(nestedArray, "nested array get() returned null;");
+        assertTrue(nestedArray instanceof ArrayNode, "nested array get() returned incorrect type;");
 
         cache.set("/object/nestedArray/0", "x");
-        assertEquals("nested array get element returned incorrect result;", "x", cache.get("/object/nestedArray/0"));
+        assertEquals("x", cache.get("/object/nestedArray/0"), "nested array get element returned incorrect result;");
         cache.set("/object/nestedArray/3", "y");
-        assertEquals("nested array get element returned incorrect result;", "y", cache.get("/object/nestedArray/3"));
+        assertEquals("y", cache.get("/object/nestedArray/3"), "nested array get element returned incorrect result;");
 
         Object nestedObject = cache.get("/object/nestedObject");
-        assertNotNull("object get() returned null;", nestedObject);
-        assertTrue("object get() returned incorrect type;", nestedObject instanceof ObjectNode);
+        assertNotNull(nestedObject, "object get() returned null;");
+        assertTrue(nestedObject instanceof ObjectNode, "object get() returned incorrect type;");
 
-        assertTrue("cache should be dirty after writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after writes;");
     }
 
     @Test
     public void testSetBigDecimal() throws Exception {
         BigDecimal bd628 = new BigDecimal("6.28");
         cache.set("/number", bd628);
-        assertEquals("getBigInteger() returned incorrect result;", bd628, cache.getBigDecimal("/number"));
+        assertEquals(bd628, cache.getBigDecimal("/number"), "getBigInteger() returned incorrect result;");
 
         BigDecimal bd1618 = new BigDecimal("1.618");
         cache.set("/object/nestedNumber", bd1618);
-        assertEquals("nested getBigInteger() returned incorrect result;", bd1618,
-                cache.getBigDecimal("/object/nestedNumber"));
+        assertEquals(bd1618, cache.getBigDecimal("/object/nestedNumber"),
+                "nested getBigInteger() returned incorrect result;");
 
-        assertTrue("cache should be dirty after BigDecimal writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after BigDecimal writes;");
     }
 
     @Test
     public void testSetBigInteger() throws Exception {
         BigInteger bi4 = new BigInteger("4");
         cache.set("/number", bi4);
-        assertEquals("getBigInteger() returned incorrect result;", bi4, cache.getBigInteger("/number"));
+        assertEquals(bi4, cache.getBigInteger("/number"), "getBigInteger() returned incorrect result;");
 
         BigInteger bi6 = new BigInteger("6");
         cache.set("/object/nestedNumber", bi6);
-        assertEquals("nested getBigInteger() returned incorrect result;", bi6,
-                cache.getBigInteger("/object/nestedNumber"));
+        assertEquals(bi6, cache.getBigInteger("/object/nestedNumber"),
+                "nested getBigInteger() returned incorrect result;");
 
-        assertTrue("cache should be dirty after BigInteger writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after BigInteger writes;");
     }
 
     @Test
     public void testSetBoolean() throws Exception {
         cache.set("/boolean", false);
-        assertEquals("getBoolean returned incorrect result;", false, cache.getBoolean("/boolean"));
+        assertEquals(false, cache.getBoolean("/boolean"), "getBoolean returned incorrect result;");
 
         cache.set("/object/nestedBoolean", false);
-        assertEquals("nested getBoolean returned incorrect result;", false, cache.getBoolean("/object/nestedBoolean"));
+        assertEquals(false, cache.getBoolean("/object/nestedBoolean"), "nested getBoolean returned incorrect result;");
 
-        assertTrue("cache should be dirty after boolean writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after boolean writes;");
     }
 
     @Test
     public void testSetDate() throws Exception {
         Date date = new Date();
         cache.set("/dateTimeZ", date);
-        assertEquals("getDate() returned incorrect result;", date, cache.getObject("/dateTimeZ", Date.class));
+        assertEquals(date, cache.getObject("/dateTimeZ", Date.class), "getDate() returned incorrect result;");
 
         cache.set("/object/nestedDateTimeZ", date);
-        assertEquals("nested getDate() returned incorrect result;", date,
-                cache.getObject("/object/nestedDateTimeZ", Date.class));
+        assertEquals(date, cache.getObject("/object/nestedDateTimeZ", Date.class),
+                "nested getDate() returned incorrect result;");
 
-        assertTrue("cache should be dirty after date writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after date writes;");
     }
 
     private void testSetDate0(String dateStr, Object date) throws CacheException {
         cache.set("/dateStr", dateStr);
-        assertEquals("getObject(\"/dateStr\", " + date.getClass().getName() + ".class) returned incorrect result;",
-                date, cache.getObject("/dateStr", date.getClass()));
+        assertEquals(date,
+                cache.getObject("/dateStr", date.getClass()), "getObject(\"/dateStr\", " + date.getClass().getName() + ".class) returned incorrect result;");
         cache.set("/date", date);
-        assertEquals("getObject(\"/date\", " + date.getClass().getName() + ".class) returned incorrect result;",
-                date, cache.getObject("/dateStr", date.getClass()));
-        assertTrue("cache should be dirty after date writes;", root.isDirty());
+        assertEquals(date,
+                cache.getObject("/dateStr", date.getClass()), "getObject(\"/date\", " + date.getClass().getName() + ".class) returned incorrect result;");
+        assertTrue(root.isDirty(), "cache should be dirty after date writes;");
     }
 
     @Test
@@ -1207,36 +1206,36 @@ public class JsonCacheTest {
     @Test
     public void testSetDouble() throws Exception {
         cache.set("/number", 6.28D);
-        assertEquals("getDouble() returned incorrect result;", 6.28D, cache.getDouble("/number"), Double.MIN_VALUE);
+        assertEquals(6.28D, cache.getDouble("/number"), Double.MIN_VALUE, "getDouble() returned incorrect result;");
 
         cache.set("/object/nestedNumber", 1.618D);
-        assertEquals("nested getDouble() returned incorrect result;", 1.618D, cache.getDouble("/object/nestedNumber"),
-                Double.MIN_VALUE);
+        assertEquals(1.618D, cache.getDouble("/object/nestedNumber"), Double.MIN_VALUE,
+                "nested getDouble() returned incorrect result;");
 
-        assertTrue("cache should be dirty after double writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after double writes;");
     }
 
     @Test
     public void testSetFloat() throws Exception {
         cache.set("/number", 6.28F);
-        assertEquals("getFloat() returned incorrect result;", 6.28F, cache.getFloat("/number"), Float.MIN_VALUE);
+        assertEquals(6.28F, cache.getFloat("/number"), Float.MIN_VALUE, "getFloat() returned incorrect result;");
 
         cache.set("/object/nestedNumber", 1.618F);
-        assertEquals("nested getFloat() returned incorrect result;", 1.618F, cache.getFloat("/object/nestedNumber"),
-                Float.MIN_VALUE);
+        assertEquals(1.618F, cache.getFloat("/object/nestedNumber"), Float.MIN_VALUE,
+                "nested getFloat() returned incorrect result;");
 
-        assertTrue("cache should be dirty after float writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after float writes;");
     }
 
     @Test
     public void testSetInt() throws Exception {
         cache.set("/number", 23);
-        assertEquals("getInt() returned incorrect result;", 23, cache.getInt("/number"));
+        assertEquals(23, cache.getInt("/number"), "getInt() returned incorrect result;");
 
         cache.set("/object/nestedNumber", 22);
-        assertEquals("nested getInt() returned incorrect result;", 22, cache.getInt("/object/nestedNumber"));
+        assertEquals(22, cache.getInt("/object/nestedNumber"), "nested getInt() returned incorrect result;");
 
-        assertTrue("cache should be dirty after integer writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after integer writes;");
     }
 
     @Test
@@ -1257,49 +1256,49 @@ public class JsonCacheTest {
     @Test
     public void testSetLong() throws Exception {
         cache.set("/number", 33L);
-        assertEquals("getLong() returned incorrect result;", 33L, cache.getLong("/number"));
+        assertEquals(33L, cache.getLong("/number"), "getLong() returned incorrect result;");
 
         cache.set("/object/nestedNumber", 32L);
-        assertEquals("nested getLong() returned incorrect result;", 32L, cache.getLong("/object/nestedNumber"));
+        assertEquals(32L, cache.getLong("/object/nestedNumber"), "nested getLong() returned incorrect result;");
 
-        assertTrue("cache should be dirty after long writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after long writes;");
     }
 
     @Test
     public void testSetNumber() throws Exception {
         cache.set("/number", 6.28F);
-        assertEquals("getNumber() returned incorrect result;", 6.28F, cache.getNumber("/number"));
+        assertEquals(6.28F, cache.getNumber("/number"), "getNumber() returned incorrect result;");
 
         cache.set("/object/nestedNumber", 1.618D);
-        assertEquals("nested getNumber() returned incorrect result;", 1.618D, cache.getNumber("/object/nestedNumber"));
+        assertEquals(1.618D, cache.getNumber("/object/nestedNumber"), "nested getNumber() returned incorrect result;");
 
-        assertTrue("cache should be dirty after number writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after number writes;");
     }
 
     @Test
     public void testSetObject() throws Exception {
         cache.set("/testObjects/0", TEST_OBJECT_1);
         TestObject testObject0 = cache.getObject("/testObjects/0", TestObject.class);
-        assertSame("test object 0 was not set correctly", TEST_OBJECT_1, testObject0);
-        assertNull("POJO field did not return null;", cache.get("/testObjects/0/booleanField"));
+        assertSame(TEST_OBJECT_1, testObject0, "test object 0 was not set correctly");
+        assertNull(cache.get("/testObjects/0/booleanField"), "POJO field did not return null;");
 
         cache.set("/testObjects/1", TEST_OBJECT_0);
         TestObject testObject1 = cache.getObject("/testObjects/1", TestObject.class);
-        assertSame("test object 1 was not deserialized correctly", TEST_OBJECT_0, testObject1);
-        assertNull("POJO field did not return null;", cache.get("/testObjects/1/stringField"));
+        assertSame(TEST_OBJECT_0, testObject1, "test object 1 was not deserialized correctly");
+        assertNull(cache.get("/testObjects/1/stringField"), "POJO field did not return null;");
 
         cache.set("/boolean", Boolean.FALSE);
-        assertEquals("set(Boolean) did not work;", false, cache.getBoolean("/boolean"));
+        assertEquals(false, cache.getBoolean("/boolean"), "set(Boolean) did not work;");
 
         cache.set("/number", Integer.valueOf(666));
-        assertEquals("set(Integer) did not work;", 666, cache.getInt("/number"));
+        assertEquals(666, cache.getInt("/number"), "set(Integer) did not work;");
 
         cache.set("/string", (Object) "a replacement string");
-        assertEquals("set(Object) did not work;", "a replacement string", cache.getString("/string"));
+        assertEquals("a replacement string", cache.getString("/string"), "set(Object) did not work;");
 
         // TODO: should we be able to set ArrayNode and ObjectNode values in this fashion?
 
-        assertTrue("cache should be dirty after object writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after object writes;");
     }
 
     @Test
@@ -1307,43 +1306,43 @@ public class JsonCacheTest {
         List<?> testObjects = Arrays.asList(TEST_OBJECT_1, TEST_OBJECT_0);
         cache.set("/testObjects", testObjects);
         List<TestObject> result = cache.getObjects("/testObjects", TestObject.class);
-        assertEquals("set(path, list) did not work", testObjects, result);
-        assertTrue("cache should be dirty after set(path, list);", root.isDirty());
+        assertEquals(testObjects, result, "set(path, list) did not work");
+        assertTrue(root.isDirty(), "cache should be dirty after set(path, list);");
     }
 
     @Test
     public void testSetShort() throws Exception {
         cache.set("/number", 13);
-        assertEquals("getShort() returned incorrect result;", 13, cache.getShort("/number"));
+        assertEquals(13, cache.getShort("/number"), "getShort() returned incorrect result;");
 
         cache.set("/object/nestedNumber", 12);
-        assertEquals("nested getShort() returned incorrect result;", 12, cache.getShort("/object/nestedNumber"));
+        assertEquals(12, cache.getShort("/object/nestedNumber"), "nested getShort() returned incorrect result;");
 
-        assertTrue("cache should be dirty after short writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after short writes;");
     }
 
     @Test
     public void testSetString() throws Exception {
         cache.set("/string", "a different string");
-        assertEquals("getString returned incorrect result;", "a different string", cache.getString("/string"));
+        assertEquals("a different string", cache.getString("/string"), "getString returned incorrect result;");
 
         cache.set("/object/nestedString", "a different nested string");
-        assertEquals("nested getString returned incorrect result;", "a different nested string",
-                cache.getString("/object/nestedString"));
+        assertEquals("a different nested string", cache.getString("/object/nestedString"),
+                "nested getString returned incorrect result;");
 
-        assertTrue("cache should be dirty after string writes;", root.isDirty());
+        assertTrue(root.isDirty(), "cache should be dirty after string writes;");
     }
 
     @Test
     public void testSetWithMissingAncestors() throws Exception {
         JsonPointer ptr = JsonPointer.compile("/nonExistentArray/0/nonExistentObject/stringProperty");
-        assertFalse("exists(ptr) returned incorrect value;", cache.exists(ptr));
+        assertFalse(cache.exists(ptr), "exists(ptr) returned incorrect value;");
         Object value = cache.get(ptr);
-        assertNull("stringProperty is non-null;", value);
+        assertNull(value, "stringProperty is non-null;");
         cache.set(ptr, "string value");
-        assertTrue("exists(ptr) returned incorrect value;", cache.exists(ptr));
+        assertTrue(cache.exists(ptr), "exists(ptr) returned incorrect value;");
         value = cache.get(ptr);
-        assertEquals("stringProperty is null after being set;", "string value", value);
+        assertEquals("string value", value, "stringProperty is null after being set;");
     }
 
     // TODO: get/set POJO

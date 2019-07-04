@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "apiClient.h"
-#include "keyValuePair.h"
+#include "../include/apiClient.h"
+#ifdef OPENSSL
+#include "openssl/pem.h"
+#endif
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
@@ -13,19 +15,18 @@ apiClient_t *apiClient_create() {
 	apiClient->basePath = "http://petstore.swagger.io/v2";
 	apiClient->dataReceived = NULL;
 	apiClient->response_code = 0;
-    #ifdef BASIC_AUTH
-	apiClient->username = NULL;
-	apiClient->password = NULL;
-    #endif // BASIC_AUTH
-    #ifdef OAUTH2
+	apiClient->apiKeys = NULL;
 	apiClient->accessToken = NULL;
-    #endif // OAUTH2
+
 	return apiClient;
 }
 
 void apiClient_free(apiClient_t *apiClient) {
-	if(apiClient->dataReceived) {
-		free(apiClient->dataReceived);
+	if(apiClient->apiKeys) {
+		list_free(apiClient->apiKeys);
+	}
+	if(apiClient->accessToken) {
+		free(apiClient->accessToken);
 	}
 	free(apiClient);
 	curl_global_cleanup();
@@ -138,7 +139,7 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 		struct curl_slist *headers = NULL;
 		char *buffContent = NULL;
 		char *buffHeader = NULL;
-		FileStruct *fileVar = NULL;
+		binary_t *fileVar = NULL;
 		char *formString = NULL;
 
 		if(headerType != NULL) {
@@ -250,18 +251,12 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 						if(strcmp(keyValuePair->key,
 						          "file") == 0)
 						{
-							printf(
-								"Size of fileVar - %p\n",
-								fileVar);
 							memcpy(&fileVar,
 							       keyValuePair->value,
 							       sizeof(fileVar));
-							printf(
-								"Size of fileVar1 - %p\n",
-								fileVar);
 							curl_mime_data(part,
-							               fileVar->fileData,
-							               fileVar->fileSize);
+							               fileVar->data,
+							               fileVar->len);
 							curl_mime_filename(part,
 							                   "image.png");
 						} else {
@@ -288,19 +283,22 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 			}
 		}
 		// this would only be generated for apiKey authentication
-	#ifdef API_KEY
-		list_ForEach(listEntry, apiClient->apiKeys) {
-			keyValuePair_t *apiKey = listEntry->data;
-			if((apiKey->key != NULL) &&
-			   (apiKey->value != NULL) )
-			{
-				char *headerValueToWrite = assembleHeaderField(
-					apiKey->key, apiKey->value);
-				curl_slist_append(headers, headerValueToWrite);
-				free(headerValueToWrite);
+		if(apiClient->apiKeys != NULL) {
+			list_ForEach(listEntry, apiClient->apiKeys) {
+				keyValuePair_t *apiKey = listEntry->data;
+				if((apiKey->key != NULL) &&
+				   (apiKey->value != NULL) )
+				{
+					char *headerValueToWrite =
+						assembleHeaderField(
+							apiKey->key,
+							apiKey->value);
+					curl_slist_append(headers,
+					                  headerValueToWrite);
+					free(headerValueToWrite);
+				}
 			}
 		}
-	#endif // API_KEY
 
 		char *targetUrl =
 			assembleTargetUrl(apiClient->basePath,
@@ -316,43 +314,14 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 		                 &apiClient->dataReceived);
 		curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
 		curl_easy_setopt(handle, CURLOPT_VERBOSE, 0); // to get curl debug msg 0: to disable, 1L:to enable
+
 		// this would only be generated for OAuth2 authentication
-	#ifdef OAUTH2
 		if(apiClient->accessToken != NULL) {
 			// curl_easy_setopt(handle, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
 			curl_easy_setopt(handle,
 			                 CURLOPT_XOAUTH2_BEARER,
 			                 apiClient->accessToken);
 		}
-	#endif
-
-
-		// this would only be generated for basic authentication:
-	#ifdef BASIC_AUTH
-		char *authenticationToken;
-
-		if((apiClient->username != NULL) &&
-		   (apiClient->password != NULL) )
-		{
-			authenticationToken = malloc(strlen(
-							     apiClient->username) +
-			                             strlen(
-							     apiClient->password) +
-			                             2);
-			sprintf(authenticationToken,
-			        "%s:%s",
-			        apiClient->username,
-			        apiClient->password);
-
-			curl_easy_setopt(handle,
-			                 CURLOPT_HTTPAUTH,
-			                 CURLAUTH_BASIC);
-			curl_easy_setopt(handle,
-			                 CURLOPT_USERPWD,
-			                 authenticationToken);
-		}
-
-	#endif // BASIC_AUTH
 
 		if(bodyParameters != NULL) {
 			postData(handle, bodyParameters);
@@ -372,16 +341,17 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 			curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE,
 			                  &apiClient->response_code);
 		} else {
-			fprintf(stderr, "curl_easy_perform() failed: %s\n",
+			char *url, *ip, *scheme;
+			long port;
+			curl_easy_getinfo(handle, CURLINFO_EFFECTIVE_URL, &url);
+			curl_easy_getinfo(handle, CURLINFO_PRIMARY_IP, &ip);
+			curl_easy_getinfo(handle, CURLINFO_PRIMARY_PORT, &port);
+			curl_easy_getinfo(handle, CURLINFO_SCHEME, &scheme);
+			fprintf(stderr,
+			        "curl_easy_perform() failed\n\nURL: %s\nIP: %s\nPORT: %li\nSCHEME: %s\nStrERROR: %s\n", url, ip, port, scheme,
 			        curl_easy_strerror(res));
 		}
-	#ifdef BASIC_AUTH
-		if((apiClient->username != NULL) &&
-		   (apiClient->password != NULL) )
-		{
-			free(authenticationToken);
-		}
-	#endif // BASIC_AUTH
+
 		curl_easy_cleanup(handle);
 		if(formParameters != NULL) {
 			free(formString);
@@ -447,4 +417,44 @@ char *strReplace(char *orig, char *rep, char *with) {
 	strcpy(tmp, orig);
 	free(originalPointer);
 	return result;
+}
+
+char *sbi_base64encode(const void	*b64_encode_this,
+                       int		encode_this_many_bytes) {
+#ifdef OPENSSL
+	BIO *b64_bio, *mem_bio;  // Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
+	BUF_MEM *mem_bio_mem_ptr; // Pointer to a "memory BIO" structure holding our base64 data.
+	b64_bio = BIO_new(BIO_f_base64());                  // Initialize our base64 filter BIO.
+	mem_bio = BIO_new(BIO_s_mem());                       // Initialize our memory sink BIO.
+	BIO_push(b64_bio, mem_bio);        // Link the BIOs by creating a filter-sink BIO chain.
+	BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL); // No newlines every 64 characters or less.
+	BIO_write(b64_bio, b64_encode_this, encode_this_many_bytes); // Records base64 encoded data.
+	BIO_flush(b64_bio); // Flush data.  Necessary for b64 encoding, because of pad characters.
+	BIO_get_mem_ptr(mem_bio, &mem_bio_mem_ptr); // Store address of mem_bio's memory structure.
+	BIO_set_close(mem_bio, BIO_NOCLOSE); // Permit access to mem_ptr after BIOs are destroyed.
+	BIO_free_all(b64_bio); // Destroys all BIOs in chain, starting with b64 (i.e. the 1st one).
+	BUF_MEM_grow(mem_bio_mem_ptr, (*mem_bio_mem_ptr).length + 1); // Makes space for end null.
+	(*mem_bio_mem_ptr).data[(*mem_bio_mem_ptr).length] = '\0'; // Adds null-terminator to tail.
+	return (*mem_bio_mem_ptr).data; // Returns base-64 encoded data. (See: "buf_mem_st" struct).
+#endif
+}
+
+char *sbi_base64decode(const void	*b64_decode_this,
+                       int		decode_this_many_bytes) {
+#ifdef OPENSSL
+	BIO *b64_bio, *mem_bio;  // Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
+	char *base64_decoded = calloc( (decode_this_many_bytes * 3) / 4 + 1,
+	                               sizeof(char) );                             // +1 = null.
+	b64_bio = BIO_new(BIO_f_base64());                  // Initialize our base64 filter BIO.
+	mem_bio = BIO_new(BIO_s_mem());                     // Initialize our memory source BIO.
+	BIO_write(mem_bio, b64_decode_this, decode_this_many_bytes); // Base64 data saved in source.
+	BIO_push(b64_bio, mem_bio);      // Link the BIOs by creating a filter-source BIO chain.
+	BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL);      // Don't require trailing newlines.
+	int decoded_byte_index = 0; // Index where the next base64_decoded byte should be written.
+	while(0 < BIO_read(b64_bio, base64_decoded + decoded_byte_index, 1) ) { // Read byte-by-byte.
+		decoded_byte_index++; // Increment the index until read of BIO decoded data is complete.
+	} // Once we're done reading decoded data, BIO_read returns -1 even though there's no error.
+	BIO_free_all(b64_bio); // Destroys all BIOs in chain, starting with b64 (i.e. the 1st one).
+	return base64_decoded;    // Returns base-64 decoded data with trailing null terminator.
+#endif
 }

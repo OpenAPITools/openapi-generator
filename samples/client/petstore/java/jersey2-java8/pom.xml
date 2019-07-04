@@ -151,6 +151,15 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <tags>
+                                <tag>
+                                    <name>http.response.details</name>
+                                    <placement>a</placement>
+                                    <head>Http Response Details:</head>
+                                </tag>
+                 	        </tags>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -208,6 +217,11 @@
             <version>${jersey-version}</version>
         </dependency>
         <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>
             <version>${jersey-version}</version>
@@ -249,10 +263,10 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <jersey-version>2.27</jersey-version>
-        <jackson-version>2.8.11</jackson-version>
-        <jackson-databind-version>2.8.11.3</jackson-databind-version>
+        <jackson-version>2.9.9</jackson-version>
+        <jackson-databind-version>2.9.9</jackson-databind-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.12</junit-version>
     </properties>

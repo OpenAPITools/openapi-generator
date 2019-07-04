@@ -80,7 +80,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "kotlin.Long");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "kotlin.Long");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
@@ -91,7 +91,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.dataType, "kotlin.String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "kotlin.String");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
@@ -102,7 +102,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.dataType, "java.time.LocalDateTime");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
@@ -124,7 +124,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.dataType, "org.threeten.bp.LocalDateTime");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "org.threeten.bp.LocalDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
@@ -146,7 +146,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.dataType, "kotlin.String");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "kotlin.String");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
@@ -168,7 +168,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.dataType, "java.time.LocalDateTime");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
@@ -195,7 +195,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property.setter, "setExamples");
         Assert.assertEquals(property.dataType, "kotlin.Array<kotlin.String>");
         Assert.assertEquals(property.name, "examples");
-        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "kotlin.Array");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -224,7 +224,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property.setter, "setExamples");
         Assert.assertEquals(property.dataType, "kotlin.collections.List<kotlin.String>");
         Assert.assertEquals(property.name, "examples");
-        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "kotlin.collections.List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);

@@ -106,6 +106,12 @@ open class GenerateTask : DefaultTask() {
     val skipOverwrite = project.objects.property<Boolean?>()
 
     /**
+     * Package for generated classes (where supported)
+     */
+    @get:Internal
+    val packageName = project.objects.property<String>()
+
+    /**
      * Package for generated api classes
      */
     @get:Internal
@@ -456,6 +462,10 @@ open class GenerateTask : DefaultTask() {
                 configurator.templateDir = value
             }
 
+            packageName.ifNotEmpty { value ->
+                configurator.packageName = value
+            }
+
             apiPackage.ifNotEmpty { value ->
                 configurator.apiPackage = value
             }
@@ -525,7 +535,7 @@ open class GenerateTask : DefaultTask() {
             }
 
             skipValidateSpec.ifNotEmpty { value ->
-                configurator.setValidateSpec(value)
+                configurator.setValidateSpec(!value)
             }
 
             generateAliasAsModel.ifNotEmpty { value ->

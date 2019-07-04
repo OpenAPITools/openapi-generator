@@ -15,7 +15,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 	"os"
 )
@@ -35,7 +34,7 @@ this route creates an XmlItem
 */
 func (a *FakeApiService) CreateXmlItem(ctx context.Context, xmlItem XmlItem) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -110,7 +109,7 @@ type FakeOuterBooleanSerializeOpts struct {
 
 func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -208,7 +207,7 @@ type FakeOuterCompositeSerializeOpts struct {
 
 func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -310,7 +309,7 @@ type FakeOuterNumberSerializeOpts struct {
 
 func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarOptionals *FakeOuterNumberSerializeOpts) (float32, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -408,7 +407,7 @@ type FakeOuterStringSerializeOpts struct {
 
 func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarOptionals *FakeOuterStringSerializeOpts) (string, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -499,7 +498,7 @@ For this test, the body for this request much reference a schema named &#x60;Fil
 */
 func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, body FileSchemaTestClass) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Put")
+		localVarHttpMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -567,7 +566,7 @@ FakeApiService
 */
 func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query string, body User) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Put")
+		localVarHttpMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -637,7 +636,7 @@ To test \&quot;client\&quot; model
 */
 func (a *FakeApiService) TestClientModel(ctx context.Context, body Client) (Client, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Patch")
+		localVarHttpMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -753,7 +752,7 @@ type TestEndpointParametersOpts struct {
 
 func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals *TestEndpointParametersOpts) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -834,7 +833,11 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 		localVarFormParams.Add("date", parameterToString(localVarOptionals.Date.Value(), ""))
 	}
 	if localVarOptionals != nil && localVarOptionals.DateTime.IsSet() {
-		localVarFormParams.Add("dateTime", parameterToString(localVarOptionals.DateTime.Value(), ""))
+		paramJson, err := parameterToJson(localVarOptionals.DateTime.Value())
+		if err != nil {
+			return nil, err
+		}
+		localVarFormParams.Add("dateTime", paramJson)
 	}
 	if localVarOptionals != nil && localVarOptionals.Password.IsSet() {
 		localVarFormParams.Add("password", parameterToString(localVarOptionals.Password.Value(), ""))
@@ -897,7 +900,7 @@ type TestEnumParametersOpts struct {
 
 func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptionals *TestEnumParametersOpts) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1000,7 +1003,7 @@ type TestGroupParametersOpts struct {
 
 func (a *FakeApiService) TestGroupParameters(ctx context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Delete")
+		localVarHttpMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1077,7 +1080,7 @@ FakeApiService test inline additionalProperties
 */
 func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, param map[string]string) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1145,7 +1148,7 @@ FakeApiService test json serialization of form data
 */
 func (a *FakeApiService) TestJsonFormData(ctx context.Context, param string, param2 string) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

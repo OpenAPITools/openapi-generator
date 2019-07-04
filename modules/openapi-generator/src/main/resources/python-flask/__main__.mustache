@@ -13,7 +13,9 @@ from {{packageName}} import encoder
 def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
     app.app.json_encoder = encoder.JSONEncoder
-    app.add_api('openapi.yaml', arguments={'title': '{{appName}}'})
+    app.add_api('openapi.yaml',
+                arguments={'title': '{{appName}}'},
+                pythonic_params=True)
     app.run(port={{serverPort}})
 
 

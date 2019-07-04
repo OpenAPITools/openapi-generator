@@ -33,6 +33,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean isGoSubmodule = false;
     public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
     public static final String WITH_XML = "withXml";
 
@@ -51,8 +52,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
-                .defaultValue("1.0.0"));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.IS_GO_SUBMODULE, CodegenConstants.IS_GO_SUBMODULE_DESC));
         cliOptions.add(CliOption.newBoolean(WITH_GO_CODEGEN_COMMENT, "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs"));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
 
@@ -62,7 +62,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
-
     }
 
     @Override
@@ -97,6 +96,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.go"));
         supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
         supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
+        supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
+        supportingFiles.add(new SupportingFile("go.sum", "", "go.sum"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
 
         if (additionalProperties.containsKey(WITH_GO_CODEGEN_COMMENT)) {
@@ -110,6 +111,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
             setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
             if (withXml) {
                 additionalProperties.put(WITH_XML, "true");
+            }
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.IS_GO_SUBMODULE)) {
+            setIsGoSubmodule(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.IS_GO_SUBMODULE).toString()));
+            if (isGoSubmodule) {
+                additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, "true");
             }
         }
     }
@@ -183,6 +191,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
+    }
+
+    public void setIsGoSubmodule(boolean isGoSubmodule) {
+        this.isGoSubmodule = isGoSubmodule;
     }
 
 }

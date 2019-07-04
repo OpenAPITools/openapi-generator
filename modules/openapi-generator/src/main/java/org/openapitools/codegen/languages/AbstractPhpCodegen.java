@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -124,6 +125,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -225,16 +227,18 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toSrcPath(String packageName, String basePath) {
         packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + '/'; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
-        return (basePath
-                // Replace period, backslash, forward slash with file separator in package name
-                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/"))
-                // Trim prefix file separators from package path
-                .replaceAll("^/", ""))
-                // Trim trailing file separators from the overall path
-                .replaceAll("/$", "");
+        // Trim prefix file separators from package path
+        String packagePath = StringUtils.removeStart(
+            // Replace period, backslash, forward slash with file separator in package name
+            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+            File.separator
+        );
+
+        // Trim trailing file separators from the overall path
+        return StringUtils.removeEnd(basePath + packagePath, File.separator);
     }
 
     @Override

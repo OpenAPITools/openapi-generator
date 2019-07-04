@@ -1,6 +1,7 @@
-# ArrayTest
+# # ArrayTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **array_of_string** | **string[]** |  | [optional] 

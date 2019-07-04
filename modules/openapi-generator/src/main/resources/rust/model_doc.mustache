@@ -1,6 +1,7 @@
 {{#models}}{{#model}}# {{{classname}}}
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 {{#vars}}**{{{name}}}** | {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{^isContainer}}{{^isDateTime}}*{{/isDateTime}}{{/isContainer}}{{{dataType}}}**]({{{complexType}}}.md){{/isPrimitiveType}} | {{{description}}} | {{^required}}[optional] {{/required}}{{#readOnly}}[readonly] {{/readOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}

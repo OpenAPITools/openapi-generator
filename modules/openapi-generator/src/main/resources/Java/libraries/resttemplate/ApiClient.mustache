@@ -66,6 +66,7 @@ import java.util.TimeZone;
 
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
@@ -125,8 +126,9 @@ public class ApiClient {
         setUserAgent("Java-SDK");
 
         // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasic}}{{#isApiKey}}
+        authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
@@ -183,6 +185,20 @@ public class ApiClient {
      */
     public Authentication getAuthentication(String authName) {
         return authentications.get(authName);
+    }
+
+    /**
+     * Helper method to set token for HTTP bearer authentication.
+     * @param bearerToken the token
+     */
+    public void setBearerToken(String bearerToken) {
+      for (Authentication auth : authentications.values()) {
+        if (auth instanceof HttpBearerAuth) {
+          ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+          return;
+        }
+      }
+      throw new RuntimeException("No Bearer authentication configured!");
     }
 
     /**
@@ -342,6 +358,8 @@ public class ApiClient {
 
     /**
      * Parse the given string into Date object.
+     * @param str the string to parse
+     * @return the Date parsed from the string
      */
     public Date parseDate(String str) {
         try {
@@ -353,6 +371,8 @@ public class ApiClient {
 
     /**
      * Format the given Date object into string.
+     * @param date the date to format
+     * @return the formatted date as string
      */
     public String formatDate(Date date) {
         return dateFormat.format(date);
@@ -386,7 +406,7 @@ public class ApiClient {
     * Formats the specified collection path parameter to a string value.
     *
     * @param collectionFormat The collection format of the parameter.
-    * @param value The value of the parameter.
+    * @param values The values of the parameter.
     * @return String representation of the parameter
     */
     public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<? extends CharSequence> values) {

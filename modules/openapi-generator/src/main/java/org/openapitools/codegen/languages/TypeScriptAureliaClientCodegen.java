@@ -21,13 +21,9 @@ import org.openapitools.codegen.*;
 
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCodegen {
-
-    public static final String NPM_NAME = "npmName";
-    public static final String NPM_VERSION = "npmVersion";
-
-    protected String npmName = null;
-    protected String npmVersion = "1.0.0";
 
     public TypeScriptAureliaClientCodegen() {
         super();
@@ -40,8 +36,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
         outputFolder = "generated-code/typescript-aurelia";
         embeddedTemplateDir = templateDir = "typescript-aurelia";
-        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
+
     }
 
     @Override
@@ -74,14 +69,6 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
-        }
-
-        if (additionalProperties.containsKey(NPM_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-        }
-
         // Set supporting files
         supportingFiles.add(new SupportingFile("models.mustache", "", "models.ts"));
         supportingFiles.add(new SupportingFile("index.ts.mustache", "", "index.ts"));
@@ -104,7 +91,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
             // Aurelia uses "asGet", "asPost", ... methods; change the method format
-            op.httpMethod = initialCaps(op.httpMethod.toLowerCase(Locale.ROOT));
+            op.httpMethod = camelize(op.httpMethod.toLowerCase(Locale.ROOT));
 
             // Collect models to be imported
             for (CodegenParameter param : op.allParams) {

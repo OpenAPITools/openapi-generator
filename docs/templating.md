@@ -7,7 +7,7 @@ It's easy to work with templates for codegen!
 
 The generator workflow has [transforming logic](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages) as well as templates for each generation of code.
 
-Each generator will create a data structure from the OpenAPI document; OpenAPI 2.0 and OpenAPI 3.x documents are normalized into the same API model within the generator. This model is then applied to the templates.  While generators do not need to perform transformations, it's often necessary in order to add more advanced support for your language or framework. You may need to refer to the generator implementation to understand some of the logic while creating or customizing templates (see [FinchServerCodegen.java](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/FinchServerCodegen.java) for an advanced example).
+Each generator will create a data structure from the OpenAPI document; OpenAPI 2.0 and OpenAPI 3.x documents are normalized into the same API model within the generator. This model is then applied to the templates.  While generators do not need to perform transformations, it's often necessary in order to add more advanced support for your language or framework. You may need to refer to the generator implementation to understand some of the logic while creating or customizing templates (see [ScalaFinchServerCodegen.java](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/ScalaFinchServerCodegen.java) for an advanced example).
 
 The transform logic needs to implement [CodegenConfig.java](https://github.com/openapitools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/CodegenConfig.java) and is most easily done by extending [DefaultCodegen.java](https://github.com/openapitools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java).  Take a look at the various implementations as a guideline while the instructions get more complete.
 
@@ -18,7 +18,7 @@ The transform logic needs to implement [CodegenConfig.java](https://github.com/o
 > * Maven Plugin: `templateDirectory`
 > * Gradle Plugin: `templateDir` 
 
-Built-in templates are written in Mustache and processed by [jmustache](https://github.com/samskivert/jmustache). We plan to eventually support Handlebars and user-defined template engines via plugins.
+Built-in templates are written in Mustache and processed by [jmustache](https://github.com/samskivert/jmustache). Beginning with version 4.0.0, we support experimental Handlebars and user-defined template engines via plugins.
 
 OpenAPI Generator supports user-defined templates. This approach is often the easiest when creating a custom template. Our generators implement a combination of language and framework features, and it's fully possible to use an existing generator to implement a custom template for a different framework. Suppose you have internal utilities which you'd like to incorporate into generated code (e.g. logging, monitoring, fault-handling)... this is easy to add via custom templates.
 
@@ -260,6 +260,165 @@ Execute `./gradlew build` and then `cat target/rolling/rollingtest.log`. You sho
 Congratulations! You've now modified one of the built-in templates to meet your client code's needs.
 
 Adding/modifying template logic simply requires a little bit of [mustache](https://mustache.github.io/), for which you can use existing templates as a guide.
+
+### Custom Engines
+
+> Custom template engine support is *experimental*
+
+If Mustache or the experimental Handlebars engines don't suit your needs, you can define an adapter to your templating engine of choice. To do this, you'll need to define a new project which consumes the `openapi-generator-core` artifact, and at a minimum implement `TemplatingEngineAdapter`.
+
+This example:
+
+* creates an adapter providing the fundamental logic to compile [Pebble Templates](https://pebbletemplates.io)
+* will be implemented in Kotlin to demonstrate ServiceLoader configuration specific to Kotlin (Java will be similar)
+* requires Gradle 5.0+
+* provides project setup instructions for IntelliJ
+
+To begin, create a [new Gradle project](https://www.jetbrains.com/help/idea/getting-started-with-gradle.html) with Kotlin support. To do this, go to `File` ➞ `New` ➞ `Project`, choose "Gradle" and "Kotlin". Specify groupId `org.openapitools.examples` and artifactId `pebble-template-adapter`.
+
+Ensure the new project uses Gradle 5.0. Navigate to the newly created directory and execute:
+
+```bash
+gradle wrapper --gradle-version 5.0
+```
+
+In `build.gradle`, we'll add a dependency for OpenAPI Tools core which defines the interface and an abstract helper type for implementing the adapter. We'll also pull in the Pebble artifact. We'll be evaluating this new artifact locally, so we'll also add the Maven plugin for installing to the local maven repository. We'll also create a fatjar using the `shadow` plugin to simplify our classpath.
+
+Modifications to the new project's `build.gradle` should be made in the `plugins` and `dependencies` nodes:
+
+```diff
+ plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.11'
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+ }
+ 
+ dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.openapitools:openapi-generator-core:4.0.0-SNAPSHOT"
+    compile "io.pebbletemplates:pebble:3.0.8"
+ }
+```
+
+The above configuration for the `shadow` plugin is strictly optional. It is not needed, for instance, if you plan to publish your adapter and consume it via the Maven or Gradle plugins.
+
+Next, create a new class file called `PebbleTemplateEngineAdapter` under `src/kotlin`. We'll define the template adapter's name as `pebble` and we'll also list this as the only supported file extension. We'll implement the adapter by extending `AbstractTemplatingEngineAdapter`, which includes reusable logic, such as retrieving a list of all possible template names for our provided template extensions(s). 
+
+The class in its simplest form looks like this (with inline comments):
+
+```kotlin
+// Allows specifying engine by class name
+// e.g. -e org.openapitools.examples.templating.PebbleTemplateAdapter
+@file:JvmName("PebbleTemplateAdapter")
+package org.openapitools.examples.templating
+
+// imports
+
+class PebbleTemplateAdapter : AbstractTemplatingEngineAdapter() {
+    // initialize the template compilation engine
+    private val engine: PebbleEngine = PebbleEngine.Builder()
+        .cacheActive(false)
+        .loader(DelegatingLoader(listOf(FileLoader(), ClasspathLoader())))
+        .build()
+
+    // allows targeting engine by id/name: -e pebble
+    override fun getIdentifier(): String = "pebble"
+
+    override fun compileTemplate(
+        generator: TemplatingGenerator?,
+        bundle: MutableMap<String, Any>?,
+        templateFile: String?
+    ): String {
+        // This will convert, for example, model.mustache to model.pebble
+        val modifiedTemplate = this.getModifiedFileLocation(templateFile).first()
+
+        // Uses generator built-in template resolution strategy to find the full template file
+        val filePath = generator?.getFullTemplatePath(modifiedTemplate)
+
+        val writer = StringWriter()
+        // Conditionally writes out the template if found.
+        if (filePath != null) {
+            engine.getTemplate(filePath.toAbsolutePath().toString())?.evaluate(writer, bundle)
+        }
+        return writer.toString()
+    }
+
+    override fun getFileExtensions(): Array<String> = arrayOf("pebble")
+}
+```
+
+Lastly, create a file `resources/META-INF/services/org.openapitools.codegen.api.TemplatingEngineAdapter`, containing the full class path to the above class:
+
+```
+org.openapitools.examples.templating.PebbleTemplateAdapter
+```
+
+This allows the adapter to load via ServiceLoader, and to be referenced via the identifier `pebble`. This is optional; if you don't provide the above file and contents, you'll only be able to load the engine via full class name (explained in a bit).
+
+Now, build the fatjar for this new adapter:
+
+```bash
+./gradlew shadowJar
+```
+
+To test compilation of some templates, we'll need to first create one or more template files. Create a temp directory at `/tmp/pebble-example/templates` and add the following files.
+
+*api.pebble*
+
+```
+package {{packageName}}
+
+import (
+    "net/http"
+{% for item in imports %}
+    "{{item.import}}"
+{% endfor %}
+)
+
+type Generated{{classname}}Servicer 
+
+// etc
+```
+
+*model.pebble*
+
+```
+package {{packageName}}
+
+{% for item in models %}
+{% if item.isEnum %}
+// TODO: enum
+{% else %}
+{% if item.description is not empty %}// {{item.description}}{% endif %}
+type {{item.classname}} struct {
+{% for var in item.model.vars %}
+    {% if var.description is not empty %}// {{var.description}}{% endif %}
+    {{var.name}} {% if var.isNullable %}*{% endif %}{{var.dataType}} `json:"{{var.baseName}}{% if var.required == false %},omitempty{% endif %}"{% if var.withXml == true %} xml:"{{var.baseName}}{% if var.isXmlAttribute %},attr{% endif %}"{% endif %}`
+{% endfor %}
+}
+{% endif %}
+{{model.name}}
+{% endfor %}
+```
+
+> Find object structures passed to templates later in this document's **Structures** section.
+
+Finally, we can compile some code by explicitly defining our classpath and jar entrypoint for CLI (be sure to modify `/your/path` below) 
+
+```bash
+java $JAVA_OPTS -cp /your/path/build/libs/pebble-template-adapter-1.0-SNAPSHOT-all.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+    org.openapitools.codegen.OpenAPIGenerator \
+    generate \
+    -g go \
+    -i https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/json/petstore-minimal.json \
+    -e pebble \
+    -o /tmp/pebble-example/out \
+    -t /tmp/pebble-example/templates \
+    -Dmodels -DmodelDocs=false -DmodelTests=false -Dapis -DapiTests=false -DapiDocs=false
+```
+
+Notice how we've targeted our custom template engine adapter via `-e pebble`. If you don't include the SPI file under `META-INF/services`, you'll need to specify the exact classpath: `org.openapitools.examples.templating.PebbleTemplateAdapter`. Notice that the target class here matches the Kotlin class name. This is because of the `@file:JvmName` annotation.
+
+Congratulations on creating a custom templating engine adapter!
 
 ## Structures
 

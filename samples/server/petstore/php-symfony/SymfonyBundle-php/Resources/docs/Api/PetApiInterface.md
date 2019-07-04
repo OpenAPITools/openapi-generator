@@ -22,7 +22,7 @@ services:
     acme.my_bundle.api.pet:
         class: Acme\MyBundle\Api\PetApi
         tags:
-            - { name: "open_apiserver.api", api: "pet" }
+            - { name: "open_api_server.api", api: "pet" }
     # ...
 ```
 

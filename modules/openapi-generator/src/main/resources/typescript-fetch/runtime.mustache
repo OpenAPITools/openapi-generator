@@ -3,6 +3,8 @@
 
 export const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, "");
 
+const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
+
 /**
  * This is the base class for all generated API classes.
  */
@@ -47,7 +49,9 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + querystring(context.query);
         }
-        const body = context.body instanceof FormData ? context.body : JSON.stringify(context.body);
+        const body = (context.body instanceof FormData || isBlob(context.body))
+	    ? context.body
+	    : JSON.stringify(context.body);
         const init = {
             method: context.method,
             headers: context.headers,
@@ -198,7 +202,15 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
             }
             return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
         })
+        .filter(part => part.length > 0)
         .join('&');
+}
+
+export function mapValues(data: any, fn: (item: any) => any) {
+  return Object.keys(data).reduce(
+    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
+    {}
+  );
 }
 
 export interface RequestContext {

@@ -1,7 +1,9 @@
 
+
 # ArrayTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **arrayOfString** | **List&lt;String&gt;** |  |  [optional]

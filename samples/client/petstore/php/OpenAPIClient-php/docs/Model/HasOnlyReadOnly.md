@@ -1,6 +1,7 @@
-# HasOnlyReadOnly
+# # HasOnlyReadOnly
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **bar** | **string** |  | [optional] 

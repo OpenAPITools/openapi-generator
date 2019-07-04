@@ -22,10 +22,10 @@ sidebar_label: csharp
 |optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|
 |optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
 |optionalProjectFile|Generate {PackageName}.csproj.| |true|
-|optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
 |generatePropertyChanged|Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
 |validatable|Generates self-validatable models.| |true|
 |useCompareNetObjects|Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.| |false|
+|caseInsensitiveResponseHeaders|Make API response's headers case-insensitive| |false|

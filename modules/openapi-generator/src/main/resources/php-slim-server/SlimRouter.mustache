@@ -17,7 +17,7 @@
  * {{{appDescription}}}
  {{/appDescription}}
  {{#version}}
- * OpenAPI spec version: {{{version}}}
+ * The version of the OpenAPI document: {{{version}}}
  {{/version}}
  {{#infoEmail}}
  * Contact: {{{infoEmail}}}
@@ -116,14 +116,17 @@ class SlimRouter
     /**
      * Class constructor
      *
-     * @param ContainerInterface|array $container Either a ContainerInterface or an associative array of app settings
+     * @param ContainerInterface|array $settings Either a ContainerInterface or an associative array of app settings
      *
      * @throws InvalidArgumentException When no container is provided that implements ContainerInterface
      * @throws Exception When implementation class doesn't exists
      */
-    public function __construct($container = [])
+    public function __construct($settings = [])
     {
-        $this->slimApp = new App($container);
+        $this->slimApp = new App($settings);
+
+        // middlewares requires Psr\Container\ContainerInterface
+        $container = $this->slimApp->getContainer();
 
         {{#hasAuthMethods}}
         $authPackage = '{{authPackage}}';

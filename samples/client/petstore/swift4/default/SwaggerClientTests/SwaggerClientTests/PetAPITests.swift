@@ -26,11 +26,11 @@ class PetAPITests: XCTestCase {
     
     func test1CreatePet() {
         let expectation = self.expectation(description: "testCreatePet")
-        let category = PetstoreClient.Category(_id: 1234, name: "eyeColor")
-        let tags = [Tag(_id: 1234, name: "New York"), Tag(_id: 124321, name: "Jose")]
-        let newPet = Pet(_id: 1000, category: category, name: "Fluffy", photoUrls: ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"], tags: tags, status: .available)
+        let category = PetstoreClient.Category(id: 1234, name: "eyeColor")
+        let tags = [Tag(id: 1234, name: "New York"), Tag(id: 124321, name: "Jose")]
+        let newPet = Pet(id: 1000, category: category, name: "Fluffy", photoUrls: ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"], tags: tags, status: .available)
 
-        PetAPI.addPet(pet: newPet) { (response, error) in
+        PetAPI.addPet(body: newPet) { (response, error) in
             guard error == nil else {
                 XCTFail("error creating pet")
                 return
@@ -52,7 +52,7 @@ class PetAPITests: XCTestCase {
             }
             
             if let pet = pet {
-                XCTAssert(pet._id == 1000, "invalid id")
+                XCTAssert(pet.id == 1000, "invalid id")
                 XCTAssert(pet.name == "Fluffy", "invalid name")
                 
                 expectation.fulfill()

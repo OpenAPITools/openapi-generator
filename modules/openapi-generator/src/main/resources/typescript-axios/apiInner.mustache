@@ -3,7 +3,7 @@
 /// <reference path="{{apiRelativeToRoot}}custom.d.ts" />
 {{>licenseInfo}}
 
-import * as url from 'url';
+import * as globalImportUrl from 'url';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { Configuration } from '{{apiRelativeToRoot}}configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '{{apiRelativeToRoot}}base';
@@ -44,7 +44,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/allParams}}
             const localVarPath = `{{{path}}}`{{#pathParams}}
                 .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
-            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
@@ -74,12 +74,21 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}
-            {{#isBasic}}
+            {{#isBasicBasic}}
             // http basic authentication required
             if (configuration && (configuration.username || configuration.password)) {
                 localVarHeaderParameter["Authorization"] = "Basic " + btoa(configuration.username + ":" + configuration.password);
             }
-            {{/isBasic}}
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+            {{/isBasicBearer}}
             {{#isOAuth}}
             // oauth required
             if (configuration && configuration.accessToken) {
@@ -179,7 +188,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/bodyParam}}
 
             return {
-                url: url.format(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },

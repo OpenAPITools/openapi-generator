@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   description: This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
   license:
@@ -6,6 +6,9 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
 servers:
 - url: http://petstore.swagger.io/v2
 tags:
@@ -20,18 +23,9 @@ paths:
     post:
       operationId: addPet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: '#/components/requestBodies/Pet'
       responses:
         405:
-          content: {}
           description: Invalid input
       security:
       - petstore_auth:
@@ -44,24 +38,13 @@ paths:
     put:
       operationId: updatePet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: '#/components/requestBodies/Pet'
       responses:
         400:
-          content: {}
           description: Invalid ID supplied
         404:
-          content: {}
           description: Pet not found
         405:
-          content: {}
           description: Validation exception
       security:
       - petstore_auth:
@@ -106,7 +89,6 @@ paths:
                 type: array
           description: successful operation
         400:
-          content: {}
           description: Invalid status value
       security:
       - petstore_auth:
@@ -146,7 +128,6 @@ paths:
                 type: array
           description: successful operation
         400:
-          content: {}
           description: Invalid tag value
       security:
       - petstore_auth:
@@ -159,20 +140,24 @@ paths:
     delete:
       operationId: deletePet
       parameters:
-      - in: header
+      - explode: false
+        in: header
         name: api_key
+        required: false
         schema:
           type: string
+        style: simple
       - description: Pet id to delete
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         400:
-          content: {}
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -186,12 +171,14 @@ paths:
       operationId: getPetById
       parameters:
       - description: ID of pet to return
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         200:
           content:
@@ -203,10 +190,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
         400:
-          content: {}
           description: Invalid ID supplied
         404:
-          content: {}
           description: Pet not found
       security:
       - api_key: []
@@ -217,13 +202,16 @@ paths:
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
+        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -234,9 +222,9 @@ paths:
                 status:
                   description: Updated status of the pet
                   type: string
+              type: object
       responses:
         405:
-          content: {}
           description: Invalid input
       security:
       - petstore_auth:
@@ -250,13 +238,16 @@ paths:
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
+        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
@@ -268,6 +259,7 @@ paths:
                   description: file to upload
                   format: binary
                   type: string
+              type: object
       responses:
         200:
           content:
@@ -306,7 +298,7 @@ paths:
       operationId: placeOrder
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/Order'
         description: order placed for purchasing the pet
@@ -322,7 +314,6 @@ paths:
                 $ref: '#/components/schemas/Order'
           description: successful operation
         400:
-          content: {}
           description: Invalid Order
       summary: Place an order for a pet
       tags:
@@ -334,17 +325,17 @@ paths:
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
+        explode: false
         in: path
         name: orderId
         required: true
         schema:
           type: string
+        style: simple
       responses:
         400:
-          content: {}
           description: Invalid ID supplied
         404:
-          content: {}
           description: Order not found
       summary: Delete purchase order by ID
       tags:
@@ -354,6 +345,7 @@ paths:
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
+        explode: false
         in: path
         name: orderId
         required: true
@@ -362,6 +354,7 @@ paths:
           maximum: 5
           minimum: 1
           type: integer
+        style: simple
       responses:
         200:
           content:
@@ -373,10 +366,8 @@ paths:
                 $ref: '#/components/schemas/Order'
           description: successful operation
         400:
-          content: {}
           description: Invalid ID supplied
         404:
-          content: {}
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -387,14 +378,13 @@ paths:
       operationId: createUser
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/User'
         description: Created user object
         required: true
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Create user
       tags:
@@ -404,17 +394,9 @@ paths:
     post:
       operationId: createUsersWithArrayInput
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: '#/components/requestBodies/UserArray'
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Creates list of users with given input array
       tags:
@@ -424,17 +406,9 @@ paths:
     post:
       operationId: createUsersWithListInput
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: '#/components/requestBodies/UserArray'
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Creates list of users with given input array
       tags:
@@ -445,17 +419,21 @@ paths:
       operationId: loginUser
       parameters:
       - description: The user name for login
+        explode: true
         in: query
         name: username
         required: true
         schema:
           type: string
+        style: form
       - description: The password for login in clear text
+        explode: true
         in: query
         name: password
         required: true
         schema:
           type: string
+        style: form
       responses:
         200:
           content:
@@ -469,16 +447,19 @@ paths:
           headers:
             X-Rate-Limit:
               description: calls per hour allowed by the user
+              explode: false
               schema:
                 format: int32
                 type: integer
+              style: simple
             X-Expires-After:
               description: date in UTC when toekn expires
+              explode: false
               schema:
                 format: date-time
                 type: string
+              style: simple
         400:
-          content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
@@ -488,7 +469,6 @@ paths:
       operationId: logoutUser
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Logs out current logged in user session
       tags:
@@ -499,17 +479,17 @@ paths:
       operationId: deleteUser
       parameters:
       - description: The name that needs to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         400:
-          content: {}
           description: Invalid username supplied
         404:
-          content: {}
           description: User not found
       summary: Delete user
       tags:
@@ -518,11 +498,13 @@ paths:
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         200:
           content:
@@ -534,10 +516,8 @@ paths:
                 $ref: '#/components/schemas/User'
           description: successful operation
         400:
-          content: {}
           description: Invalid username supplied
         404:
-          content: {}
           description: User not found
       summary: Get user by user name
       tags:
@@ -547,30 +527,60 @@ paths:
       operationId: updateUser
       parameters:
       - description: name that need to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/User'
         description: Updated user object
         required: true
       responses:
         400:
-          content: {}
           description: Invalid user supplied
         404:
-          content: {}
           description: User not found
       summary: Updated user
       tags:
       - user
       x-codegen-request-body-name: body
 components:
+  requestBodies:
+    UserArray:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/User'
+            type: array
+      description: List of user object
+      required: true
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+      required: true
+    inline_object:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+    inline_object_1:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -742,6 +752,25 @@ components:
         message:
           type: string
       title: An uploaded response
+      type: object
+    inline_object:
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
+          type: string
+      type: object
+    inline_object_1:
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        file:
+          description: file to upload
+          format: binary
+          type: string
       type: object
   securitySchemes:
     petstore_auth:

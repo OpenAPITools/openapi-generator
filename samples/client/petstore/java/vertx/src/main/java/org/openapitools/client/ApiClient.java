@@ -2,6 +2,7 @@ package org.openapitools.client;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
@@ -158,6 +159,20 @@ public class ApiClient {
      */
     public Authentication getAuthentication(String authName) {
         return authentications.get(authName);
+    }
+
+    /**
+     * Helper method to set access token for the first Bearer authentication.
+     * @param bearerToken Bearer token
+     */
+    public ApiClient setBearerToken(String bearerToken) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBearerAuth) {
+                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                return this;
+            }
+        }
+        throw new RuntimeException("No Bearer authentication configured!");
     }
 
     /**
@@ -548,20 +563,21 @@ public class ApiClient {
                     if (httpResponse.statusCode() == 204 || returnType == null) {
                         result = Future.succeededFuture(null);
                     } else {
-                        T resultContent;
+                        T resultContent = null;
                         if ("byte[]".equals(returnType.getType().toString())) {
                             resultContent = (T) httpResponse.body().getBytes();
+                            result = Future.succeededFuture(resultContent);
                         } else if (AsyncFile.class.equals(returnType.getType())) {
                             handleFileDownload(httpResponse, handler);
                             return;
                         } else {
                             try {
                                 resultContent = Json.mapper.readValue(httpResponse.bodyAsString(), returnType);
+                                result = Future.succeededFuture(resultContent);
                             } catch (Exception e) {
-                                throw new DecodeException("Failed to decode:" + e.getMessage(), e);
+                                result =  ApiException.fail(new DecodeException("Failed to decode:" + e.getMessage(), e));
                             }
                         }
-                        result = Future.succeededFuture(resultContent);
                     }
                 } else {
                     result = ApiException.fail(httpResponse.statusMessage(), httpResponse.statusCode(), httpResponse.headers(), httpResponse.bodyAsString());

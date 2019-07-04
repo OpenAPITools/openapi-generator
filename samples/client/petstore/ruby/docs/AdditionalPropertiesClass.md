@@ -1,6 +1,7 @@
 # Petstore::AdditionalPropertiesClass
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **map_string** | **Hash&lt;String, String&gt;** |  | [optional] 

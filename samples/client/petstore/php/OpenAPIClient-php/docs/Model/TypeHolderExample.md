@@ -1,6 +1,7 @@
-# TypeHolderExample
+# # TypeHolderExample
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **string_item** | **string** |  | 

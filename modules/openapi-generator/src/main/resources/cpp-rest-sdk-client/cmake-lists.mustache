@@ -2,7 +2,7 @@
 # {{{appName}}}
 # {{{appDescription}}}
 #
-# OpenAPI spec version: 1.0.0
+# The version of the OpenAPI document: 1.0.0
 #
 # https://openapi-generator.tech
 #
@@ -36,6 +36,15 @@ set(CPPREST_INCLUDE_DIR ${CPPREST_ROOT}/include)
 set(CPPREST_LIBRARY_DIR ${CPPREST_ROOT}/lib)
 
 include_directories(${PROJECT_SOURCE_DIR} api model ${CPPREST_INCLUDE_DIR})
+
+
+# If using vcpkg, set include directories. Also comment out CPPREST section above since vcpkg will handle it.
+# To install required vcpkg packages execute:
+# > vcpkg install cpprestsdk cpprestsdk:x64-windows boost-uuid boost-uuid:x64-windows
+# set(VCPKG_ROOT "C:\\vcpkg\\installed\\x64-windows")
+# set(VCPKG_INCLUDE_DIR ${VCPKG_ROOT}/include)
+# set(VCPKG_LIBRARY_DIR ${VCPKG_ROOT}/lib)
+# include_directories(${PROJECT_SOURCE_DIR} api model ${VCPKG_INCLUDE_DIR})
 
 #SUPPORTING FILES
 set(SUPPORTING_FILES  "ApiClient" "ApiConfiguration" "ApiException" "HttpContent" "IHttpBody" "JsonBody" "ModelBase" "MultipartFormData" "Object")

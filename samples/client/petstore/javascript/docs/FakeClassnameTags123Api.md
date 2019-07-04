@@ -7,8 +7,9 @@ Method | HTTP request | Description
 [**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
-<a name="testClassname"></a>
-# **testClassname**
+
+## testClassname
+
 > Client testClassname(body)
 
 To test class name in snake case
@@ -16,6 +17,7 @@ To test class name in snake case
 To test class name in snake case
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -39,6 +41,8 @@ apiInstance.testClassname(body, callback);
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**Client**](Client.md)| client model | 
@@ -53,6 +57,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 

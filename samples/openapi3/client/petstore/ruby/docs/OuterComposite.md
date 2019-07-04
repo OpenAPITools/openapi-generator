@@ -1,6 +1,7 @@
 # Petstore::OuterComposite
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **my_number** | **Float** |  | [optional] 

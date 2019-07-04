@@ -1,0 +1,8 @@
+
+syntax = "proto3";
+
+message Tag {
+    int32 id = 1;
+    string name = 2;
+}
+

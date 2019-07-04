@@ -81,6 +81,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val skipOverwrite = project.objects.property<Boolean?>()
 
     /**
+     * Package for generated classes (where supported)
+     */
+    val packageName = project.objects.property<String>()
+
+    /**
      * Package for generated api classes
      */
     val apiPackage = project.objects.property<String>()

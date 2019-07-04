@@ -1,7 +1,9 @@
 
+
 # AdditionalPropertiesClass
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **mapString** | **Map&lt;String, String&gt;** |  |  [optional]

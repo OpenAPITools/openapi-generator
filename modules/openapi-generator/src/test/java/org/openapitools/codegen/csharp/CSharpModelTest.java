@@ -169,6 +169,58 @@ public class CSharpModelTest {
         Assert.assertFalse(property3.required);
     }
 
+    @Test(description = "convert a model with a non-nullable property")
+    public void nonNullablePropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(false))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addProperties("name", new StringSchema().nullable(true))
+                .addRequiredItem("id");
+        final DefaultCodegen codegen = new CSharpClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 3);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "long");
+        Assert.assertEquals(property1.name, "Id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "long");
+        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "urls");
+        Assert.assertEquals(property2.dataType, "List<string>");
+        Assert.assertEquals(property2.name, "Urls");
+        Assert.assertNull(property2.defaultValue);
+        Assert.assertEquals(property2.baseType, "List");
+        Assert.assertTrue(property2.hasMore);
+        Assert.assertEquals(property2.containerType, "array");
+        Assert.assertFalse(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isContainer);
+        
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "name");
+        Assert.assertEquals(property3.dataType, "string");
+        Assert.assertEquals(property3.name, "Name");
+        Assert.assertNull(property3.defaultValue);
+        Assert.assertEquals(property3.baseType, "string");
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
+        Assert.assertTrue(property3.isPrimitiveType);
+    }
+
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema model = new Schema()

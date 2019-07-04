@@ -14,7 +14,7 @@ sidebar_label: ruby
 |gemName|gem name (convention: underscore_case).| |openapi_client|
 |moduleName|top module name (convention: CamelCase, usually corresponding to gem name).| |OpenAPIClient|
 |gemVersion|gem version.| |1.0.0|
-|gemLicense|gem license. | |proprietary|
+|gemLicense|gem license. | |unlicense|
 |gemRequiredRubyVersion|gem required Ruby version. | |&gt;= 1.9|
 |gemHomepage|gem homepage. | |http://org.openapitools|
 |gemSummary|gem summary. | |A ruby wrapper for the REST APIs|

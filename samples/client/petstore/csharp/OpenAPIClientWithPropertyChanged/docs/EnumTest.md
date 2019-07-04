@@ -1,4 +1,6 @@
+
 # Org.OpenAPITools.Model.EnumTest
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -7,10 +9,9 @@ Name | Type | Description | Notes
 **EnumStringRequired** | **string** |  | 
 **EnumInteger** | **int?** |  | [optional] 
 **EnumNumber** | **double?** |  | [optional] 
-**OuterEnum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
-**OuterEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
-**OuterEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
-**OuterEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
+**OuterEnum** | **OuterEnum** |  | [optional] 
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to README]](../README.md)
 

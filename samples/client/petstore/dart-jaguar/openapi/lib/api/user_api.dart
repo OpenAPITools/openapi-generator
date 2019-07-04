@@ -1,21 +1,20 @@
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_serializer/src/repo/repo.dart';
+import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 import 'dart:async';
 
 import 'package:openapi/model/user.dart';
 
-
 part 'user_api.jretro.dart';
 
 @GenApiClient()
-class UserApi extends _$UserApiClient implements ApiClient {
+class UserApi extends ApiClient with _$UserApiClient {
     final Route base;
-    final SerializerRepo serializers;
+    final Map<String, CodecRepo> converters;
     final Duration timeout;
 
-    UserApi({this.base, this.serializers, this.timeout = const Duration(minutes: 2)});
+    UserApi({this.base, this.converters, this.timeout = const Duration(minutes: 2)});
 
     /// Create user
     ///
@@ -23,7 +22,7 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @PostReq(path: "/user")
     Future<void> createUser(
             
-              @AsJson() User body
+             @AsJson() User body
         ) {
         return super.createUser(
 
@@ -38,7 +37,7 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @PostReq(path: "/user/createWithArray")
     Future<void> createUsersWithArrayInput(
             
-              @AsJson() List<User> body
+             @AsJson() List<User> body
         ) {
         return super.createUsersWithArrayInput(
 
@@ -53,7 +52,7 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @PostReq(path: "/user/createWithList")
     Future<void> createUsersWithListInput(
             
-              @AsJson() List<User> body
+             @AsJson() List<User> body
         ) {
         return super.createUsersWithListInput(
 
@@ -125,7 +124,7 @@ class UserApi extends _$UserApiClient implements ApiClient {
     Future<void> updateUser(
             @PathParam("username") String username
             ,
-              @AsJson() User body
+             @AsJson() User body
         ) {
         return super.updateUser(
         username

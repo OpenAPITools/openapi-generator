@@ -326,10 +326,7 @@ where
                             Ok(body) => {
                                 let param_body: Option<String> = if !body.is_empty() {
 
-                                    match String::from_utf8(body.to_vec()) {
-                                        Ok(param_body) => Some(param_body),
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - not valid UTF-8: {}", e)))),
-                                    }
+                                    Some(String::from_utf8(body.to_vec()).unwrap())
 
                                 } else {
                                     None
@@ -357,6 +354,8 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::HTML_POST_SUCCESS.clone()));
 
+
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
 
                                                     response.set_body(body);
                                                 },

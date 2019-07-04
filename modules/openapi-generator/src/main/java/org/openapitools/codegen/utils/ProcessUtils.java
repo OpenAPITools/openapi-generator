@@ -14,19 +14,20 @@ public class ProcessUtils {
      * Add x-index extension to the model's properties
      *
      * @param models List of models
+     * @param initialIndex starting index to use
      */
-    public static void addIndexToProperties(List<Object> models) {
+    public static void addIndexToProperties(List<Object> models, int initialIndex) {
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            int i = 0;
+            int i = initialIndex;
             for (CodegenProperty var : cm.vars) {
                 var.vendorExtensions.put("x-index", i);
                 i++;
             }
 
-            int j = 0;
+            int j = initialIndex;
             for (CodegenProperty var : cm.allVars) {
                 var.vendorExtensions.put("x-index", j);
                 j++;
@@ -34,6 +35,15 @@ public class ProcessUtils {
 
         }
 
+    }
+
+    /**
+     * Add x-index extension to the model's properties
+     *
+     * @param models List of models
+     */
+    public static void addIndexToProperties(List<Object> models) {
+        addIndexToProperties(models, 0);
     }
 
     /**
@@ -49,7 +59,7 @@ public class ProcessUtils {
             for (CodegenOperation operation : ops) {
                 if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
                     for (CodegenSecurity cs : operation.authMethods) {
-                        if (cs.isOAuth) {
+                        if (Boolean.TRUE.equals(cs.isOAuth)) {
                             return true;
                         }
                     }
@@ -73,7 +83,7 @@ public class ProcessUtils {
             for (CodegenOperation operation : ops) {
                 if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
                     for (CodegenSecurity cs : operation.authMethods) {
-                        if (cs.isBasicBearer) {
+                        if (Boolean.TRUE.equals(cs.isBasicBearer)) {
                             return true;
                         }
                     }

@@ -863,7 +863,7 @@ class JsonCacheImpl implements JsonCache.Root {
     /**
      * Ensures that a suitable container exists for the specified JSON pointer.
      *
-     * @param ptr A {@link https://tools.ietf.org/html/rfc6901 JSON Pointer} to the property to set.
+     * @param ptr A <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the property to set.
      * @return The container that owns the property identified by <code>path</code>.
      */
     protected ContainerNode<?> ensureContainerExists(JsonPointer ptr) {
@@ -873,7 +873,7 @@ class JsonCacheImpl implements JsonCache.Root {
     /**
      * Ensures that all ancestor containers exist for the specified JSON pointer.
      *
-     * @param ptr        A {@link https://tools.ietf.org/html/rfc6901 JSON Pointer} to the property to set.
+     * @param ptr        A <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the property to set.
      * @param forceArray <code>true</code> to create an array for the last segment of the pointer if it is non-integral.
      * @return The container that owns the property identified by <code>path</code>.
      */

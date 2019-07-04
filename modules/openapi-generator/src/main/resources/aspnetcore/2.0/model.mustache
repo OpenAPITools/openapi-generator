@@ -26,7 +26,7 @@ namespace {{packageName}}.Models
         {{#required}}
         [Required]
         {{/required}}
-        [DataMember(Name="{{baseName}}")]
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
         {{#isEnum}}
         public {{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} { get; set; }
         {{/isEnum}}
@@ -92,6 +92,7 @@ namespace {{packageName}}.Models
                 (
                     {{name}} == other.{{name}} ||
                     {{name}} != null &&
+                    other.{{name}} != null &&
                     {{name}}.SequenceEqual(other.{{name}})
                 ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }

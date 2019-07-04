@@ -32,6 +32,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         405:
           content: {}
           description: Invalid input
@@ -43,6 +46,8 @@ paths:
       tags:
       - pet
       x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: pet
     put:
@@ -58,6 +63,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid ID supplied
@@ -75,6 +83,8 @@ paths:
       tags:
       - pet
       x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /pet/findByStatus:
@@ -121,12 +131,14 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      description: Multiple tags can be provided with comma separated strings. Use
+        tag1, tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -163,6 +175,7 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /pet/{petId}:
@@ -181,6 +194,9 @@ paths:
           format: int64
           type: integer
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid pet value
@@ -191,6 +207,7 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
+      x-accepts: application/json
       x-tags:
       - tag: pet
     get:
@@ -225,6 +242,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
+      x-accepts: application/json
       x-tags:
       - tag: pet
     post:
@@ -259,6 +277,8 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
+      x-contentType: application/x-www-form-urlencoded
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /pet/{petId}/uploadImage:
@@ -298,6 +318,8 @@ paths:
       summary: uploads an image
       tags:
       - pet
+      x-contentType: multipart/form-data
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /store/inventory:
@@ -319,6 +341,7 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
+      x-accepts: application/json
       x-tags:
       - tag: store
   /store/order:
@@ -348,11 +371,14 @@ paths:
       tags:
       - store
       x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: store
   /store/order/{order_id}:
     delete:
-      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+      description: For valid response try integer IDs with value < 1000. Anything
+        above 1000 or nonintegers will generate API errors
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
@@ -371,10 +397,12 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
+      x-accepts: application/json
       x-tags:
       - tag: store
     get:
-      description: For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+      description: For valid response try integer IDs with value <= 5 or > 10. Other
+        values will generated exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -405,6 +433,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
+      x-accepts: application/json
       x-tags:
       - tag: store
   /user:
@@ -426,6 +455,8 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/createWithArray:
@@ -448,6 +479,8 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/createWithList:
@@ -470,6 +503,8 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/login:
@@ -515,6 +550,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/logout:
@@ -527,6 +563,7 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/{username}:
@@ -550,6 +587,7 @@ paths:
       summary: Delete user
       tags:
       - user
+      x-accepts: application/json
       x-tags:
       - tag: user
     get:
@@ -580,6 +618,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
+      x-accepts: application/json
       x-tags:
       - tag: user
     put:
@@ -610,6 +649,8 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: user
   /fake_classname_test:
@@ -636,6 +677,8 @@ paths:
       tags:
       - fake_classname_tags 123#$%^
       x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: fake_classname_tags 123#$%^
   /fake:
@@ -686,6 +729,7 @@ paths:
       tags:
       - fake
       x-group-parameters: true
+      x-accepts: application/json
       x-tags:
       - tag: fake
     get:
@@ -788,6 +832,8 @@ paths:
       summary: To test enum parameters
       tags:
       - fake
+      x-contentType: application/x-www-form-urlencoded
+      x-accepts: application/json
       x-tags:
       - tag: fake
     patch:
@@ -811,6 +857,8 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: fake
     post:
@@ -911,6 +959,8 @@ paths:
         가짜 엔드 포인트
       tags:
       - fake
+      x-contentType: application/x-www-form-urlencoded
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /fake/outer/number:
@@ -934,6 +984,8 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: '*/*'
       x-tags:
       - tag: fake
   /fake/outer/string:
@@ -957,6 +1009,8 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: '*/*'
       x-tags:
       - tag: fake
   /fake/outer/boolean:
@@ -980,6 +1034,8 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: '*/*'
       x-tags:
       - tag: fake
   /fake/outer/composite:
@@ -1003,6 +1059,8 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: '*/*'
       x-tags:
       - tag: fake
   /fake/jsonFormData:
@@ -1030,6 +1088,8 @@ paths:
       summary: test json serialization of form data
       tags:
       - fake
+      x-contentType: application/x-www-form-urlencoded
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /fake/inline-additionalProperties:
@@ -1052,6 +1112,8 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: param
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /fake/body-with-query-params:
@@ -1076,6 +1138,8 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /fake/create_xml_item:
@@ -1112,6 +1176,8 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: XmlItem
+      x-contentType: application/xml
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /another-fake/dummy:
@@ -1136,11 +1202,14 @@ paths:
       tags:
       - $another-fake?
       x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: $another-fake?
   /fake/body-with-file-schema:
     put:
-      description: For this test, the body for this request much reference a schema named `File`.
+      description: For this test, the body for this request much reference a schema
+        named `File`.
       operationId: testBodyWithFileSchema
       requestBody:
         content:
@@ -1155,6 +1224,8 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /fake/{petId}/uploadImageWithRequiredFile:
@@ -1197,6 +1268,8 @@ paths:
       summary: uploads an image (required)
       tags:
       - pet
+      x-contentType: multipart/form-data
+      x-accepts: application/json
       x-tags:
       - tag: pet
 components:
@@ -1422,17 +1495,11 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          breed:
-            type: string
-        type: object
+      - $ref: '#/components/schemas/Dog_allOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          declawed:
-            type: boolean
-        type: object
+      - $ref: '#/components/schemas/Cat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -1669,8 +1736,6 @@ components:
           type: object
       type: object
     List:
-      example:
-        123-list: 123-list
       properties:
         123-list:
           type: string
@@ -2083,6 +2148,14 @@ components:
       xml:
         namespace: http://a.com/schema
         prefix: pre
+    Dog_allOf:
+      properties:
+        breed:
+          type: string
+    Cat_allOf:
+      properties:
+        declawed:
+          type: boolean
   securitySchemes:
     petstore_auth:
       flows:

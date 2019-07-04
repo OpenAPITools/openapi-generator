@@ -10,7 +10,9 @@ Method | HTTP request | Description
 [**place_order**](StoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
 
 
-# **delete_order**
+
+## delete_order
+
 > delete_order(order_id)
 
 Delete purchase order by ID
@@ -18,6 +20,7 @@ Delete purchase order by ID
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -35,6 +38,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **order_id** | **String**| ID of the order that needs to be deleted | 
@@ -49,12 +53,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 
+## get_inventory
 
-# **get_inventory**
 > Hash&lt;String, Integer&gt; get_inventory
 
 Returns pet inventories by status
@@ -62,6 +66,7 @@ Returns pet inventories by status
 Returns a map of status codes to quantities
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -85,6 +90,7 @@ end
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -97,12 +103,12 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 
+## get_order_by_id
 
-# **get_order_by_id**
 > Order get_order_by_id(order_id)
 
 Find purchase order by ID
@@ -110,6 +116,7 @@ Find purchase order by ID
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -128,6 +135,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **order_id** | **Integer**| ID of pet that needs to be fetched | 
@@ -142,17 +150,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 
+## place_order
 
-# **place_order**
 > Order place_order(order)
 
 Place an order for a pet
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -171,6 +180,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
@@ -185,8 +195,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/xml, application/json
-
-
+- **Content-Type**: application/json
+- **Accept**: application/xml, application/json
 

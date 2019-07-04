@@ -1,6 +1,7 @@
 # Petstore::ArrayTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **array_of_string** | **Array&lt;String&gt;** |  | [optional] 

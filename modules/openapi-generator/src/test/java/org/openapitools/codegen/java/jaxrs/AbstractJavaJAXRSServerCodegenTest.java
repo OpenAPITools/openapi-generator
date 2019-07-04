@@ -30,7 +30,7 @@ public class AbstractJavaJAXRSServerCodegenTest {
     private final AbstractJavaJAXRSServerCodegen fakeJavaJAXRSCodegen = new P_AbstractJavaJAXRSServerCodegen();
 
     @Test
-    public void convertApiName() throws Exception {
+    public void convertApiName() {
         Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("name"), "NameApi");
         Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("$name"), "NameApi");
         Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("nam#e"), "NameApi");
@@ -83,8 +83,8 @@ public class AbstractJavaJAXRSServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"xyz.yyyyy.iiii.invoker");
-        codegen.additionalProperties().put("serverPort","8088");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties().put("serverPort", "8088");
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();

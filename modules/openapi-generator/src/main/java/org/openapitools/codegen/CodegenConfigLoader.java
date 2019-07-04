@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import static java.util.ServiceLoader.load;
-
 public class CodegenConfigLoader {
     /**
      * Tries to load config class with SPI first, then with class name directly from classpath
@@ -31,7 +29,7 @@ public class CodegenConfigLoader {
      * @return config class
      */
     public static CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = load(CodegenConfig.class);
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
 
         StringBuilder availableConfigs = new StringBuilder();
 
@@ -52,7 +50,7 @@ public class CodegenConfigLoader {
     }
 
     public static List<CodegenConfig> getAll() {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class);
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
         List<CodegenConfig> output = new ArrayList<CodegenConfig>();
         for (CodegenConfig aLoader : loader) {
             output.add(aLoader);

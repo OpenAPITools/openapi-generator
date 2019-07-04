@@ -22,7 +22,6 @@ sidebar_label: csharp-netcore
 |optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|
 |optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
 |optionalProjectFile|Generate {PackageName}.csproj.| |true|
-|optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|

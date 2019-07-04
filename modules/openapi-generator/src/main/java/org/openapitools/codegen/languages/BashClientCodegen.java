@@ -35,6 +35,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(BashClientCodegen.class);
 
@@ -197,6 +199,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "binary");
         typeMapping.put("binary", "binary");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         /**
          * Additional Properties.  These values can be passed to the templates and
@@ -743,7 +746,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return camelize(name);
     }
 
 

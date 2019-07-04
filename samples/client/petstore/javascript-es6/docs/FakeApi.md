@@ -19,8 +19,9 @@ Method | HTTP request | Description
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
-<a name="createXmlItem"></a>
-# **createXmlItem**
+
+## createXmlItem
+
 > createXmlItem(xmlItem)
 
 creates an XmlItem
@@ -28,6 +29,7 @@ creates an XmlItem
 this route creates an XmlItem
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -44,6 +46,7 @@ apiInstance.createXmlItem(xmlItem, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
@@ -58,11 +61,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
- - **Accept**: Not defined
+- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+- **Accept**: Not defined
 
-<a name="fakeOuterBooleanSerialize"></a>
-# **fakeOuterBooleanSerialize**
+
+## fakeOuterBooleanSerialize
+
 > Boolean fakeOuterBooleanSerialize(opts)
 
 
@@ -70,6 +74,7 @@ No authorization required
 Test serialization of outer boolean types
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -88,6 +93,7 @@ apiInstance.fakeOuterBooleanSerialize(opts, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **Boolean**| Input boolean as post body | [optional] 
@@ -102,11 +108,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-<a name="fakeOuterCompositeSerialize"></a>
-# **fakeOuterCompositeSerialize**
+
+## fakeOuterCompositeSerialize
+
 > OuterComposite fakeOuterCompositeSerialize(opts)
 
 
@@ -114,6 +121,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -132,6 +140,7 @@ apiInstance.fakeOuterCompositeSerialize(opts, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
@@ -146,11 +155,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-<a name="fakeOuterNumberSerialize"></a>
-# **fakeOuterNumberSerialize**
+
+## fakeOuterNumberSerialize
+
 > Number fakeOuterNumberSerialize(opts)
 
 
@@ -158,6 +168,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -176,6 +187,7 @@ apiInstance.fakeOuterNumberSerialize(opts, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **Number**| Input number as post body | [optional] 
@@ -190,11 +202,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-<a name="fakeOuterStringSerialize"></a>
-# **fakeOuterStringSerialize**
+
+## fakeOuterStringSerialize
+
 > String fakeOuterStringSerialize(opts)
 
 
@@ -202,6 +215,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -220,6 +234,7 @@ apiInstance.fakeOuterStringSerialize(opts, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **String**| Input string as post body | [optional] 
@@ -234,11 +249,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-<a name="testBodyWithFileSchema"></a>
-# **testBodyWithFileSchema**
+
+## testBodyWithFileSchema
+
 > testBodyWithFileSchema(body)
 
 
@@ -246,6 +262,7 @@ No authorization required
 For this test, the body for this request much reference a schema named &#x60;File&#x60;.
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -262,6 +279,7 @@ apiInstance.testBodyWithFileSchema(body, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
@@ -276,16 +294,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="testBodyWithQueryParams"></a>
-# **testBodyWithQueryParams**
+
+## testBodyWithQueryParams
+
 > testBodyWithQueryParams(query, body)
 
 
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -303,6 +323,7 @@ apiInstance.testBodyWithQueryParams(query, body, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  | 
@@ -318,11 +339,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="testClientModel"></a>
-# **testClientModel**
+
+## testClientModel
+
 > Client testClientModel(body)
 
 To test \&quot;client\&quot; model
@@ -330,6 +352,7 @@ To test \&quot;client\&quot; model
 To test \&quot;client\&quot; model
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -346,6 +369,7 @@ apiInstance.testClientModel(body, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**Client**](Client.md)| client model | 
@@ -360,11 +384,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="testEndpointParameters"></a>
-# **testEndpointParameters**
+
+## testEndpointParameters
+
 > testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -372,6 +397,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -408,6 +434,7 @@ apiInstance.testEndpointParameters(_number, _double, patternWithoutDelimiter, _b
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **_number** | **Number**| None | 
@@ -435,11 +462,12 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-<a name="testEnumParameters"></a>
-# **testEnumParameters**
+
+## testEnumParameters
+
 > testEnumParameters(opts)
 
 To test enum parameters
@@ -447,6 +475,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -472,6 +501,7 @@ apiInstance.testEnumParameters(opts, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enumHeaderStringArray** | [**[String]**](String.md)| Header parameter enum test (string array) | [optional] 
@@ -493,11 +523,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-<a name="testGroupParameters"></a>
-# **testGroupParameters**
+
+## testGroupParameters
+
 > testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts)
 
 Fake endpoint to test group parameters (optional)
@@ -505,6 +536,7 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -528,6 +560,7 @@ apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requi
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **requiredStringGroup** | **Number**| Required String in group parameters | 
@@ -547,16 +580,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="testInlineAdditionalProperties"></a>
-# **testInlineAdditionalProperties**
+
+## testInlineAdditionalProperties
+
 > testInlineAdditionalProperties(param)
 
 test inline additionalProperties
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -573,6 +608,7 @@ apiInstance.testInlineAdditionalProperties(param, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | [**{String: String}**](String.md)| request body | 
@@ -587,16 +623,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="testJsonFormData"></a>
-# **testJsonFormData**
+
+## testJsonFormData
+
 > testJsonFormData(param, param2)
 
 test json serialization of form data
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -614,6 +652,7 @@ apiInstance.testJsonFormData(param, param2, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | **String**| field1 | 
@@ -629,6 +668,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 

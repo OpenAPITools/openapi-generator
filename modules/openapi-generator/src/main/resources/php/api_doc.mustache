@@ -1,4 +1,5 @@
 # {{invokerPackage}}\{{classname}}{{#description}}
+
 {{description}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
@@ -10,7 +11,9 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-# **{{{operationId}}}**
+
+## {{{operationId}}}
+
 > {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 
 {{{summary}}}{{#notes}}
@@ -18,6 +21,7 @@ Method | HTTP request | Description
 {{{notes}}}{{/notes}}
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -48,6 +52,7 @@ try {
 ```
 
 ### Parameters
+
 {{#vendorExtensions.x-group-parameters}}
 Note: the input parameter is an associative array with the keys listed as the parameter name below.
 
@@ -68,10 +73,12 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
 {{/operation}}
 {{/operations}}

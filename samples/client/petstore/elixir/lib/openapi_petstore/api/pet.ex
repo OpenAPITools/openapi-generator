@@ -33,6 +33,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
+      { 200, false},
       { 405, false}
     ])
   end
@@ -63,6 +64,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
+      { 200, false},
       { 400, false}
     ])
   end
@@ -173,6 +175,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
+      { 200, false},
       { 400, false},
       { 404, false},
       { 405, false}

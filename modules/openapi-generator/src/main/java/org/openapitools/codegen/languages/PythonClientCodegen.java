@@ -17,8 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -39,8 +41,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
 
-    protected String packageName; // e.g. petstore_api
-    protected String packageVersion;
+    protected String packageName = "openapi_client";
+    protected String packageVersion = "1.0.0";
     protected String projectName; // for setup.py, e.g. petstore-api
     protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -111,6 +113,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("ByteArray", "str");
         // map uuid to string for the time being
         typeMapping.put("UUID", "str");
+        typeMapping.put("URI", "str");
 
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
@@ -174,8 +177,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        } else {
-            setPackageName("openapi_client");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
@@ -188,9 +189,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        } else {
-            setPackageVersion("1.0.0");
-        }
+        } 
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
@@ -238,10 +237,22 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
+
+        // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
+        String[] packageNameSplits = packageName.split("\\.");
+        String currentPackagePath = "";
+        for (int i = 0; i < packageNameSplits.length-1; i++) {
+            if (i > 0) {
+                currentPackagePath = currentPackagePath + File.separatorChar;
+            }
+            currentPackagePath = currentPackagePath + packageNameSplits[i];
+            supportingFiles.add(new SupportingFile("__init__.mustache", currentPackagePath, "__init__.py"));
+        }
+
         supportingFiles.add(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
-            supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
+            supportingFiles.add(new SupportingFile("__init__.mustache", testFolder, "__init__.py"));
         }
 
         supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
@@ -632,7 +643,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + p.getDefault() + "'";
+                    return "'" + ((String) p.getDefault()).replaceAll("'","\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -704,7 +715,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         if (example == null) {
-            example = "NULL";
+            example = "None";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
             example = "[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
@@ -712,6 +723,24 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         p.example = example;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        Schema schema = parameter.getSchema();
+
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+            }
+        } else if (schema != null && schema.getExample() != null) {
+            codegenParameter.example = schema.getExample().toString();
+        }
+
+        setParameterExampleValue(codegenParameter);
     }
 
     @Override

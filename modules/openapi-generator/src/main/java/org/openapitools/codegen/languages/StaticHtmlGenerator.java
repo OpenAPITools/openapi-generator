@@ -29,6 +29,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.escape;
+
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
@@ -174,6 +176,19 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     @Override
     public String toModelName(final String name) {
         return name;
+    }
+
+    // DefaultCodegen converts snake_case property names to snakeUnderscorecase
+    // but for static HTML, we want to preserve snake_case names
+    @Override
+    public String toVarName(String name) {
+        if (reservedWords.contains(name)) {
+            return escapeReservedWord(name);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+            return escape(name, specialCharReplacements, Arrays.asList("_"), null);
+        } else {
+            return name;
+        }
     }
 
     public void preprocessOpenAPI(OpenAPI openAPI) {

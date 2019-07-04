@@ -65,6 +65,6 @@ public class AnotherFakeApi  {
     public Response call123testSpecialTags(@ApiParam(value = "client model" ,required=true) @NotNull @Valid Client body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.call123testSpecialTags(body,securityContext);
+        return delegate.call123testSpecialTags(body, securityContext);
     }
 }

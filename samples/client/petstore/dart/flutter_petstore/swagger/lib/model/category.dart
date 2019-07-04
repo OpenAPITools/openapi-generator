@@ -39,7 +39,7 @@ class Category {
 
   static Map<String, Category> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Category>();
-    if (json != null && json.length > 0) {
+    if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = new Category.fromJson(value));
     }
     return map;

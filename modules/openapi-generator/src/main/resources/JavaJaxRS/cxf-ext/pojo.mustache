@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 {{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
 {{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
 {{/withXml}}
-{{#description}}
+{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}
 /**
  * {{{description}}}
  */

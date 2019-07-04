@@ -1,6 +1,7 @@
 # Petstore::FormatTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **integer** | **Integer** |  | [optional] 

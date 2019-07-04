@@ -374,7 +374,7 @@
     end
 
     # Calculates hash code according to all attributes.
-    # @return [Fixnum] Hash code
+    # @return [Integer] Hash code
     def hash
       [{{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}].hash
     end

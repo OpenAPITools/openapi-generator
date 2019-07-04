@@ -12,6 +12,9 @@
 package org.openapitools.client.models
 
 import org.openapitools.client.models.OuterEnum
+import org.openapitools.client.models.OuterEnumDefaultValue
+import org.openapitools.client.models.OuterEnumInteger
+import org.openapitools.client.models.OuterEnumIntegerDefaultValue
 
 import com.squareup.moshi.Json
 /**
@@ -21,13 +24,19 @@ import com.squareup.moshi.Json
  * @param enumInteger 
  * @param enumNumber 
  * @param outerEnum 
+ * @param outerEnumInteger 
+ * @param outerEnumDefaultValue 
+ * @param outerEnumIntegerDefaultValue 
  */
 data class EnumTest (
     val enumStringRequired: EnumTest.EnumStringRequired,
     val enumString: EnumTest.EnumString? = null,
     val enumInteger: EnumTest.EnumInteger? = null,
     val enumNumber: EnumTest.EnumNumber? = null,
-    val outerEnum: OuterEnum? = null
+    val outerEnum: OuterEnum? = null,
+    val outerEnumInteger: OuterEnumInteger? = null,
+    val outerEnumDefaultValue: OuterEnumDefaultValue? = null,
+    val outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue? = null
 ) {
 
     /**
