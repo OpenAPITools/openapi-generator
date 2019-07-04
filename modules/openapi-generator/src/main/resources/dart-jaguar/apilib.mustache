@@ -21,7 +21,7 @@ import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 final _jsonJaguarRepo = JsonRepo()
 {{#models}}{{#model}}..add({{classname}}Serializer())
 {{/model}}{{/models}};
-final Map<String, CodecRepo> _converters = {
+final Map<String, CodecRepo> converters = {
     MimeTypes.json: _jsonJaguarRepo,
 };
 {{/jsonFormat}}
@@ -33,7 +33,7 @@ final _protoJaguarRepo = ProtoCodecRepo()
 final _jsonJaguarRepo = ProtoCodecRepo(isJsonFormatEnabled: true)
 {{#models}}{{#model}}..add((data) => {{classname}}.fromBuffer(List<int>.from(data)))
 {{/model}}{{/models}};
-final Map<String, CodecRepo> _converters = {
+final Map<String, CodecRepo> converters = {
     MimeTypes.json: _jsonJaguarRepo,
     MimeTypes.binary: _protoJaguarRepo,
 };
@@ -91,7 +91,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = _converters;
+            converters = this.converters;
         }
         return {{classname}}(base: base, converters: converters, timeout: timeout);
     }
