@@ -284,6 +284,11 @@
             <scope>provided</scope>
         </dependency>
         {{/parcelableModel}}
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+            <version>${javax-annotation-version}</version>
+        </dependency>
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -297,7 +302,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.3</gson-fire-version>
-        <swagger-core-version>1.5.21</swagger-core-version>
+        <swagger-core-version>1.5.22</swagger-core-version>
         <okhttp-version>3.14.2</okhttp-version>
         <gson-version>2.8.5</gson-version>
         <commons-lang3-version>3.9</commons-lang3-version>
@@ -308,6 +313,7 @@
         <threetenbp-version>1.3.8</threetenbp-version>
         {{/threetenbp}}
         <maven-plugin-version>1.0.0</maven-plugin-version>
+        <javax-annotation-version>1.0</javax-annotation-version>
         <junit-version>4.12</junit-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
