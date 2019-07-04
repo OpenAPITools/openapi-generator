@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>GoPetstore</artifactId>
+    <artifactId>GoExperimentalPetstore</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
-    <name>Go Petstore Client</name>
+    <name>Go Experimental Petstore Client</name>
     <build>
         <plugins>
             <plugin>
