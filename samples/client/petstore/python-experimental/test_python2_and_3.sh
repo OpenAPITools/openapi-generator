@@ -3,7 +3,7 @@
 REQUIREMENTS_FILE=dev-requirements.txt
 REQUIREMENTS_OUT=dev-requirements.txt.log
 SETUP_OUT=*.egg-info
-VENV=.venv
+VENV=venv
 DEACTIVE=false
 
 export LC_ALL=en_US.UTF-8

@@ -3,7 +3,7 @@
 REQUIREMENTS_FILE=dev-requirements.txt
 REQUIREMENTS_OUT=dev-requirements.txt.log
 SETUP_OUT=*.egg-info
-VENV=.venv
+VENV=venv
 
 clean:
 		rm -rf $(REQUIREMENTS_OUT)
