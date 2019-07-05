@@ -27,8 +27,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator.  This will be used by the
+     * generator to select the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
