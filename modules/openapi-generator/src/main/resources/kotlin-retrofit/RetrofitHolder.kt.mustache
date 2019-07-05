@@ -46,6 +46,10 @@ object RetrofitHolder {
         securityDefinitions[authMethod.authName] = apiKey
     }
 
+    fun removeAuthInfo(authMethod: AuthMethod) {
+        securityDefinitions -= authMethod.authName
+    }
+
     fun setBasicAuth(authMethod: AuthMethod, username: String, password: String) {
         securityDefinitions[authMethod.authName] = Credentials.basic(username, password)
     }
@@ -71,6 +75,6 @@ object RetrofitHolder {
 }
 
 {{#authMethods}}{{#-first}}enum class AuthMethod(internal val authName: String) { {{/-first}}
-    {{#enumcase}}{{{name}}}{{/enumcase}}("{{{name}}}"){{^-last}},{{/-last}}{{#-last}}
+    {{{name}}}("{{{name}}}"){{^-last}},{{/-last}}{{#-last}}
 }{{/-last}}
 {{/authMethods}}
