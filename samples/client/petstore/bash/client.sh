@@ -558,6 +558,10 @@ build_request_path() {
     local query_request_part=""
 
     for qparam in "${query_params[@]}"; do
+        if [[ "${operation_parameters[$qparam]}" == "" ]]; then
+            continue
+        fi
+
         # Get the array of parameter values
         local parameter_value=""
         local parameter_values
