@@ -1,4 +1,4 @@
-# petstore-cli completion                               -*- shell-script -*-
+#  completion                               -*- shell-script -*-
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !
@@ -12,12 +12,12 @@
 # !
 # ! System wide installation:
 # !
-# ! $ sudo cp petstore-cli.bash-completion /etc/bash-completion.d/petstore-cli
+# ! $ sudo cp .bash-completion /etc/bash-completion.d/
 # !
 # !
 # ! User home installation (add this line to .bash_profile):
 # !
-# ! [ -r ~/petstore-cli.bash-completion ] && source ~/petstore-cli.bash-completion
+# ! [ -r ~/.bash-completion ] && source ~/.bash-completion
 # !
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -55,7 +55,7 @@ if [[ `uname` =~ "Darwin" ]]; then
     }
 fi
 
-_petstore-cli()
+_()
 {
     local cur
     local prev
@@ -69,7 +69,8 @@ _petstore-cli()
     # It's modelled as an associative array for efficient key lookup
     declare -A operations
     operations["123Test@$%SpecialTags"]=1
-    operations["createXmlItem"]=1
+    operations["fooGet"]=1
+    operations["fakeHealthGet"]=1
     operations["fakeOuterBooleanSerialize"]=1
     operations["fakeOuterCompositeSerialize"]=1
     operations["fakeOuterNumberSerialize"]=1
@@ -109,7 +110,8 @@ _petstore-cli()
     # Only include path, query and header parameters
     declare -A operation_parameters
     operation_parameters["123Test@$%SpecialTags"]=""
-    operation_parameters["createXmlItem"]=""
+    operation_parameters["fooGet"]=""
+    operation_parameters["fakeHealthGet"]=""
     operation_parameters["fakeOuterBooleanSerialize"]=""
     operation_parameters["fakeOuterCompositeSerialize"]=""
     operation_parameters["fakeOuterNumberSerialize"]=""
@@ -293,7 +295,7 @@ _petstore-cli()
     fi
 
     #
-    # Complete the petstore-cli and cURL's arguments
+    # Complete the  and cURL's arguments
     #
     if [[ $cur == -* ]]; then
         COMPREPLY=( $( compgen -W '$(_parse_help curl) $(_parse_help $1)' -- "$cur" ) )
@@ -319,6 +321,6 @@ _petstore-cli()
     fi
 
 } &&
-complete -F _petstore-cli petstore-cli
+complete -F _ 
 
 # ex: ts=4 sw=4 et filetype=sh

@@ -1,10 +1,10 @@
-# Category
+# FileSchemaTestClass
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **integer** |  | [optional] [default to null]
-**name** | **string** |  | [default to default-name]
+**file** | [**File**](File.md) |  | [optional] [default to null]
+**files** | [**array[File]**](File.md) |  | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

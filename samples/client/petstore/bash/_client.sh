@@ -1,4 +1,4 @@
-#compdef petstore-cli
+#compdef 
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !
@@ -14,7 +14,7 @@
 # !
 # ! Installation:
 # !
-# ! Copy the _petstore-cli file to any directory under FPATH
+# ! Copy the _ file to any directory under FPATH
 # ! environment variable (echo $FPATH)
 # !
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -296,7 +296,7 @@ case $state in
   ops)
     # Operations
     _values "Operations" \
-            "123Test@$%SpecialTags[To test special tags]"             "createXmlItem[creates an XmlItem]" \
+            "123Test@$%SpecialTags[To test special tags]"             "fooGet[]"             "fakeHealthGet[Health check endpoint]" \
             "fakeOuterBooleanSerialize[]" \
             "fakeOuterCompositeSerialize[]" \
             "fakeOuterNumberSerialize[]" \
@@ -342,7 +342,13 @@ case $state in
                               )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
-      createXmlItem)
+      fooGet)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      fakeHealthGet)
         local -a _op_arguments
         _op_arguments=(
                               )
