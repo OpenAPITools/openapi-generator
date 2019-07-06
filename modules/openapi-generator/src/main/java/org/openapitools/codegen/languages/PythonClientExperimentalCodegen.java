@@ -24,6 +24,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     public PythonClientExperimentalCodegen() {
         super();
+
+        supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
+        apiDocTemplateFiles.put("python-experimental/api_doc.mustache", ".md");
+        apiTemplateFiles.put("python-experimental/api.mustache", ".py");
+        modelDocTemplateFiles.put("python-experimental/model_doc.mustache", ".md");
+        modelTemplateFiles.put("python-experimental/model.mustache", ".py");
     }
 
     /**

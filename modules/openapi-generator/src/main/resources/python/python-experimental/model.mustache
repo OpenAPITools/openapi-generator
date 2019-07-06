@@ -33,15 +33,21 @@ class {{classname}}(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-{{#vars}}
-        '{{name}}': '{{{dataType}}}'{{#hasMore}},{{/hasMore}}
-{{/vars}}
+{{#requiredVars}}
+        '{{name}}': '{{{dataType}}}',
+{{/requiredVars}}
+{{#optionalVars}}
+        '{{name}}': '{{{dataType}}}',
+{{/optionalVars}}
     }
 
     attribute_map = {
-{{#vars}}
-        '{{name}}': '{{baseName}}'{{#hasMore}},{{/hasMore}}
-{{/vars}}
+{{#requiredVars}}
+        '{{name}}': '{{baseName}}',  # noqa: E501
+{{/requiredVars}}
+{{#optionalVars}}
+        '{{name}}': '{{baseName}}',  # noqa: E501
+{{/optionalVars}}
     }
 {{#discriminator}}
 
@@ -51,8 +57,16 @@ class {{classname}}(object):
     }
 {{/discriminator}}
 
-    def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
-        """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}, {{name}}={{{defaultValue}}}{{/defaultValue}}{{/requiredVars}}{{#optionalVars}}, {{name}}=None{{/optionalVars}}):  # noqa: E501
+        """{{classname}} - a model defined in OpenAPI
+
+{{#requiredVars}}{{^hasMore}}        Args:{{/hasMore}}{{/requiredVars}}{{#requiredVars}}{{^defaultValue}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}
+
+        Keyword Args:{{#requiredVars}}{{#defaultValue}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]{{/defaultValue}}  # noqa: E501{{/requiredVars}}{{#optionalVars}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501{{/optionalVars}}
+        """
 {{#vars}}{{#-first}}
 {{/-first}}
         self._{{name}} = None
@@ -69,7 +83,7 @@ class {{classname}}(object):
 {{/isNullable}}
 {{^isNullable}}
         if {{name}} is not None:
-            self.{{name}} = {{name}}
+            self.{{name}} = {{name}}  # noqa: E501
 {{/isNullable}}
 {{/required}}
 {{/vars}}
@@ -89,7 +103,9 @@ class {{classname}}(object):
         return self._{{name}}
 
     @{{name}}.setter
-    def {{name}}(self, {{name}}):
+    def {{name}}(
+            self,
+            {{name}}):
         """Sets the {{name}} of this {{classname}}.
 
 {{#description}}
@@ -167,7 +183,8 @@ class {{classname}}(object):
 {{/hasValidation}}
 {{/isEnum}}
 
-        self._{{name}} = {{name}}
+        self._{{name}} = (
+            {{name}})
 
 {{/vars}}
 {{#discriminator}}
