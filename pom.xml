@@ -1041,6 +1041,7 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python-experimental</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/openapi3/client/petstore/python</module>
