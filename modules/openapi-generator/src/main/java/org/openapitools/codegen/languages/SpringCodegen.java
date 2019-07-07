@@ -52,6 +52,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
+    public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
 
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
@@ -79,6 +80,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean async = false;
     protected boolean reactive = false;
     protected String responseWrapper = "";
+    protected boolean skipDefaultInterface = false;
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
     protected boolean performBeanValidation = false;
@@ -119,6 +121,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
         updateJava8CliOptions();
+        cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_INTERFACE, "Whether to generate default implementations for java8 interfaces", skipDefaultInterface));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)", reactive));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
@@ -232,6 +235,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
             this.setSingleContentTypes(Boolean.valueOf(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
+        }
+
+        if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
+            this.setSkipDefaultInterface(Boolean.valueOf(additionalProperties.get(SKIP_DEFAULT_INTERFACE).toString()));
         }
 
         if (additionalProperties.containsKey(ASYNC)) {
@@ -393,6 +400,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (this.java8) {
             additionalProperties.put("javaVersion", "1.8");
+            additionalProperties.put("jdk8-default-interface", !this.skipDefaultInterface);
             if (!SPRING_CLOUD_LIBRARY.equals(library)) {
                 additionalProperties.put("jdk8", true);
             }
@@ -414,6 +422,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(this.responseWrapper)) {
             additionalProperties.put("jdk8", false);
+            additionalProperties.put("jdk8-default-interface", false);
             switch (this.responseWrapper) {
                 case "Future":
                 case "Callable":
@@ -715,6 +724,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setSingleContentTypes(boolean singleContentTypes) {
         this.singleContentTypes = singleContentTypes;
     }
+
+    public void setSkipDefaultInterface(boolean skipDefaultInterface) { this.skipDefaultInterface = skipDefaultInterface; }
 
     public void setJava8(boolean java8) { this.java8 = java8; }
 

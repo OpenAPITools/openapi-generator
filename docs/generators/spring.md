@@ -48,6 +48,7 @@ sidebar_label: spring
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |singleContentTypes|Whether to select only one produces/consumes content-type by operation.| |false|
+|skipDefaultInterface|Whether to generate default implementations for java8 interfaces| |false|
 |async|use async Callable controllers| |false|
 |reactive|wrap responses in Mono/Flux Reactor types (spring-boot only)| |false|
 |responseWrapper|wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)| |null|
