@@ -1,53 +1,11 @@
-
-const Pet = require('./Pet');
-
-
-
-
-
-
-
-
-const Store = require('./Store');
-
-
-
-
-const User = require('./User');
-
-
-
-
-
-
-
-
-//const Test = require('./Test');
+const PetService = require('./PetService');
+const StoreService = require('./StoreService');
+const UserService = require('./UserService');
+const TestService = require('./TestService');
 
 module.exports = {
-
-  Pet,
-
-
-
-
-
-
-
-
-  Store,
-
-
-
-
-  User,
-
-
-
-
-
-
-
-
-  //TestService,
+  PetService,
+  StoreService,
+  UserService,
+  TestService,
 };

@@ -1,15 +1,27 @@
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
 {{#-first}}
-const {{classname}} = require('./{{classname}}');
+const {{classname}}Controller = require('./{{classname}}Controller');
 {{/-first}}
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-const Test = require('./Test');
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+const TestController = require('./TestController');
 
 module.exports = {
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
   {{#-first}}
-  {{classname}},
+  {{classname}}Controller,
   {{/-first}}
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
   Test,
 };
