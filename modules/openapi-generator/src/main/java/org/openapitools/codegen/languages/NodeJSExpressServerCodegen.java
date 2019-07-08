@@ -325,7 +325,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             }
         }
 
-        // need vendor extensions for x-swagger-router-controller
+        // need vendor extensions
         Paths paths = openAPI.getPaths();
         if (paths != null) {
             for (String pathname : paths.keySet()) {
@@ -341,9 +341,15 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                         if (operation.getOperationId() == null) {
                             operation.setOperationId(getOrGenerateOperationId(operation, pathname, method.toString()));
                         }
+                        // add x-openapi-router-controller
                         if (operation.getExtensions() == null ||
                                 operation.getExtensions().get("x-openapi-router-controller") == null) {
-                            operation.addExtension("x-openapi-router-controller", sanitizeTag(tag));
+                            operation.addExtension("x-openapi-router-controller", sanitizeTag(tag) + "Controller");
+                        }
+                        // add x-openapi-router-service
+                        if (operation.getExtensions() == null ||
+                                operation.getExtensions().get("x-openapi-router-service") == null) {
+                            operation.addExtension("x-openapi-router-service", sanitizeTag(tag) + "Service");
                         }
                     }
                 }

@@ -7,5 +7,5 @@ module.exports = {
   PetController,
   StoreController,
   UserController,
-  Test,
+  TestController,
 };
