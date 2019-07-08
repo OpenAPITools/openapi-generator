@@ -91,6 +91,7 @@ The following generators are available:
     - [jaxrs-spec](generators/jaxrs-spec.md)
     - [kotlin-server](generators/kotlin-server.md)
     - [kotlin-spring](generators/kotlin-spring.md)
+    - [nodejs-express-server](generators/nodejs-express-server.md) (beta)
     - [nodejs-server-deprecated](generators/nodejs-server-deprecated.md) (deprecated)
     - [php-laravel](generators/php-laravel.md)
     - [php-lumen](generators/php-lumen.md)
