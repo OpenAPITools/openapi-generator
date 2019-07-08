@@ -1,11 +1,15 @@
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+{{#-first}}
 const {{classname}} = require('./{{classname}}');
+{{/-first}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 //const Test = require('./Test');
 
 module.exports = {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+{{#-first}}
   {{classname}},
+{{/-first}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
   //TestService,
 };

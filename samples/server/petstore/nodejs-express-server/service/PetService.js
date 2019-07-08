@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const Service = require('./Service');
 
-class PetControllerService {
+class PetService {
 
   /**
    * Add a new pet to the store
@@ -9,11 +9,11 @@ class PetControllerService {
    * body Pet Pet object that needs to be added to the store
    * no response value expected for this operation
    **/
-  static.addPet = function({ body }) {
+  static.addPet({ body }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -31,11 +31,11 @@ class PetControllerService {
    * apiUnderscorekey String  (optional)
    * no response value expected for this operation
    **/
-  static.deletePet = function({ petId,apiUnderscorekey }) {
+  static.deletePet({ petId,apiUnderscorekey }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -53,11 +53,11 @@ class PetControllerService {
    * status List Status values that need to be considered for filter
    * returns List
    **/
-  static.findPetsByStatus = function({ status }) {
+  static.findPetsByStatus({ status }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -75,11 +75,11 @@ class PetControllerService {
    * tags List Tags to filter by
    * returns List
    **/
-  static.findPetsByTags = function({ tags }) {
+  static.findPetsByTags({ tags }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -97,11 +97,11 @@ class PetControllerService {
    * petId Long ID of pet to return
    * returns Pet
    **/
-  static.getPetById = function({ petId }) {
+  static.getPetById({ petId }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -118,11 +118,11 @@ class PetControllerService {
    * body Pet Pet object that needs to be added to the store
    * no response value expected for this operation
    **/
-  static.updatePet = function({ body }) {
+  static.updatePet({ body }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -141,11 +141,11 @@ class PetControllerService {
    * status String Updated status of the pet (optional)
    * no response value expected for this operation
    **/
-  static.updatePetWithForm = function({ petId,name,status }) {
+  static.updatePetWithForm({ petId,name,status }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -164,11 +164,11 @@ class PetControllerService {
    * file File file to upload (optional)
    * returns ApiResponse
    **/
-  static.uploadFile = function({ petId,additionalMetadata,file }) {
+  static.uploadFile({ petId,additionalMetadata,file }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -181,4 +181,4 @@ class PetControllerService {
 
 }
 
-module.exports = PetControllerService;
+module.exports = PetService;

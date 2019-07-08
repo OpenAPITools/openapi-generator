@@ -89,9 +89,11 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         supportingFiles.add(new SupportingFile("utils" + File.separator + "writer.mustache", "utils", "writer.js"));
 
         // controllers folder
+        supportingFiles.add(new SupportingFile("service" + File.separator + "test.mustache", "controllers", "TestController.js"));
         supportingFiles.add(new SupportingFile("controllers" + File.separator + "index.mustache", "controllers", "index.js"));
         supportingFiles.add(new SupportingFile("controllers" + File.separator + "Controller.mustache", "controllers", "Controller.js"));
         // service folder
+        supportingFiles.add(new SupportingFile("service" + File.separator + "test.mustache", "service", "TestService.js"));
         supportingFiles.add(new SupportingFile("service" + File.separator + "index.mustache", "service", "index.js"));
         supportingFiles.add(new SupportingFile("service" + File.separator + "Service.mustache", "service", "Service.js"));
 
@@ -144,14 +146,14 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
-            return "DefaultController";
+            return "Default";
         }
-        return camelize(name) + "Controller";
+        return camelize(name);
     }
 
     @Override
     public String toApiFilename(String name) {
-        return toApiName(name);
+        return toApiName(name) + "Controller";
     }
 
     @Override
@@ -323,7 +325,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             }
         }
 
-/*
         // need vendor extensions for x-swagger-router-controller
         Paths paths = openAPI.getPaths();
         if (paths != null) {
@@ -341,14 +342,14 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                             operation.setOperationId(getOrGenerateOperationId(operation, pathname, method.toString()));
                         }
                         if (operation.getExtensions() == null ||
-                                operation.getExtensions().get("x-swagger-router-controller") == null) {
-                            operation.addExtension("x-swagger-router-controller", sanitizeTag(tag));
+                                operation.getExtensions().get("x-openapi-router-controller") == null) {
+                            operation.addExtension("x-openapi-router-controller", sanitizeTag(tag));
                         }
                     }
                 }
             }
         }
-*/
+
     }
 
     @Override

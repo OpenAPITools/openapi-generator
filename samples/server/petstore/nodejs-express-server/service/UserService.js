@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const Service = require('./Service');
 
-class UserControllerService {
+class UserService {
 
   /**
    * Create user
@@ -10,11 +10,11 @@ class UserControllerService {
    * body User Created user object
    * no response value expected for this operation
    **/
-  static.createUser = function({ body }) {
+  static.createUser({ body }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -31,11 +31,11 @@ class UserControllerService {
    * body List List of user object
    * no response value expected for this operation
    **/
-  static.createUsersWithArrayInput = function({ body }) {
+  static.createUsersWithArrayInput({ body }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -52,11 +52,11 @@ class UserControllerService {
    * body List List of user object
    * no response value expected for this operation
    **/
-  static.createUsersWithListInput = function({ body }) {
+  static.createUsersWithListInput({ body }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -74,11 +74,11 @@ class UserControllerService {
    * username String The name that needs to be deleted
    * no response value expected for this operation
    **/
-  static.deleteUser = function({ username }) {
+  static.deleteUser({ username }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -95,11 +95,11 @@ class UserControllerService {
    * username String The name that needs to be fetched. Use user1 for testing.
    * returns User
    **/
-  static.getUserByName = function({ username }) {
+  static.getUserByName({ username }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -117,11 +117,11 @@ class UserControllerService {
    * password String The password for login in clear text
    * returns String
    **/
-  static.loginUser = function({ username,password }) {
+  static.loginUser({ username,password }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -137,11 +137,11 @@ class UserControllerService {
    *
    * no response value expected for this operation
    **/
-  static.logoutUser = function({  }) {
+  static.logoutUser({  }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -160,11 +160,11 @@ class UserControllerService {
    * body User Updated user object
    * no response value expected for this operation
    **/
-  static.updateUser = function({ username,body }) {
+  static.updateUser({ username,body }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -177,4 +177,4 @@ class UserControllerService {
 
 }
 
-module.exports = UserControllerService;
+module.exports = UserService;

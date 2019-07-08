@@ -23,11 +23,11 @@ class {{{classname}}}Service {
    * returns {{{returnType}}}
   {{/returnType}}
    **/
-  static.{{{operationId}}} = function({ {{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}} }) {
+  static.{{{operationId}}}({ {{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}} }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
