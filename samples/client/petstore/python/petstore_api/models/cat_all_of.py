@@ -31,27 +31,21 @@ class CatAllOf(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'declawed': 'bool',
+        'declawed': 'bool'
     }
 
     attribute_map = {
-        'declawed': 'declawed',  # noqa: E501
+        'declawed': 'declawed'
     }
 
     def __init__(self, declawed=None):  # noqa: E501
-        """CatAllOf - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            declawed (bool): [optional]  # noqa: E501
-        """
+        """CatAllOf - a model defined in OpenAPI"""  # noqa: E501
 
         self._declawed = None
         self.discriminator = None
 
         if declawed is not None:
-            self.declawed = declawed  # noqa: E501
+            self.declawed = declawed
 
     @property
     def declawed(self):
@@ -64,9 +58,7 @@ class CatAllOf(object):
         return self._declawed
 
     @declawed.setter
-    def declawed(
-            self,
-            declawed):
+    def declawed(self, declawed):
         """Sets the declawed of this CatAllOf.
 
 
@@ -74,8 +66,7 @@ class CatAllOf(object):
         :type: bool
         """
 
-        self._declawed = (
-            declawed)
+        self._declawed = declawed
 
     def to_dict(self):
         """Returns the model properties as a dict"""

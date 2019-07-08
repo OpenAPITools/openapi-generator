@@ -3,10 +3,10 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **str** |  | 
-**photo_urls** | **list[str]** |  | 
 **id** | **int** |  | [optional] 
 **category** | [**Category**](Category.md) |  | [optional] 
+**name** | **str** |  | 
+**photo_urls** | **list[str]** |  | 
 **tags** | [**list[Tag]**](Tag.md) |  | [optional] 
 **status** | **str** | pet status in the store | [optional] 
 

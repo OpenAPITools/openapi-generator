@@ -31,21 +31,15 @@ class HealthCheckResult(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'nullable_message': 'str',
+        'nullable_message': 'str'
     }
 
     attribute_map = {
-        'nullable_message': 'NullableMessage',  # noqa: E501
+        'nullable_message': 'NullableMessage'
     }
 
     def __init__(self, nullable_message=None):  # noqa: E501
-        """HealthCheckResult - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            nullable_message (str): [optional]  # noqa: E501
-        """
+        """HealthCheckResult - a model defined in OpenAPI"""  # noqa: E501
 
         self._nullable_message = None
         self.discriminator = None
@@ -63,9 +57,7 @@ class HealthCheckResult(object):
         return self._nullable_message
 
     @nullable_message.setter
-    def nullable_message(
-            self,
-            nullable_message):
+    def nullable_message(self, nullable_message):
         """Sets the nullable_message of this HealthCheckResult.
 
 
@@ -73,8 +65,7 @@ class HealthCheckResult(object):
         :type: str
         """
 
-        self._nullable_message = (
-            nullable_message)
+        self._nullable_message = nullable_message
 
     def to_dict(self):
         """Returns the model properties as a dict"""

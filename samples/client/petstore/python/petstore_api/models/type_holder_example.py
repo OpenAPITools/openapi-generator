@@ -35,29 +35,19 @@ class TypeHolderExample(object):
         'number_item': 'float',
         'integer_item': 'int',
         'bool_item': 'bool',
-        'array_item': 'list[int]',
+        'array_item': 'list[int]'
     }
 
     attribute_map = {
-        'string_item': 'string_item',  # noqa: E501
-        'number_item': 'number_item',  # noqa: E501
-        'integer_item': 'integer_item',  # noqa: E501
-        'bool_item': 'bool_item',  # noqa: E501
-        'array_item': 'array_item',  # noqa: E501
+        'string_item': 'string_item',
+        'number_item': 'number_item',
+        'integer_item': 'integer_item',
+        'bool_item': 'bool_item',
+        'array_item': 'array_item'
     }
 
-    def __init__(self, string_item, number_item, integer_item, bool_item, array_item):  # noqa: E501
-        """TypeHolderExample - a model defined in OpenAPI
-
-        Args:
-            string_item (str):
-            number_item (float):
-            integer_item (int):
-            bool_item (bool):
-            array_item (list[int]):
-
-        Keyword Args:  # noqa: E501  # noqa: E501  # noqa: E501  # noqa: E501  # noqa: E501
-        """
+    def __init__(self, string_item=None, number_item=None, integer_item=None, bool_item=None, array_item=None):  # noqa: E501
+        """TypeHolderExample - a model defined in OpenAPI"""  # noqa: E501
 
         self._string_item = None
         self._number_item = None
@@ -83,9 +73,7 @@ class TypeHolderExample(object):
         return self._string_item
 
     @string_item.setter
-    def string_item(
-            self,
-            string_item):
+    def string_item(self, string_item):
         """Sets the string_item of this TypeHolderExample.
 
 
@@ -95,8 +83,7 @@ class TypeHolderExample(object):
         if string_item is None:
             raise ValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
 
-        self._string_item = (
-            string_item)
+        self._string_item = string_item
 
     @property
     def number_item(self):
@@ -109,9 +96,7 @@ class TypeHolderExample(object):
         return self._number_item
 
     @number_item.setter
-    def number_item(
-            self,
-            number_item):
+    def number_item(self, number_item):
         """Sets the number_item of this TypeHolderExample.
 
 
@@ -121,8 +106,7 @@ class TypeHolderExample(object):
         if number_item is None:
             raise ValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
 
-        self._number_item = (
-            number_item)
+        self._number_item = number_item
 
     @property
     def integer_item(self):
@@ -135,9 +119,7 @@ class TypeHolderExample(object):
         return self._integer_item
 
     @integer_item.setter
-    def integer_item(
-            self,
-            integer_item):
+    def integer_item(self, integer_item):
         """Sets the integer_item of this TypeHolderExample.
 
 
@@ -147,8 +129,7 @@ class TypeHolderExample(object):
         if integer_item is None:
             raise ValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
 
-        self._integer_item = (
-            integer_item)
+        self._integer_item = integer_item
 
     @property
     def bool_item(self):
@@ -161,9 +142,7 @@ class TypeHolderExample(object):
         return self._bool_item
 
     @bool_item.setter
-    def bool_item(
-            self,
-            bool_item):
+    def bool_item(self, bool_item):
         """Sets the bool_item of this TypeHolderExample.
 
 
@@ -173,8 +152,7 @@ class TypeHolderExample(object):
         if bool_item is None:
             raise ValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
 
-        self._bool_item = (
-            bool_item)
+        self._bool_item = bool_item
 
     @property
     def array_item(self):
@@ -187,9 +165,7 @@ class TypeHolderExample(object):
         return self._array_item
 
     @array_item.setter
-    def array_item(
-            self,
-            array_item):
+    def array_item(self, array_item):
         """Sets the array_item of this TypeHolderExample.
 
 
@@ -199,8 +175,7 @@ class TypeHolderExample(object):
         if array_item is None:
             raise ValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501
 
-        self._array_item = (
-            array_item)
+        self._array_item = array_item
 
     def to_dict(self):
         """Returns the model properties as a dict"""

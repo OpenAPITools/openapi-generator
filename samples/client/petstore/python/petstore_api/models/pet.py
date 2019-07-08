@@ -31,36 +31,25 @@ class Pet(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'name': 'str',
-        'photo_urls': 'list[str]',
         'id': 'int',
         'category': 'Category',
+        'name': 'str',
+        'photo_urls': 'list[str]',
         'tags': 'list[Tag]',
-        'status': 'str',
+        'status': 'str'
     }
 
     attribute_map = {
-        'name': 'name',  # noqa: E501
-        'photo_urls': 'photoUrls',  # noqa: E501
-        'id': 'id',  # noqa: E501
-        'category': 'category',  # noqa: E501
-        'tags': 'tags',  # noqa: E501
-        'status': 'status',  # noqa: E501
+        'id': 'id',
+        'category': 'category',
+        'name': 'name',
+        'photo_urls': 'photoUrls',
+        'tags': 'tags',
+        'status': 'status'
     }
 
-    def __init__(self, name, photo_urls, id=None, category=None, tags=None, status=None):  # noqa: E501
-        """Pet - a model defined in OpenAPI
-
-        Args:
-            name (str):
-            photo_urls (list[str]):
-
-        Keyword Args:  # noqa: E501  # noqa: E501
-            id (int): [optional]  # noqa: E501
-            category (Category): [optional]  # noqa: E501
-            tags (list[Tag]): [optional]  # noqa: E501
-            status (str): pet status in the store. [optional]  # noqa: E501
-        """
+    def __init__(self, id=None, category=None, name=None, photo_urls=None, tags=None, status=None):  # noqa: E501
+        """Pet - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
         self._category = None
@@ -71,15 +60,15 @@ class Pet(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id  # noqa: E501
+            self.id = id
         if category is not None:
-            self.category = category  # noqa: E501
+            self.category = category
         self.name = name
         self.photo_urls = photo_urls
         if tags is not None:
-            self.tags = tags  # noqa: E501
+            self.tags = tags
         if status is not None:
-            self.status = status  # noqa: E501
+            self.status = status
 
     @property
     def id(self):
@@ -92,9 +81,7 @@ class Pet(object):
         return self._id
 
     @id.setter
-    def id(
-            self,
-            id):
+    def id(self, id):
         """Sets the id of this Pet.
 
 
@@ -102,8 +89,7 @@ class Pet(object):
         :type: int
         """
 
-        self._id = (
-            id)
+        self._id = id
 
     @property
     def category(self):
@@ -116,9 +102,7 @@ class Pet(object):
         return self._category
 
     @category.setter
-    def category(
-            self,
-            category):
+    def category(self, category):
         """Sets the category of this Pet.
 
 
@@ -126,8 +110,7 @@ class Pet(object):
         :type: Category
         """
 
-        self._category = (
-            category)
+        self._category = category
 
     @property
     def name(self):
@@ -140,9 +123,7 @@ class Pet(object):
         return self._name
 
     @name.setter
-    def name(
-            self,
-            name):
+    def name(self, name):
         """Sets the name of this Pet.
 
 
@@ -152,8 +133,7 @@ class Pet(object):
         if name is None:
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._name = (
-            name)
+        self._name = name
 
     @property
     def photo_urls(self):
@@ -166,9 +146,7 @@ class Pet(object):
         return self._photo_urls
 
     @photo_urls.setter
-    def photo_urls(
-            self,
-            photo_urls):
+    def photo_urls(self, photo_urls):
         """Sets the photo_urls of this Pet.
 
 
@@ -178,8 +156,7 @@ class Pet(object):
         if photo_urls is None:
             raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
 
-        self._photo_urls = (
-            photo_urls)
+        self._photo_urls = photo_urls
 
     @property
     def tags(self):
@@ -192,9 +169,7 @@ class Pet(object):
         return self._tags
 
     @tags.setter
-    def tags(
-            self,
-            tags):
+    def tags(self, tags):
         """Sets the tags of this Pet.
 
 
@@ -202,8 +177,7 @@ class Pet(object):
         :type: list[Tag]
         """
 
-        self._tags = (
-            tags)
+        self._tags = tags
 
     @property
     def status(self):
@@ -217,9 +191,7 @@ class Pet(object):
         return self._status
 
     @status.setter
-    def status(
-            self,
-            status):
+    def status(self, status):
         """Sets the status of this Pet.
 
         pet status in the store  # noqa: E501
@@ -234,8 +206,7 @@ class Pet(object):
                 .format(status, allowed_values)
             )
 
-        self._status = (
-            status)
+        self._status = status
 
     def to_dict(self):
         """Returns the model properties as a dict"""

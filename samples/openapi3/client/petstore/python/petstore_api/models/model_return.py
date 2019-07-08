@@ -31,27 +31,21 @@ class ModelReturn(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        '_return': 'int',
+        '_return': 'int'
     }
 
     attribute_map = {
-        '_return': 'return',  # noqa: E501
+        '_return': 'return'
     }
 
     def __init__(self, _return=None):  # noqa: E501
-        """ModelReturn - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            _return (int): [optional]  # noqa: E501
-        """
+        """ModelReturn - a model defined in OpenAPI"""  # noqa: E501
 
         self.__return = None
         self.discriminator = None
 
         if _return is not None:
-            self._return = _return  # noqa: E501
+            self._return = _return
 
     @property
     def _return(self):
@@ -64,9 +58,7 @@ class ModelReturn(object):
         return self.__return
 
     @_return.setter
-    def _return(
-            self,
-            _return):
+    def _return(self, _return):
         """Sets the _return of this ModelReturn.
 
 
@@ -74,8 +66,7 @@ class ModelReturn(object):
         :type: int
         """
 
-        self.__return = (
-            _return)
+        self.__return = _return
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -31,27 +31,21 @@ class ClassModel(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        '_class': 'str',
+        '_class': 'str'
     }
 
     attribute_map = {
-        '_class': '_class',  # noqa: E501
+        '_class': '_class'
     }
 
     def __init__(self, _class=None):  # noqa: E501
-        """ClassModel - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            _class (str): [optional]  # noqa: E501
-        """
+        """ClassModel - a model defined in OpenAPI"""  # noqa: E501
 
         self.__class = None
         self.discriminator = None
 
         if _class is not None:
-            self._class = _class  # noqa: E501
+            self._class = _class
 
     @property
     def _class(self):
@@ -64,9 +58,7 @@ class ClassModel(object):
         return self.__class
 
     @_class.setter
-    def _class(
-            self,
-            _class):
+    def _class(self, _class):
         """Sets the _class of this ClassModel.
 
 
@@ -74,8 +66,7 @@ class ClassModel(object):
         :type: str
         """
 
-        self.__class = (
-            _class)
+        self.__class = _class
 
     def to_dict(self):
         """Returns the model properties as a dict"""

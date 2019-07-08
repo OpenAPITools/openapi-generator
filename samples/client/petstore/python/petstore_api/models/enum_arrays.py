@@ -32,32 +32,25 @@ class EnumArrays(object):
     """
     openapi_types = {
         'just_symbol': 'str',
-        'array_enum': 'list[str]',
+        'array_enum': 'list[str]'
     }
 
     attribute_map = {
-        'just_symbol': 'just_symbol',  # noqa: E501
-        'array_enum': 'array_enum',  # noqa: E501
+        'just_symbol': 'just_symbol',
+        'array_enum': 'array_enum'
     }
 
     def __init__(self, just_symbol=None, array_enum=None):  # noqa: E501
-        """EnumArrays - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            just_symbol (str): [optional]  # noqa: E501
-            array_enum (list[str]): [optional]  # noqa: E501
-        """
+        """EnumArrays - a model defined in OpenAPI"""  # noqa: E501
 
         self._just_symbol = None
         self._array_enum = None
         self.discriminator = None
 
         if just_symbol is not None:
-            self.just_symbol = just_symbol  # noqa: E501
+            self.just_symbol = just_symbol
         if array_enum is not None:
-            self.array_enum = array_enum  # noqa: E501
+            self.array_enum = array_enum
 
     @property
     def just_symbol(self):
@@ -70,9 +63,7 @@ class EnumArrays(object):
         return self._just_symbol
 
     @just_symbol.setter
-    def just_symbol(
-            self,
-            just_symbol):
+    def just_symbol(self, just_symbol):
         """Sets the just_symbol of this EnumArrays.
 
 
@@ -86,8 +77,7 @@ class EnumArrays(object):
                 .format(just_symbol, allowed_values)
             )
 
-        self._just_symbol = (
-            just_symbol)
+        self._just_symbol = just_symbol
 
     @property
     def array_enum(self):
@@ -100,9 +90,7 @@ class EnumArrays(object):
         return self._array_enum
 
     @array_enum.setter
-    def array_enum(
-            self,
-            array_enum):
+    def array_enum(self, array_enum):
         """Sets the array_enum of this EnumArrays.
 
 
@@ -117,8 +105,7 @@ class EnumArrays(object):
                         ", ".join(map(str, allowed_values)))
             )
 
-        self._array_enum = (
-            array_enum)
+        self._array_enum = array_enum
 
     def to_dict(self):
         """Returns the model properties as a dict"""

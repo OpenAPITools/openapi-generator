@@ -31,27 +31,21 @@ class DogAllOf(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'breed': 'str',
+        'breed': 'str'
     }
 
     attribute_map = {
-        'breed': 'breed',  # noqa: E501
+        'breed': 'breed'
     }
 
     def __init__(self, breed=None):  # noqa: E501
-        """DogAllOf - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            breed (str): [optional]  # noqa: E501
-        """
+        """DogAllOf - a model defined in OpenAPI"""  # noqa: E501
 
         self._breed = None
         self.discriminator = None
 
         if breed is not None:
-            self.breed = breed  # noqa: E501
+            self.breed = breed
 
     @property
     def breed(self):
@@ -64,9 +58,7 @@ class DogAllOf(object):
         return self._breed
 
     @breed.setter
-    def breed(
-            self,
-            breed):
+    def breed(self, breed):
         """Sets the breed of this DogAllOf.
 
 
@@ -74,8 +66,7 @@ class DogAllOf(object):
         :type: str
         """
 
-        self._breed = (
-            breed)
+        self._breed = breed
 
     def to_dict(self):
         """Returns the model properties as a dict"""

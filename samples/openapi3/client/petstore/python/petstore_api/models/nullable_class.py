@@ -42,43 +42,26 @@ class NullableClass(object):
         'array_items_nullable': 'list[object]',
         'object_nullable_prop': 'dict(str, object)',
         'object_and_items_nullable_prop': 'dict(str, object)',
-        'object_items_nullable': 'dict(str, object)',
+        'object_items_nullable': 'dict(str, object)'
     }
 
     attribute_map = {
-        'integer_prop': 'integer_prop',  # noqa: E501
-        'number_prop': 'number_prop',  # noqa: E501
-        'boolean_prop': 'boolean_prop',  # noqa: E501
-        'string_prop': 'string_prop',  # noqa: E501
-        'date_prop': 'date_prop',  # noqa: E501
-        'datetime_prop': 'datetime_prop',  # noqa: E501
-        'array_nullable_prop': 'array_nullable_prop',  # noqa: E501
-        'array_and_items_nullable_prop': 'array_and_items_nullable_prop',  # noqa: E501
-        'array_items_nullable': 'array_items_nullable',  # noqa: E501
-        'object_nullable_prop': 'object_nullable_prop',  # noqa: E501
-        'object_and_items_nullable_prop': 'object_and_items_nullable_prop',  # noqa: E501
-        'object_items_nullable': 'object_items_nullable',  # noqa: E501
+        'integer_prop': 'integer_prop',
+        'number_prop': 'number_prop',
+        'boolean_prop': 'boolean_prop',
+        'string_prop': 'string_prop',
+        'date_prop': 'date_prop',
+        'datetime_prop': 'datetime_prop',
+        'array_nullable_prop': 'array_nullable_prop',
+        'array_and_items_nullable_prop': 'array_and_items_nullable_prop',
+        'array_items_nullable': 'array_items_nullable',
+        'object_nullable_prop': 'object_nullable_prop',
+        'object_and_items_nullable_prop': 'object_and_items_nullable_prop',
+        'object_items_nullable': 'object_items_nullable'
     }
 
     def __init__(self, integer_prop=None, number_prop=None, boolean_prop=None, string_prop=None, date_prop=None, datetime_prop=None, array_nullable_prop=None, array_and_items_nullable_prop=None, array_items_nullable=None, object_nullable_prop=None, object_and_items_nullable_prop=None, object_items_nullable=None):  # noqa: E501
-        """NullableClass - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            integer_prop (int): [optional]  # noqa: E501
-            number_prop (float): [optional]  # noqa: E501
-            boolean_prop (bool): [optional]  # noqa: E501
-            string_prop (str): [optional]  # noqa: E501
-            date_prop (date): [optional]  # noqa: E501
-            datetime_prop (datetime): [optional]  # noqa: E501
-            array_nullable_prop (list[object]): [optional]  # noqa: E501
-            array_and_items_nullable_prop (list[object]): [optional]  # noqa: E501
-            array_items_nullable (list[object]): [optional]  # noqa: E501
-            object_nullable_prop (dict(str, object)): [optional]  # noqa: E501
-            object_and_items_nullable_prop (dict(str, object)): [optional]  # noqa: E501
-            object_items_nullable (dict(str, object)): [optional]  # noqa: E501
-        """
+        """NullableClass - a model defined in OpenAPI"""  # noqa: E501
 
         self._integer_prop = None
         self._number_prop = None
@@ -103,11 +86,11 @@ class NullableClass(object):
         self.array_nullable_prop = array_nullable_prop
         self.array_and_items_nullable_prop = array_and_items_nullable_prop
         if array_items_nullable is not None:
-            self.array_items_nullable = array_items_nullable  # noqa: E501
+            self.array_items_nullable = array_items_nullable
         self.object_nullable_prop = object_nullable_prop
         self.object_and_items_nullable_prop = object_and_items_nullable_prop
         if object_items_nullable is not None:
-            self.object_items_nullable = object_items_nullable  # noqa: E501
+            self.object_items_nullable = object_items_nullable
 
     @property
     def integer_prop(self):
@@ -120,9 +103,7 @@ class NullableClass(object):
         return self._integer_prop
 
     @integer_prop.setter
-    def integer_prop(
-            self,
-            integer_prop):
+    def integer_prop(self, integer_prop):
         """Sets the integer_prop of this NullableClass.
 
 
@@ -130,8 +111,7 @@ class NullableClass(object):
         :type: int
         """
 
-        self._integer_prop = (
-            integer_prop)
+        self._integer_prop = integer_prop
 
     @property
     def number_prop(self):
@@ -144,9 +124,7 @@ class NullableClass(object):
         return self._number_prop
 
     @number_prop.setter
-    def number_prop(
-            self,
-            number_prop):
+    def number_prop(self, number_prop):
         """Sets the number_prop of this NullableClass.
 
 
@@ -154,8 +132,7 @@ class NullableClass(object):
         :type: float
         """
 
-        self._number_prop = (
-            number_prop)
+        self._number_prop = number_prop
 
     @property
     def boolean_prop(self):
@@ -168,9 +145,7 @@ class NullableClass(object):
         return self._boolean_prop
 
     @boolean_prop.setter
-    def boolean_prop(
-            self,
-            boolean_prop):
+    def boolean_prop(self, boolean_prop):
         """Sets the boolean_prop of this NullableClass.
 
 
@@ -178,8 +153,7 @@ class NullableClass(object):
         :type: bool
         """
 
-        self._boolean_prop = (
-            boolean_prop)
+        self._boolean_prop = boolean_prop
 
     @property
     def string_prop(self):
@@ -192,9 +166,7 @@ class NullableClass(object):
         return self._string_prop
 
     @string_prop.setter
-    def string_prop(
-            self,
-            string_prop):
+    def string_prop(self, string_prop):
         """Sets the string_prop of this NullableClass.
 
 
@@ -202,8 +174,7 @@ class NullableClass(object):
         :type: str
         """
 
-        self._string_prop = (
-            string_prop)
+        self._string_prop = string_prop
 
     @property
     def date_prop(self):
@@ -216,9 +187,7 @@ class NullableClass(object):
         return self._date_prop
 
     @date_prop.setter
-    def date_prop(
-            self,
-            date_prop):
+    def date_prop(self, date_prop):
         """Sets the date_prop of this NullableClass.
 
 
@@ -226,8 +195,7 @@ class NullableClass(object):
         :type: date
         """
 
-        self._date_prop = (
-            date_prop)
+        self._date_prop = date_prop
 
     @property
     def datetime_prop(self):
@@ -240,9 +208,7 @@ class NullableClass(object):
         return self._datetime_prop
 
     @datetime_prop.setter
-    def datetime_prop(
-            self,
-            datetime_prop):
+    def datetime_prop(self, datetime_prop):
         """Sets the datetime_prop of this NullableClass.
 
 
@@ -250,8 +216,7 @@ class NullableClass(object):
         :type: datetime
         """
 
-        self._datetime_prop = (
-            datetime_prop)
+        self._datetime_prop = datetime_prop
 
     @property
     def array_nullable_prop(self):
@@ -264,9 +229,7 @@ class NullableClass(object):
         return self._array_nullable_prop
 
     @array_nullable_prop.setter
-    def array_nullable_prop(
-            self,
-            array_nullable_prop):
+    def array_nullable_prop(self, array_nullable_prop):
         """Sets the array_nullable_prop of this NullableClass.
 
 
@@ -274,8 +237,7 @@ class NullableClass(object):
         :type: list[object]
         """
 
-        self._array_nullable_prop = (
-            array_nullable_prop)
+        self._array_nullable_prop = array_nullable_prop
 
     @property
     def array_and_items_nullable_prop(self):
@@ -288,9 +250,7 @@ class NullableClass(object):
         return self._array_and_items_nullable_prop
 
     @array_and_items_nullable_prop.setter
-    def array_and_items_nullable_prop(
-            self,
-            array_and_items_nullable_prop):
+    def array_and_items_nullable_prop(self, array_and_items_nullable_prop):
         """Sets the array_and_items_nullable_prop of this NullableClass.
 
 
@@ -298,8 +258,7 @@ class NullableClass(object):
         :type: list[object]
         """
 
-        self._array_and_items_nullable_prop = (
-            array_and_items_nullable_prop)
+        self._array_and_items_nullable_prop = array_and_items_nullable_prop
 
     @property
     def array_items_nullable(self):
@@ -312,9 +271,7 @@ class NullableClass(object):
         return self._array_items_nullable
 
     @array_items_nullable.setter
-    def array_items_nullable(
-            self,
-            array_items_nullable):
+    def array_items_nullable(self, array_items_nullable):
         """Sets the array_items_nullable of this NullableClass.
 
 
@@ -322,8 +279,7 @@ class NullableClass(object):
         :type: list[object]
         """
 
-        self._array_items_nullable = (
-            array_items_nullable)
+        self._array_items_nullable = array_items_nullable
 
     @property
     def object_nullable_prop(self):
@@ -336,9 +292,7 @@ class NullableClass(object):
         return self._object_nullable_prop
 
     @object_nullable_prop.setter
-    def object_nullable_prop(
-            self,
-            object_nullable_prop):
+    def object_nullable_prop(self, object_nullable_prop):
         """Sets the object_nullable_prop of this NullableClass.
 
 
@@ -346,8 +300,7 @@ class NullableClass(object):
         :type: dict(str, object)
         """
 
-        self._object_nullable_prop = (
-            object_nullable_prop)
+        self._object_nullable_prop = object_nullable_prop
 
     @property
     def object_and_items_nullable_prop(self):
@@ -360,9 +313,7 @@ class NullableClass(object):
         return self._object_and_items_nullable_prop
 
     @object_and_items_nullable_prop.setter
-    def object_and_items_nullable_prop(
-            self,
-            object_and_items_nullable_prop):
+    def object_and_items_nullable_prop(self, object_and_items_nullable_prop):
         """Sets the object_and_items_nullable_prop of this NullableClass.
 
 
@@ -370,8 +321,7 @@ class NullableClass(object):
         :type: dict(str, object)
         """
 
-        self._object_and_items_nullable_prop = (
-            object_and_items_nullable_prop)
+        self._object_and_items_nullable_prop = object_and_items_nullable_prop
 
     @property
     def object_items_nullable(self):
@@ -384,9 +334,7 @@ class NullableClass(object):
         return self._object_items_nullable
 
     @object_items_nullable.setter
-    def object_items_nullable(
-            self,
-            object_items_nullable):
+    def object_items_nullable(self, object_items_nullable):
         """Sets the object_items_nullable of this NullableClass.
 
 
@@ -394,8 +342,7 @@ class NullableClass(object):
         :type: dict(str, object)
         """
 
-        self._object_items_nullable = (
-            object_items_nullable)
+        self._object_items_nullable = object_items_nullable
 
     def to_dict(self):
         """Returns the model properties as a dict"""

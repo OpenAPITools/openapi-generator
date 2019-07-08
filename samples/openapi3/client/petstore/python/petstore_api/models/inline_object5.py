@@ -31,31 +31,24 @@ class InlineObject5(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'required_file': 'file',
         'additional_metadata': 'str',
+        'required_file': 'file'
     }
 
     attribute_map = {
-        'required_file': 'requiredFile',  # noqa: E501
-        'additional_metadata': 'additionalMetadata',  # noqa: E501
+        'additional_metadata': 'additionalMetadata',
+        'required_file': 'requiredFile'
     }
 
-    def __init__(self, required_file, additional_metadata=None):  # noqa: E501
-        """InlineObject5 - a model defined in OpenAPI
-
-        Args:
-            required_file (file): file to upload
-
-        Keyword Args:  # noqa: E501
-            additional_metadata (str): Additional data to pass to server. [optional]  # noqa: E501
-        """
+    def __init__(self, additional_metadata=None, required_file=None):  # noqa: E501
+        """InlineObject5 - a model defined in OpenAPI"""  # noqa: E501
 
         self._additional_metadata = None
         self._required_file = None
         self.discriminator = None
 
         if additional_metadata is not None:
-            self.additional_metadata = additional_metadata  # noqa: E501
+            self.additional_metadata = additional_metadata
         self.required_file = required_file
 
     @property
@@ -70,9 +63,7 @@ class InlineObject5(object):
         return self._additional_metadata
 
     @additional_metadata.setter
-    def additional_metadata(
-            self,
-            additional_metadata):
+    def additional_metadata(self, additional_metadata):
         """Sets the additional_metadata of this InlineObject5.
 
         Additional data to pass to server  # noqa: E501
@@ -81,8 +72,7 @@ class InlineObject5(object):
         :type: str
         """
 
-        self._additional_metadata = (
-            additional_metadata)
+        self._additional_metadata = additional_metadata
 
     @property
     def required_file(self):
@@ -96,9 +86,7 @@ class InlineObject5(object):
         return self._required_file
 
     @required_file.setter
-    def required_file(
-            self,
-            required_file):
+    def required_file(self, required_file):
         """Sets the required_file of this InlineObject5.
 
         file to upload  # noqa: E501
@@ -109,8 +97,7 @@ class InlineObject5(object):
         if required_file is None:
             raise ValueError("Invalid value for `required_file`, must not be `None`")  # noqa: E501
 
-        self._required_file = (
-            required_file)
+        self._required_file = required_file
 
     def to_dict(self):
         """Returns the model properties as a dict"""

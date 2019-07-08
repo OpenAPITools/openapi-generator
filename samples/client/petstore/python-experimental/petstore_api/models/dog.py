@@ -31,21 +31,33 @@ class Dog(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'breed': 'str'
+        'class_name': 'str',
+        'breed': 'str',
+        'color': 'str',
     }
 
     attribute_map = {
-        'breed': 'breed'
+        'class_name': 'className',  # noqa: E501
+        'breed': 'breed',  # noqa: E501
+        'color': 'color',  # noqa: E501
     }
 
-    def __init__(self, breed=None):  # noqa: E501
-        """Dog - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, class_name, breed=None, color=None):  # noqa: E501
+        """Dog - a model defined in OpenAPI
+
+        Args:
+            class_name (str):
+
+        Keyword Args:  # noqa: E501
+            breed (str): [optional]  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+        """
 
         self._breed = None
         self.discriminator = None
 
         if breed is not None:
-            self.breed = breed
+            self.breed = breed  # noqa: E501
 
     @property
     def breed(self):
@@ -58,7 +70,9 @@ class Dog(object):
         return self._breed
 
     @breed.setter
-    def breed(self, breed):
+    def breed(
+            self,
+            breed):
         """Sets the breed of this Dog.
 
 
@@ -66,7 +80,8 @@ class Dog(object):
         :type: str
         """
 
-        self._breed = breed
+        self._breed = (
+            breed)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

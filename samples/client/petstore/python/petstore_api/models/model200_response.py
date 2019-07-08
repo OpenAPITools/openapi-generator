@@ -32,32 +32,25 @@ class Model200Response(object):
     """
     openapi_types = {
         'name': 'int',
-        '_class': 'str',
+        '_class': 'str'
     }
 
     attribute_map = {
-        'name': 'name',  # noqa: E501
-        '_class': 'class',  # noqa: E501
+        'name': 'name',
+        '_class': 'class'
     }
 
     def __init__(self, name=None, _class=None):  # noqa: E501
-        """Model200Response - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            name (int): [optional]  # noqa: E501
-            _class (str): [optional]  # noqa: E501
-        """
+        """Model200Response - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None
         self.__class = None
         self.discriminator = None
 
         if name is not None:
-            self.name = name  # noqa: E501
+            self.name = name
         if _class is not None:
-            self._class = _class  # noqa: E501
+            self._class = _class
 
     @property
     def name(self):
@@ -70,9 +63,7 @@ class Model200Response(object):
         return self._name
 
     @name.setter
-    def name(
-            self,
-            name):
+    def name(self, name):
         """Sets the name of this Model200Response.
 
 
@@ -80,8 +71,7 @@ class Model200Response(object):
         :type: int
         """
 
-        self._name = (
-            name)
+        self._name = name
 
     @property
     def _class(self):
@@ -94,9 +84,7 @@ class Model200Response(object):
         return self.__class
 
     @_class.setter
-    def _class(
-            self,
-            _class):
+    def _class(self, _class):
         """Sets the _class of this Model200Response.
 
 
@@ -104,8 +92,7 @@ class Model200Response(object):
         :type: str
         """
 
-        self.__class = (
-            _class)
+        self.__class = _class
 
     def to_dict(self):
         """Returns the model properties as a dict"""

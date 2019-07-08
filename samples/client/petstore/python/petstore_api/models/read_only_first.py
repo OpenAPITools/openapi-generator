@@ -32,32 +32,25 @@ class ReadOnlyFirst(object):
     """
     openapi_types = {
         'bar': 'str',
-        'baz': 'str',
+        'baz': 'str'
     }
 
     attribute_map = {
-        'bar': 'bar',  # noqa: E501
-        'baz': 'baz',  # noqa: E501
+        'bar': 'bar',
+        'baz': 'baz'
     }
 
     def __init__(self, bar=None, baz=None):  # noqa: E501
-        """ReadOnlyFirst - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            bar (str): [optional]  # noqa: E501
-            baz (str): [optional]  # noqa: E501
-        """
+        """ReadOnlyFirst - a model defined in OpenAPI"""  # noqa: E501
 
         self._bar = None
         self._baz = None
         self.discriminator = None
 
         if bar is not None:
-            self.bar = bar  # noqa: E501
+            self.bar = bar
         if baz is not None:
-            self.baz = baz  # noqa: E501
+            self.baz = baz
 
     @property
     def bar(self):
@@ -70,9 +63,7 @@ class ReadOnlyFirst(object):
         return self._bar
 
     @bar.setter
-    def bar(
-            self,
-            bar):
+    def bar(self, bar):
         """Sets the bar of this ReadOnlyFirst.
 
 
@@ -80,8 +71,7 @@ class ReadOnlyFirst(object):
         :type: str
         """
 
-        self._bar = (
-            bar)
+        self._bar = bar
 
     @property
     def baz(self):
@@ -94,9 +84,7 @@ class ReadOnlyFirst(object):
         return self._baz
 
     @baz.setter
-    def baz(
-            self,
-            baz):
+    def baz(self, baz):
         """Sets the baz of this ReadOnlyFirst.
 
 
@@ -104,8 +92,7 @@ class ReadOnlyFirst(object):
         :type: str
         """
 
-        self._baz = (
-            baz)
+        self._baz = baz
 
     def to_dict(self):
         """Returns the model properties as a dict"""

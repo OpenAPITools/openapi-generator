@@ -31,27 +31,21 @@ class File(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'source_uri': 'str',
+        'source_uri': 'str'
     }
 
     attribute_map = {
-        'source_uri': 'sourceURI',  # noqa: E501
+        'source_uri': 'sourceURI'
     }
 
     def __init__(self, source_uri=None):  # noqa: E501
-        """File - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            source_uri (str): Test capitalization. [optional]  # noqa: E501
-        """
+        """File - a model defined in OpenAPI"""  # noqa: E501
 
         self._source_uri = None
         self.discriminator = None
 
         if source_uri is not None:
-            self.source_uri = source_uri  # noqa: E501
+            self.source_uri = source_uri
 
     @property
     def source_uri(self):
@@ -65,9 +59,7 @@ class File(object):
         return self._source_uri
 
     @source_uri.setter
-    def source_uri(
-            self,
-            source_uri):
+    def source_uri(self, source_uri):
         """Sets the source_uri of this File.
 
         Test capitalization  # noqa: E501
@@ -76,8 +68,7 @@ class File(object):
         :type: str
         """
 
-        self._source_uri = (
-            source_uri)
+        self._source_uri = source_uri
 
     def to_dict(self):
         """Returns the model properties as a dict"""

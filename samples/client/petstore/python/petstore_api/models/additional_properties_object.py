@@ -31,27 +31,21 @@ class AdditionalPropertiesObject(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'name': 'str',
+        'name': 'str'
     }
 
     attribute_map = {
-        'name': 'name',  # noqa: E501
+        'name': 'name'
     }
 
     def __init__(self, name=None):  # noqa: E501
-        """AdditionalPropertiesObject - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            name (str): [optional]  # noqa: E501
-        """
+        """AdditionalPropertiesObject - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None
         self.discriminator = None
 
         if name is not None:
-            self.name = name  # noqa: E501
+            self.name = name
 
     @property
     def name(self):
@@ -64,9 +58,7 @@ class AdditionalPropertiesObject(object):
         return self._name
 
     @name.setter
-    def name(
-            self,
-            name):
+    def name(self, name):
         """Sets the name of this AdditionalPropertiesObject.
 
 
@@ -74,8 +66,7 @@ class AdditionalPropertiesObject(object):
         :type: str
         """
 
-        self._name = (
-            name)
+        self._name = name
 
     def to_dict(self):
         """Returns the model properties as a dict"""

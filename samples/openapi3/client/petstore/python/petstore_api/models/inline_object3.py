@@ -31,60 +31,41 @@ class InlineObject3(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'number': 'float',
-        'double': 'float',
-        'pattern_without_delimiter': 'str',
-        'byte': 'str',
         'integer': 'int',
         'int32': 'int',
         'int64': 'int',
+        'number': 'float',
         'float': 'float',
+        'double': 'float',
         'string': 'str',
+        'pattern_without_delimiter': 'str',
+        'byte': 'str',
         'binary': 'file',
         'date': 'date',
         'date_time': 'datetime',
         'password': 'str',
-        'callback': 'str',
+        'callback': 'str'
     }
 
     attribute_map = {
-        'number': 'number',  # noqa: E501
-        'double': 'double',  # noqa: E501
-        'pattern_without_delimiter': 'pattern_without_delimiter',  # noqa: E501
-        'byte': 'byte',  # noqa: E501
-        'integer': 'integer',  # noqa: E501
-        'int32': 'int32',  # noqa: E501
-        'int64': 'int64',  # noqa: E501
-        'float': 'float',  # noqa: E501
-        'string': 'string',  # noqa: E501
-        'binary': 'binary',  # noqa: E501
-        'date': 'date',  # noqa: E501
-        'date_time': 'dateTime',  # noqa: E501
-        'password': 'password',  # noqa: E501
-        'callback': 'callback',  # noqa: E501
+        'integer': 'integer',
+        'int32': 'int32',
+        'int64': 'int64',
+        'number': 'number',
+        'float': 'float',
+        'double': 'double',
+        'string': 'string',
+        'pattern_without_delimiter': 'pattern_without_delimiter',
+        'byte': 'byte',
+        'binary': 'binary',
+        'date': 'date',
+        'date_time': 'dateTime',
+        'password': 'password',
+        'callback': 'callback'
     }
 
-    def __init__(self, number, double, pattern_without_delimiter, byte, integer=None, int32=None, int64=None, float=None, string=None, binary=None, date=None, date_time=None, password=None, callback=None):  # noqa: E501
-        """InlineObject3 - a model defined in OpenAPI
-
-        Args:
-            number (float): None
-            double (float): None
-            pattern_without_delimiter (str): None
-            byte (str): None
-
-        Keyword Args:  # noqa: E501  # noqa: E501  # noqa: E501  # noqa: E501
-            integer (int): None. [optional]  # noqa: E501
-            int32 (int): None. [optional]  # noqa: E501
-            int64 (int): None. [optional]  # noqa: E501
-            float (float): None. [optional]  # noqa: E501
-            string (str): None. [optional]  # noqa: E501
-            binary (file): None. [optional]  # noqa: E501
-            date (date): None. [optional]  # noqa: E501
-            date_time (datetime): None. [optional]  # noqa: E501
-            password (str): None. [optional]  # noqa: E501
-            callback (str): None. [optional]  # noqa: E501
-        """
+    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, pattern_without_delimiter=None, byte=None, binary=None, date=None, date_time=None, password=None, callback=None):  # noqa: E501
+        """InlineObject3 - a model defined in OpenAPI"""  # noqa: E501
 
         self._integer = None
         self._int32 = None
@@ -103,29 +84,29 @@ class InlineObject3(object):
         self.discriminator = None
 
         if integer is not None:
-            self.integer = integer  # noqa: E501
+            self.integer = integer
         if int32 is not None:
-            self.int32 = int32  # noqa: E501
+            self.int32 = int32
         if int64 is not None:
-            self.int64 = int64  # noqa: E501
+            self.int64 = int64
         self.number = number
         if float is not None:
-            self.float = float  # noqa: E501
+            self.float = float
         self.double = double
         if string is not None:
-            self.string = string  # noqa: E501
+            self.string = string
         self.pattern_without_delimiter = pattern_without_delimiter
         self.byte = byte
         if binary is not None:
-            self.binary = binary  # noqa: E501
+            self.binary = binary
         if date is not None:
-            self.date = date  # noqa: E501
+            self.date = date
         if date_time is not None:
-            self.date_time = date_time  # noqa: E501
+            self.date_time = date_time
         if password is not None:
-            self.password = password  # noqa: E501
+            self.password = password
         if callback is not None:
-            self.callback = callback  # noqa: E501
+            self.callback = callback
 
     @property
     def integer(self):
@@ -139,9 +120,7 @@ class InlineObject3(object):
         return self._integer
 
     @integer.setter
-    def integer(
-            self,
-            integer):
+    def integer(self, integer):
         """Sets the integer of this InlineObject3.
 
         None  # noqa: E501
@@ -154,8 +133,7 @@ class InlineObject3(object):
         if integer is not None and integer < 10:  # noqa: E501
             raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
 
-        self._integer = (
-            integer)
+        self._integer = integer
 
     @property
     def int32(self):
@@ -169,9 +147,7 @@ class InlineObject3(object):
         return self._int32
 
     @int32.setter
-    def int32(
-            self,
-            int32):
+    def int32(self, int32):
         """Sets the int32 of this InlineObject3.
 
         None  # noqa: E501
@@ -184,8 +160,7 @@ class InlineObject3(object):
         if int32 is not None and int32 < 20:  # noqa: E501
             raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
 
-        self._int32 = (
-            int32)
+        self._int32 = int32
 
     @property
     def int64(self):
@@ -199,9 +174,7 @@ class InlineObject3(object):
         return self._int64
 
     @int64.setter
-    def int64(
-            self,
-            int64):
+    def int64(self, int64):
         """Sets the int64 of this InlineObject3.
 
         None  # noqa: E501
@@ -210,8 +183,7 @@ class InlineObject3(object):
         :type: int
         """
 
-        self._int64 = (
-            int64)
+        self._int64 = int64
 
     @property
     def number(self):
@@ -225,9 +197,7 @@ class InlineObject3(object):
         return self._number
 
     @number.setter
-    def number(
-            self,
-            number):
+    def number(self, number):
         """Sets the number of this InlineObject3.
 
         None  # noqa: E501
@@ -242,8 +212,7 @@ class InlineObject3(object):
         if number is not None and number < 32.1:  # noqa: E501
             raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
 
-        self._number = (
-            number)
+        self._number = number
 
     @property
     def float(self):
@@ -257,9 +226,7 @@ class InlineObject3(object):
         return self._float
 
     @float.setter
-    def float(
-            self,
-            float):
+    def float(self, float):
         """Sets the float of this InlineObject3.
 
         None  # noqa: E501
@@ -270,8 +237,7 @@ class InlineObject3(object):
         if float is not None and float > 987.6:  # noqa: E501
             raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
 
-        self._float = (
-            float)
+        self._float = float
 
     @property
     def double(self):
@@ -285,9 +251,7 @@ class InlineObject3(object):
         return self._double
 
     @double.setter
-    def double(
-            self,
-            double):
+    def double(self, double):
         """Sets the double of this InlineObject3.
 
         None  # noqa: E501
@@ -302,8 +266,7 @@ class InlineObject3(object):
         if double is not None and double < 67.8:  # noqa: E501
             raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
 
-        self._double = (
-            double)
+        self._double = double
 
     @property
     def string(self):
@@ -317,9 +280,7 @@ class InlineObject3(object):
         return self._string
 
     @string.setter
-    def string(
-            self,
-            string):
+    def string(self, string):
         """Sets the string of this InlineObject3.
 
         None  # noqa: E501
@@ -330,8 +291,7 @@ class InlineObject3(object):
         if string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE):  # noqa: E501
             raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
-        self._string = (
-            string)
+        self._string = string
 
     @property
     def pattern_without_delimiter(self):
@@ -345,9 +305,7 @@ class InlineObject3(object):
         return self._pattern_without_delimiter
 
     @pattern_without_delimiter.setter
-    def pattern_without_delimiter(
-            self,
-            pattern_without_delimiter):
+    def pattern_without_delimiter(self, pattern_without_delimiter):
         """Sets the pattern_without_delimiter of this InlineObject3.
 
         None  # noqa: E501
@@ -360,8 +318,7 @@ class InlineObject3(object):
         if pattern_without_delimiter is not None and not re.search(r'^[A-Z].*', pattern_without_delimiter):  # noqa: E501
             raise ValueError(r"Invalid value for `pattern_without_delimiter`, must be a follow pattern or equal to `/^[A-Z].*/`")  # noqa: E501
 
-        self._pattern_without_delimiter = (
-            pattern_without_delimiter)
+        self._pattern_without_delimiter = pattern_without_delimiter
 
     @property
     def byte(self):
@@ -375,9 +332,7 @@ class InlineObject3(object):
         return self._byte
 
     @byte.setter
-    def byte(
-            self,
-            byte):
+    def byte(self, byte):
         """Sets the byte of this InlineObject3.
 
         None  # noqa: E501
@@ -388,8 +343,7 @@ class InlineObject3(object):
         if byte is None:
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
 
-        self._byte = (
-            byte)
+        self._byte = byte
 
     @property
     def binary(self):
@@ -403,9 +357,7 @@ class InlineObject3(object):
         return self._binary
 
     @binary.setter
-    def binary(
-            self,
-            binary):
+    def binary(self, binary):
         """Sets the binary of this InlineObject3.
 
         None  # noqa: E501
@@ -414,8 +366,7 @@ class InlineObject3(object):
         :type: file
         """
 
-        self._binary = (
-            binary)
+        self._binary = binary
 
     @property
     def date(self):
@@ -429,9 +380,7 @@ class InlineObject3(object):
         return self._date
 
     @date.setter
-    def date(
-            self,
-            date):
+    def date(self, date):
         """Sets the date of this InlineObject3.
 
         None  # noqa: E501
@@ -440,8 +389,7 @@ class InlineObject3(object):
         :type: date
         """
 
-        self._date = (
-            date)
+        self._date = date
 
     @property
     def date_time(self):
@@ -455,9 +403,7 @@ class InlineObject3(object):
         return self._date_time
 
     @date_time.setter
-    def date_time(
-            self,
-            date_time):
+    def date_time(self, date_time):
         """Sets the date_time of this InlineObject3.
 
         None  # noqa: E501
@@ -466,8 +412,7 @@ class InlineObject3(object):
         :type: datetime
         """
 
-        self._date_time = (
-            date_time)
+        self._date_time = date_time
 
     @property
     def password(self):
@@ -481,9 +426,7 @@ class InlineObject3(object):
         return self._password
 
     @password.setter
-    def password(
-            self,
-            password):
+    def password(self, password):
         """Sets the password of this InlineObject3.
 
         None  # noqa: E501
@@ -496,8 +439,7 @@ class InlineObject3(object):
         if password is not None and len(password) < 10:
             raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
 
-        self._password = (
-            password)
+        self._password = password
 
     @property
     def callback(self):
@@ -511,9 +453,7 @@ class InlineObject3(object):
         return self._callback
 
     @callback.setter
-    def callback(
-            self,
-            callback):
+    def callback(self, callback):
         """Sets the callback of this InlineObject3.
 
         None  # noqa: E501
@@ -522,8 +462,7 @@ class InlineObject3(object):
         :type: str
         """
 
-        self._callback = (
-            callback)
+        self._callback = callback
 
     def to_dict(self):
         """Returns the model properties as a dict"""

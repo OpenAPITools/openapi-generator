@@ -36,31 +36,20 @@ class Order(object):
         'quantity': 'int',
         'ship_date': 'datetime',
         'status': 'str',
-        'complete': 'bool',
+        'complete': 'bool'
     }
 
     attribute_map = {
-        'id': 'id',  # noqa: E501
-        'pet_id': 'petId',  # noqa: E501
-        'quantity': 'quantity',  # noqa: E501
-        'ship_date': 'shipDate',  # noqa: E501
-        'status': 'status',  # noqa: E501
-        'complete': 'complete',  # noqa: E501
+        'id': 'id',
+        'pet_id': 'petId',
+        'quantity': 'quantity',
+        'ship_date': 'shipDate',
+        'status': 'status',
+        'complete': 'complete'
     }
 
-    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=None):  # noqa: E501
-        """Order - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            id (int): [optional]  # noqa: E501
-            pet_id (int): [optional]  # noqa: E501
-            quantity (int): [optional]  # noqa: E501
-            ship_date (datetime): [optional]  # noqa: E501
-            status (str): Order Status. [optional]  # noqa: E501
-            complete (bool): [optional] if omitted the server will use the default value of False  # noqa: E501
-        """
+    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=False):  # noqa: E501
+        """Order - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
         self._pet_id = None
@@ -71,17 +60,17 @@ class Order(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id  # noqa: E501
+            self.id = id
         if pet_id is not None:
-            self.pet_id = pet_id  # noqa: E501
+            self.pet_id = pet_id
         if quantity is not None:
-            self.quantity = quantity  # noqa: E501
+            self.quantity = quantity
         if ship_date is not None:
-            self.ship_date = ship_date  # noqa: E501
+            self.ship_date = ship_date
         if status is not None:
-            self.status = status  # noqa: E501
+            self.status = status
         if complete is not None:
-            self.complete = complete  # noqa: E501
+            self.complete = complete
 
     @property
     def id(self):
@@ -94,9 +83,7 @@ class Order(object):
         return self._id
 
     @id.setter
-    def id(
-            self,
-            id):
+    def id(self, id):
         """Sets the id of this Order.
 
 
@@ -104,8 +91,7 @@ class Order(object):
         :type: int
         """
 
-        self._id = (
-            id)
+        self._id = id
 
     @property
     def pet_id(self):
@@ -118,9 +104,7 @@ class Order(object):
         return self._pet_id
 
     @pet_id.setter
-    def pet_id(
-            self,
-            pet_id):
+    def pet_id(self, pet_id):
         """Sets the pet_id of this Order.
 
 
@@ -128,8 +112,7 @@ class Order(object):
         :type: int
         """
 
-        self._pet_id = (
-            pet_id)
+        self._pet_id = pet_id
 
     @property
     def quantity(self):
@@ -142,9 +125,7 @@ class Order(object):
         return self._quantity
 
     @quantity.setter
-    def quantity(
-            self,
-            quantity):
+    def quantity(self, quantity):
         """Sets the quantity of this Order.
 
 
@@ -152,8 +133,7 @@ class Order(object):
         :type: int
         """
 
-        self._quantity = (
-            quantity)
+        self._quantity = quantity
 
     @property
     def ship_date(self):
@@ -166,9 +146,7 @@ class Order(object):
         return self._ship_date
 
     @ship_date.setter
-    def ship_date(
-            self,
-            ship_date):
+    def ship_date(self, ship_date):
         """Sets the ship_date of this Order.
 
 
@@ -176,8 +154,7 @@ class Order(object):
         :type: datetime
         """
 
-        self._ship_date = (
-            ship_date)
+        self._ship_date = ship_date
 
     @property
     def status(self):
@@ -191,9 +168,7 @@ class Order(object):
         return self._status
 
     @status.setter
-    def status(
-            self,
-            status):
+    def status(self, status):
         """Sets the status of this Order.
 
         Order Status  # noqa: E501
@@ -208,8 +183,7 @@ class Order(object):
                 .format(status, allowed_values)
             )
 
-        self._status = (
-            status)
+        self._status = status
 
     @property
     def complete(self):
@@ -222,9 +196,7 @@ class Order(object):
         return self._complete
 
     @complete.setter
-    def complete(
-            self,
-            complete):
+    def complete(self, complete):
         """Sets the complete of this Order.
 
 
@@ -232,8 +204,7 @@ class Order(object):
         :type: bool
         """
 
-        self._complete = (
-            complete)
+        self._complete = complete
 
     def to_dict(self):
         """Returns the model properties as a dict"""

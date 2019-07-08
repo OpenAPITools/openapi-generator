@@ -36,31 +36,20 @@ class Capitalization(object):
         'small_snake': 'str',
         'capital_snake': 'str',
         'sca_eth_flow_points': 'str',
-        'att_name': 'str',
+        'att_name': 'str'
     }
 
     attribute_map = {
-        'small_camel': 'smallCamel',  # noqa: E501
-        'capital_camel': 'CapitalCamel',  # noqa: E501
-        'small_snake': 'small_Snake',  # noqa: E501
-        'capital_snake': 'Capital_Snake',  # noqa: E501
-        'sca_eth_flow_points': 'SCA_ETH_Flow_Points',  # noqa: E501
-        'att_name': 'ATT_NAME',  # noqa: E501
+        'small_camel': 'smallCamel',
+        'capital_camel': 'CapitalCamel',
+        'small_snake': 'small_Snake',
+        'capital_snake': 'Capital_Snake',
+        'sca_eth_flow_points': 'SCA_ETH_Flow_Points',
+        'att_name': 'ATT_NAME'
     }
 
     def __init__(self, small_camel=None, capital_camel=None, small_snake=None, capital_snake=None, sca_eth_flow_points=None, att_name=None):  # noqa: E501
-        """Capitalization - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            small_camel (str): [optional]  # noqa: E501
-            capital_camel (str): [optional]  # noqa: E501
-            small_snake (str): [optional]  # noqa: E501
-            capital_snake (str): [optional]  # noqa: E501
-            sca_eth_flow_points (str): [optional]  # noqa: E501
-            att_name (str): Name of the pet . [optional]  # noqa: E501
-        """
+        """Capitalization - a model defined in OpenAPI"""  # noqa: E501
 
         self._small_camel = None
         self._capital_camel = None
@@ -71,17 +60,17 @@ class Capitalization(object):
         self.discriminator = None
 
         if small_camel is not None:
-            self.small_camel = small_camel  # noqa: E501
+            self.small_camel = small_camel
         if capital_camel is not None:
-            self.capital_camel = capital_camel  # noqa: E501
+            self.capital_camel = capital_camel
         if small_snake is not None:
-            self.small_snake = small_snake  # noqa: E501
+            self.small_snake = small_snake
         if capital_snake is not None:
-            self.capital_snake = capital_snake  # noqa: E501
+            self.capital_snake = capital_snake
         if sca_eth_flow_points is not None:
-            self.sca_eth_flow_points = sca_eth_flow_points  # noqa: E501
+            self.sca_eth_flow_points = sca_eth_flow_points
         if att_name is not None:
-            self.att_name = att_name  # noqa: E501
+            self.att_name = att_name
 
     @property
     def small_camel(self):
@@ -94,9 +83,7 @@ class Capitalization(object):
         return self._small_camel
 
     @small_camel.setter
-    def small_camel(
-            self,
-            small_camel):
+    def small_camel(self, small_camel):
         """Sets the small_camel of this Capitalization.
 
 
@@ -104,8 +91,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._small_camel = (
-            small_camel)
+        self._small_camel = small_camel
 
     @property
     def capital_camel(self):
@@ -118,9 +104,7 @@ class Capitalization(object):
         return self._capital_camel
 
     @capital_camel.setter
-    def capital_camel(
-            self,
-            capital_camel):
+    def capital_camel(self, capital_camel):
         """Sets the capital_camel of this Capitalization.
 
 
@@ -128,8 +112,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._capital_camel = (
-            capital_camel)
+        self._capital_camel = capital_camel
 
     @property
     def small_snake(self):
@@ -142,9 +125,7 @@ class Capitalization(object):
         return self._small_snake
 
     @small_snake.setter
-    def small_snake(
-            self,
-            small_snake):
+    def small_snake(self, small_snake):
         """Sets the small_snake of this Capitalization.
 
 
@@ -152,8 +133,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._small_snake = (
-            small_snake)
+        self._small_snake = small_snake
 
     @property
     def capital_snake(self):
@@ -166,9 +146,7 @@ class Capitalization(object):
         return self._capital_snake
 
     @capital_snake.setter
-    def capital_snake(
-            self,
-            capital_snake):
+    def capital_snake(self, capital_snake):
         """Sets the capital_snake of this Capitalization.
 
 
@@ -176,8 +154,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._capital_snake = (
-            capital_snake)
+        self._capital_snake = capital_snake
 
     @property
     def sca_eth_flow_points(self):
@@ -190,9 +167,7 @@ class Capitalization(object):
         return self._sca_eth_flow_points
 
     @sca_eth_flow_points.setter
-    def sca_eth_flow_points(
-            self,
-            sca_eth_flow_points):
+    def sca_eth_flow_points(self, sca_eth_flow_points):
         """Sets the sca_eth_flow_points of this Capitalization.
 
 
@@ -200,8 +175,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._sca_eth_flow_points = (
-            sca_eth_flow_points)
+        self._sca_eth_flow_points = sca_eth_flow_points
 
     @property
     def att_name(self):
@@ -215,9 +189,7 @@ class Capitalization(object):
         return self._att_name
 
     @att_name.setter
-    def att_name(
-            self,
-            att_name):
+    def att_name(self, att_name):
         """Sets the att_name of this Capitalization.
 
         Name of the pet   # noqa: E501
@@ -226,8 +198,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._att_name = (
-            att_name)
+        self._att_name = att_name
 
     def to_dict(self):
         """Returns the model properties as a dict"""

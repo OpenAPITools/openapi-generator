@@ -32,32 +32,25 @@ class HasOnlyReadOnly(object):
     """
     openapi_types = {
         'bar': 'str',
-        'foo': 'str',
+        'foo': 'str'
     }
 
     attribute_map = {
-        'bar': 'bar',  # noqa: E501
-        'foo': 'foo',  # noqa: E501
+        'bar': 'bar',
+        'foo': 'foo'
     }
 
     def __init__(self, bar=None, foo=None):  # noqa: E501
-        """HasOnlyReadOnly - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            bar (str): [optional]  # noqa: E501
-            foo (str): [optional]  # noqa: E501
-        """
+        """HasOnlyReadOnly - a model defined in OpenAPI"""  # noqa: E501
 
         self._bar = None
         self._foo = None
         self.discriminator = None
 
         if bar is not None:
-            self.bar = bar  # noqa: E501
+            self.bar = bar
         if foo is not None:
-            self.foo = foo  # noqa: E501
+            self.foo = foo
 
     @property
     def bar(self):
@@ -70,9 +63,7 @@ class HasOnlyReadOnly(object):
         return self._bar
 
     @bar.setter
-    def bar(
-            self,
-            bar):
+    def bar(self, bar):
         """Sets the bar of this HasOnlyReadOnly.
 
 
@@ -80,8 +71,7 @@ class HasOnlyReadOnly(object):
         :type: str
         """
 
-        self._bar = (
-            bar)
+        self._bar = bar
 
     @property
     def foo(self):
@@ -94,9 +84,7 @@ class HasOnlyReadOnly(object):
         return self._foo
 
     @foo.setter
-    def foo(
-            self,
-            foo):
+    def foo(self, foo):
         """Sets the foo of this HasOnlyReadOnly.
 
 
@@ -104,8 +92,7 @@ class HasOnlyReadOnly(object):
         :type: str
         """
 
-        self._foo = (
-            foo)
+        self._foo = foo
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -33,25 +33,17 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
     openapi_types = {
         'uuid': 'str',
         'date_time': 'datetime',
-        'map': 'dict(str, Animal)',
+        'map': 'dict(str, Animal)'
     }
 
     attribute_map = {
-        'uuid': 'uuid',  # noqa: E501
-        'date_time': 'dateTime',  # noqa: E501
-        'map': 'map',  # noqa: E501
+        'uuid': 'uuid',
+        'date_time': 'dateTime',
+        'map': 'map'
     }
 
     def __init__(self, uuid=None, date_time=None, map=None):  # noqa: E501
-        """MixedPropertiesAndAdditionalPropertiesClass - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            uuid (str): [optional]  # noqa: E501
-            date_time (datetime): [optional]  # noqa: E501
-            map (dict(str, Animal)): [optional]  # noqa: E501
-        """
+        """MixedPropertiesAndAdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
 
         self._uuid = None
         self._date_time = None
@@ -59,11 +51,11 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         self.discriminator = None
 
         if uuid is not None:
-            self.uuid = uuid  # noqa: E501
+            self.uuid = uuid
         if date_time is not None:
-            self.date_time = date_time  # noqa: E501
+            self.date_time = date_time
         if map is not None:
-            self.map = map  # noqa: E501
+            self.map = map
 
     @property
     def uuid(self):
@@ -76,9 +68,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         return self._uuid
 
     @uuid.setter
-    def uuid(
-            self,
-            uuid):
+    def uuid(self, uuid):
         """Sets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
@@ -86,8 +76,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         :type: str
         """
 
-        self._uuid = (
-            uuid)
+        self._uuid = uuid
 
     @property
     def date_time(self):
@@ -100,9 +89,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         return self._date_time
 
     @date_time.setter
-    def date_time(
-            self,
-            date_time):
+    def date_time(self, date_time):
         """Sets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
@@ -110,8 +97,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         :type: datetime
         """
 
-        self._date_time = (
-            date_time)
+        self._date_time = date_time
 
     @property
     def map(self):
@@ -124,9 +110,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         return self._map
 
     @map.setter
-    def map(
-            self,
-            map):
+    def map(self, map):
         """Sets the map of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
@@ -134,8 +118,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         :type: dict(str, Animal)
         """
 
-        self._map = (
-            map)
+        self._map = map
 
     def to_dict(self):
         """Returns the model properties as a dict"""

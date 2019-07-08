@@ -32,32 +32,25 @@ class AdditionalPropertiesClass(object):
     """
     openapi_types = {
         'map_property': 'dict(str, str)',
-        'map_of_map_property': 'dict(str, dict(str, str))',
+        'map_of_map_property': 'dict(str, dict(str, str))'
     }
 
     attribute_map = {
-        'map_property': 'map_property',  # noqa: E501
-        'map_of_map_property': 'map_of_map_property',  # noqa: E501
+        'map_property': 'map_property',
+        'map_of_map_property': 'map_of_map_property'
     }
 
     def __init__(self, map_property=None, map_of_map_property=None):  # noqa: E501
-        """AdditionalPropertiesClass - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            map_property (dict(str, str)): [optional]  # noqa: E501
-            map_of_map_property (dict(str, dict(str, str))): [optional]  # noqa: E501
-        """
+        """AdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
 
         self._map_property = None
         self._map_of_map_property = None
         self.discriminator = None
 
         if map_property is not None:
-            self.map_property = map_property  # noqa: E501
+            self.map_property = map_property
         if map_of_map_property is not None:
-            self.map_of_map_property = map_of_map_property  # noqa: E501
+            self.map_of_map_property = map_of_map_property
 
     @property
     def map_property(self):
@@ -70,9 +63,7 @@ class AdditionalPropertiesClass(object):
         return self._map_property
 
     @map_property.setter
-    def map_property(
-            self,
-            map_property):
+    def map_property(self, map_property):
         """Sets the map_property of this AdditionalPropertiesClass.
 
 
@@ -80,8 +71,7 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, str)
         """
 
-        self._map_property = (
-            map_property)
+        self._map_property = map_property
 
     @property
     def map_of_map_property(self):
@@ -94,9 +84,7 @@ class AdditionalPropertiesClass(object):
         return self._map_of_map_property
 
     @map_of_map_property.setter
-    def map_of_map_property(
-            self,
-            map_of_map_property):
+    def map_of_map_property(self, map_of_map_property):
         """Sets the map_of_map_property of this AdditionalPropertiesClass.
 
 
@@ -104,8 +92,7 @@ class AdditionalPropertiesClass(object):
         :type: dict(str, dict(str, str))
         """
 
-        self._map_of_map_property = (
-            map_of_map_property)
+        self._map_of_map_property = map_of_map_property
 
     def to_dict(self):
         """Returns the model properties as a dict"""

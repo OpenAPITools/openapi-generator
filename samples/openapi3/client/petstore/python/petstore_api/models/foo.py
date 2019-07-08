@@ -31,27 +31,21 @@ class Foo(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'bar': 'str',
+        'bar': 'str'
     }
 
     attribute_map = {
-        'bar': 'bar',  # noqa: E501
+        'bar': 'bar'
     }
 
-    def __init__(self, bar=None):  # noqa: E501
-        """Foo - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            bar (str): [optional] if omitted the server will use the default value of 'bar'  # noqa: E501
-        """
+    def __init__(self, bar='bar'):  # noqa: E501
+        """Foo - a model defined in OpenAPI"""  # noqa: E501
 
         self._bar = None
         self.discriminator = None
 
         if bar is not None:
-            self.bar = bar  # noqa: E501
+            self.bar = bar
 
     @property
     def bar(self):
@@ -64,9 +58,7 @@ class Foo(object):
         return self._bar
 
     @bar.setter
-    def bar(
-            self,
-            bar):
+    def bar(self, bar):
         """Sets the bar of this Foo.
 
 
@@ -74,8 +66,7 @@ class Foo(object):
         :type: str
         """
 
-        self._bar = (
-            bar)
+        self._bar = bar
 
     def to_dict(self):
         """Returns the model properties as a dict"""

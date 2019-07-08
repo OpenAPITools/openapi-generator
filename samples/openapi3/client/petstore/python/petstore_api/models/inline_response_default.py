@@ -31,27 +31,21 @@ class InlineResponseDefault(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'string': 'Foo',
+        'string': 'Foo'
     }
 
     attribute_map = {
-        'string': 'string',  # noqa: E501
+        'string': 'string'
     }
 
     def __init__(self, string=None):  # noqa: E501
-        """InlineResponseDefault - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            string (Foo): [optional]  # noqa: E501
-        """
+        """InlineResponseDefault - a model defined in OpenAPI"""  # noqa: E501
 
         self._string = None
         self.discriminator = None
 
         if string is not None:
-            self.string = string  # noqa: E501
+            self.string = string
 
     @property
     def string(self):
@@ -64,9 +58,7 @@ class InlineResponseDefault(object):
         return self._string
 
     @string.setter
-    def string(
-            self,
-            string):
+    def string(self, string):
         """Sets the string of this InlineResponseDefault.
 
 
@@ -74,8 +66,7 @@ class InlineResponseDefault(object):
         :type: Foo
         """
 
-        self._string = (
-            string)
+        self._string = string
 
     def to_dict(self):
         """Returns the model properties as a dict"""

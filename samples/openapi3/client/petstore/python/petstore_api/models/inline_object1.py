@@ -32,32 +32,25 @@ class InlineObject1(object):
     """
     openapi_types = {
         'additional_metadata': 'str',
-        'file': 'file',
+        'file': 'file'
     }
 
     attribute_map = {
-        'additional_metadata': 'additionalMetadata',  # noqa: E501
-        'file': 'file',  # noqa: E501
+        'additional_metadata': 'additionalMetadata',
+        'file': 'file'
     }
 
     def __init__(self, additional_metadata=None, file=None):  # noqa: E501
-        """InlineObject1 - a model defined in OpenAPI
-
-
-
-        Keyword Args:
-            additional_metadata (str): Additional data to pass to server. [optional]  # noqa: E501
-            file (file): file to upload. [optional]  # noqa: E501
-        """
+        """InlineObject1 - a model defined in OpenAPI"""  # noqa: E501
 
         self._additional_metadata = None
         self._file = None
         self.discriminator = None
 
         if additional_metadata is not None:
-            self.additional_metadata = additional_metadata  # noqa: E501
+            self.additional_metadata = additional_metadata
         if file is not None:
-            self.file = file  # noqa: E501
+            self.file = file
 
     @property
     def additional_metadata(self):
@@ -71,9 +64,7 @@ class InlineObject1(object):
         return self._additional_metadata
 
     @additional_metadata.setter
-    def additional_metadata(
-            self,
-            additional_metadata):
+    def additional_metadata(self, additional_metadata):
         """Sets the additional_metadata of this InlineObject1.
 
         Additional data to pass to server  # noqa: E501
@@ -82,8 +73,7 @@ class InlineObject1(object):
         :type: str
         """
 
-        self._additional_metadata = (
-            additional_metadata)
+        self._additional_metadata = additional_metadata
 
     @property
     def file(self):
@@ -97,9 +87,7 @@ class InlineObject1(object):
         return self._file
 
     @file.setter
-    def file(
-            self,
-            file):
+    def file(self, file):
         """Sets the file of this InlineObject1.
 
         file to upload  # noqa: E501
@@ -108,8 +96,7 @@ class InlineObject1(object):
         :type: file
         """
 
-        self._file = (
-            file)
+        self._file = file
 
     def to_dict(self):
         """Returns the model properties as a dict"""
