@@ -27,6 +27,8 @@ import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +55,10 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
     public NodeJSExpressServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+            .stability(Stability.BETA)
+            .build();
 
         outputFolder = "generated-code/nodejs-express-server";
         embeddedTemplateDir = templateDir = "nodejs-express-server";
@@ -140,7 +146,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
      */
     @Override
     public String getHelp() {
-        return "Generates a NodeJS Express server (beta).";
+        return "Generates a NodeJS Express server (beta and may subject to breaking changes without further notice).";
     }
 
     @Override
