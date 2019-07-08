@@ -2,16 +2,18 @@
 const Service = require('./Service');
 
 class PetService {
+
   /**
-   *  Add a new pet to the store
-   * @param body
-   * @returns {Promise<any>}
-   */
-  static addPet({ body }) {
+   * Add a new pet to the store
+   *
+   * body Pet Pet object that needs to be added to the store
+   * no response value expected for this operation
+   **/
+  static.addPet({ body }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -22,225 +24,161 @@ class PetService {
     );
   }
 
-  static updatePet({ body }) {
-    return new Promise(
-      async (resolve) => {
-        try {
-          resolve(Service.successResponse(body));
-        } catch (e) {
-          resolve(Service.rejectResponse(
-            'Invalid ID supplied',
-            400,
-          ));
-        }
-      },
-    );
-  }
-
   /**
-   * Multiple status values can be provided with comma separated strings
-   * @param status
-   * @returns {Promise<any>}
-   */
-  static findPetsByStatus({ status }) {
-    return new Promise(
-      async (resolve) => {
-        try {
-          resolve([
-            {
-              photoUrls: ['photoUrls_1', 'photoUrls_2'],
-              name: 'dog_0',
-              id: 0,
-              category: {
-                name: 'category',
-                id: 1,
-              },
-              tags: [{
-                name: 'tag_1',
-                id: 1,
-              }, {
-                name: 'tag_2',
-                id: 2,
-              }],
-              status: 'available',
-            },
-            {
-              photoUrls: ['photoUrls_1', 'photoUrls_2'],
-              name: 'dog_1',
-              id: 1,
-              category: {
-                name: 'category',
-                id: 1,
-              },
-              tags: [{
-                name: 'tags_1',
-                id: 1,
-              }, {
-                name: 'tags_2',
-                id: 2,
-              }],
-              status: 'available',
-            }], 200);
-        } catch (e) {
-          resolve(
-            Service.rejectResponse(
-              e.getMessage() || 'Invalid status value',
-              400,
-            ),
-          );
-        }
-      },
-    );
-  }
-
-  /**
-   * Multiple tags can be provided with comma separated strings. Use
-   tag1, tag2, tag3 for testing.
-   * @param tags
-   * @returns {Promise<any>}
-   */
-  static findPetsByTags({ tags }) {
-    return new Promise(
-      async (resolve) => {
-        try {
-          resolve(Service.successResponse(
-            [
-              {
-                photoUrls: ['photoUrls_1', 'photoUrls_2'],
-                name: 'dog_0',
-                id: 0,
-                category: {
-                  name: 'category',
-                  id: 1,
-                },
-                tags: [{
-                  name: 'tag_1',
-                  id: 1,
-                }, {
-                  name: 'tag_2',
-                  id: 2,
-                }],
-                status: 'available',
-              },
-              {
-                photoUrls: ['photoUrls_1', 'photoUrls_2'],
-                name: 'dog_1',
-                id: 1,
-                category: {
-                  name: 'category',
-                  id: 1,
-                },
-                tags: [{
-                  name: 'tags_1',
-                  id: 1,
-                }, {
-                  name: 'tags_2',
-                  id: 2,
-                }],
-                status: 'available',
-              },
-            ], 200,
-          ));
-        } catch (e) {
-          resolve(
-            Service.rejectResponse(
-              'Invalid tag value',
-              400,
-            ),
-          );
-        }
-      },
-    );
-  }
-
-  static deletePet({ apiKey, petId }) {
-    return new Promise(
-      async (resolve) => {
-        try {
-          resolve(Service.successResponse(`success. apiKey ${apiKey}, petId: ${petId}`));
-        } catch (err) {
-          resolve(Service.rejectResponse('Invalid pet value', 400));
-        }
-      },
-    );
-  }
-
-
-  /**
-   * Returns a single pet
-   * @param petId
-   * @returns {Promise<any>}
-   */
-  static getPetById({ petId }) {
-    return new Promise(
-      async (resolve) => {
-        try {
-          resolve({
-            photoUrls: ['photoUrls_1', 'photoUrls_2'],
-            name: 'dog_0',
-            id: 0,
-            category: {
-              name: 'category',
-              id: 1,
-            },
-            tags: [{
-              name: 'tag_1',
-              id: 1,
-            }, {
-              name: 'tag_2',
-              id: 2,
-            }],
-            status: 'available',
-          }, 200);
-        } catch (e) {
-          resolve(Service.rejectResponse(e.getMessage() || 'Invalid ID supplied', 400));
-        }
-      },
-    );
-  }
-
-  /**
+   * Deletes a pet
    *
-   * @param petId -- ID of pet that needs to be updated -- required
-   * @param body
-   * @returns {Promise<any>}
-   */
-  static updatePetWithForm({ petId, body }) {
+   * petId Long Pet id to delete
+   * apiUnderscorekey String  (optional)
+   * no response value expected for this operation
+   **/
+  static.deletePet({ petId,apiUnderscorekey }) {
     return new Promise(
-      (resolve) => {
+      async (resolve) => {
         try {
           resolve(Service.successResponse(''));
         } catch (e) {
-          resolve(Service.rejectResponse('Invalid input', 405));
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
         }
       },
     );
   }
 
   /**
+   * Finds Pets by status
+   * Multiple status values can be provided with comma separated strings
    *
-   * @param petId --  ID of pet to update
-   * @param body -- additionalMetadata, file
-   * @returns {Promise<any>}
-   */
-  static uploadFile({ petId, body }) {
+   * status List Status values that need to be considered for filter
+   * returns List
+   **/
+  static.findPetsByStatus({ status }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(
-            {
-              code: 0,
-              type: 'type',
-              message: 'message',
-            },
-            200,
-          ));
+          resolve(Service.successResponse(''));
         } catch (e) {
-          resolve(Service.rejectResponse(''));
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
         }
       },
     );
   }
+
+  /**
+   * Finds Pets by tags
+   * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+   *
+   * tags List Tags to filter by
+   * returns List
+   **/
+  static.findPetsByTags({ tags }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(''));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
+
+  /**
+   * Find pet by ID
+   * Returns a single pet
+   *
+   * petId Long ID of pet to return
+   * returns Pet
+   **/
+  static.getPetById({ petId }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(''));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
+
+  /**
+   * Update an existing pet
+   *
+   * body Pet Pet object that needs to be added to the store
+   * no response value expected for this operation
+   **/
+  static.updatePet({ body }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(''));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
+
+  /**
+   * Updates a pet in the store with form data
+   *
+   * petId Long ID of pet that needs to be updated
+   * name String Updated name of the pet (optional)
+   * status String Updated status of the pet (optional)
+   * no response value expected for this operation
+   **/
+  static.updatePetWithForm({ petId,name,status }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(''));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
+
+  /**
+   * uploads an image
+   *
+   * petId Long ID of pet to update
+   * additionalMetadata String Additional data to pass to server (optional)
+   * file File file to upload (optional)
+   * returns ApiResponse
+   **/
+  static.uploadFile({ petId,additionalMetadata,file }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(''));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
+
 }
 
 module.exports = PetService;

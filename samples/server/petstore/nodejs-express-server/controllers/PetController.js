@@ -1,9 +1,8 @@
 const Controller = require('./Controller');
 
-class Pet {
+class PetController {
   constructor(Service) {
     this.service = Service;
-  }
 
   async addPet(request, response) {
     await Controller.handleRequest(request, response, this.service.addPet);
@@ -36,6 +35,7 @@ class Pet {
   async uploadFile(request, response) {
     await Controller.handleRequest(request, response, this.service.uploadFile);
   }
+
 }
 
 module.exports = Pet;

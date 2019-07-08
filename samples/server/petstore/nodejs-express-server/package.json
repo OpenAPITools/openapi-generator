@@ -8,7 +8,7 @@
     "start": "node index.js"
   },
   "keywords": [
-    "openapi-tools"
+    "openapi-generator", "openapi"
   ],
   "license": "Unlicense",
   "private": true,

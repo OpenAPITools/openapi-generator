@@ -1,21 +1,17 @@
-'use strict';
+const Controller = require('./Controller');
 
-var utils = require('../utils/writer.js');
+class {{{classname}}}Controller {
+  constructor(Service) {
+    this.service = Service;
+
 {{#operations}}
-var {{classname}} = require('../{{implFolder}}/{{classname}}Service');
 {{#operation}}
+  async {{operationId}}(request, response) {
+    await Controller.handleRequest(request, response, this.service.{{operationId}});
+  }
 
-module.exports.{{nickname}} = function {{nickname}} (req, res, next) {
-  {{#allParams}}
-  var {{paramName}} = req.swagger.params['{{baseName}}'].value;
-  {{/allParams}}
-  {{classname}}.{{nickname}}({{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}})
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
 {{/operation}}
+}
+
+module.exports = {{classname}};
 {{/operations}}

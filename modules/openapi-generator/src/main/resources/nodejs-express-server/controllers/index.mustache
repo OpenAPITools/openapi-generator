@@ -1,0 +1,27 @@
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+{{#-first}}
+const {{classname}}Controller = require('./{{classname}}Controller');
+{{/-first}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+const TestController = require('./TestController');
+
+module.exports = {
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+  {{#-first}}
+  {{classname}}Controller,
+  {{/-first}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+  TestController,
+};

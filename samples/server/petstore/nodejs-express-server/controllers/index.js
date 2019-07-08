@@ -1,11 +1,11 @@
-const Pet = require('./Pet');
-const Store = require('./Store');
-const User = require('./User');
-const Test = require('./Test');
+const PetController = require('./PetController');
+const StoreController = require('./StoreController');
+const UserController = require('./UserController');
+const TestController = require('./TestController');
 
 module.exports = {
-  Pet,
-  Store,
-  User,
-  Test,
+  PetController,
+  StoreController,
+  UserController,
+  TestController,
 };

@@ -1,4 +1,4 @@
-openapi:  3.0.1
+openapi: 3.0.1
 info:
   description: This is a sample server Petstore server. For this sample, you can use
     the api key `special-key` to test the authorization filters.
@@ -8,7 +8,7 @@ info:
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
-- url: http://localhost:3000/v2
+- url: http://petstore.swagger.io/v2
 tags:
 - description: Everything about your Pets
   name: pet
@@ -41,7 +41,9 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-openapi-router-controller: Pet
+      x-codegen-request-body-name: body
+      x-openapi-router-controller: PetController
+      x-openapi-router-service: PetService
     put:
       operationId: updatePet
       requestBody:
@@ -71,7 +73,9 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-openapi-router-controller: Pet
+      x-codegen-request-body-name: body
+      x-openapi-router-controller: PetController
+      x-openapi-router-service: PetService
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -116,7 +120,8 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-openapi-router-controller: Pet
+      x-openapi-router-controller: PetController
+      x-openapi-router-service: PetService
   /pet/findByTags:
     get:
       deprecated: true
@@ -158,7 +163,8 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-openapi-router-controller: Pet
+      x-openapi-router-controller: PetController
+      x-openapi-router-service: PetService
   /pet/{petId}:
     delete:
       operationId: deletePet
@@ -185,7 +191,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-openapi-router-controller: Pet
+      x-openapi-router-controller: PetController
+      x-openapi-router-service: PetService
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -218,7 +225,8 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-openapi-router-controller: Pet
+      x-openapi-router-controller: PetController
+      x-openapi-router-service: PetService
     post:
       operationId: updatePetWithForm
       parameters:
@@ -251,7 +259,8 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
-      x-openapi-router-controller: Pet
+      x-openapi-router-controller: PetController
+      x-openapi-router-service: PetService
   /pet/{petId}/uploadImage:
     post:
       operationId: uploadFile
@@ -289,7 +298,8 @@ paths:
       summary: uploads an image
       tags:
       - pet
-      x-openapi-router-controller: Pet
+      x-openapi-router-controller: PetController
+      x-openapi-router-service: PetService
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -309,7 +319,8 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-openapi-router-controller: Store
+      x-openapi-router-controller: StoreController
+      x-openapi-router-service: StoreService
   /store/order:
     post:
       operationId: placeOrder
@@ -337,7 +348,8 @@ paths:
       tags:
       - store
       x-codegen-request-body-name: body
-      x-openapi-router-controller: Store
+      x-openapi-router-controller: StoreController
+      x-openapi-router-service: StoreService
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -360,7 +372,8 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-openapi-router-controller: Store
+      x-openapi-router-controller: StoreController
+      x-openapi-router-service: StoreService
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
         values will generated exceptions
@@ -394,7 +407,8 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-openapi-router-controller: Store
+      x-openapi-router-controller: StoreController
+      x-openapi-router-service: StoreService
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -414,7 +428,8 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
-      x-openapi-router-controller: User
+      x-openapi-router-controller: UserController
+      x-openapi-router-service: UserService
   /user/createWithArray:
     post:
       operationId: createUsersWithArrayInput
@@ -435,7 +450,8 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
-      x-openapi-router-controller: User
+      x-openapi-router-controller: UserController
+      x-openapi-router-service: UserService
   /user/createWithList:
     post:
       operationId: createUsersWithListInput
@@ -456,7 +472,8 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
-      x-openapi-router-controller: User
+      x-openapi-router-controller: UserController
+      x-openapi-router-service: UserService
   /user/login:
     get:
       operationId: loginUser
@@ -500,7 +517,8 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-openapi-router-controller: User
+      x-openapi-router-controller: UserController
+      x-openapi-router-service: UserService
   /user/logout:
     get:
       operationId: logoutUser
@@ -511,7 +529,8 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-openapi-router-controller: User
+      x-openapi-router-controller: UserController
+      x-openapi-router-service: UserService
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -533,7 +552,8 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-openapi-router-controller: User
+      x-openapi-router-controller: UserController
+      x-openapi-router-service: UserService
     get:
       operationId: getUserByName
       parameters:
@@ -562,7 +582,8 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-openapi-router-controller: User
+      x-openapi-router-controller: UserController
+      x-openapi-router-service: UserService
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -591,7 +612,8 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
-      x-openapi-router-controller: User
+      x-openapi-router-controller: UserController
+      x-openapi-router-service: UserService
 components:
   schemas:
     Order:
@@ -769,7 +791,7 @@ components:
     petstore_auth:
       flows:
         implicit:
-          authorizationUrl: "https://dev-510693.oktapreview.com/oauth2/auslj77udsWHzNaam0h7/v1/authorize"
+          authorizationUrl: http://petstore.swagger.io/api/oauth/dialog
           scopes:
             write:pets: modify pets in your account
             read:pets: read your pets

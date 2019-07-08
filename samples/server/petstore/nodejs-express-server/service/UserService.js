@@ -1,85 +1,180 @@
+/* eslint-disable no-unused-vars */
 const Service = require('./Service');
 
 class UserService {
-  static loginUser({ username, password }) {
+
+  /**
+   * Create user
+   * This can only be done by the logged in user.
+   *
+   * body User Created user object
+   * no response value expected for this operation
+   **/
+  static.createUser({ body }) {
     return new Promise(
       async (resolve) => {
         try {
-          if (username !== undefined && password !== undefined) {
-            resolve(Service.successResponse({ string: 'String' }));
-          } else {
-            resolve(Service.rejectResponse('Wrong username/password', 400));
-          }
+          resolve(Service.successResponse(''));
         } catch (e) {
-          resolve(Service.rejectResponse(e.message));
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
         }
       },
     );
   }
 
-  static logoutUser() {
+  /**
+   * Creates list of users with given input array
+   *
+   * body List List of user object
+   * no response value expected for this operation
+   **/
+  static.createUsersWithArrayInput({ body }) {
     return new Promise(
-      (resolve) => {
+      async (resolve) => {
         try {
-          resolve(Service.successResponse('logout user'));
+          resolve(Service.successResponse(''));
         } catch (e) {
-          resolve(Service.rejectResponse(e.message));
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
         }
       },
     );
   }
 
-  static deleteUser({ username }) {
+  /**
+   * Creates list of users with given input array
+   *
+   * body List List of user object
+   * no response value expected for this operation
+   **/
+  static.createUsersWithListInput({ body }) {
     return new Promise(
-      (resolve) => {
+      async (resolve) => {
         try {
-          if (username !== undefined) {
-            resolve(Service.successResponse('deleteUser'));
-          } else {
-            resolve(Service.rejectResponse('Invalid username supplied', 400));
-          }
+          resolve(Service.successResponse(''));
         } catch (e) {
-          resolve(Service.rejectResponse(e.message));
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
         }
       },
     );
   }
 
-  static getUserByName({ username }) {
+  /**
+   * Delete user
+   * This can only be done by the logged in user.
+   *
+   * username String The name that needs to be deleted
+   * no response value expected for this operation
+   **/
+  static.deleteUser({ username }) {
     return new Promise(
-      (resolve) => {
+      async (resolve) => {
         try {
-          resolve(Service.successResponse({
-            id: 1,
-            username,
-            firstName: 'firstName',
-            lastName: 'lastName',
-            email: 'email',
-            phone: '213-456-7890',
-            userStatus: 1,
-          }));
+          resolve(Service.successResponse(''));
         } catch (e) {
-          resolve(Service.rejectResponse(e.message));
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
         }
       },
     );
   }
 
-  static updateUser({ username, user }) {
+  /**
+   * Get user by user name
+   *
+   * username String The name that needs to be fetched. Use user1 for testing.
+   * returns User
+   **/
+  static.getUserByName({ username }) {
     return new Promise(
-      (resolve) => {
+      async (resolve) => {
         try {
-          if (user.username === username) {
-            resolve(Service.successResponse(user));
-          } else {
-            resolve(Service.successResponse({}));
-          }
+          resolve(Service.successResponse(''));
         } catch (e) {
-          resolve(Service.rejectResponse(e.message));
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
         }
       },
     );
   }
+
+  /**
+   * Logs user into the system
+   *
+   * username String The user name for login
+   * password String The password for login in clear text
+   * returns String
+   **/
+  static.loginUser({ username,password }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(''));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
+
+  /**
+   * Logs out current logged in user session
+   *
+   * no response value expected for this operation
+   **/
+  static.logoutUser({  }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(''));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
+
+  /**
+   * Updated user
+   * This can only be done by the logged in user.
+   *
+   * username String name that need to be deleted
+   * body User Updated user object
+   * no response value expected for this operation
+   **/
+  static.updateUser({ username,body }) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(''));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
+
 }
 
 module.exports = UserService;
