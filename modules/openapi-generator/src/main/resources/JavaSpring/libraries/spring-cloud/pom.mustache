@@ -29,6 +29,7 @@
         <sourceDirectory>src/main/java</sourceDirectory>
     </build>
 
+{{^parentOverridden}}
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -40,7 +41,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+{{/parentOverridden}}
     <dependencies>
         <dependency>
             <groupId>io.swagger</groupId>
