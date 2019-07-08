@@ -25,56 +25,30 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Animal
+ * DogAllOf
  */
 
+public class DogAllOf {
+  public static final String SERIALIZED_NAME_BREED = "breed";
+  @SerializedName(SERIALIZED_NAME_BREED)
+  private String breed;
 
-public class Animal {
-  public static final String SERIALIZED_NAME_CLASS_NAME = "className";
-  @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  private String className;
-
-  public static final String SERIALIZED_NAME_COLOR = "color";
-  @SerializedName(SERIALIZED_NAME_COLOR)
-  private String color = "red";
-
-  public Animal() {
-    this.className = this.getClass().getSimpleName();
-  }
-  public Animal className(String className) {
-    this.className = className;
+  public DogAllOf breed(String breed) {
+    this.breed = breed;
     return this;
   }
 
    /**
-   * Get className
-   * @return className
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getClassName() {
-    return className;
-  }
-
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
-  public Animal color(String color) {
-    this.color = color;
-    return this;
-  }
-
-   /**
-   * Get color
-   * @return color
+   * Get breed
+   * @return breed
   **/
   @ApiModelProperty(value = "")
-  public String getColor() {
-    return color;
+  public String getBreed() {
+    return breed;
   }
 
-  public void setColor(String color) {
-    this.color = color;
+  public void setBreed(String breed) {
+    this.breed = breed;
   }
 
 
@@ -86,23 +60,21 @@ public class Animal {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Animal animal = (Animal) o;
-    return Objects.equals(this.className, animal.className) &&
-        Objects.equals(this.color, animal.color);
+    DogAllOf dogAllOf = (DogAllOf) o;
+    return Objects.equals(this.breed, dogAllOf.breed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className, color);
+    return Objects.hash(breed);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Animal {\n");
-    sb.append("    className: ").append(toIndentedString(className)).append("\n");
-    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("class DogAllOf {\n");
+    sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("}");
     return sb.toString();
   }

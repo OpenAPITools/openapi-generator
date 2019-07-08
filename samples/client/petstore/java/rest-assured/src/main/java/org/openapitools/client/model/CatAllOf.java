@@ -25,56 +25,30 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Animal
+ * CatAllOf
  */
 
+public class CatAllOf {
+  public static final String SERIALIZED_NAME_DECLAWED = "declawed";
+  @SerializedName(SERIALIZED_NAME_DECLAWED)
+  private Boolean declawed;
 
-public class Animal {
-  public static final String SERIALIZED_NAME_CLASS_NAME = "className";
-  @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  private String className;
-
-  public static final String SERIALIZED_NAME_COLOR = "color";
-  @SerializedName(SERIALIZED_NAME_COLOR)
-  private String color = "red";
-
-  public Animal() {
-    this.className = this.getClass().getSimpleName();
-  }
-  public Animal className(String className) {
-    this.className = className;
+  public CatAllOf declawed(Boolean declawed) {
+    this.declawed = declawed;
     return this;
   }
 
    /**
-   * Get className
-   * @return className
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getClassName() {
-    return className;
-  }
-
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
-  public Animal color(String color) {
-    this.color = color;
-    return this;
-  }
-
-   /**
-   * Get color
-   * @return color
+   * Get declawed
+   * @return declawed
   **/
   @ApiModelProperty(value = "")
-  public String getColor() {
-    return color;
+  public Boolean isDeclawed() {
+    return declawed;
   }
 
-  public void setColor(String color) {
-    this.color = color;
+  public void setDeclawed(Boolean declawed) {
+    this.declawed = declawed;
   }
 
 
@@ -86,23 +60,21 @@ public class Animal {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Animal animal = (Animal) o;
-    return Objects.equals(this.className, animal.className) &&
-        Objects.equals(this.color, animal.color);
+    CatAllOf catAllOf = (CatAllOf) o;
+    return Objects.equals(this.declawed, catAllOf.declawed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className, color);
+    return Objects.hash(declawed);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Animal {\n");
-    sb.append("    className: ").append(toIndentedString(className)).append("\n");
-    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("class CatAllOf {\n");
+    sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();
   }
