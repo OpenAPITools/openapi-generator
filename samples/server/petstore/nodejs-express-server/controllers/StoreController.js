@@ -1,6 +1,6 @@
 const Controller = require('./Controller');
 
-class Pet {
+class StoreController {
   constructor(Service) {
     this.service = Service;
 
@@ -22,4 +22,4 @@ class Pet {
 
 }
 
-module.exports = StoreController;
+module.exports = Store;

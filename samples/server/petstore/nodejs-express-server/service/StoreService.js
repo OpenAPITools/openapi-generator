@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const Service = require('./Service');
 
-class StoreControllerService {
+class StoreService {
 
   /**
    * Delete purchase order by ID
@@ -10,11 +10,11 @@ class StoreControllerService {
    * orderId String ID of the order that needs to be deleted
    * no response value expected for this operation
    **/
-  static.deleteOrder = function({ orderId }) {
+  static.deleteOrder({ orderId }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -31,11 +31,11 @@ class StoreControllerService {
    *
    * returns Map
    **/
-  static.getInventory = function({  }) {
+  static.getInventory({  }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -53,11 +53,11 @@ class StoreControllerService {
    * orderId Long ID of pet that needs to be fetched
    * returns Order
    **/
-  static.getOrderById = function({ orderId }) {
+  static.getOrderById({ orderId }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -74,11 +74,11 @@ class StoreControllerService {
    * body Order order placed for purchasing the pet
    * returns Order
    **/
-  static.placeOrder = function({ body }) {
+  static.placeOrder({ body }) {
     return new Promise(
       async (resolve) => {
         try {
-          resolve(Service.successResponse(body));
+          resolve(Service.successResponse(''));
         } catch (e) {
           resolve(Service.rejectResponse(
             e.message || 'Invalid input',
@@ -91,4 +91,4 @@ class StoreControllerService {
 
 }
 
-module.exports = StoreControllerService;
+module.exports = StoreService;
