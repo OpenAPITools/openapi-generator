@@ -405,6 +405,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
     # Configure HTTP basic authorization: http_basic_test
     username => 'YOUR_USERNAME',
     password => 'YOUR_PASSWORD',
+    
 );
 
 my $number = 3.4; # double | None

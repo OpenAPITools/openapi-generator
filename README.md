@@ -98,7 +98,7 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 OpenAPI Generator Version    | Release Date | Notes
 ---------------------------- | ------------ | -----
 5.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.0.0-SNAPSHOT/)| 13.05.2020 | Major release with breaking changes (no fallback)
-4.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.1.0-SNAPSHOT/)| 31.07.2019 | Minor release (breaking changes with fallbacks)
+4.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.1.0-SNAPSHOT/)| 15.07.2019 | Minor release (breaking changes with fallbacks)
 4.0.3 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.3-SNAPSHOT/)| 04.07.2019 | Patch release (minor bug fixes, etc)
 [4.0.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.0.2) (latest stable release) | 20.06.2019 | Patch release (bug fixes, minor enhancements, etc)
 
@@ -153,7 +153,7 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 * [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc)
 
 ### [1.3 - Download JAR](#table-of-contents)
-
+<!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
 JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.0.2/openapi-generator-cli-4.0.2.jar`
@@ -175,7 +175,7 @@ For Mac users, please make sure Java 8 is installed (Tips: run `java -version` t
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
 ```
-
+<!-- /RELEASE_VERSION -->
 ### Launcher Script
 
 One downside to manual jar downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator.cli.sh](./bin/utils/openapi-generator-cli.sh) which resolves this issue.
@@ -281,7 +281,7 @@ Example usage:
 
 ```sh
 # Start container at port 8888 and save the container id
-> CID=$(docker run -d -p 8888:8080 -e GENERATOR_HOST=http://localhost:8888 openapitools/openapi-generator-online)
+> CID=$(docker run -d -p 8888:8080 openapitools/openapi-generator-online)
 
 # allow for startup
 > sleep 10
@@ -368,7 +368,8 @@ npm install @openapitools/openapi-generator-cli -g
 openapi-generator version
 ```
 
-Or install a particualar OpenAPI Generator version (e.g. v4.0.2):
+<!-- RELEASE_VERSION -->
+Or install a particular OpenAPI Generator version (e.g. v4.0.2):
 
 ```sh
 npm install @openapitools/openapi-generator-cli@cli-4.0.2 -g
@@ -379,7 +380,7 @@ Or install it as dev-dependency:
 ```sh
 npm install @openapitools/openapi-generator-cli -D
 ```
-
+<!-- /RELEASE_VERSION -->
 ## [2 - Getting Started](#table-of-contents)
 
 To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml), please run the following
@@ -394,7 +395,9 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 ```
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
+<!-- RELEASE_VERSION -->
 You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.0.2/openapi-generator-cli-4.0.2.jar)
+<!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
 
@@ -535,6 +538,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Camptocamp](https://www.camptocamp.com/en)
 - [codecentric AG](https://www.codecentric.de/)
 - [Cupix](https://www.cupix.com/)
+- [DB Systel](https://www.dbsystel.de)
 - [FormAPI](https://formapi.io/)
 - [Fuse](https://www.fuse.no/)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
@@ -591,7 +595,9 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-05-01 - [Design and generate a REST API from Swagger / OpenAPI in Java, Python, C# and more](https://simply-how.com/design-and-generate-api-code-from-openapi) by [Simply How](https://simply-how.com/)
 - 2019-05-17 - [Generate Spring Boot REST API using Swagger/OpenAPI](https://www.47northlabs.com/knowledge-base/generate-spring-boot-rest-api-using-swagger-openapi/) by [Antonie Zafirov](https://www.47northlabs.com/author/antonie-zafirov/)
 - 2019-05-22 - [REST APIs代码生成指南(OpenAPI Generator)](https://gum.co/openapi_generator_ebook_gb) by [William Cheng](https://twitter.com/wing328), [Xin Meng](https://github.com/xmeng1)
-- 2019-05/24 - [REST API 代碼生成指南 (OpenAPI Generator)](https://gum.co/openapi_generator_ebook_big5) by [William Cheng](https://twitter.com/wing328)
+- 2019-05-24 - [REST API 代碼生成指南 (OpenAPI Generator)](https://gum.co/openapi_generator_ebook_big5) by [William Cheng](https://twitter.com/wing328)
+- 2019-06-24 - [Kubernetes Clients and OpenAPI Generator](https://speakerdeck.com/wing328/kubernetes-clients-and-openapi-generator) by [William Cheng](https://twitter.com/wing328) at [Kubernetes Contributor Summits Shanghai 2019](https://www.lfasiallc.com/events/contributors-summit-china-2019/)
+- 2019-07-04 - [REST API のためのコード生成入門 (OpenAPI Generator)](https://gum.co/openapi_generator_ebook_big5) by [William Cheng](https://twitter.com/wing328), [中野暁人](https://github.com/ackintosh), [和田拓朗](https://github.com/taxpon)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -677,7 +683,8 @@ Here is a list of template creators:
    * TypeScript (Inversify): @gualtierim
  * Server Stubs
    * Ada: @stcarrez
-   * C# ASP.NET5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
+   * C# ASP.NET 5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
+   * C# ASP.NET Core 3.0: @A-Joshi 
    * C# NancyFX: @mstefaniuk
    * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
@@ -777,11 +784,11 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Lua       | @daurnimator (2017/08) |
 | NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
 | ObjC      |  |
-| Perl      | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) |
+| Perl      | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06) |
 | PHP       | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), @ackintosh (2017/09) [:heart:](https://www.patreon.com/ackintosh/overview), @ybelenko (2018/07), @renepardon (2018/12) |
 | PowerShell | |
 | Python    | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) |
-| R         |  |
+| R         | @Ramanth (2019/07) @saigiridhar21 (2019/07) |
 | Ruby      | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02) |
 | Rust      | @frol (2017/07) @farcaller (2017/08) @bjgill (2017/12) |
 | Scala     | @clasnake (2017/07), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @shijinkui  (2018/01), @ramzimaalej (2018/03) |

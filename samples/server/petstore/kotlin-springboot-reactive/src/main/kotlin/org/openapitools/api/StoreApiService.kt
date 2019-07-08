@@ -4,11 +4,11 @@ import org.openapitools.model.Order
 import kotlinx.coroutines.flow.Flow;
 interface StoreApiService {
 
-	suspend fun deleteOrder(orderId: String): Unit
+	suspend fun deleteOrder(orderId: kotlin.String): Unit
 
-	suspend fun getInventory(): Map<String, Int>
+	suspend fun getInventory(): Map<String, kotlin.Int>
 
-	suspend fun getOrderById(orderId: Long): Order
+	suspend fun getOrderById(orderId: kotlin.Long): Order
 
 	suspend fun placeOrder(body: Order): Order
 }

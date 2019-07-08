@@ -9,7 +9,9 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
+    <!-- RELEASE_VERSION -->
     <version>4.0.3-SNAPSHOT</version>
+    <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -153,12 +155,22 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-version}</version>
                 <configuration>
+                    <printSummary>true</printSummary>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>-XX:+StartAttachListener</argLine>
                     <argLine>-javaagent:"${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar"</argLine>
                 </configuration>
+                <dependencies>
+                    <!-- Required to be set so it can be downloaded for surefire plugin -->
+                    <dependency>
+                        <groupId>org.jmockit</groupId>
+                        <artifactId>jmockit</artifactId>
+                        <version>${jmockit-version}</version>
+                        <scope>compile</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -1029,6 +1041,7 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python-experimental</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/openapi3/client/petstore/python</module>
@@ -1051,8 +1064,8 @@
                 <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/server/petstore/rust-server</module>
                 <module>samples/server/petstore/python-aiohttp</module>
-                <module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/python-flask-python2</module>
+                <!--<module>samples/server/petstore/python-flask</module>
+                <module>samples/server/petstore/python-flask-python2</module>-->
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1068,6 +1081,7 @@
                 <!-- clients -->
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
+                <module>samples/client/petstore/go-experimental</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
@@ -1242,7 +1256,7 @@
             <modules>
                 <!-- clients -->
                 <module>samples/client/petstore/R</module>
-                <module>samples/client/petstore/haskell-http-client</module>
+                <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
                 <module>samples/server/petstore/haskell-servant</module>
             </modules>
@@ -1284,12 +1298,12 @@
         </profile>
     </profiles>
     <modules>
+        <module>modules/openapi-generator-core</module>
         <module>modules/openapi-generator</module>
         <module>modules/openapi-generator-cli</module>
         <module>modules/openapi-generator-maven-plugin</module>
         <module>modules/openapi-generator-gradle-plugin</module>
         <module>modules/openapi-generator-online</module>
-        <module>modules/openapi-generator-core</module>
     </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
@@ -1356,7 +1370,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-parser-version>2.0.13-OpenAPITools.org-1</swagger-parser-version>
+        <swagger-parser-version>2.0.13-OpenAPITools.org-2</swagger-parser-version>
         <swagger-core-version>2.0.7</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
@@ -1371,8 +1385,8 @@
         <jmustache-version>1.14</jmustache-version>
         <handlebars.java-version>4.1.2</handlebars.java-version>
         <testng-version>6.14.3</testng-version>
-        <surefire-version>2.22.1</surefire-version>
-        <jmockit-version>1.43</jmockit-version>
+        <surefire-version>3.0.0-M3</surefire-version>
+        <jmockit-version>1.46</jmockit-version>
         <reflections-version>0.9.10</reflections-version>
     </properties>
 </project>

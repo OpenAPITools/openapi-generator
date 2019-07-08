@@ -29,7 +29,7 @@ final _jsonJaguarRepo = JsonRepo()
 ..add(TagSerializer())
 ..add(UserSerializer())
 ;
-final Map<String, CodecRepo> _converters = {
+final Map<String, CodecRepo> converters = {
     MimeTypes.json: _jsonJaguarRepo,
 };
 
@@ -86,7 +86,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = _converters;
+            converters = this.converters;
         }
         return PetApi(base: base, converters: converters, timeout: timeout);
     }
@@ -101,7 +101,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = _converters;
+            converters = this.converters;
         }
         return StoreApi(base: base, converters: converters, timeout: timeout);
     }
@@ -116,7 +116,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = _converters;
+            converters = this.converters;
         }
         return UserApi(base: base, converters: converters, timeout: timeout);
     }

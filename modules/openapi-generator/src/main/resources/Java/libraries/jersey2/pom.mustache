@@ -170,17 +170,17 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                        <configuration>
-                            <tags>
-                                <tag>
-                                    <name>http.response.details</name>
-                                    <placement>a</placement>
-                                    <head>Http Response Details:</head>
-                                </tag>
-                 	        </tags>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>http.response.details</name>
+                            <placement>a</placement>
+                            <head>Http Response Details:</head>
+                        </tag>
+                    </tags>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -235,6 +235,13 @@
             <artifactId>jersey-client</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+        {{^supportJava6}}
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        {{/supportJava6}}
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>

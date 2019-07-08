@@ -10,7 +10,7 @@ import org.springframework.http.HttpMethod;
 /**
  * Configurer class for <code>@EnableResourceServer</code> classes. This class adjust the access
  * rules and paths that are protected by OAuth2 security. If more than one configures the same property, then the last
- * one wins. The configurers are sorted by {@link Order} before being applied.
+ * one wins. The configurers are sorted by Order before being applied.
  * 
  * @author pkmst
  * 

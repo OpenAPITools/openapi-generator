@@ -25,6 +25,7 @@ declare -a scripts=(
 "./bin/kotlin-client-threetenbp.sh"
 "./bin/kotlin-server-petstore.sh"
 "./bin/kotlin-springboot-petstore-server.sh"
+"./bin/kotlin-springboot-petstore-server-reactive.sh"
 "./bin/mysql-schema-petstore.sh"
 "./bin/python-petstore-all.sh"
 "./bin/openapi3/python-petstore.sh"
@@ -55,6 +56,7 @@ declare -a scripts=(
 "./bin/go-gin-petstore-server.sh"
 "./bin/groovy-petstore.sh"
 "./bin/apex-petstore.sh"
+"./bin/perl-petstore-all.sh"
 #"./bin/elm-petstore-all.sh"
 "./bin/meta-codegen.sh"
 # OTHERS

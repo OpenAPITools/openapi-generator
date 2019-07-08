@@ -161,6 +161,16 @@ func parameterToString(obj interface{}, collectionFormat string) string {
 	return fmt.Sprintf("%v", obj)
 }
 
+// helper for converting interface{} parameters to json strings
+func parameterToJson(obj interface{}) (string, error) {
+	jsonBuf, err := json.Marshal(obj)
+	if err != nil {
+		return "", err
+	}
+	return string(jsonBuf), err
+}
+
+
 // callAPI do the request.
 func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
 	return c.cfg.HTTPClient.Do(request)
@@ -256,6 +266,16 @@ func (c *APIClient) prepareRequest(
 		return nil, err
 	}
 
+	// Override request host, if applicable
+	if c.cfg.Host != "" {
+		url.Host = c.cfg.Host
+	}
+
+	// Override request scheme, if applicable
+	if c.cfg.Scheme != "" {
+		url.Scheme = c.cfg.Scheme
+	}
+
 	// Adding Query Param
 	query := url.Query()
 	for k, v := range queryParams {
@@ -284,11 +304,6 @@ func (c *APIClient) prepareRequest(
 			headers.Set(h, v)
 		}
 		localVarRequest.Header = headers
-	}
-
-	// Override request host, if applicable
-	if c.cfg.Host != "" {
-		localVarRequest.Host = c.cfg.Host
 	}
 
 	// Add the user agent to the request.

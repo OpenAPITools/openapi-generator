@@ -834,6 +834,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
+        } else if (ModelUtils.isURISchema(p)) {
+            if (p.getDefault() != null) {
+                return "URI.create('" + p.getDefault() + "')";
+            }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "'" + p.getDefault() + "'";
