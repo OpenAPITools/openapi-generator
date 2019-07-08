@@ -46,7 +46,9 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
+{{^parentOverridden}}
             <version>${swagger-core-version}</version>
+{{/parentOverridden}}
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -79,13 +81,17 @@
         <dependency>
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
+        {{^parentOverridden}}
             <version>2.6.4</version>
+        {{/parentOverridden}}
         </dependency>
         {{/threetenbp}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
+{{^parentOverridden}}
             <version>0.1.0</version>
+{{/parentOverridden}}
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -99,5 +105,14 @@
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
 {{/hateoas}}
+{{#useBeanValidation}}
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        {{^parentOverridden}}
+            <version>6.0.2.Final</version>
+        {{/parentOverridden}}
+        </dependency>
+{{/useBeanValidation}}
     </dependencies>
 </project>
