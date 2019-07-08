@@ -60,6 +60,7 @@ public class CodegenConfigurator implements Serializable {
 
     private String generatorName;
     private String inputSpec;
+    private List<String> additionalSchemasInputSpecs = new ArrayList<>();
     private String outputDir;
     private boolean verbose;
     private boolean skipOverwrite;
@@ -144,6 +145,15 @@ public class CodegenConfigurator implements Serializable {
 
     public String getInputSpec() {
         return inputSpec;
+    }
+
+    public CodegenConfigurator setAdditionalSchemasInputSpecs(List<String> additionalSchemasInputSpecs) {
+        this.additionalSchemasInputSpecs = additionalSchemasInputSpecs;
+        return this;
+    }
+
+    public List<String> getAdditionalSchemasInputSpecs() {
+        return additionalSchemasInputSpecs;
     }
 
     public String getOutputDir() {
@@ -528,6 +538,7 @@ public class CodegenConfigurator implements Serializable {
         CodegenConfig config = CodegenConfigLoader.forName(generatorName);
 
         config.setInputSpec(inputSpec);
+        config.setAdditionalSchemasInputSpecs(additionalSchemasInputSpecs);
         config.setOutputDir(outputDir);
         config.setSkipOverwrite(skipOverwrite);
         config.setIgnoreFilePathOverride(ignoreFileOverride);
@@ -587,6 +598,12 @@ public class CodegenConfigurator implements Serializable {
 
         Set<String> validationMessages = new HashSet<>(result.getMessages());
         OpenAPI specification = result.getOpenAPI();
+
+        additionalSchemasInputSpecs.forEach(additionalModelInputSpec -> {
+            SwaggerParseResult additionalResult = new OpenAPIParser().readLocation(additionalModelInputSpec, authorizationValues, options);
+            validationMessages.addAll(additionalResult.getMessages());
+            additionalResult.getOpenAPI().getComponents().getSchemas().forEach((key, value) -> specification.getComponents().getSchemas().putIfAbsent(key, value));
+        });
 
         // NOTE: We will only expose errors+warnings if there are already errors in the spec.
         if (validationMessages.size() > 0) {

@@ -32,6 +32,7 @@ import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyRese
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +108,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec", required = true)
     private String inputSpec;
+
+    /**
+     * Comma separated list of locations of OpenAPI specs, as URL or file for which models should be generated.
+     */
+    @Parameter(name = "additionalSchemasInputSpecs", property = "openapi.generator.maven.plugin.additionalSchemasInputSpecs", required = false)
+    private String additionalSchemasInputSpecs;
 
     /**
      * Git user ID, e.g. swagger-api.
@@ -453,6 +460,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(inputSpec)) {
                 configurator.setInputSpec(inputSpec);
+            }
+
+            if (isNotEmpty(additionalSchemasInputSpecs)) {
+                configurator.setAdditionalSchemasInputSpecs(Arrays.asList(additionalSchemasInputSpecs.split(",")));
             }
 
             if (isNotEmpty(gitUserId)) {

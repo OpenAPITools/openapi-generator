@@ -109,6 +109,10 @@ public interface CodegenConfig {
 
     void setInputSpec(String inputSpec);
 
+    List<String> getAdditionalSchemasInputSpecs();
+
+    void setAdditionalSchemasInputSpecs(List<String> additionalSchemasInputSpecs);
+
     String getOutputDir();
 
     void setOutputDir(String dir);
