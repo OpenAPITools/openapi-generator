@@ -3,6 +3,7 @@ const Controller = require('./Controller');
 class UserController {
   constructor(Service) {
     this.service = Service;
+  }
 
   async createUser(request, response) {
     await Controller.handleRequest(request, response, this.service.createUser);
@@ -35,7 +36,6 @@ class UserController {
   async updateUser(request, response) {
     await Controller.handleRequest(request, response, this.service.updateUser);
   }
-
 }
 
-module.exports = User;
+module.exports = UserController;

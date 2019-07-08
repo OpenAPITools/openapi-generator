@@ -41,16 +41,21 @@ describe('Server tests, checking launch, terminate, and various error messages',
 
   it('should fail with a 404 on non-existing page', async () => {
     get(`${config.FULL_PATH}/someRandomPage`)
+      .then(response => response.status.should.equal(404, 'expecting a 404 on a non-existing page request'))
       .catch((responseError) => {
         responseError.response.status.should.not.equal(undefined);
         responseError.response.status.should.equal(404, 'expecting to receive a 404 on requesting a non-existing page');
-      })
-      .then(response => response.status.should.equal(404, 'expecting a 404 on a non-existing page request'));
+      });
   });
 
   it('should load api-doc', async () => {
-    const response = await get(`http://localhost:${config.URL_PORT}/api-docs`);
-    response.status.should.equal(200, 'Expecting 200');
+    try {
+      const response = await get(`http://localhost:${config.URL_PORT}/api-docs`);
+      response.status.should.equal(200, 'Expecting 200');
+    } catch (e) {
+      console.log(e.message);
+      throw e;
+    }
   });
 
   it('should run a post request to add new pet', async () => {

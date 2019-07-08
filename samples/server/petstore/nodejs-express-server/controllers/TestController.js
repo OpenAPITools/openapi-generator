@@ -1,4 +1,4 @@
-const Service = require('./Service');
+const Service = require('../services/Service');
 
 const testItems = require('../tests/testFiles/testItems.json');
 
