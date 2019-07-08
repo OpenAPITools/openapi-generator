@@ -161,3 +161,7 @@ dependencies {
     {{/java8}}
     testCompile "junit:junit:$junit_version"
 }
+
+javadoc {
+    options.tags = [ "http.response.details:a:Http Response Details" ]
+}
