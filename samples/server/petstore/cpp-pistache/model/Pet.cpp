@@ -56,24 +56,24 @@ void to_json(nlohmann::json& j, const Pet& o)
 
 void from_json(const nlohmann::json& j, Pet& o)
 {
-    if(j.contains("id"))
+    if(j.find("id") != j.end())
     {
         j.at("id").get_to(o.m_Id);
         o.m_IdIsSet = true;
     } 
-    if(j.contains("category"))
+    if(j.find("category") != j.end())
     {
         j.at("category").get_to(o.m_Category);
         o.m_CategoryIsSet = true;
     } 
     j.at("name").get_to(o.m_Name);
     j.at("photoUrls").get_to(o.m_PhotoUrls);
-    if(j.contains("tags"))
+    if(j.find("tags") != j.end())
     {
         j.at("tags").get_to(o.m_Tags);
         o.m_TagsIsSet = true;
     } 
-    if(j.contains("status"))
+    if(j.find("status") != j.end())
     {
         j.at("status").get_to(o.m_Status);
         o.m_StatusIsSet = true;
