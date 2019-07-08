@@ -3,6 +3,7 @@ const Controller = require('./Controller');
 class StoreController {
   constructor(Service) {
     this.service = Service;
+  }
 
   async deleteOrder(request, response) {
     await Controller.handleRequest(request, response, this.service.deleteOrder);
@@ -19,7 +20,6 @@ class StoreController {
   async placeOrder(request, response) {
     await Controller.handleRequest(request, response, this.service.placeOrder);
   }
-
 }
 
-module.exports = Store;
+module.exports = StoreController;

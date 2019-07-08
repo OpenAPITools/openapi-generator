@@ -1,6 +1,6 @@
 const logger = require('../logger');
 const controllers = require('../controllers');
-const Services = require('../service');
+const Services = require('../services');
 
 function handleError(err, request, response, next) {
   logger.error(err);
@@ -47,7 +47,7 @@ function openApiRouter() {
       //   request.swagger.paramValues[param.name] = getValueFromRequest(request, param);
       // });
       const controllerName = request.openapi.schema['x-openapi-router-controller'];
-      const serviceName = `${controllerName}Service`;
+      const serviceName = request.openapi.schema['x-openapi-router-service'];
       if (!controllers[controllerName] || controllers[controllerName] === undefined) {
         handleError(`request sent to controller '${controllerName}' which has not been defined`,
           request, response, next);

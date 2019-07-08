@@ -39,4 +39,4 @@ class PetController {
 
 }
 
-module.exports = Pet;
+module.exports = PetController;
