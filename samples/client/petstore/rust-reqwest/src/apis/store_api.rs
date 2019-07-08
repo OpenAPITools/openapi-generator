@@ -13,7 +13,7 @@ use std::borrow::Borrow;
 
 use reqwest;
 
-use super::{Error, configuration, urlencode};
+use super::{Error, configuration};
 
 pub struct StoreApiClient {
     configuration: Rc<configuration::Configuration>,
@@ -39,7 +39,7 @@ impl StoreApi for StoreApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=urlencode(order_id));
+        let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=::apis::urlencode(order_id));
         let mut req_builder = client.delete(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {

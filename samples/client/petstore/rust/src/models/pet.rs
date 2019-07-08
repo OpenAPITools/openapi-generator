@@ -28,7 +28,7 @@ pub struct Pet {
     pub tags: Option<Vec<::models::Tag>>,
     /// pet status in the store
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
-    pub status: Option<String>,
+    pub status: Option<Status>,
 }
 
 impl Pet {
