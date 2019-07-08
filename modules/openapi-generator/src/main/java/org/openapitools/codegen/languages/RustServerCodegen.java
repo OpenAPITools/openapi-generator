@@ -756,10 +756,21 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             if (op.authMethods != null) {
+                boolean headerAuthMethods = false;
+
                 for (CodegenSecurity s : op.authMethods) {
                     if (s.isApiKey && s.isKeyInHeader) {
                         s.vendorExtensions.put("x-apiKeyName", toModelName(s.keyParamName));
+                        headerAuthMethods = true;
                     }
+
+                    if (s.isBasicBasic || s.isBasicBearer || s.isOAuth) {
+                        headerAuthMethods = true;
+                    }
+                }
+
+                if (headerAuthMethods) {
+                    op.vendorExtensions.put("hasHeaderAuthMethods", "true");
                 }
             }
         }
