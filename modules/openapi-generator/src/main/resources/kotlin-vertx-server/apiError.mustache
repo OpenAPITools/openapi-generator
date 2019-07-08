@@ -1,7 +1,0 @@
-package {{package}};
-
-class {{classname}}Error(val statusCode:Int,val statusMessage:String):Exception() {
-    companion object {
-        val  INTERNAL_SERVER_ERROR = {{classname}}Error(500, "Internal Server Error")
-    }
-}

@@ -1,8 +1,11 @@
+
 {{#parcelizeModels}}
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-
 {{/parcelizeModels}}
+import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
 /**
  * {{{description}}}
 {{#vars}}
@@ -12,6 +15,8 @@ import kotlinx.android.parcel.Parcelize
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class {{classname}} (
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
@@ -30,4 +35,8 @@ data class {{classname}} (
     {{/enumVars}}{{/allowableValues}}
     }
 {{/isEnum}}{{/vars}}{{/hasEnums}}
+    {{#requiredVars}}
+        var {{{name}}} get() = _{{{name}}} ?: throw IllegalArgumentException("{{{name}}} is required")
+                    set(value){ _{{{name}}} = value }
+    {{/requiredVars}}
 }

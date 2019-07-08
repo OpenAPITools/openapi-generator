@@ -6,16 +6,12 @@ import io.vertx.ext.web.handler.BodyHandler
 import io.vertx.ext.web.handler.SessionHandler
 import io.vertx.ext.web.sstore.SessionStore
 
-fun main(args:Array<String>){
+suspend fun main(args:Array<String>){
     val vertx = Vertx.vertx()
     val httpServer = vertx.createHttpServer()
-    val router = Router.router(vertx)
-    router.route().handler(BodyHandler.create())
-    router.route().handler(SessionHandler.create(SessionStore.create(vertx)))
-    {{classname}}Verticle.register(vertx,if(args.size>1) args[1] else "openapi.json",router)
-    //vertx.deployVerticle(DefaultApiVerticle(DefaultApiImpl(...)))
-    httpServer.requestHandler(router).listen(80){
+    val router = DocApi.createRouterFactory(vertx,"",DocApi::class.java.newInstance()).router
+    httpServer.requestHandler(router).listen(8080){
         if(it.failed()) it.cause().printStackTrace()
-        else println("Listen at 80 !")
+        else println("Listen at 8080 !")
     }
 }

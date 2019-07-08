@@ -17,7 +17,7 @@
         <junit.version>4.12</junit.version>
         <vertx.version>3.4.1</vertx.version>
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
-        <vertx-openapi-router.version>1.0.1</vertx-openapi-router.version>
+        <vertx-openapi-router.version>1.0.2</vertx-openapi-router.version>
         <maven-shade-plugin.version>2.3</maven-shade-plugin.version>
         <jackson-datatype-jsr310.version>2.7.4</jackson-datatype-jsr310.version>
         <vertx.version>3.6.0</vertx.version>
@@ -93,6 +93,24 @@
             <groupId>io.swagger.parser.v3</groupId>
             <artifactId>swagger-parser</artifactId>
             <version>2.0.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web-api-contract</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-service-proxy</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web-api-service</artifactId>
+            <version>${vertx.version}</version>
         </dependency>
 
     </dependencies>

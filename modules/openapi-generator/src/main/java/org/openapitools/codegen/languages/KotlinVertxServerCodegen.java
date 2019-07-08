@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Locale;
 
 public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
 
@@ -59,8 +60,7 @@ public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
 
         apiTemplateFiles.clear();
         apiTemplateFiles.put("api.mustache", ".kt");
-        apiTemplateFiles.put("apiVerticle.mustache", "Verticle.kt");
-        apiTemplateFiles.put("apiError.mustache","Error.kt");
+        apiTemplateFiles.put("apiProxy.mustache", "VertxProxyHandler.kt");
         apiTemplateFiles.put("main.mustache","Main.kt");
 
         embeddedTemplateDir = templateDir = "kotlin-vertx-server";
@@ -76,5 +76,10 @@ public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        return name;
     }
 }
