@@ -161,7 +161,7 @@ export class {{classname}} extends runtime.BaseAPI {
             })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formData.append('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+            formData.append('{{baseName}}', requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
         }
 

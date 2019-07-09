@@ -48,9 +48,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         outputFolder = "generated-code/typescript-fetch";
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
-        this.apiPackage = "apis";
+        this.apiPackage = "src" + File.separator +"apis";
+        this.modelPackage = "src" + File.separator + "models";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
-        this.modelPackage = "models";
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
 
@@ -81,12 +81,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         super.processOpts();
         additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
-        supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
-        supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
+        supportingFiles.add(new SupportingFile("index.mustache", "src", "index.ts"));
+        supportingFiles.add(new SupportingFile("runtime.mustache", "src", "runtime.ts"));
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
@@ -180,6 +182,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("npmignore", "", ".npmignore"));
     }
 
     @Override
@@ -195,7 +198,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // models for a given operation.
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
-            im.put("className", im.get("import").toString().replace("models.", ""));
+            im.put("className", im.get("import").toString().replace(modelPackage() + ".", ""));
         }
     }
 
