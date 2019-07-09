@@ -9,7 +9,7 @@ class PetService {
    * body Pet Pet object that needs to be added to the store
    * no response value expected for this operation
    **/
-  static.addPet({ body }) {
+  static addPet({ body }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -31,7 +31,7 @@ class PetService {
    * apiUnderscorekey String  (optional)
    * no response value expected for this operation
    **/
-  static.deletePet({ petId,apiUnderscorekey }) {
+  static deletePet({ petId,apiUnderscorekey }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -53,7 +53,7 @@ class PetService {
    * status List Status values that need to be considered for filter
    * returns List
    **/
-  static.findPetsByStatus({ status }) {
+  static findPetsByStatus({ status }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -75,7 +75,7 @@ class PetService {
    * tags List Tags to filter by
    * returns List
    **/
-  static.findPetsByTags({ tags }) {
+  static findPetsByTags({ tags }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -97,7 +97,7 @@ class PetService {
    * petId Long ID of pet to return
    * returns Pet
    **/
-  static.getPetById({ petId }) {
+  static getPetById({ petId }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -118,7 +118,7 @@ class PetService {
    * body Pet Pet object that needs to be added to the store
    * no response value expected for this operation
    **/
-  static.updatePet({ body }) {
+  static updatePet({ body }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -141,7 +141,7 @@ class PetService {
    * status String Updated status of the pet (optional)
    * no response value expected for this operation
    **/
-  static.updatePetWithForm({ petId,name,status }) {
+  static updatePetWithForm({ petId,name,status }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -164,7 +164,7 @@ class PetService {
    * file File file to upload (optional)
    * returns ApiResponse
    **/
-  static.uploadFile({ petId,additionalMetadata,file }) {
+  static uploadFile({ petId,additionalMetadata,file }) {
     return new Promise(
       async (resolve) => {
         try {

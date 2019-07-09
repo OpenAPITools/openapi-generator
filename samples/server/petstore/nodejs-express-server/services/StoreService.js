@@ -10,7 +10,7 @@ class StoreService {
    * orderId String ID of the order that needs to be deleted
    * no response value expected for this operation
    **/
-  static.deleteOrder({ orderId }) {
+  static deleteOrder({ orderId }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -31,7 +31,7 @@ class StoreService {
    *
    * returns Map
    **/
-  static.getInventory({  }) {
+  static getInventory({  }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -53,7 +53,7 @@ class StoreService {
    * orderId Long ID of pet that needs to be fetched
    * returns Order
    **/
-  static.getOrderById({ orderId }) {
+  static getOrderById({ orderId }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -74,7 +74,7 @@ class StoreService {
    * body Order order placed for purchasing the pet
    * returns Order
    **/
-  static.placeOrder({ body }) {
+  static placeOrder({ body }) {
     return new Promise(
       async (resolve) => {
         try {

@@ -10,7 +10,7 @@ class UserService {
    * body User Created user object
    * no response value expected for this operation
    **/
-  static.createUser({ body }) {
+  static createUser({ body }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -31,7 +31,7 @@ class UserService {
    * body List List of user object
    * no response value expected for this operation
    **/
-  static.createUsersWithArrayInput({ body }) {
+  static createUsersWithArrayInput({ body }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -52,7 +52,7 @@ class UserService {
    * body List List of user object
    * no response value expected for this operation
    **/
-  static.createUsersWithListInput({ body }) {
+  static createUsersWithListInput({ body }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -74,7 +74,7 @@ class UserService {
    * username String The name that needs to be deleted
    * no response value expected for this operation
    **/
-  static.deleteUser({ username }) {
+  static deleteUser({ username }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -95,7 +95,7 @@ class UserService {
    * username String The name that needs to be fetched. Use user1 for testing.
    * returns User
    **/
-  static.getUserByName({ username }) {
+  static getUserByName({ username }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -117,7 +117,7 @@ class UserService {
    * password String The password for login in clear text
    * returns String
    **/
-  static.loginUser({ username,password }) {
+  static loginUser({ username,password }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -137,7 +137,7 @@ class UserService {
    *
    * no response value expected for this operation
    **/
-  static.logoutUser({  }) {
+  static logoutUser({  }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -160,7 +160,7 @@ class UserService {
    * body User Updated user object
    * no response value expected for this operation
    **/
-  static.updateUser({ username,body }) {
+  static updateUser({ username,body }) {
     return new Promise(
       async (resolve) => {
         try {
