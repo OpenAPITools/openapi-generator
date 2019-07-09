@@ -2,15 +2,15 @@
 const Service = require('./Service');
 
 class StoreService {
+
   /**
    * Delete purchase order by ID
-   * For valid response try integer IDs with value < 1000.
-   * Anything above 1000 or nonintegers will generate API errors
+   * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
    *
    * orderId String ID of the order that needs to be deleted
    * no response value expected for this operation
-   * */
-  static deleteOrder({ orderId }) {
+   **/
+  static.deleteOrder({ orderId }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -30,8 +30,8 @@ class StoreService {
    * Returns a map of status codes to quantities
    *
    * returns Map
-   * */
-  static getInventory() {
+   **/
+  static.getInventory({  }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -48,13 +48,12 @@ class StoreService {
 
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value <= 5 or > 10.
-   * Other values will generated exceptions
+   * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
    *
    * orderId Long ID of pet that needs to be fetched
    * returns Order
-   * */
-  static getOrderById({ orderId }) {
+   **/
+  static.getOrderById({ orderId }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -74,8 +73,8 @@ class StoreService {
    *
    * body Order order placed for purchasing the pet
    * returns Order
-   * */
-  static placeOrder({ body }) {
+   **/
+  static.placeOrder({ body }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -89,6 +88,7 @@ class StoreService {
       },
     );
   }
+
 }
 
 module.exports = StoreService;

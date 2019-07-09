@@ -3,6 +3,7 @@ const Controller = require('./Controller');
 class PetController {
   constructor(Service) {
     this.service = Service;
+  }
 
   async addPet(request, response) {
     await Controller.handleRequest(request, response, this.service.addPet);

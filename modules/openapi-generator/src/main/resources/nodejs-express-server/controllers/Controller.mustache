@@ -1,3 +1,5 @@
+const logger = require('../logger');
+
 class Controller {
   static sendResponse(response, payload) {
     /**
@@ -23,7 +25,26 @@ class Controller {
     }
   }
 
+  static collectFiles(request) {
+    logger.info('Checking if files are expected in schema');
+    if (request.openapi.schema.requestBody !== undefined) {
+      const [contentType] = request.headers['content-type'].split(';');
+      if (contentType === 'multipart/form-data') {
+        const contentSchema = request.openapi.schema.requestBody.content[contentType].schema;
+        Object.entries(contentSchema.properties).forEach(([name, property]) => {
+          if (property.type === 'string' && ['binary', 'base64'].indexOf(property.format) > -1) {
+            request.body[name] = request.files.find(file => file.fieldname === name);
+          }
+        });
+      } else if (request.openapi.schema.requestBody.content[contentType] !== undefined
+          && request.files !== undefined) {
+        [request.body] = request.files;
+      }
+    }
+  }
+
   static collectRequestParams(request) {
+    this.collectFiles(request);
     const requestParams = {};
     if (request.openapi.schema.requestBody !== undefined) {
       requestParams.body = request.body;
@@ -41,13 +62,6 @@ class Controller {
   static async handleRequest(request, response, serviceOperation) {
     try {
       const serviceResponse = await serviceOperation(this.collectRequestParams(request));
-      // let serviceResponse;
-      // this.collectRequestParams(request);
-      // if (request.openapi.schema.requestBody !== undefined) {
-      //   serviceResponse = await serviceOperation(request.body);
-      // } else {
-      //   serviceResponse = await serviceOperation(request.openapi.requestParams);
-      // }
       Controller.sendResponse(response, serviceResponse);
     } catch (error) {
       Controller.sendError(response, error);
