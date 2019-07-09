@@ -23,7 +23,7 @@ class {{{classname}}}Service {
    * returns {{{returnType}}}
   {{/returnType}}
    **/
-  static {{{operationId}}}({ {{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}} }) {
+  static {{{operationId}}}({ {{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} }) {
     return new Promise(
       async (resolve) => {
         try {

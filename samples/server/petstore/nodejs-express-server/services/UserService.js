@@ -117,7 +117,7 @@ class UserService {
    * password String The password for login in clear text
    * returns String
    **/
-  static loginUser({ username,password }) {
+  static loginUser({ username, password }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -160,7 +160,7 @@ class UserService {
    * body User Updated user object
    * no response value expected for this operation
    **/
-  static updateUser({ username,body }) {
+  static updateUser({ username, body }) {
     return new Promise(
       async (resolve) => {
         try {

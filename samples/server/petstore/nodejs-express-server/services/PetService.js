@@ -31,7 +31,7 @@ class PetService {
    * apiUnderscorekey String  (optional)
    * no response value expected for this operation
    **/
-  static deletePet({ petId,apiUnderscorekey }) {
+  static deletePet({ petId, apiUnderscorekey }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -141,7 +141,7 @@ class PetService {
    * status String Updated status of the pet (optional)
    * no response value expected for this operation
    **/
-  static updatePetWithForm({ petId,name,status }) {
+  static updatePetWithForm({ petId, name, status }) {
     return new Promise(
       async (resolve) => {
         try {
@@ -164,7 +164,7 @@ class PetService {
    * file File file to upload (optional)
    * returns ApiResponse
    **/
-  static uploadFile({ petId,additionalMetadata,file }) {
+  static uploadFile({ petId, additionalMetadata, file }) {
     return new Promise(
       async (resolve) => {
         try {
