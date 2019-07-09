@@ -37,7 +37,6 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -353,10 +352,6 @@ public class JavaClientCodegenTest {
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.setOpenAPI(openAPI);
         clientOptInput.setConfig(new JavaClientCodegen());
-
-        final ClientOpts clientOpts = new ClientOpts();
-        clientOpts.setProperties(Collections.emptyMap());
-        clientOptInput.setOpts(clientOpts);
 
         defaultGenerator.opts(clientOptInput);
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
