@@ -137,7 +137,7 @@ class UserService {
    *
    * no response value expected for this operation
    **/
-  static logoutUser({  }) {
+  static logoutUser() {
     return new Promise(
       async (resolve) => {
         try {

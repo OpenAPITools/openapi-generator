@@ -31,7 +31,7 @@ class StoreService {
    *
    * returns Map
    **/
-  static getInventory({  }) {
+  static getInventory() {
     return new Promise(
       async (resolve) => {
         try {
