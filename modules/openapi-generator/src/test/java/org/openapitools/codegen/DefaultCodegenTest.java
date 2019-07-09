@@ -596,6 +596,25 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testDefaultResponseShouldBeLast() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Operation myOperation = new Operation().operationId("myOperation").responses(
+            new ApiResponses()
+            .addApiResponse(
+                "default", new ApiResponse().description("Default"))
+            .addApiResponse(
+                "422", new ApiResponse().description("Error"))
+            );
+        openAPI.path("/here", new PathItem().get(myOperation));
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenOperation co = codegen.fromOperation("/here", "get", myOperation, null);
+        Assert.assertEquals(co.responses.get(0).message, "Error");
+        Assert.assertEquals(co.responses.get(1).message, "Default");
+    }
+
+    @Test
     public void testResponseWithNoSchemaInHeaders() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         ApiResponse response2XX = new ApiResponse()

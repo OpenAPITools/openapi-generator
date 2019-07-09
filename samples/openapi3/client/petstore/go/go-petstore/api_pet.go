@@ -692,7 +692,6 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -798,7 +797,6 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
