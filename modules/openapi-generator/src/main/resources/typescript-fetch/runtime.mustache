@@ -47,7 +47,7 @@ export class BaseAPI {
             // only add the querystring to the URL if there are query parameters.
             // this is done to avoid urls ending with a "?" character which buggy webservers
             // do not handle correctly sometimes.
-            url += '?' + querystring(context.query);
+            url += '?' + this.configuration.stringify(context.query);
         }
         const body = (context.body instanceof FormData || isBlob(context.body))
 	    ? context.body
@@ -116,6 +116,7 @@ export interface ConfigurationParameters {
     basePath?: string; // override base path
     fetchApi?: FetchAPI; // override for fetch implementation
     middleware?: Middleware[]; // middleware to apply before/after fetch requests
+    stringify?: (params: HTTPQuery) => string; // stringify function for query strings
     username?: string; // parameter for basic security
     password?: string; // parameter for basic security
     apiKey?: string | ((name: string) => string); // parameter for apiKey security
@@ -135,6 +136,10 @@ export class Configuration {
 
     get middleware(): Middleware[] {
         return this.configuration.middleware || [];
+    }
+
+    get stringify(): (params: HTTPQuery) => string {
+        return this.configuration.stringify || querystring;
     }
 
     get username(): string | undefined {
