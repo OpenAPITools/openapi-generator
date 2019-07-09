@@ -2004,125 +2004,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         String type = getSchemaType(p);
-        setPropertyType(property, p, name);
-
-        //Inline enum case:
-        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
-            List<Object> _enum = p.getEnum();
-            property._enum = new ArrayList<String>();
-            for (Object i : _enum) {
-                property._enum.add(String.valueOf(i));
-            }
-            property.isEnum = true;
-
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
-            allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
-        }
-
-        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
-        setPropertyType(property, referencedSchema, name);
-
-        //Referenced enum case:
-        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
-            List<Object> _enum = referencedSchema.getEnum();
-            property._enum = new ArrayList<String>();
-            for (Object i : _enum) {
-                property._enum.add(String.valueOf(i));
-            }
-            property.isEnum = true;
-
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
-            allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
-        }
-
-        if (referencedSchema.getNullable() != null) {
-            property.isNullable = referencedSchema.getNullable();
-        }
-
-        property.dataType = getTypeDeclaration(p);
-        property.dataFormat = p.getFormat();
-        property.baseType = getSchemaType(p);
-
-        // this can cause issues for clients which don't support enums
-        if (property.isEnum) {
-            property.datatypeWithEnum = toEnumName(property);
-            property.enumName = toEnumName(property);
-        } else {
-            property.datatypeWithEnum = property.dataType;
-        }
-
-        if (ModelUtils.isArraySchema(p)) {
-            property.isContainer = true;
-            property.isListContainer = true;
-            property.containerType = "array";
-            property.baseType = getSchemaType(p);
-            if (p.getXml() != null) {
-                property.isXmlWrapped = p.getXml().getWrapped() == null ? false : p.getXml().getWrapped();
-                property.xmlPrefix = p.getXml().getPrefix();
-                property.xmlNamespace = p.getXml().getNamespace();
-                property.xmlName = p.getXml().getName();
-            }
-
-            // handle inner property
-            property.maxItems = p.getMaxItems();
-            property.minItems = p.getMinItems();
-            String itemName = null;
-            if (p.getExtensions() != null && p.getExtensions().get("x-item-name") != null) {
-                itemName = p.getExtensions().get("x-item-name").toString();
-            }
-            if (itemName == null) {
-                itemName = property.name;
-            }
-            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ((ArraySchema) p).getItems());
-            if (innerSchema == null) {
-                LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
-                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                ((ArraySchema) p).setItems(innerSchema);
-            }
-            CodegenProperty cp = fromProperty(itemName, innerSchema);
-            updatePropertyForArray(property, cp);
-        } else if (ModelUtils.isMapSchema(p)) {
-            property.isContainer = true;
-            property.isMapContainer = true;
-            property.containerType = "map";
-            property.baseType = getSchemaType(p);
-            property.minItems = p.getMinProperties();
-            property.maxItems = p.getMaxProperties();
-
-            // handle inner property
-            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getAdditionalProperties(p));
-            if (innerSchema == null) {
-                LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
-                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                p.setAdditionalProperties(innerSchema);
-            }
-            CodegenProperty cp = fromProperty("inner", innerSchema);
-            updatePropertyForMap(property, cp);
-        } else if (ModelUtils.isFreeFormObject(p)) {
-            property.isFreeFormObject = true;
-            property.baseType = getSchemaType(p);
-        } else { // model
-            // TODO revise the logic below
-            //if (StringUtils.isNotBlank(p.get$ref())) {
-            //    property.baseType = getSimpleRef(p.get$ref());
-            //}
-            // --END of revision
-            property.isModel = ModelUtils.isModel(p);
-            setNonArrayMapProperty(property, type);
-        }
-
-        LOGGER.debug("debugging from property return: " + property);
-        return property;
-    }
-
-    
-    protected void setPropertyType(CodegenProperty property, Schema p, String name) {
         if (ModelUtils.isIntegerSchema(p)) { // integer type
             property.isNumeric = Boolean.TRUE;
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) { // int64/long format
@@ -2236,6 +2117,114 @@ public class DefaultCodegen implements CodegenConfig {
                 p.setAdditionalProperties(innerSchema);
             }
         }
+
+        //Inline enum case:
+        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            List<Object> _enum = p.getEnum();
+            property._enum = new ArrayList<String>();
+            for (Object i : _enum) {
+                property._enum.add(String.valueOf(i));
+            }
+            property.isEnum = true;
+
+            Map<String, Object> allowableValues = new HashMap<String, Object>();
+            allowableValues.put("values", _enum);
+            if (allowableValues.size() > 0) {
+                property.allowableValues = allowableValues;
+            }
+        }
+
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+
+        //Referenced enum case:
+        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            List<Object> _enum = referencedSchema.getEnum();
+
+            Map<String, Object> allowableValues = new HashMap<String, Object>();
+            allowableValues.put("values", _enum);
+            if (allowableValues.size() > 0) {
+                property.allowableValues = allowableValues;
+            }
+        }
+
+        if (referencedSchema.getNullable() != null) {
+            property.isNullable = referencedSchema.getNullable();
+        }
+
+        property.dataType = getTypeDeclaration(p);
+        property.dataFormat = p.getFormat();
+        property.baseType = getSchemaType(p);
+
+        // this can cause issues for clients which don't support enums
+        if (property.isEnum) {
+            property.datatypeWithEnum = toEnumName(property);
+            property.enumName = toEnumName(property);
+        } else {
+            property.datatypeWithEnum = property.dataType;
+        }
+
+        if (ModelUtils.isArraySchema(p)) {
+            property.isContainer = true;
+            property.isListContainer = true;
+            property.containerType = "array";
+            property.baseType = getSchemaType(p);
+            if (p.getXml() != null) {
+                property.isXmlWrapped = p.getXml().getWrapped() == null ? false : p.getXml().getWrapped();
+                property.xmlPrefix = p.getXml().getPrefix();
+                property.xmlNamespace = p.getXml().getNamespace();
+                property.xmlName = p.getXml().getName();
+            }
+
+            // handle inner property
+            property.maxItems = p.getMaxItems();
+            property.minItems = p.getMinItems();
+            String itemName = null;
+            if (p.getExtensions() != null && p.getExtensions().get("x-item-name") != null) {
+                itemName = p.getExtensions().get("x-item-name").toString();
+            }
+            if (itemName == null) {
+                itemName = property.name;
+            }
+            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ((ArraySchema) p).getItems());
+            if (innerSchema == null) {
+                LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
+                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
+                ((ArraySchema) p).setItems(innerSchema);
+            }
+            CodegenProperty cp = fromProperty(itemName, innerSchema);
+            updatePropertyForArray(property, cp);
+        } else if (ModelUtils.isMapSchema(p)) {
+            property.isContainer = true;
+            property.isMapContainer = true;
+            property.containerType = "map";
+            property.baseType = getSchemaType(p);
+            property.minItems = p.getMinProperties();
+            property.maxItems = p.getMaxProperties();
+
+            // handle inner property
+            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getAdditionalProperties(p));
+            if (innerSchema == null) {
+                LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
+                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
+                p.setAdditionalProperties(innerSchema);
+            }
+            CodegenProperty cp = fromProperty("inner", innerSchema);
+            updatePropertyForMap(property, cp);
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            property.isFreeFormObject = true;
+            property.baseType = getSchemaType(p);
+        } else { // model
+            // TODO revise the logic below
+            //if (StringUtils.isNotBlank(p.get$ref())) {
+            //    property.baseType = getSimpleRef(p.get$ref());
+            //}
+            // --END of revision
+            property.isModel = ModelUtils.isModel(p);
+            setNonArrayMapProperty(property, type);
+        }
+
+        LOGGER.debug("debugging from property return: " + property);
+        return property;
     }
 
     /**
