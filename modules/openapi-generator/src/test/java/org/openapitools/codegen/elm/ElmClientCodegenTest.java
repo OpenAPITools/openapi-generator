@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.languages.ElmClientCodegen;
@@ -83,12 +82,9 @@ public class ElmClientCodegenTest {
                 .readLocation("src/test/resources/3_0/rootOperation.yaml", null, new ParseOptions())
                 .getOpenAPI();
 
-        ClientOpts opts = new ClientOpts();
-
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         // when
         MockDefaultGenerator generator = new MockDefaultGenerator();

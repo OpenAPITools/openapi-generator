@@ -19,14 +19,17 @@ package org.openapitools.codegen.config;
 import java.util.Properties;
 
 /**
- * GeneratorProperties encapsulates SystemProperties, since the codegen mechanism heavily relies on a stable,
+ * GlobalSettings encapsulates SystemProperties, since the codegen mechanism heavily relies on a stable,
  * non-changing System Property Basis. Using plain System.(get|set|clear)Property raises Race-Conditions in combination
  * with Code, that uses System.setProperties (e.g. maven-surefire-plugin).
+ *
+ * This provides a set of properties specific to the executing thread, such that the generator may not modify system properties
+ * consumed by other threads.
  * 
  * @author gndrm
  * @since 2018
  */
-public class GeneratorProperties {
+public class GlobalSettings {
 
     private static ThreadLocal<Properties> properties = new InheritableThreadLocal<Properties>() {
         @Override
