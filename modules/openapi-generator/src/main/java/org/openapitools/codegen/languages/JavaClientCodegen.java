@@ -138,7 +138,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.8.x");
         supportedLibraries.put(VERTX, "HTTP client: VertX client 3.x. JSON processing: Jackson 2.8.x");
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.8.x");
-        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 3.x. JSON processing: Gson 2.x. Only for Java8");
+        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x. Only for Java8");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -695,4 +695,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return mime != null && JSON_VENDOR_MIME_PATTERN.matcher(mime).matches();
     }
 
+    @Override
+    public String toApiVarName(String name) {
+        String apiVarName = super.toApiVarName(name);
+        if (reservedWords.contains(apiVarName)) {
+            apiVarName = escapeReservedWord(apiVarName);
+        }
+        return apiVarName;
+    }
 }

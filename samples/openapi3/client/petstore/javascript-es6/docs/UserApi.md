@@ -14,8 +14,9 @@ Method | HTTP request | Description
 [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
 
 
-<a name="createUser"></a>
-# **createUser**
+
+## createUser
+
 > createUser(user)
 
 Create user
@@ -23,6 +24,7 @@ Create user
 This can only be done by the logged in user.
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -39,6 +41,7 @@ apiInstance.createUser(user, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user** | [**User**](User.md)| Created user object | 
@@ -53,16 +56,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="createUsersWithArrayInput"></a>
-# **createUsersWithArrayInput**
+
+## createUsersWithArrayInput
+
 > createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -79,9 +84,10 @@ apiInstance.createUsersWithArrayInput(user, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**[User]**](Array.md)| List of user object | 
+ **user** | [**[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -93,16 +99,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="createUsersWithListInput"></a>
-# **createUsersWithListInput**
+
+## createUsersWithListInput
+
 > createUsersWithListInput(user)
 
 Creates list of users with given input array
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -119,9 +127,10 @@ apiInstance.createUsersWithListInput(user, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**[User]**](Array.md)| List of user object | 
+ **user** | [**[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -133,11 +142,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="deleteUser"></a>
-# **deleteUser**
+
+## deleteUser
+
 > deleteUser(username)
 
 Delete user
@@ -145,6 +155,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -161,6 +172,7 @@ apiInstance.deleteUser(username, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| The name that needs to be deleted | 
@@ -175,16 +187,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="getUserByName"></a>
-# **getUserByName**
+
+## getUserByName
+
 > User getUserByName(username)
 
 Get user by user name
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -201,6 +215,7 @@ apiInstance.getUserByName(username, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
@@ -215,16 +230,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="loginUser"></a>
-# **loginUser**
+
+## loginUser
+
 > String loginUser(username, password)
 
 Logs user into the system
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -242,6 +259,7 @@ apiInstance.loginUser(username, password, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| The user name for login | 
@@ -257,16 +275,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="logoutUser"></a>
-# **logoutUser**
+
+## logoutUser
+
 > logoutUser()
 
 Logs out current logged in user session
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -281,6 +301,7 @@ apiInstance.logoutUser((error, data, response) => {
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -293,11 +314,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="updateUser"></a>
-# **updateUser**
+
+## updateUser
+
 > updateUser(username, user)
 
 Updated user
@@ -305,6 +327,7 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -322,6 +345,7 @@ apiInstance.updateUser(username, user, (error, data, response) => {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
@@ -337,6 +361,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 

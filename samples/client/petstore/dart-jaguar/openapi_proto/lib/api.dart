@@ -39,7 +39,7 @@ final _jsonJaguarRepo = ProtoCodecRepo(isJsonFormatEnabled: true)
 ..add((data) => Tag.fromBuffer(List<int>.from(data)))
 ..add((data) => User.fromBuffer(List<int>.from(data)))
 ;
-final Map<String, CodecRepo> _converters = {
+final Map<String, CodecRepo> converters = {
     MimeTypes.json: _jsonJaguarRepo,
     MimeTypes.binary: _protoJaguarRepo,
 };
@@ -96,7 +96,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = _converters;
+            converters = this.converters;
         }
         return PetApi(base: base, converters: converters, timeout: timeout);
     }
@@ -111,7 +111,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = _converters;
+            converters = this.converters;
         }
         return StoreApi(base: base, converters: converters, timeout: timeout);
     }
@@ -126,7 +126,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = _converters;
+            converters = this.converters;
         }
         return UserApi(base: base, converters: converters, timeout: timeout);
     }

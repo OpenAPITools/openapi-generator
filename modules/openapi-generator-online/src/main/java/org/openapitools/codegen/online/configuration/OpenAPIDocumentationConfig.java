@@ -29,7 +29,11 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Properties;
 
 
 @Configuration
@@ -37,13 +41,24 @@ import java.io.InputStream;
 public class OpenAPIDocumentationConfig {
 
     ApiInfo apiInfo() {
+        final Properties properties = new Properties();
+        try (InputStream stream = this.getClass().getResourceAsStream("/version.properties")) {
+            if (stream != null) {
+                properties.load(stream);
+            }
+        } catch (IOException ex) {
+            // ignore
+        }
+
+        String version = properties.getProperty("version", "unknown");
+
         return new ApiInfoBuilder()
             .title("OpenAPI Generator Online")
             .description("This is an online openapi generator server.  You can find out more at https://github.com/OpenAPITools/openapi-generator.")
             .license("Apache 2.0")
             .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("")
-            .version("3.0.0")
+            .version(version)
             .contact(new Contact("","", ""))
             .build();
     }

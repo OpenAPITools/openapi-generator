@@ -88,20 +88,20 @@ impl ObjectOfObjects {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ObjectOfObjectsInner {
+    #[serde(rename = "required_thing")]
+    pub required_thing: String,
+
     #[serde(rename = "optional_thing")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_thing: Option<isize>,
-
-    #[serde(rename = "required_thing")]
-    pub required_thing: String,
 
 }
 
 impl ObjectOfObjectsInner {
     pub fn new(required_thing: String, ) -> ObjectOfObjectsInner {
         ObjectOfObjectsInner {
-            optional_thing: None,
             required_thing: required_thing,
+            optional_thing: None,
         }
     }
 }

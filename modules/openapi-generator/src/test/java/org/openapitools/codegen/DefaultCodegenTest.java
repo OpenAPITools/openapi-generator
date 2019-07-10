@@ -18,6 +18,7 @@
 package org.openapitools.codegen;
 
 import com.google.common.collect.Sets;
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -28,10 +29,15 @@ import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -183,6 +189,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testArraySchemaIsNotIncluedInAliases() throws Exception {
+        final DefaultCodegen codegen = new DefaultCodegen();
         Map<String, Schema> schemas = new HashMap<String, Schema>() {
             {
                 put("ArraySchemaTest", new ArraySchema());
@@ -190,7 +197,7 @@ public class DefaultCodegenTest {
 
         };
 
-        Map<String, String> aliases = DefaultCodegen.getAllAliases(schemas);
+        Map<String, String> aliases = codegen.getAllAliases(schemas);
 
         Assert.assertEquals(aliases.size(), 0);
     }
@@ -576,7 +583,7 @@ public class DefaultCodegenTest {
         test.setPropertyName("DollarUnderscoretype");
         test.setMapping(new HashMap<>());
         test.getMapping().put("a", "#/components/schemas/Adult");
-        test.getMapping().put("c", "#/components/schemas/Child");
+        test.getMapping().put("c", "Child");
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
         Assert.assertEquals(discriminator, test);
@@ -654,4 +661,48 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(imports, expected);
     }
+
+    @Test
+    public void modelDoNotContainInheritedVars() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.supportsInheritance = true;
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/generic.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel codegenModel = codegen.fromModel("Dog", openAPI.getComponents().getSchemas().get("Dog"));
+
+        Assert.assertEquals(codegenModel.vars.size(), 1);
+    }
+
+    @Test
+    public void modelWithPrefixDoNotContainInheritedVars() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.supportsInheritance = true;
+        codegen.setModelNamePrefix("prefix");
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/generic.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel codegenModel = codegen.fromModel("Dog", openAPI.getComponents().getSchemas().get("Dog"));
+
+        Assert.assertEquals(codegenModel.vars.size(), 1);
+    }
+    @Test
+    public void modelWithSuffixDoNotContainInheritedVars() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.supportsInheritance = true;
+        codegen.setModelNameSuffix("suffix");
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/generic.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel codegenModel = codegen.fromModel("Dog", openAPI.getComponents().getSchemas().get("Dog"));
+
+        Assert.assertEquals(codegenModel.vars.size(), 1);
+    }
+
 }

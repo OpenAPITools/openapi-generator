@@ -446,7 +446,9 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
             } else {
                 final List<String> paths = Arrays.asList(op.path.substring(1).split("/"));
-                String path = paths.stream().map(str -> str.charAt(0) == '{' ? str : "\"" + str + "\"").collect(Collectors.joining(", "));
+                String path = paths.stream()
+                        .map(str -> str.startsWith("{") && str.endsWith("}") ? str : "\"" + str + "\"")
+                        .collect(Collectors.joining(", "));
                 for (CodegenParameter param : op.pathParams) {
                     String str = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", str);

@@ -1,6 +1,7 @@
 # Foo
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Bar** | **string** |  | [optional] [default to bar]

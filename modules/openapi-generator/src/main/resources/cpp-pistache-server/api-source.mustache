@@ -14,7 +14,7 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 
 {{classname}}::{{classname}}(std::shared_ptr<Pistache::Rest::Router> rtr) { 
     router = rtr;
-};
+}
 
 void {{classname}}::init() {
     setupRoutes();
@@ -32,7 +32,7 @@ void {{classname}}::setupRoutes() {
 }
 
 {{#operation}}
-void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Request &{{#hasParams}}request{{/hasParams}}, Pistache::Http::ResponseWriter response) {
     {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
     {{#hasPathParams}}
     // Getting the path params
@@ -83,7 +83,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -92,7 +92,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
 }
 {{/operation}}
 
-void {{classname}}::{{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void {{classname}}::{{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
     response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 

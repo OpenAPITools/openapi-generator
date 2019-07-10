@@ -21,7 +21,7 @@ import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +46,8 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         invokerPackage = "org.openapitools.controllers";
         artifactId = "openapi-inflector-server";
         dateLibrary = "legacy"; //TODO: add joda support
-        apiPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
-        modelPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
+        apiPackage = GlobalSettings.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
+        modelPackage = GlobalSettings.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
