@@ -114,6 +114,11 @@
   infoLink: "https://www.unblu.com/"
   pinned: true
 -
+  caption: WSO2
+  image: "img/companies/wso2.png"
+  infoLink: "https://wso2.com/"
+  pinned: true
+-
   caption: Xero
   image: "img/companies/xero.png"
   infoLink: "https://www.xero.com/"
