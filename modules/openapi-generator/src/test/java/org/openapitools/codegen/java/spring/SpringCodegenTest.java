@@ -66,6 +66,7 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.getConfigPackage(), "org.openapitools.configuration");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8082");
+        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), false);
     }
 
     @Test
@@ -77,6 +78,7 @@ public class SpringCodegenTest {
         codegen.setInvokerPackage("xx.yyyyyyyy.invoker");
         codegen.setBasePackage("xx.yyyyyyyy.base");
         codegen.setConfigPackage("xx.yyyyyyyy.config");
+        codegen.setUnhandledException(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -91,6 +93,8 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
         Assert.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
+        Assert.assertEquals(codegen.isUnhandledException(), true);
+        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
     }
 
     @Test

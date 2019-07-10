@@ -118,7 +118,7 @@ export class BaseAPI {
         return of(params).pipe(
             map((args) => {
                 if (preMiddlewares) {
-                    preMiddlewares.forEach((mw) => (args = mw.pre({ ...args })));
+                    preMiddlewares.forEach((mw) => (args = mw.pre!({ ...args })));
                 }
                 return args;
             }),
@@ -126,7 +126,7 @@ export class BaseAPI {
                 ajax({ url: args.url, ...args.options }).pipe(
                     map((response) => {
                         if (postMiddlewares) {
-                            postMiddlewares.forEach((mw) => (response = mw.post({ ...params, response })));
+                            postMiddlewares.forEach((mw) => (response = mw.post!({ ...params, response })));
                         }
                         return response;
                     })

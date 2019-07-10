@@ -52,6 +52,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
+    public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
 
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
@@ -66,6 +67,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String API_FIRST = "apiFirst";
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
+    public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
 
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
@@ -78,6 +80,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean async = false;
     protected boolean reactive = false;
     protected String responseWrapper = "";
+    protected boolean skipDefaultInterface = false;
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
     protected boolean performBeanValidation = false;
@@ -88,6 +91,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean virtualService = false;
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
+    protected boolean unhandledException = false;
 
     public SpringCodegen() {
         super();
@@ -117,6 +121,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
         updateJava8CliOptions();
+        cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_INTERFACE, "Whether to generate default implementations for java8 interfaces", skipDefaultInterface));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)", reactive));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
@@ -130,6 +135,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,"Use Optional container for optional parameters", useOptional));
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
+        cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -231,6 +237,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setSingleContentTypes(Boolean.valueOf(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
         }
 
+        if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
+            this.setSkipDefaultInterface(Boolean.valueOf(additionalProperties.get(SKIP_DEFAULT_INTERFACE).toString()));
+        }
+
         if (additionalProperties.containsKey(ASYNC)) {
             this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
             //fix for issue/1164
@@ -284,6 +294,12 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
             this.setReturnSuccessCode(Boolean.valueOf(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
+        }
+
+        if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
+            this.setUnhandledException(Boolean.valueOf(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
+        } else {
+            additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
         }
 
         typeMapping.put("file", "Resource");
@@ -384,6 +400,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (this.java8) {
             additionalProperties.put("javaVersion", "1.8");
+            additionalProperties.put("jdk8-default-interface", !this.skipDefaultInterface);
             if (!SPRING_CLOUD_LIBRARY.equals(library)) {
                 additionalProperties.put("jdk8", true);
             }
@@ -405,6 +422,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(this.responseWrapper)) {
             additionalProperties.put("jdk8", false);
+            additionalProperties.put("jdk8-default-interface", false);
             switch (this.responseWrapper) {
                 case "Future":
                 case "Callable":
@@ -687,6 +705,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         return this.configPackage;
     }
 
+    public boolean isUnhandledException() {
+        return unhandledException;
+    }
+
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
     }
@@ -702,6 +724,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setSingleContentTypes(boolean singleContentTypes) {
         this.singleContentTypes = singleContentTypes;
     }
+
+    public void setSkipDefaultInterface(boolean skipDefaultInterface) { this.skipDefaultInterface = skipDefaultInterface; }
 
     public void setJava8(boolean java8) { this.java8 = java8; }
 
@@ -735,6 +759,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setReturnSuccessCode(boolean returnSuccessCode) {
         this.returnSuccessCode = returnSuccessCode;
+    }
+
+    public void setUnhandledException(boolean unhandledException) {
+        this.unhandledException = unhandledException;
     }
 
     @Override

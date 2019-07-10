@@ -31,7 +31,7 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 export function {{classname}}FromJSON(json: any): {{classname}} {
     {{#hasVars}}
     return {
-        {{#allVars}}
+        {{#vars}}
         {{#isPrimitiveType}}
         {{#isDate}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}new Date(json['{{baseName}}']),
@@ -63,7 +63,7 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         {{/isMapContainer}}
         {{/isListContainer}}
         {{/isPrimitiveType}}
-        {{/allVars}}
+        {{/vars}}
     };
     {{/hasVars}}
     {{^hasVars}}
@@ -77,7 +77,7 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         return undefined;
     }
     return {
-        {{#allVars}}
+        {{#vars}}
         {{^isReadOnly}}
         {{#isPrimitiveType}}
         '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString().substr(0,10){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
@@ -101,7 +101,7 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         {{/isListContainer}}        
         {{/isPrimitiveType}}
         {{/isReadOnly}}
-        {{/allVars}}
+        {{/vars}}
     };
     {{/hasVars}}
     {{^hasVars}}

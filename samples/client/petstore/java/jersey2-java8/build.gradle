@@ -112,3 +112,7 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     testCompile "junit:junit:$junit_version"
 }
+
+javadoc {
+    options.tags = [ "http.response.details:a:Http Response Details" ]
+}

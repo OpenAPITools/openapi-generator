@@ -52,7 +52,6 @@ public class OpenAPIDocumentationConfig {
 
         String version = properties.getProperty("version", "unknown");
 
-
         return new ApiInfoBuilder()
             .title("OpenAPI Generator Online")
             .description("This is an online openapi generator server.  You can find out more at https://github.com/OpenAPITools/openapi-generator.")
@@ -66,14 +65,7 @@ public class OpenAPIDocumentationConfig {
 
     @Bean
     public Docket customImplementation(){
-        String host;
-        try {
-            host = new URI(System.getProperty("GENERATOR_HOST", "http://localhost")).getHost();
-        } catch (URISyntaxException e) {
-            host = "";
-        }
         return new Docket(DocumentationType.SWAGGER_2)
-                .host(host)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("org.openapitools.codegen.online.api"))
                     .build()

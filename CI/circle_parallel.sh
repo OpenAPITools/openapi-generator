@@ -12,6 +12,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   #cp CI/pom.xml.circleci pom.xml
   java -version
   mvn --quiet verify -Psamples.circleci
+  mvn --quiet javadoc:javadoc -Psamples.circleci
 
   # generate all petstore samples (client, servers, doc)
   ./bin/run-all-petstore
