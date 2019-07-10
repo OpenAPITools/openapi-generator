@@ -10,22 +10,19 @@
 
 /// Pet : A pet for sale in the pet store
 
-#[allow(unused_imports)]
-use serde_json::Value;
-
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Pet {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
     #[serde(rename = "category", skip_serializing_if = "Option::is_none")]
-    pub category: Option<::models::Category>,
+    pub category: Option<crate::models::Category>,
     #[serde(rename = "name")]
     pub name: String,
     #[serde(rename = "photoUrls")]
     pub photo_urls: Vec<String>,
     #[serde(rename = "tags", skip_serializing_if = "Option::is_none")]
-    pub tags: Option<Vec<::models::Tag>>,
+    pub tags: Option<Vec<crate::models::Tag>>,
     /// pet status in the store
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
