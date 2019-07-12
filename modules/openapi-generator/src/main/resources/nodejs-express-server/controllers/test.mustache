@@ -1,9 +1,22 @@
-const Controller = require('./Controller');
+const Service = require('../services/Service');
 
-class TestController {
-  constructor(Service) {
-    this.service = Service;
-  }
+const testItems = require('../tests/testFiles/testItems.json');
+
+class TestService {
+  static testGetController() {
+    return new Promise(
+      async (resolve, reject) => {
+        try {
+          resolve(Service.successResponse(
+            testItems,
+            200,
+          ));
+        } catch (e) {
+          const message = e.getMessage() || 'Could not get items. Server error';
+          reject(Service.rejectResponse(message, 500));
+        }
+      },
+    );
 
   sendResponse(request, response) {
     response.status(200);
@@ -56,4 +69,4 @@ class TestController {
   }
 }
 
-module.exports = Test;
+module.exports = TestController;

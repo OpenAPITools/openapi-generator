@@ -20,6 +20,7 @@ class StoreController {
   async placeOrder(request, response) {
     await Controller.handleRequest(request, response, this.service.placeOrder);
   }
+
 }
 
 module.exports = StoreController;

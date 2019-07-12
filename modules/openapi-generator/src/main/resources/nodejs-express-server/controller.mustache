@@ -3,6 +3,7 @@ const Controller = require('./Controller');
 class {{{classname}}}Controller {
   constructor(Service) {
     this.service = Service;
+  }
 
 {{#operations}}
 {{#operation}}
@@ -13,5 +14,5 @@ class {{{classname}}}Controller {
 {{/operation}}
 }
 
-module.exports = {{classname}};
+module.exports = {{classname}}Controller;
 {{/operations}}

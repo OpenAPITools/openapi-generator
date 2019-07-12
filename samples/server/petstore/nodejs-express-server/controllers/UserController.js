@@ -36,6 +36,7 @@ class UserController {
   async updateUser(request, response) {
     await Controller.handleRequest(request, response, this.service.updateUser);
   }
+
 }
 
 module.exports = UserController;

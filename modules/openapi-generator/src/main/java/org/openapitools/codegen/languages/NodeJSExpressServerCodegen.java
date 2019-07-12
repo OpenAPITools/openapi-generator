@@ -49,7 +49,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
     protected String apiVersion = "1.0.0";
     protected String defaultServerPort = "8080";
-    protected String implFolder = "service";
+    protected String implFolder = "services";
     protected String projectName = "openapi-server";
     protected String exportedName;
 
@@ -91,17 +91,16 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
         // utils folder
         supportingFiles.add(new SupportingFile("utils" + File.separator + "openapiRouter.mustache", "utils", "openapiRouter.js"));
-        supportingFiles.add(new SupportingFile("utils" + File.separator + "swaggerRouter.mustache", "utils", "swaggerRouter.js"));
         supportingFiles.add(new SupportingFile("utils" + File.separator + "writer.mustache", "utils", "writer.js"));
 
         // controllers folder
-        supportingFiles.add(new SupportingFile("service" + File.separator + "test.mustache", "controllers", "TestController.js"));
+        supportingFiles.add(new SupportingFile("controllers" + File.separator + "test.mustache", "controllers", "TestController.js"));
         supportingFiles.add(new SupportingFile("controllers" + File.separator + "index.mustache", "controllers", "index.js"));
         supportingFiles.add(new SupportingFile("controllers" + File.separator + "Controller.mustache", "controllers", "Controller.js"));
         // service folder
-        supportingFiles.add(new SupportingFile("service" + File.separator + "test.mustache", "service", "TestService.js"));
-        supportingFiles.add(new SupportingFile("service" + File.separator + "index.mustache", "service", "index.js"));
-        supportingFiles.add(new SupportingFile("service" + File.separator + "Service.mustache", "service", "Service.js"));
+        supportingFiles.add(new SupportingFile("services" + File.separator + "test.mustache", "services", "TestService.js"));
+        supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.js"));
+        supportingFiles.add(new SupportingFile("services" + File.separator + "Service.mustache", "services", "Service.js"));
 
         // do not overwrite if the file is already present
         writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
