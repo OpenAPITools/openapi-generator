@@ -1,0 +1,196 @@
+{{>partial_header}}
+{-|
+Module : {{baseModule}}.Model
+-}
+
+{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE DeriveFoldable #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveTraversable #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# OPTIONS_GHC -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
+
+module {{baseModule}}.Model {{#x-hasImportMappings}}(module {{baseModule}}.Model, module {{baseModule}}.ImportMappings) {{/x-hasImportMappings}}where
+
+import {{baseModule}}.Core
+import {{baseModule}}.MimeTypes{{#x-hasImportMappings}}
+import {{baseModule}}.ImportMappings{{/x-hasImportMappings}}
+
+import Data.Aeson ((.:),(.:!),(.:?),(.=))
+
+import qualified Control.Arrow as P (left)
+import qualified Data.Aeson as A
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Base64 as B64
+import qualified Data.ByteString.Char8 as BC
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
+import qualified Data.Foldable as P
+import qualified Data.HashMap.Lazy as HM
+import qualified Data.Map as Map
+import qualified Data.Maybe as P
+import qualified Data.Set as Set
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Time as TI
+import qualified Lens.Micro as L
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
+
+import Control.Applicative ((<|>))
+import Control.Applicative (Alternative)
+import Data.Function ((&))
+import Data.Monoid ((<>))
+import Data.Text (Text)
+import Prelude (($),(/=),(.),(<$>),(<*>),(>>=),(=<<),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+
+import qualified Prelude as P
+
+
+
+-- * Parameter newtypes
+{{#x-allUniqueParams}}{{#x-newtype}}
+
+-- ** {{{x-paramNameType}}}
+newtype {{{x-paramNameType}}} = {{{x-paramNameType}}} { un{{{x-paramNameType}}} :: {{{x-dataType}}} } deriving (P.Eq, P.Show{{#x-isBodyParam}}, A.ToJSON{{/x-isBodyParam}}){{/x-newtype}}{{/x-allUniqueParams}}
+
+-- * Models
+
+{{#models}}
+{{#model}}{{^isEnum}}
+-- ** {{classname}}
+-- | {{classname}}{{#title}}
+-- {{{.}}}
+-- {{/title}}{{#description}}
+-- {{{.}}}{{/description}}{{#isAlias}}
+newtype {{classname}} = {{classname}}
+  { un{{classname}} :: {{{vendorExtensions.x-dataType}}}
+  } deriving (P.Eq, P.Show, P.Typeable, A.ToJSON, A.FromJSON{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}{{^isAlias}}
+data {{classname}} = {{classname}}
+  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
+  , {{/hasMore}}{{/vars}}
+  } deriving (P.Show, P.Eq, P.Typeable{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}
+
+{{^isAlias}}-- | FromJSON {{classname}}
+instance A.FromJSON {{classname}} where
+  parseJSON = A.withObject "{{classname}}" $ \o ->
+    {{^hasVars}}pure {{/hasVars}}{{classname}}
+      {{#hasVars}}<$>{{/hasVars}}{{#vars}} (o {{#required}}.: {{/required}}{{^required}}{{^allowFromJsonNulls}}.:!{{/allowFromJsonNulls}}{{#allowFromJsonNulls}}.:?{{/allowFromJsonNulls}}{{/required}} "{{baseName}}"){{#hasMore}}
+      <*>{{/hasMore}}{{/vars}}
+
+-- | ToJSON {{classname}}
+instance A.ToJSON {{classname}} where
+  toJSON {{classname}} {{#hasVars}}{..}{{/hasVars}} =
+   {{^allowToJsonNulls}}_omitNulls{{/allowToJsonNulls}}{{#allowToJsonNulls}}A.object{{/allowToJsonNulls}}
+      [ {{#vars}}"{{baseName}}" .= {{name}}{{#hasMore}}
+      , {{/hasMore}}{{/vars}}
+      ]
+
+{{#vendorExtensions.x-hasMimeFormUrlEncoded}}
+-- | FromForm {{classname}}
+instance WH.FromForm {{classname}} where
+  fromForm f =
+    {{^hasVars}}pure {{/hasVars}}{{classname}}
+      {{#hasVars}}<$>{{/hasVars}}{{#vars}} ({{#required}}WH.parseUnique {{/required}}{{^required}}WH.parseMaybe {{/required}}"{{baseName}}" f){{#hasMore}}
+      <*>{{/hasMore}}{{/vars}}
+
+-- | ToForm {{classname}}
+instance WH.ToForm {{classname}} where
+  toForm {{classname}} {{#hasVars}}{..}{{/hasVars}} =
+    WH.Form $ HM.fromList $ P.catMaybes $
+      [ {{#vars}}_toFormItem "{{baseName}}" ({{#required}}Just {{/required}}{{name}}){{#hasMore}}
+      , {{/hasMore}}{{/vars}}
+      ]
+{{/vendorExtensions.x-hasMimeFormUrlEncoded}}
+
+{{#generateModelConstructors}}
+-- | Construct a value of type '{{classname}}' (by applying it's required fields, if any)
+mk{{classname}}
+  :: {{#vars}}{{#required}}{{{vendorExtensions.x-dataType}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
+  -> {{/required}}{{/vars}}{{classname}}
+mk{{classname}} {{#vars}}{{#required}}{{name}} {{/required}}{{/vars}}=
+  {{classname}}
+  { {{#vars}}{{#required}}{{name}}{{/required}}{{^required}}{{name}} = {{#isListContainer}}Nothing{{/isListContainer}}{{#isMapContainer}}Nothing{{/isMapContainer}}{{^isContainer}}Nothing{{/isContainer}}{{/required}}{{#hasMore}}
+  , {{/hasMore}}{{/vars}}
+  }
+{{/generateModelConstructors}}{{/isAlias}}{{/isEnum}}{{/model}}{{/models}}
+
+{{#x-hasEnumSection}}-- * Enums
+{{#x-allUniqueParams}}{{#x-enum}}
+
+-- ** {{{x-paramNameType}}}
+
+-- | Enum of '{{{x-dataType}}}'{{#description}} . 
+-- {{{.}}}{{/description}}
+data {{{x-paramNameType}}}
+  = {{#allowableValues}}{{#enumVars}}{{{name}}} -- ^ @{{{value}}}@
+  {{^-last}}| {{/-last}}{{#-last}}deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum){{/-last}}{{/enumVars}}{{/allowableValues}}
+
+instance A.ToJSON {{{x-paramNameType}}} where toJSON = A.toJSON . from{{{x-paramNameType}}}
+instance A.FromJSON {{{x-paramNameType}}} where parseJSON o = P.either P.fail (pure . P.id) . to{{{x-paramNameType}}} =<< A.parseJSON o
+instance WH.ToHttpApiData {{{x-paramNameType}}} where toQueryParam = WH.toQueryParam . from{{{x-paramNameType}}}
+instance WH.FromHttpApiData {{{x-paramNameType}}} where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . to{{{x-paramNameType}}}
+instance MimeRender MimeMultipartFormData {{{x-paramNameType}}} where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap '{{{x-paramNameType}}}' enum
+from{{{x-paramNameType}}} :: {{{x-paramNameType}}} -> {{{x-dataType}}}
+from{{{x-paramNameType}}} = \case{{#allowableValues}}{{#enumVars}}
+  {{{name}}} -> {{{value}}}{{/enumVars}}{{/allowableValues}}
+
+-- | parse '{{{x-paramNameType}}}' enum
+to{{{x-paramNameType}}} :: {{{x-dataType}}} -> P.Either String {{{x-paramNameType}}}
+to{{{x-paramNameType}}} = \case{{#allowableValues}}{{#enumVars}}
+  {{{value}}} -> P.Right {{{name}}}{{/enumVars}}{{/allowableValues}}
+  s -> P.Left $ "to{{{x-paramNameType}}}: enum parse failure: " P.++ P.show s
+{{/x-enum}}{{/x-allUniqueParams}}{{/x-hasEnumSection}}
+
+{{#authMethods}}{{#-first}}-- * Auth Methods
+
+{{/-first}}{{#isBasic}}-- ** {{name}}
+data {{name}} =
+  {{name}} B.ByteString B.ByteString -- ^ username password
+  deriving (P.Eq, P.Show, P.Typeable)
+
+instance AuthMethod {{name}} where
+  applyAuthMethod _ a@({{name}} user pw) req =
+    P.pure $
+    if (P.typeOf a `P.elem` rAuthTypes req)
+      then req `setHeader` toHeader ("Authorization", T.decodeUtf8 cred)
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
+      else req
+    where cred = BC.append "Basic " (B64.encode $ BC.concat [ user, ":", pw ])
+
+{{/isBasic}}{{#isApiKey}}-- ** {{name}}
+data {{name}} =
+  {{name}} Text -- ^ secret
+  deriving (P.Eq, P.Show, P.Typeable)
+
+instance AuthMethod {{name}} where
+  applyAuthMethod _ a@({{name}} secret) req =
+    P.pure $
+    if (P.typeOf a `P.elem` rAuthTypes req)
+      then req {{#isKeyInHeader}}`setHeader` toHeader ("{{keyParamName}}", secret){{/isKeyInHeader}}{{^isKeyInHeader}}`setQuery` toQuery ("{{keyParamName}}", Just secret){{/isKeyInHeader}}
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
+      else req
+
+{{/isApiKey}}{{#isOAuth}}-- ** {{name}}
+data {{name}} =
+  {{name}} Text -- ^ secret
+  deriving (P.Eq, P.Show, P.Typeable)
+
+instance AuthMethod {{name}} where
+  applyAuthMethod _ a@({{name}} secret) req =
+    P.pure $
+    if (P.typeOf a `P.elem` rAuthTypes req)
+      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
+      else req
+
+{{/isOAuth}}{{/authMethods}}
