@@ -108,3 +108,7 @@ dependencies {
     compile 'org.threeten:threetenbp:1.3.5'
     testCompile 'junit:junit:4.12'
 }
+
+javadoc {
+    options.tags = [ "http.response.details:a:Http Response Details" ]
+}

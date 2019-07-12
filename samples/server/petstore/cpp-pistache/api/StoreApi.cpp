@@ -23,7 +23,7 @@ using namespace org::openapitools::server::model;
 
 StoreApi::StoreApi(std::shared_ptr<Pistache::Rest::Router> rtr) { 
     router = rtr;
-};
+}
 
 void StoreApi::init() {
     setupRoutes();
@@ -58,7 +58,7 @@ void StoreApi::delete_order_handler(const Pistache::Rest::Request &request, Pist
     }
 
 }
-void StoreApi::get_inventory_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void StoreApi::get_inventory_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
 
     try {
       this->get_inventory(response);
@@ -111,7 +111,7 @@ void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pista
 
 }
 
-void StoreApi::store_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void StoreApi::store_api_default_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
     response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 

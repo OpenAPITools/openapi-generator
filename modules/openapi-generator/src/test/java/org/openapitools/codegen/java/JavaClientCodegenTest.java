@@ -37,13 +37,13 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
@@ -67,7 +67,7 @@ import java.util.stream.Collectors;
 public class JavaClientCodegenTest {
 
     @Test
-    public void arraysInRequestBody() throws Exception {
+    public void arraysInRequestBody() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
@@ -102,8 +102,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void nullValuesInComposedSchema() throws Exception {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
+    public void nullValuesInComposedSchema() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         ComposedSchema schema = new ComposedSchema();
         CodegenModel result = codegen.fromModel("CompSche",
@@ -191,7 +190,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testPackageNamesSetInvokerDerivedFromApi() throws Exception {
+    public void testPackageNamesSetInvokerDerivedFromApi() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.zzzzzzz.aaaaa.api");
@@ -206,7 +205,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testPackageNamesSetInvokerDerivedFromModel() throws Exception {
+    public void testPackageNamesSetInvokerDerivedFromModel() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
         codegen.processOpts();
@@ -354,10 +353,6 @@ public class JavaClientCodegenTest {
         clientOptInput.setOpenAPI(openAPI);
         clientOptInput.setConfig(new JavaClientCodegen());
 
-        final ClientOpts clientOpts = new ClientOpts();
-        clientOpts.setProperties(Collections.emptyMap());
-        clientOptInput.setOpts(clientOpts);
-
         defaultGenerator.opts(clientOptInput);
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
 
@@ -409,6 +404,18 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cm.getClassname(), "OtherObj");
     }
 
+    @Test
+    public void testBearerAuth() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/pingBearerAuth.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        
+        List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
+        Assert.assertEquals(security.size(), 1);
+        Assert.assertEquals(security.get(0).isBasic, Boolean.TRUE);
+        Assert.assertEquals(security.get(0).isBasicBasic, Boolean.FALSE);
+        Assert.assertEquals(security.get(0).isBasicBearer, Boolean.TRUE);
+    }
+
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
         CodegenProperty array = new CodegenProperty();
         final CodegenProperty items = new CodegenProperty();
@@ -441,5 +448,13 @@ public class JavaClientCodegenTest {
         codegenParameter.baseName = name;
         codegenParameter.dataType = "String";
         return codegenParameter;
+    }
+
+    @Test
+    public void escapeName() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        assertEquals("_default", codegen.toApiVarName("Default"));
+        assertEquals("_int", codegen.toApiVarName("int"));
+        assertEquals("pony", codegen.toApiVarName("pony"));
     }
 }

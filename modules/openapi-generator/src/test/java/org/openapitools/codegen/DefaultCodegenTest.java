@@ -189,6 +189,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testArraySchemaIsNotIncluedInAliases() throws Exception {
+        final DefaultCodegen codegen = new DefaultCodegen();
         Map<String, Schema> schemas = new HashMap<String, Schema>() {
             {
                 put("ArraySchemaTest", new ArraySchema());
@@ -196,7 +197,7 @@ public class DefaultCodegenTest {
 
         };
 
-        Map<String, String> aliases = DefaultCodegen.getAllAliases(schemas);
+        Map<String, String> aliases = codegen.getAllAliases(schemas);
 
         Assert.assertEquals(aliases.size(), 0);
     }
@@ -582,7 +583,7 @@ public class DefaultCodegenTest {
         test.setPropertyName("DollarUnderscoretype");
         test.setMapping(new HashMap<>());
         test.getMapping().put("a", "#/components/schemas/Adult");
-        test.getMapping().put("c", "#/components/schemas/Child");
+        test.getMapping().put("c", "Child");
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
         Assert.assertEquals(discriminator, test);

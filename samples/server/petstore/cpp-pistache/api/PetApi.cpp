@@ -23,7 +23,7 @@ using namespace org::openapitools::server::model;
 
 PetApi::PetApi(std::shared_ptr<Pistache::Rest::Router> rtr) { 
     router = rtr;
-};
+}
 
 void PetApi::init() {
     setupRoutes();
@@ -201,7 +201,7 @@ void PetApi::upload_file_handler(const Pistache::Rest::Request &request, Pistach
 
 }
 
-void PetApi::pet_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void PetApi::pet_api_default_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
     response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 

@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.0.3-SNAPSHOT</version>
+    <version>4.1.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -1041,6 +1041,7 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python-experimental</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/openapi3/client/petstore/python</module>
@@ -1063,8 +1064,8 @@
                 <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/server/petstore/rust-server</module>
                 <module>samples/server/petstore/python-aiohttp</module>
-                <module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/python-flask-python2</module>
+                <!--<module>samples/server/petstore/python-flask</module>
+                <module>samples/server/petstore/python-flask-python2</module>-->
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1080,6 +1081,7 @@
                 <!-- clients -->
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
+                <module>samples/client/petstore/go-experimental</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
@@ -1254,9 +1256,9 @@
             <modules>
                 <!-- clients -->
                 <module>samples/client/petstore/R</module>
-                <module>samples/client/petstore/haskell-http-client</module>
+                <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
-                <module>samples/server/petstore/haskell-servant</module>
+                <!--<module>samples/server/petstore/haskell-servant</module>-->
             </modules>
         </profile>
         <profile>
@@ -1368,7 +1370,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-parser-version>2.0.13-OpenAPITools.org-1</swagger-parser-version>
+        <swagger-parser-version>2.0.13-OpenAPITools.org-2</swagger-parser-version>
         <swagger-core-version>2.0.7</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>

@@ -84,7 +84,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         importMapping.put("TemporaryFile", "play.api.libs.Files.TemporaryFile");
 
         cliOptions.add(new CliOption(ROUTES_FILE_NAME, "Name of the routes file to generate.").defaultValue(routesFileName));
-        cliOptions.add(new CliOption(ROUTES_FILE_NAME, "Base package in which supporting classes are generated.").defaultValue(basePackage));
+        cliOptions.add(new CliOption(BASE_PACKAGE, "Base package in which supporting classes are generated.").defaultValue(basePackage));
 
         addCliOptionWithDefault(SKIP_STUBS, "If set, skips generation of stub classes.", skipStubs);
         addCliOptionWithDefault(SUPPORT_ASYNC, "If set, wraps API return types with Futures and generates async actions.", supportAsync);

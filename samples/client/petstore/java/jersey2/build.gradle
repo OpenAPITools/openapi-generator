@@ -114,3 +114,7 @@ dependencies {
     compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"
 }
+
+javadoc {
+    options.tags = [ "http.response.details:a:Http Response Details" ]
+}

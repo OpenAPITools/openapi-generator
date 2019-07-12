@@ -42,7 +42,10 @@ import java.util.stream.Collectors;
 
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
+
     private static final String URI_FORMAT = "uri";
+
+    // TODO: Use GlobalSettings for all static/global properties in a more thread-safe way.
     private static boolean generateAliasAsModel = false;
 
     public static void setGenerateAliasAsModel(boolean value) {
@@ -170,23 +173,12 @@ public class ModelUtils {
         if (allOperations != null) {
             for (Operation operation : allOperations) {
                 //Params:
-                if (operation.getParameters() != null) {
-                    for (Parameter p : operation.getParameters()) {
-                        Parameter parameter = getReferencedParameter(openAPI, p);
-                        if (parameter.getSchema() != null) {
-                            visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
-                        }
-                    }
-                }
+                visitParameters(openAPI, operation.getParameters(), visitor, visitedSchemas);
 
                 //RequestBody:
                 RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
-                if (requestBody != null && requestBody.getContent() != null) {
-                    for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
-                        if (e.getValue().getSchema() != null) {
-                            visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
-                        }
-                    }
+                if (requestBody != null) {
+                    visitContent(openAPI, requestBody.getContent(), visitor, visitedSchemas);
                 }
 
                 //Responses:
@@ -194,19 +186,14 @@ public class ModelUtils {
                     for (ApiResponse r : operation.getResponses().values()) {
                         ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
                         if (apiResponse != null) {
-                            if (apiResponse.getContent() != null) {
-                                for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
-                                    if (e.getValue().getSchema() != null) {
-                                        visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
-                                    }
-                                }
-                            }
+                            visitContent(openAPI, apiResponse.getContent(), visitor, visitedSchemas);
                             if (apiResponse.getHeaders() != null) {
                                 for (Entry<String, Header> e : apiResponse.getHeaders().entrySet()) {
                                     Header header = getReferencedHeader(openAPI, e.getValue());
                                     if (header.getSchema() != null) {
                                         visitSchema(openAPI, header.getSchema(), e.getKey(), visitedSchemas, visitor);
                                     }
+                                    visitContent(openAPI, header.getContent(), visitor, visitedSchemas);
                                 }
                             }
                         }
@@ -223,6 +210,31 @@ public class ModelUtils {
                             }
                         }
                     }
+                }
+            }
+        }
+        //Params:
+        visitParameters(openAPI, pathItem.getParameters(), visitor, visitedSchemas);
+    }
+
+    private static void visitParameters(OpenAPI openAPI, List<Parameter> parameters, OpenAPISchemaVisitor visitor,
+            List<String> visitedSchemas) {
+        if (parameters != null) {
+            for (Parameter p : parameters) {
+                Parameter parameter = getReferencedParameter(openAPI, p);
+                if (parameter.getSchema() != null) {
+                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                }
+                visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
+            }
+        }
+    }
+
+    private static void visitContent(OpenAPI openAPI, Content content, OpenAPISchemaVisitor visitor, List<String> visitedSchemas) {
+        if (content != null) {
+            for (Entry<String, MediaType> e : content.entrySet()) {
+                if (e.getValue().getSchema() != null) {
+                    visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
                 }
             }
         }

@@ -33,6 +33,6 @@ ags="generate \
 -g javascript \
 -o samples/client/petstore/javascript-promise \
 --additional-properties usePromises=true,useES6=false \
--DappName=PetstoreClient $@"
+--additional-properties appName=PetstoreClient $@"
 
 java $JAVA_OPTS -jar $executable $ags

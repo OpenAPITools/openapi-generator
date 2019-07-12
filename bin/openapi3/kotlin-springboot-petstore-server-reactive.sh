@@ -26,7 +26,7 @@ then
 fi
 
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -t modules/openapi-generator/src/main/resources/kotlin-spring -g kotlin-spring -o samples/server/openapi3/petstore/kotlin-springboot-reactive --additional-properties=library=spring-boot,beanValidations=true,swaggerAnnotations=true,serviceImplementation=true,reactive=true"
+ags="$@ generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -t modules/openapi-generator/src/main/resources/kotlin-spring -g kotlin-spring -o samples/openapi3/server/petstore/kotlin-springboot-reactive --additional-properties=library=spring-boot,beanValidations=true,swaggerAnnotations=true,serviceImplementation=true,reactive=true"
 
 echo "Cleaning previously generated files if any from samples/server/openapi3/petstore/kotlin-springboot-reactive"
 rm -rf samples/server/openapi3/petstore/kotlin-springboot-reactive
