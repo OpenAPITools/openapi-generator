@@ -19,18 +19,6 @@ import {
     OrderToJSON,
 } from '../models';
 
-export interface DeleteOrderRequest {
-    orderId: string;
-}
-
-export interface GetOrderByIdRequest {
-    orderId: number;
-}
-
-export interface PlaceOrderRequest {
-    body: Order;
-}
-
 /**
  * no description
  */
@@ -40,17 +28,13 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    async deleteOrderRaw(requestParameters: DeleteOrderRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
-            throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
-        }
-
+    async deleteOrderRaw(orderId: string): Promise<runtime.ApiResponse<void>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(orderId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -63,8 +47,8 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    async deleteOrder(requestParameters: DeleteOrderRequest): Promise<void> {
-        await this.deleteOrderRaw(requestParameters);
+    async deleteOrder(orderId: string): Promise<void> {
+        await this.deleteOrderRaw(orderId);
     }
 
     /**
@@ -103,17 +87,13 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    async getOrderByIdRaw(requestParameters: GetOrderByIdRequest): Promise<runtime.ApiResponse<Order>> {
-        if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
-            throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
-        }
-
+    async getOrderByIdRaw(orderId: number): Promise<runtime.ApiResponse<Order>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(orderId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -126,19 +106,15 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    async getOrderById(requestParameters: GetOrderByIdRequest): Promise<Order> {
-        const response = await this.getOrderByIdRaw(requestParameters);
+    async getOrderById(orderId: number): Promise<Order> {
+        const response = await this.getOrderByIdRaw(orderId);
         return await response.value();
     }
 
     /**
      * Place an order for a pet
      */
-    async placeOrderRaw(requestParameters: PlaceOrderRequest): Promise<runtime.ApiResponse<Order>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
-        }
-
+    async placeOrderRaw(body: Order): Promise<runtime.ApiResponse<Order>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -150,7 +126,7 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: OrderToJSON(requestParameters.body),
+            body: OrderToJSON(body),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
@@ -159,8 +135,8 @@ export class StoreApi extends runtime.BaseAPI {
     /**
      * Place an order for a pet
      */
-    async placeOrder(requestParameters: PlaceOrderRequest): Promise<Order> {
-        const response = await this.placeOrderRaw(requestParameters);
+    async placeOrder(body: Order): Promise<Order> {
+        const response = await this.placeOrderRaw(body);
         return await response.value();
     }
 
