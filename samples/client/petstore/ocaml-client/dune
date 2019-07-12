@@ -1,0 +1,4 @@
+(library
+   (name lib)
+   (wrapped true)
+)

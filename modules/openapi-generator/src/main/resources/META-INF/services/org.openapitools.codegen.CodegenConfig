@@ -62,6 +62,7 @@ org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MysqlSchemaCodegen
 org.openapitools.codegen.languages.NodeJSServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
+org.openapitools.codegen.languages.OCamlClientCodegen
 org.openapitools.codegen.languages.OpenAPIGenerator
 org.openapitools.codegen.languages.OpenAPIYamlGenerator
 org.openapitools.codegen.languages.PerlClientCodegen
