@@ -1,7 +1,7 @@
 // tslint:disable
 {{>licenseInfo}}
 import { Observable } from 'rxjs';
-import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParameters}}, throwIfRequired{{/hasRequiredParameters}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
+import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParameters}}, throwIfRequired{{/hasRequiredParameters}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
 {{#imports.0}}
 import {
     {{#imports}}
@@ -145,7 +145,7 @@ export class {{classname}} extends BaseAPI {
         {{/isListContainer}}
         {{/formParams}}
         return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
-            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI(requestParameters.{{paramName}})){{/pathParams}},
             method: '{{httpMethod}}',
             {{#hasHttpHeaders}}
             headers,

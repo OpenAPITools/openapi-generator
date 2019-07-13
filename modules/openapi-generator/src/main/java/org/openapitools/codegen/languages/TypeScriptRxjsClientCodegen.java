@@ -228,6 +228,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         boolean hasListContainers = false;
         boolean hasHttpHeaders = false;
         boolean hasQueryParams = false;
+        boolean hasPathParams = false;
+
         for (ExtendedCodegenOperation op : operationList) {
             if (op.getHasRequiredParams()) {
                 hasRequiredParameters = true;
@@ -258,8 +260,11 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             if (op.getHasQueryParams()) {
                 hasQueryParams = true;
             }
+            if (op.getHasPathParams()) {
+                hasPathParams = true;
+            }
 
-            if(hasRequiredParameters && hasListContainers && hasHttpHeaders && hasQueryParams){
+            if(hasRequiredParameters && hasListContainers && hasHttpHeaders && hasQueryParams && hasPathParams){
                 break;
             }
         }
@@ -268,6 +273,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         operations.put("hasListContainers", hasListContainers);
         operations.put("hasHttpHeaders", hasHttpHeaders);
         operations.put("hasQueryParams", hasQueryParams);
+        operations.put("hasPathParams", hasPathParams);
     }
 
     private void addExtraReservedWords() {
