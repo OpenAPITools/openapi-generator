@@ -136,6 +136,15 @@
       "generators/flash": {
         "title": "generators/flash"
       },
+      "generators/fsharp-giraffe-server": {
+        "title": "generators/fsharp-giraffe-server"
+      },
+      "generators/fsharp-giraffe": {
+        "title": "generators/fsharp-giraffe"
+      },
+      "generators/go-experimental": {
+        "title": "generators/go-experimental"
+      },
       "generators/go-gin-server": {
         "title": "generators/go-gin-server"
       },
@@ -241,6 +250,9 @@
       "generators/mysql-schema": {
         "title": "generators/mysql-schema"
       },
+      "generators/nodejs-server-deprecated": {
+        "title": "generators/nodejs-server-deprecated"
+      },
       "generators/nodejs-server": {
         "title": "generators/nodejs-server"
       },
@@ -285,6 +297,9 @@
       },
       "generators/python-blueplanet": {
         "title": "generators/python-blueplanet"
+      },
+      "generators/python-experimental": {
+        "title": "generators/python-experimental"
       },
       "generators/python-flask": {
         "title": "generators/python-flask"
