@@ -242,13 +242,13 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 }
             }
             for (CodegenParameter param : op.queryParams) {
-                if (param.isListContainer) {
+                if (param.isListContainer && !param.isCollectionFormatMulti) {
                     hasListContainers = true;
                     break;
                 }
             }
             for (CodegenParameter param : op.formParams) {
-                if (param.isListContainer) {
+                if (param.isListContainer && !param.isCollectionFormatMulti) {
                     hasListContainers = true;
                     break;
                 }
