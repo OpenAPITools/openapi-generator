@@ -162,7 +162,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     private void addNpmPackageGeneration() {
-
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
@@ -176,6 +175,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         this.addOperationModelImportInfomation(operations);
         this.updateOperationParameterEnumInformation(operations);
+        this.addConditionalImportInformation(operations);
         return operations;
     }
 
@@ -206,6 +206,46 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         }
 
         operations.put("hasEnums", hasEnum);
+    }
+
+    private void addConditionalImportInformation(Map<String, Object> operations) {
+        // This method will determine if there are required parameters and if there are list containers
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+        
+        boolean hasRequiredParameters = false;
+        boolean hasListContainers = false;
+        for (CodegenOperation op : operationList) {
+            if (op.getHasRequiredParams()) {
+                hasRequiredParameters = true;
+            }
+            
+            for (CodegenParameter param : op.headerParams) {
+                if (param.isListContainer) {
+                    hasListContainers = true;
+                    break;
+                }
+            }
+            for (CodegenParameter param : op.queryParams) {
+                if (param.isListContainer) {
+                    hasListContainers = true;
+                    break;
+                }
+            }
+            for (CodegenParameter param : op.formParams) {
+                if (param.isListContainer) {
+                    hasListContainers = true;
+                    break;
+                }
+            }
+
+            if(hasRequiredParameters && hasListContainers){
+                break;
+            }
+        }
+
+        operations.put("hasRequiredParameters", hasRequiredParameters);
+        operations.put("hasListContainers", hasListContainers);
     }
 
     private void addExtraReservedWords() {

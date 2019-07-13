@@ -1,7 +1,7 @@
 // tslint:disable
 {{>licenseInfo}}
 import { Observable } from 'rxjs';
-import { BaseAPI, throwIfRequired, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, HttpHeaders, HttpQuery{{#hasRequiredParameters}}, throwIfRequired{{/hasRequiredParameters}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
 {{#imports.0}}
 import {
     {{#imports}}
@@ -139,7 +139,7 @@ export class {{classname}} extends BaseAPI {
         {{/isListContainer}}
         {{/formParams}}
         return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
-            path: `{{{path}}}`{{#pathParams}}.replace({{=<% %>=}}`{<%baseName%>}`<%={{ }}=%>, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
             headers,
             query,
