@@ -146,7 +146,7 @@ export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'o
 export interface RequestOpts {
     path: string;
     method: HttpMethod;
-    headers: HttpHeaders;
+    headers?: HttpHeaders;
     query?: HttpQuery;
     body?: HttpBody;
 }

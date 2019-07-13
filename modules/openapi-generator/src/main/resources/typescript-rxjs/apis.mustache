@@ -38,12 +38,15 @@ export class {{classname}} extends BaseAPI {
      {{/summary}}
      */
     {{nickname}} = ({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
+        {{#hasParams}}
         {{#allParams}}
         {{#required}}
         throwIfRequired(requestParameters, '{{paramName}}', '{{nickname}}');
         {{/required}}
         {{/allParams}}
 
+        {{/hasParams}}
+        {{#hasHttpHeaders}}
         const headers: HttpHeaders = {
             {{#bodyParam}}
             {{^consumes}}
@@ -81,6 +84,8 @@ export class {{classname}} extends BaseAPI {
             {{/authMethods}}
         };
 
+        {{/hasHttpHeaders}}
+        {{#hasQueryParams}}
         const query: HttpQuery = {
             {{#queryParams}}
             {{#isListContainer}}
@@ -114,6 +119,7 @@ export class {{classname}} extends BaseAPI {
             {{/authMethods}}
         };
 
+        {{/hasQueryParams}}
         {{#hasFormParams}}
         const formData = new FormData();
         {{/hasFormParams}}
@@ -141,8 +147,12 @@ export class {{classname}} extends BaseAPI {
         return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
             path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
+            {{#hasHttpHeaders}}
             headers,
+            {{/hasHttpHeaders}}
+            {{#hasQueryParams}}
             query,
+            {{/hasQueryParams}}
             {{#hasBodyParam}}
             {{#bodyParam}}
             {{#isContainer}}
