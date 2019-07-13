@@ -157,19 +157,19 @@ export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'o
 export interface RequestOpts {
     path: string;
     method: HttpMethod;
-    headers: HttpHeaders;
+    headers?: HttpHeaders;
     query?: HttpQuery;
     body?: HttpBody;
 }
 
+export const encodeURI = (value: any) => encodeURIComponent(String(value))
+
 const queryString = (params: HttpQuery): string => Object.keys(params)
     .map((key) => {
         const value = params[key];
-        if (value instanceof Array) {
-            return value.map((val) => `${encodeURIComponent(key)}=${encodeURIComponent(String(val))}`)
-                .join('&');
-        }
-        return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
+        return (value instanceof Array)
+            ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
+            : `${encodeURI(key)}=${encodeURI(value)}`;
     })
     .join('&');
 
