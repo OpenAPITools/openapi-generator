@@ -1,7 +1,7 @@
 // tslint:disable
 {{>licenseInfo}}
 import { Observable } from 'rxjs';
-import { BaseAPI, HttpHeaders, HttpQuery{{#hasRequiredParameters}}, throwIfRequired{{/hasRequiredParameters}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
+import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParameters}}, throwIfRequired{{/hasRequiredParameters}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
 {{#imports.0}}
 import {
     {{#imports}}
