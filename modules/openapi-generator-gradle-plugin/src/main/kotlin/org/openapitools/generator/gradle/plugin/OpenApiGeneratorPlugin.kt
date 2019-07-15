@@ -99,6 +99,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     instantiationTypes.set(generate.instantiationTypes)
                     typeMappings.set(generate.typeMappings)
                     additionalProperties.set(generate.additionalProperties)
+                    serverVariables.set(generate.serverVariables)
                     languageSpecificPrimitives.set(generate.languageSpecificPrimitives)
                     importMappings.set(generate.importMappings)
                     invokerPackage.set(generate.invokerPackage)
