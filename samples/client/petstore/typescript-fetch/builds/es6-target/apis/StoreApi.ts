@@ -95,7 +95,7 @@ export class StoreApi extends runtime.BaseAPI {
     * Returns pet inventories by status
     */
     async getInventory(): Promise<{ [key: string]: number; }> {
-        const response = await this.getInventoryRaw({  });
+        const response = await this.getInventoryRaw();
         return await response.value();
     }
 
