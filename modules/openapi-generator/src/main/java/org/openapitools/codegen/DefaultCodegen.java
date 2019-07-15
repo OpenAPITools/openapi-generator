@@ -209,13 +209,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /***
-     * Creates map of few commonly used Mustache lambdas. To extend the map,
-     * call parent method first and add additional lambdas to returned builder.
+     * Preset map builder with commonly used Mustache lambdas.
+     *
+     * To extend the map, override addMustacheLambdas(), call parent method
+     * first and then add additional lambdas to the returned builder.
      *
      * If common lambdas are not desired, override addMustacheLambdas() method
      * and return empty builder.
      *
-     * @return
+     * @return preinitialized map builder with common lambdas
      */
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
 
