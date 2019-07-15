@@ -13,6 +13,18 @@ import {
 {{/imports.0}}
 
 {{#operations}}
+{{#operation}}
+{{#allParams.0}}
+export interface {{operationIdCamelCase}}Request {
+    {{#allParams}}
+    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+    {{/allParams}}
+}
+
+{{/allParams.0}}
+{{/operation}}
+{{/operations}}
+{{#operations}}
 /**
  * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
  */
@@ -27,32 +39,40 @@ export class {{classname}} extends runtime.BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    async {{nickname}}Raw({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<runtime.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
+    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
+        {{#allParams}}
+        {{#required}}
+        if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
+            throw new runtime.RequiredError('{{paramName}}','Required parameter requestParameters.{{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+
+        {{/required}}
+        {{/allParams}}
         const queryParameters: runtime.HTTPQuery = {};
 
         {{#queryParams}}
         {{#isListContainer}}
-        if ({{paramName}}) {
+        if (requestParameters.{{paramName}}) {
             {{#isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = {{paramName}};
+            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = {{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+            queryParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
             {{/isCollectionFormatMulti}}
         }
 
         {{/isListContainer}}
         {{^isListContainer}}
-        if ({{paramName}} !== undefined) {
+        if (requestParameters.{{paramName}} !== undefined) {
             {{#isDateTime}}
-            queryParameters['{{baseName}}'] = ({{paramName}} as any).toISOString();
+            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
             {{/isDateTime}}
             {{^isDateTime}}
             {{#isDate}}
-            queryParameters['{{baseName}}'] = ({{paramName}} as any).toISOString().substr(0,10);
+            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
             {{/isDate}}
             {{^isDate}}
-            queryParameters['{{baseName}}'] = {{paramName}};
+            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
             {{/isDate}}
             {{/isDateTime}}
         }
@@ -73,14 +93,14 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/bodyParam}}
         {{#headerParams}}
         {{#isListContainer}}
-        if ({{paramName}}) {
-            headerParameters['{{baseName}}'] = {{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+        if (requestParameters.{{paramName}}) {
+            headerParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
         }
 
         {{/isListContainer}}
         {{^isListContainer}}
-        if ({{paramName}} !== undefined && {{paramName}} !== null) {
-            headerParameters['{{baseName}}'] = String({{paramName}});
+        if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
+            headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
         }
 
         {{/isListContainer}}
@@ -134,41 +154,41 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/hasFormParams}}
         {{#formParams}}
         {{#isListContainer}}
-        if ({{paramName}}) {
+        if (requestParameters.{{paramName}}) {
             {{#isCollectionFormatMulti}}
-            {{paramName}}.forEach((element) => {
+            requestParameters.{{paramName}}.forEach((element) => {
                 formData.append('{{baseName}}', element as any);
             })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formData.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+            formData.append('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
         }
 
         {{/isListContainer}}
         {{^isListContainer}}
-        if ({{paramName}} !== undefined) {
-            formData.append('{{baseName}}', {{paramName}} as any);
+        if (requestParameters.{{paramName}} !== undefined) {
+            formData.append('{{baseName}}', requestParameters.{{paramName}} as any);
         }
 
         {{/isListContainer}}
         {{/formParams}}
         const response = await this.request({
-            path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}},
+            path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
             headers: headerParameters,
             query: queryParameters,
             {{#hasBodyParam}}
             {{#bodyParam}}
             {{#isContainer}}
-            body: {{paramName}}.map({{#items}}{{datatype}}{{/items}}ToJSON),
+            body: requestParameters.{{paramName}}.map({{#items}}{{datatype}}{{/items}}ToJSON),
             {{/isContainer}}
             {{^isContainer}}
             {{^isPrimitiveType}}
-            body: {{dataType}}ToJSON({{paramName}}),
+            body: {{dataType}}ToJSON(requestParameters.{{paramName}}),
             {{/isPrimitiveType}}
             {{#isPrimitiveType}}
-            body: {{paramName}} as any,
+            body: requestParameters.{{paramName}} as any,
             {{/isPrimitiveType}}
             {{/isContainer}}
             {{/bodyParam}}
@@ -209,23 +229,36 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/returnType}}
     }
 
-    /**
-     {{#notes}}
-     * {{&notes}}
-     {{/notes}}
-     {{#summary}}
-     * {{&summary}}
-     {{/summary}}
-     */
-    async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+   /**
+    {{#notes}}
+    * {{&notes}}
+    {{/notes}}
+    {{#summary}}
+    * {{&summary}}
+    {{/summary}}
+    */
+    {{^useSingleRequestParameter}}
+    async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
-        const response = await this.{{nickname}}Raw({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        const response = await this.{{nickname}}Raw({ {{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} });
         return await response.value();
         {{/returnType}}
         {{^returnType}}
-        await this.{{nickname}}Raw({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        await this.{{nickname}}Raw({ {{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} });
         {{/returnType}}
     }
+    {{/useSingleRequestParameter}}
+    {{#useSingleRequestParameter}}
+     async {{nickname}}({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+        {{#returnType}}
+        const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
+        return await response.value();
+        {{/returnType}}
+        {{^returnType}}
+        await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
+        {{/returnType}}
+     }
+    {{/useSingleRequestParameter}}
 
     {{/operation}}
 }
