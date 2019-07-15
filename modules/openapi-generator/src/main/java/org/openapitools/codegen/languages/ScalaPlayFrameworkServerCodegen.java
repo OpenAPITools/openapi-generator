@@ -16,8 +16,9 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
+import com.google.common.collect.ImmutableMap.Builder;
+import com.samskivert.mustache.Mustache.Lambda;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
@@ -192,15 +193,12 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             supportingFiles.add(new SupportingFile("public/openapi.json.mustache", "public", "openapi.json"));
             supportingFiles.add(new SupportingFile("app/apiDocController.scala.mustache", String.format(Locale.ROOT, "app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.scala"));
         }
-        addMustacheLambdas(additionalProperties);
     }
 
-    private void addMustacheLambdas(Map<String, Object> objs) {
-        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-                .put("indented_4", new IndentedLambda(4, " "))
-                .put("indented_8", new IndentedLambda(8, " "))
-                .build();
-        objs.put("lambda", lambdas);
+    @Override
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("indented_4", new IndentedLambda(4, " "));
     }
 
     @SuppressWarnings("unchecked")

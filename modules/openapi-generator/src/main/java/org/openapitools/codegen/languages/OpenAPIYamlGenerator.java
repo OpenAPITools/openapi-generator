@@ -18,16 +18,12 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
-import org.openapitools.codegen.templating.mustache.IndentedLambda;
-import org.openapitools.codegen.templating.mustache.LowercaseLambda;
-import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
-import org.openapitools.codegen.templating.mustache.UppercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
 
@@ -75,32 +71,12 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         }
         LOGGER.info("Output file [outputFile={}]", outputFile);
         supportingFiles.add(new SupportingFile("openapi.mustache", outputFile));
-
-        addMustacheLambdas(additionalProperties);
     }
 
-    private void addMustacheLambdas(Map<String, Object> objs) {
-
-        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-                .put("lowercase", new LowercaseLambda().generator(this))
-                .put("uppercase", new UppercaseLambda())
-                .put("titlecase", new TitlecaseLambda())
-                .put("camelcase", new CamelCaseLambda().generator(this))
-                .put("indented", new IndentedLambda())
-                .put("indented_8", new IndentedLambda(8, " "))
-                .put("indented_12", new IndentedLambda(12, " "))
-                .put("indented_16", new IndentedLambda(16, " "))
-                .put("onchange",  new OnChangeLambda())
-                .build();
-
-        if (objs.containsKey("lambda")) {
-            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
-                    "You'll likely need to use a custom template, " +
-                    "see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/templating.md. ");
-            objs.put("_lambda", lambdas);
-        } else {
-            objs.put("lambda", lambdas);
-        }
+    @Override
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("onchange", new OnChangeLambda());
     }
 
     /**
