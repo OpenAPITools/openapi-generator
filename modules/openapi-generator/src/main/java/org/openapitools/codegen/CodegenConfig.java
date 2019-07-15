@@ -43,6 +43,8 @@ public interface CodegenConfig {
 
     Map<String, Object> additionalProperties();
 
+    Map<String, String> serverVariables();
+
     Map<String, Object> vendorExtensions();
 
     String testPackage();

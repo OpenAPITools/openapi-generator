@@ -88,6 +88,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String embeddedTemplateDir;
     protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
@@ -456,12 +457,12 @@ public class DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
     }
 
-    //override with any special handling of the entire swagger spec
+    //override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
     }
 
-    // override with any special handling of the entire swagger spec
+    // override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void processOpenAPI(OpenAPI openAPI) {
     }
@@ -673,6 +674,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public Map<String, Object> additionalProperties() {
         return additionalProperties;
+    }
+
+    public Map<String, String> serverVariables() {
+        return serverVariables;
     }
 
     public Map<String, Object> vendorExtensions() {

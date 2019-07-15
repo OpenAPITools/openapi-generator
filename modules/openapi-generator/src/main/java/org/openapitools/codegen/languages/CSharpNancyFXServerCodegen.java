@@ -359,7 +359,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void preprocessOpenAPI(final OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariables());
         String path = URLPathUtils.getPath(url, "/");
         final String packageContextOption = (String) additionalProperties.get(PACKAGE_CONTEXT);
         additionalProperties.put("packageContext", packageContextOption == null ? sanitizeName(path) : packageContextOption);

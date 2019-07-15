@@ -235,7 +235,6 @@ NAME
 SYNOPSIS
         openapi-generator-cli generate
                 [(-a <authorization> | --auth <authorization>)]
-                [--additional-properties <additional properties>...]
                 [--api-package <api package>] [--artifact-id <artifact id>]
                 [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
@@ -256,15 +255,15 @@ SYNOPSIS
                 [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
-                [(-o <output directory> | --output <output directory>)]
+                [(-o <output directory> | --output <output directory>)] 
+                [(-p <additional properties> | --additional-properties <additional properties>)...]
                 [--package-name <package name>] [--release-note <release note>]
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
-                [(-s | --skip-overwrite)] [--skip-validate-spec]
-                [--strict-spec <true/false strict behavior>]
+                [(-s | --skip-overwrite)] [--server-variables <server variables>...]
+                [--skip-validate-spec] [--strict-spec <true/false strict behavior>]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
-
 ```
 
 <details>
@@ -277,19 +276,16 @@ OPTIONS
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
 
-        --additional-properties <additional properties>
-            sets additional properties that can be referenced by the mustache
-            templates in the format of name=value,name=value. You can also have
-            multiple occurrences of this option.
-
         --api-package <api package>
             package for generated api classes
 
         --artifact-id <artifact id>
-            artifactId in generated pom.xml
+            artifactId in generated pom.xml. This also becomes part of the
+            generated library's filename
 
         --artifact-version <artifact version>
-            artifact version in generated pom.xml
+            artifact version in generated pom.xml. This also becomes part of the
+            generated library's filename
 
         -c <configuration file>, --config <configuration file>
             Path to configuration file configuration file. It can be json or
@@ -382,6 +378,12 @@ OPTIONS
         -o <output directory>, --output <output directory>
             where to write the generated files (current dir by default)
 
+        -p <additional properties>, --additional-properties <additional
+        properties>
+            sets additional properties that can be referenced by the mustache
+            templates in the format of name=value,name=value. You can also have
+            multiple occurrences of this option.
+
         --package-name <package name>
             package for generated classes (where supported)
 
@@ -399,6 +401,10 @@ OPTIONS
         -s, --skip-overwrite
             specifies if the existing files should be overwritten during the
             generation.
+
+        --server-variables <server variables>
+            sets server variables for spec documents which support variable
+            templating of servers.
 
         --skip-validate-spec
             Skips the default behavior of validating an input specification.

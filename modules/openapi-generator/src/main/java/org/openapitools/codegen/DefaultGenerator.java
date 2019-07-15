@@ -207,10 +207,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             config.vendorExtensions().putAll(openAPI.getExtensions());
         }
 
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, config.serverVariables());
         contextPath = config.escapeText(url.getPath()).replaceAll("/$", ""); // for backward compatibility
         basePathWithoutHost = contextPath;
-        basePath = config.escapeText(URLPathUtils.getHost(openAPI)).replaceAll("/$", "");
+        basePath = config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariables())).replaceAll("/$", "");
     }
 
     private void configureOpenAPIInfo() {
@@ -548,7 +548,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 });
                 Map<String, Object> operation = processOperations(config, tag, ops, allModels);
-                URL url = URLPathUtils.getServerURL(openAPI);
+                URL url = URLPathUtils.getServerURL(openAPI, config.serverVariables());
                 operation.put("basePath", basePath);
                 operation.put("basePathWithoutHost", config.encodePath(url.getPath()).replaceAll("/$", ""));
                 operation.put("contextPath", contextPath);
@@ -819,7 +819,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> apis = new HashMap<String, Object>();
         apis.put("apis", allOperations);
 
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, config.serverVariables());
 
         bundle.put("openAPI", openAPI);
         bundle.put("basePath", basePath);

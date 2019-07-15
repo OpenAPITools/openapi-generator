@@ -18,13 +18,7 @@
 package org.openapitools.codegen.cmd;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsvList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applySystemPropertiesKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.spi.FilterAttachable;
@@ -159,6 +153,12 @@ public class Generate implements Runnable {
             description = "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import."
                     + " You can also have multiple occurrences of this option.")
     private List<String> importMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--server-variables"},
+            title = "server variables",
+            description = "sets server variables for spec documents which support variable templating of servers.")
+    private List<String> serverVariables = new ArrayList<>();
 
     @Option(name = {"--invoker-package"}, title = "invoker package",
             description = CodegenConstants.INVOKER_PACKAGE_DESC)
@@ -393,6 +393,7 @@ public class Generate implements Runnable {
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
+        applyServerVariablesKvpList(serverVariables, configurator);
 
         try {
             final ClientOptInput clientOptInput = configurator.toClientOptInput();
