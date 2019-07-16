@@ -1,16 +1,10 @@
-{{#models}}
-{{#model}}
-export * from './{{{ classFilename }}}';
-{{/model}}
-{{/models}}
+export * from './externalEnum';
+export * from './objectWithEnums';
 
 import localVarRequest = require('request');
 
-{{#models}}
-{{#model}}
-import { {{classname}} } from './{{{ classFilename }}}';
-{{/model}}
-{{/models}}
+import { ExternalEnum } from './externalEnum';
+import { ObjectWithEnums } from './objectWithEnums';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -25,30 +19,12 @@ let primitives = [
                  ];
                  
 let enumsMap: {[index: string]: any} = {
-    {{#models}}
-        {{#model}}
-            {{#hasEnums}}
-                {{#vars}}
-                    {{#isEnum}}
-        {{#isContainer}}"{{classname}}.{{enumName}}": {{classname}}.{{enumName}}{{/isContainer}}{{^isContainer}}"{{datatypeWithEnum}}": {{datatypeWithEnum}}{{/isContainer}},
-                    {{/isEnum}}
-                {{/vars}}
-            {{/hasEnums}}
-            {{#isEnum}}
-        "{{classname}}": {{classname}},
-            {{/isEnum}}
-        {{/model}}
-    {{/models}}
+        "ExternalEnum": ExternalEnum,
+        "ObjectWithEnums.EnumInObjectEnum": ObjectWithEnums.EnumInObjectEnum,
 }
 
 let typeMap: {[index: string]: any} = {
-    {{#models}}
-        {{#model}}
-            {{^isEnum}}
-    "{{classname}}": {{classname}},
-            {{/isEnum}}
-        {{/model}}
-    {{/models}}
+    "ObjectWithEnums": ObjectWithEnums,
 }
 
 export class ObjectSerializer {
