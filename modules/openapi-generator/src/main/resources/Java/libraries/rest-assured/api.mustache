@@ -31,14 +31,23 @@ import static io.restassured.http.Method.*;
 @Api(value = "{{{baseName}}}")
 public class {{classname}} {
 
-    private RequestSpecBuilder reqSpec;
+    private Supplier<RequestSpecBuilder> reqSpecSupplier;
+    private Consumer<RequestSpecBuilder> reqSpecCustomizer;
 
-    private {{classname}}(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
+    private {{classname}}(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        this.reqSpecSupplier = reqSpecSupplier;
     }
 
-    public static {{classname}} {{classVarName}}(RequestSpecBuilder reqSpec) {
-        return new {{classname}}(reqSpec);
+    public static {{classname}} {{classVarName}}(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        return new {{classname}}(reqSpecSupplier);
+    }
+
+    private RequestSpecBuilder createReqSpec() {
+        RequestSpecBuilder reqSpec = reqSpecSupplier.get();
+        if(reqSpecCustomizer != null) {
+            reqSpecCustomizer.accept(reqSpec);
+        }
+        return reqSpec;
     }
 
 {{#operations}}
@@ -54,18 +63,18 @@ public class {{classname}} {
     @Deprecated
     {{/isDeprecated}}
     public {{operationIdCamelCase}}Oper {{operationId}}() {
-        return new {{operationIdCamelCase}}Oper(reqSpec);
+        return new {{operationIdCamelCase}}Oper(createReqSpec());
     }
 {{/operation}}
 {{/operations}}
 
     /**
-     * Customise request specification
-     * @param consumer consumer
+     * Customize request specification
+     * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
      * @return api
      */
-    public {{classname}} reqSpec(Consumer<RequestSpecBuilder> consumer) {
-        consumer.accept(reqSpec);
+    public {{classname}} reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+        this.reqSpecCustomizer = reqSpecCustomizer;
         return this;
     }
 
@@ -216,22 +225,22 @@ public class {{classname}} {
         {{/formParams}}
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public {{operationIdCamelCase}}Oper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public {{operationIdCamelCase}}Oper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public {{operationIdCamelCase}}Oper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public {{operationIdCamelCase}}Oper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
