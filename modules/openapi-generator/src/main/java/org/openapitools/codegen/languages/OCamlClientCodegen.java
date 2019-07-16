@@ -147,12 +147,14 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return postProcessModelsEnum(objs);
     }
 
+    @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         Components components = openAPI.getComponents();
 //        if (components != null && components.getSchemas() != null  && !components.getSchemas().isEmpty()) {
 //            supportingFiles.add(new SupportingFile("dune.model.mustache", relativeModelFileFolder(), "dune"));
 //        }
         supportingFiles.add(new SupportingFile("lib.mustache", "", packageName + ".opam"));
+        supportingFiles.add(new SupportingFile("support.mustache", "src/support", "request.ml"));
     }
 
     @Override
@@ -368,9 +370,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
-            if (CO_HTTP.equals(getLibrary())) {
-                operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
-            }
+            //if (CO_HTTP.equals(getLibrary())) {
+            operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+            //}
             // update return type to conform to rust standard
             /*
             if (operation.returnType != null) {

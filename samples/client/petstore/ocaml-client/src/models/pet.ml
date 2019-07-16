@@ -16,7 +16,7 @@ type status =
 [@@deriving yojson];;
 
 type t = {
-    id: Int64.t option;
+    id: int64 option;
     category: Category.t option;
     name: string;
     photo_urls: string list;

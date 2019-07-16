@@ -10,7 +10,12 @@
 
 {{#operations}}
 {{#operation}}
-let {{{operationId}}} {{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} = ()
+let {{{operationId}}} {{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} =
+    let headers = Request.default_headers in
+    let uri = Request.build_uri "{{{path}}}" in{{#hasBodyParam}}
+    let body = Request.build_body {{#bodyParams}}{{#isBodyParam}}{{{dataType}}}.to_yojson {{{paramName}}}{{/isBodyParam}}{{/bodyParams}} in{{/hasBodyParam}}
+    Cohttp_lwt_unix.Client.{{{httpMethod}}} uri ~headers{{#hasBodyParam}} ~body{{/hasBodyParam}}
+
 {{/operation}}
 {{/operations}}
 

@@ -16,9 +16,9 @@ type status =
 [@@deriving yojson];;
 
 type t = {
-    id: Int64.t option;
-    pet_id: Int64.t option;
-    quantity: int option;
+    id: int64 option;
+    pet_id: int64 option;
+    quantity: int32 option;
     ship_date: string option;
     (* Order Status *)
     (*status: [`Placed | `Approved | `Delivered] option;*)

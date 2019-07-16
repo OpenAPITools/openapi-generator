@@ -10,7 +10,7 @@
 
 
 type t = {
-    id: Int64.t option;
+    id: int64 option;
     username: string option;
     first_name: string option;
     last_name: string option;
@@ -18,7 +18,7 @@ type t = {
     password: string option;
     phone: string option;
     (* User Status *)
-    user_status: int option;
+    user_status: int32 option;
 } [@@deriving yojson];;
 
 (** A User who is purchasing from the pet store *)
