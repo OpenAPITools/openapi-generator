@@ -676,7 +676,7 @@ public class DefaultCodegen implements CodegenConfig {
         return additionalProperties;
     }
 
-    public Map<String, String> serverVariables() {
+    public Map<String, String> serverVariableOverrides() {
         return serverVariables;
     }
 
@@ -4958,14 +4958,34 @@ public class DefaultCodegen implements CodegenConfig {
         if (variables == null) {
             return Collections.emptyList();
         }
+
+        Map<String, String> variableOverrides = serverVariableOverrides();
+
         List<CodegenServerVariable> codegenServerVariables = new LinkedList<>();
         for (Entry<String, ServerVariable> variableEntry : variables.entrySet()) {
             CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
             ServerVariable variable = variableEntry.getValue();
+            List<String> enums = variable.getEnum();
+
             codegenServerVariable.defaultValue = variable.getDefault();
             codegenServerVariable.description = escapeText(variable.getDescription());
-            codegenServerVariable.enumValues = variable.getEnum();
+            codegenServerVariable.enumValues = enums;
             codegenServerVariable.name = variableEntry.getKey();
+
+            // Sets the override value for a server variable pattern.
+            // NOTE: OpenAPI Specification doesn't prevent multiple server URLs with variables. If multiple objects have the same
+            //       variables pattern, user overrides will apply to _all_ of these patterns. We may want to consider indexed overrides.
+            if (variableOverrides != null && !variableOverrides.isEmpty()) {
+                String value = variableOverrides.getOrDefault(variableEntry.getKey(), variable.getDefault());
+                codegenServerVariable.value = value;
+
+                if (enums != null && !enums.isEmpty() && !enums.contains(value)) {
+                    LOGGER.warn("Variable override of '{}' is not listed in the enum of allowed values ({}).", value, StringUtils.join(enums, ","));
+                }
+            } else {
+                codegenServerVariable.value = variable.getDefault();
+            }
+
             codegenServerVariables.add(codegenServerVariable);
         }
         return codegenServerVariables;

@@ -477,7 +477,7 @@ public class CodegenConfigurator {
         if (!serverVariables.isEmpty()) {
             // This is currently experimental due to vagueness in the specification
             LOGGER.warn("user-defined server variable support is experimental.");
-            config.serverVariables().putAll(serverVariables);
+            config.serverVariableOverrides().putAll(serverVariables);
         }
 
         ClientOptInput input = new ClientOptInput()

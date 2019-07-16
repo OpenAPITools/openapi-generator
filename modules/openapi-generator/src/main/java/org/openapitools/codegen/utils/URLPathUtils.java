@@ -90,6 +90,10 @@ public class URLPathUtils {
                     }
 
                     replacement = userVariables.getOrDefault(variableName, defaultValue);
+
+                    if (!enumValues.isEmpty() && !enumValues.contains(replacement)) {
+                        LOGGER.warn("Variable override of '{}' is not listed in the enum of allowed values ({}).", replacement, StringUtils.join(enumValues, ","));
+                    }
                 } else {
                     replacement = userVariables.getOrDefault(variableName, "");
                 }
@@ -108,7 +112,7 @@ public class URLPathUtils {
     }
 
     public static String getScheme(OpenAPI openAPI, CodegenConfig config) {
-        URL url = getServerURL(openAPI, config.serverVariables());
+        URL url = getServerURL(openAPI, config.serverVariableOverrides());
         return getScheme(url, config);
     }
 

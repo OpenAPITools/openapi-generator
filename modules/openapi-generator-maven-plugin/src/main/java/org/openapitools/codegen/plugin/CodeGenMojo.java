@@ -281,7 +281,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * A map of server variable overrides for specs that support server URL templating
      */
-    @Parameter(name = "serverVariables", property = "openapi.generator.maven.plugin.serverVariables")
+    @Parameter(name = "serverVariableOverrides", property = "openapi.generator.maven.plugin.serverVariableOverrides")
     private List<String> serverVariables;
 
     /**

@@ -157,8 +157,8 @@ public class Generate implements Runnable {
     @Option(
             name = {"--server-variables"},
             title = "server variables",
-            description = "sets server variables for spec documents which support variable templating of servers.")
-    private List<String> serverVariables = new ArrayList<>();
+            description = "sets server variables overrides for spec documents which support variable templating of servers.")
+    private List<String> serverVariableOverrides = new ArrayList<>();
 
     @Option(name = {"--invoker-package"}, title = "invoker package",
             description = CodegenConstants.INVOKER_PACKAGE_DESC)
@@ -393,7 +393,7 @@ public class Generate implements Runnable {
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
-        applyServerVariablesKvpList(serverVariables, configurator);
+        applyServerVariablesKvpList(serverVariableOverrides, configurator);
 
         try {
             final ClientOptInput clientOptInput = configurator.toClientOptInput();
