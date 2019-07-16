@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -31,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -86,7 +88,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         );
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("dune.mustache", "", "stack.yaml"));
+        supportingFiles.add(new SupportingFile("dune.mustache", "", "dune"));
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
@@ -145,9 +147,29 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return postProcessModelsEnum(objs);
     }
 
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        Components components = openAPI.getComponents();
+//        if (components != null && components.getSchemas() != null  && !components.getSchemas().isEmpty()) {
+//            supportingFiles.add(new SupportingFile("dune.model.mustache", relativeModelFileFolder(), "dune"));
+//        }
+        supportingFiles.add(new SupportingFile("lib.mustache", "", packageName + ".opam"));
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        } else {
+            setPackageName("openapi");
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+        } else {
+            setPackageVersion("1.0.0");
+        }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
@@ -155,14 +177,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        //apiTemplateFiles.put("/api.mustache", ".ml");
+        apiTemplateFiles.put("api.mustache", ".ml");
 
         modelPackage = packageName;
         apiPackage = packageName;
-
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("dune.mustache", "", "dune"));
-        supportingFiles.add(new SupportingFile("types.mustache", "", "types.ml"));
     }
 
     @Override
@@ -178,8 +196,13 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return (outputFolder + File.separator + apiFolder).replace("/", File.separator);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + File.separator + modelFolder).replace("/", File.separator);
+    }
+
+    public String relativeModelFileFolder() {
+        return modelFolder.replace("/", File.separator);
     }
 
     @Override
@@ -214,7 +237,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        return toModelFilename(name).toLowerCase();
+        return capitalize(toModelFilename(name)) + ".t";
     }
 
     @Override
