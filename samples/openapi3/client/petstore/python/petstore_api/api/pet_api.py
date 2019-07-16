@@ -121,6 +121,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'pet' in local_var_params:
@@ -140,6 +142,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -234,6 +237,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # Authentication setting
@@ -247,6 +252,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -339,6 +345,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # HTTP header `Accept`
@@ -356,6 +364,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='list[Pet]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -448,6 +457,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # HTTP header `Accept`
@@ -465,6 +476,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='list[Pet]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -556,6 +568,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # HTTP header `Accept`
@@ -573,6 +587,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='Pet',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -666,6 +681,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'pet' in local_var_params:
@@ -685,6 +702,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -779,6 +797,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
         if 'name' in local_var_params:
             form_params.append(('name', local_var_params['name']))  # noqa: E501
         if 'status' in local_var_params:
@@ -800,6 +820,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -893,6 +914,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
         if 'additional_metadata' in local_var_params:
             form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
         if 'file' in local_var_params:
@@ -918,6 +941,137 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            multipart_header_params=multipart_header_params,
+            post_content_types=post_content_types,
+            response_type='ApiResponse',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def upload_file_with_complex_metadata(self, pet_id, **kwargs):  # noqa: E501
+        """uploads an image  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.upload_file_with_complex_metadata(pet_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool: execute request asynchronously
+        :param int pet_id: ID of pet to update (required)
+        :param O additional_metadata: Additional data to pass to server
+        :param file file: file to upload
+        :param datetime file_x_expires_after: date in UTC when the image should be expired
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: ApiResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        return self.upload_file_with_complex_metadata_with_http_info(pet_id, **kwargs)  # noqa: E501
+
+    def upload_file_with_complex_metadata_with_http_info(self, pet_id, **kwargs):  # noqa: E501
+        """uploads an image  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.upload_file_with_complex_metadata_with_http_info(pet_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool: execute request asynchronously
+        :param int pet_id: ID of pet to update (required)
+        :param O additional_metadata: Additional data to pass to server
+        :param file file: file to upload
+        :param datetime file_x_expires_after: date in UTC when the image should be expired
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['pet_id', 'additional_metadata', 'file', 'file_x_expires_after']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method upload_file_with_complex_metadata" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'pet_id' is set
+        if ('pet_id' not in local_var_params or
+                local_var_params['pet_id'] is None):
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file_with_complex_metadata`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'pet_id' in local_var_params:
+            path_params['petId'] = local_var_params['pet_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
+        if 'additional_metadata' in local_var_params:
+            form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
+            post_content_types['additionalMetadata'] = 'application/json; charset&#x3D;utf-8'
+        if 'file' in local_var_params:
+            local_var_files['file'] = local_var_params['file']  # noqa: E501
+            post_content_types['file'] = 'image/png, image/jpeg'
+        if 'file_x_expires_after' in local_var_params:
+            tup = 'file:X-Expires-After'.split(':')
+            multipart_header_params.setdefault(tup[0], {})[tup[1]] = local_var_params['file_x_expires_after']
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['multipart/mixed'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['petstore_auth']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/pet/{petId}/uploadImageAndMetadata', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            multipart_header_params=multipart_header_params,
+            post_content_types=post_content_types,
             response_type='ApiResponse',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -1015,6 +1169,8 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
         if 'additional_metadata' in local_var_params:
             form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
         if 'required_file' in local_var_params:
@@ -1040,6 +1196,8 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            multipart_header_params=multipart_header_params,
+            post_content_types=post_content_types,
             response_type='ApiResponse',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),

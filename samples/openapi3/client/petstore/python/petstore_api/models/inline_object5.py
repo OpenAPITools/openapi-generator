@@ -31,73 +31,74 @@ class InlineObject5(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'additional_metadata': 'str',
-        'required_file': 'file'
+        'param': 'str',
+        'param2': 'str'
     }
 
     attribute_map = {
-        'additional_metadata': 'additionalMetadata',
-        'required_file': 'requiredFile'
+        'param': 'param',
+        'param2': 'param2'
     }
 
-    def __init__(self, additional_metadata=None, required_file=None):  # noqa: E501
+    def __init__(self, param=None, param2=None):  # noqa: E501
         """InlineObject5 - a model defined in OpenAPI"""  # noqa: E501
 
-        self._additional_metadata = None
-        self._required_file = None
+        self._param = None
+        self._param2 = None
         self.discriminator = None
 
-        if additional_metadata is not None:
-            self.additional_metadata = additional_metadata
-        self.required_file = required_file
+        self.param = param
+        self.param2 = param2
 
     @property
-    def additional_metadata(self):
-        """Gets the additional_metadata of this InlineObject5.  # noqa: E501
+    def param(self):
+        """Gets the param of this InlineObject5.  # noqa: E501
 
-        Additional data to pass to server  # noqa: E501
+        field1  # noqa: E501
 
-        :return: The additional_metadata of this InlineObject5.  # noqa: E501
+        :return: The param of this InlineObject5.  # noqa: E501
         :rtype: str
         """
-        return self._additional_metadata
+        return self._param
 
-    @additional_metadata.setter
-    def additional_metadata(self, additional_metadata):
-        """Sets the additional_metadata of this InlineObject5.
+    @param.setter
+    def param(self, param):
+        """Sets the param of this InlineObject5.
 
-        Additional data to pass to server  # noqa: E501
+        field1  # noqa: E501
 
-        :param additional_metadata: The additional_metadata of this InlineObject5.  # noqa: E501
+        :param param: The param of this InlineObject5.  # noqa: E501
         :type: str
         """
+        if param is None:
+            raise ValueError("Invalid value for `param`, must not be `None`")  # noqa: E501
 
-        self._additional_metadata = additional_metadata
+        self._param = param
 
     @property
-    def required_file(self):
-        """Gets the required_file of this InlineObject5.  # noqa: E501
+    def param2(self):
+        """Gets the param2 of this InlineObject5.  # noqa: E501
 
-        file to upload  # noqa: E501
+        field2  # noqa: E501
 
-        :return: The required_file of this InlineObject5.  # noqa: E501
-        :rtype: file
+        :return: The param2 of this InlineObject5.  # noqa: E501
+        :rtype: str
         """
-        return self._required_file
+        return self._param2
 
-    @required_file.setter
-    def required_file(self, required_file):
-        """Sets the required_file of this InlineObject5.
+    @param2.setter
+    def param2(self, param2):
+        """Sets the param2 of this InlineObject5.
 
-        file to upload  # noqa: E501
+        field2  # noqa: E501
 
-        :param required_file: The required_file of this InlineObject5.  # noqa: E501
-        :type: file
+        :param param2: The param2 of this InlineObject5.  # noqa: E501
+        :type: str
         """
-        if required_file is None:
-            raise ValueError("Invalid value for `required_file`, must not be `None`")  # noqa: E501
+        if param2 is None:
+            raise ValueError("Invalid value for `param2`, must not be `None`")  # noqa: E501
 
-        self._required_file = required_file
+        self._param2 = param2
 
     def to_dict(self):
         """Returns the model properties as a dict"""

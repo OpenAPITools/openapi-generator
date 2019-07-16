@@ -32,10 +32,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -138,7 +135,7 @@ public class ModelUtils {
             if (s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
                 if ("application/x-www-form-urlencoded".equalsIgnoreCase(t) ||
-                        "multipart/form-data".equalsIgnoreCase(t)) {
+                        (t != null && t.toLowerCase(Locale.ROOT).startsWith("multipart/"))) {
                     schemasUsedInFormParam.add(ref);
                 } else {
                     schemasUsedInOtherCases.add(ref);

@@ -21,6 +21,7 @@ from {{packageName}}.configuration import Configuration
 import {{modelPackage}}
 from {{packageName}} import rest
 from {{packageName}}.exceptions import ApiValueError
+from urllib3.fields import RequestField
 
 
 class ApiClient(object):
@@ -106,6 +107,7 @@ class ApiClient(object):
     {{#asyncio}}async {{/asyncio}}def __call_api(
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
+            multipart_header_params=None, post_content_types=None,
             files=None, response_type=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
             _preload_content=True, _request_timeout=None, _host=None):
@@ -140,6 +142,12 @@ class ApiClient(object):
             query_params = self.parameters_to_tuples(query_params,
                                                      collection_formats)
 
+        # multipart header params
+        if multipart_header_params:
+            multipart_header_params = self.sanitize_for_serialization(multipart_header_params)  # noqa: E501
+            multipart_header_params = self.parameters_to_tuples(multipart_header_params, collection_formats)  # noqa: E501
+            multipart_header_params = dict(multipart_header_params)  # noqa: E501
+
         # post parameters
         if post_params or files:
             post_params = post_params if post_params else []
@@ -147,6 +155,9 @@ class ApiClient(object):
             post_params = self.parameters_to_tuples(post_params,
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
+            post_params = self.treat_multipart(post_params,
+                                               post_content_types,
+                                               multipart_header_params)
 
         # auth setting
         self.update_params_for_auth(header_params, query_params, auth_settings)
@@ -300,6 +311,7 @@ class ApiClient(object):
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
+                 multipart_header_params=None, post_content_types=None,
                  response_type=None, auth_settings=None, async_req=None,
                  _return_http_data_only=None, collection_formats=None,
                  _preload_content=True, _request_timeout=None, _host=None):
@@ -320,6 +332,8 @@ class ApiClient(object):
         :param response: Response data type.
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
+        :param multipart_header_params: list of parameters that
+            will be passed in the headers of each multipart item
         :param async_req bool: execute request asynchronously
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -342,16 +356,18 @@ class ApiClient(object):
         if not async_req:
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
-                                   body, post_params, files,
-                                   response_type, auth_settings,
+                                   body, post_params,
+                                   multipart_header_params, post_content_types,
+                                   files, response_type, auth_settings,
                                    _return_http_data_only, collection_formats,
                                    _preload_content, _request_timeout, _host)
         else:
             thread = self.pool.apply_async(self.__call_api, (resource_path,
                                            method, path_params, query_params,
-                                           header_params, body,
-                                           post_params, files,
-                                           response_type, auth_settings,
+                                           header_params, body, post_params,
+                                           multipart_header_params,
+                                           post_content_types,
+                                           files, response_type, auth_settings,
                                            _return_http_data_only,
                                            collection_formats,
                                            _preload_content,
@@ -448,6 +464,39 @@ class ApiClient(object):
                         (k, delimiter.join(str(value) for value in v)))
             else:
                 new_params.append((k, v))
+        return new_params
+
+    def treat_multipart(self, params, content_types, multipart_header_params):
+        """ builds the multipart fields,
+        adding Content-Type and headers where appropriate
+
+        :param post_params: POST parameters.
+        :param content_types: dict of Content-Type
+        :param multipart_header_params: multipart Header parameters
+        :return: Form parameters with files.
+        """
+        if content_types is None:
+            content_types = {}
+        if multipart_header_params is None:
+            multipart_header_params = {}
+
+        new_params = []
+        for k, v in params:
+            if k in content_types or k in multipart_header_params:
+                content_type = content_types.get(k, 'text/plain')
+                headers = multipart_header_params.get(k, {})
+                if content_type == 'application/json':
+                    v = json.dumps(v)
+                # TODO: serialize other types of Content-Type
+
+                field = RequestField(k, v, headers=headers)
+                field.make_multipart(headers.get('Content-Disposition'),
+                                     content_type,
+                                     headers.get('Content-Location'))
+                new_params.append(field)
+            else:
+                new_params.append((k, v))
+
         return new_params
 
     def files_parameters(self, files=None):

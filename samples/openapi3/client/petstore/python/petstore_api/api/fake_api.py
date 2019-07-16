@@ -109,6 +109,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # HTTP header `Accept`
@@ -126,6 +128,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='HealthCheckResult',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -211,6 +214,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'body' in local_var_params:
@@ -234,6 +239,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='bool',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -319,6 +325,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'outer_composite' in local_var_params:
@@ -342,6 +350,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='OuterComposite',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -427,6 +436,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'body' in local_var_params:
@@ -450,6 +461,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='float',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -535,6 +547,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'body' in local_var_params:
@@ -558,6 +572,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='str',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -647,6 +662,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'file_schema_test_class' in local_var_params:
@@ -666,6 +683,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -761,6 +779,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'user' in local_var_params:
@@ -780,6 +800,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -869,6 +890,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'client' in local_var_params:
@@ -892,6 +915,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type='Client',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -1047,6 +1071,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
         if 'integer' in local_var_params:
             form_params.append(('integer', local_var_params['integer']))  # noqa: E501
         if 'int32' in local_var_params:
@@ -1092,6 +1118,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -1205,6 +1232,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
         if 'enum_form_string_array' in local_var_params:
             form_params.append(('enum_form_string_array', local_var_params['enum_form_string_array']))  # noqa: E501
             collection_formats['enum_form_string_array'] = 'csv'  # noqa: E501
@@ -1227,6 +1256,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -1346,6 +1376,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         # Authentication setting
@@ -1359,6 +1391,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -1446,6 +1479,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
 
         body_params = None
         if 'request_body' in local_var_params:
@@ -1465,6 +1500,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
@@ -1558,6 +1594,8 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        post_content_types = {}
+        multipart_header_params = {}
         if 'param' in local_var_params:
             form_params.append(('param', local_var_params['param']))  # noqa: E501
         if 'param2' in local_var_params:
@@ -1579,6 +1617,7 @@ class FakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
+            post_content_types=post_content_types,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
