@@ -101,9 +101,9 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * Add a new pet to the store
     */
-     async addPet(requestParameters: AddPetRequest): Promise<void> {
+    async addPet(requestParameters: AddPetRequest): Promise<void> {
         await this.addPetRaw(requestParameters);
-     }
+    }
 
     /**
      * Deletes a pet
@@ -143,9 +143,9 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * Deletes a pet
     */
-     async deletePet(requestParameters: DeletePetRequest): Promise<void> {
+    async deletePet(requestParameters: DeletePetRequest): Promise<void> {
         await this.deletePetRaw(requestParameters);
-     }
+    }
 
     /**
      * Multiple status values can be provided with comma separated strings
@@ -187,10 +187,10 @@ export class PetApi extends runtime.BaseAPI {
     * Multiple status values can be provided with comma separated strings
     * Finds Pets by status
     */
-     async findPetsByStatus(requestParameters: FindPetsByStatusRequest): Promise<Array<Pet>> {
+    async findPetsByStatus(requestParameters: FindPetsByStatusRequest): Promise<Array<Pet>> {
         const response = await this.findPetsByStatusRaw(requestParameters);
         return await response.value();
-     }
+    }
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -232,10 +232,10 @@ export class PetApi extends runtime.BaseAPI {
     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     * Finds Pets by tags
     */
-     async findPetsByTags(requestParameters: FindPetsByTagsRequest): Promise<Array<Pet>> {
+    async findPetsByTags(requestParameters: FindPetsByTagsRequest): Promise<Array<Pet>> {
         const response = await this.findPetsByTagsRaw(requestParameters);
         return await response.value();
-     }
+    }
 
     /**
      * Returns a single pet
@@ -268,10 +268,10 @@ export class PetApi extends runtime.BaseAPI {
     * Returns a single pet
     * Find pet by ID
     */
-     async getPetById(requestParameters: GetPetByIdRequest): Promise<Pet> {
+    async getPetById(requestParameters: GetPetByIdRequest): Promise<Pet> {
         const response = await this.getPetByIdRaw(requestParameters);
         return await response.value();
-     }
+    }
 
     /**
      * Update an existing pet
@@ -310,9 +310,9 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * Update an existing pet
     */
-     async updatePet(requestParameters: UpdatePetRequest): Promise<void> {
+    async updatePet(requestParameters: UpdatePetRequest): Promise<void> {
         await this.updatePetRaw(requestParameters);
-     }
+    }
 
     /**
      * Updates a pet in the store with form data
@@ -358,9 +358,9 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * Updates a pet in the store with form data
     */
-     async updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Promise<void> {
+    async updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Promise<void> {
         await this.updatePetWithFormRaw(requestParameters);
-     }
+    }
 
     /**
      * uploads an image
@@ -406,10 +406,10 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * uploads an image
     */
-     async uploadFile(requestParameters: UploadFileRequest): Promise<ModelApiResponse> {
+    async uploadFile(requestParameters: UploadFileRequest): Promise<ModelApiResponse> {
         const response = await this.uploadFileRaw(requestParameters);
         return await response.value();
-     }
+    }
 
 }
 

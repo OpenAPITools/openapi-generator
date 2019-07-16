@@ -249,7 +249,7 @@ export class {{classname}} extends runtime.BaseAPI {
     }
     {{/useSingleRequestParameter}}
     {{#useSingleRequestParameter}}
-     async {{nickname}}({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    async {{nickname}}({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
         const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
         return await response.value();
@@ -257,7 +257,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{^returnType}}
         await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
         {{/returnType}}
-     }
+    }
     {{/useSingleRequestParameter}}
 
     {{/operation}}
