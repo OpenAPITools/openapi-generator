@@ -17,18 +17,22 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -38,6 +42,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String JACKSON = "jackson";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
+
+    public static final String QUARKUS_LIBRARY = "quarkus";
 
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
@@ -84,8 +90,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         removeOption(CodegenConstants.LIBRARY);
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_LIBRARY);
-        Map<String, String> supportedLibraries = new LinkedHashMap<>();
-        supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS");
+        supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)");
+        supportedLibraries.put(QUARKUS_LIBRARY, "Server using Quarkus");
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
@@ -119,6 +125,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
+        } else if(QUARKUS_LIBRARY.equals(library)) {
+            openApiSpecFileLocation = "src/main/resources/META-INF/openapi.yaml";
         }
         additionalProperties.put(OPEN_API_SPEC_FILE_LOCATION, openApiSpecFileLocation);
 
@@ -153,6 +161,14 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 fileName = openApiSpecFileLocation;
             }
             supportingFiles.add(new SupportingFile("openapi.mustache", fileFolder, fileName));
+        }
+
+        if(QUARKUS_LIBRARY.equals(library)) {
+            writeOptional(outputFolder, new SupportingFile("application.properties.mustache", "src/main/resources", "application.properties"));
+
+            writeOptional(outputFolder, new SupportingFile("Dockerfile.jvm.mustache", "src/main/docker", "Dockerfile.jvm"));
+            writeOptional(outputFolder, new SupportingFile("Dockerfile.native.mustache", "src/main/docker", "Dockerfile.native"));
+            writeOptional(outputFolder, new SupportingFile("dockerignore.mustache", "", ".dockerignore"));
         }
     }
 
