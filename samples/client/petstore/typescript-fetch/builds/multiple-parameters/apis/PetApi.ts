@@ -101,9 +101,9 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * Add a new pet to the store
     */
-     async addPet(requestParameters: AddPetRequest): Promise<void> {
-        await this.addPetRaw(requestParameters);
-     }
+    async addPet(body: Pet): Promise<void> {
+        await this.addPetRaw({ body: body });
+    }
 
     /**
      * Deletes a pet
@@ -143,9 +143,9 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * Deletes a pet
     */
-     async deletePet(requestParameters: DeletePetRequest): Promise<void> {
-        await this.deletePetRaw(requestParameters);
-     }
+    async deletePet(petId: number, apiKey?: string): Promise<void> {
+        await this.deletePetRaw({ petId: petId, apiKey: apiKey });
+    }
 
     /**
      * Multiple status values can be provided with comma separated strings
@@ -187,10 +187,10 @@ export class PetApi extends runtime.BaseAPI {
     * Multiple status values can be provided with comma separated strings
     * Finds Pets by status
     */
-     async findPetsByStatus(requestParameters: FindPetsByStatusRequest): Promise<Array<Pet>> {
-        const response = await this.findPetsByStatusRaw(requestParameters);
+    async findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>): Promise<Array<Pet>> {
+        const response = await this.findPetsByStatusRaw({ status: status });
         return await response.value();
-     }
+    }
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -232,10 +232,10 @@ export class PetApi extends runtime.BaseAPI {
     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     * Finds Pets by tags
     */
-     async findPetsByTags(requestParameters: FindPetsByTagsRequest): Promise<Array<Pet>> {
-        const response = await this.findPetsByTagsRaw(requestParameters);
+    async findPetsByTags(tags: Array<string>): Promise<Array<Pet>> {
+        const response = await this.findPetsByTagsRaw({ tags: tags });
         return await response.value();
-     }
+    }
 
     /**
      * Returns a single pet
@@ -268,10 +268,10 @@ export class PetApi extends runtime.BaseAPI {
     * Returns a single pet
     * Find pet by ID
     */
-     async getPetById(requestParameters: GetPetByIdRequest): Promise<Pet> {
-        const response = await this.getPetByIdRaw(requestParameters);
+    async getPetById(petId: number): Promise<Pet> {
+        const response = await this.getPetByIdRaw({ petId: petId });
         return await response.value();
-     }
+    }
 
     /**
      * Update an existing pet
@@ -310,9 +310,9 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * Update an existing pet
     */
-     async updatePet(requestParameters: UpdatePetRequest): Promise<void> {
-        await this.updatePetRaw(requestParameters);
-     }
+    async updatePet(body: Pet): Promise<void> {
+        await this.updatePetRaw({ body: body });
+    }
 
     /**
      * Updates a pet in the store with form data
@@ -358,9 +358,9 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * Updates a pet in the store with form data
     */
-     async updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Promise<void> {
-        await this.updatePetWithFormRaw(requestParameters);
-     }
+    async updatePetWithForm(petId: number, name?: string, status?: string): Promise<void> {
+        await this.updatePetWithFormRaw({ petId: petId, name: name, status: status });
+    }
 
     /**
      * uploads an image
@@ -406,10 +406,10 @@ export class PetApi extends runtime.BaseAPI {
    /**
     * uploads an image
     */
-     async uploadFile(requestParameters: UploadFileRequest): Promise<ModelApiResponse> {
-        const response = await this.uploadFileRaw(requestParameters);
+    async uploadFile(petId: number, additionalMetadata?: string, file?: Blob): Promise<ModelApiResponse> {
+        const response = await this.uploadFileRaw({ petId: petId, additionalMetadata: additionalMetadata, file: file });
         return await response.value();
-     }
+    }
 
 }
 

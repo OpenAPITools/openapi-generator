@@ -84,9 +84,9 @@ export class UserApi extends runtime.BaseAPI {
     * This can only be done by the logged in user.
     * Create user
     */
-    async createUser(body: User): Promise<void> {
-        await this.createUserRaw({ body: body });
-    }
+     async createUser(requestParameters: CreateUserRequest): Promise<void> {
+        await this.createUserRaw(requestParameters);
+     }
 
     /**
      * Creates list of users with given input array
@@ -116,9 +116,9 @@ export class UserApi extends runtime.BaseAPI {
    /**
     * Creates list of users with given input array
     */
-    async createUsersWithArrayInput(body: Array<User>): Promise<void> {
-        await this.createUsersWithArrayInputRaw({ body: body });
-    }
+     async createUsersWithArrayInput(requestParameters: CreateUsersWithArrayInputRequest): Promise<void> {
+        await this.createUsersWithArrayInputRaw(requestParameters);
+     }
 
     /**
      * Creates list of users with given input array
@@ -148,9 +148,9 @@ export class UserApi extends runtime.BaseAPI {
    /**
     * Creates list of users with given input array
     */
-    async createUsersWithListInput(body: Array<User>): Promise<void> {
-        await this.createUsersWithListInputRaw({ body: body });
-    }
+     async createUsersWithListInput(requestParameters: CreateUsersWithListInputRequest): Promise<void> {
+        await this.createUsersWithListInputRaw(requestParameters);
+     }
 
     /**
      * This can only be done by the logged in user.
@@ -179,9 +179,9 @@ export class UserApi extends runtime.BaseAPI {
     * This can only be done by the logged in user.
     * Delete user
     */
-    async deleteUser(username: string): Promise<void> {
-        await this.deleteUserRaw({ username: username });
-    }
+     async deleteUser(requestParameters: DeleteUserRequest): Promise<void> {
+        await this.deleteUserRaw(requestParameters);
+     }
 
     /**
      * Get user by user name
@@ -208,10 +208,10 @@ export class UserApi extends runtime.BaseAPI {
    /**
     * Get user by user name
     */
-    async getUserByName(username: string): Promise<User> {
-        const response = await this.getUserByNameRaw({ username: username });
+     async getUserByName(requestParameters: GetUserByNameRequest): Promise<User> {
+        const response = await this.getUserByNameRaw(requestParameters);
         return await response.value();
-    }
+     }
 
     /**
      * Logs user into the system
@@ -250,10 +250,10 @@ export class UserApi extends runtime.BaseAPI {
    /**
     * Logs user into the system
     */
-    async loginUser(username: string, password: string): Promise<string> {
-        const response = await this.loginUserRaw({ username: username, password: password });
+     async loginUser(requestParameters: LoginUserRequest): Promise<string> {
+        const response = await this.loginUserRaw(requestParameters);
         return await response.value();
-    }
+     }
 
     /**
      * Logs out current logged in user session
@@ -276,9 +276,9 @@ export class UserApi extends runtime.BaseAPI {
    /**
     * Logs out current logged in user session
     */
-    async logoutUser(): Promise<void> {
+     async logoutUser(): Promise<void> {
         await this.logoutUserRaw();
-    }
+     }
 
     /**
      * This can only be done by the logged in user.
@@ -314,8 +314,8 @@ export class UserApi extends runtime.BaseAPI {
     * This can only be done by the logged in user.
     * Updated user
     */
-    async updateUser(username: string, body: User): Promise<void> {
-        await this.updateUserRaw({ username: username, body: body });
-    }
+     async updateUser(requestParameters: UpdateUserRequest): Promise<void> {
+        await this.updateUserRaw(requestParameters);
+     }
 
 }

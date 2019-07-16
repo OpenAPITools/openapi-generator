@@ -4,4 +4,4 @@
 ./bin/typescript-fetch-petstore-with-npm-version.sh
 ./bin/typescript-fetch-petstore-interfaces.sh
 ./bin/typescript-fetch-petstore.sh
-./bin/typescript-fetch-petstore-use-single-request-parameter.sh
+./bin/typescript-fetch-petstore-multiple-parameters.sh
