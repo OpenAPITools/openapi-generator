@@ -2,13 +2,14 @@
 {{#models}}
 {{#model}}
 {{#description}}
-(* {{{classname}}} : {{{description}}} *)
+ * Schema {{{classname}}} : {{{description}}}
+ *)
 {{/description}}
 
 {{!-- for enum schemas --}}
 {{#isEnum}}
 (* {{{description}}} *)
-type {{classname}} =
+type t =
 {{#allowableValues}}{{#enumVars}}
 | {{name}}
 {{/enumVars}}{{/allowableValues}}
@@ -30,13 +31,14 @@ type {{name}} =
 {{/vars}}
 
 {{^isEnum}}
-type {{{classname}}} = {
+type t = {
 {{#vars}}
     {{#description}}
     (* {{{description}}} *)
     {{/description}}
     {{#isEnum}}
-    {{{name}}}: [{{#allowableValues}}{{#enumVars}}`{{name}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}}]{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
+    (*{{{name}}}: [{{#allowableValues}}{{#enumVars}}`{{name}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}}]{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};*)
+    {{{name}}}: {{{name}}}{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
     {{/isEnum}}
     {{^isEnum}}
     {{{name}}}: {{{dataType}}}{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
@@ -47,7 +49,7 @@ type {{{classname}}} = {
 {{#description}}
 (** {{{description}}} *)
 {{/description}}
-let create {{#requiredVars}}({{{name}}} : {{{dataType}}}{{#isNullable}}option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : {{{classname}}} = {
+let create {{#requiredVars}}({{{name}}} : {{{dataType}}}{{#isNullable}}option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : t = {
     {{#vars}}
     {{{name}}} = {{#required}}{{{name}}}{{/required}}{{^required}}{{#isListContainer}}[]{{/isListContainer}}{{#isMapContainer}}Hashtbl.create 7{{/isMapContainer}}{{^isContainer}}None{{/isContainer}}{{/required}};
     {{/vars}}

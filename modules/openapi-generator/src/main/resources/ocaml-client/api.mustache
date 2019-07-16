@@ -1,104 +1,135 @@
 {{>partial_header}}
-{-|
-Module : {{baseModule}}.API.{{classname}}
--}
+{{#operations}}
+{{#operation}}
+{{#description}}
+ * Schema {{{classname}}} : {{{description}}}
+{{/description}}
+{{/operation}}
+{{/operations}}
+ *)
 
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE MonoLocalBinds #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
+{{#operations}}
+{{#operation}}
+let {{{operationId}}} {{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} = ()
+{{/operation}}
+{{/operations}}
 
-module {{baseModule}}.API.{{classname}} where
+impl {{{classname}}} for {{{classname}}}Client {
+{{#operations}}
+{{#operation}}
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+        let configuration: &configuration::Configuration = self.configuration.borrow();
+        let client = &configuration.client;
 
-import {{baseModule}}.Core
-import {{baseModule}}.MimeTypes
-import {{baseModule}}.Model as M
+        let uri_str = "{{{basePath}}}{{{path}}}" {{#pathParams}}{{{baseName}}}{{#hasMore}} {{/hasMore}}{{/pathParams}} in
+        let mut req_builder = Client.{{{httpMethod}}}(uri_str.as_str());
 
-import qualified Data.Aeson as A
-import qualified Data.ByteString as B
-import qualified Data.ByteString.Lazy as BL
-import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
-import qualified Data.Foldable as P
-import qualified Data.Map as Map
-import qualified Data.Maybe as P
-import qualified Data.Proxy as P (Proxy(..))
-import qualified Data.Set as Set
-import qualified Data.String as P
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
-import qualified Data.Text.Lazy as TL
-import qualified Data.Text.Lazy.Encoding as TL
-import qualified Data.Time as TI
-import qualified Network.HTTP.Client.MultipartFormData as NH
-import qualified Network.HTTP.Media as ME
-import qualified Network.HTTP.Types as NH
-import qualified Web.FormUrlEncoded as WH
-import qualified Web.HttpApiData as WH
+        {{#queryParams}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string())]);
+        {{/queryParams}}
+        {{#hasAuthMethods}}
+        {{#authMethods}}
+        {{#isApiKey}}
+        {{#isKeyInQuery}}
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            req_builder = req_builder.query(&[("{{{keyParamName}}}", val)]);
+        }
+        {{/isKeyInQuery}}
+        {{/isApiKey}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+        if let Some(ref user_agent) = configuration.user_agent {
+            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+        }
+        {{#hasHeaderParams}}
+        {{#headerParams}}
+        req_builder = req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/headerParams}}
+        {{/hasHeaderParams}}
+        {{#hasAuthMethods}}
+        {{#authMethods}}
+        {{#isApiKey}}
+        {{#isKeyInHeader}}
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            req_builder = req_builder.header("{{{keyParamName}}}", val);
+        };
+        {{/isKeyInHeader}}
+        {{/isApiKey}}
+        {{#isBasic}}
+        {{^isBasicBearer}}
+        if let Some(ref auth_conf) = configuration.basic_auth {
+            req_builder = req_builder.basic_auth(auth_conf.0.to_owned(), auth_conf.1.to_owned());
+        };
+        {{/isBasicBearer}}
+        {{#isBasicBearer}}
+        if let Some(ref token) = configuration.bearer_access_token {
+            req_builder = req_builder.bearer_auth(token.to_owned());
+        };
+        {{/isBasicBearer}}
+        {{/isBasic}}
+        {{#isOAuth}}
+        if let Some(ref token) = configuration.oauth_access_token {
+            req_builder = req_builder.bearer_auth(token.to_owned());
+        };
+        {{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+        {{#isMultipart}}
+        {{#hasFormParams}}
+        let form = reqwest::multipart::Form::new()
+        {{#formParams}}
+        {{#isFile}}
+            .file("{{{baseName}}}", {{{paramName}}})?{{#-last}};{{/-last}}
+        {{/isFile}}
+        {{^isFile}}
+            .text("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string()){{#-last}};{{/-last}}
+        {{/isFile}}
+        {{/formParams}}
+        req_builder = req_builder.multipart(form);
+        {{/hasFormParams}}
+        {{/isMultipart}}
+        {{^isMultipart}}
+        {{#hasFormParams}}
+        let mut form_params = std::collections::HashMap::new();
+        {{#formParams}}
+        {{#isFile}}
+        form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
+        {{/isFile}}
+        {{^isFile}}
+        form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isFile}}
+        {{/formParams}}
+        req_builder = req_builder.form(&form_params);
+        {{/hasFormParams}}
+        {{/isMultipart}}
+        {{#hasBodyParam}}
+        {{#bodyParams}}
+        req_builder = req_builder.json(&{{{paramName}}});
+        {{/bodyParams}}
+        {{/hasBodyParam}}
 
-import Data.Text (Text)
-import GHC.Base ((<|>))
+        // send request
+        let req = req_builder.build()?;
 
-import Prelude ((==),(/=),($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
-import qualified Prelude as P
+        {{^returnType}}
+        client.execute(req)?.error_for_status()?;
+        Ok(())
+        {{/returnType}}
+        {{#returnType}}
+        Ok(client.execute(req)?.error_for_status()?.json()?)
+        {{/returnType}}
+    }
 
--- * Operations
-{{#operations}}{{#operation}}{{#vendorExtensions.x-hasNewTag}}
-
--- ** {{baseName}}{{/vendorExtensions.x-hasNewTag}}
-
--- *** {{operationId}}
-
--- | @{{{vendorExtensions.x-haddockPath}}}@
--- {{#summary}}
--- {{{.}}}
--- {{/summary}}{{#notes}}
--- {{{.}}}
--- {{/notes}}{{#hasAuthMethods}}
--- AuthMethod: {{#authMethods}}'{{{name}}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}
--- {{/hasAuthMethods}}{{#vendorExtensions.x-hasUnknownReturn}}
--- Note: Has 'Produces' instances, but no response schema
--- {{/vendorExtensions.x-hasUnknownReturn}}
-{{operationId}} 
-  :: {{#vendorExtensions.x-hasBodyOrFormParam}}(Consumes {{{vendorExtensions.x-operationType}}} {{>_contentType}}{{#allParams}}{{#isBodyParam}}{{#required}}, MimeRender {{>_contentType}} {{#vendorExtensions.x-paramNameType}}{{{.}}}{{/vendorExtensions.x-paramNameType}}{{^vendorExtensions.x-paramNameType}}{{{dataType}}}{{/vendorExtensions.x-paramNameType}}{{/required}}{{/isBodyParam}}{{/allParams}})
-  => {{^vendorExtensions.x-inlineContentType}}ContentType contentType -- ^ request content-type ('MimeType')
-  -> {{/vendorExtensions.x-inlineContentType}}{{/vendorExtensions.x-hasBodyOrFormParam}}{{^vendorExtensions.x-inlineAccept}}Accept accept -- ^ request accept ('MimeType')
-  -> {{/vendorExtensions.x-inlineAccept}}{{#allParams}}{{#required}}{{#vendorExtensions.x-paramNameType}}{{{.}}}{{/vendorExtensions.x-paramNameType}}{{^vendorExtensions.x-paramNameType}}{{{dataType}}}{{/vendorExtensions.x-paramNameType}} -- ^ "{{{paramName}}}"{{#description}} -  {{{.}}}{{/description}}{{^required}}{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}{{/required}}
-  -> {{/required}}{{/allParams}}{{requestType}} {{{vendorExtensions.x-operationType}}} {{>_contentType}} {{vendorExtensions.x-returnType}} {{>_accept}}
-{{operationId}} {{^vendorExtensions.x-inlineContentType}}_ {{/vendorExtensions.x-inlineContentType}}{{^vendorExtensions.x-inlineAccept}} _ {{/vendorExtensions.x-inlineAccept}}{{#allParams}}{{#required}}{{#isBodyParam}}{{{paramName}}}{{/isBodyParam}}{{^isBodyParam}}({{{vendorExtensions.x-paramNameType}}} {{{paramName}}}){{/isBodyParam}} {{/required}}{{/allParams}}=
-  _mkRequest "{{httpMethod}}" {{{vendorExtensions.x-path}}}{{#authMethods}}
-    `_hasAuthType` (P.Proxy :: P.Proxy {{name}}){{/authMethods}}{{#allParams}}{{#required}}{{#isHeaderParam}}
-    `setHeader` {{>_headerColl}} ("{{{baseName}}}", {{{paramName}}}){{/isHeaderParam}}{{#isQueryParam}}
-    `setQuery` {{>_queryColl}} ("{{{baseName}}}", Just {{{paramName}}}){{/isQueryParam}}{{#isFormParam}}{{#isFile}}
-    `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" {{{paramName}}}{{/isFile}}{{^isFile}}{{#isMultipart}}
-    `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData {{{paramName}}}){{/isMultipart}}{{^isMultipart}}
-    `addForm` {{>_formColl}} ("{{{baseName}}}", {{{paramName}}}){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{#isBodyParam}}
-    `setBodyParam` {{{paramName}}}{{/isBodyParam}}{{/required}}{{/allParams}}{{#isDeprecated}}
-
-{-# DEPRECATED {{operationId}} "" #-}{{/isDeprecated}}
-
-data {{{vendorExtensions.x-operationType}}} {{#allParams}}{{#isBodyParam}}{{#description}}
-
--- | /Body Param/ "{{{baseName}}}" - {{{description}}}{{/description}}
-instance HasBodyParam {{{vendorExtensions.x-operationType}}} {{#vendorExtensions.x-paramNameType}}{{{.}}}{{/vendorExtensions.x-paramNameType}}{{^vendorExtensions.x-paramNameType}}{{{dataType}}}{{/vendorExtensions.x-paramNameType}}{{/isBodyParam}}{{/allParams}} {{#vendorExtensions.x-hasOptionalParams}}{{#allParams}}{{^isBodyParam}}{{^required}}{{#description}}
-
--- | /Optional Param/ "{{{baseName}}}" - {{{description}}}{{/description}}
-instance HasOptionalParam {{{vendorExtensions.x-operationType}}} {{{vendorExtensions.x-paramNameType}}} where
-  applyOptionalParam req ({{{vendorExtensions.x-paramNameType}}} xs) =
-    {{#isHeaderParam}}req `setHeader` {{>_headerColl}} ("{{{baseName}}}", xs){{/isHeaderParam}}{{#isQueryParam}}req `setQuery` {{>_queryColl}} ("{{{baseName}}}", Just xs){{/isQueryParam}}{{#isFormParam}}{{#isFile}}req `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" xs{{/isFile}}{{^isFile}}{{#isMultipart}}req `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData xs){{/isMultipart}}{{^isMultipart}}req `addForm` {{>_formColl}} ("{{{baseName}}}", xs){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{/required}}{{/isBodyParam}}{{/allParams}}{{/vendorExtensions.x-hasOptionalParams}}{{#hasConsumes}}
-
-{{#consumes}}-- | @{{{mediaType}}}@{{^x-mediaIsWildcard}}
-instance Consumes {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
-instance MimeType mtype => Consumes {{{vendorExtensions.x-operationType}}} mtype{{/x-mediaIsWildcard}}
-{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}{{#vendorExtensions.x-hasBodyOrFormParam}}
-    
--- | @*/*@
-instance MimeType mtype => Consumes {{{vendorExtensions.x-operationType}}} mtype
-{{/vendorExtensions.x-hasBodyOrFormParam}}{{/hasConsumes}}{{#hasProduces}}
-{{#produces}}-- | @{{{mediaType}}}@{{^x-mediaIsWildcard}}
-instance Produces {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
-instance MimeType mtype => Produces {{{vendorExtensions.x-operationType}}} mtype{{/x-mediaIsWildcard}}
-{{/produces}}{{/hasProduces}}{{^hasProduces}}
-instance Produces {{{vendorExtensions.x-operationType}}} MimeNoContent
-{{/hasProduces}}{{/operation}}{{/operations}}
+{{/operation}}
+{{/operations}}
+}

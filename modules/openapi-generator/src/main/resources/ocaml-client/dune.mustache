@@ -1,4 +1,7 @@
+(include_subdirs unqualified)
 (library
-   (name lib)
+   (name {{{packageName}}})
+   (public_name {{{packageName}}})
+   (libraries cohttp-lwt-unix lwt yojson)
    (wrapped true)
 )
