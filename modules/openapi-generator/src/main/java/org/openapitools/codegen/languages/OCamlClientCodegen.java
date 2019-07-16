@@ -114,8 +114,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         typeMapping.clear();
         typeMapping.put("boolean", "bool");
-        typeMapping.put("int", "int");
-        typeMapping.put("long", "Int64.t");
+        typeMapping.put("int", "int32");
+        typeMapping.put("long", "int64");
         typeMapping.put("short", "int");
         typeMapping.put("char", "char");
         typeMapping.put("float", "float");

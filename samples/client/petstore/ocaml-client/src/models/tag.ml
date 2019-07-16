@@ -12,7 +12,7 @@
 type t = {
     id: Int64.t option;
     name: string option;
-}
+} [@@deriving yojson];;
 
 (** A tag for a pet *)
 let create () : t = {

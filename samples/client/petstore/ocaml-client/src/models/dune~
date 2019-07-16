@@ -1,6 +1,0 @@
-(include_subdirs unqualified)
-(library
-   (name petstore_client)
-   (public_name petstore_client)
-   (wrapped true)
-)

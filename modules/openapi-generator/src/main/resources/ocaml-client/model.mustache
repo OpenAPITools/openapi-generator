@@ -27,6 +27,7 @@ type {{name}} =
 | {{name}}
 {{/enumVars}}
 {{/allowableValues}}
+[@@deriving yojson];;
 {{/isEnum}}
 {{/vars}}
 
@@ -44,7 +45,7 @@ type t = {
     {{{name}}}: {{{dataType}}}{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
     {{/isEnum}}
 {{/vars}}
-}
+} [@@deriving yojson];;
 
 {{#description}}
 (** {{{description}}} *)

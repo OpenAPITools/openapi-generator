@@ -2,6 +2,7 @@
 (library
    (name petstore_client)
    (public_name petstore_client)
-   (libraries cohttp-lwt-unix lwt yojson)
+   (libraries cohttp-lwt-unix lwt yojson ppx_deriving_yojson.runtime)
+   (preprocess (pps ppx_deriving_yojson))
    (wrapped true)
 )

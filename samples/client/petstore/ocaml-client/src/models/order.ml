@@ -13,6 +13,7 @@ type status =
 | Placed
 | Approved
 | Delivered
+[@@deriving yojson];;
 
 type t = {
     id: Int64.t option;
@@ -23,7 +24,7 @@ type t = {
     (*status: [`Placed | `Approved | `Delivered] option;*)
     status: status option;
     complete: bool option;
-}
+} [@@deriving yojson];;
 
 (** An order for a pets from the pet store *)
 let create () : t = {
