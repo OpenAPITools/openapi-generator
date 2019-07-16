@@ -8,7 +8,55 @@
  */
 
 package petstore
+import (
+	"encoding/json"
+)
 
 type DogAllOf struct {
-	Breed string `json:"breed,omitempty"`
+	Breed *string `json:"breed,omitempty"`
+
 }
+
+// GetBreed returns the Breed field if non-nil, zero value otherwise.
+func (o *DogAllOf) GetBreed() string {
+	if o == nil || o.Breed == nil {
+		var ret string
+		return ret
+	}
+	return *o.Breed
+}
+
+// GetBreedOk returns a tuple with the Breed field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *DogAllOf) GetBreedOk() (string, bool) {
+	if o == nil || o.Breed == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.Breed, true
+}
+
+// HasBreed returns a boolean if a field has been set.
+func (o *DogAllOf) HasBreed() bool {
+	if o != nil && o.Breed != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetBreed gets a reference to the given string and assigns it to the Breed field.
+func (o *DogAllOf) SetBreed(v string) {
+	o.Breed = &v
+}
+
+
+func (o DogAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Breed != nil {
+		toSerialize["breed"] = o.Breed
+	}
+	return json.Marshal(toSerialize)
+}
+
+
