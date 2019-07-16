@@ -13,6 +13,7 @@ type status =
 | Available
 | Pending
 | Sold
+[@@deriving yojson];;
 
 type t = {
     id: Int64.t option;
@@ -23,7 +24,7 @@ type t = {
     (* pet status in the store *)
     (*status: [`Available | `Pending | `Sold] option;*)
     status: status option;
-}
+} [@@deriving yojson];;
 
 (** A pet for sale in the pet store *)
 let create (name : string) (photo_urls : string list) : t = {

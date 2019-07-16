@@ -13,7 +13,7 @@ type t = {
     code: int option;
     _type: string option;
     message: string option;
-}
+} [@@deriving yojson];;
 
 (** Describes the result of uploading an image resource *)
 let create () : t = {

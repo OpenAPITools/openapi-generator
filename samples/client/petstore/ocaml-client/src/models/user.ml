@@ -19,7 +19,7 @@ type t = {
     phone: string option;
     (* User Status *)
     user_status: int option;
-}
+} [@@deriving yojson];;
 
 (** A User who is purchasing from the pet store *)
 let create () : t = {
