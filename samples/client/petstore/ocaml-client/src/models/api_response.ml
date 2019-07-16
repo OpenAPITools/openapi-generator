@@ -10,7 +10,7 @@
 
 
 type t = {
-    code: int option;
+    code: int32 option;
     _type: string option;
     message: string option;
 } [@@deriving yojson];;
