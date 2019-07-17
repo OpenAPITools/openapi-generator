@@ -1095,6 +1095,36 @@
       ]
     },
     {
+      "input": "swift5-petstore-promisekit.sh",
+      "matches": [
+        "Client: Swift"
+      ]
+    },
+    {
+      "input": "swift5-petstore-rxswift.sh",
+      "matches": [
+        "Client: Swift"
+      ]
+    },
+    {
+      "input": "swift5-petstore-unwrapRequired.sh",
+      "matches": [
+        "Client: Swift"
+      ]
+    },
+    {
+      "input": "swift5-petstore.sh",
+      "matches": [
+        "Client: Swift"
+      ]
+    },
+    {
+      "input": "swift5-test.sh",
+      "matches": [
+        "Client: Swift"
+      ]
+    },
+    {
       "input": "typescript-angular-v2-petstore-interfaces.sh",
       "matches": [
         "Client: TypeScript"

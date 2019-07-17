@@ -14,11 +14,11 @@ open class FakeClassnameTags123API {
     /**
      To test class name in snake case
      
-     - parameter body: (body) client model 
+     - parameter client: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testClassname(body: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        testClassnameWithRequestBuilder(body: body).execute { (response, error) -> Void in
+    open class func testClassname(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+        testClassnameWithRequestBuilder(client: client).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -30,13 +30,13 @@ open class FakeClassnameTags123API {
      - API Key:
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query
-     - parameter body: (body) client model 
+     - parameter client: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
+    open class func testClassnameWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
         let path = "/fake_classname_test"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: client)
 
         let url = URLComponents(string: URLString)
 

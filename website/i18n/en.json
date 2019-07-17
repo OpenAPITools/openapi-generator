@@ -370,6 +370,9 @@
       "generators/swift4": {
         "title": "generators/swift4"
       },
+      "generators/swift5": {
+        "title": "generators/swift5"
+      },
       "generators/typescript-angular": {
         "title": "generators/typescript-angular"
       },

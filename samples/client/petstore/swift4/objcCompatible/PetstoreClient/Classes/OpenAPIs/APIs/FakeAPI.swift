@@ -77,11 +77,11 @@ open class FakeAPI {
 
     /**
 
-     - parameter body: (body) Input composite as post body (optional)
+     - parameter outerComposite: (body) Input composite as post body (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, completion: @escaping ((_ data: OuterComposite?,_ error: Error?) -> Void)) {
-        fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
+    open class func fakeOuterCompositeSerialize(outerComposite: OuterComposite? = nil, completion: @escaping ((_ data: OuterComposite?,_ error: Error?) -> Void)) {
+        fakeOuterCompositeSerializeWithRequestBuilder(outerComposite: outerComposite).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -89,13 +89,13 @@ open class FakeAPI {
     /**
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
-     - parameter body: (body) Input composite as post body (optional)
+     - parameter outerComposite: (body) Input composite as post body (optional)
      - returns: RequestBuilder<OuterComposite> 
      */
-    open class func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
+    open class func fakeOuterCompositeSerializeWithRequestBuilder(outerComposite: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
         let path = "/fake/outer/composite"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: outerComposite)
 
         let url = URLComponents(string: URLString)
 
@@ -164,11 +164,11 @@ open class FakeAPI {
 
     /**
 
-     - parameter body: (body)  
+     - parameter fileSchemaTestClass: (body)  
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        testBodyWithFileSchemaWithRequestBuilder(body: body).execute { (response, error) -> Void in
+    open class func testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: fileSchemaTestClass).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -180,13 +180,13 @@ open class FakeAPI {
     /**
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
-     - parameter body: (body)  
+     - parameter fileSchemaTestClass: (body)  
      - returns: RequestBuilder<Void> 
      */
-    open class func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass) -> RequestBuilder<Void> {
+    open class func testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: FileSchemaTestClass) -> RequestBuilder<Void> {
         let path = "/fake/body-with-file-schema"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: fileSchemaTestClass)
 
         let url = URLComponents(string: URLString)
 
@@ -198,11 +198,11 @@ open class FakeAPI {
     /**
 
      - parameter query: (query)  
-     - parameter body: (body)  
+     - parameter user: (body)  
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testBodyWithQueryParams(query: String, body: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { (response, error) -> Void in
+    open class func testBodyWithQueryParams(query: String, user: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        testBodyWithQueryParamsWithRequestBuilder(query: query, user: user).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -214,13 +214,13 @@ open class FakeAPI {
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
-     - parameter body: (body)  
+     - parameter user: (body)  
      - returns: RequestBuilder<Void> 
      */
-    open class func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User) -> RequestBuilder<Void> {
+    open class func testBodyWithQueryParamsWithRequestBuilder(query: String, user: User) -> RequestBuilder<Void> {
         let path = "/fake/body-with-query-params"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
@@ -235,11 +235,11 @@ open class FakeAPI {
     /**
      To test \"client\" model
      
-     - parameter body: (body) client model 
+     - parameter client: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testClientModel(body: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        testClientModelWithRequestBuilder(body: body).execute { (response, error) -> Void in
+    open class func testClientModel(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+        testClientModelWithRequestBuilder(client: client).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -248,13 +248,13 @@ open class FakeAPI {
      To test \"client\" model
      - PATCH /fake
      - To test \"client\" model
-     - parameter body: (body) client model 
+     - parameter client: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func testClientModelWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
+    open class func testClientModelWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: client)
 
         let url = URLComponents(string: URLString)
 
@@ -537,11 +537,11 @@ open class FakeAPI {
     /**
      test inline additionalProperties
      
-     - parameter param: (body) request body 
+     - parameter requestBody: (body) request body 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testInlineAdditionalProperties(param: [String:String], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (response, error) -> Void in
+    open class func testInlineAdditionalProperties(requestBody: [String:String], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        testInlineAdditionalPropertiesWithRequestBuilder(requestBody: requestBody).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -553,13 +553,13 @@ open class FakeAPI {
     /**
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
-     - parameter param: (body) request body 
+     - parameter requestBody: (body) request body 
      - returns: RequestBuilder<Void> 
      */
-    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: [String:String]) -> RequestBuilder<Void> {
+    open class func testInlineAdditionalPropertiesWithRequestBuilder(requestBody: [String:String]) -> RequestBuilder<Void> {
         let path = "/fake/inline-additionalProperties"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody)
 
         let url = URLComponents(string: URLString)
 
