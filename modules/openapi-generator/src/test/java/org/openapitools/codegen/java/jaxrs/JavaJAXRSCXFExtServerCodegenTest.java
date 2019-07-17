@@ -369,11 +369,9 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
                 .getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -448,13 +446,11 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
                 .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
-        opts.getProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
+        codegen.additionalProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -494,14 +490,12 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
                 .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
-        opts.getProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
-        opts.getProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();

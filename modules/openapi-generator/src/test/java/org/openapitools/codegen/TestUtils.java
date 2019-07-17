@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import io.swagger.parser.OpenAPIParser;
@@ -69,5 +70,15 @@ public class TestUtils {
                     generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
         }
         assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not fould in the list of generated files");
+    }
+
+    public static void ensureDoesNotContainsFile(Map<String, String> generatedFiles, File root, String filename) {
+        File file = new File(root, filename);
+        String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
+        if (generatedFiles.containsKey(absoluteFilename)) {
+            Assert.fail("File '" + absoluteFilename + "' exists in file in list:\n" +
+                    generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
+        }
+        assertFalse(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was fould in the list of generated files");
     }
 }

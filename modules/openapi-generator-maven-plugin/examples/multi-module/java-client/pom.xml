@@ -19,7 +19,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>4.0.3-SNAPSHOT</version>
+                <version>4.0.3</version>
                 <!-- /RELEASE_VERSION -->
                 <dependencies>
                     <dependency>
@@ -61,6 +61,7 @@
                 <configuration>
                         <source>1.7</source>
                         <target>1.7</target>
+                        <proc>none</proc>
                 </configuration>
             </plugin>
         </plugins>

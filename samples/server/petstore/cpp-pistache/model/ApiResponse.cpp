@@ -51,17 +51,17 @@ void to_json(nlohmann::json& j, const ApiResponse& o)
 
 void from_json(const nlohmann::json& j, ApiResponse& o)
 {
-    if(j.contains("code"))
+    if(j.find("code") != j.end())
     {
         j.at("code").get_to(o.m_Code);
         o.m_CodeIsSet = true;
     } 
-    if(j.contains("type"))
+    if(j.find("type") != j.end())
     {
         j.at("type").get_to(o.m_Type);
         o.m_TypeIsSet = true;
     } 
-    if(j.contains("message"))
+    if(j.find("message") != j.end())
     {
         j.at("message").get_to(o.m_Message);
         o.m_MessageIsSet = true;

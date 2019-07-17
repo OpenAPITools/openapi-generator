@@ -31,6 +31,9 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 export function {{classname}}FromJSON(json: any): {{classname}} {
     {{#hasVars}}
     return {
+        {{#additionalPropertiesType}}
+            ...json,
+        {{/additionalPropertiesType}}
         {{#vars}}
         {{#isPrimitiveType}}
         {{#isDate}}
@@ -77,6 +80,9 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         return undefined;
     }
     return {
+        {{#additionalPropertiesType}}
+            ...value,
+        {{/additionalPropertiesType}}
         {{#vars}}
         {{^isReadOnly}}
         {{#isPrimitiveType}}
