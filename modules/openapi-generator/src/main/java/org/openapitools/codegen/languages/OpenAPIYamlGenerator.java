@@ -138,14 +138,14 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
      * previous fragment.
      */
     public static class OnChangeLambda implements Mustache.Lambda {
-        private static final Logger LOGGER = LoggerFactory.getLogger(OnChangeLambda.class);
+        private static final Logger LOG = LoggerFactory.getLogger(OnChangeLambda.class);
 
         private String lastVal = null;
 
         @Override
         public void execute(Template.Fragment frag, Writer out) throws IOException {
             String curVal = frag.execute();
-            LOGGER.debug("[lastVal={}, curVal={}]", lastVal, curVal);
+            LOG.debug("[lastVal={}, curVal={}]", lastVal, curVal);
             if (curVal != null && !curVal.equals(lastVal)) {
                 out.write(curVal);
                 lastVal = curVal;
