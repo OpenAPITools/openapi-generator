@@ -100,7 +100,7 @@ impl UserApi for UserApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let uri_str = format!("{}/user/{username}", configuration.base_path, username=::apis::urlencode(username));
+        let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
         let mut req_builder = client.delete(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
@@ -118,7 +118,7 @@ impl UserApi for UserApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let uri_str = format!("{}/user/{username}", configuration.base_path, username=::apis::urlencode(username));
+        let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
         let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
@@ -172,7 +172,7 @@ impl UserApi for UserApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let uri_str = format!("{}/user/{username}", configuration.base_path, username=::apis::urlencode(username));
+        let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
         let mut req_builder = client.put(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
