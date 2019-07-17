@@ -8,7 +8,7 @@ info:
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
-- url: http://petstore.swagger.io/v2
+- url: /api/v2
 tags:
 - description: Everything about your Pets
   name: pet

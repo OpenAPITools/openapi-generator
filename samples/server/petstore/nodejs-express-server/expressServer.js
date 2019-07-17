@@ -20,34 +20,6 @@ class ExpressServer {
     this.setupMiddleware();
   }
 
-  // handleIncomingMedia(request) {
-  //   console.log(this.apiValidator);
-  //   const incomingMedia = request.headers['content-type'].split(';')[0];
-  //   logger.info(`checking access for media type ${incomingMedia}`);
-  //   const currentServer = this.schema.servers.find(
-  //     server => server.url.indexOf(request.headers.host) > -1,
-  //   );
-  //   const currentServerUrl = currentServer.url.substr(currentServer.url.indexOf('://') + 3);
-  //   // const path = `${request.headers.host}${request.originalUrl}`;
-  //   const requestPath = `${request.headers.host}${request.originalUrl}`.substr(currentServerUrl.length);
-  //   this.allowedMedia.forEach((permissions, path) => {
-  //     console.log(path, permissions);
-  //     const keys = [];
-  //     const regex = pathToRegexp(path, keys);
-  //     const matches = regex.exec(requestPath);
-  //     console.log(matches);
-  //   });
-  //   // this.allowedMedia.find((instance) => {
-  //   //   const keys = [];
-  //   //   const regex = pathToRegexp(Object.keys(instance)[0], keys);
-  //   //   return instance.path === regex;
-  //   // });
-  //
-  //   logger.info(`analysing incoming media. content type: ${request.headers['content-type']}`); '';
-  //   logger.info(this.schema.paths[request.url]);
-  //   logger.info(this.schema);
-  // }
-
   setupMiddleware() {
     // this.setupAllowedMedia();
     this.app.use(cors());

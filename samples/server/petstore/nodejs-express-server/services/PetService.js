@@ -2,13 +2,12 @@
 const Service = require('./Service');
 
 class PetService {
-
   /**
    * Add a new pet to the store
    *
    * body Pet Pet object that needs to be added to the store
    * no response value expected for this operation
-   **/
+   * */
   static addPet({ body }) {
     return new Promise(
       async (resolve) => {
@@ -30,7 +29,7 @@ class PetService {
    * petId Long Pet id to delete
    * apiUnderscorekey String  (optional)
    * no response value expected for this operation
-   **/
+   * */
   static deletePet({ petId, apiUnderscorekey }) {
     return new Promise(
       async (resolve) => {
@@ -52,7 +51,7 @@ class PetService {
    *
    * status List Status values that need to be considered for filter
    * returns List
-   **/
+   * */
   static findPetsByStatus({ status }) {
     return new Promise(
       async (resolve) => {
@@ -74,7 +73,7 @@ class PetService {
    *
    * tags List Tags to filter by
    * returns List
-   **/
+   * */
   static findPetsByTags({ tags }) {
     return new Promise(
       async (resolve) => {
@@ -96,7 +95,7 @@ class PetService {
    *
    * petId Long ID of pet to return
    * returns Pet
-   **/
+   * */
   static getPetById({ petId }) {
     return new Promise(
       async (resolve) => {
@@ -117,7 +116,7 @@ class PetService {
    *
    * body Pet Pet object that needs to be added to the store
    * no response value expected for this operation
-   **/
+   * */
   static updatePet({ body }) {
     return new Promise(
       async (resolve) => {
@@ -140,7 +139,7 @@ class PetService {
    * name String Updated name of the pet (optional)
    * status String Updated status of the pet (optional)
    * no response value expected for this operation
-   **/
+   * */
   static updatePetWithForm({ petId, name, status }) {
     return new Promise(
       async (resolve) => {
@@ -163,7 +162,7 @@ class PetService {
    * additionalMetadata String Additional data to pass to server (optional)
    * file File file to upload (optional)
    * returns ApiResponse
-   **/
+   * */
   static uploadFile({ petId, additionalMetadata, file }) {
     return new Promise(
       async (resolve) => {
@@ -178,7 +177,6 @@ class PetService {
       },
     );
   }
-
 }
 
 module.exports = PetService;

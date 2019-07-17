@@ -36,7 +36,6 @@ class PetController {
   async uploadFile(request, response) {
     await Controller.handleRequest(request, response, this.service.uploadFile);
   }
-
 }
 
 module.exports = PetController;

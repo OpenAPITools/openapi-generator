@@ -21,7 +21,7 @@ const app = new App(config);
 chai.use(chaiAsPromised);
 chai.should();
 
-describe('Tests for confirming that the Swagger router works as expected', () => {
+describe('Tests for confirming that the Openapi router works as expected', () => {
   const pathVarValue = 123;
   const urlPath = `${config.FULL_PATH}/test/${pathVarValue}?queryOptionalNumber=2&queryRequiredString=sss`;
   const headerRequiredArray = [1, 2, 3];
