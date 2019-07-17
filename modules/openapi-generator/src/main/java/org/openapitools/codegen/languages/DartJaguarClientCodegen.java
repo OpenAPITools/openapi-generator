@@ -16,15 +16,12 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.io.FilenameUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 
 import java.io.File;
@@ -37,6 +34,8 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     private static final String SERIALIZATION_FORMAT = "serialization";
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String IS_FORMAT_PROTO = "protoFormat";
+    private static final String CLIENT_NAME = "clientName";
+
     private static Set<String> modelToIgnore = new HashSet<>();
     private HashMap<String, String> protoTypeMapping = new HashMap<>();
 
@@ -141,6 +140,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             //not set, use to be passed to template
             additionalProperties.put(PUB_NAME, pubName);
         }
+        additionalProperties.put(CLIENT_NAME, org.openapitools.codegen.utils.StringUtils.camelize(pubName));
 
         if (additionalProperties.containsKey(PUB_VERSION)) {
             this.setPubVersion((String) additionalProperties.get(PUB_VERSION));
