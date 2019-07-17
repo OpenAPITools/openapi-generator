@@ -12,8 +12,12 @@
 {{#operation}}
 let {{{operationId}}} {{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} =
     let headers = Request.default_headers in
-    let uri = Request.build_uri "{{{path}}}" in{{#hasBodyParam}}
-    let body = Request.build_body {{#bodyParams}}{{#isBodyParam}}{{{dataType}}}.to_yojson {{{paramName}}}{{/isBodyParam}}{{/bodyParams}} in{{/hasBodyParam}}
+    let uri = Request.build_uri "{{{path}}}" in{{#hasPathParams}}
+    {{#pathParams}}let uri = Request.replace_path_param uri "{{{baseName}}}" {{#isString}}{{{paramName}}}{{/isString}}{{#isLong}}(Int64.to_string {{{paramName}}}){{/isLong}}{{#isInteger}}(Int32.to_string {{{paramName}}}){{/isInteger}}{{#isFloat}}(string_of_float {{{paramName}}}){{/isFloat}} in
+    {{/pathParams}}{{/hasPathParams}}{{#hasQueryParams}}
+    {{#queryParams}}let uri = Uri.add_query_param' uri ("{{{baseName}}}", {{{paramName}}}) in
+    {{/queryParams}}{{/hasQueryParams}}{{#hasBodyParam}}
+    {{#bodyParams}}{{#isBodyParam}}let body = Request.build_body {{{vendorExtensions.x-modelModule}}}.to_yojson {{{paramName}}} in{{/isBodyParam}}{{/bodyParams}}{{/hasBodyParam}}
     Cohttp_lwt_unix.Client.{{{httpMethod}}} uri ~headers{{#hasBodyParam}} ~body{{/hasBodyParam}}
 
 {{/operation}}

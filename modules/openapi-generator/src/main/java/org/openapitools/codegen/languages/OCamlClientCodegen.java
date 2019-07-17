@@ -41,6 +41,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
 
+    static final String X_MODEL_MODULE = "x-modelModule";
+    static final String X_CAML_CASE_PARAM = "x-camlCaseParam";
+
     public static final String CO_HTTP = "cohttp";
 
     protected String packageName = "openapi";
@@ -372,6 +375,16 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             //if (CO_HTTP.equals(getLibrary())) {
             operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+            for (CodegenParameter param : operation.bodyParams) {
+                if (param.isModel && param.dataType.endsWith(".t")) {
+                    param.vendorExtensions.put(X_MODEL_MODULE, param.dataType.substring(0, param.dataType.indexOf('.')));
+                }
+            }
+            for (CodegenParameter param : operation.pathParams) {
+                param.vendorExtensions.put(X_CAML_CASE_PARAM, camelize(param.paramName, true));
+            }
+
+
             //}
             // update return type to conform to rust standard
             /*
