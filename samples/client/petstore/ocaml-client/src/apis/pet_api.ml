@@ -8,43 +8,55 @@
 let add_pet body =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/pet" in
-    let body = Request.build_body Pet.t.to_yojson body in
+    let body = Request.build_body Pet.to_yojson body in
     Cohttp_lwt_unix.Client.post uri ~headers ~body
 
 let delete_pet pet_id api_key =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/pet/{petId}" in
+    let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
+    
     Cohttp_lwt_unix.Client.delete uri ~headers
 
 let find_pets_by_status status =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/pet/findByStatus" in
+    let uri = Uri.add_query_param' uri ("status", status) in
+    
     Cohttp_lwt_unix.Client.get uri ~headers
 
 let find_pets_by_tags tags =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/pet/findByTags" in
+    let uri = Uri.add_query_param' uri ("tags", tags) in
+    
     Cohttp_lwt_unix.Client.get uri ~headers
 
 let get_pet_by_id pet_id =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/pet/{petId}" in
+    let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
+    
     Cohttp_lwt_unix.Client.get uri ~headers
 
 let update_pet body =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/pet" in
-    let body = Request.build_body Pet.t.to_yojson body in
+    let body = Request.build_body Pet.to_yojson body in
     Cohttp_lwt_unix.Client.put uri ~headers ~body
 
 let update_pet_with_form pet_id name status =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/pet/{petId}" in
+    let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
+    
     Cohttp_lwt_unix.Client.post uri ~headers
 
 let upload_file pet_id additional_metadata file =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/pet/{petId}/uploadImage" in
+    let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
+    
     Cohttp_lwt_unix.Client.post uri ~headers
 
 

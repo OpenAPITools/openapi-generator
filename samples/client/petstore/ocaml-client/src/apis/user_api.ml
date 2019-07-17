@@ -8,34 +8,41 @@
 let create_user body =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/user" in
-    let body = Request.build_body User.t.to_yojson body in
+    let body = Request.build_body User.to_yojson body in
     Cohttp_lwt_unix.Client.post uri ~headers ~body
 
 let create_users_with_array_input body =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/user/createWithArray" in
-    let body = Request.build_body User.t list.to_yojson body in
+    let body = Request.build_body .to_yojson body in
     Cohttp_lwt_unix.Client.post uri ~headers ~body
 
 let create_users_with_list_input body =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/user/createWithList" in
-    let body = Request.build_body User.t list.to_yojson body in
+    let body = Request.build_body .to_yojson body in
     Cohttp_lwt_unix.Client.post uri ~headers ~body
 
 let delete_user username =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/user/{username}" in
+    let uri = Request.replace_path_param uri "username" username in
+    
     Cohttp_lwt_unix.Client.delete uri ~headers
 
 let get_user_by_name username =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/user/{username}" in
+    let uri = Request.replace_path_param uri "username" username in
+    
     Cohttp_lwt_unix.Client.get uri ~headers
 
 let login_user username password =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/user/login" in
+    let uri = Uri.add_query_param' uri ("username", username) in
+    let uri = Uri.add_query_param' uri ("password", password) in
+    
     Cohttp_lwt_unix.Client.get uri ~headers
 
 let logout_user  =
@@ -46,7 +53,9 @@ let logout_user  =
 let update_user username body =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/user/{username}" in
-    let body = Request.build_body User.t.to_yojson body in
+    let uri = Request.replace_path_param uri "username" username in
+    
+    let body = Request.build_body User.to_yojson body in
     Cohttp_lwt_unix.Client.put uri ~headers ~body
 
 
