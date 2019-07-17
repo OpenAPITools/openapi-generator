@@ -23,7 +23,7 @@ pub enum {{classname}} {
 
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
     {{#description}}
@@ -52,7 +52,7 @@ impl {{{classname}}} {
 {{#vars}}
 {{#isEnum}}
 /// {{{description}}}
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum {{enumName}} {
 {{#allowableValues}}
 {{#enumVars}}

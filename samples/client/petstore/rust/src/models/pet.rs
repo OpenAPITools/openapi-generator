@@ -14,7 +14,7 @@
 use serde_json::Value;
 
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Pet {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
@@ -46,7 +46,7 @@ impl Pet {
 }
 
 /// pet status in the store
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Status {
     #[serde(rename = "available")]
     Available,
