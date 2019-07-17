@@ -63,8 +63,8 @@ export class StoreApi extends runtime.BaseAPI {
     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     * Delete purchase order by ID
     */
-    async deleteOrder(requestParameters: DeleteOrderRequest): Promise<void> {
-        await this.deleteOrderRaw(requestParameters);
+    async deleteOrder(orderId: string): Promise<void> {
+        await this.deleteOrderRaw({ orderId: orderId });
     }
 
     /**
@@ -126,8 +126,8 @@ export class StoreApi extends runtime.BaseAPI {
     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
     * Find purchase order by ID
     */
-    async getOrderById(requestParameters: GetOrderByIdRequest): Promise<Order> {
-        const response = await this.getOrderByIdRaw(requestParameters);
+    async getOrderById(orderId: number): Promise<Order> {
+        const response = await this.getOrderByIdRaw({ orderId: orderId });
         return await response.value();
     }
 
@@ -159,8 +159,8 @@ export class StoreApi extends runtime.BaseAPI {
    /**
     * Place an order for a pet
     */
-    async placeOrder(requestParameters: PlaceOrderRequest): Promise<Order> {
-        const response = await this.placeOrderRaw(requestParameters);
+    async placeOrder(body: Order): Promise<Order> {
+        const response = await this.placeOrderRaw({ body: body });
         return await response.value();
     }
 
