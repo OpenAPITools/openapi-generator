@@ -26,7 +26,6 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -98,7 +97,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         supportingFiles.add(new SupportingFile("controllers" + File.separator + "index.mustache", "controllers", "index.js"));
         supportingFiles.add(new SupportingFile("controllers" + File.separator + "Controller.mustache", "controllers", "Controller.js"));
         // service folder
-        supportingFiles.add(new SupportingFile("services" + File.separator + "test.mustache", "services", "TestService.js"));
         supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.js"));
         supportingFiles.add(new SupportingFile("services" + File.separator + "Service.mustache", "services", "Service.js"));
 
