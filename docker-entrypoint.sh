@@ -19,7 +19,7 @@ if [[ -f "${codegen}" && -n "$(java ${JAVA_OPTS} -jar "${codegen}" completion | 
     command=$1
     shift
     exec java ${JAVA_OPTS} -jar "${codegen}" "${command}" "$@"
-elif [[ -n "$(echo commands | tr ',' '\n' | grep "^$1\$" )" ]]; then
+elif [[ -n "$(echo $commands | tr ',' '\n' | grep "^$1\$" )" ]]; then
     # If CLI jar does not exist, and $1 is a known CLI command, build the CLI jar and run that command.
     if [[ ! -f "${codegen}" ]]; then
         (cd "${GEN_DIR}" && exec mvn -am -pl "modules/openapi-generator-cli" -Duser.home=$(dirname $MAVEN_CONFIG) package)
