@@ -12,12 +12,10 @@
 {{#operation}}
 let {{{operationId}}} {{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} =
     let headers = Request.default_headers in
-    let uri = Request.build_uri "{{{path}}}" in{{#hasPathParams}}
-    {{#pathParams}}let uri = Request.replace_path_param uri "{{{baseName}}}" {{#isString}}{{{paramName}}}{{/isString}}{{#isLong}}(Int64.to_string {{{paramName}}}){{/isLong}}{{#isInteger}}(Int32.to_string {{{paramName}}}){{/isInteger}}{{#isFloat}}(string_of_float {{{paramName}}}){{/isFloat}} in
-    {{/pathParams}}{{/hasPathParams}}{{#hasQueryParams}}
-    {{#queryParams}}let uri = Uri.add_query_param' uri ("{{{baseName}}}", {{{paramName}}}) in
-    {{/queryParams}}{{/hasQueryParams}}{{#hasBodyParam}}
-    {{#bodyParams}}{{#isBodyParam}}let body = Request.build_body {{{vendorExtensions.x-modelModule}}}.to_yojson {{{paramName}}} in{{/isBodyParam}}{{/bodyParams}}{{/hasBodyParam}}
+    let uri = Request.build_uri "{{{path}}}" in{{#pathParams}}
+    let uri = Request.replace_path_param uri "{{{baseName}}}" ({{> to_string}}{{{paramName}}}) in{{/pathParams}}{{#queryParams}}
+    let uri = Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}) in{{/queryParams}}{{#bodyParams}}
+    let body = Request.build_body {{{vendorExtensions.x-modelModule}}}.to_yojson {{{paramName}}} in{{/bodyParams}}
     Cohttp_lwt_unix.Client.{{{httpMethod}}} uri ~headers{{#hasBodyParam}} ~body{{/hasBodyParam}}
 
 {{/operation}}

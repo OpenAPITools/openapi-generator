@@ -8,13 +8,6 @@
 
 
 
-(** pet status in the store *)
-type status =
-| Available
-| Pending
-| Sold
-[@@deriving yojson];;
-
 type t = {
     id: int64 option;
     category: Category.t option;
@@ -23,8 +16,8 @@ type t = {
     tags: Tag.t list;
     (* pet status in the store *)
     (*status: [`Available | `Pending | `Sold] option;*)
-    status: status option;
-} [@@deriving yojson];;
+    status: Enums.pet_status option;
+} [@@deriving yojson, show ];;
 
 (** A pet for sale in the pet store *)
 let create (name : string) (photo_urls : string list) : t = {

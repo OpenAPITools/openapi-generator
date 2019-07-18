@@ -3,6 +3,6 @@
    (name {{{packageName}}})
    (public_name {{{packageName}}})
    (libraries cohttp-lwt-unix lwt yojson ppx_deriving_yojson.runtime)
-   (preprocess (pps ppx_deriving_yojson))
+   (preprocess (pps ppx_deriving_yojson ppx_deriving.std))
    (wrapped true)
 )

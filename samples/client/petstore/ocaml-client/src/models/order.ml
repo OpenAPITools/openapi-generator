@@ -8,13 +8,6 @@
 
 
 
-(** Order Status *)
-type status =
-| Placed
-| Approved
-| Delivered
-[@@deriving yojson];;
-
 type t = {
     id: int64 option;
     pet_id: int64 option;
@@ -22,9 +15,9 @@ type t = {
     ship_date: string option;
     (* Order Status *)
     (*status: [`Placed | `Approved | `Delivered] option;*)
-    status: status option;
+    status: Enums.status option;
     complete: bool option;
-} [@@deriving yojson];;
+} [@@deriving yojson, show ];;
 
 (** An order for a pets from the pet store *)
 let create () : t = {
