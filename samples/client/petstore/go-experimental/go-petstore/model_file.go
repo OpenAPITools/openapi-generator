@@ -8,9 +8,57 @@
  */
 
 package petstore
+import (
+	"encoding/json"
+)
 
 // Must be named `File` for test.
 type File struct {
 	// Test capitalization
-	SourceURI string `json:"sourceURI,omitempty"`
+	SourceURI *string `json:"sourceURI,omitempty"`
+
 }
+
+// GetSourceURI returns the SourceURI field if non-nil, zero value otherwise.
+func (o *File) GetSourceURI() string {
+	if o == nil || o.SourceURI == nil {
+		var ret string
+		return ret
+	}
+	return *o.SourceURI
+}
+
+// GetSourceURIOk returns a tuple with the SourceURI field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *File) GetSourceURIOk() (string, bool) {
+	if o == nil || o.SourceURI == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.SourceURI, true
+}
+
+// HasSourceURI returns a boolean if a field has been set.
+func (o *File) HasSourceURI() bool {
+	if o != nil && o.SourceURI != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSourceURI gets a reference to the given string and assigns it to the SourceURI field.
+func (o *File) SetSourceURI(v string) {
+	o.SourceURI = &v
+}
+
+
+func (o File) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.SourceURI != nil {
+		toSerialize["sourceURI"] = o.SourceURI
+	}
+	return json.Marshal(toSerialize)
+}
+
+
