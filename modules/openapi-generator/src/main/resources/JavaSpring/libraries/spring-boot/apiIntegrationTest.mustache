@@ -1,0 +1,35 @@
+package {{package}};
+{{#imports}}import {{import}};
+{{/imports}}
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+class {{classname}}ControllerIntegrationTest {
+    @Autowired
+    private {{classname}} api;
+{{#operations}}
+    {{#operation}}
+        @Test
+        void {{operationId}}Test() {
+        {{#allParams}}
+        {{^isFile}}
+            {{{dataType}}} {{paramName}} = {{{example}}};
+        {{/isFile}}
+        {{#isFile}}
+            org.springframework.web.multipart.MultipartFile {{paramName}} = null;
+        {{/isFile}}
+        {{/allParams}}
+            ResponseEntity<{{>returnTypes}}> responseEntity = api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_IMPLEMENTED);
+        }
+    {{/operation}}
+{{/operations}}
+}

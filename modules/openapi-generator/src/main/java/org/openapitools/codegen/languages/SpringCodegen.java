@@ -463,6 +463,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
+
+        apiTestTemplateFiles.put("apiIntegrationTest.mustache", ".java");
+        apiTestTemplateFiles.put("apiTest.mustache", ".java");
     }
 
     @Override
@@ -843,5 +846,17 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
+    }
+
+    @Override
+    public String apiTestFilename(String templateName, String tag) {
+        String name;
+        if ("apiIntegrationTest.mustache".equals(templateName)) {
+            name = toApiName(tag) + "ControllerIntegrationTest";
+        } else {
+            name = toApiName(tag) + "ControllerTest";
+        }
+        String suffix = apiTestTemplateFiles().get(templateName);
+        return apiTestFileFolder() + File.separator + name + suffix;
     }
 }
