@@ -13,39 +13,39 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * 
+ * A tag for a pet
  * @export
- * @interface InlineObject
+ * @interface Tag
  */
-export interface InlineObject {
+export interface Tag {
     /**
-     * Updated name of the pet
+     * 
+     * @type {number}
+     * @memberof Tag
+     */
+    id?: number;
+    /**
+     * 
      * @type {string}
-     * @memberof InlineObject
+     * @memberof Tag
      */
     name?: string;
-    /**
-     * Updated status of the pet
-     * @type {string}
-     * @memberof InlineObject
-     */
-    status?: string;
 }
 
-export function InlineObjectFromJSON(json: any): InlineObject {
+export function TagFromJSON(json: any): Tag {
     return {
+        'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
     };
 }
 
-export function InlineObjectToJSON(value?: InlineObject): any {
+export function TagToJSON(value?: Tag): any {
     if (value === undefined) {
         return undefined;
     }
     return {
+        'id': value.id,
         'name': value.name,
-        'status': value.status,
     };
 }
 

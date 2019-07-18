@@ -13,39 +13,39 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * 
+ * A category for a pet
  * @export
- * @interface InlineObject
+ * @interface Category
  */
-export interface InlineObject {
+export interface Category {
     /**
-     * Updated name of the pet
+     * 
+     * @type {number}
+     * @memberof Category
+     */
+    id?: number;
+    /**
+     * 
      * @type {string}
-     * @memberof InlineObject
+     * @memberof Category
      */
     name?: string;
-    /**
-     * Updated status of the pet
-     * @type {string}
-     * @memberof InlineObject
-     */
-    status?: string;
 }
 
-export function InlineObjectFromJSON(json: any): InlineObject {
+export function CategoryFromJSON(json: any): Category {
     return {
+        'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
     };
 }
 
-export function InlineObjectToJSON(value?: InlineObject): any {
+export function CategoryToJSON(value?: Category): any {
     if (value === undefined) {
         return undefined;
     }
     return {
+        'id': value.id,
         'name': value.name,
-        'status': value.status,
     };
 }
 
