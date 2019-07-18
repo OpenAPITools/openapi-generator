@@ -460,7 +460,10 @@ public class CodegenConfigurator {
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
 
         // any other additional properties?
-        config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
+        String templateDir = workflowSettings.getTemplateDir();
+        if (templateDir != null) {
+            config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
+        }
 
         ClientOptInput input = new ClientOptInput()
                 .config(config);

@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,8 +56,9 @@ public class CodegenConfiguratorTest {
 
         File output = Files.createTempDirectory("test").toFile();
         File template = Files.createTempDirectory("test").toFile();
-        String outDir = output.getAbsolutePath().replace("\\", "/");
-        String templateDir = template.getAbsolutePath().replace("\\", "/");
+        String outDir = Paths.get(output.toURI()).toAbsolutePath().toString();
+        String templateDir = Paths.get(template.toURI()).toAbsolutePath().toString();
+
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("java")
                 .setAdditionalProperties(properties)
