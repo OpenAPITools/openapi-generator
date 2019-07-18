@@ -5,7 +5,7 @@ import { Inject, Injectable, Optional }                      from '@angular/core
 {{#useHttpClient}}
 import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
+import { CustomHttpParameterCodec }                          from '../encoder';
 {{/useHttpClient}}
 {{^useHttpClient}}
 import { Http, Headers, URLSearchParams }                    from '@angular/http';
@@ -143,10 +143,10 @@ export class {{classname}} {
 
 {{#hasQueryParams}}
         {{#useHttpClient}}
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        let queryParameters = new HttpParams({encoder: this.configuration.encoder || new CustomHttpParameterCodec()});
         {{/useHttpClient}}
         {{^useHttpClient}}
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
+        let queryParameters = new URLSearchParams('', this.configuration.encoder || new CustomQueryEncoderHelper());
         {{/useHttpClient}}
 {{#queryParams}}
         {{#isListContainer}}
@@ -280,12 +280,12 @@ export class {{classname}} {
             formParams = new FormData();
         } else {
 {{#useHttpClient}}
-            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+            formParams = new HttpParams({encoder: this.configuration.encoder || new CustomHttpParameterCodec()});
 {{/useHttpClient}}
 {{^useHttpClient}}
             // TODO: this fails if a parameter is a file, the api can't consume "multipart/form-data" and a blob is passed.
             convertFormParamsToString = true;
-            formParams = new URLSearchParams('', new CustomQueryEncoderHelper());
+            formParams = new URLSearchParams('', this.configuration.encoder || new CustomQueryEncoderHelper());
             // set the content-type explicitly to avoid having it set to 'text/plain'
             headers.set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
 {{/useHttpClient}}
