@@ -124,9 +124,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
         // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
         typeMapping.put("file", "std::path::PathBuf");
-        typeMapping.put("binary", "::models::File");
+        typeMapping.put("binary", "crate::models::File");
         typeMapping.put("ByteArray", "String");
-        typeMapping.put("object", "Value");
+        typeMapping.put("object", "serde_json::Value");
 
         // no need for rust
         //importMapping = new HashMap<String, String>();
@@ -352,8 +352,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // return fully-qualified model name
-        // ::models::{{classnameFile}}::{{classname}}
-        return "::models::" + toModelName(schemaType);
+        // crate::models::{{classnameFile}}::{{classname}}
+        return "crate::models::" + toModelName(schemaType);
     }
 
     @Override

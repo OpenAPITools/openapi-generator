@@ -10,9 +10,6 @@
 
 /// ApiResponse : Describes the result of uploading an image resource
 
-#[allow(unused_imports)]
-use serde_json::Value;
-
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ApiResponse {
