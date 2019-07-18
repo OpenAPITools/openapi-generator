@@ -5,6 +5,10 @@
  * Schema {{{classname}}} : {{{description}}}
  *)
 {{/description}}
+{{^description}}
+ *
+ *)
+{{/description}}
 
 {{!-- for enum schemas --}}
 {{#isEnum}}
@@ -17,20 +21,6 @@ type t =
 
 {{!-- for non-enum schemas --}}
 
-{{!-- for properties that are of enum type --}}
-{{#vars}}
-{{#isEnum}}
-(** {{{description}}} *)
-type {{name}} =
-{{#allowableValues}}
-{{#enumVars}}
-| {{name}}
-{{/enumVars}}
-{{/allowableValues}}
-[@@deriving yojson];;
-{{/isEnum}}
-{{/vars}}
-
 {{^isEnum}}
 type t = {
 {{#vars}}
@@ -39,13 +29,13 @@ type t = {
     {{/description}}
     {{#isEnum}}
     (*{{{name}}}: [{{#allowableValues}}{{#enumVars}}`{{name}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}}]{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};*)
-    {{{name}}}: {{{name}}}{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
+    {{{name}}}: Enums.{{{datatypeWithEnum}}}{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
     {{/isEnum}}
     {{^isEnum}}
     {{{name}}}: {{{dataType}}}{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
     {{/isEnum}}
 {{/vars}}
-} [@@deriving yojson];;
+} [@@deriving yojson, show ];;
 
 {{#description}}
 (** {{{description}}} *)

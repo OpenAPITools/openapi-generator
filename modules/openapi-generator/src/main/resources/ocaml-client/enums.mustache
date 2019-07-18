@@ -1,0 +1,17 @@
+{{#models}}
+{{#model}}
+{{#isEnum}}
+
+{{!-- for enum schemas --}}
+
+(** {{{description}}} *)
+type {{name}} =
+{{#allowableValues}}
+{{#values}}
+| {{camlEnumValueName}} [@printer fun fmt _ -> Format.pp_print_string fmt "{{{name}}}"] [@name "{{{name}}}"]
+{{/values}}
+{{/allowableValues}}
+[@@deriving yojson, show { with_path = false }];;
+{{/isEnum}}
+{{/model}}
+{{/models}}

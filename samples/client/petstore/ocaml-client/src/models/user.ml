@@ -8,7 +8,6 @@
 
 
 
-
 type t = {
     id: int64 option;
     username: string option;
@@ -19,7 +18,7 @@ type t = {
     phone: string option;
     (* User Status *)
     user_status: int32 option;
-} [@@deriving yojson];;
+} [@@deriving yojson, show ];;
 
 (** A User who is purchasing from the pet store *)
 let create () : t = {

@@ -8,8 +8,7 @@
 let delete_order order_id =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/store/order/{orderId}" in
-    let uri = Request.replace_path_param uri "orderId" order_id in
-    
+    let uri = Request.replace_path_param uri "orderId" (order_id) in
     Cohttp_lwt_unix.Client.delete uri ~headers
 
 let get_inventory  =
@@ -21,7 +20,6 @@ let get_order_by_id order_id =
     let headers = Request.default_headers in
     let uri = Request.build_uri "/store/order/{orderId}" in
     let uri = Request.replace_path_param uri "orderId" (Int64.to_string order_id) in
-    
     Cohttp_lwt_unix.Client.get uri ~headers
 
 let place_order body =

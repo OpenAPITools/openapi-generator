@@ -8,12 +8,11 @@
 
 
 
-
 type t = {
     code: int32 option;
     _type: string option;
     message: string option;
-} [@@deriving yojson];;
+} [@@deriving yojson, show ];;
 
 (** Describes the result of uploading an image resource *)
 let create () : t = {

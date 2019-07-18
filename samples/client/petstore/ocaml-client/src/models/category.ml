@@ -8,11 +8,10 @@
 
 
 
-
 type t = {
     id: int64 option;
     name: string option;
-} [@@deriving yojson];;
+} [@@deriving yojson, show ];;
 
 (** A category for a pet *)
 let create () : t = {
