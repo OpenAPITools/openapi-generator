@@ -132,11 +132,37 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 	{{#hasQueryParams}}
 	{{#queryParams}}
 	{{#required}}
+	{{#isCollectionFormatMulti}}
+        t:={{paramName}}
+        if reflect.TypeOf(t).Kind() == reflect.Slice {
+            s := reflect.ValueOf(t)
+            for i := 0; i < s.Len(); i++ {
+                localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+            }
+        } else {
+            localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	    }
+	{{/isCollectionFormatMulti}}
+	{{^isCollectionFormatMulti}}
 	localVarQueryParams.Add("{{baseName}}", parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	{{/isCollectionFormatMulti}}
 	{{/required}}
 	{{^required}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
+	{{#isCollectionFormatMulti}}
+        t:=localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value()
+        if reflect.TypeOf(t).Kind() == reflect.Slice {
+            s := reflect.ValueOf(t)
+            for i := 0; i < s.Len(); i++ {
+                localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+            }
+        } else {
+            localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	    }
+	{{/isCollectionFormatMulti}}
+	{{^isCollectionFormatMulti}}
 		localVarQueryParams.Add("{{baseName}}", parameterToString(localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value(), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	{{/isCollectionFormatMulti}}
 	}
 	{{/required}}
 	{{/queryParams}}

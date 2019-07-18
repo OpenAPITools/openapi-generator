@@ -389,6 +389,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     }
                 }
 
+                // import "reflect" package if the parameter is collectionFormat=multi
+                if (param.isCollectionFormatMulti) {
+                    imports.add(createMapping("import", "reflect"));
+                }
+
                 // import "optionals" package if the parameter is optional
                 if (!param.required) {
                     if (!addedOptionalImport) {
