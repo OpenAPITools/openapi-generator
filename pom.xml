@@ -1064,8 +1064,8 @@
                 <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/server/petstore/rust-server</module>
                 <module>samples/server/petstore/python-aiohttp</module>
-                <!--<module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/python-flask-python2</module>-->
+                <module>samples/server/petstore/python-flask</module>
+                <module>samples/server/petstore/python-flask-python2</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
