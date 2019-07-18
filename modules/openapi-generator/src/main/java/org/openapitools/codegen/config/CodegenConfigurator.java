@@ -223,6 +223,7 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setImportMappings(Map<String, String> importMappings) {
+        this.importMappings = importMappings;
         generatorSettingsBuilder.withImportMappings(importMappings);
         return this;
     }
@@ -234,6 +235,7 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setInstantiationTypes(Map<String, String> instantiationTypes) {
+        this.instantiationTypes = instantiationTypes;
         generatorSettingsBuilder.withInstantiationTypes(instantiationTypes);
         return this;
     }
@@ -295,6 +297,7 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setReservedWordsMappings(Map<String, String> reservedWordMappings) {
+        this.reservedWordMappings = reservedWordMappings;
         generatorSettingsBuilder.withReservedWordMappings(reservedWordMappings);
         return this;
     }
@@ -310,6 +313,7 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setSystemProperties(Map<String, String> systemProperties) {
+        this.systemProperties = systemProperties;
         workflowSettingsBuilder.withSystemProperties(systemProperties);
         return this;
     }
@@ -326,6 +330,7 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setTypeMappings(Map<String, String> typeMappings) {
+        this.typeMappings = typeMappings;
         generatorSettingsBuilder.withTypeMappings(typeMappings);
         return this;
     }
@@ -453,6 +458,9 @@ public class CodegenConfigurator {
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
+
+        // any other additional properties?
+        config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
 
         ClientOptInput input = new ClientOptInput()
                 .config(config);
