@@ -10,133 +10,16 @@
 
 {{#operations}}
 {{#operation}}
-let {{{operationId}}} {{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} =
-    let headers = Request.default_headers in
-    let uri = Request.build_uri "{{{path}}}" in{{#pathParams}}
+let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} =
+    let open Lwt in
+    let uri = Request.build_uri "{{{path}}}" in
+    let headers = Request.default_headers in{{#headerParams}}
+    let headers = Cohttp.Header.add{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" ({{> to_string}}{{paramName}}) in{{/headerParams}}{{#pathParams}}
     let uri = Request.replace_path_param uri "{{{baseName}}}" ({{> to_string}}{{{paramName}}}) in{{/pathParams}}{{#queryParams}}
     let uri = Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}) in{{/queryParams}}{{#bodyParams}}
-    let body = Request.build_body {{{vendorExtensions.x-modelModule}}}.to_yojson {{{paramName}}} in{{/bodyParams}}
-    Cohttp_lwt_unix.Client.{{{httpMethod}}} uri ~headers{{#hasBodyParam}} ~body{{/hasBodyParam}}
+    let body = Request.write_json_body {{> to_json}} {{{paramName}}} in{{/bodyParams}}
+    Cohttp_lwt_unix.Client.{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}>>= fun (_resp, body) ->
+    Request.read_json_body{{#returnContainer}}_as_list{{#returnBaseType}}_of{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}_as{{/returnBaseType}}{{/returnContainer}} {{#returnType}}({{> of_json}}){{/returnType}} body
 
 {{/operation}}
 {{/operations}}
-
-impl {{{classname}}} for {{{classname}}}Client {
-{{#operations}}
-{{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "{{{basePath}}}{{{path}}}" {{#pathParams}}{{{baseName}}}{{#hasMore}} {{/hasMore}}{{/pathParams}} in
-        let mut req_builder = Client.{{{httpMethod}}}(uri_str.as_str());
-
-        {{#queryParams}}
-        req_builder = req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string())]);
-        {{/queryParams}}
-        {{#hasAuthMethods}}
-        {{#authMethods}}
-        {{#isApiKey}}
-        {{#isKeyInQuery}}
-        if let Some(ref apikey) = configuration.api_key {
-            let key = apikey.key.clone();
-            let val = match apikey.prefix {
-                Some(ref prefix) => format!("{} {}", prefix, key),
-                None => key,
-            };
-            req_builder = req_builder.query(&[("{{{keyParamName}}}", val)]);
-        }
-        {{/isKeyInQuery}}
-        {{/isApiKey}}
-        {{/authMethods}}
-        {{/hasAuthMethods}}
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        {{#hasHeaderParams}}
-        {{#headerParams}}
-        req_builder = req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
-        {{/headerParams}}
-        {{/hasHeaderParams}}
-        {{#hasAuthMethods}}
-        {{#authMethods}}
-        {{#isApiKey}}
-        {{#isKeyInHeader}}
-        if let Some(ref apikey) = configuration.api_key {
-            let key = apikey.key.clone();
-            let val = match apikey.prefix {
-                Some(ref prefix) => format!("{} {}", prefix, key),
-                None => key,
-            };
-            req_builder = req_builder.header("{{{keyParamName}}}", val);
-        };
-        {{/isKeyInHeader}}
-        {{/isApiKey}}
-        {{#isBasic}}
-        {{^isBasicBearer}}
-        if let Some(ref auth_conf) = configuration.basic_auth {
-            req_builder = req_builder.basic_auth(auth_conf.0.to_owned(), auth_conf.1.to_owned());
-        };
-        {{/isBasicBearer}}
-        {{#isBasicBearer}}
-        if let Some(ref token) = configuration.bearer_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-        {{/isBasicBearer}}
-        {{/isBasic}}
-        {{#isOAuth}}
-        if let Some(ref token) = configuration.oauth_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-        {{/isOAuth}}
-        {{/authMethods}}
-        {{/hasAuthMethods}}
-        {{#isMultipart}}
-        {{#hasFormParams}}
-        let form = reqwest::multipart::Form::new()
-        {{#formParams}}
-        {{#isFile}}
-            .file("{{{baseName}}}", {{{paramName}}})?{{#-last}};{{/-last}}
-        {{/isFile}}
-        {{^isFile}}
-            .text("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string()){{#-last}};{{/-last}}
-        {{/isFile}}
-        {{/formParams}}
-        req_builder = req_builder.multipart(form);
-        {{/hasFormParams}}
-        {{/isMultipart}}
-        {{^isMultipart}}
-        {{#hasFormParams}}
-        let mut form_params = std::collections::HashMap::new();
-        {{#formParams}}
-        {{#isFile}}
-        form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
-        {{/isFile}}
-        {{^isFile}}
-        form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
-        {{/isFile}}
-        {{/formParams}}
-        req_builder = req_builder.form(&form_params);
-        {{/hasFormParams}}
-        {{/isMultipart}}
-        {{#hasBodyParam}}
-        {{#bodyParams}}
-        req_builder = req_builder.json(&{{{paramName}}});
-        {{/bodyParams}}
-        {{/hasBodyParam}}
-
-        // send request
-        let req = req_builder.build()?;
-
-        {{^returnType}}
-        client.execute(req)?.error_for_status()?;
-        Ok(())
-        {{/returnType}}
-        {{#returnType}}
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-        {{/returnType}}
-    }
-
-{{/operation}}
-{{/operations}}
-}

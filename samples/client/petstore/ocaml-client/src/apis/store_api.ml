@@ -6,106 +6,33 @@
  *)
 
 let delete_order order_id =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/store/order/{orderId}" in
-    let uri = Request.replace_path_param uri "orderId" (order_id) in
-    Cohttp_lwt_unix.Client.delete uri ~headers
-
-let get_inventory  =
     let headers = Request.default_headers in
+    let uri = Request.replace_path_param uri "orderId" (order_id) in
+    Cohttp_lwt_unix.Client.delete uri ~headers >>= fun (_resp, body) ->
+    Request.read_json_body  body
+
+let get_inventory () =
+    let open Lwt in
     let uri = Request.build_uri "/store/inventory" in
-    Cohttp_lwt_unix.Client.get uri ~headers
+    let headers = Request.default_headers in
+    Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
+    Request.read_json_body_as_list_of (JsonSupport.to_int) body
 
 let get_order_by_id order_id =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/store/order/{orderId}" in
+    let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "orderId" (Int64.to_string order_id) in
-    Cohttp_lwt_unix.Client.get uri ~headers
+    Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
+    Request.read_json_body_as (Order.of_yojson) body
 
 let place_order body =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/store/order" in
-    let body = Request.build_body Order.to_yojson body in
-    Cohttp_lwt_unix.Client.post uri ~headers ~body
+    let headers = Request.default_headers in
+    let body = Request.write_json_body Order.to_yojson body in
+    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) ->
+    Request.read_json_body_as (Order.of_yojson) body
 
-
-impl StoreApi for StoreApiClient {
-    fn delete_order(&self, order_id: &str) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/store/order/{orderId}" orderId in
-        let mut req_builder = Client.delete(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-
-        // send request
-        let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
-    }
-
-    fn get_inventory(&self, ) -> Result<(string, int32) Hashtbl.t, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/store/inventory"  in
-        let mut req_builder = Client.get(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        if let Some(ref apikey) = configuration.api_key {
-            let key = apikey.key.clone();
-            let val = match apikey.prefix {
-                Some(ref prefix) => format!("{} {}", prefix, key),
-                None => key,
-            };
-            req_builder = req_builder.header("api_key", val);
-        };
-
-        // send request
-        let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-    }
-
-    fn get_order_by_id(&self, order_id: int64) -> Result<Order.t, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/store/order/{orderId}" orderId in
-        let mut req_builder = Client.get(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-
-        // send request
-        let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-    }
-
-    fn place_order(&self, body: ::models::Order.t) -> Result<Order.t, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/store/order"  in
-        let mut req_builder = Client.post(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        req_builder = req_builder.json(&body);
-
-        // send request
-        let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-    }
-
-}

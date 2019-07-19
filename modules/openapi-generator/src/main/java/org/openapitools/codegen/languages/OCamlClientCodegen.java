@@ -325,6 +325,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         supportingFiles.add(new SupportingFile("lib.mustache", "", packageName + ".opam"));
         supportingFiles.add(new SupportingFile("support.mustache", "src/support", "request.ml"));
+        supportingFiles.add(new SupportingFile("json.mustache", "src/support", "jsonSupport.ml"));
         supportingFiles.add(new SupportingFile("enums.mustache", "src/support", "enums.ml"));
     }
 
@@ -486,7 +487,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
-            return "(string, " + getTypeDeclaration(inner) + ") Hashtbl.t";
+            return "(string * " + getTypeDeclaration(inner) + ") list";
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize
@@ -510,14 +511,13 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        String type = null;
         if (typeMapping.containsKey(schemaType)) {
-            type = typeMapping.get(schemaType);
-            if (languageSpecificPrimitives.contains(type))
-                return (type);
-        } else
-            type = schemaType;
-        return type;
+            String type = typeMapping.get(schemaType);
+            if (languageSpecificPrimitives.contains(type)) {
+                return type;
+            }
+        }
+        return capitalize(toModelFilename(schemaType));
     }
 
     @Override

@@ -2,7 +2,8 @@
 (library
    (name {{{packageName}}})
    (public_name {{{packageName}}})
-   (libraries cohttp-lwt-unix lwt yojson ppx_deriving_yojson.runtime)
+   (flags (:standard -w -27))
+   (libraries str cohttp-lwt-unix lwt yojson ppx_deriving_yojson.runtime)
    (preprocess (pps ppx_deriving_yojson ppx_deriving.std))
    (wrapped true)
 )
