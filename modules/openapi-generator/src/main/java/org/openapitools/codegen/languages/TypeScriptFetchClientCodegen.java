@@ -36,6 +36,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
+    protected boolean addedApiIndex = false;
+    protected boolean addedModelIndex = false;
+
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -83,8 +86,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
-        supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
-        supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
@@ -127,8 +128,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // process enum in models
         List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+
+        // process enum in models
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
@@ -190,8 +192,21 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+        // Add supporting file only if we plan to generate files in /apis
+        if (operations.size() > 0 && !addedApiIndex) {
+            addedApiIndex = true;
+            supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
+        }
+
+        // Add supporting file only if we plan to generate files in /models
+        if (allModels.size() > 0 && !addedModelIndex) {
+            addedModelIndex = true;
+            supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+        }
+
         this.addOperationModelImportInfomation(operations);
         this.updateOperationParameterEnumInformation(operations);
+        this.addOperationObjectResponseInformation(operations);
         return operations;
     }
 
@@ -222,6 +237,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         operations.put("hasEnums", hasEnum);
+    }
+
+    private void addOperationObjectResponseInformation(Map<String, Object> operations) {
+        // This method will modify the infomation on the operations' return type.
+        // The api template uses this infomation to know when to return a text
+        // response for a given simple response operation.
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            if(op.returnType == "object") {
+                op.isMapContainer = true;
+                op.returnSimpleType = false;
+            }
+        }
     }
 
     private void addExtraReservedWords() {
