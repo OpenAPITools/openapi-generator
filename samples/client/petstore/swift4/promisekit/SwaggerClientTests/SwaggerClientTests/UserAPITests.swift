@@ -21,19 +21,19 @@ class UserAPITests: XCTestCase {
             expectation.fulfill()
             }.always {
                 // Noop for now
-            }.catch { (error) in
+            }.catch { (_) in
                 XCTFail("login error")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func testLogout() {
         let expectation = self.expectation(description: "testLogout")
         UserAPI.logoutUser().then {
             expectation.fulfill()
             }.always {
                 // Noop for now
-            }.catch { (error) in
+            }.catch { (_) in
                 XCTFail("")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)

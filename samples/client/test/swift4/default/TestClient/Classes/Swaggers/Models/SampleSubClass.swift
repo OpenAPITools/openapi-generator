@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /** This is an subclass defived from the SampleBase class. */
 
 public struct SampleSubClass: Codable {
@@ -24,6 +23,4 @@ public struct SampleSubClass: Codable {
         self.subClassIntegerProp = subClassIntegerProp
     }
 
-
 }
-
