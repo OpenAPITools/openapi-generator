@@ -16,3 +16,4 @@ const (
 	EFG EnumClass = "-efg"
 	XYZ EnumClass = "(xyz)"
 )
+

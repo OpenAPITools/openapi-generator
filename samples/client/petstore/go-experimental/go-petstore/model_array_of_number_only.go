@@ -8,7 +8,55 @@
  */
 
 package petstore
+import (
+	"encoding/json"
+)
 
 type ArrayOfNumberOnly struct {
-	ArrayNumber []float32 `json:"ArrayNumber,omitempty"`
+	ArrayNumber *[]float32 `json:"ArrayNumber,omitempty"`
+
 }
+
+// GetArrayNumber returns the ArrayNumber field if non-nil, zero value otherwise.
+func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
+	if o == nil || o.ArrayNumber == nil {
+		var ret []float32
+		return ret
+	}
+	return *o.ArrayNumber
+}
+
+// GetArrayNumberOk returns a tuple with the ArrayNumber field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
+	if o == nil || o.ArrayNumber == nil {
+		var ret []float32
+		return ret, false
+	}
+	return *o.ArrayNumber, true
+}
+
+// HasArrayNumber returns a boolean if a field has been set.
+func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
+	if o != nil && o.ArrayNumber != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetArrayNumber gets a reference to the given []float32 and assigns it to the ArrayNumber field.
+func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
+	o.ArrayNumber = &v
+}
+
+
+func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.ArrayNumber != nil {
+		toSerialize["ArrayNumber"] = o.ArrayNumber
+	}
+	return json.Marshal(toSerialize)
+}
+
+

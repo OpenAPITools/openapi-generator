@@ -8,8 +8,97 @@
  */
 
 package petstore
+import (
+	"encoding/json"
+	"errors"
+)
 
 type Category struct {
-	Id int64 `json:"id,omitempty"`
-	Name string `json:"name"`
+	Id *int64 `json:"id,omitempty"`
+
+	Name *string `json:"name,omitempty"`
+
 }
+
+// GetId returns the Id field if non-nil, zero value otherwise.
+func (o *Category) GetId() int64 {
+	if o == nil || o.Id == nil {
+		var ret int64
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *Category) GetIdOk() (int64, bool) {
+	if o == nil || o.Id == nil {
+		var ret int64
+		return ret, false
+	}
+	return *o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *Category) HasId() bool {
+	if o != nil && o.Id != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetId gets a reference to the given int64 and assigns it to the Id field.
+func (o *Category) SetId(v int64) {
+	o.Id = &v
+}
+
+// GetName returns the Name field if non-nil, zero value otherwise.
+func (o *Category) GetName() string {
+	if o == nil || o.Name == nil {
+		var ret string
+		return ret
+	}
+	return *o.Name
+}
+
+// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *Category) GetNameOk() (string, bool) {
+	if o == nil || o.Name == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.Name, true
+}
+
+// HasName returns a boolean if a field has been set.
+func (o *Category) HasName() bool {
+	if o != nil && o.Name != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetName gets a reference to the given string and assigns it to the Name field.
+func (o *Category) SetName(v string) {
+	o.Name = &v
+}
+
+
+func (o Category) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
+	if o.Name == nil {
+		return nil, errors.New("Name is required and not nullable, but was not set on Category")
+	}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
+	return json.Marshal(toSerialize)
+}
+
+

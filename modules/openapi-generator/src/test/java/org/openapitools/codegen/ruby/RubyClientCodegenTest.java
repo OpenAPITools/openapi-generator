@@ -53,7 +53,7 @@ public class RubyClientCodegenTest {
         CodegenConfig codegenConfig = new RubyClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
@@ -117,7 +117,7 @@ public class RubyClientCodegenTest {
         CodegenConfig codegenConfig = new RubyClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
