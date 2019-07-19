@@ -188,7 +188,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
-        supportingFiles.add(new SupportingFile("npmignore", "", ".npmignore"));
+        supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
     }
 
     @Override
