@@ -6,235 +6,67 @@
  *)
 
 let add_pet body =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/pet" in
-    let body = Request.build_body Pet.to_yojson body in
-    Cohttp_lwt_unix.Client.post uri ~headers ~body
+    let headers = Request.default_headers in
+    let body = Request.write_json_body Pet.to_yojson body in
+    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) ->
+    Request.read_json_body  body
 
 let delete_pet pet_id api_key =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/pet/{petId}" in
+    let headers = Request.default_headers in
+    let headers = Cohttp.Header.add headers "api_key" (api_key) in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
-    Cohttp_lwt_unix.Client.delete uri ~headers
+    Cohttp_lwt_unix.Client.delete uri ~headers >>= fun (_resp, body) ->
+    Request.read_json_body  body
 
 let find_pets_by_status status =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/pet/findByStatus" in
+    let headers = Request.default_headers in
     let uri = Uri.add_query_param uri ("status", List.map Enums.show_pet_status status) in
-    Cohttp_lwt_unix.Client.get uri ~headers
+    Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
+    Request.read_json_body_as_list_of (Pet.of_yojson) body
 
 let find_pets_by_tags tags =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/pet/findByTags" in
+    let headers = Request.default_headers in
     let uri = Uri.add_query_param uri ("tags", tags) in
-    Cohttp_lwt_unix.Client.get uri ~headers
+    Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
+    Request.read_json_body_as_list_of (Pet.of_yojson) body
 
 let get_pet_by_id pet_id =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/pet/{petId}" in
+    let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
-    Cohttp_lwt_unix.Client.get uri ~headers
+    Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
+    Request.read_json_body_as (Pet.of_yojson) body
 
 let update_pet body =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/pet" in
-    let body = Request.build_body Pet.to_yojson body in
-    Cohttp_lwt_unix.Client.put uri ~headers ~body
+    let headers = Request.default_headers in
+    let body = Request.write_json_body Pet.to_yojson body in
+    Cohttp_lwt_unix.Client.put uri ~headers ~body >>= fun (_resp, body) ->
+    Request.read_json_body  body
 
 let update_pet_with_form pet_id name status =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/pet/{petId}" in
+    let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
-    Cohttp_lwt_unix.Client.post uri ~headers
+    Cohttp_lwt_unix.Client.post uri ~headers >>= fun (_resp, body) ->
+    Request.read_json_body  body
 
 let upload_file pet_id additional_metadata file =
-    let headers = Request.default_headers in
+    let open Lwt in
     let uri = Request.build_uri "/pet/{petId}/uploadImage" in
+    let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
-    Cohttp_lwt_unix.Client.post uri ~headers
+    Cohttp_lwt_unix.Client.post uri ~headers >>= fun (_resp, body) ->
+    Request.read_json_body_as (Api_response.of_yojson) body
 
-
-impl PetApi for PetApiClient {
-    fn add_pet(&self, body: ::models::Pet.t) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/pet"  in
-        let mut req_builder = Client.post(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        if let Some(ref token) = configuration.oauth_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-        req_builder = req_builder.json(&body);
-
-        // send request
-        let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
-    }
-
-    fn delete_pet(&self, pet_id: int64, api_key: &str) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/pet/{petId}" petId in
-        let mut req_builder = Client.delete(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        req_builder = req_builder.header("api_key", api_key.to_string());
-        if let Some(ref token) = configuration.oauth_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-
-        // send request
-        let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
-    }
-
-    fn find_pets_by_status(&self, status: string list) -> Result<Pet.t list, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/pet/findByStatus"  in
-        let mut req_builder = Client.get(uri_str.as_str());
-
-        req_builder = req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        if let Some(ref token) = configuration.oauth_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-
-        // send request
-        let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-    }
-
-    fn find_pets_by_tags(&self, tags: string list) -> Result<Pet.t list, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/pet/findByTags"  in
-        let mut req_builder = Client.get(uri_str.as_str());
-
-        req_builder = req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        if let Some(ref token) = configuration.oauth_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-
-        // send request
-        let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-    }
-
-    fn get_pet_by_id(&self, pet_id: int64) -> Result<Pet.t, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/pet/{petId}" petId in
-        let mut req_builder = Client.get(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        if let Some(ref apikey) = configuration.api_key {
-            let key = apikey.key.clone();
-            let val = match apikey.prefix {
-                Some(ref prefix) => format!("{} {}", prefix, key),
-                None => key,
-            };
-            req_builder = req_builder.header("api_key", val);
-        };
-
-        // send request
-        let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-    }
-
-    fn update_pet(&self, body: ::models::Pet.t) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/pet"  in
-        let mut req_builder = Client.put(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        if let Some(ref token) = configuration.oauth_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-        req_builder = req_builder.json(&body);
-
-        // send request
-        let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
-    }
-
-    fn update_pet_with_form(&self, pet_id: int64, name: &str, status: &str) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/pet/{petId}" petId in
-        let mut req_builder = Client.post(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        if let Some(ref token) = configuration.oauth_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-        let mut form_params = std::collections::HashMap::new();
-        form_params.insert("name", name.to_string());
-        form_params.insert("status", status.to_string());
-        req_builder = req_builder.form(&form_params);
-
-        // send request
-        let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
-    }
-
-    fn upload_file(&self, pet_id: int64, additional_metadata: &str, file: FilePath) -> Result<Api_response.t, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
-        let client = &configuration.client;
-
-        let uri_str = "http://petstore.swagger.io/v2/pet/{petId}/uploadImage" petId in
-        let mut req_builder = Client.post(uri_str.as_str());
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-        }
-        if let Some(ref token) = configuration.oauth_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-        let mut form_params = std::collections::HashMap::new();
-        form_params.insert("additionalMetadata", additional_metadata.to_string());
-        form_params.insert("file", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
-        req_builder = req_builder.form(&form_params);
-
-        // send request
-        let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-    }
-
-}
