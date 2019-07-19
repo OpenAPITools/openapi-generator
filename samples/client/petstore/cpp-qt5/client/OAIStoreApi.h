@@ -39,7 +39,7 @@ public:
     void deleteOrder(const QString& order_id);
     void getInventory();
     void getOrderById(const qint64& order_id);
-    void placeOrder(const OAIOrder& body);
+    void placeOrder(const OAIOrder& oai_order);
     
 private:
     QString basePath;
