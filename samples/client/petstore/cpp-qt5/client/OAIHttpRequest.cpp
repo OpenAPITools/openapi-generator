@@ -54,7 +54,7 @@ OAIHttpRequestWorker::OAIHttpRequestWorker(QObject *parent)
     : QObject(parent), manager(nullptr)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
-    timeout = 0;    
+    timeout = 0;
     timer = new QTimer();
     manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, &OAIHttpRequestWorker::on_manager_finished);
@@ -66,7 +66,7 @@ OAIHttpRequestWorker::~OAIHttpRequestWorker() {
             timer->stop();
         }
         timer->deleteLater();
-    }    
+    }
 }
 
 QMap<QByteArray, QByteArray> OAIHttpRequestWorker::getResponseHeaders() const {

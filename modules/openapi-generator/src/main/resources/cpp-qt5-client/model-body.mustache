@@ -43,7 +43,7 @@ void
     {{^isEnum}}QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
-    this->fromJsonObject(jsonObject);{{/isEnum}}{{#isEnum}}{{#allowableValues}}{{#enumVars}} 
+    this->fromJsonObject(jsonObject);{{/isEnum}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}
     {{#-first}}if{{/-first}}{{^-first}}else if{{/-first}} ( jsonString.compare({{#isString}}"{{value}}"{{/isString}}{{^isString}}QString::number({{value}}){{/isString}}, Qt::CaseInsensitive) == 0) {
         m_value = e{{classname}}::{{name}};
         m_value_isValid = true;
@@ -92,7 +92,7 @@ QString
         {{#enumVars}}
         case e{{classname}}::{{name}}:
             val = {{#isString}}"{{value}}"{{/isString}}{{^isString}}QString::number({{value}}){{/isString}};
-            break;{{#-last}} 
+            break;{{#-last}}
         default:
             break;{{/-last}}
         {{/enumVars}}
