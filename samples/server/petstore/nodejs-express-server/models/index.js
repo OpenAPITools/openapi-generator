@@ -1,15 +1,9 @@
-const ApiResponseModel = require('./ApiResponseModel');
-const CategoryModel = require('./CategoryModel');
-const OrderModel = require('./OrderModel');
-const PetModel = require('./PetModel');
-const TagModel = require('./TagModel');
-const UserModel = require('./UserModel');
+const CategoryModel = require('./Category');
+const PetModel = require('./Pet');
+const TagModel = require('./Tag');
 
 module.exports = {
-  ApiResponseModel,
   CategoryModel,
-  OrderModel,
   PetModel,
   TagModel,
-  UserModel,
 };

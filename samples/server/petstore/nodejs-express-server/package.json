@@ -21,13 +21,14 @@
     "express": "^4.16.4",
     "express-openapi-validator": "^1.0.0",
     "js-yaml": "^3.3.0",
+    "jstoxml": "^1.5.0",
+    "ono": "^5.0.1",
+    "openapi-sampler": "^1.0.0-beta.15",
     "swagger-express-middleware": "^2.0.2",
     "swagger-tools": "^0.10.4",
     "swagger-ui-express": "^4.0.2",
     "winston": "^3.2.1",
-    "openapi-sampler": "^1.0.0-beta.15",
-    "yamljs": "^0.3.0",
-    "jstoxml": "^1.5.0"
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "axios": "^0.19.0",
