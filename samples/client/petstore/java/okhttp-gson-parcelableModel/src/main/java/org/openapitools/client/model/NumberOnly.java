@@ -47,6 +47,7 @@ public class NumberOnly implements Parcelable {
    * Get justNumber
    * @return justNumber
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public BigDecimal getJustNumber() {
     return justNumber;

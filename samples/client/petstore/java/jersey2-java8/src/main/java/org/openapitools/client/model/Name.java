@@ -48,6 +48,7 @@ public class Name {
    * Get name
    * @return name
   **/
+
   @ApiModelProperty(required = true, value = "")
   public Integer getName() {
     return name;
@@ -61,6 +62,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public Integer getSnakeCase() {
     return snakeCase;
@@ -75,6 +77,7 @@ public class Name {
    * Get property
    * @return property
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public String getProperty() {
     return property;
@@ -88,6 +91,7 @@ public class Name {
    * Get _123number
    * @return _123number
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public Integer get123number() {
     return _123number;

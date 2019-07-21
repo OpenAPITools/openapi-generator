@@ -59,6 +59,7 @@ public class Name implements Parcelable {
    * Get name
    * @return name
   **/
+
   @ApiModelProperty(required = true, value = "")
   public Integer getName() {
     return name;
@@ -72,6 +73,7 @@ public class Name implements Parcelable {
    * Get snakeCase
    * @return snakeCase
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public Integer getSnakeCase() {
     return snakeCase;
@@ -86,6 +88,7 @@ public class Name implements Parcelable {
    * Get property
    * @return property
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public String getProperty() {
     return property;
@@ -99,6 +102,7 @@ public class Name implements Parcelable {
    * Get _123number
    * @return _123number
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public Integer get123number() {
     return _123number;
