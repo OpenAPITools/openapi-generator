@@ -1,3 +1,5 @@
+import { HttpParameterCodec } from '@angular/common/http';
+
 export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
     username?: string;

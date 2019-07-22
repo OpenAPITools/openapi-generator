@@ -1,3 +1,5 @@
+import { QueryEncoder } from '@angular/http';
+
 export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
     username?: string;
