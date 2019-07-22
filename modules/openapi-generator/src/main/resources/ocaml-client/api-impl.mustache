@@ -19,7 +19,7 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{{paramName}}
     let uri = Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}) in{{/queryParams}}{{#bodyParams}}
     let body = Request.write_json_body {{> to_json}} {{{paramName}}} in{{/bodyParams}}
     Cohttp_lwt_unix.Client.{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}>>= fun (_resp, body) ->
-    Request.read_json_body{{#returnContainer}}_as_list{{#returnBaseType}}_of{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}_as{{/returnBaseType}}{{/returnContainer}} {{#returnType}}({{> of_json}}){{/returnType}} body
+    Request.read_json_body{{#returnContainer}}{{#isListContainer}}_as_list{{/isListContainer}}{{#isMapContainer}}_as_map{{/isMapContainer}}{{#returnBaseType}}_of{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}_as{{/returnBaseType}}{{/returnContainer}} {{#returnType}}({{> of_json}}){{/returnType}} body
 
 {{/operation}}
 {{/operations}}

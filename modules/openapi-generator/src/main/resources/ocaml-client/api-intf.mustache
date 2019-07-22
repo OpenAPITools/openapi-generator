@@ -1,0 +1,15 @@
+{{>partial_header}}
+{{#operations}}
+{{#operation}}
+{{#description}}
+ * Schema {{{classname}}} : {{{description}}}
+{{/description}}
+{{/operation}}
+{{/operations}}
+ *)
+
+{{#operations}}
+{{#operation}}
+val {{{operationId}}} : {{^hasParams}}unit{{/hasParams}}{{#allParams}}{{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#hasMore}} -> {{/hasMore}}{{/allParams}} -> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Yojson.Safe.t{{/returnType}} Lwt.t
+{{/operation}}
+{{/operations}}

@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
@@ -137,6 +136,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("date", "string");
         typeMapping.put("object", "Yojson.Safe.t");
         typeMapping.put("any", "Yojson.Safe.t");
+        typeMapping.put("File", "string");
         // lib
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
@@ -383,7 +383,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        apiTemplateFiles.put("api.mustache", ".ml");
+        apiTemplateFiles.put("api-impl.mustache", ".ml");
+        apiTemplateFiles.put("api-intf.mustache", ".mli");
 
         modelPackage = packageName;
         apiPackage = packageName;
