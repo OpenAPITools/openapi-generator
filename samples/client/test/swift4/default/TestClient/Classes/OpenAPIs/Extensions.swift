@@ -152,7 +152,7 @@ extension KeyedDecodingContainerProtocol {
     }
 
     public func decodeArrayIfPresent<T>(_ type: T.Type, forKey key: Self.Key) throws -> [T]? where T: Decodable {
-        var tmpArray: [T]?
+        var tmpArray: [T]? = nil
 
         if contains(key) {
             tmpArray = try decodeArray(T.self, forKey: key)

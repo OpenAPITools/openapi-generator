@@ -16,7 +16,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func addPet(body: Pet, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        addPetWithRequestBuilder(body: body).execute { (_, error) -> Void in
+        addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -54,7 +54,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (_, error) -> Void in
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -219,7 +219,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func updatePet(body: Pet, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updatePetWithRequestBuilder(body: body).execute { (_, error) -> Void in
+        updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -258,7 +258,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (_, error) -> Void in
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {

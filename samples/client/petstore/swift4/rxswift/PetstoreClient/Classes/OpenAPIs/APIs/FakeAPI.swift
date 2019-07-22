@@ -173,7 +173,7 @@ open class FakeAPI {
      */
     open class func testBodyWithFileSchema(body: FileSchemaTestClass) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testBodyWithFileSchemaWithRequestBuilder(body: body).execute { (_, error) -> Void in
+            testBodyWithFileSchemaWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -211,7 +211,7 @@ open class FakeAPI {
      */
     open class func testBodyWithQueryParams(query: String, body: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { (_, error) -> Void in
+            testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -306,7 +306,7 @@ open class FakeAPI {
      */
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (_, error) -> Void in
+            testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -453,7 +453,7 @@ open class FakeAPI {
      */
     open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { (_, error) -> Void in
+            testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -521,7 +521,7 @@ open class FakeAPI {
      */
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { (_, error) -> Void in
+            testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -576,7 +576,7 @@ open class FakeAPI {
      */
     open class func testInlineAdditionalProperties(param: [String: String]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (_, error) -> Void in
+            testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -615,7 +615,7 @@ open class FakeAPI {
      */
     open class func testJsonFormData(param: String, param2: String) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (_, error) -> Void in
+            testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {

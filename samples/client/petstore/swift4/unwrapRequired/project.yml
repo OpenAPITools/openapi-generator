@@ -7,6 +7,9 @@ targets:
     sources: [PetstoreClient]
     info:
       path: ./Info.plist
+      version: 1.0.0
     settings:
       APPLICATION_EXTENSION_API_ONLY: true
     scheme: {}
+    dependencies:
+    - carthage: Alamofire
