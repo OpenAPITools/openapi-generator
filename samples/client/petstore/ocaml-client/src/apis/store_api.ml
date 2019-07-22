@@ -18,7 +18,7 @@ let get_inventory () =
     let uri = Request.build_uri "/store/inventory" in
     let headers = Request.default_headers in
     Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
-    Request.read_json_body_as_list_of (JsonSupport.to_int32) body
+    Request.read_json_body_as_map_of (JsonSupport.to_int32) body
 
 let get_order_by_id order_id =
     let open Lwt in

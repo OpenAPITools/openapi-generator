@@ -17,6 +17,9 @@ let read_json_body_as_list body =
 let read_json_body_as_list_of of_json body =
   Lwt.(read_json_body_as_list body >|= List.map of_json)
 
+let read_json_body_as_map_of of_json body =
+  Lwt.(read_json_body body >|= Yojson.Safe.Util.to_assoc >|= List.map (fun (s, v) -> (s, of_json v)))
+
 let replace_path_param uri param_name param_value =
   let regexp = Str.regexp (Str.quote ("{" ^ param_name ^ "}")) in
   let path = Str.global_replace regexp param_value (Uri.path uri) in
