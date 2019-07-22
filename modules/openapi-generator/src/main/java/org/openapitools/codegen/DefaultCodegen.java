@@ -1273,6 +1273,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return property value depending on property type.
+     *
      * @param schema property type
      * @return property value
      */
@@ -1592,7 +1593,6 @@ public class DefaultCodegen implements CodegenConfig {
             // Only do this once during first call
             typeAliases = getAllAliases(allDefinitions);
         }
-
         // unalias schema
         schema = ModelUtils.unaliasSchema(this.openAPI, schema);
         if (schema == null) {
@@ -1620,6 +1620,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         m.isAlias = typeAliases.containsKey(name);
         m.discriminator = createDiscriminator(name, schema);
+        m.additionalPropertiesType = createAdditionalPropertiesType(schema);
         if (m.discriminator != null && m.discriminator.getMappedModels().size() > 0) {
             m.hasDiscriminatorMapping = true;
         }
@@ -1866,6 +1867,21 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         return discriminator;
+    }
+
+    private String createAdditionalPropertiesType(Schema schema) {
+
+        Object additionalProperties = schema.getAdditionalProperties();
+
+        if (additionalProperties == null) {
+            return null;
+        }
+
+        if (additionalProperties instanceof Boolean && (boolean) additionalProperties == true) {
+            return "true";
+        }
+
+        return additionalProperties.toString();
     }
 
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
@@ -4876,7 +4892,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
-        if(parameter == null || property == null) {
+        if (parameter == null || property == null) {
             return;
         }
         parameter.isNullable = property.isNullable;
@@ -4925,7 +4941,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Set the boolean value indicating the state of the option for updating only changed files
      *
-     * @param enableMinimalUpdate    true to enable minimal update
+     * @param enableMinimalUpdate true to enable minimal update
      */
     @Override
     public void setEnableMinimalUpdate(boolean enableMinimalUpdate) {
