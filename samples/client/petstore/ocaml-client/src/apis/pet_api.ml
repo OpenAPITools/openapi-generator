@@ -28,7 +28,7 @@ let find_pets_by_status status =
     let headers = Request.default_headers in
     let uri = Uri.add_query_param uri ("status", List.map Enums.show_pet_status status) in
     Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
-    Request.read_json_body_as_list_of (Pet.of_yojson) body
+    Request.read_json_body_as_list_of (JsonSupport.unwrap  Pet.of_yojson) body
 
 let find_pets_by_tags tags =
     let open Lwt in
@@ -36,7 +36,7 @@ let find_pets_by_tags tags =
     let headers = Request.default_headers in
     let uri = Uri.add_query_param uri ("tags", tags) in
     Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
-    Request.read_json_body_as_list_of (Pet.of_yojson) body
+    Request.read_json_body_as_list_of (JsonSupport.unwrap  Pet.of_yojson) body
 
 let get_pet_by_id pet_id =
     let open Lwt in
@@ -44,7 +44,7 @@ let get_pet_by_id pet_id =
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
     Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
-    Request.read_json_body_as (Pet.of_yojson) body
+    Request.read_json_body_as (JsonSupport.unwrap  Pet.of_yojson) body
 
 let update_pet body =
     let open Lwt in
@@ -68,5 +68,5 @@ let upload_file pet_id additional_metadata file =
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
     Cohttp_lwt_unix.Client.post uri ~headers >>= fun (_resp, body) ->
-    Request.read_json_body_as (Api_response.of_yojson) body
+    Request.read_json_body_as (JsonSupport.unwrap  Api_response.of_yojson) body
 

@@ -43,7 +43,7 @@ let get_user_by_name username =
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "username" (username) in
     Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
-    Request.read_json_body_as (User.of_yojson) body
+    Request.read_json_body_as (JsonSupport.unwrap  User.of_yojson) body
 
 let login_user username password =
     let open Lwt in
