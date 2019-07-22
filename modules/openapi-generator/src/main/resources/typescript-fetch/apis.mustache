@@ -229,14 +229,26 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/returnType}}
     }
 
-    /**
-     {{#notes}}
-     * {{&notes}}
-     {{/notes}}
-     {{#summary}}
-     * {{&summary}}
-     {{/summary}}
-     */
+   /**
+    {{#notes}}
+    * {{&notes}}
+    {{/notes}}
+    {{#summary}}
+    * {{&summary}}
+    {{/summary}}
+    */
+    {{^useSingleRequestParameter}}
+    async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+        {{#returnType}}
+        const response = await this.{{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} }{{/allParams.0}});
+        return await response.value();
+        {{/returnType}}
+        {{^returnType}}
+        await this.{{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} }{{/allParams.0}});
+        {{/returnType}}
+    }
+    {{/useSingleRequestParameter}}
+    {{#useSingleRequestParameter}}
     async {{nickname}}({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
         const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
@@ -246,6 +258,7 @@ export class {{classname}} extends runtime.BaseAPI {
         await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
         {{/returnType}}
     }
+    {{/useSingleRequestParameter}}
 
     {{/operation}}
 }

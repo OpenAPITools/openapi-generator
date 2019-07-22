@@ -35,7 +35,7 @@ public:
     void setHost(const QString& host);
     void setApiTimeOutMs(const int tout);
     void addHeaders(const QString& key, const QString& value);
-    
+
     void createUser(const OAIUser& body);
     void createUsersWithArrayInput(const QList<OAIUser>& body);
     void createUsersWithListInput(const QList<OAIUser>& body);

@@ -154,11 +154,11 @@ class UnsealedState<T>: State<T> {
 
 class SealedState<T>: State<T> {
     fileprivate let resolution: Resolution<T>
-    
+
     init(resolution: Resolution<T>) {
         self.resolution = resolution
     }
-    
+
     override func get() -> Resolution<T>? {
         return resolution
     }
@@ -167,7 +167,6 @@ class SealedState<T>: State<T> {
         body(.resolved(resolution))
     }
 }
-
 
 class Handlers<T>: Sequence {
     var bodies: [(Resolution<T>) -> Void] = []
@@ -184,7 +183,6 @@ class Handlers<T>: Sequence {
         return bodies.count
     }
 }
-
 
 extension Resolution: CustomStringConvertible {
     var description: String {

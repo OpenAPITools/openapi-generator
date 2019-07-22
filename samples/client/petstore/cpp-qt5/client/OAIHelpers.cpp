@@ -229,7 +229,7 @@ fromJsonValue(QString &value, const QJsonValue &jval){
         } else if(jval.isDouble()){
             value = QString::number(jval.toDouble());
         } else {
-            ok = false;    
+            ok = false;
         }
     } else {
         ok = false;
@@ -239,7 +239,7 @@ fromJsonValue(QString &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(QDateTime &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(!jval.isUndefined() && !jval.isNull() && jval.isString()){
         value = QDateTime::fromString(jval.toString(), Qt::ISODate);
         ok = value.isValid();
@@ -263,7 +263,7 @@ fromJsonValue(QByteArray &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(QDate &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(!jval.isUndefined() && !jval.isNull() && jval.isString()){
         value = QDate::fromString(jval.toString(), Qt::ISODate);
         ok = value.isValid();
@@ -275,7 +275,7 @@ fromJsonValue(QDate &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(qint32 &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(!jval.isUndefined() && !jval.isNull() && !jval.isObject() && !jval.isArray()){
         value = jval.toInt();
     } else {
@@ -286,7 +286,7 @@ fromJsonValue(qint32 &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(qint64 &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(!jval.isUndefined() && !jval.isNull() && !jval.isObject() && !jval.isArray()){
         value = jval.toVariant().toLongLong();
     } else {
@@ -297,7 +297,7 @@ fromJsonValue(qint64 &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(bool &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(jval.isBool()){
         value = jval.toBool();
     } else {
@@ -308,7 +308,7 @@ fromJsonValue(bool &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(float &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(jval.isDouble()){
         value = static_cast<float>(jval.toDouble());
     } else {
@@ -319,7 +319,7 @@ fromJsonValue(float &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(double &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(jval.isDouble()){
         value = jval.toDouble();
     } else {
@@ -330,7 +330,7 @@ fromJsonValue(double &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(OAIObject  &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(jval.isObject()){
         value.fromJsonObject(jval.toObject());
         ok = value.isValid();

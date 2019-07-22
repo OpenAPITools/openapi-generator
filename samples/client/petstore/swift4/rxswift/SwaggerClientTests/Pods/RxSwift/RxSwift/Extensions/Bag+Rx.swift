@@ -6,11 +6,10 @@
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
-
 // MARK: forEach
 
 @inline(__always)
-func dispatch<E>(_ bag: Bag<(Event<E>) -> ()>, _ event: Event<E>) {
+func dispatch<E>(_ bag: Bag<(Event<E>) -> Void>, _ event: Event<E>) {
     bag._value0?(event)
 
     if bag._onlyFastPath {

@@ -73,7 +73,7 @@ public:
     void setUserStatus(const qint32 &user_status);
 
     
-    
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 

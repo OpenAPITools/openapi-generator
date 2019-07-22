@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct Animal: Codable {
 
     public var className: String
@@ -19,6 +17,4 @@ public struct Animal: Codable {
         self.color = color
     }
 
-
 }
-

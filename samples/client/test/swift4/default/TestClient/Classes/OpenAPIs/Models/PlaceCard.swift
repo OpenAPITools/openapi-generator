@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /** This is a card object for a Person derived from BaseCard. */
 
 public struct PlaceCard: Codable {
@@ -22,6 +21,4 @@ public struct PlaceCard: Codable {
         self.placeAddress = placeAddress
     }
 
-
 }
-

@@ -85,7 +85,7 @@ Name | Type | Description  | Notes
 
 ## find_pets_by_status
 
-> Vec<::models::Pet> find_pets_by_status(ctx, status)
+> Vec<crate::models::Pet> find_pets_by_status(ctx, status)
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
@@ -100,7 +100,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Vec<::models::Pet>**](Pet.md)
+[**Vec<crate::models::Pet>**](Pet.md)
 
 ### Authorization
 
@@ -116,7 +116,7 @@ Name | Type | Description  | Notes
 
 ## find_pets_by_tags
 
-> Vec<::models::Pet> find_pets_by_tags(ctx, tags)
+> Vec<crate::models::Pet> find_pets_by_tags(ctx, tags)
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -131,7 +131,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Vec<::models::Pet>**](Pet.md)
+[**Vec<crate::models::Pet>**](Pet.md)
 
 ### Authorization
 
@@ -147,7 +147,7 @@ Name | Type | Description  | Notes
 
 ## get_pet_by_id
 
-> ::models::Pet get_pet_by_id(ctx, pet_id)
+> crate::models::Pet get_pet_by_id(ctx, pet_id)
 Find pet by ID
 
 Returns a single pet
@@ -162,7 +162,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**::models::Pet**](Pet.md)
+[**crate::models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -247,7 +247,7 @@ Name | Type | Description  | Notes
 
 ## upload_file
 
-> ::models::ApiResponse upload_file(ctx, pet_id, optional)
+> crate::models::ApiResponse upload_file(ctx, pet_id, optional)
 uploads an image
 
 ### Required Parameters
@@ -271,7 +271,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**::models::ApiResponse**](ApiResponse.md)
+[**crate::models::ApiResponse**](ApiResponse.md)
 
 ### Authorization
 
