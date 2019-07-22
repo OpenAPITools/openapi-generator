@@ -15,7 +15,13 @@ export class CustomHttpParameterCodec implements HttpParameterCodec {
         return encodeURIComponent(k);
     }
     encodeValue(v: string): string {
-        return encodeURIComponent(k);
+        return encodeURIComponent(v);
+    }
+    decodeKey(k: string): string {
+        return decodeURIComponent(k);
+    }
+    decodeValue(v: string): string {
+        return decodeURIComponent(v);
     }
 }
 {{/useHttpClient}}
