@@ -10,9 +10,6 @@
 
 /// Tag : A tag for a pet
 
-#[allow(unused_imports)]
-use serde_json::Value;
-
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Tag {

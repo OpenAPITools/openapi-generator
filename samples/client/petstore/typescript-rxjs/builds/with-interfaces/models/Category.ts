@@ -18,13 +18,11 @@
  */
 export interface Category {
     /**
-     * 
      * @type {number}
      * @memberof Category
      */
     id?: number;
     /**
-     * 
      * @type {string}
      * @memberof Category
      */

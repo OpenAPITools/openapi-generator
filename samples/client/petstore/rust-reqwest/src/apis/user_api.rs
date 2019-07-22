@@ -28,18 +28,18 @@ impl UserApiClient {
 }
 
 pub trait UserApi {
-    fn create_user(&self, body: ::models::User) -> Result<(), Error>;
-    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Result<(), Error>;
-    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Result<(), Error>;
+    fn create_user(&self, body: crate::models::User) -> Result<(), Error>;
+    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error>;
+    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Result<(), Error>;
     fn delete_user(&self, username: &str) -> Result<(), Error>;
-    fn get_user_by_name(&self, username: &str) -> Result<::models::User, Error>;
+    fn get_user_by_name(&self, username: &str) -> Result<crate::models::User, Error>;
     fn login_user(&self, username: &str, password: &str) -> Result<String, Error>;
     fn logout_user(&self, ) -> Result<(), Error>;
-    fn update_user(&self, username: &str, body: ::models::User) -> Result<(), Error>;
+    fn update_user(&self, username: &str, body: crate::models::User) -> Result<(), Error>;
 }
 
 impl UserApi for UserApiClient {
-    fn create_user(&self, body: ::models::User) -> Result<(), Error> {
+    fn create_user(&self, body: crate::models::User) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -58,7 +58,7 @@ impl UserApi for UserApiClient {
         Ok(())
     }
 
-    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Result<(), Error> {
+    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -77,7 +77,7 @@ impl UserApi for UserApiClient {
         Ok(())
     }
 
-    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Result<(), Error> {
+    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -114,7 +114,7 @@ impl UserApi for UserApiClient {
         Ok(())
     }
 
-    fn get_user_by_name(&self, username: &str) -> Result<::models::User, Error> {
+    fn get_user_by_name(&self, username: &str) -> Result<crate::models::User, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -168,7 +168,7 @@ impl UserApi for UserApiClient {
         Ok(())
     }
 
-    fn update_user(&self, username: &str, body: ::models::User) -> Result<(), Error> {
+    fn update_user(&self, username: &str, body: crate::models::User) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 

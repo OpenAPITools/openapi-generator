@@ -138,7 +138,7 @@ namespace OpenAPI {
             ok = false;
         }
         return ok;
-    } 
+    }
 
     template <typename T>
     bool fromJsonValue(QMap<QString, T> &val, const QJsonValue &jval) {

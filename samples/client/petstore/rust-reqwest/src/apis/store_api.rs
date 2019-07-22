@@ -30,8 +30,8 @@ impl StoreApiClient {
 pub trait StoreApi {
     fn delete_order(&self, order_id: &str) -> Result<(), Error>;
     fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error>;
-    fn get_order_by_id(&self, order_id: i64) -> Result<::models::Order, Error>;
-    fn place_order(&self, body: ::models::Order) -> Result<::models::Order, Error>;
+    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error>;
+    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error>;
 }
 
 impl StoreApi for StoreApiClient {
@@ -78,7 +78,7 @@ impl StoreApi for StoreApiClient {
         Ok(client.execute(req)?.error_for_status()?.json()?)
     }
 
-    fn get_order_by_id(&self, order_id: i64) -> Result<::models::Order, Error> {
+    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -95,7 +95,7 @@ impl StoreApi for StoreApiClient {
         Ok(client.execute(req)?.error_for_status()?.json()?)
     }
 
-    fn place_order(&self, body: ::models::Order) -> Result<::models::Order, Error> {
+    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 

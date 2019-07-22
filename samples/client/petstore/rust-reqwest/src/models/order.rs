@@ -10,9 +10,6 @@
 
 /// Order : An order for a pets from the pet store
 
-#[allow(unused_imports)]
-use serde_json::Value;
-
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Order {

@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
+import com.google.common.collect.ImmutableMap.Builder;
+import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Map;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -260,22 +259,12 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
-
-        addMustacheLambdas(additionalProperties);
     }
 
-    private void addMustacheLambdas(Map<String, Object> objs) {
-
-        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-                .put("multiline_comment_4", new IndentedLambda(4, " ", "///"))
-                .build();
-
-        if (objs.containsKey("lambda")) {
-            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'.");
-            objs.put("_lambda", lambdas);
-        } else {
-            objs.put("lambda", lambdas);
-        }
+    @Override
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("multiline_comment_4", new IndentedLambda(4, " ", "///"));
     }
 
     @Override
@@ -304,17 +293,17 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             }
         }
     }
-    
+
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         URL url = URLPathUtils.getServerURL(openAPI);
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();
         if(!port.isEmpty()) {
-            this.additionalProperties.put("serverPort", port);          
+            this.additionalProperties.put("serverPort", port);
         }
         if(!host.isEmpty()) {
-            this.additionalProperties.put("serverHost", host);          
-        }        
+            this.additionalProperties.put("serverHost", host);
+        }
     }
 }

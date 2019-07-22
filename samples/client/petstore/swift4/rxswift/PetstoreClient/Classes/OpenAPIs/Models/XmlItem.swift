@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct XmlItem: Codable {
 
     public var attributeString: String?
@@ -73,7 +71,7 @@ public struct XmlItem: Codable {
         self.prefixNsWrappedArray = prefixNsWrappedArray
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case attributeString = "attribute_string"
         case attributeNumber = "attribute_number"
         case attributeInteger = "attribute_integer"
@@ -105,6 +103,4 @@ public struct XmlItem: Codable {
         case prefixNsWrappedArray = "prefix_ns_wrapped_array"
     }
 
-
 }
-

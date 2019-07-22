@@ -26,8 +26,8 @@ then
 fi
 
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/python -i modules/openapi-generator/src/test/resources/3_0/issue_241.yaml -g python -o /tmp/test-debug-supporting-files/ -DpackageName=petstore_api -DdebugSupportingFiles=true $@"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties -DdebugSupportingFiles=true"
+ags="generate -t modules/openapi-generator/src/main/resources/python -i modules/openapi-generator/src/test/resources/3_0/issue_241.yaml -g python -o /tmp/test-debug-supporting-files/ --additional-properties packageName=petstore_api $@"
 
 if [[ $(java $JAVA_OPTS -jar $executable $ags 2>&1 | grep "StackOverflowError") ]]; then
     echo "There are StackOverflowError. Please check the result."

@@ -28,18 +28,18 @@ impl PetApiClient {
 }
 
 pub trait PetApi {
-    fn add_pet(&self, body: ::models::Pet) -> Result<(), Error>;
+    fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error>;
     fn delete_pet(&self, pet_id: i64, api_key: &str) -> Result<(), Error>;
-    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<::models::Pet>, Error>;
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<::models::Pet>, Error>;
-    fn get_pet_by_id(&self, pet_id: i64) -> Result<::models::Pet, Error>;
-    fn update_pet(&self, body: ::models::Pet) -> Result<(), Error>;
+    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error>;
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error>;
+    fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error>;
+    fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error>;
     fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Result<(), Error>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Result<::models::ApiResponse, Error>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Result<crate::models::ApiResponse, Error>;
 }
 
 impl PetApi for PetApiClient {
-    fn add_pet(&self, body: ::models::Pet) -> Result<(), Error> {
+    fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -83,7 +83,7 @@ impl PetApi for PetApiClient {
         Ok(())
     }
 
-    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<::models::Pet>, Error> {
+    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -104,7 +104,7 @@ impl PetApi for PetApiClient {
         Ok(client.execute(req)?.error_for_status()?.json()?)
     }
 
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<::models::Pet>, Error> {
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -125,7 +125,7 @@ impl PetApi for PetApiClient {
         Ok(client.execute(req)?.error_for_status()?.json()?)
     }
 
-    fn get_pet_by_id(&self, pet_id: i64) -> Result<::models::Pet, Error> {
+    fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -150,7 +150,7 @@ impl PetApi for PetApiClient {
         Ok(client.execute(req)?.error_for_status()?.json()?)
     }
 
-    fn update_pet(&self, body: ::models::Pet) -> Result<(), Error> {
+    fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -197,7 +197,7 @@ impl PetApi for PetApiClient {
         Ok(())
     }
 
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Result<::models::ApiResponse, Error> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Result<crate::models::ApiResponse, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
