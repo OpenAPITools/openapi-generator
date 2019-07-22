@@ -1,3 +1,10 @@
+{{#useHttpClient}}
+import { HttpParameterCodec } from '@angular/common/http';
+{{/useHttpClient}}
+{{^useHttpClient}}
+import { QueryEncoder } from '@angular/http';
+{{/useHttpClient}}
+
 export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
     username?: string;
