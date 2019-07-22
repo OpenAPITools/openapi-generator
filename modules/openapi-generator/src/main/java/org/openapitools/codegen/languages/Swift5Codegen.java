@@ -324,6 +324,11 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
         }
         additionalProperties.put(UNWRAP_REQUIRED, unwrapRequired);
 
+        if (additionalProperties.containsKey(ONLY_PLAIN_INTERFACE)) {
+            setOnlyPlainInterface(convertPropertyToBooleanAndWriteBack(ONLY_PLAIN_INTERFACE));
+        }
+        additionalProperties.put(ONLY_PLAIN_INTERFACE, onlyPlainInterface);
+
         // Setup unwrapRequired option, which makes all the properties with "required" non-optional
         if (additionalProperties.containsKey(RESPONSE_AS)) {
             Object responseAsObject = additionalProperties.get(RESPONSE_AS);
@@ -334,6 +339,7 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         additionalProperties.put(RESPONSE_AS, responseAs);
+
         if (Boolean.FALSE.equals(onlyPlainInterface)) {
             if (ArrayUtils.contains(responseAs, LIBRARY_PROMISE_KIT)) {
                 additionalProperties.put("usePromiseKit", true);
@@ -363,7 +369,7 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
                 "",
                 projectName + ".podspec"));
         supportingFiles.add(new SupportingFile("XcodeGen.mustache",
-                sourceFolder,
+                "",
                 "project.yml"));
         if (Boolean.FALSE.equals(onlyPlainInterface)) {
             supportingFiles.add(new SupportingFile("Cartfile.mustache",
@@ -689,6 +695,10 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public void setOnlyPlainInterface(boolean onlyPlainInterface) {
+        this.onlyPlainInterface = onlyPlainInterface;
     }
 
     public void setUnwrapRequired(boolean unwrapRequired) {

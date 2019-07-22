@@ -21,7 +21,6 @@ public struct {{classname}}: Codable {
     }{{/vendorExtensions.x-swift-optional-scalar}}{{/objcCompatible}}
 {{/isEnum}}
 {{/allVars}}
-
 {{#hasVars}}
     public init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
         {{#allVars}}
@@ -30,47 +29,7 @@ public struct {{classname}}: Codable {
     }
 {{/hasVars}}
 {{#additionalPropertiesType}}
-    public var additionalProperties: [String:{{{additionalPropertiesType}}}] = [:]
-
-    public subscript(key: String) -> {{{additionalPropertiesType}}}? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            additionalProperties[key] = newValue
-        }
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        {{#allVars}}
-        try container.encode{{#unwrapRequired}}IfPresent{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}IfPresent{{/required}}{{/unwrapRequired}}({{{name}}}, forKey: "{{{baseName}}}")
-        {{/allVars}}
-        try container.encodeMap(additionalProperties)
-    }
-
-    // Decodable protocol methods
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        {{#allVars}}
-        {{name}} = try container.decode{{#unwrapRequired}}IfPresent{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}IfPresent{{/required}}{{/unwrapRequired}}({{{datatypeWithEnum}}}.self, forKey: "{{{baseName}}}")
-        {{/allVars}}
-        var nonAdditionalPropertyKeys = Set<String>()
-        {{#allVars}}
-        nonAdditionalPropertyKeys.insert("{{{baseName}}}")
-        {{/allVars}}
-        additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
-    }
+    public var additionalProperties: [String: {{{additionalPropertiesType}}}] = [:]
 
 {{/additionalPropertiesType}}
 {{^additionalPropertiesType}}{{#vendorExtensions.x-codegen-has-escaped-property-names}}

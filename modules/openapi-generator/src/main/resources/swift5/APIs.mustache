@@ -6,56 +6,49 @@
 
 import Foundation
 
-open class {{projectName}}API {
-    public static var basePath = "{{{basePath}}}"
-    public static var credential: URLCredential?
-    public static var customHeaders: [String:String] = [:]
-    public static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
-}
-
-open class RequestBuilder<T> {
-    var credential: URLCredential?
-    var headers: [String:String]
-    public let parameters: [String:Any]?
-    public let isBody: Bool
+public struct RequestBuilder<Response> {
+    public let endpoint: String
     public let method: String
-    public let URLString: String
+    public let parameters: [Parameters]
+    public let headers: [String : String]
 
-    /// Optional block to obtain a reference to the request's progress instance when available.
-    public var onProgressReady: ((Progress) -> ())?
-
-    required public init(method: String, URLString: String, parameters: [String:Any]?, isBody: Bool, headers: [String:String] = [:]) {
+    public init(endpoint: String, method: String, parameters: [Parameters] = [], headers: [String : String] = [:]) {
+        self.endpoint = endpoint
         self.method = method
-        self.URLString = URLString
         self.parameters = parameters
-        self.isBody = isBody
         self.headers = headers
-
-        addHeaders({{projectName}}API.customHeaders)
-    }
-
-    open func addHeaders(_ aHeaders:[String:String]) {
-        for (header, value) in aHeaders {
-            headers[header] = value
-        }
-    }
-
-    open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) { }
-
-    public func addHeader(name: String, value: String) -> Self {
-        if !value.isEmpty {
-            headers[name] = value
-        }
-        return self
-    }
-
-    open func addCredential() -> Self {
-        self.credential = {{projectName}}API.credential
-        return self
     }
 }
 
-public protocol RequestBuilderFactory {
-    func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
-    func getBuilder<T:Decodable>() -> RequestBuilder<T>.Type
+public enum Parameters {
+    case query([String: Any?])
+    case form([String: String?])
+    case json(AnyEncodable)
+
+    public init(_ raw: [String: Any?]) {
+        self = .query(raw)
+    }
+
+    public init(_ raw: [String: String?]) {
+        self = .form(raw)
+    }
+
+    public init<T: Encodable>(_ raw: T) {
+        self = .json(AnyEncodable(raw))
+    }
+}
+
+public struct AnyEncodable: Encodable {
+    var encode: (Encoder) throws -> Void
+
+    init(_ encodable: Encodable) {
+        func encode(to encoder: Encoder) throws {
+            try encodable.encode(to: encoder)
+        }
+        self.encode = encode
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        try encode(encoder)
+    }
 }

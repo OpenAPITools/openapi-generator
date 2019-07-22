@@ -6,17 +6,13 @@
 //
 
 import Foundation
-import Alamofire{{#usePromiseKit}}
-import PromiseKit{{/usePromiseKit}}{{#useRxSwift}}
-import RxSwift{{/useRxSwift}}
-
 {{#swiftUseApiNamespace}}
 extension {{projectName}}API {
 {{/swiftUseApiNamespace}}
 
 {{#description}}
 /** {{description}} */{{/description}}
-open class {{classname}} {
+public struct {{classname}} {
 {{#operation}}
     {{#allParams}}
     {{#isEnum}}
@@ -33,90 +29,6 @@ open class {{classname}} {
 
     {{/isEnum}}
     {{/allParams}}
-{{^usePromiseKit}}
-{{^useRxSwift}}
-    /**
-     {{#summary}}
-     {{{summary}}}
-     {{/summary}}{{#allParams}}
-     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}completion: @escaping ((_ data: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}?,_ error: Error?) -> Void)) {
-        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute { (response, error) -> Void in
-        {{#returnType}}
-            completion(response?.body, error)
-        {{/returnType}}
-        {{^returnType}}
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        {{/returnType}}
-        }
-    }
-{{/useRxSwift}}
-{{/usePromiseKit}}
-{{#usePromiseKit}}
-    /**
-     {{#summary}}
-     {{{summary}}}
-     {{/summary}}{{#allParams}}
-     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
-     - returns: Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
-     */
-    open class func {{operationId}}({{#allParams}} {{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
-        let deferred = Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.pending()
-        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.reject(error)
-{{#returnType}}
-            } else if let response = response {
-                deferred.fulfill(response.body!)
-            } else {
-                fatalError()
-{{/returnType}}
-{{^returnType}}
-            } else {
-                deferred.fulfill(())
-{{/returnType}}
-            }
-        }
-        return deferred.promise
-    }
-{{/usePromiseKit}}
-{{#useRxSwift}}
-    /**
-     {{#summary}}
-     {{{summary}}}
-     {{/summary}}{{#allParams}}
-     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
-     - returns: Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
-     */
-    open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
-        return Observable.create { observer -> Disposable in
-            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-{{#returnType}}
-                } else if let response = response {
-                    observer.onNext(response.body!)
-                } else {
-                    fatalError()
-{{/returnType}}
-{{^returnType}}
-                } else {
-                    observer.onNext(())
-{{/returnType}}
-                }
-                observer.onCompleted()
-            }
-            return Disposables.create()
-        }
-    }
-{{/useRxSwift}}
-
     /**
      {{#summary}}
      {{{summary}}}
@@ -141,45 +53,37 @@ open class {{classname}} {
      {{/allParams}}
      - returns: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{description}}
      */
-    open class func {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
+    public func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{{path}}}"{{#pathParams}}
-        let {{paramName}}PreEscape = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}APIHelper.mapValueToPathItem({{paramName}}){{/isEnum}})"
-        let {{paramName}}PostEscape = {{paramName}}PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
-        let URLString = {{projectName}}API.basePath + path
+        let {{paramName}}Escaped = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}{{paramName}})".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""{{/isEnum}}
+        path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}Escaped, options: .literal, range: nil){{/pathParams}}
+        {{#hasParams}}
+        {{#hasFormParams}}var parameters: [Parameters] = []{{/hasFormParams}}
+        {{^hasFormParams}}{{#hasQueryParams}}var parameters: [Parameters] = []{{/hasQueryParams}}{{/hasFormParams}}
+        {{^hasQueryParams}}{{#hasBodyParam}}var parameters: [Parameters] = []{{/hasBodyParam}}{{/hasQueryParams}}
+
         {{#bodyParam}}
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: {{paramName}})
+        parameters.append(Parameters({{paramName}}))
         {{/bodyParam}}
         {{^bodyParam}}
             {{#hasFormParams}}
-        let formParams: [String:Any?] = [
+        let formParams: [String: String?] = [
                 {{#formParams}}
-            {{> _param}}{{#hasMore}},{{/hasMore}}
+            "{{baseName}}": {{paramName}}{{#isContainer}}{{^required}}?{{/required}}.description{{/isContainer}}{{^isContainer}}{{#isEnum}}{{^required}}?{{/required}}.rawValue{{/isEnum}}{{^isString}}{{^required}}?{{/required}}.description{{/isString}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}
                 {{/formParams}}
         ]
-
-        let nonNullParameters = APIHelper.rejectNil(formParams)
-        let parameters = APIHelper.convertBoolToString(nonNullParameters)
-            {{/hasFormParams}}
-            {{^hasFormParams}}
-        let parameters: [String:Any]? = nil
-            {{/hasFormParams}}
-        {{/bodyParam}}{{#hasQueryParams}}
-        var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems([{{^queryParams}}:{{/queryParams}}
+        parameters.append(Parameters(formParams))
+        {{/hasFormParams}}
+        {{/bodyParam}}
+        
+        {{#hasQueryParams}}
+        let queryParams: [String: Any?] = [
             {{#queryParams}}
-            {{> _param}}{{#hasMore}}, {{/hasMore}}
+            "{{baseName}}": {{paramName}}{{#hasMore}}, {{/hasMore}}
             {{/queryParams}}
-        ]){{/hasQueryParams}}{{^hasQueryParams}}
-        let url = URLComponents(string: URLString){{/hasQueryParams}}{{#headerParams}}{{^secondaryParam}}
-        let nillableHeaders: [String: Any?] = [{{/secondaryParam}}
-            {{> _param}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
         ]
-        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders){{/hasMore}}{{/headerParams}}
-
-        let requestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.{{#returnType}}getBuilder(){{/returnType}}{{^returnType}}getNonDecodableBuilder(){{/returnType}}
-
-        return requestBuilder.init(method: "{{httpMethod}}", URLString: (url?.string ?? URLString), parameters: parameters, isBody: {{hasBodyParam}}{{#headerParams}}{{^secondaryParam}}, headers: headerParameters{{/secondaryParam}}{{/headerParams}})
+        parameters.append(Parameters(queryParams)){{/hasQueryParams}}{{/hasParams}}
+        return RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>(endpoint: path, method: "{{httpMethod}}"{{#hasParams}}{{#hasFormParams}}, parameters: parameters{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}}, parameters: parameters{{/hasQueryParams}}{{/hasFormParams}}{{^hasQueryParams}}{{#hasBodyParam}}, parameters: parameters{{/hasBodyParam}}{{/hasQueryParams}}{{/hasParams}})
     }
 
 {{/operation}}
