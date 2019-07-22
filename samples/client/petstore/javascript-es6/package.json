@@ -7,7 +7,7 @@
   "scripts": {
     "build": "babel src -d dist",
     "prepack": "npm run build",
-    "test": "mocha --compilers js:babel-core/register --recursive"
+    "test": "mocha --compilers js:@babel/register --recursive"
   },
   "browser": {
     "fs": false
@@ -35,6 +35,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "expect.js": "^0.3.1",
     "mocha": "^5.2.0",
     "sinon": "^7.2.0"
