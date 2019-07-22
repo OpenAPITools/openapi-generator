@@ -6,20 +6,8 @@
  *)
 {{/description}}
 {{^description}}
- *
  *)
 {{/description}}
-
-{{!-- for enum schemas --}}
-{{#isEnum}}
-(* {{{description}}} *)
-type t =
-{{#allowableValues}}{{#enumVars}}
-| {{name}}
-{{/enumVars}}{{/allowableValues}}
-{{/isEnum}}
-
-{{!-- for non-enum schemas --}}
 
 {{^isEnum}}
 type t = {
@@ -28,7 +16,6 @@ type t = {
     (* {{{description}}} *)
     {{/description}}
     {{#isEnum}}
-    (*{{{name}}}: [{{#allowableValues}}{{#enumVars}}`{{name}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}}]{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};*)
     {{{name}}}: Enums.{{{datatypeWithEnum}}}{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
     {{/isEnum}}
     {{^isEnum}}
@@ -40,7 +27,7 @@ type t = {
 {{#description}}
 (** {{{description}}} *)
 {{/description}}
-let create {{#requiredVars}}({{{name}}} : {{{dataType}}}{{#isNullable}}option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : t = {
+let create {{#requiredVars}}({{{name}}} : {{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : t = {
     {{#vars}}
     {{{name}}} = {{#required}}{{{name}}}{{/required}}{{^required}}{{#isListContainer}}[]{{/isListContainer}}{{#isMapContainer}}Hashtbl.create 7{{/isMapContainer}}{{^isContainer}}None{{/isContainer}}{{/required}};
     {{/vars}}

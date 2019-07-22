@@ -6,8 +6,6 @@
  * Schema User.t : A User who is purchasing from the pet store
  *)
 
-
-
 type t = {
     id: int64 option;
     username: string option;
