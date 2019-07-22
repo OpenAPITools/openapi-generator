@@ -26,7 +26,7 @@ let get_order_by_id order_id =
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "orderId" (Int64.to_string order_id) in
     Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
-    Request.read_json_body_as (Order.of_yojson) body
+    Request.read_json_body_as (JsonSupport.unwrap  Order.of_yojson) body
 
 let place_order body =
     let open Lwt in
@@ -34,5 +34,5 @@ let place_order body =
     let headers = Request.default_headers in
     let body = Request.write_json_body Order.to_yojson body in
     Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) ->
-    Request.read_json_body_as (Order.of_yojson) body
+    Request.read_json_body_as (JsonSupport.unwrap  Order.of_yojson) body
 
