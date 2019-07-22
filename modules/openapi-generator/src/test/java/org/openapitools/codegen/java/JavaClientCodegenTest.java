@@ -262,6 +262,65 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testGenerateJavaClientOauth2() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/2_0/javaClientOauth2.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 28);
+        TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
+        TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
+        TestUtils.ensureContainsFile(generatedFiles, output, ".travis.yml");
+        TestUtils.ensureContainsFile(generatedFiles, output, "build.gradle");
+        TestUtils.ensureContainsFile(generatedFiles, output, "build.sbt");
+        TestUtils.ensureContainsFile(generatedFiles, output, "docs/DefaultApi.md");
+        TestUtils.ensureContainsFile(generatedFiles, output, "git_push.sh");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradle.properties");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.jar");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.properties");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradlew.bat");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradlew");
+        TestUtils.ensureContainsFile(generatedFiles, output, "pom.xml");
+        TestUtils.ensureContainsFile(generatedFiles, output, "README.md");
+        TestUtils.ensureContainsFile(generatedFiles, output, "settings.gradle");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/AndroidManifest.xml");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuthFlow.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/test/java/xyz/abcdef/api/DefaultApiTest.java");
+
+        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
+        String defaultApiConent = generatedFiles.get(defaultApiFilename);
+        assertTrue(defaultApiConent.contains("public class DefaultApi"));
+
+        WrittenTemplateBasedFile templateBasedFile = TestUtils.getTemplateBasedFile(generator, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
+        Assert.assertEquals(templateBasedFile.getTemplateData().get("classname"), "DefaultApi");
+
+        output.deleteOnExit();
+    }
+
+    @Test
     public void testGeneratePing() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.JAVA8_MODE, true);

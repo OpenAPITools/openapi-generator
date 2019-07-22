@@ -1,0 +1,23 @@
+swagger: '2.0'
+info:
+  description: ''
+  version: 1.0.0
+  title: AtknIchzurKtovetLakoach
+schemes:
+  - https
+  - http
+basePath: /services/1.0.0
+paths:
+  /java-client-oauth2:
+    post:
+      operationId: javaClientOauth2
+      responses:
+        '201':
+          description: OK
+host: 'localhost:8243'
+securityDefinitions:
+  default:
+    type: oauth2
+    authorizationUrl: 'https://localhost:8243/authorize'
+    flow: implicit
+    scopes: {}
