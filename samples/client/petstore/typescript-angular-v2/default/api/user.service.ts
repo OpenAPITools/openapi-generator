@@ -12,11 +12,10 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
-import { Http, Headers, URLSearchParams }                    from '@angular/http';
-import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
-import { Response, ResponseContentType }                     from '@angular/http';
+import { Http, Headers, URLSearchParams,
+        RequestMethod, RequestOptions, RequestOptionsArgs,
+        Response, ResponseContentType, QueryEncoder }        from '@angular/http';
 import { CustomQueryEncoderHelper }                          from '../encoder';
-
 import { Observable }                                        from 'rxjs/Observable';
 import '../rxjs-operators';
 
@@ -32,6 +31,7 @@ export class UserService {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders = new Headers();
     public configuration = new Configuration();
+    public encoder: QueryEncoder;
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
@@ -42,6 +42,7 @@ export class UserService {
         } else {
             this.configuration.basePath = basePath || this.basePath;
         }
+        this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
     }
 
     /**
@@ -410,7 +411,7 @@ export class UserService {
             throw new Error('Required parameter password was null or undefined when calling loginUser.');
         }
 
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
+        let queryParameters = new URLSearchParams('', this.encoder);
         if (username !== undefined && username !== null) {
             queryParameters.set('username', <any>username);
         }

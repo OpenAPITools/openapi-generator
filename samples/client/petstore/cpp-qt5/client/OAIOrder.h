@@ -66,7 +66,7 @@ public:
     void setComplete(const bool &complete);
 
     
-    
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 

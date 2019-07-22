@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, throwIfRequired, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, HttpHeaders, throwIfRequired, encodeURI } from '../runtime';
 import {
     Order,
 } from '../models';
@@ -41,17 +41,9 @@ export class StoreApi extends BaseAPI {
     deleteOrder = (requestParameters: DeleteOrderRequest): Observable<void> => {
         throwIfRequired(requestParameters, 'orderId', 'deleteOrder');
 
-        const headers: HttpHeaders = {
-        };
-
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/store/order/{orderId}`.replace(`{orderId}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(requestParameters.orderId)),
             method: 'DELETE',
-            headers,
-            query,
         });
     }
 
@@ -60,19 +52,14 @@ export class StoreApi extends BaseAPI {
      * Returns pet inventories by status
      */
     getInventory = (): Observable<{ [key: string]: number; }> => {
-
         const headers: HttpHeaders = {
             ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<{ [key: string]: number; }>({
-            path: `/store/inventory`,
+            path: '/store/inventory',
             method: 'GET',
             headers,
-            query,
         });
     }
 
@@ -83,17 +70,9 @@ export class StoreApi extends BaseAPI {
     getOrderById = (requestParameters: GetOrderByIdRequest): Observable<Order> => {
         throwIfRequired(requestParameters, 'orderId', 'getOrderById');
 
-        const headers: HttpHeaders = {
-        };
-
-        const query: HttpQuery = {
-        };
-
         return this.request<Order>({
-            path: `/store/order/{orderId}`.replace(`{orderId}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(requestParameters.orderId)),
             method: 'GET',
-            headers,
-            query,
         });
     }
 
@@ -107,14 +86,10 @@ export class StoreApi extends BaseAPI {
             'Content-Type': 'application/json',
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<Order>({
-            path: `/store/order`,
+            path: '/store/order',
             method: 'POST',
             headers,
-            query,
             body: requestParameters.body,
         });
     }
