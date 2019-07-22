@@ -421,6 +421,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache",
                 "",
                 "README.md"));
+        supportingFiles.add(new SupportingFile("XcodeGen.mustache",
+                "",
+                "project.yml"));
 
     }
 

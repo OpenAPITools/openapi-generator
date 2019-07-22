@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct User: Codable {
 
     public var _id: Int64?
@@ -32,7 +30,7 @@ public struct User: Codable {
         self.userStatus = userStatus
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case _id = "id"
         case username
         case firstName
@@ -43,6 +41,4 @@ public struct User: Codable {
         case userStatus
     }
 
-
 }
-

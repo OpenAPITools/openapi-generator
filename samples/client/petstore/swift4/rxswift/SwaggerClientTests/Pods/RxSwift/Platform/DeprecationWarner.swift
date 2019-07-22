@@ -12,23 +12,23 @@ import Foundation
     class DeprecationWarner {
         private static var warned = Set<Kind>()
         private static var _lock = NSRecursiveLock()
-        
+
         static func warnIfNeeded(_ kind: Kind) {
             _lock.lock(); defer { _lock.unlock() }
             guard !warned.contains(kind) else { return }
-            
+
             warned.insert(kind)
             print("ℹ️ [DEPRECATED] \(kind.message)")
         }
     }
-    
+
     extension DeprecationWarner {
         enum Kind {
             case variable
             case globalTestFunctionNext
             case globalTestFunctionError
             case globalTestFunctionCompleted
-            
+
             var message: String {
                 switch self {
                 case .variable: return "`Variable` is planned for future deprecation. Please consider `BehaviorRelay` as a replacement. Read more at: https://git.io/vNqvx"
@@ -40,4 +40,3 @@ import Foundation
         }
     }
 #endif
-

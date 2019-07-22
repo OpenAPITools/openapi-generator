@@ -11,22 +11,22 @@ import XCTest
 @testable import SwaggerClient
 
 class UserAPITests: XCTestCase {
-    
+
     let testTimeout = 10.0
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testLogin() {
         let expectation = self.expectation(description: "testLogin")
-        
+
         UserAPI.loginUser(username: "swiftTester", password: "swift") { (_, error) in
             guard error == nil else {
                 XCTFail("error logging in")
@@ -35,14 +35,14 @@ class UserAPITests: XCTestCase {
 
             expectation.fulfill()
         }
-        
+
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func testLogout() {
         let expectation = self.expectation(description: "testLogout")
-        
-        UserAPI.logoutUser { (response, error) in
+
+        UserAPI.logoutUser { (_, error) in
             guard error == nil else {
                 XCTFail("error logging out")
                 return
@@ -50,7 +50,7 @@ class UserAPITests: XCTestCase {
 
             expectation.fulfill()
         }
-        
+
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
@@ -60,7 +60,7 @@ class UserAPITests: XCTestCase {
         // into the path. So we intentionally introduce a path with spaces.
         let userRequestBuilder = UserAPI.getUserByNameWithRequestBuilder(username: "User Name With Spaces")
         let urlContainsSpace = userRequestBuilder.URLString.contains(" ")
-        
+
         XCTAssert(!urlContainsSpace, "Expected URL to be escaped, but it was not.")
     }
 
