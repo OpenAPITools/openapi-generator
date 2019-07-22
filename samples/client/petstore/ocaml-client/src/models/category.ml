@@ -6,8 +6,6 @@
  * Schema Category.t : A category for a pet
  *)
 
-
-
 type t = {
     id: int64 option;
     name: string option;

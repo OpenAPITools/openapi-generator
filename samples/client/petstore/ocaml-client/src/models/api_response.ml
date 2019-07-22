@@ -6,8 +6,6 @@
  * Schema Api_response.t : Describes the result of uploading an image resource
  *)
 
-
-
 type t = {
     code: int32 option;
     _type: string option;

@@ -6,15 +6,12 @@
  * Schema Order.t : An order for a pets from the pet store
  *)
 
-
-
 type t = {
     id: int64 option;
     pet_id: int64 option;
     quantity: int32 option;
     ship_date: string option;
     (* Order Status *)
-    (*status: [`Placed | `Approved | `Delivered] option;*)
     status: Enums.status option;
     complete: bool option;
 } [@@deriving yojson, show ];;

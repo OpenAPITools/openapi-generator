@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
@@ -113,8 +114,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "int64",
                         "float",
                         "char",
-                        "double",
-                        "list"
+                        "list",
+                        "Yojson.Safe.t"
                 )
         );
 
@@ -129,14 +130,17 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("short", "int");
         typeMapping.put("char", "char");
         typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("integer", "int");
+        typeMapping.put("double", "float");
+        typeMapping.put("integer", "int32");
         typeMapping.put("file", "FilePath");
+        typeMapping.put("number", "float");
+        typeMapping.put("date", "string");
+        typeMapping.put("object", "Yojson.Safe.t");
+        typeMapping.put("any", "Yojson.Safe.t");
         // lib
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
-        typeMapping.put("any", "`Any");
         typeMapping.put("set", "`Set");
         typeMapping.put("passsword", "string");
         typeMapping.put("DateTime", "string");
@@ -152,14 +156,30 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
-    }
+    public Map<String, Object> postProcessAllModels(Map<String, Object> superobjs) {
+        List<String> toRemove = new ArrayList<>();
 
-    @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        return super.fromProperty(name, p);
+        for (Map.Entry<String, Object> modelEntry : superobjs.entrySet()) {
+            Map<String, Object> objs = (Map<String, Object>) modelEntry.getValue();
+            // process enum in models
+            List<Object> models = (List<Object>) objs.get("models");
+            for (Object _mo : models) {
+                Map<String, Object> mo = (Map<String, Object>) _mo;
+                CodegenModel cm = (CodegenModel) mo.get("model");
+
+                // for enum model
+                if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                    toRemove.add(modelEntry.getKey());
+                }
+            }
+        }
+
+        for (String keyToRemove : toRemove) {
+            superobjs.remove(keyToRemove);
+        }
+
+        return superobjs;
+
     }
 
     @Override
@@ -270,14 +290,26 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
     }
 
+    private String sanitizeOCamlTypeName(String name) {
+        String typeName = name.replace("-", "_").replace(" ", "_").trim();
+        int i = 0;
+        char c;
+        while (i < typeName.length() && (Character.isDigit(c = typeName.charAt(i)) || c == '_')) {
+            i++;
+        }
+
+        return typeName.substring(i);
+    }
+
     private void computeEnumUniqNames() {
         Map<String, String> definitiveNames = new HashMap<>();
         for (String h : enumNames.keySet()) {
             boolean hasDefName = false;
             List<String> nameCandidates = enumNames.get(h);
             for (String name : nameCandidates) {
-                if (!definitiveNames.containsKey(name)) {
-                    definitiveNames.put(name, h);
+                String candidate = sanitizeOCamlTypeName(name);
+                if (!definitiveNames.containsKey(candidate) && !reservedWords.contains(candidate)) {
+                    definitiveNames.put(candidate, h);
                     hasDefName = true;
                     break;
                 }
@@ -285,7 +317,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             if (!hasDefName) {
                 int i = 0;
                 String candidate;;
-                while (definitiveNames.containsKey(candidate = nameCandidates.get(0) + "_" + i)) {
+                while (definitiveNames.containsKey(candidate = sanitizeOCamlTypeName(nameCandidates.get(0) + "_" + i))) {
                     i++;
                 }
                 definitiveNames.put(candidate, h);
@@ -383,10 +415,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
-            return name;
 
         // snake_case, e.g. PetId => pet_id
         name = underscore(name);
@@ -505,6 +533,12 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             return schemaType;
         }
 
+        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, p);
+        if (referencedSchema != null && referencedSchema.getEnum() != null) {
+            String h = hashEnum(referencedSchema);
+            return "Enums." + enumUniqNames.get(h);
+        }
+
         return toModelName(schemaType);
     }
 
@@ -542,16 +576,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
             parameter.vendorExtensions.put(X_CONTAINER_CONTENT_TYPE, contentProperties);
         }
-
-        if (parameter.isQueryParam) {
-            LOGGER.info("paramName" + parameter.paramName);
-            LOGGER.info("string " + parameter.isString);
-            LOGGER.info("boolean " + parameter.isBoolean);
-            LOGGER.info("long " +parameter.isLong);
-            LOGGER.info("int " + parameter.isInteger);
-            LOGGER.info("float " + parameter.isFloat);
-            LOGGER.info("container " + parameter.isContainer);
-        }
     }
 
     private Map<String, Object> buildContentProperties(CodegenParameter parameter) {
@@ -588,8 +612,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         for (String v : valueString.split(",")) {
             Map<String, Object> m = new HashMap<>();
-            m.put("name", v);
-            m.put("camlEnumValueName", capitalize(v));
+            String value = v.isEmpty() ? "empty" : v;
+            m.put("name", value);
+            m.put("camlEnumValueName", capitalize(value.replace(".", "_").replace(" ", "_")));
             result.add(m);
         }
 
@@ -612,12 +637,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         m.put("importPath", packageName + "." + enumName);
         m.put("model", buildEnumModel(enumName, values));
         return m;
-    }
-
-    @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        return super.postProcessAllModels(objs);
-
     }
 
     @Override
@@ -725,7 +744,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toEnumName(CodegenProperty property) {
         String hash = String.join(",", property.get_enum());
 
-        if (enumNames.containsKey(hash)) {
+        if (enumUniqNames.containsKey(hash)) {
             return enumUniqNames.get(hash);
         }
 

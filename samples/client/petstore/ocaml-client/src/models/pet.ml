@@ -6,8 +6,6 @@
  * Schema Pet.t : A pet for sale in the pet store
  *)
 
-
-
 type t = {
     id: int64 option;
     category: Category.t option;
@@ -15,7 +13,6 @@ type t = {
     photo_urls: string list;
     tags: Tag.t list;
     (* pet status in the store *)
-    (*status: [`Available | `Pending | `Sold] option;*)
     status: Enums.pet_status option;
 } [@@deriving yojson, show ];;
 
