@@ -17,11 +17,10 @@ public struct AnotherFakeAPI {
      */
     public func call123testSpecialTags(body: Client) -> RequestBuilder<Client> {
         let path = "/another-fake/dummy"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Client>(endpoint: path, method: "PATCH", parameters: parameters)
     }
 

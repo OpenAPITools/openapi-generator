@@ -17,11 +17,10 @@ public struct UserAPI {
      */
     public func createUser(body: User) -> RequestBuilder<Void> {
         let path = "/user"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Void>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -33,11 +32,10 @@ public struct UserAPI {
      */
     public func createUsersWithArrayInput(body: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithArray"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Void>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -49,11 +47,10 @@ public struct UserAPI {
      */
     public func createUsersWithListInput(body: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithList"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Void>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -68,8 +65,11 @@ public struct UserAPI {
         var path = "/user/{username}"
         let usernameEscaped = "\(username)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernameEscaped, options: .literal, range: nil)
-
-        return RequestBuilder<Void>(endpoint: path, method: "DELETE")
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: nil)
+        return RequestBuilder<Void>(endpoint: path, method: "DELETE", parameters: parameters)
     }
 
     /**
@@ -82,8 +82,11 @@ public struct UserAPI {
         var path = "/user/{username}"
         let usernameEscaped = "\(username)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernameEscaped, options: .literal, range: nil)
-
-        return RequestBuilder<User>(endpoint: path, method: "GET")
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: nil)
+        return RequestBuilder<User>(endpoint: path, method: "GET", parameters: parameters)
     }
 
     /**
@@ -96,14 +99,10 @@ public struct UserAPI {
      */
     public func loginUser(username: String, password: String) -> RequestBuilder<String> {
         let path = "/user/login"
-
-        var parameters: [Parameters] = []
-
-        let queryParams: [String: Any?] = [
-            "username": username,
-            "password": password
-        ]
-        parameters.append(Parameters(queryParams))
+        let parameters = Parameters(
+            query: ["username": username, "password": password],
+            form: nil,
+            body: nil)
         return RequestBuilder<String>(endpoint: path, method: "GET", parameters: parameters)
     }
 
@@ -114,7 +113,6 @@ public struct UserAPI {
      */
     public func logoutUser() -> RequestBuilder<Void> {
         let path = "/user/logout"
-
         return RequestBuilder<Void>(endpoint: path, method: "GET")
     }
 
@@ -130,11 +128,10 @@ public struct UserAPI {
         var path = "/user/{username}"
         let usernameEscaped = "\(username)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernameEscaped, options: .literal, range: nil)
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Void>(endpoint: path, method: "PUT", parameters: parameters)
     }
 

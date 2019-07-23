@@ -11,7 +11,6 @@
 		081C0B80A989B1AAF2665121 /* MapTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986861626C2B1CB49AD7000 /* MapTest.swift */; };
 		0C1E4C682F2D0AF7D9E431EE /* Dog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3E1129526A353B963EFD7 /* Dog.swift */; };
 		0E6932F1C55BA6880693C478 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B2E9EF856E89FEAA359A3A /* Order.swift */; };
-		1E6C7C7F271A802DF8099330 /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897716962D472FE162B723CB /* APIHelper.swift */; };
 		22FA6CA58E58550DE36AE750 /* JSONEncodableEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9791B840B8D6EAA35343B00F /* JSONEncodableEncoding.swift */; };
 		248F2F0F29E8FDAE9CAD64C5 /* AdditionalPropertiesClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396DEF3156BA0D12D0FC5C3C /* AdditionalPropertiesClass.swift */; };
 		269E3103C458C78EA5726EE2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C298FC8929DCB369053F11 /* Extensions.swift */; };
@@ -34,7 +33,6 @@
 		61322FC4325F1A4FF24ACA48 /* EnumArrays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10503995D9EFD031A2EFB576 /* EnumArrays.swift */; };
 		64C48E3658CF53EBE8AF82F9 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8D5F382979854D47F18DB1 /* UserAPI.swift */; };
 		6B638A04B34C82B2091D6EDD /* FormatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3156CE41C001C80379B84BDB /* FormatTest.swift */; };
-		6FBD978F4D1ED92E7071FFBB /* CodableHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A6F6BB2152ACEE1416D44A /* CodableHelper.swift */; };
 		72547ECFB451A509409311EE /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A444949BBC254798C3B3DD /* Configuration.swift */; };
 		72CE544C52BB33778D1B89B8 /* DogAllOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A69C8402A60E01116ABBD /* DogAllOf.swift */; };
 		7441BBA84C31E06400338F89 /* ClassModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C30827D8EAF8EA684E7BCEA /* ClassModel.swift */; };
@@ -55,9 +53,9 @@
 		B3E35FE2773D4A8BA15CFA88 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2896F8BFD1AA2965C8A3015 /* Tag.swift */; };
 		BB1F3C6D50B8F0A8CC4F1749 /* Capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B38FA00A494D13F4C382A3 /* Capitalization.swift */; };
 		BC097E527F96131FEA12D864 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69DB3E1D94EB0566C0052331 /* RxSwift.framework */; };
+		C8DC6AA6D89DC651EDBDF591 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93CA8E7642E5DE260CAF0D5 /* APIClient.swift */; };
 		CA9B9B19882EA044EAD0B359 /* AnotherFakeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF24D2714B9C4CF14146E88 /* AnotherFakeAPI.swift */; };
 		CB68ABDBAADAF6B8D7B93A5D /* StoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53274D99BBDE1B79BF3521C /* StoreAPI.swift */; };
-		D3BAB7C7A607392CA838C580 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8699F7966F748ED026A6FB4C /* Models.swift */; };
 		D95A5F83AAA7D5C95A29AB83 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AA914B7F1793A4E32C119 /* Cat.swift */; };
 		DDBD4C0FBA3CD6A4DA3DF376 /* FakeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E00950725DC44436C5E238C /* FakeAPI.swift */; };
 		DDF1D589267D56D9BED3C6E5 /* FileSchemaTestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3666552AA854DAF9C480A3 /* FileSchemaTestClass.swift */; };
@@ -67,7 +65,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		02A6F6BB2152ACEE1416D44A /* CodableHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableHelper.swift; sourceTree = "<group>"; };
 		10503995D9EFD031A2EFB576 /* EnumArrays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumArrays.swift; sourceTree = "<group>"; };
 		164AD6EC9C4CCF634D7C4590 /* PetstoreClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PetstoreClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		19B65C66C97F082718DDD703 /* TypeHolderExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeHolderExample.swift; sourceTree = "<group>"; };
@@ -97,8 +94,6 @@
 		7C8D5F382979854D47F18DB1 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		82A2C3DC2235F0114C2B08E5 /* Model200Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model200Response.swift; sourceTree = "<group>"; };
 		84A201508DF2B697D65F2631 /* AlamofireImplementations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireImplementations.swift; sourceTree = "<group>"; };
-		8699F7966F748ED026A6FB4C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		897716962D472FE162B723CB /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		8D22BE01748F51106DE02332 /* AnimalFarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFarm.swift; sourceTree = "<group>"; };
 		95568E7C35F119EB4A12B498 /* Animal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animal.swift; sourceTree = "<group>"; };
 		9791B840B8D6EAA35343B00F /* JSONEncodableEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncodableEncoding.swift; sourceTree = "<group>"; };
@@ -119,6 +114,7 @@
 		C15008AABC804EB6FB4CDAC6 /* OuterEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuterEnum.swift; sourceTree = "<group>"; };
 		C6C3E1129526A353B963EFD7 /* Dog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dog.swift; sourceTree = "<group>"; };
 		C81447828475F76C5CF4F08A /* Return.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Return.swift; sourceTree = "<group>"; };
+		D93CA8E7642E5DE260CAF0D5 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		E5565A447062C7B8F695F451 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EBC76F6D4D2AA8084B7EB50E /* TypeHolderDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeHolderDefault.swift; sourceTree = "<group>"; };
 		ECFEB4C6C257B3BB3CEA36D1 /* Pet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pet.swift; sourceTree = "<group>"; };
@@ -208,14 +204,11 @@
 			isa = PBXGroup;
 			children = (
 				84A201508DF2B697D65F2631 /* AlamofireImplementations.swift */,
-				897716962D472FE162B723CB /* APIHelper.swift */,
 				37DF825B8F3BADA2B2537D17 /* APIs.swift */,
-				02A6F6BB2152ACEE1416D44A /* CodableHelper.swift */,
 				28A444949BBC254798C3B3DD /* Configuration.swift */,
 				B8C298FC8929DCB369053F11 /* Extensions.swift */,
 				9791B840B8D6EAA35343B00F /* JSONEncodableEncoding.swift */,
 				35D710108A69DD8A5297F926 /* JSONEncodingHelper.swift */,
-				8699F7966F748ED026A6FB4C /* Models.swift */,
 				F956D0CCAE23BCFD1C7BDD5D /* APIs */,
 				4FBDCF1330A9AB9122780DB3 /* Models */,
 			);
@@ -256,9 +249,18 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
+		D629CEDD108B633D945E8F93 /* Alamofire */ = {
+			isa = PBXGroup;
+			children = (
+				D93CA8E7642E5DE260CAF0D5 /* APIClient.swift */,
+			);
+			path = Alamofire;
+			sourceTree = "<group>";
+		};
 		EF4C81BDD734856ED5023B77 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D629CEDD108B633D945E8F93 /* Alamofire */,
 				67BF3478113E6B4DF1C4E04F /* OpenAPIs */,
 			);
 			path = Classes;
@@ -325,7 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E6C7C7F271A802DF8099330 /* APIHelper.swift in Sources */,
+				C8DC6AA6D89DC651EDBDF591 /* APIClient.swift in Sources */,
 				40E3027D2E38D8329C6AB01F /* APIs.swift in Sources */,
 				248F2F0F29E8FDAE9CAD64C5 /* AdditionalPropertiesClass.swift in Sources */,
 				40E46046D2B16D1A672A08E3 /* AlamofireImplementations.swift in Sources */,
@@ -342,7 +344,6 @@
 				E8A58C6414E88AF3EAE45B69 /* Category.swift in Sources */,
 				7441BBA84C31E06400338F89 /* ClassModel.swift in Sources */,
 				AD594BFB99E31A5E07579237 /* Client.swift in Sources */,
-				6FBD978F4D1ED92E7071FFBB /* CodableHelper.swift in Sources */,
 				72547ECFB451A509409311EE /* Configuration.swift in Sources */,
 				0C1E4C682F2D0AF7D9E431EE /* Dog.swift in Sources */,
 				72CE544C52BB33778D1B89B8 /* DogAllOf.swift in Sources */,
@@ -362,7 +363,6 @@
 				081C0B80A989B1AAF2665121 /* MapTest.swift in Sources */,
 				B301DB1B80F37C757550AA17 /* MixedPropertiesAndAdditionalPropertiesClass.swift in Sources */,
 				9CF06ACDA32CB0C3E74E435C /* Model200Response.swift in Sources */,
-				D3BAB7C7A607392CA838C580 /* Models.swift in Sources */,
 				37DEADD6CD0496690725B8A7 /* Name.swift in Sources */,
 				555DEA47352B42E49082922B /* NumberOnly.swift in Sources */,
 				0E6932F1C55BA6880693C478 /* Order.swift in Sources */,
@@ -403,7 +403,10 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -488,7 +491,10 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;

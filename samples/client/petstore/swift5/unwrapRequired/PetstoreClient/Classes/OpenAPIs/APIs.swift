@@ -9,10 +9,10 @@ import Foundation
 public struct RequestBuilder<Response> {
     public let endpoint: String
     public let method: String
-    public let parameters: [Parameters]
+    public let parameters: Parameters?
     public let headers: [String: String]
 
-    public init(endpoint: String, method: String, parameters: [Parameters] = [], headers: [String: String] = [:]) {
+    public init(endpoint: String, method: String, parameters: Parameters? = nil, headers: [String: String] = [:]) {
         self.endpoint = endpoint
         self.method = method
         self.parameters = parameters
@@ -20,21 +20,15 @@ public struct RequestBuilder<Response> {
     }
 }
 
-public enum Parameters {
-    case query([String: Any?])
-    case form([String: String?])
-    case json(AnyEncodable)
+public struct Parameters {
+    var query: [String: Any?]?
+    var form: [String: String?]?
+    var body: AnyEncodable?
 
-    public init(_ raw: [String: Any?]) {
-        self = .query(raw)
-    }
-
-    public init(_ raw: [String: String?]) {
-        self = .form(raw)
-    }
-
-    public init<T: Encodable>(_ raw: T) {
-        self = .json(AnyEncodable(raw))
+    public init(query: [String: Any?]? = nil, form: [String: String?]? = nil, body: AnyEncodable? = nil) {
+        self.query = query
+        self.form = form
+        self.body = body
     }
 }
 

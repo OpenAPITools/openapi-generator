@@ -58,32 +58,12 @@ public struct {{classname}} {
         let {{paramName}}Escaped = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}{{paramName}})".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""{{/isEnum}}
         path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}Escaped, options: .literal, range: nil){{/pathParams}}
         {{#hasParams}}
-        {{#hasFormParams}}var parameters: [Parameters] = []{{/hasFormParams}}
-        {{^hasFormParams}}{{#hasQueryParams}}var parameters: [Parameters] = []{{/hasQueryParams}}{{/hasFormParams}}
-        {{^hasQueryParams}}{{#hasBodyParam}}var parameters: [Parameters] = []{{/hasBodyParam}}{{/hasQueryParams}}
-
-        {{#bodyParam}}
-        parameters.append(Parameters({{paramName}}))
-        {{/bodyParam}}
-        {{^bodyParam}}
-            {{#hasFormParams}}
-        let formParams: [String: String?] = [
-                {{#formParams}}
-            "{{baseName}}": {{paramName}}{{#isContainer}}{{^required}}?{{/required}}.description{{/isContainer}}{{^isContainer}}{{#isEnum}}{{^required}}?{{/required}}.rawValue{{/isEnum}}{{^isString}}{{^required}}?{{/required}}.description{{/isString}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}
-                {{/formParams}}
-        ]
-        parameters.append(Parameters(formParams))
-        {{/hasFormParams}}
-        {{/bodyParam}}
-        
-        {{#hasQueryParams}}
-        let queryParams: [String: Any?] = [
-            {{#queryParams}}
-            "{{baseName}}": {{paramName}}{{#hasMore}}, {{/hasMore}}
-            {{/queryParams}}
-        ]
-        parameters.append(Parameters(queryParams)){{/hasQueryParams}}{{/hasParams}}
-        return RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>(endpoint: path, method: "{{httpMethod}}"{{#hasParams}}{{#hasFormParams}}, parameters: parameters{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}}, parameters: parameters{{/hasQueryParams}}{{/hasFormParams}}{{^hasQueryParams}}{{#hasBodyParam}}, parameters: parameters{{/hasBodyParam}}{{/hasQueryParams}}{{/hasParams}})
+        let parameters = Parameters(
+            {{#hasQueryParams}}query: [{{#queryParams}}"{{baseName}}": {{paramName}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}]{{/hasQueryParams}}{{^hasQueryParams}}query: nil{{/hasQueryParams}},
+            {{#hasFormParams}}form: [{{#formParams}}"{{baseName}}": {{paramName}}{{#isContainer}}{{^required}}?{{/required}}.description{{/isContainer}}{{^isContainer}}{{#isEnum}}{{^required}}?{{/required}}.rawValue{{/isEnum}}{{^isString}}{{^required}}?{{/required}}.description{{/isString}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/formParams}}]{{/hasFormParams}}{{^hasFormParams}}form: nil{{/hasFormParams}},
+            {{#bodyParam}}body: AnyEncodable({{paramName}}){{/bodyParam}}{{^bodyParam}}body: nil{{/bodyParam}})        
+        {{/hasParams}}
+        return RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>(endpoint: path, method: "{{httpMethod}}"{{#hasParams}}, parameters: parameters{{/hasParams}})
     }
 
 {{/operation}}

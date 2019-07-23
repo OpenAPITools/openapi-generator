@@ -16,11 +16,10 @@ public struct FakeAPI {
      */
     public func fakeOuterBooleanSerialize(body: Bool? = nil) -> RequestBuilder<Bool> {
         let path = "/fake/outer/boolean"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Bool>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -32,11 +31,10 @@ public struct FakeAPI {
      */
     public func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
         let path = "/fake/outer/composite"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<OuterComposite>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -48,11 +46,10 @@ public struct FakeAPI {
      */
     public func fakeOuterNumberSerialize(body: Double? = nil) -> RequestBuilder<Double> {
         let path = "/fake/outer/number"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Double>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -64,11 +61,10 @@ public struct FakeAPI {
      */
     public func fakeOuterStringSerialize(body: String? = nil) -> RequestBuilder<String> {
         let path = "/fake/outer/string"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<String>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -80,11 +76,10 @@ public struct FakeAPI {
      */
     public func testBodyWithFileSchema(body: FileSchemaTestClass) -> RequestBuilder<Void> {
         let path = "/fake/body-with-file-schema"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Void>(endpoint: path, method: "PUT", parameters: parameters)
     }
 
@@ -96,15 +91,10 @@ public struct FakeAPI {
      */
     public func testBodyWithQueryParams(query: String, body: User) -> RequestBuilder<Void> {
         let path = "/fake/body-with-query-params"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
-        let queryParams: [String: Any?] = [
-            "query": query
-        ]
-        parameters.append(Parameters(queryParams))
+        let parameters = Parameters(
+            query: ["query": query],
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Void>(endpoint: path, method: "PUT", parameters: parameters)
     }
 
@@ -117,11 +107,10 @@ public struct FakeAPI {
      */
     public func testClientModel(body: Client) -> RequestBuilder<Client> {
         let path = "/fake"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Client>(endpoint: path, method: "PATCH", parameters: parameters)
     }
 
@@ -150,26 +139,10 @@ public struct FakeAPI {
      */
     public func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
-        var parameters: [Parameters] = []
-
-        let formParams: [String: String?] = [
-            "integer": integer?.description,
-            "int32": int32?.description,
-            "int64": int64?.description,
-            "number": number.description,
-            "float": float?.description,
-            "double": double.description,
-            "string": string,
-            "pattern_without_delimiter": patternWithoutDelimiter,
-            "byte": byte.description,
-            "binary": binary?.description,
-            "date": date?.description,
-            "dateTime": dateTime?.description,
-            "password": password,
-            "callback": callback
-        ]
-        parameters.append(Parameters(formParams))
-
+        let parameters = Parameters(
+            query: nil,
+            form: ["integer": integer?.description, "int32": int32?.description, "int64": int64?.description, "number": number.description, "float": float?.description, "double": double.description, "string": string, "pattern_without_delimiter": patternWithoutDelimiter, "byte": byte.description, "binary": binary?.description, "date": date?.description, "dateTime": dateTime?.description, "password": password, "callback": callback],
+            body: nil)
         return RequestBuilder<Void>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -256,21 +229,10 @@ public struct FakeAPI {
      */
     public func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
-        var parameters: [Parameters] = []
-
-        let formParams: [String: String?] = [
-            "enum_form_string_array": enumFormStringArray?.description,
-            "enum_form_string": enumFormString?.rawValue
-        ]
-        parameters.append(Parameters(formParams))
-
-        let queryParams: [String: Any?] = [
-            "enum_query_string_array": enumQueryStringArray,
-            "enum_query_string": enumQueryString,
-            "enum_query_integer": enumQueryInteger,
-            "enum_query_double": enumQueryDouble
-        ]
-        parameters.append(Parameters(queryParams))
+        let parameters = Parameters(
+            query: ["enum_query_string_array": enumQueryStringArray, "enum_query_string": enumQueryString, "enum_query_integer": enumQueryInteger, "enum_query_double": enumQueryDouble],
+            form: ["enum_form_string_array": enumFormStringArray?.description, "enum_form_string": enumFormString?.rawValue],
+            body: nil)
         return RequestBuilder<Void>(endpoint: path, method: "GET", parameters: parameters)
     }
 
@@ -288,16 +250,10 @@ public struct FakeAPI {
      */
     public func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
-
-        var parameters: [Parameters] = []
-
-        let queryParams: [String: Any?] = [
-            "required_string_group": requiredStringGroup,
-            "required_int64_group": requiredInt64Group,
-            "string_group": stringGroup,
-            "int64_group": int64Group
-        ]
-        parameters.append(Parameters(queryParams))
+        let parameters = Parameters(
+            query: ["required_string_group": requiredStringGroup, "required_int64_group": requiredInt64Group, "string_group": stringGroup, "int64_group": int64Group],
+            form: nil,
+            body: nil)
         return RequestBuilder<Void>(endpoint: path, method: "DELETE", parameters: parameters)
     }
 
@@ -309,11 +265,10 @@ public struct FakeAPI {
      */
     public func testInlineAdditionalProperties(param: [String: String]) -> RequestBuilder<Void> {
         let path = "/fake/inline-additionalProperties"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(param))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(param))
         return RequestBuilder<Void>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -326,14 +281,10 @@ public struct FakeAPI {
      */
     public func testJsonFormData(param: String, param2: String) -> RequestBuilder<Void> {
         let path = "/fake/jsonFormData"
-        var parameters: [Parameters] = []
-
-        let formParams: [String: String?] = [
-            "param": param,
-            "param2": param2
-        ]
-        parameters.append(Parameters(formParams))
-
+        let parameters = Parameters(
+            query: nil,
+            form: ["param": param, "param2": param2],
+            body: nil)
         return RequestBuilder<Void>(endpoint: path, method: "GET", parameters: parameters)
     }
 

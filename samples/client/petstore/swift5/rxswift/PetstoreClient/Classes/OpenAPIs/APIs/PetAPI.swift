@@ -19,11 +19,10 @@ public struct PetAPI {
      */
     public func addPet(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Void>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -41,8 +40,11 @@ public struct PetAPI {
         var path = "/pet/{petId}"
         let petIdEscaped = "\(petId)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdEscaped, options: .literal, range: nil)
-
-        return RequestBuilder<Void>(endpoint: path, method: "DELETE")
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: nil)
+        return RequestBuilder<Void>(endpoint: path, method: "DELETE", parameters: parameters)
     }
 
     /**
@@ -66,13 +68,10 @@ public struct PetAPI {
      */
     public func findPetsByStatus(status: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByStatus"
-
-        var parameters: [Parameters] = []
-
-        let queryParams: [String: Any?] = [
-            "status": status
-        ]
-        parameters.append(Parameters(queryParams))
+        let parameters = Parameters(
+            query: ["status": status],
+            form: nil,
+            body: nil)
         return RequestBuilder<[Pet]>(endpoint: path, method: "GET", parameters: parameters)
     }
 
@@ -88,13 +87,10 @@ public struct PetAPI {
      */
     public func findPetsByTags(tags: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByTags"
-
-        var parameters: [Parameters] = []
-
-        let queryParams: [String: Any?] = [
-            "tags": tags
-        ]
-        parameters.append(Parameters(queryParams))
+        let parameters = Parameters(
+            query: ["tags": tags],
+            form: nil,
+            body: nil)
         return RequestBuilder<[Pet]>(endpoint: path, method: "GET", parameters: parameters)
     }
 
@@ -112,8 +108,11 @@ public struct PetAPI {
         var path = "/pet/{petId}"
         let petIdEscaped = "\(petId)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdEscaped, options: .literal, range: nil)
-
-        return RequestBuilder<Pet>(endpoint: path, method: "GET")
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: nil)
+        return RequestBuilder<Pet>(endpoint: path, method: "GET", parameters: parameters)
     }
 
     /**
@@ -127,11 +126,10 @@ public struct PetAPI {
      */
     public func updatePet(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Void>(endpoint: path, method: "PUT", parameters: parameters)
     }
 
@@ -150,14 +148,10 @@ public struct PetAPI {
         var path = "/pet/{petId}"
         let petIdEscaped = "\(petId)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdEscaped, options: .literal, range: nil)
-        var parameters: [Parameters] = []
-
-        let formParams: [String: String?] = [
-            "name": name,
-            "status": status
-        ]
-        parameters.append(Parameters(formParams))
-
+        let parameters = Parameters(
+            query: nil,
+            form: ["name": name, "status": status],
+            body: nil)
         return RequestBuilder<Void>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -176,14 +170,10 @@ public struct PetAPI {
         var path = "/pet/{petId}/uploadImage"
         let petIdEscaped = "\(petId)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdEscaped, options: .literal, range: nil)
-        var parameters: [Parameters] = []
-
-        let formParams: [String: String?] = [
-            "additionalMetadata": additionalMetadata,
-            "file": file?.description
-        ]
-        parameters.append(Parameters(formParams))
-
+        let parameters = Parameters(
+            query: nil,
+            form: ["additionalMetadata": additionalMetadata, "file": file?.description],
+            body: nil)
         return RequestBuilder<ApiResponse>(endpoint: path, method: "POST", parameters: parameters)
     }
 
@@ -202,14 +192,10 @@ public struct PetAPI {
         var path = "/fake/{petId}/uploadImageWithRequiredFile"
         let petIdEscaped = "\(petId)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdEscaped, options: .literal, range: nil)
-        var parameters: [Parameters] = []
-
-        let formParams: [String: String?] = [
-            "additionalMetadata": additionalMetadata,
-            "requiredFile": requiredFile.description
-        ]
-        parameters.append(Parameters(formParams))
-
+        let parameters = Parameters(
+            query: nil,
+            form: ["additionalMetadata": additionalMetadata, "requiredFile": requiredFile.description],
+            body: nil)
         return RequestBuilder<ApiResponse>(endpoint: path, method: "POST", parameters: parameters)
     }
 

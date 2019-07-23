@@ -19,8 +19,11 @@ public struct StoreAPI {
         var path = "/store/order/{order_id}"
         let orderIdEscaped = "\(orderId)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdEscaped, options: .literal, range: nil)
-
-        return RequestBuilder<Void>(endpoint: path, method: "DELETE")
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: nil)
+        return RequestBuilder<Void>(endpoint: path, method: "DELETE", parameters: parameters)
     }
 
     /**
@@ -34,7 +37,6 @@ public struct StoreAPI {
      */
     public func getInventory() -> RequestBuilder<[String: Int]> {
         let path = "/store/inventory"
-
         return RequestBuilder<[String: Int]>(endpoint: path, method: "GET")
     }
 
@@ -49,8 +51,11 @@ public struct StoreAPI {
         var path = "/store/order/{order_id}"
         let orderIdEscaped = "\(orderId)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdEscaped, options: .literal, range: nil)
-
-        return RequestBuilder<Order>(endpoint: path, method: "GET")
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: nil)
+        return RequestBuilder<Order>(endpoint: path, method: "GET", parameters: parameters)
     }
 
     /**
@@ -61,11 +66,10 @@ public struct StoreAPI {
      */
     public func placeOrder(body: Order) -> RequestBuilder<Order> {
         let path = "/store/order"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Order>(endpoint: path, method: "POST", parameters: parameters)
     }
 

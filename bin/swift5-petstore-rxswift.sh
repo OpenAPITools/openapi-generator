@@ -31,12 +31,16 @@ ags="generate -t modules/openapi-generator/src/main/resources/swift5 -i modules/
 
 java $JAVA_OPTS -jar $executable $ags
 
+cd samples/client/petstore/swift5/rxswift
+
 if type "xcodegen" > /dev/null 2>&1; then
-  cd samples/client/petstore/swift5/rxswift
   xcodegen generate
+
+  if type "carthage" > /dev/null 2>&1; then
+    carthage update --no-use-binaries --platform ios --cache-builds
+  fi
 fi
 
 if type "swiftlint" > /dev/null 2>&1; then
-  cd samples/client/petstore/swift5/promisekit
   swiftlint autocorrect --quiet
 fi

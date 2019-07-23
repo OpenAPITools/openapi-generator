@@ -20,11 +20,10 @@ public struct FakeClassnameTags123API {
      */
     public func testClassname(body: Client) -> RequestBuilder<Client> {
         let path = "/fake_classname_test"
-
-        var parameters: [Parameters] = []
-
-        parameters.append(Parameters(body))
-
+        let parameters = Parameters(
+            query: nil,
+            form: nil,
+            body: AnyEncodable(body))
         return RequestBuilder<Client>(endpoint: path, method: "PATCH", parameters: parameters)
     }
 

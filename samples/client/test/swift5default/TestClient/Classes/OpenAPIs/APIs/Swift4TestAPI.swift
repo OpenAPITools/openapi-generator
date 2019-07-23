@@ -17,13 +17,10 @@ public struct Swift4TestAPI {
      */
     public func getAllModels(clientId: String) -> RequestBuilder<GetAllModelsResult> {
         let path = "/allModels"
-
-        var parameters: [Parameters] = []
-
-        let queryParams: [String: Any?] = [
-            "client_id": clientId
-        ]
-        parameters.append(Parameters(queryParams))
+        let parameters = Parameters(
+            query: ["client_id": clientId],
+            form: nil,
+            body: nil)
         return RequestBuilder<GetAllModelsResult>(endpoint: path, method: "GET", parameters: parameters)
     }
 
