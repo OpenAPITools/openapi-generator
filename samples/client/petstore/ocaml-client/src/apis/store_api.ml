@@ -10,8 +10,7 @@ let delete_order order_id =
     let uri = Request.build_uri "/store/order/{orderId}" in
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "orderId" (order_id) in
-    Cohttp_lwt_unix.Client.delete uri ~headers >>= fun (_resp, body) ->
-    Request.read_json_body  body
+    Cohttp_lwt_unix.Client.delete uri ~headers >>= fun (_resp, body) -> return ()
 
 let get_inventory () =
     let open Lwt in

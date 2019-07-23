@@ -10,8 +10,7 @@ let add_pet body =
     let uri = Request.build_uri "/pet" in
     let headers = Request.default_headers in
     let body = Request.write_json_body Pet.to_yojson body in
-    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) ->
-    Request.read_json_body  body
+    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) -> return ()
 
 let delete_pet pet_id api_key =
     let open Lwt in
@@ -19,8 +18,7 @@ let delete_pet pet_id api_key =
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" (api_key) in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
-    Cohttp_lwt_unix.Client.delete uri ~headers >>= fun (_resp, body) ->
-    Request.read_json_body  body
+    Cohttp_lwt_unix.Client.delete uri ~headers >>= fun (_resp, body) -> return ()
 
 let find_pets_by_status status =
     let open Lwt in
@@ -51,8 +49,7 @@ let update_pet body =
     let uri = Request.build_uri "/pet" in
     let headers = Request.default_headers in
     let body = Request.write_json_body Pet.to_yojson body in
-    Cohttp_lwt_unix.Client.put uri ~headers ~body >>= fun (_resp, body) ->
-    Request.read_json_body  body
+    Cohttp_lwt_unix.Client.put uri ~headers ~body >>= fun (_resp, body) -> return ()
 
 let update_pet_with_form pet_id name status =
     let open Lwt in
@@ -63,8 +60,7 @@ let update_pet_with_form pet_id name status =
     let body = Request.add_form_encoded_body_param body ("name", name) in
     let body = Request.add_form_encoded_body_param body ("status", status) in
     let body = Request.finalize_form_encoded_body body in
-    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) ->
-    Request.read_json_body  body
+    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) -> return ()
 
 let upload_file pet_id additional_metadata file =
     let open Lwt in

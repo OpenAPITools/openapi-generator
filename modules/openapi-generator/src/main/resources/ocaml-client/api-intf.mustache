@@ -10,6 +10,6 @@
 
 {{#operations}}
 {{#operation}}
-val {{{operationId}}} : {{^hasParams}}unit{{/hasParams}}{{#allParams}}{{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#hasMore}} -> {{/hasMore}}{{/allParams}} -> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Yojson.Safe.t{{/returnType}} Lwt.t
+val {{{operationId}}} : {{^hasParams}}unit{{/hasParams}}{{#allParams}}{{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#hasMore}} -> {{/hasMore}}{{/allParams}} -> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unit{{/returnType}} Lwt.t
 {{/operation}}
 {{/operations}}
