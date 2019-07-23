@@ -119,7 +119,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | Enum < [available, pending, sold] > | Status values that need to be considered for filter | 
+ **status** | Enum [available, pending, sold] | Status values that need to be considered for filter | 
 
 ### Return type
 
