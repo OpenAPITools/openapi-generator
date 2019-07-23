@@ -36,14 +36,14 @@ public:
     void setApiTimeOutMs(const int tout);
     void addHeaders(const QString& key, const QString& value);
 
-    void createUser(const OAIUser& body);
-    void createUsersWithArrayInput(const QList<OAIUser>& body);
-    void createUsersWithListInput(const QList<OAIUser>& body);
+    void createUser(const OAIUser& oai_user);
+    void createUsersWithArrayInput(const QList<OAIUser>& oai_user);
+    void createUsersWithListInput(const QList<OAIUser>& oai_user);
     void deleteUser(const QString& username);
     void getUserByName(const QString& username);
     void loginUser(const QString& username, const QString& password);
     void logoutUser();
-    void updateUser(const QString& username, const OAIUser& body);
+    void updateUser(const QString& username, const OAIUser& oai_user);
     
 private:
     QString basePath;
