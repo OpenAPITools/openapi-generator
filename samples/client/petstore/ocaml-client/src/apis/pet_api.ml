@@ -59,7 +59,11 @@ let update_pet_with_form pet_id name status =
     let uri = Request.build_uri "/pet/{petId}" in
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
-    Cohttp_lwt_unix.Client.post uri ~headers >>= fun (_resp, body) ->
+    let body = Request.init_form_encoded_body () in
+    let body = Request.add_form_encoded_body_param body ("name", name) in
+    let body = Request.add_form_encoded_body_param body ("status", status) in
+    let body = Request.finalize_form_encoded_body body in
+    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) ->
     Request.read_json_body  body
 
 let upload_file pet_id additional_metadata file =
@@ -67,6 +71,10 @@ let upload_file pet_id additional_metadata file =
     let uri = Request.build_uri "/pet/{petId}/uploadImage" in
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
-    Cohttp_lwt_unix.Client.post uri ~headers >>= fun (_resp, body) ->
+    let body = Request.init_form_encoded_body () in
+    let body = Request.add_form_encoded_body_param body ("additional_metadata", additional_metadata) in
+    let body = Request.add_form_encoded_body_param body ("file", file) in
+    let body = Request.finalize_form_encoded_body body in
+    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) ->
     Request.read_json_body_as (JsonSupport.unwrap  Api_response.of_yojson) body
 
