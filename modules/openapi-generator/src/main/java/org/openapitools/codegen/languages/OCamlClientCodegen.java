@@ -33,7 +33,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -42,8 +41,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String PACKAGE_VERSION = "packageVersion";
 
     static final String X_MODEL_MODULE = "x-modelModule";
-    static final String X_CONTAINER_CONTENT_TYPE = "x-containerContentType";
-    static final String X_CAML_CASE_PARAM = "x-camlCaseParam";
 
     public static final String CO_HTTP = "cohttp";
 
@@ -95,32 +92,36 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 )
         );
 
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("dune.mustache", "", "dune"));
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
-                        "map",
-                        "array")
-        );
-
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "bool",
-                        "string",
                         "int",
                         "int32",
                         "int64",
                         "float",
+                        "bool",
                         "char",
+                        "string",
+                        "list"
+                        )
+        );
+
+        languageSpecificPrimitives = new HashSet<>(
+                Arrays.asList(
+                        "int",
+                        "int32",
+                        "int64",
+                        "float",
+                        "bool",
+                        "char",
+                        "string",
                         "list",
                         "Yojson.Safe.t"
                 )
         );
 
         instantiationTypes.clear();
-        /*instantiationTypes.put("array", "GoArray");
-        instantiationTypes.put("map", "GoMap");*/
 
         typeMapping.clear();
         typeMapping.put("boolean", "bool");
@@ -131,7 +132,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("float", "float");
         typeMapping.put("double", "float");
         typeMapping.put("integer", "int32");
-        typeMapping.put("file", "FilePath");
         typeMapping.put("number", "float");
         typeMapping.put("date", "string");
         typeMapping.put("object", "Yojson.Safe.t");
@@ -408,10 +408,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return (outputFolder + File.separator + modelFolder).replace("/", File.separator);
     }
 
-    public String relativeModelFileFolder() {
-        return modelFolder.replace("/", File.separator);
-    }
-
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
@@ -568,40 +564,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return StringUtils.underscore(sanitizedOperationId);
     }
 
-    @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        super.postProcessParameter(parameter);
-
-        if (parameter.isListContainer) {
-            Map<String, Object> contentProperties = buildContentProperties(parameter);
-
-            parameter.vendorExtensions.put(X_CONTAINER_CONTENT_TYPE, contentProperties);
-        }
-    }
-
-    private Map<String, Object> buildContentProperties(CodegenParameter parameter) {
-        String contentDataType = parameter.dataType.replace(" list", "");
-        String contentDataTypeWithEnum = parameter.datatypeWithEnum != null ? parameter.datatypeWithEnum.replace(" list", "") : null;
-        boolean isEnum = contentDataTypeWithEnum != null && enumUniqNames.values().contains(contentDataTypeWithEnum);
-
-        Map<String, Object> contentProperties = new HashMap<>();
-        contentProperties.put("dataType", contentDataType);
-        contentProperties.put("datatypeWithEnum", contentDataTypeWithEnum);
-        contentProperties.put("isLong", contentDataType.equals("int64"));
-        contentProperties.put("isInteger", contentDataType.equals("int32"));
-        contentProperties.put("isString", contentDataType.equals("string"));
-        contentProperties.put("isBoolean", contentDataType.equals("bool"));
-        contentProperties.put("isFloat", contentDataType.equals("float"));
-        contentProperties.put("isChar", contentDataType.equals("char"));
-        contentProperties.put("isContainer", false);
-        contentProperties.put("isListContainer", false);
-        contentProperties.put("isMapContainer", false);
-        contentProperties.put("isEnum", isEnum);
-        contentProperties.put("isPrimitiveType", !isEnum && languageSpecificPrimitives.contains(contentDataType));
-        //contentProperties.put("isModel", !languageSpecificPrimitives.contains(contentDataType));
-        return contentProperties;
-    }
-
     private Map<String, Object> allowableValues(String valueString) {
         Map<String, Object> result = new HashMap<>();
         result.put("values", buildEnumValues(valueString));
@@ -655,9 +617,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     param.vendorExtensions.put(X_MODEL_MODULE, param.dataType.substring(0, param.dataType.lastIndexOf('.')));
                 }
             }
-            for (CodegenParameter param : operation.pathParams) {
-                param.vendorExtensions.put(X_CAML_CASE_PARAM, camelize(param.paramName, true));
-            }
         }
 
         for (Map.Entry<String, String> e : enumUniqNames.entrySet()) {
@@ -692,53 +651,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-
-    @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            return value;
-        } else {
-            return escapeText(value);
-        }
-    }
-
-    @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        return datatype + "_" + value;
-    }
-
-    @Override
-    public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
-            return "Empty";
-        }
-
-        // number
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "Minus");
-            varName = varName.replaceAll("\\+", "Plus");
-            varName = varName.replaceAll("\\.", "Dot");
-            return varName;
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return getSymbolName(name);
-        }
-
-        // string
-        String enumName = sanitizeName(camelize(name));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
-
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
-            return escapeReservedWord(enumName);
-        } else {
-            return enumName;
-        }
     }
 
     @Override
