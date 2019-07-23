@@ -119,7 +119,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**array[character]**](character.md)| Status values that need to be considered for filter | 
+ **status** | Enum < [available, pending, sold] > | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -161,7 +161,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**array[character]**](character.md)| Tags to filter by | 
+ **tags** | list( **character** )| Tags to filter by | 
 
 ### Return type
 
