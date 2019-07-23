@@ -650,7 +650,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
+        return input.replace("*)", "*_)").replace("(*", "(_*");
     }
 
     @Override
