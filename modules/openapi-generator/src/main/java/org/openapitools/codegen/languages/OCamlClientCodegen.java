@@ -136,7 +136,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("date", "string");
         typeMapping.put("object", "Yojson.Safe.t");
         typeMapping.put("any", "Yojson.Safe.t");
-        typeMapping.put("File", "string");
+        typeMapping.put("file", "string");
         // lib
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");

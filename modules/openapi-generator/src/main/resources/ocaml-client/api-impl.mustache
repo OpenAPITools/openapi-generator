@@ -17,8 +17,11 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{{paramName}}
     let headers = Cohttp.Header.add{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" ({{> to_string}}{{paramName}}) in{{/headerParams}}{{#pathParams}}
     let uri = Request.replace_path_param uri "{{{baseName}}}" ({{> to_string}}{{{paramName}}}) in{{/pathParams}}{{#queryParams}}
     let uri = Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}) in{{/queryParams}}{{#bodyParams}}
-    let body = Request.write_json_body {{> to_json}} {{{paramName}}} in{{/bodyParams}}
-    Cohttp_lwt_unix.Client.{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}>>= fun (_resp, body) ->
+    let body = Request.write_json_body {{> to_json}} {{{paramName}}} in{{/bodyParams}}{{^hasBodyParam}}{{#hasFormParams}}
+    let body = Request.init_form_encoded_body () in{{/hasFormParams}}{{#formParams}}
+    let body = Request.add_form_encoded_body_param body ("{{{paramName}}}", {{> to_string}}{{{paramName}}}) in{{/formParams}}{{#hasFormParams}}
+    let body = Request.finalize_form_encoded_body body in{{/hasFormParams}}{{/hasBodyParam}}
+    Cohttp_lwt_unix.Client.{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}~body {{/hasFormParams}}{{/hasBodyParam}}>>= fun (_resp, body) ->
     Request.read_json_body{{#returnContainer}}{{#isListContainer}}_as_list{{/isListContainer}}{{#isMapContainer}}_as_map{{/isMapContainer}}{{#returnBaseType}}_of{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}_as{{/returnBaseType}}{{/returnContainer}} {{#returnType}}({{> of_json}}){{/returnType}} body
 
 {{/operation}}

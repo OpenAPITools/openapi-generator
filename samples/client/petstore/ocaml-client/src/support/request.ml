@@ -24,3 +24,13 @@ let replace_path_param uri param_name param_value =
   let regexp = Str.regexp (Str.quote ("{" ^ param_name ^ "}")) in
   let path = Str.global_replace regexp param_value (Uri.path uri) in
   Uri.with_path uri path
+
+let init_form_encoded_body () = ""
+
+let add_form_encoded_body_param params (paramName, paramValue) =
+  let new_param_enc = Printf.sprintf {|%s=%s|} (Uri.pct_encode paramName) (Uri.pct_encode paramValue) in
+  if params = ""
+  then new_param_enc
+  else Printf.sprintf {|%s&%s|} params new_param_enc
+
+let finalize_form_encoded_body body = Cohttp_lwt.Body.of_string body
