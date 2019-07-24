@@ -93,7 +93,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         supportingFiles.add(new SupportingFile("utils" + File.separator + "writer.mustache", "utils", "writer.js"));
 
         // controllers folder
-        supportingFiles.add(new SupportingFile("controllers" + File.separator + "test.mustache", "controllers", "TestController.js"));
         supportingFiles.add(new SupportingFile("controllers" + File.separator + "index.mustache", "controllers", "index.js"));
         supportingFiles.add(new SupportingFile("controllers" + File.separator + "Controller.mustache", "controllers", "Controller.js"));
         // service folder
