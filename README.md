@@ -248,6 +248,17 @@ openapi-generator generate -i https://raw.githubusercontent.com/openapitools/ope
 
 To reinstall with the latest master, run `brew uninstall openapi-generator && brew install --HEAD openapi-generator`
 
+To install OpenJDK (pre-requisites), please run
+```sh
+brew cask install adoptopenjdk12
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home/
+```
+
+To install Maven, please run
+```sh
+brew install maven
+```
+
 ### [1.6 - Docker](#table-of-contents)
 
 #### Public Pre-built Docker images
