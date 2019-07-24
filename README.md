@@ -62,6 +62,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 **API documentation generators** | **HTML**, **Confluence Wiki**
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
 **Others**                       | **GraphQL**, **JMeter**, **MySQL Schema** 
+
 ## Table of contents
 
   - [OpenAPI Generator](#openapi-generator)
