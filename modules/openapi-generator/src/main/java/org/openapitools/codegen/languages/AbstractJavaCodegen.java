@@ -585,6 +585,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             name = "_u";
         }
 
+        // numbers are not allowed at the beginning
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
+        }
+
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z0-9_]*$")) {
             return name;
