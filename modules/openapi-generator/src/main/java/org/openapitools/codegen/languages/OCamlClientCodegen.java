@@ -236,9 +236,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             String h = hashEnum(schema);
             if (!enumHash.containsKey(h)) {
                 enumHash.put(h, schema);
-                enumNames.computeIfAbsent(h, k -> new ArrayList<>()).add(sName.toLowerCase());
+                enumNames.computeIfAbsent(h, k -> new ArrayList<>()).add(sName.toLowerCase(Locale.ENGLISH));
                 if (parentName != null) {
-                    enumNames.get(h).add((parentName + "_" + sName).toLowerCase());
+                    enumNames.get(h).add((parentName + "_" + sName).toLowerCase(Locale.ENGLISH));
                 }
             }
         }
