@@ -260,6 +260,19 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 String pName = parentName != null ? parentName + "_" + sName : sName;
                 collectEnumSchemas(pName, schema.getProperties());
             }
+
+            if (schema.getAdditionalProperties() != null && schema.getAdditionalProperties() instanceof Schema) {
+                String pName = parentName != null ? parentName + "_" + sName : sName;
+                collectEnumSchemas(pName, (Schema) schema.getAdditionalProperties());
+            }
+
+            if (schema instanceof ArraySchema) {
+                ArraySchema s = (ArraySchema) schema;
+                if (s.getItems() != null) {
+                    String pName = parentName != null ? parentName + "_" + sName : sName;
+                    collectEnumSchemas(pName, s.getItems());
+                }
+            }
         }
     }
 
