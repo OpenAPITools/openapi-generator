@@ -217,9 +217,9 @@ openapi-generator-cli version # is always 3.0.2, unless any of the above overrid
 
 To build from source, you need the following installed and available in your `$PATH:`
 
-* [Java 8](http://java.oracle.com)
+* [Java 8](https://www.oracle.com/technetwork/java/index.html)
 
-* [Apache Maven 3.3.4 or greater](http://maven.apache.org/)
+* [Apache Maven 3.3.4 or greater](https://maven.apache.org/)
 
 After cloning the project, you can build it from source with this command:
 ```sh
@@ -342,7 +342,7 @@ Right now: no solution for this one :|
 #### Run Docker in Vagrant
 Prerequisite: install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
  ```sh
-git clone http://github.com/openapitools/openapi-generator.git
+git clone https://github.com/openapitools/openapi-generator.git
 cd openapi-generator
 vagrant up
 vagrant ssh
@@ -500,8 +500,8 @@ Please refer to [integration.md](docs/integration.md) on how to integrate OpenAP
 
 Here are the public online services:
 
-- latest stable version: http://api.openapi-generator.tech
-- latest master: http://api-latest-master.openapi-generator.tech (updated with latest master every hour)
+- latest stable version: https://api.openapi-generator.tech
+- latest master: https://api-latest-master.openapi-generator.tech (updated with latest master every hour)
 
 The server is sponsored by [Linode](https://www.linode.com/) [![Linode Logo](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)](https://www.linode.com/)
 
@@ -862,7 +862,7 @@ Copyright 2018 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
-You may obtain a copy of the License at [apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+You may obtain a copy of the License at [apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
