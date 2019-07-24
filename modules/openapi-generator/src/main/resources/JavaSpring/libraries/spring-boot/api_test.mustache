@@ -1,0 +1,46 @@
+package {{package}};
+{{#imports}}import {{import}};
+{{/imports}}
+import java.util.*;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+{{#reactive}}
+import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
+import org.springframework.mock.web.server.MockServerWebExchange;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+{{/reactive}}
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+class {{classname}}Test {
+    {{#reactive}}private final ServerWebExchange exchange =
+            MockServerWebExchange.from(MockServerHttpRequest.get("http://localhost:8080"));{{/reactive}}
+    @Autowired
+    private {{classname}} api;
+{{#operations}}
+    {{#operation}}{{#responses}}
+    @Disabled("Need api implementation")
+    @Test
+    void {{operationId}}{{code}}Test() throws Exception {
+    {{#allParams}}
+    {{^isFile}}
+        {{{dataType}}} {{paramName}} = {{{example}}};
+    {{/isFile}}
+    {{#isFile}}
+        org.springframework.web.multipart.MultipartFile {{paramName}} = null;
+    {{/isFile}}
+    {{/allParams}}
+        {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} result = api.{{operationId}}({{#allParams}}{{#reactive}}{{#isBodyParam}}Mono.just({{/isBodyParam}}{{/reactive}}{{paramName}}{{#reactive}}{{#isBodyParam}}){{/isBodyParam}}{{/reactive}}{{^reactive}}{{#hasMore}}, {{/hasMore}}{{/reactive}}{{#reactive}}, {{/reactive}}{{/allParams}}{{#reactive}}exchange{{/reactive}});
+        assertThat(result{{RESPONSE_WRAPPER_RESULT_ACCESSOR}}.getStatusCode()).isEqualTo(HttpStatus.valueOf({{code}}));
+    }
+    {{/responses}}{{/operation}}
+{{/operations}}
+}

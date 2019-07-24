@@ -1,0 +1,47 @@
+package {{package}};
+{{#imports}}import {{import}};
+{{/imports}}
+
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import {{configPackage}}.OpenAPIUiConfiguration;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration(classes = OpenAPIUiConfiguration.class)
+public class {{classname}}Test {
+
+    @Autowired
+    private {{classname}} api;
+{{#operations}}
+    {{#operation}}{{#responses}}
+    @Ignore("Need api implementation")
+    @Test
+    public void {{operationId}}{{code}}Test() throws Exception {
+    {{#allParams}}
+    {{^isFile}}
+        {{{dataType}}} {{paramName}} = {{{example}}};
+    {{/isFile}}
+    {{#isFile}}
+        org.springframework.web.multipart.MultipartFile {{paramName}} = null;
+    {{/isFile}}
+    {{/allParams}}
+        ResponseEntity<{{>returnTypes}}> result = api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.valueOf({{code}}));
+    }
+    {{/responses}}{{/operation}}
+{{/operations}}
+}

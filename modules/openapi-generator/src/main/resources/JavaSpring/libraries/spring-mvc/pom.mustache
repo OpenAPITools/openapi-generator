@@ -35,7 +35,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty-version}</version>
+                <version>${jetty.version}</version>
                 <configuration>
                     <webAppConfig>
                         <contextPath>{{^contextPath}}/{{/contextPath}}{{#contextPath}}{{contextPath}}{{/contextPath}}</contextPath>
@@ -54,7 +54,7 @@
                     <dependency>
                         <groupId>javax.validation</groupId>
                         <artifactId>validation-api</artifactId>
-                        <version>${beanvalidation-version}</version>
+                        <version>${beanvalidation.version}</version>
                     </dependency>
                 </dependencies>
 {{/useBeanValidation}}
@@ -118,24 +118,24 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-version}</version>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <!--Spring dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>${spring-version}</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${spring-version}</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>${spring-version}</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -152,7 +152,7 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-version}</version>
+            <version>${springfox.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
@@ -163,7 +163,7 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-version}</version>
+            <version>${springfox.version}</version>
         </dependency>
         {{/useSpringfox}}
         {{^useSpringfox}}
@@ -186,7 +186,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson.version}</version>
         </dependency>
         {{/useSpringfox}}
         {{#withXml}}
@@ -194,28 +194,28 @@
         <dependency>
           <groupId>com.fasterxml.jackson.dataformat</groupId>
           <artifactId>jackson-dataformat-xml</artifactId>
-          <version>${jackson-version}</version>
+          <version>${jackson.version}</version>
         </dependency>
         {{/withXml}}
         {{#java8}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson.version}</version>
         </dependency>
         {{/java8}}
         {{#joda}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson.version}</version>
         </dependency>
         {{/joda}}
         {{#threetenbp}}
         <dependency>
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>${jackson-threetenbp-version}</version>
+            <version>${jackson-threetenbp.version}</version>
         </dependency>
         {{/threetenbp}}
         <dependency>
@@ -226,20 +226,20 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit-version}</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet-api-version}</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
         </dependency>
 {{#useBeanValidation}}
         <!-- Bean Validation API support -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>${beanvalidation-version}</version>
+            <version>${beanvalidation.version}</version>
             <scope>provided</scope>
         </dependency>
 {{/useBeanValidation}}
@@ -251,21 +251,54 @@
             <version>0.25.0.RELEASE</version>
         </dependency>
 {{/hateoas}}
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+             <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.9</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <properties>
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <jetty-version>9.2.15.v20160210</jetty-version>
-        <slf4j-version>1.7.21</slf4j-version>
-        <junit-version>4.12</junit-version>
-        <servlet-api-version>2.5</servlet-api-version>
-        <springfox-version>2.8.0</springfox-version>
-        <jackson-version>2.9.9</jackson-version>
-        <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
+        <jetty.version>9.2.15.v20160210</jetty.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <junit.version>4.12</junit.version>
+        <servlet-api.version>3.0.1</servlet-api.version>
+        <springfox.version>2.8.0</springfox.version>
+        <jackson.version>2.9.9</jackson.version>
+        <jackson-threetenbp.version>2.8.4</jackson-threetenbp.version>
 {{#useBeanValidation}}
-        <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+        <beanvalidation.version>1.1.0.Final</beanvalidation.version>
 {{/useBeanValidation}}
-        <spring-version>4.3.20.RELEASE</spring-version>
+        <spring.version>4.3.20.RELEASE</spring.version>
+        <junit-jupiter.version>5.4.2</junit-jupiter.version>
+        <assertj.version>3.11.1</assertj.version>
     </properties>
 </project>
