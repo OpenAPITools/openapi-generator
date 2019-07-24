@@ -94,15 +94,26 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toVarName("1A"), "_1A");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1AAAA"), "_1AAAA");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1AAaa"), "_1aAaa");
-   }
+    }
 
-   @Test
-   public void convertModelName() throws Exception {
+    @Test
+    public void convertModelName() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toModelName("name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("$name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("nam#e"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("$another-fake?"), "AnotherFake");
-   }
+        Assert.assertEquals(fakeJavaCodegen.toModelName("1a"), "Model1a");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("1A"), "Model1A");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("AAAb"), "AAAb");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("aBB"), "ABB");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("AaBBa"), "AaBBa");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("A_B"), "AB");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("A-B"), "AB");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("Aa_Bb"), "AaBb");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("Aa-Bb"), "AaBb");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("Aa_bb"), "AaBb");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("Aa-bb"), "AaBb");
+    }
 
     @Test
     public void testInitialConfigValues() throws Exception {
@@ -168,7 +179,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void toEnumValue(){
+    public void toEnumValue() {
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         Assert.assertEquals(codegen.toEnumValue("1", "Integer"), "1");
         Assert.assertEquals(codegen.toEnumValue("42", "Double"), "42");
@@ -218,7 +229,7 @@ public class AbstractJavaCodegenTest {
         codegen.setOutputDir("/User/open.api.tools");
         Assert.assertEquals(codegen.apiDocFileFolder(), "/User/open.api.tools/docs/".replace('/', File.separatorChar));
     }
-  
+
     @Test(description = "tests if API version specification is used if no version is provided in additional properties")
     public void openApiversionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -315,6 +326,7 @@ public class AbstractJavaCodegenTest {
         /**
          * Gets artifact version.
          * Only for testing purposes.
+         *
          * @return version
          */
         public String getArtifactVersion() {
