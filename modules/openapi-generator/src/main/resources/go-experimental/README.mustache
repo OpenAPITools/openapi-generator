@@ -31,7 +31,7 @@ go get github.com/antihax/optional
 Put the package under your project folder and add the following in import:
 
 ```golang
-import "./{{packageName}}"
+import sw "./{{packageName}}"
 ```
 
 ## Documentation for API Endpoints
@@ -61,7 +61,7 @@ Class | Method | HTTP request | Description
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
+auth := context.WithValue(context.Background(), "{{keyParamName}}", sw.APIKey{
     Key: "APIKEY",
     Prefix: "Bearer", // Omit if not necessary.
 })
