@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
@@ -34,6 +35,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         }
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
+        addOption(CodegenConstants.MODEL_NAME_PREFIX, CodegenConstants.MODEL_NAME_PREFIX_DESC, this.modelNamePrefix);
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -110,7 +112,9 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         }
 
         additionalProperties.put("cppNamespaceDeclarations", cppNamespace.split("\\::"));
+
         if (additionalProperties.containsKey("modelNamePrefix")) {
+            modelNamePrefix = (String) additionalProperties.get("modelNamePrefix");
             typeMapping.put("object", modelNamePrefix + "Object");
             additionalProperties().put("prefix", modelNamePrefix);
         }
