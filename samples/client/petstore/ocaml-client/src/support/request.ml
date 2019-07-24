@@ -33,4 +33,7 @@ let add_form_encoded_body_param params (paramName, paramValue) =
   then new_param_enc
   else Printf.sprintf {|%s&%s|} params new_param_enc
 
+let add_form_encoded_body_params params (paramName, new_params) =
+  add_form_encoded_body_param params (paramName, String.concat "," new_params)
+
 let finalize_form_encoded_body body = Cohttp_lwt.Body.of_string body
