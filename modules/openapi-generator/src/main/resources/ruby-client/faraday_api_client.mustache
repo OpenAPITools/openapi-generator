@@ -127,6 +127,7 @@ module {{moduleName}}
       request.headers = header_params
       request.body = req_body
       request.url path
+      request.params = query_params
       download_file(request) if opts[:return_type] == 'File'
       request
     end

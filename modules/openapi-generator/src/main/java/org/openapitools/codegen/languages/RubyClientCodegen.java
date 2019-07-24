@@ -143,18 +143,15 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
-        cliOptions.add(CliOption.newBoolean(FARADAY, "Faraday (https://github.com/lostisland/faraday)"));
-        cliOptions.add(CliOption.newBoolean(TYPHOEUS, "Typhoeus (https://github.com/typhoeus/typhoeus)"));
-
-        supportedLibraries.put(FARADAY, "Faraday (https://github.com/lostisland/faraday)");
+        supportedLibraries.put(FARADAY, "Faraday (https://github.com/lostisland/faraday) (Beta support)");
         supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
-        // set FARADAY as the default
-        libraryOption.setDefault(FARADAY);
+        // set TYPHOEUS as the default
+        libraryOption.setDefault(TYPHOEUS);
         cliOptions.add(libraryOption);
-        setLibrary(FARADAY);
+        setLibrary(TYPHOEUS);
     }
 
     @Override
