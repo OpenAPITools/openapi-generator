@@ -51,3 +51,5 @@ let of_int32 x = `Intlit (Int32.to_string x)
 let of_int64 x = `Intlit (Int64.to_string x)
 
 let of_list_of of_f l = `List (List.map of_f l)
+
+let of_map_of of_f l = `Assoc (List.map (fun (k, v) -> (k, of_f v)) l)

@@ -5,7 +5,7 @@ let lift f r = Ppx_deriving_yojson_runtime.(>|=) r f
 
 let main () =
   let p = Pet.create "Bob" [] in
-  Pet_api.add_pet p >|= Yojson.Safe.to_string >|= print_endline
+  Pet_api.add_pet p
 
 let find_pet () =
   let pet_id = 9199424981609334637L in

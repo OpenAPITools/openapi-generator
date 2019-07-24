@@ -92,7 +92,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 )
         );
 
+        importMapping.remove("File");
+
         supportingFiles.add(new SupportingFile("dune.mustache", "", "dune"));
+        supportingFiles.add(new SupportingFile("dune-project.mustache", "", "dune-project"));
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -116,6 +119,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "bool",
                         "char",
                         "string",
+                        "bytes",
                         "list",
                         "Yojson.Safe.t"
                 )
@@ -137,6 +141,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("object", "Yojson.Safe.t");
         typeMapping.put("any", "Yojson.Safe.t");
         typeMapping.put("file", "string");
+        typeMapping.put("ByteArray", "bytes");
         // lib
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
@@ -191,9 +196,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         if (baseItem != null) {
-            // set both datatype and datetypeWithEnum as only the inner type is enum
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
-
             // set default value for variable with inner enum
             if (property.defaultValue != null) {
                 property.defaultValue = property.defaultValue.replace(", " + property.items.baseType, ", " + toEnumName(property.items));
@@ -211,9 +213,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             baseItem = baseItem.items;
         }
         if (baseItem != null) {
-            // set both datatype and datetypeWithEnum as only the inner type is enum
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType, toEnumName(baseItem));
-
             // set default value for variable with inner enum
             if (property.defaultValue != null) {
                 property.defaultValue = property.defaultValue.replace(baseItem.baseType, toEnumName(baseItem));
@@ -471,8 +470,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
+        // model name starts with number or _
+        if (name.matches("^\\d.*|^_.*")) {
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
@@ -525,7 +524,17 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
-            return "(string * " + getTypeDeclaration(inner) + ") list";
+            String prefix = inner.getEnum() != null ? "Enums." : "";
+            return "(string * " + prefix + getTypeDeclaration(inner) + ") list";
+        } else if (p.getEnum() != null) {
+            String h = hashEnum(p);
+            return enumUniqNames.get(h);
+        }
+
+        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, p);
+        if (referencedSchema != null && referencedSchema.getEnum() != null) {
+            String h = hashEnum(referencedSchema);
+            return "Enums." + enumUniqNames.get(h);
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize
@@ -541,12 +550,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (languageSpecificPrimitives.contains(schemaType)) {
             return schemaType;
-        }
-
-        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, p);
-        if (referencedSchema != null && referencedSchema.getEnum() != null) {
-            String h = hashEnum(referencedSchema);
-            return "Enums." + enumUniqNames.get(h);
         }
 
         return toModelName(schemaType);
@@ -569,7 +572,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         String sanitizedOperationId = sanitizeName(operationId);
 
         // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(sanitizedOperationId)) {
+        if (isReservedWord(sanitizedOperationId) || sanitizedOperationId.matches("^[0-9].*")) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + StringUtils.underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
@@ -590,7 +593,12 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             Map<String, Object> m = new HashMap<>();
             String value = v.isEmpty() ? "empty" : v;
             m.put("name", value);
-            m.put("camlEnumValueName", capitalize(value.replace(".", "_").replace(" ", "_")));
+
+            String sanitizedValue = super.toVarName(value).replace(" ", "_");
+            if (!sanitizedValue.matches("^[a-zA-Z_].*")) {
+                sanitizedValue = "_" + sanitizedValue;
+            }
+            m.put("camlEnumValueName", capitalize(sanitizedValue));
             result.add(m);
         }
 
@@ -663,7 +671,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*)", "*_)").replace("(*", "(_*");
+        return input
+                .replace("*)", "*_)")
+                .replace("(*", "(_*")
+                .replace("\"", "\\\"");
     }
 
     @Override

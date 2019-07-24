@@ -16,10 +16,10 @@ type t = {
     (* {{{description}}} *)
     {{/description}}
     {{#isEnum}}
-    {{{name}}}: Enums.{{{datatypeWithEnum}}}{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
+    {{{name}}}: {{^isMapContainer}}Enums.{{/isMapContainer}}{{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option{{/required}}{{/isContainer}};
     {{/isEnum}}
     {{^isEnum}}
-    {{{name}}}: {{{dataType}}}{{^isListContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isListContainer}}{{^isListContainer}}{{^required}} option{{/required}}{{/isListContainer}};
+    {{{name}}}: {{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option{{/required}}{{/isContainer}};
     {{/isEnum}}
 {{/vars}}
 } [@@deriving yojson, show ];;
@@ -29,7 +29,7 @@ type t = {
 {{/description}}
 let create {{#requiredVars}}({{{name}}} : {{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : t = {
     {{#vars}}
-    {{{name}}} = {{#required}}{{{name}}}{{/required}}{{^required}}{{#isListContainer}}[]{{/isListContainer}}{{#isMapContainer}}Hashtbl.create 7{{/isMapContainer}}{{^isContainer}}None{{/isContainer}}{{/required}};
+    {{{name}}} = {{#required}}{{{name}}}{{/required}}{{^required}}{{#isContainer}}[]{{/isContainer}}{{^isContainer}}None{{/isContainer}}{{/required}};
     {{/vars}}
 }
 {{/isEnum}}
