@@ -48,7 +48,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 
 Thank you GoDaddy for sponsoring the domain names and Linode for sponsoring the VPS
 
-[![GoDaddy](https://openapi-generator.tech/img/companies/godaddy.png)](https://www.godaddy.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/godaddy.png" width="150">](https://www.godaddy.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [![Linode](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)](https://www.linode.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 
