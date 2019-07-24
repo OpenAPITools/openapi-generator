@@ -232,7 +232,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     private void collectEnumSchemas(String parentName, String sName, Schema schema) {
-        if (isEnumSchema(schema)) {
+        if (schema instanceof ArraySchema) {
+            collectEnumSchemas(parentName, sName, ((ArraySchema)schema).getItems());
+        } else if (isEnumSchema(schema)) {
             String h = hashEnum(schema);
             if (!enumHash.containsKey(h)) {
                 enumHash.put(h, schema);
