@@ -25,7 +25,7 @@ extension ObservableType {
     }
 }
 
-extension ObservableType where E : ObservableConvertibleType {
+extension ObservableType where E: ObservableConvertibleType {
 
     /**
      Transforms an observable sequence of observable sequences into an observable sequence
@@ -43,25 +43,24 @@ extension ObservableType where E : ObservableConvertibleType {
     }
 }
 
-fileprivate class SwitchSink<SourceType, S: ObservableConvertibleType, O: ObserverType>
-    : Sink<O>
-    , ObserverType where S.E == O.E {
+private class SwitchSink<SourceType, S: ObservableConvertibleType, O: ObserverType>
+    : Sink<O>, ObserverType where S.E == O.E {
     typealias E = SourceType
 
     fileprivate let _subscriptions: SingleAssignmentDisposable = SingleAssignmentDisposable()
     fileprivate let _innerSubscription: SerialDisposable = SerialDisposable()
 
     let _lock = RecursiveLock()
-    
+
     // state
     fileprivate var _stopped = false
     fileprivate var _latest = 0
     fileprivate var _hasLatest = false
-    
+
     override init(observer: O, cancel: Cancelable) {
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func run(_ source: Observable<SourceType>) -> Disposable {
         let subscription = source.subscribe(self)
         _subscriptions.setDisposable(subscription)
@@ -80,8 +79,7 @@ fileprivate class SwitchSink<SourceType, S: ObservableConvertibleType, O: Observ
                 _hasLatest = true
                 _latest = _latest &+ 1
                 return (_latest, observable)
-            }
-            catch let error {
+            } catch let error {
                 forwardOn(.error(error))
                 dispose()
             }
@@ -96,7 +94,7 @@ fileprivate class SwitchSink<SourceType, S: ObservableConvertibleType, O: Observ
             if let (latest, observable) = nextElementArrived(element: element) {
                 let d = SingleAssignmentDisposable()
                 _innerSubscription.disposable = d
-                   
+
                 let observer = SwitchSinkIter(parent: self, id: latest, _self: d)
                 let disposable = observable.subscribe(observer)
                 d.setDisposable(disposable)
@@ -108,9 +106,9 @@ fileprivate class SwitchSink<SourceType, S: ObservableConvertibleType, O: Observ
         case .completed:
             _lock.lock(); defer { _lock.unlock() }
             _stopped = true
-            
+
             _subscriptions.dispose()
-            
+
             if !_hasLatest {
                 forwardOn(.completed)
                 dispose()
@@ -119,13 +117,11 @@ fileprivate class SwitchSink<SourceType, S: ObservableConvertibleType, O: Observ
     }
 }
 
-final fileprivate class SwitchSinkIter<SourceType, S: ObservableConvertibleType, O: ObserverType>
-    : ObserverType
-    , LockOwnerType
-    , SynchronizedOnType where S.E == O.E {
+final private class SwitchSinkIter<SourceType, S: ObservableConvertibleType, O: ObserverType>
+    : ObserverType, LockOwnerType, SynchronizedOnType where S.E == O.E {
     typealias E = S.E
     typealias Parent = SwitchSink<SourceType, S, O>
-    
+
     fileprivate let _parent: Parent
     fileprivate let _id: Int
     fileprivate let _self: Disposable
@@ -139,7 +135,7 @@ final fileprivate class SwitchSinkIter<SourceType, S: ObservableConvertibleType,
         _id = id
         self._self = _self
     }
-    
+
     func on(_ event: Event<E>) {
         synchronizedOn(event)
     }
@@ -150,11 +146,11 @@ final fileprivate class SwitchSinkIter<SourceType, S: ObservableConvertibleType,
         case .error, .completed:
             _self.dispose()
         }
-        
+
         if _parent._latest != _id {
             return
         }
-       
+
         switch event {
         case .next:
             _parent.forwardOn(event)
@@ -173,7 +169,7 @@ final fileprivate class SwitchSinkIter<SourceType, S: ObservableConvertibleType,
 
 // MARK: Specializations
 
-final fileprivate class SwitchIdentitySink<S: ObservableConvertibleType, O: ObserverType> : SwitchSink<S, S, O> where O.E == S.E {
+final private class SwitchIdentitySink<S: ObservableConvertibleType, O: ObserverType> : SwitchSink<S, S, O> where O.E == S.E {
     override init(observer: O, cancel: Cancelable) {
         super.init(observer: observer, cancel: cancel)
     }
@@ -183,7 +179,7 @@ final fileprivate class SwitchIdentitySink<S: ObservableConvertibleType, O: Obse
     }
 }
 
-final fileprivate class MapSwitchSink<SourceType, S: ObservableConvertibleType, O: ObserverType> : SwitchSink<SourceType, S, O> where O.E == S.E {
+final private class MapSwitchSink<SourceType, S: ObservableConvertibleType, O: ObserverType> : SwitchSink<SourceType, S, O> where O.E == S.E {
     typealias Selector = (SourceType) throws -> S
 
     fileprivate let _selector: Selector
@@ -200,21 +196,21 @@ final fileprivate class MapSwitchSink<SourceType, S: ObservableConvertibleType, 
 
 // MARK: Producers
 
-final fileprivate class Switch<S: ObservableConvertibleType> : Producer<S.E> {
+final private class Switch<S: ObservableConvertibleType> : Producer<S.E> {
     fileprivate let _source: Observable<S>
-    
+
     init(source: Observable<S>) {
         _source = source
     }
-    
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == S.E {
+
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == S.E {
         let sink = SwitchIdentitySink<S, O>(observer: observer, cancel: cancel)
         let subscription = sink.run(_source)
         return (sink: sink, subscription: subscription)
     }
 }
 
-final fileprivate class FlatMapLatest<SourceType, S: ObservableConvertibleType> : Producer<S.E> {
+final private class FlatMapLatest<SourceType, S: ObservableConvertibleType> : Producer<S.E> {
     typealias Selector = (SourceType) throws -> S
 
     fileprivate let _source: Observable<SourceType>
@@ -225,7 +221,7 @@ final fileprivate class FlatMapLatest<SourceType, S: ObservableConvertibleType> 
         _selector = selector
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == S.E {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == S.E {
         let sink = MapSwitchSink<SourceType, S, O>(selector: _selector, observer: observer, cancel: cancel)
         let subscription = sink.run(_source)
         return (sink: sink, subscription: subscription)

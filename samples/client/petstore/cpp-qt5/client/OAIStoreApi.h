@@ -35,11 +35,11 @@ public:
     void setHost(const QString& host);
     void setApiTimeOutMs(const int tout);
     void addHeaders(const QString& key, const QString& value);
-    
+
     void deleteOrder(const QString& order_id);
     void getInventory();
     void getOrderById(const qint64& order_id);
-    void placeOrder(const OAIOrder& body);
+    void placeOrder(const OAIOrder& oai_order);
     
 private:
     QString basePath;

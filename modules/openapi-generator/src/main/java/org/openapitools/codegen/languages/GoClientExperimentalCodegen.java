@@ -16,8 +16,14 @@
 
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
 
 public class GoClientExperimentalCodegen extends GoClientCodegen {
 
@@ -25,6 +31,8 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     public GoClientExperimentalCodegen() {
         super();
+        outputFolder = "generated-code/go-experimental";
+        embeddedTemplateDir = templateDir = "go-experimental";
     }
 
     /**
@@ -49,4 +57,35 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         return "Generates a Go client library (experimental and may subject to breaking changes without further notice).";
     }
 
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
+    }
+
+    @Override
+     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        objs = super.postProcessModels(objs);
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+
+        boolean addedErrorsImport = false;
+        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+        for (Map<String, Object> m : models) {
+            Object v = m.get("model");
+            if (v instanceof CodegenModel) {
+                CodegenModel model = (CodegenModel) v;
+                if (!model.isEnum) {
+                    imports.add(createMapping("import", "encoding/json"));
+                }
+                for (CodegenProperty param : model.vars) {
+                    if (!addedErrorsImport && param.required) {
+                        imports.add(createMapping("import", "errors"));
+                        addedErrorsImport = true;
+                    }
+                }
+            }
+        }
+
+        return objs;
+    }
 }

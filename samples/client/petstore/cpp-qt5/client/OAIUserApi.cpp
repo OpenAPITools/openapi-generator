@@ -52,16 +52,16 @@ void OAIUserApi::addHeaders(const QString& key, const QString& value){
 
 
 void
-OAIUserApi::createUser(const OAIUser& body) {
+OAIUserApi::createUser(const OAIUser& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QString output = body.asJson();
+    QString output = oai_user.asJson();
     input.request_body.append(output);
     
 
@@ -101,16 +101,16 @@ OAIUserApi::createUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& body) {
+OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QJsonDocument doc(::OpenAPI::toJsonValue(body).toArray());
+    QJsonDocument doc(::OpenAPI::toJsonValue(oai_user).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
     
@@ -151,16 +151,16 @@ OAIUserApi::createUsersWithArrayInputCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::createUsersWithListInput(const QList<OAIUser>& body) {
+OAIUserApi::createUsersWithListInput(const QList<OAIUser>& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QJsonDocument doc(::OpenAPI::toJsonValue(body).toArray());
+    QJsonDocument doc(::OpenAPI::toJsonValue(oai_user).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
     
@@ -204,12 +204,12 @@ void
 OAIUserApi::deleteUser(const QString& username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
-    QString usernamePathParam("{"); 
+    QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "DELETE");
 
 
@@ -252,12 +252,12 @@ void
 OAIUserApi::getUserByName(const QString& username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
-    QString usernamePathParam("{"); 
+    QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -319,7 +319,7 @@ OAIUserApi::loginUser(const QString& username, const QString& password) {
         .append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(password)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -347,7 +347,7 @@ OAIUserApi::loginUserCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-    QString output;  
+    QString output;
     ::OpenAPI::fromStringValue(QString(worker->response), output);
     worker->deleteLater();
 
@@ -366,7 +366,7 @@ OAIUserApi::logoutUser() {
     fullPath.append(this->host).append(this->basePath).append("/user/logout");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -406,19 +406,19 @@ OAIUserApi::logoutUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::updateUser(const QString& username, const OAIUser& body) {
+OAIUserApi::updateUser(const QString& username, const OAIUser& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
-    QString usernamePathParam("{"); 
+    QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "PUT");
 
     
-    QString output = body.asJson();
+    QString output = oai_user.asJson();
     input.request_body.append(output);
     
 
