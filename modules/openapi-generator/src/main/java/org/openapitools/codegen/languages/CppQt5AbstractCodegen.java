@@ -45,9 +45,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         // Write defaults namespace in properties so that it can be accessible in templates.
         // At this point command line has not been parsed so if value is given
         // in command line it will supersede this content
-        additionalProperties.put("cppNamespace", cppNamespace);   
-        // CLI options
-        addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
+        additionalProperties.put("cppNamespace", cppNamespace);
         /*
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator

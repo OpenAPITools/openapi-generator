@@ -12,4 +12,3 @@ sidebar_label: cpp-qt5-qhttpengine-server
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |cppNamespace|C++ namespace (convention: name::space::for::api).| |OpenAPI|
-|cppNamespace|C++ namespace (convention: name::space::for::api).| |OpenAPI|
