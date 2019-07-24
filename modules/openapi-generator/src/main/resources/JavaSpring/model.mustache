@@ -1,7 +1,8 @@
 package {{package}};
 
 import java.util.Objects;
-{{#imports}}import {{import}};
+{{^disableAdditionalFieldsAnnotation}}import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+{{/disableAdditionalFieldsAnnotation}}{{#imports}}import {{import}};
 {{/imports}}
 import org.openapitools.jackson.nullable.JsonNullable;
 {{#serializableModel}}

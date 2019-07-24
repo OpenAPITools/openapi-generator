@@ -43,6 +43,10 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         public boolean isDisableHtmlEscaping() {
             return disableHtmlEscaping;
         }
+        // AbstractJavaCodegen.DISABLE_ADDITIONAL_FIELD_ANNOTATION
+        public boolean isDisableAdditionalFieldsAnnotation() {
+            return disableAdditionalFieldsAnnotation;
+        }
 
         // AbstractJavaCodegen.FULL_JAVA_UTIL
         public boolean isFullJavaUtil() {
@@ -249,6 +253,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "isIt");
         additionalProperties.put(AbstractJavaCodegen.DATE_LIBRARY, "MyDateLibrary");
         additionalProperties.put(AbstractJavaCodegen.DISABLE_HTML_ESCAPING, "true");
+        additionalProperties.put(AbstractJavaCodegen.DISABLE_ADDITIONAL_FIELDS_ANNOTATION, "true");
         additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(AbstractJavaCodegen.JAVA8_MODE, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_ASYNC, "true");
@@ -325,6 +330,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(testerCodegen.getBooleanGetterPrefix(), "isIt");
         assertEquals(testerCodegen.getDateLibrary(), "MyDateLibrary");
         assertEquals(testerCodegen.isDisableHtmlEscaping(), true);
+        assertEquals(testerCodegen.isDisableAdditionalFieldsAnnotation(), true);
         assertEquals(testerCodegen.isFullJavaUtil(), true);
         assertEquals(testerCodegen.isJava8Mode(), true);
         assertEquals(testerCodegen.isSupportAsync(), true);
