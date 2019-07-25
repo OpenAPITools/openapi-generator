@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -33,6 +32,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
+    private static final String DEFAULT_IMPORT_PREFIX = "./";
 
     protected String npmRepository = null;
     protected String apiSuffix = "Api";
@@ -106,7 +106,11 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name), true);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
+        return DEFAULT_IMPORT_PREFIX + camelize(toModelName(name), true);
     }
 
     @Override

@@ -205,4 +205,30 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
+
+    @Test(description = "prepend imports with ./ by default")
+    public void defaultImportsTest() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final Schema categorySchema = openAPI.getComponents().getSchemas().get("Category");
+        final CodegenModel cm = codegen.fromModel("Category", categorySchema);
+
+        Assert.assertEquals(cm.name, "Category");
+        Assert.assertEquals(cm.classFilename, "./category");
+    }
+
+    @Test(description = "use mapped imports for type")
+    public void mappedImportsTest() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
+        final String mappedName = "@namespace/dir/category";
+        codegen.importMapping().put("Category", mappedName);
+        codegen.setOpenAPI(openAPI);
+        final Schema categorySchema = openAPI.getComponents().getSchemas().get("Category");
+        final CodegenModel cm = codegen.fromModel("Category", categorySchema);
+
+        Assert.assertEquals(cm.name, "Category");
+        Assert.assertEquals(cm.classFilename, mappedName);
+    }
 }
