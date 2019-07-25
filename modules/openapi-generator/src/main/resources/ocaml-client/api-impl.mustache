@@ -16,7 +16,8 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{{paramName}}
     let headers = Request.default_headers in{{#headerParams}}
     let headers = Cohttp.Header.add{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" ({{> to_string}}{{paramName}}) in{{/headerParams}}{{#pathParams}}
     let uri = Request.replace_path_param uri "{{{baseName}}}" ({{> to_string}}{{{paramName}}}) in{{/pathParams}}{{#queryParams}}
-    let uri = Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}) in{{/queryParams}}{{#bodyParams}}
+    let uri = Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}) in{{/queryParams}}{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
+    let uri = Uri.add_query_param' uri ("{{{keyParamName}}}", Request.api_key) in{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}{{#bodyParams}}
     let body = Request.write_json_body {{> to_json}} {{{paramName}}} in{{/bodyParams}}{{^hasBodyParam}}{{#hasFormParams}}
     let body = Request.init_form_encoded_body () in{{/hasFormParams}}{{#formParams}}
     let body = Request.add_form_encoded_body_param{{#isContainer}}s{{/isContainer}} body ("{{{paramName}}}", {{> to_string}}{{{paramName}}}) in{{/formParams}}{{#hasFormParams}}
