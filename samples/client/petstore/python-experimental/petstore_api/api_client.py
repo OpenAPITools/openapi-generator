@@ -569,6 +569,8 @@ class ApiClient(object):
             return six.text_type(data)
         except TypeError:
             return data
+        except ValueError as exc:
+            raise ApiValueError(str(exc))
 
     def __deserialize_object(self, value):
         """Return an original value.
@@ -625,7 +627,8 @@ class ApiClient(object):
         """
 
         if issubclass(klass, ModelSimple):
-            return klass(data)
+            value = self.__deserialize(data, klass.openapi_types['value'])
+            return klass(value)
 
         # code to handle ModelNormal
         kwargs = {}
