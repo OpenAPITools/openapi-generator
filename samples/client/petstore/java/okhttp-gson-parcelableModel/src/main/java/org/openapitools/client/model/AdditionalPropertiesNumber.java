@@ -50,6 +50,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public String getName() {
     return name;

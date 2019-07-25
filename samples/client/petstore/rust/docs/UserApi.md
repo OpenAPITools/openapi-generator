@@ -22,12 +22,12 @@ Create user
 
 This can only be done by the logged in user.
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **body** | [**User**](User.md)| Created user object | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**body** | [**User**](User.md) | Created user object | Required | 
 
 ### Return type
 
@@ -50,12 +50,12 @@ No authorization required
 > create_users_with_array_input(body)
 Creates list of users with given input array
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **body** | [**Vec<crate::models::User>**](User.md)| List of user object | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**body** | [**Vec<crate::models::User>**](User.md) | List of user object | Required | 
 
 ### Return type
 
@@ -78,12 +78,12 @@ No authorization required
 > create_users_with_list_input(body)
 Creates list of users with given input array
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **body** | [**Vec<crate::models::User>**](User.md)| List of user object | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**body** | [**Vec<crate::models::User>**](User.md) | List of user object | Required | 
 
 ### Return type
 
@@ -108,12 +108,12 @@ Delete user
 
 This can only be done by the logged in user.
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **username** | **String**| The name that needs to be deleted | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**username** | **String** | The name that needs to be deleted | Required | 
 
 ### Return type
 
@@ -136,12 +136,12 @@ No authorization required
 > crate::models::User get_user_by_name(username)
 Get user by user name
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**username** | **String** | The name that needs to be fetched. Use user1 for testing. | Required | 
 
 ### Return type
 
@@ -164,13 +164,13 @@ No authorization required
 > String login_user(username, password)
 Logs user into the system
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **username** | **String**| The user name for login | 
-  **password** | **String**| The password for login in clear text | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**username** | **String** | The user name for login | Required | 
+**password** | **String** | The password for login in clear text | Required | 
 
 ### Return type
 
@@ -193,7 +193,7 @@ No authorization required
 > logout_user()
 Logs out current logged in user session
 
-### Required Parameters
+### Parameters
 
 This endpoint does not need any parameter.
 
@@ -220,13 +220,13 @@ Updated user
 
 This can only be done by the logged in user.
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **username** | **String**| name that need to be deleted | 
-  **body** | [**User**](User.md)| Updated user object | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**username** | **String** | name that need to be deleted | Required | 
+**body** | [**User**](User.md) | Updated user object | Required | 
 
 ### Return type
 

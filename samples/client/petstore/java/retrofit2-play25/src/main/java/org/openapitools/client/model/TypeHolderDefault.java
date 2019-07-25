@@ -55,6 +55,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
+
   @NotNull
   @ApiModelProperty(required = true, value = "")
   public String getStringItem() {
@@ -74,6 +75,7 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
+
   @NotNull
   @Valid
   @ApiModelProperty(required = true, value = "")
@@ -94,6 +96,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
+
   @NotNull
   @ApiModelProperty(required = true, value = "")
   public Integer getIntegerItem() {
@@ -113,6 +116,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
+
   @NotNull
   @ApiModelProperty(required = true, value = "")
   public Boolean getBoolItem() {
@@ -137,6 +141,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
+
   @NotNull
   @ApiModelProperty(required = true, value = "")
   public List<Integer> getArrayItem() {

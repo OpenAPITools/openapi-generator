@@ -9,7 +9,6 @@
  */
 
 use hyper;
-use std::collections::HashMap;
 
 pub struct Configuration<C: hyper::client::Connect> {
     pub base_path: String,
