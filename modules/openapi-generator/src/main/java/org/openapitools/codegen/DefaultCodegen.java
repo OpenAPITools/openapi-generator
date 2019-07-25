@@ -1572,7 +1572,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isURISchema(schema)) {
             return "URI";
         } else if (ModelUtils.isStringSchema(schema)) {
-            if(typeMapping.containsKey(schema.getFormat())) {
+            if (typeMapping.containsKey(schema.getFormat())) {
                 // If the format matches a typeMapping (supplied with the --typeMappings flag)
                 // then treat the format as a primitive type.
                 // This allows the typeMapping flag to add a new custom type which can then
@@ -1884,19 +1884,16 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMapModel = true;
-            }
-            else if (ModelUtils.isIntegerSchema(schema)) { // integer type
+            } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isLongSchema(schema)) { // int64/long format
                     m.isLong = Boolean.TRUE;
                 } else { // int32 format
                     m.isInteger = Boolean.TRUE;
                 }
-            }
-            else if (ModelUtils.isStringSchema(schema)) {
+            } else if (ModelUtils.isStringSchema(schema)) {
                 m.isString = Boolean.TRUE;
-            }
-            else if (ModelUtils.isNumberSchema(schema)) {
+            } else if (ModelUtils.isNumberSchema(schema)) {
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isFloatSchema(schema)) { // float
                     m.isFloat = Boolean.TRUE;
@@ -1905,6 +1902,10 @@ public class DefaultCodegen implements CodegenConfig {
                 } else { // type is number and without format
                     m.isNumber = Boolean.TRUE;
                 }
+            }
+
+            if (Boolean.TRUE.equals(schema.getNullable())) {
+                m.isNullable = Boolean.TRUE;
             }
 
             // passing null to allProperties and allRequired as there's no parent
@@ -2650,7 +2651,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (requestBody != null) {
             if (getContentType(requestBody) != null &&
                     (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data"))) {
+                            getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 for (CodegenParameter cp : formParams) {
@@ -3018,7 +3019,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema s;
-        if(parameter.getSchema() != null) {
+        if (parameter.getSchema() != null) {
             s = parameter.getSchema();
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
@@ -4942,7 +4943,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void removeOption(String key) {
-        for(int i = 0; i < cliOptions.size(); i++) {
+        for (int i = 0; i < cliOptions.size(); i++) {
             if (key.equals(cliOptions.get(i).getOpt())) {
                 cliOptions.remove(i);
                 break;
