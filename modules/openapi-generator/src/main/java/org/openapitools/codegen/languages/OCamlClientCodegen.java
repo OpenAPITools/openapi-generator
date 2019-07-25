@@ -635,7 +635,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             //if (CO_HTTP.equals(getLibrary())) {
-            operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
             for (CodegenParameter param : operation.bodyParams) {
                 if (param.isModel && param.dataType.endsWith(".t")) {
                     param.vendorExtensions.put(X_MODEL_MODULE, param.dataType.substring(0, param.dataType.lastIndexOf('.')));
