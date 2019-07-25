@@ -52,7 +52,7 @@ void OAIPetApi::addHeaders(const QString& key, const QString& value){
 
 
 void
-OAIPetApi::addPet(const OAIPet& oai_pet) {
+OAIPetApi::addPet(const OAIPet& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
     
@@ -61,7 +61,7 @@ OAIPetApi::addPet(const OAIPet& oai_pet) {
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QString output = oai_pet.asJson();
+    QString output = body.asJson();
     input.request_body.append(output);
     
 
@@ -247,7 +247,7 @@ OAIPetApi::findPetsByStatusCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::findPetsByTags(const QList<QString>& tags, const qint32& max_count) {
+OAIPetApi::findPetsByTags(const QList<QString>& tags) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByTags");
     
@@ -290,14 +290,6 @@ OAIPetApi::findPetsByTags(const QList<QString>& tags, const qint32& max_count) {
         }
       }
     }
-    
-    if (fullPath.indexOf("?") > 0)
-      fullPath.append("&");
-    else
-      fullPath.append("?");
-    fullPath.append(QUrl::toPercentEncoding("maxCount"))
-        .append("=")
-        .append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(max_count)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     worker->setTimeOut(timeout);
@@ -399,7 +391,7 @@ OAIPetApi::getPetByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::updatePet(const OAIPet& oai_pet) {
+OAIPetApi::updatePet(const OAIPet& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
     
@@ -408,7 +400,7 @@ OAIPetApi::updatePet(const OAIPet& oai_pet) {
     OAIHttpRequestInput input(fullPath, "PUT");
 
     
-    QString output = oai_pet.asJson();
+    QString output = body.asJson();
     input.request_body.append(output);
     
 
