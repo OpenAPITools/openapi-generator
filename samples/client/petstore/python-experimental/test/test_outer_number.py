@@ -14,9 +14,9 @@ from __future__ import absolute_import
 
 import unittest
 
-import openapi_client
-from openapi_client.models.outer_number import OuterNumber  # noqa: E501
-from openapi_client.rest import ApiException
+import petstore_api
+from petstore_api.models.outer_number import OuterNumber  # noqa: E501
+from petstore_api.rest import ApiException
 
 
 class TestOuterNumber(unittest.TestCase):
@@ -31,7 +31,7 @@ class TestOuterNumber(unittest.TestCase):
     def testOuterNumber(self):
         """Test OuterNumber"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = openapi_client.models.outer_number.OuterNumber()  # noqa: E501
+        # model = petstore_api.models.outer_number.OuterNumber()  # noqa: E501
         pass
 
 
