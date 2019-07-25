@@ -20,6 +20,9 @@ import {{import}};
 import java.io.Serializable;
 {{/serializableModel}}
 {{#jackson}}
+{{^disableAdditionalFieldsAnnotation}}
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+{{/disableAdditionalFieldsAnnotation}}
 {{#withXml}}
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 {{/withXml}}
