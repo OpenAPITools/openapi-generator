@@ -17,10 +17,8 @@
 
 package org.openapitools.codegen.options;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.GoClientCodegen;
-
 import com.google.common.collect.ImmutableMap;
+import org.openapitools.codegen.CodegenConstants;
 
 import java.util.Map;
 
@@ -31,6 +29,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean WITH_GO_CODEGEN_COMMENT_VALUE = true;
     public static final boolean WITH_XML_VALUE = true;
     public static final Boolean PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = true;
+    public static final boolean IS_GO_SUBMODULE_VALUE = true;
 
     @Override
     public String getLanguage() {
@@ -47,6 +46,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.WITH_GO_CODEGEN_COMMENT, "true")
                 .put(CodegenConstants.WITH_XML, "true")
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, "true")
+                .put(CodegenConstants.IS_GO_SUBMODULE, "true")
                 .build();
     }
 

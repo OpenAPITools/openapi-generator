@@ -2,8 +2,6 @@
 {{> api_info}}
 =end
 
-require 'uri'
-
 module {{moduleName}}
   class Configuration
     # Defines url scheme
@@ -166,8 +164,7 @@ module {{moduleName}}
     end
 
     def base_url
-      url = "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '')
-      URI.encode(url)
+      "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '')
     end
 
     # Gets API key (with prefix if set).
@@ -199,6 +196,7 @@ module {{moduleName}}
           },
 {{/isApiKey}}
 {{#isBasic}}
+{{^isBasicBearer}}
         '{{name}}' =>
           {
             type: 'basic',
@@ -206,6 +204,19 @@ module {{moduleName}}
             key: 'Authorization',
             value: basic_auth_token
           },
+{{/isBasicBearer}}
+{{#isBasicBearer}}
+        '{{name}}' =>
+          {
+            type: 'bearer',
+            in: 'header',
+            {{#bearerFormat}}
+            format: '{{{.}}}',
+            {{/bearerFormat}}
+            key: 'Authorization',
+            value: "Bearer #{access_token}"
+          },
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
         '{{name}}' =>
@@ -261,8 +272,8 @@ module {{moduleName}}
       servers = server_settings
 
       # check array index out of bound
-      if (index < 0 || index > servers.size)
-        fail ArgumentError "Invalid index #{index} when selecting the server. Must be less than #{servers.size}"
+      if (index < 0 || index >= servers.size)
+        fail ArgumentError, "Invalid index #{index} when selecting the server. Must be less than #{servers.size}"
       end
 
       server = servers[index]

@@ -74,6 +74,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("object", "Object");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
         typeMapping.put("binary", "File");
 
         importMapping = new HashMap<String, String>();
@@ -131,7 +132,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         //modelPackage = invokerPackage + File.separatorChar + "client" + File.separatorChar + "model";
         //apiPackage = invokerPackage + File.separatorChar + "client" + File.separatorChar + "api";
 
-        final String invokerFolder = (sourceFolder + File.separator + "src/" + invokerPackage + File.separator).replace(".", File.separator).replace('.', File.separatorChar);
+        final String invokerFolder = (sourceFolder + File.separator + "src" + File.separator + invokerPackage + File.separator).replace(".", File.separator).replace('.', File.separatorChar);
 
         supportingFiles.add(new SupportingFile("ApiInvoker.as", invokerFolder + "common", "ApiInvoker.as"));
         supportingFiles.add(new SupportingFile("ApiUrlHelper.as", invokerFolder + "common", "ApiUrlHelper.as"));
@@ -193,13 +194,13 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + File.separatorChar + sourceFolder + File.separatorChar + "src/"
+        return outputFolder + File.separatorChar + sourceFolder + File.separatorChar + ("src/"
                 + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + File.separatorChar + sourceFolder + File.separatorChar + "src/"
+        return outputFolder + File.separatorChar + sourceFolder + File.separatorChar + ("src/"
                 + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 

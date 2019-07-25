@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @ApiModel(description="An order for a pets from the pet store")
-
 public class Order   {
   
 

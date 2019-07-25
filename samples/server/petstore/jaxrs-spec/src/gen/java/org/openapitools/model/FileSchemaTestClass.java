@@ -65,8 +65,8 @@ public class FileSchemaTestClass  implements Serializable {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(file, fileSchemaTestClass.file) &&
-        Objects.equals(files, fileSchemaTestClass.files);
+    return Objects.equals(this.file, fileSchemaTestClass.file) &&
+        Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override

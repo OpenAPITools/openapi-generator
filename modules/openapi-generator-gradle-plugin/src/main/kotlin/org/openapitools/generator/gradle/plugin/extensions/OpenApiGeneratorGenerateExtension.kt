@@ -81,6 +81,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val skipOverwrite = project.objects.property<Boolean?>()
 
     /**
+     * Package for generated classes (where supported)
+     */
+    val packageName = project.objects.property<String>()
+
+    /**
      * Package for generated api classes
      */
     val apiPackage = project.objects.property<String>()
@@ -262,6 +267,31 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val withXml = project.objects.property<Boolean>()
 
     /**
+     * To write all log messages (not just errors) to STDOUT
+     */
+    val logToStderr = project.objects.property<Boolean>()
+
+    /**
+     * To enable the file post-processing hook. This enables executing an external post-processor (usually a linter program).
+     * This only enables the post-processor. To define the post-processing command, define an environment variable such as
+     * LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target
+     * generator does not support this functionality.
+     */
+    val enablePostProcessFile = project.objects.property<Boolean>()
+
+    /**
+     * To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
+     */
+    val skipValidateSpec = project.objects.property<Boolean>()
+
+    /**
+     * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
+     * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
+     * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
+     */
+    val generateAliasAsModel = project.objects.property<Boolean>()
+
+    /**
      * A map of options specific to a generator.
      */
     val configOptions = project.objects.property<Map<String, String>>()
@@ -282,5 +312,9 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         withXml.set(false)
         configOptions.set(mapOf())
         validateSpec.set(true)
+        logToStderr.set(false)
+        enablePostProcessFile.set(false)
+        skipValidateSpec.set(false)
+        generateAliasAsModel.set(false)
     }
 }

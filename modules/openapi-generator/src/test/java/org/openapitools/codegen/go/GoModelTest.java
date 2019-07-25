@@ -18,24 +18,17 @@
 package org.openapitools.codegen.go;
 
 import com.google.common.collect.Sets;
-
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.DateTimeSchema;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.MapSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.Collections;
 
 @SuppressWarnings("static-method")
 public class GoModelTest {
@@ -50,7 +43,9 @@ public class GoModelTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -98,7 +93,9 @@ public class GoModelTest {
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -134,7 +131,9 @@ public class GoModelTest {
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -158,7 +157,9 @@ public class GoModelTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -180,7 +181,9 @@ public class GoModelTest {
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -204,7 +207,9 @@ public class GoModelTest {
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -229,7 +234,9 @@ public class GoModelTest {
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -244,7 +251,9 @@ public class GoModelTest {
                 .additionalProperties(new Schema().$ref("#/definitions/Children"))
                 .description("a map model");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -287,7 +296,9 @@ public class GoModelTest {
     public void modelNameTest(String name, String expectedName) {
         final Schema model = new Schema();
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, model, Collections.singletonMap(name, model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel(name, model);
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);

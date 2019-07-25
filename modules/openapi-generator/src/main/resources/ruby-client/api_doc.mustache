@@ -1,4 +1,5 @@
 # {{moduleName}}::{{classname}}{{#description}}
+
 {{description}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
@@ -10,7 +11,9 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-# **{{operationId}}**
+
+## {{operationId}}
+
 > {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
 
 {{{summary}}}{{#notes}}
@@ -18,15 +21,18 @@ Method | HTTP request | Description
 {{{notes}}}{{/notes}}
 
 ### Example
+
 ```ruby
 # load the gem
 require '{{{gemName}}}'
 {{#hasAuthMethods}}
 # setup authorization
-{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
+{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}{{^isBasicBearer}}
   # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
+  config.password = 'YOUR PASSWORD'{{/isBasicBearer}}{{#isBasicBearer}}
+  # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
+  config.access_token = 'YOUR_BEARER_TOKEN'{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
   # Configure API key authorization: {{{name}}}
   config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -60,6 +66,7 @@ end
 ```
 
 ### Parameters
+
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
@@ -76,10 +83,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
-
-
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 {{/operation}}
 {{/operations}}

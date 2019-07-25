@@ -52,6 +52,7 @@ paths:
           description: Success
           schema:
             type: object
+
     # Requests with arbitrary JSON currently fail.
     # post:
     #   summary: Send an arbitrary JSON blob

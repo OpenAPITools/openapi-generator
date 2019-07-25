@@ -2,10 +2,10 @@ package org.openapitools.client.auth;
 
 import org.openapitools.client.Pair;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.request.OAuthBearerClientRequest;
@@ -98,7 +98,7 @@ public class RetryingOAuth extends OAuth implements Interceptor {
             String requestAccessToken = getAccessToken();
             try {
                 oAuthRequest =
-                        new OAuthBearerClientRequest(request.urlString()).
+                        new OAuthBearerClientRequest(request.url().toString()).
                                 setAccessToken(requestAccessToken).
                                 buildHeaderMessage();
             } catch (OAuthSystemException e) {

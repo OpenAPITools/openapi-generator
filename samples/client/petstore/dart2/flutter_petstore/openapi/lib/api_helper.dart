@@ -42,3 +42,15 @@ String parameterToString(dynamic value) {
     return value.toString();
   }
 }
+
+/// Returns the decoded body by utf-8 if application/json with the given headers.
+/// Else, returns the decoded body by default algorithm of dart:http.
+/// Because avoid to text garbling when header only contains "application/json" without "; charset=utf-8".
+String _decodeBodyBytes(Response response) {
+  var contentType = response.headers['content-type'];
+  if (contentType != null && contentType.contains("application/json")) {
+    return utf8.decode(response.bodyBytes);
+  } else {
+    return response.body;
+  }
+}

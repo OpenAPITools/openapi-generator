@@ -11,6 +11,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,18 @@ import feign.*;
 
 public interface FakeApi extends ApiClient.Api {
 
+
+  /**
+   * creates an XmlItem
+   * this route creates an XmlItem
+   * @param xmlItem XmlItem Body (required)
+   */
+  @RequestLine("POST /fake/create_xml_item")
+  @Headers({
+    "Content-Type: application/xml",
+    "Accept: application/json",
+  })
+  void createXmlItem(XmlItem xmlItem);
 
   /**
    * 

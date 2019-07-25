@@ -20,17 +20,24 @@ import org.openapitools.client.core.ApiKeyLocations._
 
 object PetApi {
 
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUrl)
+}
+
+class PetApi(baseUrl: String) {
+  
   /**
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
-   * @param pet Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store
    */
-  def addPet(pet: Pet): ApiRequest[Unit] =
+  def addPet(body: Pet): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet", "application/json")
-      .withBody(pet)
+      .withBody(body)
       .withErrorResponse[Unit](405)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 400 :  (Invalid pet value)
    * 
@@ -42,7 +49,9 @@ object PetApi {
       .withPathParam("petId", petId)
       .withHeaderParam("api_key", apiKey)
       .withErrorResponse[Unit](400)
-        /**
+      
+
+  /**
    * Multiple status values can be provided with comma separated strings
    * 
    * Expected answers:
@@ -56,7 +65,9 @@ object PetApi {
       .withQueryParam("status", ArrayValues(status, CSV))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
-        /**
+      
+
+  /**
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * 
    * Expected answers:
@@ -70,7 +81,9 @@ object PetApi {
       .withQueryParam("tags", ArrayValues(tags, CSV))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
-        /**
+      
+
+  /**
    * Returns a single pet
    * 
    * Expected answers:
@@ -83,28 +96,32 @@ object PetApi {
    * 
    * @param petId ID of pet to return
    */
-  def getPetById(petId: Long)(implicit apiKey: ApiKeyValue): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/{petId}", "application/json")
+  def getPetById(petId: Long)(implicit apiKey: ApiKeyValue): ApiRequest[Pet] =
+    ApiRequest[Pet](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/{petId}", "application/json")
       .withApiKey(apiKey, "api_key", HEADER)
       .withPathParam("petId", petId)
       .withSuccessResponse[Pet](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 400 :  (Invalid ID supplied)
    *   code 404 :  (Pet not found)
    *   code 405 :  (Validation exception)
    * 
-   * @param pet Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store
    */
-  def updatePet(pet: Pet): ApiRequest[Unit] =
+  def updatePet(body: Pet): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.PUT, "http://petstore.swagger.io/v2", "/pet", "application/json")
-      .withBody(pet)
+      .withBody(body)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](405)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
@@ -118,7 +135,9 @@ object PetApi {
       .withFormParam("status", status)
       .withPathParam("petId", petId)
       .withErrorResponse[Unit](405)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 200 : ApiResponse (successful operation)
    * 
@@ -126,13 +145,15 @@ object PetApi {
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
    */
-  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet/{petId}/uploadImage", "multipart/form-data")
+  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): ApiRequest[ApiResponse] =
+    ApiRequest[ApiResponse](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet/{petId}/uploadImage", "multipart/form-data")
       .withFormParam("additionalMetadata", additionalMetadata)
       .withFormParam("file", file)
       .withPathParam("petId", petId)
       .withSuccessResponse[ApiResponse](200)
       
+
+
 
 }
 

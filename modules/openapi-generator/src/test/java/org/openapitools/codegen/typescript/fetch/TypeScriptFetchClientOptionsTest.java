@@ -17,12 +17,12 @@
 
 package org.openapitools.codegen.typescript.fetch;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.options.TypeScriptFetchClientOptionsProvider;
-import mockit.Expectations;
-import mockit.Tested;
 
 public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
 

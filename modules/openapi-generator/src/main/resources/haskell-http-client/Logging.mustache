@@ -1,0 +1,24 @@
+{{>partial_header}}
+{-|
+Module : {{baseModule}}.Logging
+Logging functions
+-}
+{-# LANGUAGE CPP #-}
+
+#ifdef USE_KATIP
+
+module {{baseModule}}.Logging
+  ( module {{baseModule}}.LoggingKatip
+  ) where
+
+import {{baseModule}}.LoggingKatip
+
+#else
+
+module {{baseModule}}.Logging
+  ( module {{baseModule}}.LoggingMonadLogger
+  ) where
+
+import {{baseModule}}.LoggingMonadLogger
+
+#endif

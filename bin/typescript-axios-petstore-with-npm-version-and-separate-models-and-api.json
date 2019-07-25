@@ -1,0 +1,9 @@
+{
+  "npmName": "@openapitools/typescript-axios-petstore",
+  "npmVersion": "1.0.0",
+  "npmRepository": "https://skimdb.npmjs.com/registry",
+  "snapshot": false,
+  "withSeparateModelsAndApi": true,
+  "modelPackage": "model.some.levels.deep",
+  "apiPackage": "api.another.level"
+}

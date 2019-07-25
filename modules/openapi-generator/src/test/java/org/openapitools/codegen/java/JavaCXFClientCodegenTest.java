@@ -17,18 +17,15 @@
 
 package org.openapitools.codegen.java;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaCXFClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -49,10 +46,9 @@ public class JavaCXFClientCodegenTest {
                                         .content(new Content().addMediaType("application/json",
                                                 new MediaType().schema(listOfPets))))
                         .addApiResponse("400", new ApiResponse().description("Error")));
-        final Map<String, Schema> allDefinitions = Collections.<String, Schema>singletonMap("Pet", new ObjectSchema());
-
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("getAllPets", "GET", operation, allDefinitions);
+        final CodegenOperation co = codegen.fromOperation("getAllPets", "GET", operation, null);
 
         Map<String, Object> objs = new HashMap<>();
         objs.put("operations", Collections.singletonMap("operation", Collections.singletonList(co)));

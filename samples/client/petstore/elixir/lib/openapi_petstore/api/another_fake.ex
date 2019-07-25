@@ -18,7 +18,7 @@ defmodule OpenapiPetstore.Api.AnotherFake do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - client (Client): client model
+  - body (Client): client model
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -26,13 +26,15 @@ defmodule OpenapiPetstore.Api.AnotherFake do
   {:error, info} on failure
   """
   @spec call_123_test_special_tags(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
-  def call_123_test_special_tags(connection, client, _opts \\ []) do
+  def call_123_test_special_tags(connection, body, _opts \\ []) do
     %{}
     |> method(:patch)
     |> url("/another-fake/dummy")
-    |> add_param(:body, :body, client)
+    |> add_param(:body, :body, body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(%OpenapiPetstore.Model.Client{})
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.Client{}}
+    ])
   end
 end

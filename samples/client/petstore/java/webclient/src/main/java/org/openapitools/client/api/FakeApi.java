@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,39 @@ public class FakeApi {
         this.apiClient = apiClient;
     }
 
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * <p><b>200</b> - successful operation
+     * @param xmlItem XmlItem Body
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> createXmlItem(XmlItem xmlItem) throws RestClientException {
+        Object postBody = xmlItem;
+        
+        // verify the required parameter 'xmlItem' is set
+        if (xmlItem == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'xmlItem' when calling createXmlItem");
+        }
+        
+        String path = UriComponentsBuilder.fromPath("/fake/create_xml_item").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { 
+            "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"
+        };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
     /**
      * 
      * Test serialization of outer boolean types

@@ -1,28 +1,17 @@
 
-CONFIG OPTIONS for scalaz
+---
+id: generator-opts-client-scalaz
+title: Config Options for scalaz
+sidebar_label: scalaz
+---
 
-	sortParamsByRequiredFlag
-	    Sort method arguments to place required parameters before optional parameters. (Default: true)
-
-	ensureUniqueParams
-	    Whether to ensure parameter names are unique in an operation (rename parameters that are not). (Default: true)
-
-	allowUnicodeIdentifiers
-	    boolean, toggles whether unicode identifiers are allowed in names or not, default is false (Default: false)
-
-	prependFormOrBodyParameters
-	    Add form or body parameters to the beginning of the parameter list. (Default: false)
-
-	modelPackage
-	    package for generated models
-
-	apiPackage
-	    package for generated api classes
-
-	sourceFolder
-	    source folder for generated code
-
-	modelPropertyNaming
-	    Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name (Default: camelCase)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|modelPackage|package for generated models| |null|
+|apiPackage|package for generated api classes| |null|
+|sourceFolder|source folder for generated code| |null|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|

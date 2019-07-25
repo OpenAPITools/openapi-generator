@@ -12,6 +12,7 @@
 #include <QDate>
 #include <QVariant>
 #include "{{prefix}}Object.h"
+#include "{{prefix}}Enum.h"
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -26,6 +27,7 @@ namespace {{this}} {
     QString toStringValue(const bool &value);
     QString toStringValue(const float &value);
     QString toStringValue(const double &value);
+    QString toStringValue(const {{prefix}}Enum &value);
 
     template <typename T>
     QString toStringValue(const QList<T> &val) {
@@ -49,6 +51,7 @@ namespace {{this}} {
     QJsonValue toJsonValue(const float &value);
     QJsonValue toJsonValue(const double &value);
     QJsonValue toJsonValue(const {{prefix}}Object &value);
+    QJsonValue toJsonValue(const {{prefix}}Enum &value);
 
     template <typename T>
     QJsonValue toJsonValue(const QList<T> &val) {
@@ -77,6 +80,7 @@ namespace {{this}} {
     bool fromStringValue(const QString &inStr, bool &value);
     bool fromStringValue(const QString &inStr, float &value);
     bool fromStringValue(const QString &inStr, double &value);
+    bool fromStringValue(const QString &inStr, {{prefix}}Enum &value);
 
     template <typename T>
     bool fromStringValue(const QList<QString> &inStr, QList<T> &val) {
@@ -110,6 +114,7 @@ namespace {{this}} {
     bool fromJsonValue(float &value, const QJsonValue &jval);
     bool fromJsonValue(double &value, const QJsonValue &jval);
     bool fromJsonValue({{prefix}}Object &value, const QJsonValue &jval);
+    bool fromJsonValue({{prefix}}Enum &value, const QJsonValue &jval);
 
     template <typename T>
     bool fromJsonValue(QList<T> &val, const QJsonValue &jval) {
@@ -124,7 +129,7 @@ namespace {{this}} {
             ok = false;
         }
         return ok;
-    } 
+    }
 
     template <typename T>
     bool fromJsonValue(QMap<QString, T> &val, const QJsonValue &jval) {

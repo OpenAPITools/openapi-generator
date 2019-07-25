@@ -1,22 +1,15 @@
 
-CONFIG OPTIONS for perl
+---
+id: generator-opts-client-perl
+title: Config Options for perl
+sidebar_label: perl
+---
 
-	moduleName
-	    Perl module name (convention: CamelCase or Long::Module). (Default: OpenAPIClient)
-
-	moduleVersion
-	    Perl module version. (Default: 1.0.0)
-
-	sortParamsByRequiredFlag
-	    Sort method arguments to place required parameters before optional parameters. (Default: true)
-
-	ensureUniqueParams
-	    Whether to ensure parameter names are unique in an operation (rename parameters that are not). (Default: true)
-
-	hideGenerationTimestamp
-	    Hides the generation timestamp when files are generated. (Default: true)
-
-	prependFormOrBodyParameters
-	    Add form or body parameters to the beginning of the parameter list. (Default: false)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|moduleName|Perl module name (convention: CamelCase or Long::Module).| |OpenAPIClient|
+|moduleVersion|Perl module version.| |1.0.0|
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|

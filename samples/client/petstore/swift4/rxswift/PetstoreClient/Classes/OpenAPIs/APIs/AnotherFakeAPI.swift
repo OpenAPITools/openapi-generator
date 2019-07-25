@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
-
 open class AnotherFakeAPI {
     /**
      To test special tags
      
-     - parameter client: (body) client model 
+     - parameter body: (body) client model 
      - returns: Observable<Client>
      */
-    open class func call123testSpecialTags(client: Client) -> Observable<Client> {
+    open class func call123testSpecialTags(body: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            call123testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
+            call123testSpecialTagsWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else if let response = response {
@@ -38,13 +36,13 @@ open class AnotherFakeAPI {
      To test special tags
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number
-     - parameter client: (body) client model 
+     - parameter body: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func call123testSpecialTagsWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
+    open class func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let path = "/another-fake/dummy"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: client)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 

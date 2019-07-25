@@ -19,7 +19,6 @@ package org.openapitools.codegen.php;
 
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.languages.PhpClientCodegen;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -19,20 +19,19 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.mustache.JoinWithCommaLambda;
-import io.swagger.v3.oas.models.media.*;
+import org.openapitools.codegen.templating.mustache.JoinWithCommaLambda;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -96,6 +95,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("bytearray", "binary()");
         typeMapping.put("byte", "binary()");
         typeMapping.put("uuid", "binary()");
+        typeMapping.put("uri", "binary()");
         typeMapping.put("password", "binary()");
 
         cliOptions.clear();
@@ -128,7 +128,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             if (languageSpecificPrimitives.contains(type))
                 return (type);
         } else
-            type = getTypeDeclaration(toModelName(snakeCase(schemaType)));
+            type = getTypeDeclaration(toModelName(lowerCamelCase(schemaType)));
         return type;
     }
 

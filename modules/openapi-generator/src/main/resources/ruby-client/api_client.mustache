@@ -7,7 +7,6 @@ require 'json'
 require 'logger'
 require 'tempfile'
 require 'typhoeus'
-require 'uri'
 
 module {{moduleName}}
   class ApiClient
@@ -36,7 +35,7 @@ module {{moduleName}}
 
     # Call an API with given options.
     #
-    # @return [Array<(Object, Fixnum, Hash)>] an array of 3 elements:
+    # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
       request = build_request(http_method, path, opts)
@@ -181,7 +180,7 @@ module {{moduleName}}
         data.to_i
       when 'Float'
         data.to_f
-      when 'BOOLEAN'
+      when 'Boolean'
         data == true
       when 'DateTime'
         # parse date time (expecting ISO 8601 format)
@@ -256,7 +255,7 @@ module {{moduleName}}
     def build_request_url(path)
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
-      URI.encode(@config.base_url + path)
+      @config.base_url + path
     end
 
     # Builds the HTTP request body

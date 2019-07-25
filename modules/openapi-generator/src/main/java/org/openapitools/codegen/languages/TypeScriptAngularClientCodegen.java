@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
@@ -26,25 +27,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-import static org.openapitools.codegen.utils.StringUtils.dashize;
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
-    private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
-    public static final String NPM_NAME = "npmName";
-    public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
@@ -55,8 +49,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
 
-    protected String npmName = null;
-    protected String npmVersion = "1.0.0";
+    protected String ngVersion = "7.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
@@ -78,29 +71,23 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         apiPackage = "api";
         modelPackage = "model";
 
-        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
-                " Required to generate a full angular package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. Default is '1.0.0'"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(SNAPSHOT,
-                "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(WITH_INTERFACES,
+        this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
                 "Setting this property to true will generate interfaces next to the default class implementations.",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(TAGGED_UNIONS,
+                false));
+        this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(PROVIDED_IN_ROOT,
+                this.taggedUnions));
+        this.cliOptions.add(CliOption.newBoolean(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
-        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service. Default is 'Service'."));
-        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts). Default is '.service'."));
-        this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model. Default is ''."));
-        this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts). Default is ''."));
-        this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'. Default is 'camelCase'."));
+                false));
+        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular.").defaultValue(this.ngVersion));
+        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
+        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
+        this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
+        this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
+        this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
     }
 
     @Override
@@ -140,7 +127,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(NG_VERSION)) {
             ngVersion = new SemVer(additionalProperties.get(NG_VERSION).toString());
         } else {
-            ngVersion = new SemVer("4.3.0");
+            ngVersion = new SemVer(this.ngVersion);
             LOGGER.info("generating code for Angular {} ...", ngVersion);
             LOGGER.info("  (you can select the angular version by setting the additionalProperty ngVersion)");
         }
@@ -202,20 +189,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     private void addNpmPackageGeneration(SemVer ngVersion) {
 
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
-        }
-
-        if (additionalProperties.containsKey(NPM_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-        }
-
-        if (additionalProperties.containsKey(SNAPSHOT)
-                && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
-        }
-        additionalProperties.put(NPM_VERSION, npmVersion);
-
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
@@ -225,7 +198,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             // Angular v7 requires typescript ">=3.1.1 <3.2.0"
             additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
         } else if (ngVersion.atLeast("6.0.0")) {
-            additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
+            additionalProperties.put("tsVersion", ">=2.7.2 and <2.10.0");
         } else if (ngVersion.atLeast("5.0.0")) {
             additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
         } else {
@@ -264,12 +237,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         // Specific ng-packagr configuration
         if (ngVersion.atLeast("7.0.0")) {
             // compatible versions with typescript version
-            additionalProperties.put("ngPackagrVersion", "4.4.5");
+            additionalProperties.put("ngPackagrVersion", "5.1.0");
             additionalProperties.put("tsickleVersion", "0.34.0");
         } else if (ngVersion.atLeast("6.0.0")) {
             // compatible versions with typescript version
-            additionalProperties.put("ngPackagrVersion", "2.4.5");
-            additionalProperties.put("tsickleVersion", "0.27.5");
+            additionalProperties.put("ngPackagrVersion", "3.0.6");
+            additionalProperties.put("tsickleVersion", "0.32.1");
         } else if (ngVersion.atLeast("5.0.0")) {
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "2.4.5");
@@ -290,7 +263,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         //Files for building our lib
         supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("typings.mustache", getIndexDirectory(), "typings.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
     }
 
@@ -447,9 +419,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     /**
      * Finds and returns a path parameter of an operation by its name
      *
-     * @param operation
-     * @param parameterName
-     * @return
+     * @param operation the operation
+     * @param parameterName the name of the parameter
+     * @return param
      */
     private CodegenParameter findPathParameterByName(CodegenOperation operation, String parameterName) {
         for (CodegenParameter param : operation.pathParams) {
@@ -499,7 +471,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(removeModelSuffixIfNecessary(im)));
+                tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(im)));
                 tsImports.add(tsImport);
             }
         }
@@ -511,7 +483,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "DefaultService";
         }
-        return initialCaps(name) + serviceSuffix;
+        return camelize(name) + serviceSuffix;
     }
 
     @Override
@@ -529,28 +501,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelFilename(String name) {
-        return this.convertUsingFileNamingConvention(this.sanitizeName(name) + modelFileSuffix);
+        return this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
     }
 
     @Override
     public String toModelImport(String name) {
         return modelPackage() + "/" + toModelFilename(name);
-    }
-
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     public String getNpmRepository() {
@@ -566,17 +522,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return toApiFilename(name);
     }
 
-    private String getModelnameFromModelFilename(String filename) {
-        String name = filename.substring((modelPackage() + "/").length());
-        // Remove the file suffix and add the class suffix.
-        // This is needed because the model file suffix might not be the same as
-        // the model suffix.
-        if (modelFileSuffix.length() > 0) {
-            name = name.substring(0, name.length() - modelFileSuffix.length());
-        }
-        return camelize(name) + modelSuffix;
-    }
-
     @Override
     public String toModelName(String name) {
         String modelName = super.toModelName(name);
@@ -586,11 +531,21 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return modelName + modelSuffix;
     }
 
-    private String removeModelSuffixIfNecessary(String name) {
-        if (modelSuffix.length() == 0 || !name.endsWith(modelSuffix)) {
-            return name;
+    public String removeModelPrefixSuffix(String name) {
+        String result = name;
+        if (modelSuffix.length() > 0 && result.endsWith(modelSuffix)) {
+            result = result.substring(0, result.length() - modelSuffix.length());
         }
-        return name.substring(0, name.length() - modelSuffix.length());
+        String prefix = capitalize(this.modelNamePrefix);
+        String suffix = capitalize(this.modelNameSuffix);
+        if (prefix.length() > 0 && result.startsWith(prefix)) {
+            result = result.substring(prefix.length());
+        }
+        if (suffix.length() > 0 && result.endsWith(suffix)) {
+            result = result.substring(0, result.length() - suffix.length());
+        }
+
+        return result;
     }
 
     /**
@@ -644,7 +599,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * @return the transformed name
      */
     private String convertUsingFileNamingConvention(String originalName) {
-        String name = this.removeModelSuffixIfNecessary(originalName);
+        String name = this.removeModelPrefixSuffix(originalName);
         if ("kebab-case".equals(fileNaming)) {
             name = dashize(underscore(name));
         } else {
@@ -652,4 +607,5 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
         return name;
     }
+
 }

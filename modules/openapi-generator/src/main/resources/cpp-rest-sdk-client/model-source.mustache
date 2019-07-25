@@ -1,11 +1,95 @@
 {{>licenseInfo}}
 {{#models}}{{#model}}
 
-#include "{{classname}}.h"
+#include "{{classFilename}}.h"
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
+
+
+{{#isEnum}}
+
+{{classname}}::{{classname}}()
+{
+}
+
+{{classname}}::~{{classname}}()
+{
+}
+
+void {{classname}}::validate()
+{
+    // TODO: implement validation
+}
+
+web::json::value {{classname}}::toJson() const
+{
+    web::json::value val = web::json::value::object();
+
+    {{#allowableValues}}{{#values}}
+    if (m_value == e{{classname}}::{{classname}}_{{.}}) val = web::json::value::string(U("{{.}}"));{{/values}}{{/allowableValues}}
+
+    return val;
+}
+
+void {{classname}}::fromJson(const web::json::value& val)
+{
+    auto s = val.as_string();
+
+    {{#allowableValues}}{{#values}}
+    if (s == utility::conversions::to_string_t("{{.}}")) m_value = e{{classname}}::{{classname}}_{{.}};{{/values}}{{/allowableValues}}
+}
+
+void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+{
+    utility::string_t namePrefix = prefix;
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    {
+        namePrefix += utility::conversions::to_string_t(".");
+    }
+
+    utility::string_t s;
+
+    {{#allowableValues}}{{#values}}
+    if (m_value == e{{classname}}::{{classname}}_{{.}}) s = utility::conversions::to_string_t("{{.}}");{{/values}}{{/allowableValues}}
+
+    multipart->add(ModelBase::toHttpContent(namePrefix, s));
+}
+
+void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+{
+    utility::string_t namePrefix = prefix;
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    {
+        namePrefix += utility::conversions::to_string_t(".");
+    }
+
+    {
+        utility::string_t s;
+        s = ModelBase::stringFromHttpContent(multipart->getContent(namePrefix));
+        e{{classname}} v;
+        
+        {{#allowableValues}}{{#values}}
+        if (s == utility::conversions::to_string_t("{{.}}")) v = e{{classname}}::{{classname}}_{{.}};{{/values}}{{/allowableValues}}
+
+        setValue(v);
+    }
+}
+
+{{classname}}::e{{classname}} {{classname}}::getValue() const
+{
+   return m_value;
+}
+
+void {{classname}}::setValue({{classname}}::e{{classname}} const value)
+{
+   m_value = value;
+}
+
+{{/isEnum}}
+
+{{^isEnum}}
 
 {{classname}}::{{classname}}()
 {
@@ -629,9 +713,11 @@ void {{classname}}::unset{{name}}()
 {{/required}}
 {{/isInherited}}
 {{/vars}}
+{{/isEnum}}
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}
+
 
 {{/model}}
 {{/models}}

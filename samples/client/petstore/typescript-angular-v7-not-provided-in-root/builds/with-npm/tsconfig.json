@@ -12,7 +12,10 @@
         "outDir": "./dist",
         "noLib": false,
         "declaration": true,
-        "lib": [ "es6", "dom" ]
+        "lib": [ "es6", "dom" ],
+        "typeRoots": [
+            "node_modules/@types"
+        ]
     },
     "exclude": [
         "node_modules",

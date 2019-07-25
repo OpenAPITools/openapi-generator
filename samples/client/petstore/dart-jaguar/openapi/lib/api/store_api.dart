@@ -1,21 +1,20 @@
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_serializer/src/repo/repo.dart';
+import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 import 'dart:async';
 
 import 'package:openapi/model/order.dart';
 
-
 part 'store_api.jretro.dart';
 
 @GenApiClient()
-class StoreApi extends _$StoreApiClient implements ApiClient {
+class StoreApi extends ApiClient with _$StoreApiClient {
     final Route base;
-    final SerializerRepo serializers;
+    final Map<String, CodecRepo> converters;
     final Duration timeout;
 
-    StoreApi({this.base, this.serializers, this.timeout = const Duration(minutes: 2)});
+    StoreApi({this.base, this.converters, this.timeout = const Duration(minutes: 2)});
 
     /// Delete purchase order by ID
     ///
@@ -60,12 +59,12 @@ class StoreApi extends _$StoreApiClient implements ApiClient {
     @PostReq(path: "/store/order")
     Future<Order> placeOrder(
             
-              @AsJson() Order order
+             @AsJson() Order body
         ) {
         return super.placeOrder(
 
         
-        order
+        body
         ).timeout(timeout);
     }
 

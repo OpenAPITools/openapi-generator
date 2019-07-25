@@ -10,6 +10,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +55,39 @@ public class FakeApi {
     }
 
     /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * <p><b>200</b> - successful operation
+     * @param xmlItem XmlItem Body
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void createXmlItem(XmlItem xmlItem) throws RestClientException {
+        Object postBody = xmlItem;
+        
+        // verify the required parameter 'xmlItem' is set
+        if (xmlItem == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'xmlItem' when calling createXmlItem");
+        }
+        
+        String path = UriComponentsBuilder.fromPath("/fake/create_xml_item").build().toUriString();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { 
+            "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"
+        };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
+        apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
      * 
      * Test serialization of outer boolean types
      * <p><b>200</b> - Output boolean
@@ -65,7 +99,7 @@ public class FakeApi {
         Object postBody = body;
         
         String path = UriComponentsBuilder.fromPath("/fake/outer/boolean").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -94,7 +128,7 @@ public class FakeApi {
         Object postBody = body;
         
         String path = UriComponentsBuilder.fromPath("/fake/outer/composite").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -123,7 +157,7 @@ public class FakeApi {
         Object postBody = body;
         
         String path = UriComponentsBuilder.fromPath("/fake/outer/number").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -152,7 +186,7 @@ public class FakeApi {
         Object postBody = body;
         
         String path = UriComponentsBuilder.fromPath("/fake/outer/string").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -185,7 +219,7 @@ public class FakeApi {
         }
         
         String path = UriComponentsBuilder.fromPath("/fake/body-with-file-schema").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -224,11 +258,11 @@ public class FakeApi {
         }
         
         String path = UriComponentsBuilder.fromPath("/fake/body-with-query-params").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-        
+
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
 
         final String[] accepts = { };
@@ -260,7 +294,7 @@ public class FakeApi {
         }
         
         String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -324,11 +358,11 @@ public class FakeApi {
         }
         
         String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-        
+
         if (integer != null)
             formParams.add("integer", integer);
         if (int32 != null)
@@ -389,21 +423,21 @@ public class FakeApi {
         Object postBody = null;
         
         String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-        
+
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "enum_query_string_array", enumQueryStringArray));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_string", enumQueryString));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
-        
+
         if (enumHeaderStringArray != null)
         headerParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
         if (enumHeaderString != null)
         headerParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
-        
+
         if (enumFormStringArray != null)
             formParams.add("enum_form_string_array", enumFormStringArray);
         if (enumFormString != null)
@@ -452,16 +486,16 @@ public class FakeApi {
         }
         
         String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-        
+
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_string_group", requiredStringGroup));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
-        
+
         if (requiredBooleanGroup != null)
         headerParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
         if (booleanGroup != null)
@@ -493,7 +527,7 @@ public class FakeApi {
         }
         
         String path = UriComponentsBuilder.fromPath("/fake/inline-additionalProperties").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -532,11 +566,11 @@ public class FakeApi {
         }
         
         String path = UriComponentsBuilder.fromPath("/fake/jsonFormData").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-        
+
         if (param != null)
             formParams.add("param", param);
         if (param2 != null)

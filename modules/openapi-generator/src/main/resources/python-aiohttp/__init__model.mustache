@@ -1,0 +1,5 @@
+# coding: utf-8
+
+# import models into model package
+{{#models}}{{#model}}from {{modelPackage}}.{{classFilename}} import {{classname}}{{/model}}
+{{/models}}

@@ -44,8 +44,8 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() throws ApiException {
-        Pet pet = null;
-        api.addPet(pet);
+        Pet body = null;
+        api.addPet(body);
 
         // TODO: test validations
     }
@@ -125,8 +125,8 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() throws ApiException {
-        Pet pet = null;
-        api.updatePet(pet);
+        Pet body = null;
+        api.updatePet(body);
 
         // TODO: test validations
     }
@@ -163,6 +163,24 @@ public class PetApiTest {
         String additionalMetadata = null;
         File file = null;
         ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * uploads an image (required)
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void uploadFileWithRequiredFileTest() throws ApiException {
+        Long petId = null;
+        File requiredFile = null;
+        String additionalMetadata = null;
+        ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
 
         // TODO: test validations
     }

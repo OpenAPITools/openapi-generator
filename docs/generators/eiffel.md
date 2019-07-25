@@ -1,13 +1,12 @@
 
-CONFIG OPTIONS for eiffel
+---
+id: generator-opts-client-eiffel
+title: Config Options for eiffel
+sidebar_label: eiffel
+---
 
-	packageName
-	    Eiffel Cluster name (convention: lowercase). (Default: openapi)
-
-	packageVersion
-	    Eiffel package version. (Default: 1.0.0)
-
-	hideGenerationTimestamp
-	    Hides the generation timestamp when files are generated. (Default: true)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|Eiffel Cluster name (convention: lowercase).| |openapi|
+|packageVersion|Eiffel package version.| |1.0.0|
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

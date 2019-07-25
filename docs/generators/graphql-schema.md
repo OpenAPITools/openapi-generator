@@ -1,13 +1,12 @@
 
-CONFIG OPTIONS for graphql-schema
+---
+id: generator-opts-config-graphql-schema
+title: Config Options for graphql-schema
+sidebar_label: graphql-schema
+---
 
-	packageName
-	    GraphQL package name (convention: lowercase). (Default: openapi2graphql)
-
-	packageVersion
-	    GraphQL package version. (Default: 1.0.0)
-
-	hideGenerationTimestamp
-	    Hides the generation timestamp when files are generated. (Default: true)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|GraphQL package name (convention: lowercase).| |openapi2graphql|
+|packageVersion|GraphQL package version.| |1.0.0|
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

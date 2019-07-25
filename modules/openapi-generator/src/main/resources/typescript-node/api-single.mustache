@@ -1,16 +1,26 @@
 {{>licenseInfo}}
 import localVarRequest = require('request');
 import http = require('http');
-{{^supportsES6}}
-import Promise = require('bluebird');
-{{/supportsES6}}
 
 /* tslint:disable:no-unused-locals */
 {{#imports}}
 import { {{classname}} } from '../{{filename}}';
 {{/imports}}
 
-import { ObjectSerializer, Authentication, HttpBasicAuth, ApiKeyAuth, OAuth, VoidAuth } from '../model/models';
+import { ObjectSerializer, Authentication, VoidAuth } from '../model/models';
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
+import { HttpBasicAuth } from '../model/models';
+{{/isBasic}}
+{{#isApiKey}}
+import { ApiKeyAuth } from '../model/models';
+{{/isApiKey}}
+{{#isOAuth}}
+import { OAuth } from '../model/models';
+{{/isOAuth}}
+{{/authMethods}}
+{{/hasAuthMethods}}
 
 let defaultBasePath = '{{{basePath}}}';
 
@@ -127,7 +137,7 @@ export class {{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
+    public async {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
         const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
         let localVarQueryParameters: any = {};
@@ -152,6 +162,7 @@ export class {{classname}} {
 {{#headerParams}}
         localVarHeaderParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
 {{/headerParams}}
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -186,33 +197,35 @@ export class {{classname}} {
 {{/bodyParam}}
         };
 
+        let authenticationPromise = Promise.resolve();
 {{#authMethods}}
-        this.authentications.{{name}}.applyToRequest(localVarRequestOptions);
+        authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
 
 {{/authMethods}}
-        this.authentications.default.applyToRequest(localVarRequestOptions);
-
-        if (Object.keys(localVarFormParams).length) {
-            if (localVarUseFormData) {
-                (<any>localVarRequestOptions).formData = localVarFormParams;
-            } else {
-                localVarRequestOptions.form = localVarFormParams;
-            }
-        }
-        return new Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
-            localVarRequest(localVarRequestOptions, (error, response, body) => {
-                if (error) {
-                    reject(error);
+        authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
+        return authenticationPromise.then(() => {
+            if (Object.keys(localVarFormParams).length) {
+                if (localVarUseFormData) {
+                    (<any>localVarRequestOptions).formData = localVarFormParams;
                 } else {
-                    {{#returnType}}
-                    body = ObjectSerializer.deserialize(body, "{{{returnType}}}");
-                    {{/returnType}}
-                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                        resolve({ response: response, body: body });
-                    } else {
-                        reject({ response: response, body: body });
-                    }
+                    localVarRequestOptions.form = localVarFormParams;
                 }
+            }
+            return new Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
+                localVarRequest(localVarRequestOptions, (error, response, body) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        {{#returnType}}
+                        body = ObjectSerializer.deserialize(body, "{{{returnType}}}");
+                        {{/returnType}}
+                        if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            resolve({ response: response, body: body });
+                        } else {
+                            reject({ response: response, body: body });
+                        }
+                    }
+                });
             });
         });
     }

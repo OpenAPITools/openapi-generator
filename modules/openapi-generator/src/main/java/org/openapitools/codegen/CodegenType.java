@@ -50,6 +50,7 @@ public enum CodegenType {
         names.put("server", SERVER);
         names.put("documentation", DOCUMENTATION);
         names.put("schema", SCHEMA);
+        names.put("config", CONFIG);
         names.put("other", OTHER);
     }
 }

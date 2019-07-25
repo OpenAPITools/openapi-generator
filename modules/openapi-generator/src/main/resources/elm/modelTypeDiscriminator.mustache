@@ -27,6 +27,6 @@ encode model =
     case model of
 {{#mappedModels}}
         {{modelName}}Type subModel ->
-            {{modelName}}.encoder "{{mappingName}}" subModel
+            {{modelName}}.encode "{{mappingName}}" subModel
 
 {{/mappedModels}}

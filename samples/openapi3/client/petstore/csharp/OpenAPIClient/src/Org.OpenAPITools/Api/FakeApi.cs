@@ -25,6 +25,25 @@ namespace Org.OpenAPITools.Api
     {
         #region Synchronous Operations
         /// <summary>
+        /// Health check endpoint
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>HealthCheckResult</returns>
+        HealthCheckResult FakeHealthGet ();
+
+        /// <summary>
+        /// Health check endpoint
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of HealthCheckResult</returns>
+        ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo ();
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -256,6 +275,37 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null);
         /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns></returns>
+        void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestGroupParametersWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        /// <summary>
         /// test inline additionalProperties
         /// </summary>
         /// <remarks>
@@ -301,6 +351,25 @@ namespace Org.OpenAPITools.Api
         ApiResponse<Object> TestJsonFormDataWithHttpInfo (string param, string param2);
         #endregion Synchronous Operations
         #region Asynchronous Operations
+        /// <summary>
+        /// Health check endpoint
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of HealthCheckResult</returns>
+        System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync ();
+
+        /// <summary>
+        /// Health check endpoint
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of ApiResponse (HealthCheckResult)</returns>
+        System.Threading.Tasks.Task<ApiResponse<HealthCheckResult>> FakeHealthGetAsyncWithHttpInfo ();
         /// <summary>
         /// 
         /// </summary>
@@ -533,6 +602,37 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null);
         /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task TestGroupParametersAsync (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        /// <summary>
         /// test inline additionalProperties
         /// </summary>
         /// <remarks>
@@ -593,6 +693,17 @@ namespace Org.OpenAPITools.Api
         public FakeApi(String basePath)
         {
             this.Configuration = new Org.OpenAPITools.Client.Configuration { BasePath = basePath };
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeApi"/> class
+        /// </summary>
+        /// <returns></returns>
+        public FakeApi()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
 
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
@@ -677,6 +788,127 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Health check endpoint 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>HealthCheckResult</returns>
+        public HealthCheckResult FakeHealthGet ()
+        {
+             ApiResponse<HealthCheckResult> localVarResponse = FakeHealthGetWithHttpInfo();
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Health check endpoint 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of HealthCheckResult</returns>
+        public ApiResponse< HealthCheckResult > FakeHealthGetWithHttpInfo ()
+        {
+
+            var localVarPath = "/fake/health";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakeHealthGet", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<HealthCheckResult>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (HealthCheckResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(HealthCheckResult)));
+        }
+
+        /// <summary>
+        /// Health check endpoint 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of HealthCheckResult</returns>
+        public async System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync ()
+        {
+             ApiResponse<HealthCheckResult> localVarResponse = await FakeHealthGetAsyncWithHttpInfo();
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Health check endpoint 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of ApiResponse (HealthCheckResult)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<HealthCheckResult>> FakeHealthGetAsyncWithHttpInfo ()
+        {
+
+            var localVarPath = "/fake/health";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakeHealthGet", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<HealthCheckResult>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (HealthCheckResult) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(HealthCheckResult)));
+        }
+
+        /// <summary>
         ///  Test serialization of outer boolean types
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -743,7 +975,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<bool?>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (bool?) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(bool?)));
         }
 
@@ -815,7 +1047,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<bool?>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (bool?) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(bool?)));
         }
 
@@ -886,7 +1118,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<OuterComposite>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (OuterComposite) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterComposite)));
         }
 
@@ -958,7 +1190,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<OuterComposite>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (OuterComposite) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterComposite)));
         }
 
@@ -1029,7 +1261,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<decimal?>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (decimal?) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(decimal?)));
         }
 
@@ -1101,7 +1333,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<decimal?>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (decimal?) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(decimal?)));
         }
 
@@ -1172,7 +1404,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<string>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
@@ -1244,7 +1476,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<string>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
@@ -1316,7 +1548,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1389,7 +1621,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1467,7 +1699,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1546,7 +1778,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1620,7 +1852,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<ModelClient>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (ModelClient) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
         }
 
@@ -1695,7 +1927,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<ModelClient>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (ModelClient) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
         }
 
@@ -1814,7 +2046,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1934,7 +2166,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -2017,7 +2249,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -2101,7 +2333,190 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns></returns>
+        public void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+             TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> TestGroupParametersWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+            // verify the required parameter 'requiredStringGroup' is set
+            if (requiredStringGroup == null)
+                throw new ApiException(400, "Missing required parameter 'requiredStringGroup' when calling FakeApi->TestGroupParameters");
+            // verify the required parameter 'requiredBooleanGroup' is set
+            if (requiredBooleanGroup == null)
+                throw new ApiException(400, "Missing required parameter 'requiredBooleanGroup' when calling FakeApi->TestGroupParameters");
+            // verify the required parameter 'requiredInt64Group' is set
+            if (requiredInt64Group == null)
+                throw new ApiException(400, "Missing required parameter 'requiredInt64Group' when calling FakeApi->TestGroupParameters");
+
+            var localVarPath = "/fake";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (requiredStringGroup != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "required_string_group", requiredStringGroup)); // query parameter
+            if (requiredInt64Group != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "required_int64_group", requiredInt64Group)); // query parameter
+            if (stringGroup != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "string_group", stringGroup)); // query parameter
+            if (int64Group != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "int64_group", int64Group)); // query parameter
+            if (requiredBooleanGroup != null) localVarHeaderParams.Add("required_boolean_group", this.Configuration.ApiClient.ParameterToString(requiredBooleanGroup)); // header parameter
+            if (booleanGroup != null) localVarHeaderParams.Add("boolean_group", this.Configuration.ApiClient.ParameterToString(booleanGroup)); // header parameter
+
+            // authentication (bearer_test) required
+            // http basic authentication required
+            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
+            {
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestGroupParameters", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task TestGroupParametersAsync (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+             await TestGroupParametersAsyncWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+            // verify the required parameter 'requiredStringGroup' is set
+            if (requiredStringGroup == null)
+                throw new ApiException(400, "Missing required parameter 'requiredStringGroup' when calling FakeApi->TestGroupParameters");
+            // verify the required parameter 'requiredBooleanGroup' is set
+            if (requiredBooleanGroup == null)
+                throw new ApiException(400, "Missing required parameter 'requiredBooleanGroup' when calling FakeApi->TestGroupParameters");
+            // verify the required parameter 'requiredInt64Group' is set
+            if (requiredInt64Group == null)
+                throw new ApiException(400, "Missing required parameter 'requiredInt64Group' when calling FakeApi->TestGroupParameters");
+
+            var localVarPath = "/fake";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (requiredStringGroup != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "required_string_group", requiredStringGroup)); // query parameter
+            if (requiredInt64Group != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "required_int64_group", requiredInt64Group)); // query parameter
+            if (stringGroup != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "string_group", stringGroup)); // query parameter
+            if (int64Group != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "int64_group", int64Group)); // query parameter
+            if (requiredBooleanGroup != null) localVarHeaderParams.Add("required_boolean_group", this.Configuration.ApiClient.ParameterToString(requiredBooleanGroup)); // header parameter
+            if (booleanGroup != null) localVarHeaderParams.Add("boolean_group", this.Configuration.ApiClient.ParameterToString(booleanGroup)); // header parameter
+
+            // authentication (bearer_test) required
+            // http basic authentication required
+            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
+            {
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestGroupParameters", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -2173,7 +2588,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -2246,7 +2661,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -2317,7 +2732,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -2389,7 +2804,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 

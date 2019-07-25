@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**create_xml_item**](FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -18,6 +19,59 @@ Method | HTTP request | Description
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
+# **create_xml_item**
+> create_xml_item(xml_item)
+
+creates an XmlItem
+
+this route creates an XmlItem
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = petstore_api.FakeApi()
+xml_item = petstore_api.XmlItem() # XmlItem | XmlItem Body
+
+try:
+    # creates an XmlItem
+    api_instance.create_xml_item(xml_item)
+except ApiException as e:
+    print("Exception when calling FakeApi->create_xml_item: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xml_item** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **fake_outer_boolean_serialize**
 > bool fake_outer_boolean_serialize(body=body)
 
@@ -26,6 +80,7 @@ Method | HTTP request | Description
 Test serialization of outer boolean types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -33,7 +88,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 body = True # bool | Input boolean as post body (optional)
 
@@ -63,6 +118,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output boolean |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_composite_serialize**
@@ -73,6 +133,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -80,7 +141,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 body = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
@@ -110,6 +171,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output composite |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_number_serialize**
@@ -120,6 +186,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -127,7 +194,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 body = 3.4 # float | Input number as post body (optional)
 
@@ -157,6 +224,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output number |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_string_serialize**
@@ -167,6 +239,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -174,7 +247,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 body = 'body_example' # str | Input string as post body (optional)
 
@@ -204,6 +277,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output string |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_body_with_file_schema**
@@ -214,6 +292,7 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -221,7 +300,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 body = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
 
@@ -250,6 +329,11 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_body_with_query_params**
@@ -258,6 +342,7 @@ No authorization required
 
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -265,7 +350,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 query = 'query_example' # str | 
 body = petstore_api.User() # User | 
@@ -296,6 +381,11 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_client_model**
@@ -306,6 +396,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -313,7 +404,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 body = petstore_api.Client() # Client | client model
 
@@ -344,6 +435,11 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_endpoint_parameters**
@@ -355,20 +451,21 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 
-* Basic Authentication (http_basic_test): 
+* Basic Authentication (http_basic_test):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure HTTP basic authorization: http_basic_test
 configuration = petstore_api.Configuration()
+# Configure HTTP basic authorization: http_basic_test
 configuration.username = 'YOUR_USERNAME'
 configuration.password = 'YOUR_PASSWORD'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
 number = 3.4 # float | None
 double = 3.4 # float | None
@@ -424,6 +521,12 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**400** | Invalid username supplied |  -  |
+**404** | User not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_enum_parameters**
@@ -434,6 +537,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -441,7 +545,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
@@ -485,6 +589,12 @@ No authorization required
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**400** | Invalid request |  -  |
+**404** | Not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_group_parameters**
@@ -495,6 +605,7 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -502,7 +613,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 required_string_group = 56 # int | Required String in group parameters
 required_boolean_group = True # bool | Required Boolean in group parameters
@@ -542,6 +653,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**400** | Someting wrong |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_inline_additional_properties**
@@ -550,6 +666,7 @@ No authorization required
 test inline additionalProperties
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -557,7 +674,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 param = {'key': 'param_example'} # dict(str, str) | request body
 
@@ -587,6 +704,11 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_json_form_data**
@@ -595,6 +717,7 @@ No authorization required
 test json serialization of form data
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -602,7 +725,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.FakeApi()
 param = 'param_example' # str | field1
 param2 = 'param2_example' # str | field2
@@ -633,6 +756,11 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

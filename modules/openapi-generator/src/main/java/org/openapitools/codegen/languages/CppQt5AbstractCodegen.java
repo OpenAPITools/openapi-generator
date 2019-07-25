@@ -1,24 +1,18 @@
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.util.*;
 
 public class CppQt5AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
 
@@ -41,6 +35,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         }
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
+        addOption(CodegenConstants.MODEL_NAME_PREFIX, CodegenConstants.MODEL_NAME_PREFIX_DESC, this.modelNamePrefix);
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -52,9 +47,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         // Write defaults namespace in properties so that it can be accessible in templates.
         // At this point command line has not been parsed so if value is given
         // in command line it will supersede this content
-        additionalProperties.put("cppNamespace", cppNamespace);   
-        // CLI options
-        addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
+        additionalProperties.put("cppNamespace", cppNamespace);
         /*
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
@@ -85,6 +78,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("integer", "qint32");
         typeMapping.put("long", "qint64");
         typeMapping.put("boolean", "bool");
+        typeMapping.put("number", "double");        
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
         typeMapping.put("object", PREFIX + "Object");
@@ -95,6 +89,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         //   come out of the box and will need to be sorted out (at least imply
         //   modifications on multiple templates)
         typeMapping.put("UUID", "QString");
+        typeMapping.put("URI", "QString");
         typeMapping.put("file", "QIODevice");
         typeMapping.put("binary", "QIODevice");
         importMapping = new HashMap<String, String>();
@@ -117,7 +112,9 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         }
 
         additionalProperties.put("cppNamespaceDeclarations", cppNamespace.split("\\::"));
+
         if (additionalProperties.containsKey("modelNamePrefix")) {
+            modelNamePrefix = (String) additionalProperties.get("modelNamePrefix");
             typeMapping.put("object", modelNamePrefix + "Object");
             additionalProperties().put("prefix", modelNamePrefix);
         }
@@ -212,7 +209,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     public String toModelFilename(String name) {
-        return modelNamePrefix + sanitizeName(initialCaps(name));
+        return toModelName(name);
     }
     
     /**
@@ -283,12 +280,24 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        Map<String, CodegenModel> codegenModels = new HashMap<String, CodegenModel> ();
+        for(Object moObj : allModels) {
+            CodegenModel mo = ((Map<String, CodegenModel>) moObj).get("model");
+            if(mo.isEnum) {
+                codegenModels.put(mo.classname, mo);
+            }
+        }
         for (CodegenOperation operation : operations) {
+            if(operation.returnType != null) {
+                if(codegenModels.containsKey(operation.returnType)){
+                    operation.vendorExtensions.put("returnsEnum", true);
+                }
+            }
             // Check all return parameter baseType if there is a necessity to include, include it if not 
             // already done
             if (operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
@@ -322,6 +331,21 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             }
         }
         return objs;
+    }
+    
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        return escapeText(value);
+    }
+    
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "QString".equals(dataType);
     }
     
     private Map<String, String> createMapping(String key, String value) {

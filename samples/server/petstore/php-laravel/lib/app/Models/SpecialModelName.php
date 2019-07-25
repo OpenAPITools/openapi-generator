@@ -9,7 +9,7 @@ namespace app\Models;
  */
 class SpecialModelName {
 
-    /** @var int $special_property_name */
-    private $special_property_name;
+    /** @var int $specialPropertyName */
+    private $specialPropertyName;
 
 }

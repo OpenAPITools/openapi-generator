@@ -1,7 +1,10 @@
 
-CONFIG OPTIONS for ruby-on-rails
+---
+id: generator-opts-server-ruby-on-rails
+title: Config Options for ruby-on-rails
+sidebar_label: ruby-on-rails
+---
 
-	databaseAdapter
-	    The adapter for database (e.g. mysql, sqlite). Default: sqlite (Default: sqlite)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|databaseAdapter|The adapter for database (e.g. mysql, sqlite). Default: sqlite| |sqlite|

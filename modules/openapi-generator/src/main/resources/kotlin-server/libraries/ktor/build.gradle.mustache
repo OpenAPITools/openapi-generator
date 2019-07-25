@@ -1,15 +1,15 @@
 group '{{groupId}}'
 version '{{artifactVersion}}'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.3'
+wrapper {
+    gradleVersion = '4.9'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.2.10'
-    ext.ktor_version = '0.9.1-alpha-9'
-    ext.shadow_version = '2.0.2'
+    ext.kotlin_version = '1.3.21'
+    ext.ktor_version = '1.1.3'
+    ext.shadow_version = '2.0.3'
 
     repositories {
         mavenCentral()
@@ -43,12 +43,6 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
-
 shadowJar {
     baseName = '{{artifactId}}'
     classifier = null
@@ -57,12 +51,12 @@ shadowJar {
 
 repositories {
     mavenCentral()
-    maven { url  "http://dl.bintray.com/kotlin/ktor" }
+    maven { url  "https://dl.bintray.com/kotlin/ktor" }
     maven { url "https://dl.bintray.com/kotlin/kotlinx" }
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "io.ktor:ktor-server-netty:$ktor_version"
     compile "io.ktor:ktor-metrics:$ktor_version"
     compile "io.ktor:ktor-locations:$ktor_version"

@@ -20,7 +20,6 @@ import java.util.Objects;
 import javax.xml.bind.annotation.*;
 
 @ApiModel(description = "A pet for sale in the pet store")
-
 public class Pet   {
   
   private Long id;
@@ -56,13 +55,13 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 

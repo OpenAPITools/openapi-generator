@@ -16,9 +16,9 @@ type mutation {
   DeleteOrder(orderId: String!): null
 
   # Place an order for a pet
-  # @param Order order order placed for purchasing the pet
+  # @param Order body order placed for purchasing the pet
   # @return [Order]
-  PlaceOrder(order: Order): Order
+  PlaceOrder(body: Order): Order
 
 }
 

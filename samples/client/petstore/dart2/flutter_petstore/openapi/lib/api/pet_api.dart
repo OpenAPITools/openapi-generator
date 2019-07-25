@@ -28,7 +28,7 @@ class PetApi {
 
     List<String> contentTypes = ["application/json","application/xml"];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -50,7 +50,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -78,7 +78,7 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -100,7 +100,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -128,7 +128,7 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -150,9 +150,9 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return (apiClient.deserialize(response.body, 'List<Pet>') as List).map((item) => item as Pet).toList();
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
       return null;
     }
@@ -179,7 +179,7 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -201,9 +201,9 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return (apiClient.deserialize(response.body, 'List<Pet>') as List).map((item) => item as Pet).toList();
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
       return null;
     }
@@ -229,7 +229,7 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["api_key"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -251,9 +251,9 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'Pet') as Pet;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
     } else {
       return null;
     }
@@ -279,7 +279,7 @@ class PetApi {
 
     List<String> contentTypes = ["application/json","application/xml"];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -301,7 +301,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -328,7 +328,7 @@ class PetApi {
 
     List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -362,7 +362,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -389,7 +389,7 @@ class PetApi {
 
     List<String> contentTypes = ["multipart/form-data"];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -422,9 +422,9 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'ApiResponse') as ApiResponse;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
     } else {
       return null;
     }

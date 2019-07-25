@@ -18,24 +18,19 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{/vars}}
 }{{#hasEnums}}
 
-/**
- * @export
- * @namespace {{classname}}
- */
-export namespace {{classname}} {
 {{#vars}}
-    {{#isEnum}}
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum {{enumName}} {
-    {{#allowableValues}}
-        {{#enumVars}}
-        {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-        {{/enumVars}}
-    {{/allowableValues}}
-    }
-    {{/isEnum}}
+{{#isEnum}}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum {{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
 {{/vars}}
-}{{/hasEnums}}
+{{/hasEnums}}

@@ -61,7 +61,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
     public PhpLumenServerCodegen() {
         super();
 
-        embeddedTemplateDir = templateDir = "lumen";
+        embeddedTemplateDir = templateDir = "php-lumen";
 
         /*
          * packPath

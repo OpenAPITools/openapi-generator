@@ -5,18 +5,21 @@ The following generators are available:
     - [android](android.md)
     - [apex](apex.md)
     - [bash](bash.md)
+    - [c](c.md)
     - [clojure](clojure.md)
-    - [cpp-qt5](cpp-qt5.md)
+    - [cpp-qt5-client](cpp-qt5-client.md)
     - [cpp-restsdk](cpp-restsdk.md)
     - [cpp-tizen](cpp-tizen.md)
     - [csharp](csharp.md)
     - [csharp-dotnet2](csharp-dotnet2.md)
+    - [csharp-refactor](csharp-refactor.md)
     - [dart](dart.md)
     - [dart-jaguar](dart-jaguar.md)
     - [eiffel](eiffel.md)
     - [elixir](elixir.md)
     - [elm](elm.md)
     - [erlang-client](erlang-client.md)
+    - [erlang-proper](erlang-proper.md)
     - [flash](flash.md)
     - [go](go.md)
     - [groovy](groovy.md)
@@ -42,7 +45,7 @@ The following generators are available:
     - [scala-httpclient](scala-httpclient.md)
     - [scalaz](scalaz.md)
     - [swift2-deprecated](swift2-deprecated.md)
-    - [swift3](swift3.md)
+    - [swift3-deprecated](swift3-deprecated.md)
     - [swift4](swift4.md)
     - [typescript-angular](typescript-angular.md)
     - [typescript-angularjs](typescript-angularjs.md)
@@ -52,6 +55,7 @@ The following generators are available:
     - [typescript-inversify](typescript-inversify.md)
     - [typescript-jquery](typescript-jquery.md)
     - [typescript-node](typescript-node.md)
+    - [typescript-rxjs](typescript-rxjs.md)
 
 
 * SERVER generators:
@@ -64,6 +68,7 @@ The following generators are available:
     - [erlang-server](erlang-server.md)
     - [go-gin-server](go-gin-server.md)
     - [go-server](go-server.md)
+    - [graphql-server](graphql-server.md)
     - [haskell](haskell.md)
     - [java-inflector](java-inflector.md)
     - [java-msf4j](java-msf4j.md)
@@ -111,6 +116,7 @@ The following generators are available:
 
 * CONFIG generators:
     - [apache2](apache2.md)
+    - [graphql-schema](graphql-schema.md)
 
 
 

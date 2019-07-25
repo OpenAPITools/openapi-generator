@@ -20,31 +20,22 @@ package org.openapitools.codegen.languages;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(BashClientCodegen.class);
@@ -208,6 +199,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "binary");
         typeMapping.put("binary", "binary");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         /**
          * Additional Properties.  These values can be passed to the templates and
@@ -419,9 +411,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OpenAPI Parameter object to Codegen Parameter object
-     *
-     * @param param   OpenAPI parameter object
      * @param imports set of imports for library/package/module
+     * @param param   OpenAPI parameter object
+     *
      * @return Codegen Parameter object
      */
     @Override
@@ -578,12 +570,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod,
-                                          Operation operation,
-                                          Map<String, Schema> definitions,
-                                          OpenAPI openAPI) {
-
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation,
-                definitions, openAPI);
+                                          Operation operation, List<Server> servers) {
+        Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         /**
          * Check if the operation has a Bash codegen specific description
@@ -626,8 +615,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                  * If the operation produces Json and has nonempty example
                  * try to reformat it.
                  */
-                if (getConsumesInfo(openAPI, operation) != null
-                        && getConsumesInfo(openAPI, operation).contains("application/json")
+                if (getConsumesInfo(this.openAPI, operation) != null
+                        && getConsumesInfo(this.openAPI, operation).contains("application/json")
                         && definitions.get(p.dataType).getExample() != null) {
 
                     ObjectMapper mapper = new ObjectMapper();
@@ -757,7 +746,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return camelize(name);
     }
 
 

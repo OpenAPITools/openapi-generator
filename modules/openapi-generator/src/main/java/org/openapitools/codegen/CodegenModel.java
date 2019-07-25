@@ -17,12 +17,11 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.models.ExternalDocumentation;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {
@@ -47,7 +46,7 @@ public class CodegenModel {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
-    public boolean isString, isInteger;
+    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
@@ -97,7 +96,12 @@ public class CodegenModel {
                 .append("arrayModelType", arrayModelType)
                 .append("isAlias", isAlias)
                 .append("isString", isString)
+                .append("isNumeric", isNumeric)
                 .append("isInteger", isInteger)
+                .append("isLong", isLong)
+                .append("isNumber", isNumber)
+                .append("isFloat", isFloat)
+                .append("isDouble", isDouble)
                 .append("vars", vars)
                 .append("requiredVars", requiredVars)
                 .append("optionalVars", optionalVars)
@@ -133,125 +137,87 @@ public class CodegenModel {
 
         CodegenModel that = (CodegenModel) o;
 
-        if (parent != null ? !parent.equals(that.parent) : that.parent != null)
-            return false;
-        if (parentSchema != null ? !parentSchema.equals(that.parentSchema) : that.parentSchema != null)
-            return false;
-        if (interfaces != null ? !interfaces.equals(that.interfaces) : that.interfaces != null)
-            return false;
-        if (allParents != null ? !allParents.equals(that.allParents) : that.allParents != null)
-            return false;
-        if (parentModel != null ? !parentModel.equals(that.parentModel) : that.parentModel != null)
-            return false;
-        if (interfaceModels != null ? !interfaceModels.equals(that.interfaceModels) : that.interfaceModels != null)
-            return false;
-        if (name != null ? !name.equals(that.name) : that.name != null)
-            return false;
-        if (classname != null ? !classname.equals(that.classname) : that.classname != null)
-            return false;
-        if (title != null ? !title.equals(that.title) : that.title != null)
-            return false;
-        if (description != null ? !description.equals(that.description) : that.description != null)
-            return false;
-        if (classVarName != null ? !classVarName.equals(that.classVarName) : that.classVarName != null)
-            return false;
-        if (modelJson != null ? !modelJson.equals(that.modelJson) : that.modelJson != null)
-            return false;
-        if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null)
-            return false;
-        if (xmlPrefix != null ? !xmlPrefix.equals(that.xmlPrefix) : that.xmlPrefix != null)
-            return false;
-        if (xmlNamespace != null ? !xmlNamespace.equals(that.xmlNamespace) : that.xmlNamespace != null)
-            return false;
-        if (xmlName != null ? !xmlName.equals(that.xmlName) : that.xmlName != null)
-            return false;
-        if (classFilename != null ? !classFilename.equals(that.classFilename) : that.classFilename != null)
-            return false;
-        if (unescapedDescription != null ? !unescapedDescription.equals(that.unescapedDescription) : that.unescapedDescription != null)
-            return false;
-        if (discriminator != null ? !discriminator.equals(that.discriminator) : that.discriminator != null)
-            return false;
-        if (defaultValue != null ? !defaultValue.equals(that.defaultValue) : that.defaultValue != null)
-            return false;
-        if (vars != null ? !vars.equals(that.vars) : that.vars != null)
-            return false;
-        if (requiredVars != null ? !requiredVars.equals(that.requiredVars) : that.requiredVars != null)
-            return false;
-        if (optionalVars != null ? !optionalVars.equals(that.optionalVars) : that.optionalVars != null)
-            return false;
-        if (allVars != null ? !allVars.equals(that.allVars) : that.allVars != null)
-            return false;
-        if (allowableValues != null ? !allowableValues.equals(that.allowableValues) : that.allowableValues != null)
-            return false;
-        if (mandatory != null ? !mandatory.equals(that.mandatory) : that.mandatory != null)
-            return false;
-        if (allMandatory != null ? !allMandatory.equals(that.allMandatory) : that.allMandatory != null)
-            return false;
-        if (imports != null ? !imports.equals(that.imports) : that.imports != null)
-            return false;
-        if (hasVars != that.hasVars)
-            return false;
-        if (emptyVars != that.emptyVars)
-            return false;
-        if (hasMoreModels != that.hasMoreModels)
-            return false;
-        if (hasEnums != that.hasEnums)
-            return false;
-        if (isEnum != that.isEnum)
-            return false;
-        if (externalDocumentation != null ? !externalDocumentation.equals(that.externalDocumentation) : that.externalDocumentation != null)
-            return false;
-        if (!Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly))
-            return false;
-        if (!Objects.equals(hasChildren, that.hasChildren))
-            return false;
-        if (!Objects.equals(parentVars, that.parentVars))
-            return false;
-        return vendorExtensions != null ? vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions == null;
-
+        return Objects.equals(parent, that.parent) &&
+            Objects.equals(parentSchema, that.parentSchema) &&
+            Objects.equals(interfaces, that.interfaces) &&
+            Objects.equals(allParents, that.allParents) &&
+            Objects.equals(parentModel, that.parentModel) &&
+            Objects.equals(interfaceModels, that.interfaceModels) &&
+            Objects.equals(name, that.name) &&
+            Objects.equals(classname, that.classname) &&
+            Objects.equals(title, that.title) &&
+            Objects.equals(description, that.description) &&
+            Objects.equals(classVarName, that.classVarName) &&
+            Objects.equals(modelJson, that.modelJson) &&
+            Objects.equals(dataType, that.dataType) &&
+            Objects.equals(xmlPrefix, that.xmlPrefix) &&
+            Objects.equals(xmlNamespace, that.xmlNamespace) &&
+            Objects.equals(xmlName, that.xmlName) &&
+            Objects.equals(classFilename, that.classFilename) &&
+            Objects.equals(unescapedDescription, that.unescapedDescription) &&
+            Objects.equals(discriminator, that.discriminator) &&
+            Objects.equals(defaultValue, that.defaultValue) &&
+            Objects.equals(vars, that.vars) &&
+            Objects.equals(requiredVars, that.requiredVars) &&
+            Objects.equals(optionalVars, that.optionalVars) &&
+            Objects.equals(allVars, that.allVars) &&
+            Objects.equals(allowableValues, that.allowableValues) &&
+            Objects.equals(mandatory, that.mandatory) &&
+            Objects.equals(allMandatory, that.allMandatory) &&
+            Objects.equals(imports, that.imports) &&
+            Objects.equals(hasVars, that.hasVars) &&
+            Objects.equals(emptyVars, that.emptyVars) &&
+            Objects.equals(hasMoreModels, that.hasMoreModels) &&
+            Objects.equals(hasEnums, that.hasEnums) &&
+            Objects.equals(isEnum, that.isEnum) &&
+            Objects.equals(externalDocumentation, that.externalDocumentation) &&
+            Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly) &&
+            Objects.equals(hasChildren, that.hasChildren) &&
+            Objects.equals(parentVars, that.parentVars) &&
+            Objects.equals(vendorExtensions, that.vendorExtensions);
     }
 
     @Override
     public int hashCode() {
-        int result = parent != null ? parent.hashCode() : 0;
-        result = 31 * result + (parentSchema != null ? parentSchema.hashCode() : 0);
-        result = 31 * result + (interfaces != null ? interfaces.hashCode() : 0);
-        result = 31 * result + (allParents != null ? allParents.hashCode() : 0);
-        result = 31 * result + (parentModel != null ? parentModel.hashCode() : 0);
-        result = 31 * result + (interfaceModels != null ? interfaceModels.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (classname != null ? classname.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (classVarName != null ? classVarName.hashCode() : 0);
-        result = 31 * result + (modelJson != null ? modelJson.hashCode() : 0);
-        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
-        result = 31 * result + (xmlPrefix != null ? xmlPrefix.hashCode() : 0);
-        result = 31 * result + (xmlNamespace != null ? xmlNamespace.hashCode() : 0);
-        result = 31 * result + (xmlName != null ? xmlName.hashCode() : 0);
-        result = 31 * result + (classFilename != null ? classFilename.hashCode() : 0);
-        result = 31 * result + (unescapedDescription != null ? unescapedDescription.hashCode() : 0);
-        result = 31 * result + (discriminator != null ? discriminator.hashCode() : 0);
-        result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
-        result = 31 * result + (vars != null ? vars.hashCode() : 0);
-        result = 31 * result + (requiredVars != null ? requiredVars.hashCode() : 0);
-        result = 31 * result + (optionalVars != null ? optionalVars.hashCode() : 0);
-        result = 31 * result + (allVars != null ? allVars.hashCode() : 0);
-        result = 31 * result + (allowableValues != null ? allowableValues.hashCode() : 0);
-        result = 31 * result + (mandatory != null ? mandatory.hashCode() : 0);
-        result = 31 * result + (allMandatory != null ? allMandatory.hashCode() : 0);
-        result = 31 * result + (imports != null ? imports.hashCode() : 0);
-        result = 31 * result + (hasVars ? 13 : 31);
-        result = 31 * result + (emptyVars ? 13 : 31);
-        result = 31 * result + (hasMoreModels ? 13 : 31);
-        result = 31 * result + (hasEnums ? 13 : 31);
-        result = 31 * result + (isEnum ? 13 : 31);
-        result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
-        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + Objects.hash(hasOnlyReadOnly);
-        result = 31 * result + Objects.hash(hasChildren);
-        result = 31 * result + Objects.hash(parentVars);
-        return result;
+        return Objects.hash(
+            parent,
+            parentSchema,
+            interfaces,
+            allParents,
+            parentModel,
+            interfaceModels,
+            name,
+            classname,
+            title,
+            description,
+            classVarName,
+            modelJson,
+            dataType,
+            xmlPrefix,
+            xmlNamespace,
+            xmlName,
+            classFilename,
+            unescapedDescription,
+            discriminator,
+            defaultValue,
+            vars,
+            requiredVars,
+            optionalVars,
+            allVars,
+            allowableValues,
+            mandatory,
+            allMandatory,
+            imports,
+            hasVars,
+            emptyVars,
+            hasMoreModels,
+            hasEnums,
+            isEnum,
+            externalDocumentation,
+            vendorExtensions,
+            hasOnlyReadOnly,
+            hasChildren,
+            parentVars);
     }
 
     public String getParent() {
@@ -622,11 +588,15 @@ public class CodegenModel {
      */
     public void removeSelfReferenceImport() {
         for (CodegenProperty cp : allVars) {
-            // detect self import
-            if (cp.dataType.equalsIgnoreCase(this.classname) ||
-                    (cp.isContainer && cp.items.dataType.equalsIgnoreCase(this.classname))) {
-                this.imports.remove(this.classname); // remove self import
-                cp.isSelfReference = true;
+            if (cp == null) {
+                // TODO cp shouldn't be null. Show a warning message instead
+            } else {
+                // detect self import
+                if (this.classname.equalsIgnoreCase(cp.dataType) ||
+                        (cp.isContainer && cp.items != null && this.classname.equalsIgnoreCase(cp.items.dataType))) {
+                    this.imports.remove(this.classname); // remove self import
+                    cp.isSelfReference = true;
+                }
             }
         }
     }

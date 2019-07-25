@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.dart;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.DartClientCodegen;
 import org.openapitools.codegen.options.DartClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class DartClientOptionsTest extends AbstractOptionsTest {
 

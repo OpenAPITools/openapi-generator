@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Handler;
 
-use Articus\PathHandler\Operation;
 use Articus\PathHandler\Annotation as PHA;
 use Articus\PathHandler\Consumer as PHConsumer;
 use Articus\PathHandler\Producer as PHProducer;
@@ -13,21 +13,22 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @PHA\Route(pattern="/user/createWithArray")
  */
-class UserCreateWithArray implements Operation\PostInterface
+class UserCreateWithArray
 {
     /**
      * Creates list of users with given input array
+     * @PHA\Post()
      * TODO check if attribute is valid and can handle your container type
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\User[]::class,"objectAttr":"bodyData"})
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":"\App\DTO\User[]","objectAttr":"bodyData"})
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      */
-    public function handlePost(ServerRequestInterface $request)
+    public function createUsersWithArrayInput(ServerRequestInterface $request)
     {
         //TODO implement method
         /** @var \App\DTO\User[] $bodyData */
         $bodyData = $request->getAttribute("bodyData");
-        throw new PHException\HttpCode(500, "Not implemented");
+        throw new PHException\HttpCode(501, "Not implemented");
     }
 }

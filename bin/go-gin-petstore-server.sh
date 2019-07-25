@@ -25,10 +25,17 @@ then
   mvn -B clean package
 fi
 
-# if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
+SPEC="modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
+GENERATOR="go-gin-server"
+STUB_DIR="samples/server/petstore/go-gin-api-server"
 
-ags="generate -t modules/openapi-generator/src/main/resources/go-gin-server -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g go-gin-server -o samples/server/petstore/go-gin-api-server -DpackageName=petstoreserver  --additional-properties hideGenerationTimestamp=true -Dservice $@"
+echo "Removing files and folders under $STUB_DIR"
+rm -rf $STUB_DIR
+
+# if you've executed sbt assembly previously it will use that instead.
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
+
+ags="generate -t modules/openapi-generator/src/main/resources/go-gin-server -i $SPEC -g $GENERATOR -o $STUB_DIR --additional-properties packageName=petstoreserver --additional-properties hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags
 #!/usr/bin/env bash

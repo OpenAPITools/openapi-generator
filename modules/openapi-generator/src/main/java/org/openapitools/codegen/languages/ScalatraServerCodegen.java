@@ -17,18 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class ScalatraServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
 
@@ -110,6 +101,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
+        importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
         importMapping.put("Date", "java.util.Date");
         importMapping.put("Timestamp", "java.sql.Timestamp");

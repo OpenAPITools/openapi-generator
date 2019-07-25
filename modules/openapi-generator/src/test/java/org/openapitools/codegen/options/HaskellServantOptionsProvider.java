@@ -17,10 +17,8 @@
 
 package org.openapitools.codegen.options;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.HaskellServantCodegen;
-
 import com.google.common.collect.ImmutableMap;
+import org.openapitools.codegen.CodegenConstants;
 
 import java.util.Map;
 

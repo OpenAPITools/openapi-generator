@@ -9,10 +9,9 @@
 #define {{classname}}_H_
 
 {{{defaultInclude}}}
-#include "{{prefix}}ModelBase.h"
-
 {{#imports}}{{{this}}}
 {{/imports}}
+#include <nlohmann/json.hpp>
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -22,19 +21,12 @@ namespace {{this}} {
 /// {{description}}
 /// </summary>
 class {{declspec}} {{classname}}
-    : public {{prefix}}ModelBase
 {
 public:
     {{classname}}();
     virtual ~{{classname}}();
 
-    /////////////////////////////////////////////
-    /// {{prefix}}ModelBase overrides
-
-    void validate() override;
-
-    nlohmann::json toJson() const override;
-    void fromJson(const nlohmann::json& json) override;
+    void validate();
 
     /////////////////////////////////////////////
     /// {{classname}} members
@@ -51,6 +43,8 @@ public:
     {{/required}}
     {{/vars}}
 
+    friend void to_json(nlohmann::json& j, const {{classname}}& o);
+    friend void from_json(const nlohmann::json& j, {{classname}}& o);
 protected:
     {{#vars}}
     {{{dataType}}} m_{{name}};

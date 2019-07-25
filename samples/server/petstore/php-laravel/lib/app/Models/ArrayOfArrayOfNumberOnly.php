@@ -9,7 +9,7 @@ namespace app\Models;
  */
 class ArrayOfArrayOfNumberOnly {
 
-    /** @var float[][] $array_array_number */
-    private $array_array_number;
+    /** @var float[][] $arrayArrayNumber */
+    private $arrayArrayNumber;
 
 }

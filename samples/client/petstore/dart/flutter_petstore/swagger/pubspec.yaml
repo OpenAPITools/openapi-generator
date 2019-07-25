@@ -1,0 +1,7 @@
+name: openapi
+version: 1.0.0
+description: OpenAPI API client
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+dependencies:
+  http: '>=0.11.1 <0.12.0'

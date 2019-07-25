@@ -2,7 +2,10 @@ package org.openapitools.codegen;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public class CodegenDiscriminator {
     private String propertyName;

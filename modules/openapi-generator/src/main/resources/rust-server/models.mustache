@@ -2,12 +2,21 @@
 extern crate chrono;
 extern crate uuid;
 
-{{#usesXml}}use serde_xml_rs;{{/usesXml}}
+{{#usesXml}}
+use serde_xml_rs;
+{{/usesXml}}
 use serde::ser::Serializer;
 
+{{#usesXml}}
+use std::collections::{HashMap, BTreeMap};
+{{/usesXml}}
+{{^usesXml}}
 use std::collections::HashMap;
+{{/usesXml}}
 use models;
 use swagger;
+use std::string::ParseError;
+
 
 {{#models}}{{#model}}
 {{#description}}/// {{{description}}}
@@ -50,6 +59,15 @@ impl ::std::convert::From<{{{dataType}}}> for {{{classname}}} {
     }
 }
 
+{{#vendorExtensions.isString}}
+impl std::str::FromStr for {{{classname}}} {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok({{{classname}}}(x.to_string()))
+    }
+}
+{{/vendorExtensions.isString}}
+
 impl ::std::convert::From<{{{classname}}}> for {{{dataType}}} {
     fn from(x: {{{classname}}}) -> Self {
         x.0
@@ -70,6 +88,7 @@ impl ::std::ops::DerefMut for {{{classname}}} {
 }
 
 {{/dataType}}{{^dataType}}{{#arrayModelType}}{{#vendorExtensions}}{{#itemXmlName}}// Utility function for wrapping list elements when serializing xml
+#[allow(non_snake_case)]
 fn wrap_in_{{{itemXmlName}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
@@ -78,7 +97,7 @@ where
 }
 
 {{/itemXmlName}}{{/vendorExtensions}}{{! vec}}#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct {{{classname}}}(Vec<{{{arrayModelType}}}>);
+pub struct {{{classname}}}({{#vendorExtensions}}{{#itemXmlName}}#[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]{{/itemXmlName}}{{/vendorExtensions}}Vec<{{{arrayModelType}}}>);
 
 impl ::std::convert::From<Vec<{{{arrayModelType}}}>> for {{{classname}}} {
     fn from(x: Vec<{{{arrayModelType}}}>) -> Self {
@@ -164,12 +183,37 @@ impl {{{classname}}} {
         }
     }
 }
-{{/arrayModelType}}{{/dataType}}{{/isEnum}}{{/model}}{{/models}}{{#usesXmlNamespaces}}
-//XML namespaces
-pub mod namespaces {
-    lazy_static!{
-        {{#models}}{{#model}}{{#xmlNamespace}}pub static ref {{#vendorExtensions}}{{{upperCaseName}}}{{/vendorExtensions}}: String = "{{{xmlNamespace}}}".to_string();
-        {{/xmlNamespace}}{{/model}}{{/models}}
+{{/arrayModelType}}
+{{/dataType}}
+{{/isEnum}}
+
+{{#usesXml}}
+{{#usesXmlNamespaces}}
+{{#xmlNamespace}}
+impl {{{classname}}} {
+    /// Associated constant for this model's XML namespace.
+    #[allow(dead_code)]
+    pub const NAMESPACE: &'static str = "{{{xmlNamespace}}}";
+}
+
+{{/xmlNamespace}}
+{{/usesXmlNamespaces}}
+impl {{{classname}}} {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        {{#xmlNamespace}}
+        let mut namespaces = BTreeMap::new();
+        // An empty string is used to indicate a global namespace in xmltree.
+        namespaces.insert("".to_string(), Self::NAMESPACE.to_string());
+        serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")
+        {{/xmlNamespace}}
+        {{^xmlNamespace}}
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+        {{/xmlNamespace}}
     }
 }
-{{/usesXmlNamespaces}}
+{{/usesXml}}
+{{/model}}
+{{/models}}

@@ -25,6 +25,7 @@ Then either install the gem locally:
 ```shell
 gem install ./petstore-1.0.0.gem
 ```
+
 (for development, run `gem install --dev ./petstore-1.0.0.gem` to install the development dependencies)
 
 or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
@@ -50,6 +51,7 @@ ruby -Ilib script.rb
 ## Getting Started
 
 Please follow the [installation](#installation) procedure and then run the following code:
+
 ```ruby
 # Load the gem
 require 'petstore'
@@ -75,6 +77,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *Petstore::AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *Petstore::DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*Petstore::FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *Petstore::FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -121,10 +124,12 @@ Class | Method | HTTP request | Description
  - [Petstore::ArrayTest](docs/ArrayTest.md)
  - [Petstore::Capitalization](docs/Capitalization.md)
  - [Petstore::Cat](docs/Cat.md)
+ - [Petstore::CatAllOf](docs/CatAllOf.md)
  - [Petstore::Category](docs/Category.md)
  - [Petstore::ClassModel](docs/ClassModel.md)
  - [Petstore::Client](docs/Client.md)
  - [Petstore::Dog](docs/Dog.md)
+ - [Petstore::DogAllOf](docs/DogAllOf.md)
  - [Petstore::EnumArrays](docs/EnumArrays.md)
  - [Petstore::EnumClass](docs/EnumClass.md)
  - [Petstore::EnumTest](docs/EnumTest.md)
@@ -133,6 +138,13 @@ Class | Method | HTTP request | Description
  - [Petstore::Foo](docs/Foo.md)
  - [Petstore::FormatTest](docs/FormatTest.md)
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
+ - [Petstore::InlineObject](docs/InlineObject.md)
+ - [Petstore::InlineObject1](docs/InlineObject1.md)
+ - [Petstore::InlineObject2](docs/InlineObject2.md)
+ - [Petstore::InlineObject3](docs/InlineObject3.md)
+ - [Petstore::InlineObject4](docs/InlineObject4.md)
+ - [Petstore::InlineObject5](docs/InlineObject5.md)
  - [Petstore::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Petstore::List](docs/List.md)
  - [Petstore::MapTest](docs/MapTest.md)
@@ -140,10 +152,14 @@ Class | Method | HTTP request | Description
  - [Petstore::Model200Response](docs/Model200Response.md)
  - [Petstore::ModelReturn](docs/ModelReturn.md)
  - [Petstore::Name](docs/Name.md)
+ - [Petstore::NullableClass](docs/NullableClass.md)
  - [Petstore::NumberOnly](docs/NumberOnly.md)
  - [Petstore::Order](docs/Order.md)
  - [Petstore::OuterComposite](docs/OuterComposite.md)
  - [Petstore::OuterEnum](docs/OuterEnum.md)
+ - [Petstore::OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [Petstore::OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [Petstore::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
@@ -156,21 +172,28 @@ Class | Method | HTTP request | Description
 
 ### api_key
 
+
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
 ### api_key_query
 
+
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
+
+### bearer_test
+
+- **Type**: Bearer authentication (JWT)
 
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
 
 ### petstore_auth
+
 
 - **Type**: OAuth
 - **Flow**: implicit

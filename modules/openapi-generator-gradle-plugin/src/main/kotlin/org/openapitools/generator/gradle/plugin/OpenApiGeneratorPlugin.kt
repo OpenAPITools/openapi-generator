@@ -91,6 +91,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     systemProperties.set(generate.systemProperties)
                     configFile.set(generate.configFile)
                     skipOverwrite.set(generate.skipOverwrite)
+                    packageName.set(generate.packageName)
                     apiPackage.set(generate.apiPackage)
                     modelPackage.set(generate.modelPackage)
                     modelNamePrefix.set(generate.modelNamePrefix)
@@ -121,6 +122,10 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generateApiDocumentation.set(generate.generateApiDocumentation)
                     withXml.set(generate.withXml)
                     configOptions.set(generate.configOptions)
+                    logToStderr.set(generate.logToStderr)
+                    enablePostProcessFile.set(generate.enablePostProcessFile)
+                    skipValidateSpec.set(generate.skipValidateSpec)
+                    generateAliasAsModel.set(generate.generateAliasAsModel)
                 }
             }
         }

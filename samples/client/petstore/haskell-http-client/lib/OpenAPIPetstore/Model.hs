@@ -213,26 +213,137 @@ newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
 -- * Models
 
 
+-- ** AdditionalPropertiesAnyType
+-- | AdditionalPropertiesAnyType
+data AdditionalPropertiesAnyType = AdditionalPropertiesAnyType
+  { additionalPropertiesAnyTypeName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesAnyType
+instance A.FromJSON AdditionalPropertiesAnyType where
+  parseJSON = A.withObject "AdditionalPropertiesAnyType" $ \o ->
+    AdditionalPropertiesAnyType
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesAnyType
+instance A.ToJSON AdditionalPropertiesAnyType where
+  toJSON AdditionalPropertiesAnyType {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesAnyTypeName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesAnyType' (by applying it's required fields, if any)
+mkAdditionalPropertiesAnyType
+  :: AdditionalPropertiesAnyType
+mkAdditionalPropertiesAnyType =
+  AdditionalPropertiesAnyType
+  { additionalPropertiesAnyTypeName = Nothing
+  }
+
+-- ** AdditionalPropertiesArray
+-- | AdditionalPropertiesArray
+data AdditionalPropertiesArray = AdditionalPropertiesArray
+  { additionalPropertiesArrayName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesArray
+instance A.FromJSON AdditionalPropertiesArray where
+  parseJSON = A.withObject "AdditionalPropertiesArray" $ \o ->
+    AdditionalPropertiesArray
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesArray
+instance A.ToJSON AdditionalPropertiesArray where
+  toJSON AdditionalPropertiesArray {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesArrayName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesArray' (by applying it's required fields, if any)
+mkAdditionalPropertiesArray
+  :: AdditionalPropertiesArray
+mkAdditionalPropertiesArray =
+  AdditionalPropertiesArray
+  { additionalPropertiesArrayName = Nothing
+  }
+
+-- ** AdditionalPropertiesBoolean
+-- | AdditionalPropertiesBoolean
+data AdditionalPropertiesBoolean = AdditionalPropertiesBoolean
+  { additionalPropertiesBooleanName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesBoolean
+instance A.FromJSON AdditionalPropertiesBoolean where
+  parseJSON = A.withObject "AdditionalPropertiesBoolean" $ \o ->
+    AdditionalPropertiesBoolean
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesBoolean
+instance A.ToJSON AdditionalPropertiesBoolean where
+  toJSON AdditionalPropertiesBoolean {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesBooleanName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesBoolean' (by applying it's required fields, if any)
+mkAdditionalPropertiesBoolean
+  :: AdditionalPropertiesBoolean
+mkAdditionalPropertiesBoolean =
+  AdditionalPropertiesBoolean
+  { additionalPropertiesBooleanName = Nothing
+  }
+
 -- ** AdditionalPropertiesClass
 -- | AdditionalPropertiesClass
 data AdditionalPropertiesClass = AdditionalPropertiesClass
-  { additionalPropertiesClassMapProperty :: !(Maybe (Map.Map String Text)) -- ^ "map_property"
-  , additionalPropertiesClassMapOfMapProperty :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_of_map_property"
+  { additionalPropertiesClassMapString :: !(Maybe (Map.Map String Text)) -- ^ "map_string"
+  , additionalPropertiesClassMapNumber :: !(Maybe (Map.Map String Double)) -- ^ "map_number"
+  , additionalPropertiesClassMapInteger :: !(Maybe (Map.Map String Int)) -- ^ "map_integer"
+  , additionalPropertiesClassMapBoolean :: !(Maybe (Map.Map String Bool)) -- ^ "map_boolean"
+  , additionalPropertiesClassMapArrayInteger :: !(Maybe (Map.Map String [Int])) -- ^ "map_array_integer"
+  , additionalPropertiesClassMapArrayAnytype :: !(Maybe (Map.Map String [A.Value])) -- ^ "map_array_anytype"
+  , additionalPropertiesClassMapMapString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_string"
+  , additionalPropertiesClassMapMapAnytype :: !(Maybe (Map.Map String (Map.Map String A.Value))) -- ^ "map_map_anytype"
+  , additionalPropertiesClassAnytype1 :: !(Maybe A.Value) -- ^ "anytype_1"
+  , additionalPropertiesClassAnytype2 :: !(Maybe A.Value) -- ^ "anytype_2"
+  , additionalPropertiesClassAnytype3 :: !(Maybe A.Value) -- ^ "anytype_3"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesClass
 instance A.FromJSON AdditionalPropertiesClass where
   parseJSON = A.withObject "AdditionalPropertiesClass" $ \o ->
     AdditionalPropertiesClass
-      <$> (o .:? "map_property")
-      <*> (o .:? "map_of_map_property")
+      <$> (o .:? "map_string")
+      <*> (o .:? "map_number")
+      <*> (o .:? "map_integer")
+      <*> (o .:? "map_boolean")
+      <*> (o .:? "map_array_integer")
+      <*> (o .:? "map_array_anytype")
+      <*> (o .:? "map_map_string")
+      <*> (o .:? "map_map_anytype")
+      <*> (o .:? "anytype_1")
+      <*> (o .:? "anytype_2")
+      <*> (o .:? "anytype_3")
 
 -- | ToJSON AdditionalPropertiesClass
 instance A.ToJSON AdditionalPropertiesClass where
   toJSON AdditionalPropertiesClass {..} =
    _omitNulls
-      [ "map_property" .= additionalPropertiesClassMapProperty
-      , "map_of_map_property" .= additionalPropertiesClassMapOfMapProperty
+      [ "map_string" .= additionalPropertiesClassMapString
+      , "map_number" .= additionalPropertiesClassMapNumber
+      , "map_integer" .= additionalPropertiesClassMapInteger
+      , "map_boolean" .= additionalPropertiesClassMapBoolean
+      , "map_array_integer" .= additionalPropertiesClassMapArrayInteger
+      , "map_array_anytype" .= additionalPropertiesClassMapArrayAnytype
+      , "map_map_string" .= additionalPropertiesClassMapMapString
+      , "map_map_anytype" .= additionalPropertiesClassMapMapAnytype
+      , "anytype_1" .= additionalPropertiesClassAnytype1
+      , "anytype_2" .= additionalPropertiesClassAnytype2
+      , "anytype_3" .= additionalPropertiesClassAnytype3
       ]
 
 
@@ -241,8 +352,129 @@ mkAdditionalPropertiesClass
   :: AdditionalPropertiesClass
 mkAdditionalPropertiesClass =
   AdditionalPropertiesClass
-  { additionalPropertiesClassMapProperty = Nothing
-  , additionalPropertiesClassMapOfMapProperty = Nothing
+  { additionalPropertiesClassMapString = Nothing
+  , additionalPropertiesClassMapNumber = Nothing
+  , additionalPropertiesClassMapInteger = Nothing
+  , additionalPropertiesClassMapBoolean = Nothing
+  , additionalPropertiesClassMapArrayInteger = Nothing
+  , additionalPropertiesClassMapArrayAnytype = Nothing
+  , additionalPropertiesClassMapMapString = Nothing
+  , additionalPropertiesClassMapMapAnytype = Nothing
+  , additionalPropertiesClassAnytype1 = Nothing
+  , additionalPropertiesClassAnytype2 = Nothing
+  , additionalPropertiesClassAnytype3 = Nothing
+  }
+
+-- ** AdditionalPropertiesInteger
+-- | AdditionalPropertiesInteger
+data AdditionalPropertiesInteger = AdditionalPropertiesInteger
+  { additionalPropertiesIntegerName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesInteger
+instance A.FromJSON AdditionalPropertiesInteger where
+  parseJSON = A.withObject "AdditionalPropertiesInteger" $ \o ->
+    AdditionalPropertiesInteger
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesInteger
+instance A.ToJSON AdditionalPropertiesInteger where
+  toJSON AdditionalPropertiesInteger {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesIntegerName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesInteger' (by applying it's required fields, if any)
+mkAdditionalPropertiesInteger
+  :: AdditionalPropertiesInteger
+mkAdditionalPropertiesInteger =
+  AdditionalPropertiesInteger
+  { additionalPropertiesIntegerName = Nothing
+  }
+
+-- ** AdditionalPropertiesNumber
+-- | AdditionalPropertiesNumber
+data AdditionalPropertiesNumber = AdditionalPropertiesNumber
+  { additionalPropertiesNumberName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesNumber
+instance A.FromJSON AdditionalPropertiesNumber where
+  parseJSON = A.withObject "AdditionalPropertiesNumber" $ \o ->
+    AdditionalPropertiesNumber
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesNumber
+instance A.ToJSON AdditionalPropertiesNumber where
+  toJSON AdditionalPropertiesNumber {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesNumberName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesNumber' (by applying it's required fields, if any)
+mkAdditionalPropertiesNumber
+  :: AdditionalPropertiesNumber
+mkAdditionalPropertiesNumber =
+  AdditionalPropertiesNumber
+  { additionalPropertiesNumberName = Nothing
+  }
+
+-- ** AdditionalPropertiesObject
+-- | AdditionalPropertiesObject
+data AdditionalPropertiesObject = AdditionalPropertiesObject
+  { additionalPropertiesObjectName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesObject
+instance A.FromJSON AdditionalPropertiesObject where
+  parseJSON = A.withObject "AdditionalPropertiesObject" $ \o ->
+    AdditionalPropertiesObject
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesObject
+instance A.ToJSON AdditionalPropertiesObject where
+  toJSON AdditionalPropertiesObject {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesObjectName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesObject' (by applying it's required fields, if any)
+mkAdditionalPropertiesObject
+  :: AdditionalPropertiesObject
+mkAdditionalPropertiesObject =
+  AdditionalPropertiesObject
+  { additionalPropertiesObjectName = Nothing
+  }
+
+-- ** AdditionalPropertiesString
+-- | AdditionalPropertiesString
+data AdditionalPropertiesString = AdditionalPropertiesString
+  { additionalPropertiesStringName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesString
+instance A.FromJSON AdditionalPropertiesString where
+  parseJSON = A.withObject "AdditionalPropertiesString" $ \o ->
+    AdditionalPropertiesString
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesString
+instance A.ToJSON AdditionalPropertiesString where
+  toJSON AdditionalPropertiesString {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesStringName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesString' (by applying it's required fields, if any)
+mkAdditionalPropertiesString
+  :: AdditionalPropertiesString
+mkAdditionalPropertiesString =
+  AdditionalPropertiesString
+  { additionalPropertiesStringName = Nothing
   }
 
 -- ** Animal
@@ -491,6 +723,34 @@ mkCat catClassName =
   , catDeclawed = Nothing
   }
 
+-- ** CatAllOf
+-- | CatAllOf
+data CatAllOf = CatAllOf
+  { catAllOfDeclawed :: !(Maybe Bool) -- ^ "declawed"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CatAllOf
+instance A.FromJSON CatAllOf where
+  parseJSON = A.withObject "CatAllOf" $ \o ->
+    CatAllOf
+      <$> (o .:? "declawed")
+
+-- | ToJSON CatAllOf
+instance A.ToJSON CatAllOf where
+  toJSON CatAllOf {..} =
+   _omitNulls
+      [ "declawed" .= catAllOfDeclawed
+      ]
+
+
+-- | Construct a value of type 'CatAllOf' (by applying it's required fields, if any)
+mkCatAllOf
+  :: CatAllOf
+mkCatAllOf =
+  CatAllOf
+  { catAllOfDeclawed = Nothing
+  }
+
 -- ** Category
 -- | Category
 data Category = Category
@@ -616,6 +876,34 @@ mkDog dogClassName =
   { dogClassName
   , dogColor = Nothing
   , dogBreed = Nothing
+  }
+
+-- ** DogAllOf
+-- | DogAllOf
+data DogAllOf = DogAllOf
+  { dogAllOfBreed :: !(Maybe Text) -- ^ "breed"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON DogAllOf
+instance A.FromJSON DogAllOf where
+  parseJSON = A.withObject "DogAllOf" $ \o ->
+    DogAllOf
+      <$> (o .:? "breed")
+
+-- | ToJSON DogAllOf
+instance A.ToJSON DogAllOf where
+  toJSON DogAllOf {..} =
+   _omitNulls
+      [ "breed" .= dogAllOfBreed
+      ]
+
+
+-- | Construct a value of type 'DogAllOf' (by applying it's required fields, if any)
+mkDogAllOf
+  :: DogAllOf
+mkDogAllOf =
+  DogAllOf
+  { dogAllOfBreed = Nothing
   }
 
 -- ** EnumArrays
@@ -1482,6 +1770,146 @@ mkUser =
   , userPassword = Nothing
   , userPhone = Nothing
   , userUserStatus = Nothing
+  }
+
+-- ** XmlItem
+-- | XmlItem
+data XmlItem = XmlItem
+  { xmlItemAttributeString :: !(Maybe Text) -- ^ "attribute_string"
+  , xmlItemAttributeNumber :: !(Maybe Double) -- ^ "attribute_number"
+  , xmlItemAttributeInteger :: !(Maybe Int) -- ^ "attribute_integer"
+  , xmlItemAttributeBoolean :: !(Maybe Bool) -- ^ "attribute_boolean"
+  , xmlItemWrappedArray :: !(Maybe [Int]) -- ^ "wrapped_array"
+  , xmlItemNameString :: !(Maybe Text) -- ^ "name_string"
+  , xmlItemNameNumber :: !(Maybe Double) -- ^ "name_number"
+  , xmlItemNameInteger :: !(Maybe Int) -- ^ "name_integer"
+  , xmlItemNameBoolean :: !(Maybe Bool) -- ^ "name_boolean"
+  , xmlItemNameArray :: !(Maybe [Int]) -- ^ "name_array"
+  , xmlItemNameWrappedArray :: !(Maybe [Int]) -- ^ "name_wrapped_array"
+  , xmlItemPrefixString :: !(Maybe Text) -- ^ "prefix_string"
+  , xmlItemPrefixNumber :: !(Maybe Double) -- ^ "prefix_number"
+  , xmlItemPrefixInteger :: !(Maybe Int) -- ^ "prefix_integer"
+  , xmlItemPrefixBoolean :: !(Maybe Bool) -- ^ "prefix_boolean"
+  , xmlItemPrefixArray :: !(Maybe [Int]) -- ^ "prefix_array"
+  , xmlItemPrefixWrappedArray :: !(Maybe [Int]) -- ^ "prefix_wrapped_array"
+  , xmlItemNamespaceString :: !(Maybe Text) -- ^ "namespace_string"
+  , xmlItemNamespaceNumber :: !(Maybe Double) -- ^ "namespace_number"
+  , xmlItemNamespaceInteger :: !(Maybe Int) -- ^ "namespace_integer"
+  , xmlItemNamespaceBoolean :: !(Maybe Bool) -- ^ "namespace_boolean"
+  , xmlItemNamespaceArray :: !(Maybe [Int]) -- ^ "namespace_array"
+  , xmlItemNamespaceWrappedArray :: !(Maybe [Int]) -- ^ "namespace_wrapped_array"
+  , xmlItemPrefixNsString :: !(Maybe Text) -- ^ "prefix_ns_string"
+  , xmlItemPrefixNsNumber :: !(Maybe Double) -- ^ "prefix_ns_number"
+  , xmlItemPrefixNsInteger :: !(Maybe Int) -- ^ "prefix_ns_integer"
+  , xmlItemPrefixNsBoolean :: !(Maybe Bool) -- ^ "prefix_ns_boolean"
+  , xmlItemPrefixNsArray :: !(Maybe [Int]) -- ^ "prefix_ns_array"
+  , xmlItemPrefixNsWrappedArray :: !(Maybe [Int]) -- ^ "prefix_ns_wrapped_array"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON XmlItem
+instance A.FromJSON XmlItem where
+  parseJSON = A.withObject "XmlItem" $ \o ->
+    XmlItem
+      <$> (o .:? "attribute_string")
+      <*> (o .:? "attribute_number")
+      <*> (o .:? "attribute_integer")
+      <*> (o .:? "attribute_boolean")
+      <*> (o .:? "wrapped_array")
+      <*> (o .:? "name_string")
+      <*> (o .:? "name_number")
+      <*> (o .:? "name_integer")
+      <*> (o .:? "name_boolean")
+      <*> (o .:? "name_array")
+      <*> (o .:? "name_wrapped_array")
+      <*> (o .:? "prefix_string")
+      <*> (o .:? "prefix_number")
+      <*> (o .:? "prefix_integer")
+      <*> (o .:? "prefix_boolean")
+      <*> (o .:? "prefix_array")
+      <*> (o .:? "prefix_wrapped_array")
+      <*> (o .:? "namespace_string")
+      <*> (o .:? "namespace_number")
+      <*> (o .:? "namespace_integer")
+      <*> (o .:? "namespace_boolean")
+      <*> (o .:? "namespace_array")
+      <*> (o .:? "namespace_wrapped_array")
+      <*> (o .:? "prefix_ns_string")
+      <*> (o .:? "prefix_ns_number")
+      <*> (o .:? "prefix_ns_integer")
+      <*> (o .:? "prefix_ns_boolean")
+      <*> (o .:? "prefix_ns_array")
+      <*> (o .:? "prefix_ns_wrapped_array")
+
+-- | ToJSON XmlItem
+instance A.ToJSON XmlItem where
+  toJSON XmlItem {..} =
+   _omitNulls
+      [ "attribute_string" .= xmlItemAttributeString
+      , "attribute_number" .= xmlItemAttributeNumber
+      , "attribute_integer" .= xmlItemAttributeInteger
+      , "attribute_boolean" .= xmlItemAttributeBoolean
+      , "wrapped_array" .= xmlItemWrappedArray
+      , "name_string" .= xmlItemNameString
+      , "name_number" .= xmlItemNameNumber
+      , "name_integer" .= xmlItemNameInteger
+      , "name_boolean" .= xmlItemNameBoolean
+      , "name_array" .= xmlItemNameArray
+      , "name_wrapped_array" .= xmlItemNameWrappedArray
+      , "prefix_string" .= xmlItemPrefixString
+      , "prefix_number" .= xmlItemPrefixNumber
+      , "prefix_integer" .= xmlItemPrefixInteger
+      , "prefix_boolean" .= xmlItemPrefixBoolean
+      , "prefix_array" .= xmlItemPrefixArray
+      , "prefix_wrapped_array" .= xmlItemPrefixWrappedArray
+      , "namespace_string" .= xmlItemNamespaceString
+      , "namespace_number" .= xmlItemNamespaceNumber
+      , "namespace_integer" .= xmlItemNamespaceInteger
+      , "namespace_boolean" .= xmlItemNamespaceBoolean
+      , "namespace_array" .= xmlItemNamespaceArray
+      , "namespace_wrapped_array" .= xmlItemNamespaceWrappedArray
+      , "prefix_ns_string" .= xmlItemPrefixNsString
+      , "prefix_ns_number" .= xmlItemPrefixNsNumber
+      , "prefix_ns_integer" .= xmlItemPrefixNsInteger
+      , "prefix_ns_boolean" .= xmlItemPrefixNsBoolean
+      , "prefix_ns_array" .= xmlItemPrefixNsArray
+      , "prefix_ns_wrapped_array" .= xmlItemPrefixNsWrappedArray
+      ]
+
+
+-- | Construct a value of type 'XmlItem' (by applying it's required fields, if any)
+mkXmlItem
+  :: XmlItem
+mkXmlItem =
+  XmlItem
+  { xmlItemAttributeString = Nothing
+  , xmlItemAttributeNumber = Nothing
+  , xmlItemAttributeInteger = Nothing
+  , xmlItemAttributeBoolean = Nothing
+  , xmlItemWrappedArray = Nothing
+  , xmlItemNameString = Nothing
+  , xmlItemNameNumber = Nothing
+  , xmlItemNameInteger = Nothing
+  , xmlItemNameBoolean = Nothing
+  , xmlItemNameArray = Nothing
+  , xmlItemNameWrappedArray = Nothing
+  , xmlItemPrefixString = Nothing
+  , xmlItemPrefixNumber = Nothing
+  , xmlItemPrefixInteger = Nothing
+  , xmlItemPrefixBoolean = Nothing
+  , xmlItemPrefixArray = Nothing
+  , xmlItemPrefixWrappedArray = Nothing
+  , xmlItemNamespaceString = Nothing
+  , xmlItemNamespaceNumber = Nothing
+  , xmlItemNamespaceInteger = Nothing
+  , xmlItemNamespaceBoolean = Nothing
+  , xmlItemNamespaceArray = Nothing
+  , xmlItemNamespaceWrappedArray = Nothing
+  , xmlItemPrefixNsString = Nothing
+  , xmlItemPrefixNsNumber = Nothing
+  , xmlItemPrefixNsInteger = Nothing
+  , xmlItemPrefixNsBoolean = Nothing
+  , xmlItemPrefixNsArray = Nothing
+  , xmlItemPrefixNsWrappedArray = Nothing
   }
 
 

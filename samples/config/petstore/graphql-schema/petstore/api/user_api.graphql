@@ -11,19 +11,19 @@
 type mutation {
   # Create user
   # This can only be done by the logged in user.
-  # @param User user Created user object
+  # @param User body Created user object
   # @return [null]
-  CreateUser(user: User): null
+  CreateUser(body: User): null
 
   # Creates list of users with given input array
-  # @param [User] user List of user object
+  # @param [User] body List of user object
   # @return [null]
-  CreateUsersWithArrayInput(user: [User]): null
+  CreateUsersWithArrayInput(body: [User]): null
 
   # Creates list of users with given input array
-  # @param [User] user List of user object
+  # @param [User] body List of user object
   # @return [null]
-  CreateUsersWithListInput(user: [User]): null
+  CreateUsersWithListInput(body: [User]): null
 
   # Delete user
   # This can only be done by the logged in user.
@@ -34,9 +34,9 @@ type mutation {
   # Updated user
   # This can only be done by the logged in user.
   # @param String! username name that need to be deleted
-  # @param User user Updated user object
+  # @param User body Updated user object
   # @return [null]
-  UpdateUser(username: String!, user: User): null
+  UpdateUser(username: String!, body: User): null
 
 }
 

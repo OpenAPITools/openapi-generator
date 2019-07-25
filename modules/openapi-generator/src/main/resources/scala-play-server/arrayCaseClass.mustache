@@ -1,0 +1,7 @@
+case class {{classname}}(items: {{parent}})
+
+object {{classname}} {
+  implicit lazy val {{classVarName}}JsonFormat: Format[{{classname}}] = {
+    {{#lambda.indented_4}}{{>simpleParentJsonFormat}}{{/lambda.indented_4}}
+  }
+}

@@ -1,6 +1,7 @@
 # OpenApiPetstore.EnumTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **enumString** | **String** |  | [optional] 
@@ -10,7 +11,7 @@ Name | Type | Description | Notes
 **outerEnum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
 
 
-<a name="EnumStringEnum"></a>
+
 ## Enum: EnumStringEnum
 
 
@@ -23,7 +24,7 @@ Name | Type | Description | Notes
 
 
 
-<a name="EnumStringRequiredEnum"></a>
+
 ## Enum: EnumStringRequiredEnum
 
 
@@ -36,7 +37,7 @@ Name | Type | Description | Notes
 
 
 
-<a name="EnumIntegerEnum"></a>
+
 ## Enum: EnumIntegerEnum
 
 
@@ -47,7 +48,7 @@ Name | Type | Description | Notes
 
 
 
-<a name="EnumNumberEnum"></a>
+
 ## Enum: EnumNumberEnum
 
 

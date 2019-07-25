@@ -22,7 +22,7 @@ class {{classname}}Request : public QObject
     Q_OBJECT
 
 public:
-    {{classname}}Request(QHttpEngine::Socket *s, {{classname}}Handler* handler);
+    {{classname}}Request(QHttpEngine::Socket *s, QSharedPointer<{{classname}}Handler> handler);
     virtual ~{{classname}}Request();
 
     {{#operations}}{{#operation}}void {{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{/hasPathParams}});
@@ -52,7 +52,7 @@ private:
     QMap<QString, QString> requestHeaders;
     QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
-    {{classname}}Handler *handler;
+    QSharedPointer<{{classname}}Handler> handler;
 
     inline void writeResponseHeaders(){
         QHttpEngine::Socket::HeaderMap resHeaders;

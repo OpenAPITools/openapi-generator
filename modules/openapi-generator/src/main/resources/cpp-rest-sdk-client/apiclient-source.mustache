@@ -10,7 +10,7 @@
 template <typename T>
 utility::string_t toString(const T value)
 {
-  std::ostringstream out;
+  utility::ostringstream_t out;
   out << std::setprecision(std::numeric_limits<T>::digits10) << std::fixed << value;
   return out.str();
 }

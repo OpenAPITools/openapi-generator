@@ -1,22 +1,22 @@
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_serializer/src/repo/repo.dart';
+import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 import 'dart:async';
 
 import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/api_response.dart';
-
+import 'dart:typed_data';
 
 part 'pet_api.jretro.dart';
 
 @GenApiClient()
-class PetApi extends _$PetApiClient implements ApiClient {
+class PetApi extends ApiClient with _$PetApiClient {
     final Route base;
-    final SerializerRepo serializers;
+    final Map<String, CodecRepo> converters;
     final Duration timeout;
 
-    PetApi({this.base, this.serializers, this.timeout = const Duration(minutes: 2)});
+    PetApi({this.base, this.converters, this.timeout = const Duration(minutes: 2)});
 
     /// Add a new pet to the store
     ///
@@ -24,12 +24,12 @@ class PetApi extends _$PetApiClient implements ApiClient {
     @PostReq(path: "/pet", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> addPet(
             
-              @AsJson() Pet pet
+             @AsJson() Pet body
         ) {
         return super.addPet(
 
         
-        pet
+        body
         ).timeout(timeout);
     }
 
@@ -99,12 +99,12 @@ class PetApi extends _$PetApiClient implements ApiClient {
     @PutReq(path: "/pet", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> updatePet(
             
-              @AsJson() Pet pet
+             @AsJson() Pet body
         ) {
         return super.updatePet(
 
         
-        pet
+        body
         ).timeout(timeout);
     }
 

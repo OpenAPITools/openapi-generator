@@ -17,22 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.regex.Matcher;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.io.FilenameUtils;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -115,6 +111,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase or Long::Module).").defaultValue("OpenAPIClient"));
@@ -170,6 +167,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
     }
 
     @Override

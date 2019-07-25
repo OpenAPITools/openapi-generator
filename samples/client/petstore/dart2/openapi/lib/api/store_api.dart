@@ -28,7 +28,7 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -50,7 +50,7 @@ class StoreApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -74,7 +74,7 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["api_key"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -96,9 +96,9 @@ class StoreApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return new Map<String, int>.from(apiClient.deserialize(response.body, 'Map<String, int>'));
+      return new Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
           ;
     } else {
       return null;
@@ -125,7 +125,7 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -147,9 +147,9 @@ class StoreApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'Order') as Order;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
     } else {
       return null;
     }
@@ -175,7 +175,7 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -197,9 +197,9 @@ class StoreApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'Order') as Order;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
     } else {
       return null;
     }

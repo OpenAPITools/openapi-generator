@@ -24,6 +24,6 @@ public abstract class StoreApiService {
     public abstract Response getInventory() throws NotFoundException;
     public abstract Response getOrderById(Long orderId
  ) throws NotFoundException;
-    public abstract Response placeOrder(Order order
+    public abstract Response placeOrder(Order body
  ) throws NotFoundException;
 }

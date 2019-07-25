@@ -1,0 +1,28 @@
+package {{package}}
+
+import play.api.libs.json._
+{{#imports}}
+import {{import}}
+{{/imports}}
+{{#models}}
+{{#model}}
+
+/**
+  * {{#description}}{{&.}}{{/description}}{{^description}}Represents the Swagger definition for {{name}}.{{/description}}{{#vars}}{{#description}}
+  * @param {{&name}} {{&description}}{{/description}}{{/vars}}
+  {{#isArrayModel}}
+  * @param items The items of this array-like object.
+  {{/isArrayModel}}
+  {{#isMapModel}}
+  * @param additionalProperties Any additional properties this model may have.
+  {{/isMapModel}}
+  */
+{{>generatedAnnotation}}
+{{^isArrayModel}}
+{{>caseClass}}
+{{/isArrayModel}}
+{{#isArrayModel}}
+{{>arrayCaseClass}}
+{{/isArrayModel}}
+{{/model}}
+{{/models}}

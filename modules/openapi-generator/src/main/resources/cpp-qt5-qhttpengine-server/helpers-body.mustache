@@ -1,7 +1,7 @@
 {{>licenseInfo}}
 #include <QDebug>
 #include "{{prefix}}Helpers.h"
-#include "{{prefix}}Object.h"
+
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -55,6 +55,11 @@ toStringValue(const double &value){
     return QString::number(value);
 }
 
+QString
+toStringValue(const {{prefix}}Enum &value){
+    return value.asJson();
+}
+
 QJsonValue
 toJsonValue(const QString &value){
     return  QJsonValue(value);
@@ -103,6 +108,11 @@ toJsonValue(const double &value){
 QJsonValue
 toJsonValue(const {{prefix}}Object &value){
     return value.asJsonObject();
+}
+
+QJsonValue
+toJsonValue(const {{prefix}}Enum &value){
+    return value.asJsonValue();
 }
 
 bool
@@ -191,6 +201,12 @@ fromStringValue(const QString &inStr, double &value){
     bool ok = false;
     value = QVariant(inStr).toDouble(&ok);
     return ok;
+}
+
+bool
+fromStringValue(const QString &inStr, {{prefix}}Enum &value){
+    value.fromJson(inStr);
+    return true;
 }
 
 bool
@@ -313,6 +329,12 @@ fromJsonValue({{prefix}}Object  &value, const QJsonValue &jval){
         ok = false;
     }
     return ok;
+}
+
+bool
+fromJsonValue({{prefix}}Enum &value, const QJsonValue &jval){
+    value.fromJsonValue(jval);
+    return true;
 }
 
 {{#cppNamespaceDeclarations}}

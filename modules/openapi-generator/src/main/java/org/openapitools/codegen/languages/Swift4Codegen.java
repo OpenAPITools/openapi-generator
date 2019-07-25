@@ -27,12 +27,12 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
@@ -66,6 +66,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     protected boolean swiftUseApiNamespace;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
+    protected HashSet objcReservedWords;
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     /**
      * Constructor for the swift4 language codegen module.
@@ -78,6 +81,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         embeddedTemplateDir = templateDir = "swift4";
         apiPackage = File.separator + "APIs";
         modelPackage = File.separator + "Models";
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
@@ -89,7 +94,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "Bool",
                         "Void",
                         "String",
+                        "URL",
+                        "Data",
+                        "Date",
                         "Character",
+                        "UUID",
+                        "URL",
                         "AnyObject",
                         "Any")
         );
@@ -107,16 +117,20 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "AnyObject",
                         "Any")
         );
+
+        objcReservedWords = new HashSet<>(
+                Arrays.asList(
+                        // Added for Objective-C compatibility
+                        "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
+                        "NSError", "NSDictionary"
+                        )
+                );
+
         reservedWords = new HashSet<>(
                 Arrays.asList(
                         // name used by swift client
                         "ErrorResponse", "Response",
 
-                        // Added for Objective-C compatibility
-                        "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                        "NSError", "NSDictionary",
-
-                        //
                         // Swift keywords. This list is taken from here:
                         // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
                         //
@@ -183,6 +197,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "String");
 
         importMapping = new HashMap<>();
 
@@ -326,6 +341,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         }
         additionalProperties.put(OBJC_COMPATIBLE, objcCompatible);
 
+        // add objc reserved words
+        if (Boolean.TRUE.equals(objcCompatible)) {
+            reservedWords.addAll(objcReservedWords);
+        }
+
         // Setup unwrapRequired option, which makes all the properties with "required" non-optional
         if (additionalProperties.containsKey(RESPONSE_AS)) {
             Object responseAsObject = additionalProperties.get(RESPONSE_AS);
@@ -354,6 +374,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         }
 
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
+
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         supportingFiles.add(new SupportingFile("Podspec.mustache",
                 "",
@@ -394,6 +418,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore"));
+        supportingFiles.add(new SupportingFile("README.mustache",
+                "",
+                "README.md"));
+        supportingFiles.add(new SupportingFile("XcodeGen.mustache",
+                "",
+                "project.yml"));
 
     }
 
@@ -552,7 +582,27 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (name.length() == 0) {
             return "DefaultAPI";
         }
-        return initialCaps(name) + "API";
+        return camelize(name) + "API";
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace("/", File.separator);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace("/", File.separator);
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
     }
 
     @Override
@@ -631,8 +681,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
@@ -643,8 +694,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             while (parentSchema != null) {
                 final Schema parentModel = allDefinitions.get(parentSchema);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
-                        parentModel,
-                        allDefinitions);
+                        parentModel);
                 codegenModel = Swift4Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
                 // get the next parent
@@ -869,5 +919,117 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+
+        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+        for (Object o : allModels) {
+            HashMap<String, Object> h = (HashMap<String, Object>) o;
+            CodegenModel m = (CodegenModel) h.get("model");
+            modelMaps.put(m.classname, m);
+        }
+
+        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        for (CodegenOperation operation : operations) {
+            for (CodegenParameter cp : operation.allParams) {
+                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps));
+            }
+        }
+        return objs;
+    }
+
+    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
+        if (codegenParameter.isListContainer) { // array
+            return "[" + constructExampleCode(codegenParameter.items, modelMaps) + "]";
+        } else if (codegenParameter.isMapContainer) { // TODO: map, file type
+            return "\"TODO\"";
+        } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
+            if ("String".equals(codegenParameter.dataType) || "Character".equals(codegenParameter.dataType)) {
+                if (StringUtils.isEmpty(codegenParameter.example)) {
+                    return "\"" + codegenParameter.example + "\"";
+                } else {
+                    return "\"" + codegenParameter.paramName + "_example\"";
+                }
+            } else if ("Bool".equals(codegenParameter.dataType)) { // boolean
+                if (Boolean.TRUE.equals(codegenParameter.example)) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+            } else if ("URL".equals(codegenParameter.dataType)) { // URL
+                return "URL(string: \"https://example.com\")!";
+            } else if ("Date".equals(codegenParameter.dataType)) { // date
+                return "Date()";
+            } else { // numeric
+                if (StringUtils.isEmpty(codegenParameter.example)) {
+                    return codegenParameter.example;
+                } else {
+                    return "987";
+                }
+            }
+        } else { // model
+            // look up the model
+            if (modelMaps.containsKey(codegenParameter.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps);
+            } else {
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                return "TODO";
+            }
+        }
+    }
+
+    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
+        if (codegenProperty.isListContainer) { // array
+            return "[" + constructExampleCode(codegenProperty.items, modelMaps) + "]";
+        } else if (codegenProperty.isMapContainer) { // TODO: map, file type
+            return "\"TODO\"";
+        } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
+            if ("String".equals(codegenProperty.dataType) || "Character".equals(codegenProperty.dataType)) {
+                if (StringUtils.isEmpty(codegenProperty.example)) {
+                    return "\"" + codegenProperty.example + "\"";
+                } else {
+                    return "\"" + codegenProperty.name + "_example\"";
+                }
+            } else if ("Bool".equals(codegenProperty.dataType)) { // boolean
+                if (Boolean.TRUE.equals(codegenProperty.example)) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+            } else if ("URL".equals(codegenProperty.dataType)) { // URL
+                return "URL(string: \"https://example.com\")!";
+            } else if ("Date".equals(codegenProperty.dataType)) { // date
+                return "Date()";
+            } else { // numeric
+                if (StringUtils.isEmpty(codegenProperty.example)) {
+                    return codegenProperty.example;
+                } else {
+                    return "123";
+                }
+            }
+        } else {
+            // look up the model
+            if (modelMaps.containsKey(codegenProperty.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps);
+            } else {
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
+                return "\"TODO\"";
+            }
+        }
+    }
+
+    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
+        String example;
+        example = codegenModel.name + "(";
+        List<String> propertyExamples = new ArrayList<>();
+        for (CodegenProperty codegenProperty : codegenModel.vars) {
+            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps));
+        }
+        example += StringUtils.join(propertyExamples, ", ");
+        example += ")";
+        return example;
     }
 }

@@ -17,11 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpDotNet2ClientCodegen.class);
+
     public static final String CLIENT_PACKAGE = "clientPackage";
     protected String clientPackage = "Org.OpenAPITools.Client";
     protected String apiDocPath = "docs/";
@@ -29,6 +39,10 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     public CSharpDotNet2ClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         // clear import mapping (from default generator) as C# (2.0) does not use it
         // at the moment
@@ -59,6 +73,8 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void processOpts() {
+        LOGGER.warn("Per Microsoft Product Lifecycle (https://support.microsoft.com/en-us/lifecycle/search?sort=PN&alpha=.NET%20Framework&Filter=FilterNO), support for .NET Framework 2.0 ended in 2011 so there may be security issues using the auto-generated C# 2.0 source code.");
+
         super.processOpts();
 
         if (additionalProperties.containsKey(CLIENT_PACKAGE)) {
@@ -130,12 +146,12 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        return outputFolder + File.separator + apiDocPath.replace('/', File.separatorChar);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        return outputFolder + File.separator + modelDocPath.replace('/', File.separatorChar);
     }
 
 }

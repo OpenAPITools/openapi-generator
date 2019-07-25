@@ -17,29 +17,22 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class PhpClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
-
-    public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
-    public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
-    protected String composerVendorName = null;
-    protected String composerProjectName = null;
 
     public PhpClientCodegen() {
         super();
@@ -66,8 +59,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         String primitives = "'" + StringUtils.join(sortedLanguageSpecificPrimitives, "', '") + "'";
         additionalProperties.put("primitives", primitives);
 
-        cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets. IMPORTANT NOTE (2016/03): composerVendorName will be deprecated and replaced by gitUserId in the next openapi-generator release"));
-        cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next openapi-generator release"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
     }
@@ -91,18 +82,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
-            this.setComposerProjectName((String) additionalProperties.get(COMPOSER_PROJECT_NAME));
-        } else {
-            additionalProperties.put(COMPOSER_PROJECT_NAME, composerProjectName);
-        }
-
-        if (additionalProperties.containsKey(COMPOSER_VENDOR_NAME)) {
-            this.setComposerVendorName((String) additionalProperties.get(COMPOSER_VENDOR_NAME));
-        } else {
-            additionalProperties.put(COMPOSER_VENDOR_NAME, composerVendorName);
-        }
-
         supportingFiles.add(new SupportingFile("ApiException.mustache", toSrcPath(invokerPackage, srcBasePath), "ApiException.php"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", toSrcPath(invokerPackage, srcBasePath), "Configuration.php"));
         supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toSrcPath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
@@ -114,13 +93,5 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile(".php_cs", "", ".php_cs"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-    }
-
-    public void setComposerVendorName(String composerVendorName) {
-        this.composerVendorName = composerVendorName;
-    }
-
-    public void setComposerProjectName(String composerProjectName) {
-        this.composerProjectName = composerProjectName;
     }
 }

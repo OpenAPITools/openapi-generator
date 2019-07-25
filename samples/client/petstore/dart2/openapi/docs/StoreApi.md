@@ -68,9 +68,9 @@ Returns a map of status codes to quantities
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure API key authorization: api_key
-//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
 var api_instance = new StoreApi();
 

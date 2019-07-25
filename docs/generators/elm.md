@@ -1,18 +1,13 @@
 
-CONFIG OPTIONS for elm
+---
+id: generator-opts-client-elm
+title: Config Options for elm
+sidebar_label: elm
+---
 
-	elmVersion
-	    Elm version: 0.18, 0.19 (Default: 0.19)
-	        0.19 - Elm 0.19
-	        0.18 - Elm 0.18
-
-	elmPrefixCustomTypeVariants
-	    Prefix custom type variants (Default: false)
-
-	elmEnableCustomBasePaths
-	    Enable setting the base path for each request (Default: false)
-
-	elmEnableHttpRequestTrackers
-	    Enable adding a tracker to each http request (Default: false)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|elmVersion|Elm version: 0.18, 0.19|<dl><dt>**0.19**</dt><dd>Elm 0.19</dd><dt>**0.18**</dt><dd>Elm 0.18</dd><dl>|0.19|
+|elmPrefixCustomTypeVariants|Prefix custom type variants| |false|
+|elmEnableCustomBasePaths|Enable setting the base path for each request| |false|
+|elmEnableHttpRequestTrackers|Enable adding a tracker to each http request| |false|

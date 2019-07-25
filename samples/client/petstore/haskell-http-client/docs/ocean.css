@@ -46,6 +46,14 @@ a[href].def:hover { color: rgb(78, 98, 114); }
 
 /* @end */
 
+/* @group Show and hide with JS */
+
+body.js-enabled .hide-when-js-enabled {
+  display: none;
+}
+
+/* @end */
+
 /* @group Fonts & Sizes */
 
 /* Basic technique & IE workarounds from YUI 3
@@ -106,7 +114,7 @@ pre, code, kbd, samp, tt, .src {
 
 /* @group Common */
 
-.caption, h1, h2, h3, h4, h5, h6 {
+.caption, h1, h2, h3, h4, h5, h6, summary {
   font-weight: bold;
   color: rgb(78,98,114);
   margin: 0.8em 0 0.4em;
@@ -168,6 +176,16 @@ p.caption.expander {
   min-height: 9px;
 }
 
+summary {
+  cursor: pointer;
+  outline: none;
+  list-style-image: url(plus.gif);
+  list-style-position: outside;
+}
+
+details[open] > summary {
+  list-style-image: url(minus.gif);
+}
 
 pre {
   padding: 0.25em;
@@ -338,7 +356,8 @@ div#style-menu-holder {
   z-index: 1;
 }
 
-#synopsis .caption {
+#synopsis summary {
+  display: block;
   float: left;
   width: 29px;
   color: rgba(255,255,255,0);
@@ -346,14 +365,11 @@ div#style-menu-holder {
   margin: 0;
   font-size: 1px;
   padding: 0;
-}
-
-#synopsis p.caption.collapser {
-  background: url(synopsis.png) no-repeat -64px -8px;
-}
-
-#synopsis p.caption.expander {
   background: url(synopsis.png) no-repeat 0px -8px;
+}
+
+#synopsis details[open] > summary {
+  background: url(synopsis.png) no-repeat -64px -8px;
 }
 
 #synopsis ul {
@@ -419,14 +435,27 @@ div#style-menu-holder {
   vertical-align: top;
   padding-left: 0.5em;
 }
-#interface td.src {
-  white-space: nowrap;
-}
+
 #interface td.doc p {
   margin: 0;
 }
 #interface td.doc p + p {
   margin-top: 0.8em;
+}
+
+.doc table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+
+.doc th,
+.doc td {
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+
+.doc th {
+  background-color: #f0f0f0;
 }
 
 .clearfix:after {

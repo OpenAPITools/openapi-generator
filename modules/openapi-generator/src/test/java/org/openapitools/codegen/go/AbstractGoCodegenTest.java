@@ -17,12 +17,11 @@
 
 package org.openapitools.codegen.go;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractGoCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class AbstractGoCodegenTest {
 

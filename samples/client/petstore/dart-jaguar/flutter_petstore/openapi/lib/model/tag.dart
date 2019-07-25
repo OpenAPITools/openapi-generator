@@ -1,5 +1,6 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 part 'tag.jser.dart';
 
 class Tag {
@@ -31,3 +32,4 @@ class Tag {
 class TagSerializer extends Serializer<Tag> with _$TagSerializer {
 
 }
+

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Description>Org.OpenAPITools</Description>
     <Copyright>Org.OpenAPITools</Copyright>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>Org.OpenAPITools</AssemblyName>

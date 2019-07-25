@@ -107,4 +107,14 @@ paths:
       responses:
         '200':
           description: successful operation
-
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        address:
+          type: object
+          nullable: true
+          properties:
+            city:
+              type: string

@@ -44,11 +44,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
-    if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+    if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{{defaultValue}}}){{/isNullable}}{{^isNullable}}{{{defaultValue}}}{{/isNullable}};
     }
     {{/required}}
-    this.{{name}}.add({{name}}Item);
+    this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
     return this;
   }
   {{/isListContainer}}

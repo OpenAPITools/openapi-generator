@@ -389,6 +389,17 @@ namespace Org.OpenAPITools.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class
+        /// </summary>
+        /// <returns></returns>
+        public UserApi()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserApi"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
@@ -534,7 +545,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -607,7 +618,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -679,7 +690,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -752,7 +763,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -824,7 +835,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -897,7 +908,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -961,7 +972,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1026,7 +1037,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1093,7 +1104,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<User>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (User) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(User)));
         }
 
@@ -1161,7 +1172,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<User>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (User) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(User)));
         }
 
@@ -1234,7 +1245,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<string>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
@@ -1308,7 +1319,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<string>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
@@ -1366,7 +1377,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1425,7 +1436,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1503,7 +1514,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1582,7 +1593,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 

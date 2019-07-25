@@ -1,7 +1,8 @@
 #ifndef INCLUDE_LIST_H
 #define INCLUDE_LIST_H
 
-#include "cJSON.h"
+#include "../external/cJSON.h"
+#include "../include/list.h"
 
 typedef struct list_t list_t;
 

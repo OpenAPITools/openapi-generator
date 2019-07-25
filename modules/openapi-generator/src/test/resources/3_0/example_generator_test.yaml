@@ -15,6 +15,17 @@ paths:
             application/json:
               schema:
                 type: string
+  /generate_from_response_schema_with_primitive_type:
+    get:
+      operationId: generateFromResponseSchemaWithNoExample
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: primitive type example value
   /generate_from_response_schema_with_array_of_model:
     get:
       operationId: generateFromResponseSchemaWithArrayOfModel

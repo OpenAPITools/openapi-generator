@@ -10,6 +10,7 @@ import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +41,11 @@ public class FakeApiController implements FakeApi {
         this.request = request;
     }
 
+    public ResponseEntity<Void> createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true )  @Valid @RequestBody XmlItem xmlItem) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
     public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -48,7 +54,7 @@ public class FakeApiController implements FakeApi {
     public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}");
+                ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.8008281904610115,  \"my_boolean\" : true}");
                 break;
             }
         }

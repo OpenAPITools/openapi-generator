@@ -1,0 +1,359 @@
+{
+  "org.openapitools.api" : {
+    "AnotherFakeApi" : {
+      "call123testSpecialTags" : {
+        "body" : {
+          "client" : "jcG45"
+        },
+        "response" : {
+          "client" : "X370r"
+        }
+      }
+    },
+    "FakeApi" : {
+      "createXmlItem" : {
+        "xmlItem" : {
+          "attributeString" : "Eb2u1U6",
+          "attributeInteger" : 147520098,
+          "attributeBoolean" : true,
+          "wrappedArray" : [ 386706627 ],
+          "nameString" : "dh860",
+          "nameInteger" : 1987576209,
+          "nameBoolean" : true,
+          "nameArray" : [ -659992604 ],
+          "nameWrappedArray" : [ -2119625820 ],
+          "prefixString" : "i3F56",
+          "prefixInteger" : 1911338960,
+          "prefixBoolean" : true,
+          "prefixArray" : [ 1722883742 ],
+          "prefixWrappedArray" : [ 1078700186 ],
+          "namespaceString" : "iS4Ds71",
+          "namespaceInteger" : 487489352,
+          "namespaceBoolean" : false,
+          "namespaceArray" : [ 1680914373 ],
+          "namespaceWrappedArray" : [ -1665967400 ],
+          "prefixNsString" : "Dw4j1",
+          "prefixNsInteger" : 1066222353,
+          "prefixNsBoolean" : true,
+          "prefixNsArray" : [ -323311251 ],
+          "prefixNsWrappedArray" : [ -97625425 ]
+        }
+      },
+      "fakeOuterBooleanSerialize" : {
+        "body" : false,
+        "response" : true
+      },
+      "fakeOuterCompositeSerialize" : {
+        "body" : {
+          "myString" : "X2D3gz",
+          "myBoolean" : false
+        },
+        "response" : {
+          "myString" : "CoPXZxn",
+          "myBoolean" : false
+        }
+      },
+      "fakeOuterStringSerialize" : {
+        "body" : "n7l4XMo",
+        "response" : "Qr4co9"
+      },
+      "testBodyWithQueryParams" : {
+        "query" : "UV9bdZ2",
+        "body" : {
+          "id" : 4000262934535942144,
+          "username" : "XLJ4b9",
+          "firstName" : "hSDrOu",
+          "lastName" : "L11r0",
+          "email" : "Kjq6Mi61",
+          "password" : "hF294",
+          "phone" : "JJVU9",
+          "userStatus" : -1075062101
+        }
+      },
+      "testClientModel" : {
+        "body" : {
+          "client" : "A4h15W9u21"
+        },
+        "response" : {
+          "client" : "Og4a5"
+        }
+      },
+      "testEndpointParameters" : {
+        "_double" : 91.68589154730602421612164906388358076583244837820529937744140625,
+        "patternWithoutDelimiter" : "^K᫢",
+        "_byte" : "VA==",
+        "integer" : 79,
+        "int32" : 67,
+        "int64" : 2105658579350773760,
+        "_float" : -8.599085E37,
+        "string" : "/o/i",
+        "binary" : "6F2DE9EC31",
+        "dateTime" : "1970-01-01T00:00:00.000Z",
+        "password" : "ZO4zar14Va3jI1l",
+        "paramCallback" : "wPk77B7e5xF"
+      },
+      "testEnumParameters" : {
+        "enumHeaderStringArray" : [ ">" ],
+        "enumHeaderString" : "_abc",
+        "enumQueryStringArray" : [ ">" ],
+        "enumQueryString" : "_abc",
+        "enumQueryInteger" : -2,
+        "enumQueryDouble" : 1.1,
+        "enumFormStringArray" : [ ">" ],
+        "enumFormString" : "(xyz)"
+      },
+      "testGroupParameters" : {
+        "requiredStringGroup" : 1207842123,
+        "requiredBooleanGroup" : false,
+        "requiredInt64Group" : 5596825593739094016,
+        "stringGroup" : 159421280,
+        "booleanGroup" : false,
+        "int64Group" : -371090919006941184
+      },
+      "testInlineAdditionalProperties" : {
+        "param" : {
+          "wudzp01O" : "mE6kw6wXNh"
+        }
+      },
+      "testJsonFormData" : {
+        "param" : "Gfe588Q6",
+        "param2" : "QBx28IQ"
+      }
+    },
+    "FakeClassnameTags123Api" : {
+      "testClassname" : {
+        "body" : {
+          "client" : "S1aOxISzBs"
+        },
+        "response" : {
+          "client" : "TbGI9"
+        }
+      }
+    },
+    "PetApi" : {
+      "addPet" : {
+        "body" : {
+          "id" : -2653750499344775168,
+          "category" : {
+            "id" : -2928510589379909632,
+            "name" : "TO3p80Ky2x"
+          },
+          "name" : "Qm6N3dP3",
+          "photoUrls" : [ "p53C0" ],
+          "tags" : [ {
+            "id" : -2307271697209421824,
+            "name" : "Al1TO"
+          } ],
+          "status" : "available"
+        }
+      },
+      "deletePet" : {
+        "petId" : -5729095497896138752,
+        "apiKey" : "emX89u"
+      },
+      "findPetsByStatus" : {
+        "status" : [ "pending" ],
+        "response" : [ {
+          "id" : 6691518087482916864,
+          "category" : {
+            "id" : 6964466714983940096,
+            "name" : "koE81eyo"
+          },
+          "name" : "y4m4PhCE0i",
+          "photoUrls" : [ "IqJJmx" ],
+          "tags" : [ {
+            "id" : 8012801031574112256,
+            "name" : "YrJn1yGs0z"
+          } ],
+          "status" : "sold"
+        } ]
+      },
+      "findPetsByTags" : {
+        "tags" : [ "j3nfE" ],
+        "response" : [ {
+          "id" : -9197231497833564160,
+          "category" : {
+            "id" : -5988701284856627200,
+            "name" : "BauS54"
+          },
+          "name" : "M8kI7",
+          "photoUrls" : [ "Qa714D5" ],
+          "tags" : [ {
+            "id" : 4440883532640208896,
+            "name" : "Nkk3DY5"
+          } ],
+          "status" : "available"
+        } ]
+      },
+      "getPetById" : {
+        "petId" : -6219590703298789376,
+        "response" : {
+          "id" : 5993566911200026624,
+          "category" : {
+            "id" : -2117647852255066112,
+            "name" : "eubaw7"
+          },
+          "name" : "ET50LhRvnd",
+          "photoUrls" : [ "O99qs1" ],
+          "tags" : [ {
+            "id" : 2761338271092506624,
+            "name" : "jfPAX"
+          } ],
+          "status" : "sold"
+        }
+      },
+      "updatePet" : {
+        "body" : {
+          "id" : -1456079319067897856,
+          "category" : {
+            "id" : 5419421286905976832,
+            "name" : "X0q8S"
+          },
+          "name" : "he3p7",
+          "photoUrls" : [ "xlE9clF" ],
+          "tags" : [ {
+            "id" : 2103387396570261504,
+            "name" : "gcerr1IP"
+          } ],
+          "status" : "sold"
+        }
+      },
+      "updatePetWithForm" : {
+        "petId" : -7656356217721585664,
+        "name" : "A2bOl",
+        "status" : "PH9f8356iEBn"
+      },
+      "uploadFile" : {
+        "petId" : 6952534196252968960,
+        "additionalMetadata" : "G4m059l",
+        "file" : "9C9DA0EAF5D2AF1F6864A6",
+        "response" : {
+          "code" : -1435192892,
+          "type" : "gw24XnMH7",
+          "message" : "zzB72Z"
+        }
+      },
+      "uploadFileWithRequiredFile" : {
+        "petId" : 512037124265578496,
+        "requiredFile" : "D8B705A8FB3F407B2F8E",
+        "additionalMetadata" : "PY6nDn9",
+        "response" : {
+          "code" : -1333813556,
+          "type" : "BrrZM",
+          "message" : "tFr79X"
+        }
+      }
+    },
+    "StoreApi" : {
+      "deleteOrder" : {
+        "orderId" : "HsU41"
+      },
+      "getInventory" : {
+        "response" : {
+          "ziD75" : 294464959
+        }
+      },
+      "getOrderById" : {
+        "orderId" : 4,
+        "response" : {
+          "id" : 3165203730926016512,
+          "petId" : -3012698886004281344,
+          "quantity" : -60286595,
+          "shipDate" : "1970-01-01T00:00:00.000Z",
+          "status" : "delivered",
+          "complete" : true
+        }
+      },
+      "placeOrder" : {
+        "body" : {
+          "id" : 3338410355229698048,
+          "petId" : -4961432594453067776,
+          "quantity" : 1842478858,
+          "shipDate" : "1970-01-01T00:00:00.000Z",
+          "status" : "approved",
+          "complete" : true
+        },
+        "response" : {
+          "id" : -1005036856530139136,
+          "petId" : -4453012365528330240,
+          "quantity" : -2040456846,
+          "shipDate" : "1970-01-01T00:00:00.000Z",
+          "status" : "placed",
+          "complete" : true
+        }
+      }
+    },
+    "UserApi" : {
+      "createUser" : {
+        "body" : {
+          "id" : -8606986596057917440,
+          "username" : "tL0ec",
+          "firstName" : "Y0loLMb",
+          "lastName" : "zT5201",
+          "email" : "u81A86VgXTIE",
+          "password" : "HP0SR",
+          "phone" : "w1WQ810b",
+          "userStatus" : -1376509587
+        }
+      },
+      "createUsersWithArrayInput" : {
+        "body" : [ {
+          "id" : -1966638810474690560,
+          "username" : "VTWlOg",
+          "firstName" : "jpFb3",
+          "lastName" : "t25dWgTQ",
+          "email" : "aqf3E",
+          "password" : "Avn2BM8xK",
+          "phone" : "E4JIl",
+          "userStatus" : -1484810590
+        } ]
+      },
+      "createUsersWithListInput" : {
+        "body" : [ {
+          "id" : 8585018130972989440,
+          "username" : "P9vsF",
+          "firstName" : "J7CAoNQj",
+          "lastName" : "WD1h9",
+          "email" : "jKzvi6",
+          "password" : "cHska",
+          "phone" : "Dldds",
+          "userStatus" : 1097971227
+        } ]
+      },
+      "deleteUser" : {
+        "username" : "iT0Ys"
+      },
+      "getUserByName" : {
+        "username" : "QpJg1",
+        "response" : {
+          "id" : 14156895191257088,
+          "username" : "sor05q0v8f",
+          "firstName" : "r4D82",
+          "lastName" : "WHMFN933cK1",
+          "email" : "BaLHhmu008",
+          "password" : "qk44V",
+          "phone" : "tUzVV",
+          "userStatus" : -373662379
+        }
+      },
+      "loginUser" : {
+        "username" : "Yr620",
+        "password" : "B196F",
+        "response" : "S5I74r9"
+      },
+      "updateUser" : {
+        "username" : "zEoD6E0S",
+        "body" : {
+          "id" : -6743258527755587584,
+          "username" : "Bd3OVY",
+          "firstName" : "CW6Sc",
+          "lastName" : "TV8U0",
+          "email" : "yy7aew",
+          "password" : "ywud8QR4",
+          "phone" : "dy886aDKe",
+          "userStatus" : 1641465856
+        }
+      }
+    }
+  }
+}

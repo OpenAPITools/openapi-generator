@@ -1,19 +1,14 @@
 
-CONFIG OPTIONS for ada-server
+---
+id: generator-opts-server-ada-server
+title: Config Options for ada-server
+sidebar_label: ada-server
+---
 
-	sortParamsByRequiredFlag
-	    Sort method arguments to place required parameters before optional parameters. (Default: true)
-
-	ensureUniqueParams
-	    Whether to ensure parameter names are unique in an operation (rename parameters that are not). (Default: true)
-
-	allowUnicodeIdentifiers
-	    boolean, toggles whether unicode identifiers are allowed in names or not, default is false (Default: false)
-
-	prependFormOrBodyParameters
-	    Add form or body parameters to the beginning of the parameter list. (Default: false)
-
-	projectName
-	    GNAT project name (Default: defaultProject)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|projectName|GNAT project name| |defaultProject|

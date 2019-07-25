@@ -18,13 +18,12 @@
 package org.openapitools.codegen.haskellservant;
 
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.HaskellServantCodegen;
 import org.openapitools.codegen.options.HaskellServantOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class HaskellServantOptionsTest extends AbstractOptionsTest {
 

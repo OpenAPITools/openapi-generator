@@ -1,25 +1,16 @@
 
-CONFIG OPTIONS for cpp-qt5-client
+---
+id: generator-opts-client-cpp-qt5-client
+title: Config Options for cpp-qt5-client
+sidebar_label: cpp-qt5-client
+---
 
-	sortParamsByRequiredFlag
-	    Sort method arguments to place required parameters before optional parameters. (Default: true)
-
-	ensureUniqueParams
-	    Whether to ensure parameter names are unique in an operation (rename parameters that are not). (Default: true)
-
-	allowUnicodeIdentifiers
-	    boolean, toggles whether unicode identifiers are allowed in names or not, default is false (Default: false)
-
-	prependFormOrBodyParameters
-	    Add form or body parameters to the beginning of the parameter list. (Default: false)
-
-	cppNamespace
-	    C++ namespace (convention: name::space::for::api). (Default: OpenAPI)
-
-	cppNamespace
-	    C++ namespace (convention: name::space::for::api). (Default: OpenAPI)
-
-	optionalProjectFile
-	    Generate client.pri. (Default: true)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|cppNamespace|C++ namespace (convention: name::space::for::api).| |OpenAPI|
+|modelNamePrefix|Prefix that will be prepended to all model names.| |OAI|
+|optionalProjectFile|Generate client.pri.| |true|

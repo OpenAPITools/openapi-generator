@@ -17,7 +17,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - pet (Pet): Pet object that needs to be added to the store
+  - body (Pet): Pet object that needs to be added to the store
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -25,14 +25,17 @@ defmodule OpenapiPetstore.Api.Pet do
   {:error, info} on failure
   """
   @spec add_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def add_pet(connection, pet, _opts \\ []) do
+  def add_pet(connection, body, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/pet")
-    |> add_param(:body, :body, pet)
+    |> add_param(:body, :body, body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(false)
+    |> evaluate_response([
+      { 200, false},
+      { 405, false}
+    ])
   end
 
   @doc """
@@ -60,7 +63,10 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(false)
+    |> evaluate_response([
+      { 200, false},
+      { 400, false}
+    ])
   end
 
   @doc """
@@ -85,7 +91,10 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_param(:query, :"status", status)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode([%OpenapiPetstore.Model.Pet{}])
+    |> evaluate_response([
+      { 200, [%OpenapiPetstore.Model.Pet{}]},
+      { 400, false}
+    ])
   end
 
   @doc """
@@ -110,7 +119,10 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_param(:query, :"tags", tags)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode([%OpenapiPetstore.Model.Pet{}])
+    |> evaluate_response([
+      { 200, [%OpenapiPetstore.Model.Pet{}]},
+      { 400, false}
+    ])
   end
 
   @doc """
@@ -134,7 +146,11 @@ defmodule OpenapiPetstore.Api.Pet do
     |> url("/pet/#{pet_id}")
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(%OpenapiPetstore.Model.Pet{})
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.Pet{}},
+      { 400, false},
+      { 404, false}
+    ])
   end
 
   @doc """
@@ -143,7 +159,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - pet (Pet): Pet object that needs to be added to the store
+  - body (Pet): Pet object that needs to be added to the store
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -151,14 +167,19 @@ defmodule OpenapiPetstore.Api.Pet do
   {:error, info} on failure
   """
   @spec update_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def update_pet(connection, pet, _opts \\ []) do
+  def update_pet(connection, body, _opts \\ []) do
     %{}
     |> method(:put)
     |> url("/pet")
-    |> add_param(:body, :body, pet)
+    |> add_param(:body, :body, body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(false)
+    |> evaluate_response([
+      { 200, false},
+      { 400, false},
+      { 404, false},
+      { 405, false}
+    ])
   end
 
   @doc """
@@ -188,7 +209,9 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(false)
+    |> evaluate_response([
+      { 405, false}
+    ])
   end
 
   @doc """
@@ -218,7 +241,9 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(%OpenapiPetstore.Model.ApiResponse{})
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.ApiResponse{}}
+    ])
   end
 
   @doc """
@@ -248,6 +273,8 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(%OpenapiPetstore.Model.ApiResponse{})
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.ApiResponse{}}
+    ])
   end
 end

@@ -17,6 +17,7 @@ import Data.List (stripPrefix)
 import Data.Maybe (fromMaybe)
 import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
 import Data.Aeson.Types (Options(..), defaultOptions)
+import Data.Set (Set)
 import Data.Text (Text)
 import Data.Time
 import Data.Swagger (ToSchema, declareNamedSchema)
@@ -67,8 +68,12 @@ uncapitalize :: String -> String
 uncapitalize (first:rest) = Char.toLower first : rest
 uncapitalize [] = []
 
--- Remove a field label prefix during JSON parsing.
--- Also perform any replacements for special characters.
+-- | Remove a field label prefix during JSON parsing.
+--   Also perform any replacements for special characters.
+--   The @forParsing@ parameter is to distinguish between the cases in which we're using this
+--   to power a @FromJSON@ or a @ToJSON@ instance. In the first case we're parsing, and we want
+--   to replace special characters with their quoted equivalents (because we cannot have special
+--   chars in identifier names), while we want to do viceversa when sending data instead.
 removeFieldLabelPrefix :: Bool -> String -> Options
 removeFieldLabelPrefix forParsing prefix =
   defaultOptions

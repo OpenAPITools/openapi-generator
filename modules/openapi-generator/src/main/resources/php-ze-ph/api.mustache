@@ -1,0 +1,89 @@
+<?php
+declare(strict_types=1);
+
+namespace {{package}};
+
+use Articus\PathHandler\Annotation as PHA;
+use Articus\PathHandler\Consumer as PHConsumer;
+use Articus\PathHandler\Producer as PHProducer;
+use Articus\PathHandler\Attribute as PHAttribute;
+use Articus\PathHandler\Exception as PHException;
+use Psr\Http\Message\ServerRequestInterface;
+
+{{#operations}}
+/**
+{{#description}}
+ * {{&description}}
+{{/description}}
+ * @PHA\Route(pattern="{{pathPattern}}")
+ */
+class {{classname}}
+{
+{{#operation}}
+    /**
+{{#summary}}
+     * {{summary}}
+{{/summary}}
+{{#description}}
+     * {{description}}
+{{/description}}
+     * @PHA\{{httpMethod}}
+{{#vendorExtensions}}
+{{#internal.ze-ph.hasQueryData}}
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={
+     *     "type":{{internal.ze-ph.queryDataType}}::class,
+     *     "objectAttr":"queryData",
+     *     "source": PHAttribute\Transfer::SOURCE_GET
+     * })
+{{/internal.ze-ph.hasQueryData}}
+{{/vendorExtensions}}
+{{#bodyParam}}
+{{#consumes}}
+     * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="{{{mediaType}}}")
+{{/consumes}}
+{{^isPrimitiveType}}
+{{#isContainer}}
+     * TODO check if attribute is valid and can handle your container type
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":"{{dataType}}","objectAttr":"bodyData"})
+{{/isContainer}}
+{{^isContainer}}
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":{{dataType}}::class,"objectAttr":"bodyData"})
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{/bodyParam}}
+{{#produces}}
+     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="{{{mediaType}}}")
+{{/produces}}
+     * @param ServerRequestInterface $request
+     *
+     * @throws PHException\HttpCode 501 if the method is not implemented
+{{#returnType}}
+     *
+{{#returnContainer}}
+     * TODO check if generated return container type is valid
+{{/returnContainer}}
+     * @return {{returnType}}
+{{/returnType}}
+     */
+    public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{#returnContainer}}array{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}{{/returnType}}
+    {
+        //TODO implement method
+{{#vendorExtensions}}
+{{#internal.ze-ph.hasQueryData}}
+        /** @var {{internal.ze-ph.queryDataType}} $queryData */
+        $queryData = $request->getAttribute("queryData");
+{{/internal.ze-ph.hasQueryData}}
+{{/vendorExtensions}}
+{{#bodyParam}}
+{{^isPrimitiveType}}
+        /** @var {{dataType}} $bodyData */
+        $bodyData = $request->getAttribute("bodyData");
+{{/isPrimitiveType}}
+{{/bodyParam}}
+        throw new PHException\HttpCode(501, "Not implemented");
+    }
+{{/operation}}
+}
+{{/operations}}

@@ -17,12 +17,12 @@
 
 package org.openapitools.codegen.swift4;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.Swift4Codegen;
 import org.openapitools.codegen.options.Swift4OptionsProvider;
-import mockit.Expectations;
-import mockit.Tested;
 
 public class Swift4OptionsTest extends AbstractOptionsTest {
 

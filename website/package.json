@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "examples": "docusaurus-examples",
+    "start": "docusaurus-start",
+    "build": "docusaurus-build",
+    "publish-gh-pages": "docusaurus-publish",
+    "write-translations": "docusaurus-write-translations",
+    "version": "docusaurus-version",
+    "rename-version": "docusaurus-rename-version"
+  },
+  "devDependencies": {
+    "docusaurus": "^1.11.1"
+  },
+  "dependencies": {
+    "js-yaml": "^3.12.0",
+    "lodash.template": "^4.5.0",
+    "lodash.merge": "^4.6.2"
+  }
+}

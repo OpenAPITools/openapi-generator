@@ -9,19 +9,19 @@ namespace app\Models;
  */
 class EnumTest {
 
-    /** @var string $enum_string */
-    private $enum_string;
+    /** @var string $enumString */
+    private $enumString;
 
-    /** @var string $enum_string_required */
-    private $enum_string_required;
+    /** @var string $enumStringRequired */
+    private $enumStringRequired;
 
-    /** @var int $enum_integer */
-    private $enum_integer;
+    /** @var int $enumInteger */
+    private $enumInteger;
 
-    /** @var double $enum_number */
-    private $enum_number;
+    /** @var double $enumNumber */
+    private $enumNumber;
 
-    /** @var \app\Models\OuterEnum $outer_enum */
-    private $outer_enum;
+    /** @var \app\Models\OuterEnum $outerEnum */
+    private $outerEnum;
 
 }

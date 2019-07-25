@@ -37,6 +37,9 @@ public class CodegenConstants {
     public static final String API_PACKAGE = "apiPackage";
     public static final String API_PACKAGE_DESC = "package for generated api classes";
 
+    public static final String API_SUFFIX = "apiSuffix";
+    public static final String API_SUFFIX_DESC = "suffix for api classes";
+
     public static final String MODEL_PACKAGE = "modelPackage";
     public static final String MODEL_PACKAGE_DESC = "package for generated models";
 
@@ -54,20 +57,29 @@ public class CodegenConstants {
     public static final String PERL_MODULE_NAME = "perlModuleName";
     public static final String PERL_MODULE_NAME_DESC = "root module name for generated perl code";
 
+    public static final String MODULE_NAME = "moduleName";
+    public static final String MODULE_NAME_DESC = "top module name (convention: CamelCase, usually corresponding to gem name).";
+
+    public static final String GEM_NAME = "gemName";
+    public static final String GEM_NAME_DESC = "gem name (convention: underscore_case).";
+
     public static final String PYTHON_PACKAGE_NAME = "pythonPackageName";
     public static final String PYTHON_PACKAGE_NAME_DESC = "package name for generated python code";
 
     public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
     public static final String WITH_GO_CODEGEN_COMMENT_DESC = "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs";
 
+    public static final String IS_GO_SUBMODULE = "isGoSubmodule";
+    public static final String IS_GO_SUBMODULE_DESC = "whether the generated Go module is a submodule";
+
     public static final String GROUP_ID = "groupId";
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 
     public static final String ARTIFACT_ID = "artifactId";
-    public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml";
+    public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml. This also becomes part of the generated library's filename";
 
     public static final String ARTIFACT_VERSION = "artifactVersion";
-    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml";
+    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename";
 
     public static final String ARTIFACT_URL = "artifactUrl";
     public static final String ARTIFACT_URL_DESC = "artifact URL in generated pom.xml";
@@ -108,9 +120,6 @@ public class CodegenConstants {
     public static final String IMPL_FOLDER = "implFolder";
     public static final String IMPL_FOLDER_DESC = "folder for generated implementation code";
 
-    public static final String LOCAL_VARIABLE_PREFIX = "localVariablePrefix";
-    public static final String LOCAL_VARIABLE_PREFIX_DESC = "prefix for generated code members and local variables";
-
     public static final String SERIALIZABLE_MODEL = "serializableModel";
     public static final String SERIALIZABLE_MODEL_DESC = "boolean - toggle \"implements Serializable\" for generated models";
 
@@ -134,6 +143,8 @@ public class CodegenConstants {
 
     public static final String PROJECT_NAME = "projectName";
     public static final String PACKAGE_NAME = "packageName";
+    public static final String PACKAGE_NAME_DESC = "package for generated classes (where supported)";
+
     public static final String PACKAGE_VERSION = "packageVersion";
 
     public static final String PACKAGE_TITLE = "packageTitle";
@@ -181,6 +192,9 @@ public class CodegenConstants {
     public static final String DOTNET_FRAMEWORK = "targetFramework";
     public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version.";
 
+    public static final String TEMPLATING_ENGINE = "templatingEngine";
+    public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
+
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
     public static enum ENUM_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original, UPPERCASE}
@@ -189,13 +203,10 @@ public class CodegenConstants {
     public static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'";
 
     public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
-    public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names. Default is the empty string.";
+    public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names.";
 
     public static final String MODEL_NAME_SUFFIX = "modelNameSuffix";
-    public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names. Default is the empty string.";
-
-    public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
-    public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue.";
+    public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names.";
 
     public static final String GIT_USER_ID = "gitUserId";
     public static final String GIT_USER_ID_DESC = "Git user ID, e.g. openapitools.";
@@ -224,6 +235,8 @@ public class CodegenConstants {
     public static final String PARCELIZE_MODELS = "parcelizeModels";
     public static final String PARCELIZE_MODELS_DESC = "toggle \"@Parcelize\" for generated models";
 
+    public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
+    public static final String CASE_INSENSITIVE_RESPONSE_HEADERS_DESC = "Make API response's headers case-insensitive";
 
     // Not user-configurable. System provided for use in templates.
 
@@ -289,4 +302,10 @@ public class CodegenConstants {
 
     public static final String USE_COMPARE_NET_OBJECTS = "useCompareNetObjects";
     public static final String USE_COMPARE_NET_OBJECTS_DESC = "Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.";
+
+    public static final String SNAPSHOT_VERSION = "snapshotVersion";
+    public static final String SNAPSHOT_VERSION_DESC = "Uses a SNAPSHOT version.";
+
+    public static final String EXCEPTION_ON_FAILURE = "returnExceptionOnFailure";
+    public static final String EXCEPTION_ON_FAILURE_DESC = "Throw an exception on non success response codes";
 }

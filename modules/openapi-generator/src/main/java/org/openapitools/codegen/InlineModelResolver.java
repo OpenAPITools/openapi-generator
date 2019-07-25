@@ -17,26 +17,18 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-
 import java.util.*;
-
-import io.swagger.v3.oas.models.media.XML;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
@@ -106,6 +98,7 @@ public class InlineModelResolver {
 
                     // create request body
                     RequestBody rb = new RequestBody();
+                    rb.setRequired(requestBody.getRequired());
                     Content content = new Content();
                     MediaType mt = new MediaType();
                     Schema schema = new Schema();
@@ -319,6 +312,35 @@ public class InlineModelResolver {
         }
     }
 
+    private void flattenComposedChildren(OpenAPI openAPI, String key, List<Schema> children) {
+        if (children == null || children.isEmpty()) {
+            return;
+        }
+        ListIterator<Schema> listIterator = children.listIterator();
+        while (listIterator.hasNext()) {
+            Schema component = listIterator.next();
+            if (component instanceof ObjectSchema) {
+                ObjectSchema op = (ObjectSchema) component;
+                if (op.get$ref() == null && op.getProperties() != null && op.getProperties().size() > 0) {
+                    String innerModelName = resolveModelName(op.getTitle(), key);
+                    Schema innerModel = modelFromProperty(op, innerModelName);
+                    String existing = matchGenerated(innerModel);
+                    if (existing == null) {
+                        openAPI.getComponents().addSchemas(innerModelName, innerModel);
+                        addGenerated(innerModelName, innerModel);
+                        Schema schema = new Schema().$ref(innerModelName);
+                        schema.setRequired(op.getRequired());
+                        listIterator.set(schema);
+                    } else {
+                        Schema schema = new Schema().$ref(existing);
+                        schema.setRequired(op.getRequired());
+                        listIterator.set(schema);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Flatten inline models in components
      *
@@ -333,7 +355,13 @@ public class InlineModelResolver {
         List<String> modelNames = new ArrayList<String>(models.keySet());
         for (String modelName : modelNames) {
             Schema model = models.get(modelName);
-            if (model instanceof Schema) {
+            if (ModelUtils.isComposedSchema(model)) {
+                ComposedSchema m = (ComposedSchema) model;
+                // inline child schemas
+                flattenComposedChildren(openAPI, modelName + "_allOf", m.getAllOf());
+                flattenComposedChildren(openAPI, modelName + "_anyOf", m.getAnyOf());
+                flattenComposedChildren(openAPI, modelName + "_oneOf", m.getOneOf());
+            } else if (model instanceof Schema) {
                 Schema m = (Schema) model;
                 Map<String, Schema> properties = m.getProperties();
                 flattenProperties(properties, modelName);
@@ -358,20 +386,6 @@ public class InlineModelResolver {
                             schema.setRequired(op.getRequired());
                             m.setItems(schema);
                         }
-                    }
-                }
-            } else if (ModelUtils.isComposedSchema(model)) {
-                ComposedSchema m = (ComposedSchema) model;
-                if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
-                    Schema child = null;
-                    for (Schema component : m.getAllOf()) {
-                        if (component.get$ref() == null) {
-                            child = component;
-                        }
-                    }
-                    if (child != null) {
-                        Map<String, Schema> properties = child.getProperties();
-                        flattenProperties(properties, modelName);
                     }
                 }
             }
@@ -415,8 +429,8 @@ public class InlineModelResolver {
 
     private String uniqueName(String key) {
         if (key == null) {
-            key = "NULL_UNIQUE_NAME";
-            LOGGER.warn("null key found. Default to NULL_UNIQUE_NAME");
+            key = "InlineObject";
+            LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused throughout the spec.");
         }
         int count = 0;
         boolean done = false;
@@ -538,6 +552,7 @@ public class InlineModelResolver {
         model.setName(object.getName());
         model.setXml(xml);
         model.setRequired(object.getRequired());
+        model.setNullable(object.getNullable());
         if (properties != null) {
             flattenProperties(properties, path);
             model.setProperties(properties);

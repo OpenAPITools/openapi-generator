@@ -2,9 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "cJSON.h"
-#include "list.h"
-
+#include "../include/list.h"
 static listEntry_t *listEntry_create(void *data) {
 	listEntry_t *createdListEntry = malloc(sizeof(listEntry_t));
 	if(createdListEntry == NULL) {

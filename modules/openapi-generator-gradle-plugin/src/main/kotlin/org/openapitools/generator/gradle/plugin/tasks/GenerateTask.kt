@@ -28,7 +28,7 @@ import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
-import org.openapitools.codegen.config.GeneratorProperties
+import org.openapitools.codegen.config.GlobalSettings
 
 
 /**
@@ -40,6 +40,7 @@ import org.openapitools.codegen.config.GeneratorProperties
  *
  * @author Jim Schubert
  */
+@Suppress("UnstableApiUsage")
 open class GenerateTask : DefaultTask() {
 
     /**
@@ -104,6 +105,12 @@ open class GenerateTask : DefaultTask() {
      */
     @get:Internal
     val skipOverwrite = project.objects.property<Boolean?>()
+
+    /**
+     * Package for generated classes (where supported)
+     */
+    @get:Internal
+    val packageName = project.objects.property<String>()
 
     /**
      * Package for generated api classes
@@ -318,6 +325,36 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val withXml = project.objects.property<Boolean>()
 
+
+    /**
+     * To write all log messages (not just errors) to STDOUT
+     */
+    @get:Internal
+    val logToStderr = project.objects.property<Boolean>()
+
+    /**
+     * To enable the file post-processing hook. This enables executing an external post-processor (usually a linter program).
+     * This only enables the post-processor. To define the post-processing command, define an environment variable such as
+     * LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target
+     * generator does not support this functionality.
+     */
+    @get:Internal
+    val enablePostProcessFile = project.objects.property<Boolean>()
+
+    /**
+     * To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
+     */
+    @get:Internal
+    val skipValidateSpec = project.objects.property<Boolean>()
+
+    /**
+     * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
+     * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
+     * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
+     */
+    @get:Internal
+    val generateAliasAsModel = project.objects.property<Boolean>()
+
     /**
      * A dynamic map of options specific to a generator.
      */
@@ -356,120 +393,154 @@ open class GenerateTask : DefaultTask() {
             }
 
             if (supportingFilesConstrainedTo.isPresent && supportingFilesConstrainedTo.get().isNotEmpty()) {
-                GeneratorProperties.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
+                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
             } else {
-                GeneratorProperties.clearProperty(CodegenConstants.SUPPORTING_FILES)
+                GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES)
             }
 
             if (modelFilesConstrainedTo.isPresent && modelFilesConstrainedTo.get().isNotEmpty()) {
-                GeneratorProperties.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
+                GlobalSettings.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
             } else {
-                GeneratorProperties.clearProperty(CodegenConstants.MODELS)
+                GlobalSettings.clearProperty(CodegenConstants.MODELS)
             }
 
             if (apiFilesConstrainedTo.isPresent && apiFilesConstrainedTo.get().isNotEmpty()) {
-                GeneratorProperties.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
+                GlobalSettings.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
             } else {
-                GeneratorProperties.clearProperty(CodegenConstants.APIS)
+                GlobalSettings.clearProperty(CodegenConstants.APIS)
             }
 
-            GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+            if (generateApiDocumentation.isPresent) {
+                GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
+            }
+
+            if (generateModelDocumentation.isPresent) {
+                GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
+            }
+
+            if (generateModelTests.isPresent) {
+                GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
+            }
+
+            if (generateApiTests.isPresent) {
+                GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
+            }
+
+            if (withXml.isPresent) {
+                GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+            }
 
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
-                configurator.isVerbose = value
+                configurator.setVerbose(value)
             }
 
             validateSpec.ifNotEmpty { value ->
-                configurator.isValidateSpec = value
+                configurator.setValidateSpec(value)
             }
 
             skipOverwrite.ifNotEmpty { value ->
-                configurator.isSkipOverwrite = value ?: false
+                configurator.setSkipOverwrite(value ?: false)
             }
 
             inputSpec.ifNotEmpty { value ->
-                configurator.inputSpec = value
+                configurator.setInputSpec(value)
             }
 
             generatorName.ifNotEmpty { value ->
-                configurator.generatorName = value
+                configurator.setGeneratorName(value)
             }
 
             outputDir.ifNotEmpty { value ->
-                configurator.outputDir = value
+                configurator.setOutputDir(value)
             }
 
             auth.ifNotEmpty { value ->
-                configurator.auth = value
+                configurator.setAuth(value)
             }
 
             templateDir.ifNotEmpty { value ->
-                configurator.templateDir = value
+                configurator.setTemplateDir(value)
+            }
+
+            packageName.ifNotEmpty { value ->
+                configurator.setPackageName(value)
             }
 
             apiPackage.ifNotEmpty { value ->
-                configurator.apiPackage = value
+                configurator.setApiPackage(value)
             }
 
             modelPackage.ifNotEmpty { value ->
-                configurator.modelPackage = value
+                configurator.setModelPackage(value)
             }
 
             modelNamePrefix.ifNotEmpty { value ->
-                configurator.modelNamePrefix = value
+                configurator.setModelNamePrefix(value)
             }
 
             modelNameSuffix.ifNotEmpty { value ->
-                configurator.modelNameSuffix = value
+                configurator.setModelNameSuffix(value)
             }
 
             invokerPackage.ifNotEmpty { value ->
-                configurator.invokerPackage = value
+                configurator.setInvokerPackage(value)
             }
 
             groupId.ifNotEmpty { value ->
-                configurator.groupId = value
+                configurator.setGroupId(value)
             }
 
             id.ifNotEmpty { value ->
-                configurator.artifactId = value
+                configurator.setArtifactId(value)
             }
 
             version.ifNotEmpty { value ->
-                configurator.artifactVersion = value
+                configurator.setArtifactVersion(value)
             }
 
             library.ifNotEmpty { value ->
-                configurator.library = value
+                configurator.setLibrary(value)
             }
 
             gitUserId.ifNotEmpty { value ->
-                configurator.gitUserId = value
+                configurator.setGitUserId(value)
             }
 
             gitRepoId.ifNotEmpty { value ->
-                configurator.gitRepoId = value
+                configurator.setGitRepoId(value)
             }
 
             releaseNote.ifNotEmpty { value ->
-                configurator.releaseNote = value
+                configurator.setReleaseNote(value)
             }
 
             httpUserAgent.ifNotEmpty { value ->
-                configurator.httpUserAgent = value
+                configurator.setHttpUserAgent(value)
             }
 
             ignoreFileOverride.ifNotEmpty { value ->
-                configurator.ignoreFileOverride = value
+                configurator.setIgnoreFileOverride(value)
             }
 
             removeOperationIdPrefix.ifNotEmpty { value ->
-                configurator.removeOperationIdPrefix = value!!
+                configurator.setRemoveOperationIdPrefix(value!!)
+            }
+
+            logToStderr.ifNotEmpty { value ->
+                configurator.setLogToStderr(value)
+            }
+
+            enablePostProcessFile.ifNotEmpty { value ->
+                configurator.setEnablePostProcessFile(value)
+            }
+
+            skipValidateSpec.ifNotEmpty { value ->
+                configurator.setValidateSpec(!value)
+            }
+
+            generateAliasAsModel.ifNotEmpty { value ->
+                configurator.setGenerateAliasAsModel(value)
             }
 
             if (systemProperties.isPresent) {
@@ -532,12 +603,12 @@ open class GenerateTask : DefaultTask() {
 
                 DefaultGenerator().opts(clientOptInput).generate()
 
-                out.println("Successfully generated code to ${configurator.outputDir}")
+                out.println("Successfully generated code to $outputDir")
             } catch (e: RuntimeException) {
                 throw GradleException("Code generation failed.", e)
             }
         } finally {
-            GeneratorProperties.reset()
+            GlobalSettings.reset()
         }
     }
 }

@@ -21,30 +21,16 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -187,6 +173,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "Double");
         typeMapping.put("any", "Value");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "Text");
         typeMapping.put("ByteArray", "Text");
         typeMapping.put("object", "Value");
 
@@ -315,7 +302,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      */
     private void setGenerateToSchema(CodegenModel model) {
         for (CodegenProperty var : model.vars) {
-            LOGGER.warn(var.dataType);
             if (var.dataType.contentEquals("Value") || var.dataType.contains(" Value")) {
                 additionalProperties.put("generateToSchema", false);
             }
@@ -363,7 +349,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        LOGGER.debug("debugging swager type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
+        LOGGER.debug("debugging OpenAPI type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
@@ -425,6 +411,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
+        
+        // Properly handle root-only routes (#3256)
+        if (path.contentEquals("/")) {
+            return new ArrayList<>();
+        }
 
         // Cut off the leading slash, if it is present.
         if (path.startsWith("/")) {
@@ -473,8 +464,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, openAPI);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, servers);
 
         List<String> path = pathToServantRoute(op.path, op.pathParams);
         List<String> type = pathToClientType(op.path, op.pathParams);
@@ -599,8 +590,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     // Override fromModel to create the appropriate model namings
     @Override
-    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions);
+    public CodegenModel fromModel(String name, Schema mod) {
+        CodegenModel model = super.fromModel(name, mod);
 
         setGenerateToSchema(model);
 

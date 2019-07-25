@@ -1,5 +1,6 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 part 'api_response.jser.dart';
 
 class ApiResponse {
@@ -35,3 +36,4 @@ class ApiResponse {
 class ApiResponseSerializer extends Serializer<ApiResponse> with _$ApiResponseSerializer {
 
 }
+

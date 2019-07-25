@@ -24,9 +24,9 @@
 
     <developers>
         <developer>
-            <name>OpenAPI</name>
+            <name>OpenAPI-Generator Contributors</name>
             <email>team@openapitools.org</email>
-            <organization>OpenAPI</organization>
+            <organization>OpenAPITools.org</organization>
             <organizationUrl>http://openapitools.org</organizationUrl>
         </developer>
     </developers>
@@ -199,6 +199,12 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
+        </dependency>
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.retrofit</groupId>

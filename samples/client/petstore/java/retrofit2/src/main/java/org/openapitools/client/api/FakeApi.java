@@ -17,6 +17,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +25,20 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * creates an XmlItem
+   * this route creates an XmlItem
+   * @param xmlItem XmlItem Body (required)
+   * @return Call&lt;Void&gt;
+   */
+  @Headers({
+    "Content-Type:application/xml"
+  })
+  @POST("fake/create_xml_item")
+  Call<Void> createXmlItem(
+    @retrofit2.http.Body XmlItem xmlItem
+  );
+
   /**
    * 
    * Test serialization of outer boolean types

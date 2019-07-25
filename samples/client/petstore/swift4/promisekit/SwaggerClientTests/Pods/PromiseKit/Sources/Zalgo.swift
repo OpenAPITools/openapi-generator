@@ -64,7 +64,6 @@ public let zalgo = DispatchQueue(label: "Zalgo")
  */
 public let waldo = DispatchQueue(label: "Waldo")
 
-
 @inline(__always) func contain_zalgo(_ q: DispatchQueue, body: @escaping () -> Void) {
     if q === zalgo || q === waldo && !Thread.isMainThread {
         body()

@@ -1,5 +1,5 @@
 {
-    "name": "openapi/server-bundle",
+    "name": "GIT_USER_ID/GIT_REPO_ID",
     "description": "",
     "keywords": [
         "openapi",
@@ -8,7 +8,7 @@
         "api"
     ],
     "homepage": "https://github.com/openapitools/openapi-generator",
-    "license": "proprietary",
+    "license": "unlicense",
     "authors": [
         {
             "name": "openapi-generator contributors",
@@ -21,8 +21,8 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "symfony/validator": "*",
-        "jms/serializer-bundle": "*",
-        "symfony/framework-bundle": "^2.3|^3.0|^4.1"
+        "jms/serializer-bundle": "^2.0",
+        "symfony/framework-bundle": "^3.3|^4.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.8",

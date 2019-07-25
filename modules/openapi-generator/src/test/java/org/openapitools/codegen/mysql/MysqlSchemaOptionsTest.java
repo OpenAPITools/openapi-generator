@@ -16,13 +16,12 @@
 
 package org.openapitools.codegen.mysql;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.MysqlSchemaCodegen;
 import org.openapitools.codegen.options.MysqlSchemaOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class MysqlSchemaOptionsTest extends AbstractOptionsTest {
 

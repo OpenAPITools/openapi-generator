@@ -39,15 +39,15 @@ data class InlineObject2 (
 
     /**
     * Form parameter enum test (string)
-    * Values: abc,minusefg,leftParenthesisxyzRightParenthesis
+    * Values: abc,minusEfg,leftParenthesisXyzRightParenthesis
     */
     enum class EnumFormString(val value: kotlin.String){
     
         @Json(name = "_abc") abc("_abc"),
     
-        @Json(name = "-efg") minusefg("-efg"),
+        @Json(name = "-efg") minusEfg("-efg"),
     
-        @Json(name = "(xyz)") leftParenthesisxyzRightParenthesis("(xyz)");
+        @Json(name = "(xyz)") leftParenthesisXyzRightParenthesis("(xyz)");
     
     }
 

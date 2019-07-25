@@ -1,0 +1,45 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server ApiResponse"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a ApiResponse"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  ApiResponse {
+    title = ApiResponse
+    description = ApiResponse
+    derivedFrom = Root
+    properties {
+        code {
+          type =  integer
+          description = ""
+          optional = false
+        }
+        type {
+          type =  string
+          description = ""
+          optional = false
+        }
+        message {
+          type =  string
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  ApiResponse {
+    title = ApiResponse
+    description = ApiResponse
+    implements = openapi_server.resourceTypes.ApiResponse
+
+  }
+}

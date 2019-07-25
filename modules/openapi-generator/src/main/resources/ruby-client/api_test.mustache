@@ -11,7 +11,7 @@ require 'json'
 {{#operations}}describe '{{classname}}' do
   before do
     # run before each test
-    @instance = {{moduleName}}::{{classname}}.new
+    @api_instance = {{moduleName}}::{{classname}}.new
   end
 
   after do
@@ -20,7 +20,7 @@ require 'json'
 
   describe 'test an instance of {{classname}}' do
     it 'should create an instance of {{classname}}' do
-      expect(@instance).to be_instance_of({{moduleName}}::{{classname}})
+      expect(@api_instance).to be_instance_of({{moduleName}}::{{classname}})
     end
   end
 

@@ -1,10 +1,11 @@
 
-CONFIG OPTIONS for rust-server
+---
+id: generator-opts-server-rust-server
+title: Config Options for rust-server
+sidebar_label: rust-server
+---
 
-	packageName
-	    Rust crate name (convention: snake_case). (Default: openapi_client)
-
-	packageVersion
-	    Rust crate version.
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|Rust crate name (convention: snake_case).| |openapi_client|
+|packageVersion|Rust crate version.| |null|

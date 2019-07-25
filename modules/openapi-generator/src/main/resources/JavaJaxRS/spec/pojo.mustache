@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-{{#description}}
+{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}
 /**
  * {{description}}
  **/{{/description}}{{#useSwaggerAnnotations}}
@@ -55,16 +55,17 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
-    }
-    {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
-    return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
-        {{/hasMore}}{{^hasMore}};{{/hasMore}}{{/vars}}{{/hasVars}}{{^hasVars}}
-    return true;{{/hasVars}}
+    }{{#hasVars}}
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
+        {{/hasMore}}{{/vars}}{{#parent}} &&
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}});
+    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
   @Override

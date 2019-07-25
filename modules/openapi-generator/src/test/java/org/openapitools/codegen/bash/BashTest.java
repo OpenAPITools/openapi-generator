@@ -17,16 +17,13 @@
 
 package org.openapitools.codegen.bash;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.BashClientCodegen;
-
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -37,9 +34,9 @@ public class BashTest {
     public void petstoreOperationTest() {
 
         final OpenAPI openAPI
-            = new OpenAPIParser()
-                .readLocation("src/test/resources/2_0/petstore-bash.json", null, new ParseOptions()).getOpenAPI();
+            = TestUtils.parseSpec("src/test/resources/2_0/petstore-bash.json");
         final DefaultCodegen codegen = new BashClientCodegen();
+        codegen.setOpenAPI(openAPI);
         final Operation findPetsByStatusOperation
             = openAPI.getPaths().get("/pet/findByStatus").getGet();
 
@@ -48,8 +45,7 @@ public class BashTest {
                 "/pet/findByStatus",
                 "GET",
                 findPetsByStatusOperation,
-                openAPI.getComponents().getSchemas(),
-                openAPI);
+                null);
 
         Assert.assertTrue(
             op.vendorExtensions.containsKey("x-code-samples"));
@@ -67,9 +63,9 @@ public class BashTest {
     public void petstoreParameterExampleTest() {
 
         final OpenAPI openAPI
-            = new OpenAPIParser()
-                .readLocation("src/test/resources/2_0/petstore-bash.json", null, new ParseOptions()).getOpenAPI();
+            = TestUtils.parseSpec("src/test/resources/2_0/petstore-bash.json");
         final DefaultCodegen codegen = new BashClientCodegen();
+        codegen.setOpenAPI(openAPI);
         final Operation addPetOperation
             = openAPI.getPaths().get("/pet").getPost();
 
@@ -78,8 +74,7 @@ public class BashTest {
                 "/pet",
                 "POST",
                 addPetOperation,
-                openAPI.getComponents().getSchemas(),
-                openAPI);
+                null);
 
         Assert.assertEquals(op.bodyParams.size(), 1);
 

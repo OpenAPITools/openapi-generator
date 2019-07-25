@@ -10,9 +10,9 @@
 
 type mutation {
   # Add a new pet to the store
-  # @param Pet pet Pet object that needs to be added to the store
+  # @param Pet body Pet object that needs to be added to the store
   # @return [null]
-  AddPet(pet: Pet): null
+  AddPet(body: Pet): null
 
   # Deletes a pet
   # @param Int! petId Pet id to delete
@@ -21,9 +21,9 @@ type mutation {
   DeletePet(petId: Int!, apiKey: String!): null
 
   # Update an existing pet
-  # @param Pet pet Pet object that needs to be added to the store
+  # @param Pet body Pet object that needs to be added to the store
   # @return [null]
-  UpdatePet(pet: Pet): null
+  UpdatePet(body: Pet): null
 
   # Updates a pet in the store with form data
   # @param Int! petId ID of pet that needs to be updated

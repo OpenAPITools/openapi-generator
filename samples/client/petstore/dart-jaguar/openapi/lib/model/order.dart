@@ -1,5 +1,6 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 part 'order.jser.dart';
 
 class Order {
@@ -47,3 +48,4 @@ class Order {
 class OrderSerializer extends Serializer<Order> with _$OrderSerializer {
 
 }
+

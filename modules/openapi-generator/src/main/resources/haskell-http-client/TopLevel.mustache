@@ -9,8 +9,8 @@ module {{baseModule}}
   , module {{baseModule}}.Core
   , module {{baseModule}}.Logging
   , module {{baseModule}}.MimeTypes
-  , module {{baseModule}}.Model
-  , module {{baseModule}}.ModelLens
+  , module {{baseModule}}.Model{{#generateLenses}}
+  , module {{baseModule}}.ModelLens{{/generateLenses}}
   ) where
 
 {{^x-allowNonUniqueOperationIds}}import {{baseModule}}.API{{/x-allowNonUniqueOperationIds}}
@@ -18,5 +18,5 @@ import {{baseModule}}.Client
 import {{baseModule}}.Core
 import {{baseModule}}.Logging
 import {{baseModule}}.MimeTypes
-import {{baseModule}}.Model
-import {{baseModule}}.ModelLens
+import {{baseModule}}.Model{{#generateLenses}}
+import {{baseModule}}.ModelLens{{/generateLenses}}

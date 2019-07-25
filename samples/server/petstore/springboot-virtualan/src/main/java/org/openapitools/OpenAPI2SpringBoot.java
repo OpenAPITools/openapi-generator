@@ -26,7 +26,7 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
         new SpringApplication(OpenAPI2SpringBoot.class).run(args);
     }
 
-    class ExitException extends RuntimeException implements ExitCodeGenerator {
+    static class ExitException extends RuntimeException implements ExitCodeGenerator {
         private static final long serialVersionUID = 1L;
 
         @Override

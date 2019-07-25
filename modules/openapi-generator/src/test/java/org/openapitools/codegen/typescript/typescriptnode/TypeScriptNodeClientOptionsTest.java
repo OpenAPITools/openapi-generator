@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.typescript.typescriptnode;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import org.openapitools.codegen.options.TypeScriptNodeClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class TypeScriptNodeClientOptionsTest extends AbstractOptionsTest {
 

@@ -33,6 +33,11 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
         embeddedTemplateDir = templateDir = "typescript-angularjs";
         apiPackage = "api";
         modelPackage = "model";
+
+        removeOption(NPM_NAME);
+        removeOption(NPM_VERSION);
+        removeOption(SNAPSHOT);
+
     }
 
     @Override
@@ -48,6 +53,7 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
     @Override
     public void processOpts() {
         super.processOpts();
+
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
@@ -74,7 +80,7 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        parameter.dataType = addModelPrefix(parameter.dataType);
+        // parameter.dataType = addModelPrefix(parameter.dataType);
     }
 
     private String getIndexDirectory() {

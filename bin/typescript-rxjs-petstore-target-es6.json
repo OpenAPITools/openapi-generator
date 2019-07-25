@@ -1,0 +1,7 @@
+{
+  "npmName": "@openapitools/typescript-rxjs-petstore",
+  "npmVersion": "1.0.0",
+  "npmRepository" : "https://skimdb.npmjs.com/registry",
+  "snapshot" : false,
+  "supportsES6": true
+}

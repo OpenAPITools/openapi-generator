@@ -3,54 +3,51 @@ use std::rc::Rc;
 use hyper;
 use super::configuration::Configuration;
 
-pub struct APIClient<C: hyper::client::Connect> {
-  configuration: Rc<Configuration<C>>,
+pub struct APIClient {
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
-  {{#-last}}
-  {{{classFilename}}}: Box<::apis::{{{classname}}}>,
-  {{/-last}}
+    {{#-last}}
+    {{{classFilename}}}: Box<crate::apis::{{{classname}}}>,
+    {{/-last}}
 {{/operation}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
 }
 
-impl<C: hyper::client::Connect> APIClient<C> {
-  pub fn new(configuration: Configuration<C>) -> APIClient<C> {
-    let rc = Rc::new(configuration);
+impl APIClient {
+    pub fn new<C: hyper::client::Connect>(configuration: Configuration<C>) -> APIClient {
+        let rc = Rc::new(configuration);
 
-    APIClient {
-      configuration: rc.clone(),
+        APIClient {
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
-      {{#-last}}
-      {{{classFilename}}}: Box::new(::apis::{{{classname}}}Client::new(rc.clone())),
-      {{/-last}}
+            {{#-last}}
+            {{{classFilename}}}: Box::new(crate::apis::{{{classname}}}Client::new(rc.clone())),
+            {{/-last}}
 {{/operation}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
+        }
     }
-  }
 
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
 {{#-last}}
-  pub fn {{{classFilename}}}(&self) -> &::apis::{{{classname}}}{
-    self.{{{classFilename}}}.as_ref()
-  }
+    pub fn {{{classFilename}}}(&self) -> &crate::apis::{{{classname}}}{
+        self.{{{classFilename}}}.as_ref()
+    }
 
 {{/-last}}
 {{/operation}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
-
 }

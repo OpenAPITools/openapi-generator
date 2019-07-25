@@ -18,6 +18,7 @@ Delete purchase order by ID
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -25,7 +26,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.StoreApi()
 order_id = 'order_id_example' # str | ID of the order that needs to be deleted
 
@@ -55,6 +56,12 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**400** | Invalid ID supplied |  -  |
+**404** | Order not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_inventory**
@@ -66,21 +73,22 @@ Returns a map of status codes to quantities
 
 ### Example
 
-* Api Key Authentication (api_key): 
+* Api Key Authentication (api_key):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure API key authorization: api_key
 configuration = petstore_api.Configuration()
+# Configure API key authorization: api_key
 configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.StoreApi(petstore_api.ApiClient(configuration))
 
 try:
@@ -107,6 +115,11 @@ This endpoint does not need any parameter.
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_order_by_id**
@@ -117,6 +130,7 @@ Find purchase order by ID
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -124,7 +138,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.StoreApi()
 order_id = 56 # int | ID of pet that needs to be fetched
 
@@ -155,6 +169,13 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid ID supplied |  -  |
+**404** | Order not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **place_order**
@@ -163,6 +184,7 @@ No authorization required
 Place an order for a pet
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -170,7 +192,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.StoreApi()
 body = petstore_api.Order() # Order | order placed for purchasing the pet
 
@@ -200,6 +222,12 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid Order |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

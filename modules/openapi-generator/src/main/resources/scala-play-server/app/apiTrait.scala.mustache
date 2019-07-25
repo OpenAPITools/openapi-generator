@@ -1,0 +1,33 @@
+package {{package}}
+
+{{#supportAsync}}
+import scala.concurrent.Future
+{{/supportAsync}}
+{{#imports}}
+import {{import}}
+{{/imports}}
+{{#operations}}
+
+{{>generatedAnnotation}}
+trait {{classname}} {
+{{#operation}}
+  /**
+    {{#summary}}
+    * {{summary}}
+    {{/summary}}
+    {{#notes}}
+    * {{notes}}
+    {{/notes}}
+    {{#allParams}}
+    {{#description}}
+    * @param {{paramName}} {{description}}
+    {{/description}}
+    {{/allParams}}
+    */
+  {{>app/defOperationSignature}}
+{{#hasMore}}
+
+{{/hasMore}}
+{{/operation}}
+}
+{{/operations}}

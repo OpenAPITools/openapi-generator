@@ -1,0 +1,57 @@
+# coding: utf-8
+
+from __future__ import absolute_import
+import unittest
+
+from flask import json
+from six import BytesIO
+
+{{#imports}}{{import}}  # noqa: E501
+{{/imports}}
+from {{packageName}}.test import BaseTestCase
+
+
+class {{#operations}}Test{{classname}}(BaseTestCase):
+    """{{classname}} integration test stubs"""
+
+    {{#operation}}
+    {{#vendorExtensions.x-skip-test}}
+    @unittest.skip("{{reason}}")
+    {{/vendorExtensions.x-skip-test}}
+    def test_{{operationId}}(self):
+        """Test case for {{{operationId}}}
+
+        {{{summary}}}
+        """
+        {{#bodyParam}}
+        {{paramName}} = {{{example}}}
+        {{/bodyParam}}
+        {{#queryParams}}
+        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{#hasMore}},{{/hasMore}}{{#-last}}]{{/-last}}
+        {{/queryParams}}
+        headers = { {{#vendorExtensions.x-prefered-produce}}
+            'Accept': '{{mediaType}}',{{/vendorExtensions.x-prefered-produce}}{{#vendorExtensions.x-prefered-consume}}
+            'Content-Type': '{{mediaType}}',{{/vendorExtensions.x-prefered-consume}}{{#headerParams}}
+            '{{paramName}}': {{{example}}},{{/headerParams}}{{#authMethods}}
+            {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'BasicZm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}
+        }
+        {{#formParams}}
+        {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{#hasMore}},{{/hasMore}}{{#-last}}){{/-last}}
+        {{/formParams}}
+        response = self.client.open(
+            '{{#contextPath}}{{{.}}}{{/contextPath}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/pathParams}},
+            method='{{httpMethod}}',
+            headers=headers{{#bodyParam}},
+            data=json.dumps({{paramName}}){{^consumes}},
+            content_type='application/json'{{/consumes}}{{/bodyParam}}{{#formParams}}{{#-first}},
+            data=data{{/-first}}{{/formParams}}{{#consumes}}{{#-first}},
+            content_type='{{{mediaType}}}'{{/-first}}{{/consumes}}{{#queryParams}}{{#-first}},
+            query_string=query_string{{/-first}}{{/queryParams}})
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+   {{/operation}}
+{{/operations}}
+
+if __name__ == '__main__':
+    unittest.main()

@@ -89,8 +89,8 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest() throws ApiException {
-        Order order = null;
-        Order response = api.placeOrder(order);
+        Order body = null;
+        Order response = api.placeOrder(body);
 
         // TODO: test validations
     }

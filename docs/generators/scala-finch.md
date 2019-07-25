@@ -1,13 +1,12 @@
 
-CONFIG OPTIONS for scala-finch
+---
+id: generator-opts-server-scala-finch
+title: Config Options for scala-finch
+sidebar_label: scala-finch
+---
 
-	packageName
-	    Finch package name (e.g. org.openapitools). (Default: org.openapitools)
-
-	modelPackage
-	    package for generated models
-
-	apiPackage
-	    package for generated api classes
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|Finch package name (e.g. org.openapitools).| |org.openapitools|
+|modelPackage|package for generated models| |null|
+|apiPackage|package for generated api classes| |null|

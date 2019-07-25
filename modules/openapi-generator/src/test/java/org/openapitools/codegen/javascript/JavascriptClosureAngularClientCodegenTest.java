@@ -17,11 +17,10 @@
 
 package org.openapitools.codegen.javascript;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class JavascriptClosureAngularClientCodegenTest {
 

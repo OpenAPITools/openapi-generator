@@ -6,7 +6,14 @@
 {{>modelEnum}}
 {{/isEnum}}
 {{^isEnum}}
+{{#oneOf}}
+{{#-first}}
+{{>modelOneOf}}
+{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 {{>modelGeneric}}
+{{/oneOf}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

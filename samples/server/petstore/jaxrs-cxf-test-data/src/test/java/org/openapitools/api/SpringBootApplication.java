@@ -1,0 +1,25 @@
+package org.openapitools.api;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ImportResource;
+
+@ImportResource({"classpath:/ApplicationContext.xml"})
+@EnableAutoConfiguration
+@SpringBootConfiguration
+public class SpringBootApplication extends SpringBootServletInitializer {
+    
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(SpringBootApplication.class);
+    }
+    
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootApplication.class, args);
+    }
+    
+    
+}

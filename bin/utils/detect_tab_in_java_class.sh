@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # grep for \t in the generators
-RESULT=`find modules/openapi-generator/src/ -name "*.java" | xargs grep $'\t'`
+RESULT=`find modules -name "*.java" | xargs grep $'\t'`
 
 echo -e "$RESULT"
 

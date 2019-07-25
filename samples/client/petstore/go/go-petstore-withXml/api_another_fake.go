@@ -15,7 +15,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 // Linger please
@@ -29,12 +28,12 @@ type AnotherFakeApiService service
 AnotherFakeApiService To test special tags
 To test special tags and operation ID starting with number
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param client client model
+ * @param body client model
 @return Client
 */
-func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, client Client) (Client, *http.Response, error) {
+func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, body Client) (Client, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Patch")
+		localVarHttpMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -67,7 +66,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, clie
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &client
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -84,14 +83,6 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, clie
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -106,6 +97,15 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, clie
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
 		}
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}

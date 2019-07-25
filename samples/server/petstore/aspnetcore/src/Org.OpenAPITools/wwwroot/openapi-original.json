@@ -60,7 +60,8 @@
         },
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
-        } ]
+        } ],
+        "x-codegen-request-body-name" : "body"
       },
       "post" : {
         "tags" : [ "pet" ],
@@ -90,7 +91,8 @@
         },
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
-        } ]
+        } ],
+        "x-codegen-request-body-name" : "body"
       }
     },
     "/pet/findByStatus" : {
@@ -432,7 +434,8 @@
             "description" : "Invalid Order",
             "content" : { }
           }
-        }
+        },
+        "x-codegen-request-body-name" : "body"
       }
     },
     "/store/order/{orderId}" : {
@@ -527,7 +530,8 @@
             "description" : "successful operation",
             "content" : { }
           }
-        }
+        },
+        "x-codegen-request-body-name" : "body"
       }
     },
     "/user/createWithArray" : {
@@ -554,7 +558,8 @@
             "description" : "successful operation",
             "content" : { }
           }
-        }
+        },
+        "x-codegen-request-body-name" : "body"
       }
     },
     "/user/createWithList" : {
@@ -581,7 +586,8 @@
             "description" : "successful operation",
             "content" : { }
           }
-        }
+        },
+        "x-codegen-request-body-name" : "body"
       }
     },
     "/user/login" : {
@@ -732,7 +738,8 @@
             "description" : "User not found",
             "content" : { }
           }
-        }
+        },
+        "x-codegen-request-body-name" : "body"
       },
       "delete" : {
         "tags" : [ "user" ],

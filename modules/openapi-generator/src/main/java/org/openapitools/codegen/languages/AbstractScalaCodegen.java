@@ -174,12 +174,12 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override
@@ -331,6 +331,31 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method/operation name (operationId) not allowed");
+        }
+
+        operationId = camelize(sanitizeName(operationId), true);
+
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
+            operationId = camelize("call_" + operationId, true);
+        }
+
+        return operationId;
     }
 
 }

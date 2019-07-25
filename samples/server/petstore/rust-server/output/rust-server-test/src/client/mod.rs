@@ -25,6 +25,7 @@ use std::path::Path;
 use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
+use std::string::ToString;
 
 use mimetypes;
 
@@ -250,12 +251,19 @@ impl<F, C> Api<C> for Client<F> where
     C: Has<XSpanIdString> {
 
     fn dummy_get(&self, context: &C) -> Box<Future<Item=DummyGetResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/dummy",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -263,7 +271,6 @@ impl<F, C> Api<C> for Client<F> where
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -306,13 +313,20 @@ impl<F, C> Api<C> for Client<F> where
 
     }
 
-    fn dummy_put(&self, param_nested_response: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+    fn dummy_put(&self, param_nested_response: models::InlineObject, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+        let mut uri = format!(
             "{}/dummy",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -321,14 +335,10 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-        let body = param_nested_response.map(|ref body| {
+        let body = serde_json::to_string(&param_nested_response).expect("impossible to fail to serialize");
 
-            serde_json::to_string(body).expect("impossible to fail to serialize")
-        });
+        request.set_body(body);
 
-if let Some(body) = body {
-            request.set_body(body.into_bytes());
-        }
 
         request.headers_mut().set(ContentType(mimetypes::requests::DUMMY_PUT.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -372,12 +382,19 @@ if let Some(body) = body {
     }
 
     fn file_response_get(&self, context: &C) -> Box<Future<Item=FileResponseGetResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/file_response",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -385,7 +402,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -401,17 +417,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<swagger::ByteArray>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FileResponseGetResponse::Success(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -439,12 +458,19 @@ if let Some(body) = body {
     }
 
     fn html_post(&self, param_body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/html",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -455,8 +481,7 @@ if let Some(body) = body {
 
         let body = param_body;
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::HTML_POST.clone()));
@@ -473,16 +498,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
-                                                 Ok(body.to_string())
+                                                 serde_json::from_str::<String>(body)
+                                                     .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             HtmlPostResponse::Success(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -510,12 +539,19 @@ if let Some(body) = body {
     }
 
     fn raw_json_get(&self, context: &C) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>> {
-
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/raw_json",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -523,7 +559,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -539,17 +574,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<serde_json::Value>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             RawJsonGetResponse::Success(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {

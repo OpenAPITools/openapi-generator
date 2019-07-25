@@ -143,7 +143,7 @@ open class {{classname}} {
      */
     open class func {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{{path}}}"{{#pathParams}}
-        let {{paramName}}PreEscape = "\({{paramName}}{{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}})"
+        let {{paramName}}PreEscape = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}APIHelper.mapValueToPathItem({{paramName}}){{/isEnum}})"
         let {{paramName}}PostEscape = {{paramName}}PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
         let URLString = {{projectName}}API.basePath + path

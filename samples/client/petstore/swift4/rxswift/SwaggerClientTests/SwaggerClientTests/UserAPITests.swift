@@ -67,8 +67,8 @@ class UserAPITests: XCTestCase {
 
     func test1CreateUser() {
         let expectation = self.expectation(description: "testCreateUser")
-        let newUser = User(_id: 1000, username: "test@test.com", firstName: "Test", lastName: "Tester", email: "test@test.com", password: "test!", phone: "867-5309", userStatus: 0)
-        UserAPI.createUser(user: newUser).subscribe(onNext: {
+        let newUser = User(id: 1000, username: "test@test.com", firstName: "Test", lastName: "Tester", email: "test@test.com", password: "test!", phone: "867-5309", userStatus: 0)
+        UserAPI.createUser(body: newUser).subscribe(onNext: {
             expectation.fulfill()
             }, onError: { errorType in
                 // The server gives us no data back so alamofire parsing fails - at least
@@ -96,7 +96,7 @@ class UserAPITests: XCTestCase {
             XCTAssert(user.password == "test!", "invalid password")
             XCTAssert(user.phone == "867-5309", "invalid phone")
             expectation.fulfill()
-            }, onError: { errorType in
+            }, onError: { _ in
                 XCTFail("error getting user")
             }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)

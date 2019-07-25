@@ -62,6 +62,7 @@ These options allow some customization of the code generation process.
 | baseModule                      | Set the base module namespace                                                                                                 |          | OpenAPIPetstore                      |
 | cabalPackage                    | Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens                             |          | openapi-petstore                    |
 | cabalVersion                    | Set the cabal version number, consisting of a sequence of one or more integers separated by dots                              | 0.1.0.0  | 0.1.0.0                    |
+| customTestInstanceModule        | test module used to provide typeclass instances for types not known by the generator                                          |          |         |
 | configType                      | Set the name of the type used for configuration                                                                               |          | OpenAPIPetstoreConfig                      |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | %Y-%m-%d                      |
 | dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          |                   |
@@ -73,7 +74,7 @@ These options allow some customization of the code generation process.
 | modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          |                    |
 | requestType                     | Set the name of the type used to generate requests                                                                            |          | OpenAPIPetstoreRequest                     |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | true                  |
-| useMonadLogger                  | Use the monad-logger package to provide logging (if instead false, use the katip logging package)                             | false    | false                |
+| useKatip                        | Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger       | true     | true                      |
 
 [1]: https://www.stackage.org/haddock/lts-9.0/iso8601-time-0.1.4/Data-Time-ISO8601.html#v:formatISO8601Millis
 

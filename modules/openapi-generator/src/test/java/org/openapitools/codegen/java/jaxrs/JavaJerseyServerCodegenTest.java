@@ -1,19 +1,17 @@
 package org.openapitools.codegen.java.jaxrs;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -21,11 +19,15 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 
-public class JavaJerseyServerCodegenTest {
+public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
+
+    @BeforeMethod
+    public void before() {
+        codegen = new JavaJerseyServerCodegen();
+    }
 
     @Test
     public void testInitialConfigValues() throws Exception {
-        final JavaJerseyServerCodegen codegen = new JavaJerseyServerCodegen();
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
@@ -45,7 +47,6 @@ public class JavaJerseyServerCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final JavaJerseyServerCodegen codegen = new JavaJerseyServerCodegen();
         codegen.setHideGenerationTimestamp(true);
         codegen.setModelPackage("xx.yyyyyyyy.model");
         codegen.setApiPackage("xx.yyyyyyyy.api");
@@ -64,12 +65,11 @@ public class JavaJerseyServerCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final JavaJerseyServerCodegen codegen = new JavaJerseyServerCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"xyz.yyyyy.iiii.invoker");
-        codegen.additionalProperties().put("serverPort","8088");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties().put("serverPort", "8088");
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
@@ -92,16 +92,13 @@ public class JavaJerseyServerCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/tags.yaml", null, new ParseOptions()).getOpenAPI();
-        JavaJerseyServerCodegen codegen = new JavaJerseyServerCodegen();
-        codegen.setUseTags(false);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/tags.yaml");
+        ((JavaJerseyServerCodegen) codegen).setUseTags(false);
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -172,16 +169,13 @@ public class JavaJerseyServerCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/tags.yaml", null, new ParseOptions()).getOpenAPI();
-        JavaJerseyServerCodegen codegen = new JavaJerseyServerCodegen();
-        codegen.setUseTags(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/tags.yaml");
+        ((JavaJerseyServerCodegen) codegen).setUseTags(true);
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();

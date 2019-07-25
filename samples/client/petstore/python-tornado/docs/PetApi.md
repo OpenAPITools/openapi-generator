@@ -16,31 +16,32 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(pet)
+> add_pet(body)
 
 Add a new pet to the store
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Add a new pet to the store
-    api_instance.add_pet(pet)
+    api_instance.add_pet(body)
 except ApiException as e:
     print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
@@ -49,7 +50,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -64,6 +65,12 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**405** | Invalid input |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_pet**
@@ -73,19 +80,20 @@ Deletes a pet
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | Pet id to delete
 api_key = 'api_key_example' # str |  (optional)
@@ -117,6 +125,12 @@ void (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid pet value |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_status**
@@ -128,19 +142,20 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 status = ['status_example'] # list[str] | Status values that need to be considered for filter
 
@@ -171,6 +186,12 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid status value |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_tags**
@@ -182,19 +203,20 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 tags = ['tags_example'] # list[str] | Tags to filter by
 
@@ -225,6 +247,12 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid tag value |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_pet_by_id**
@@ -236,21 +264,22 @@ Returns a single pet
 
 ### Example
 
-* Api Key Authentication (api_key): 
+* Api Key Authentication (api_key):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure API key authorization: api_key
 configuration = petstore_api.Configuration()
+# Configure API key authorization: api_key
 configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to return
 
@@ -281,34 +310,42 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid ID supplied |  -  |
+**404** | Pet not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet(pet)
+> update_pet(body)
 
 Update an existing pet
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Update an existing pet
-    api_instance.update_pet(pet)
+    api_instance.update_pet(body)
 except ApiException as e:
     print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
@@ -317,7 +354,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -332,6 +369,14 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid ID supplied |  -  |
+**404** | Pet not found |  -  |
+**405** | Validation exception |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet_with_form**
@@ -341,19 +386,20 @@ Updates a pet in the store with form data
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet that needs to be updated
 name = 'name_example' # str | Updated name of the pet (optional)
@@ -387,6 +433,11 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**405** | Invalid input |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file**
@@ -396,19 +447,20 @@ uploads an image
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
@@ -443,6 +495,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file_with_required_file**
@@ -452,19 +509,20 @@ uploads an image (required)
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
 required_file = '/path/to/file' # file | file to upload
@@ -498,6 +556,11 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

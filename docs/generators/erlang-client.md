@@ -1,10 +1,11 @@
 
-CONFIG OPTIONS for erlang-client
+---
+id: generator-opts-client-erlang-client
+title: Config Options for erlang-client
+sidebar_label: erlang-client
+---
 
-	packageName
-	    Erlang application name (convention: lowercase). (Default: openapi)
-
-	packageName
-	    Erlang application version (Default: 1.0.0)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|Erlang application name (convention: lowercase).| |openapi|
+|packageName|Erlang application version| |1.0.0|

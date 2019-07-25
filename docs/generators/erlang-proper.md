@@ -1,10 +1,11 @@
 
-CONFIG OPTIONS for erlang-proper
+---
+id: generator-opts-client-erlang-proper
+title: Config Options for erlang-proper
+sidebar_label: erlang-proper
+---
 
-	packageName
-	    Erlang application name (convention: lowercase). (Default: openapi)
-
-	packageName
-	    Erlang application version (Default: 1.0.0)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|Erlang application name (convention: lowercase).| |openapi|
+|packageName|Erlang application version| |1.0.0|

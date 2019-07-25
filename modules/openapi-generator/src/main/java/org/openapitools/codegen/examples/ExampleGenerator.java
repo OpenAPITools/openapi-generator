@@ -75,8 +75,7 @@ public class ExampleGenerator {
         }
 
         if (responseSchema.getExample() != null && !(responseSchema.getExample() instanceof Map)) {
-            LOGGER.warn("example value (array/primitive) not handled at the moment: " + responseSchema.getExample());
-            return null;
+            return generate(responseSchema.getExample(), new ArrayList<>(producesInfo));
         }
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
@@ -190,6 +189,34 @@ public class ExampleGenerator {
         return output;
     }
 
+    private List<Map<String, String>> generate(Object example, List<String> mediaTypes) {
+        List<Map<String, String>> output = new ArrayList<>();
+        if (examples != null) {
+            if (mediaTypes == null) {
+                // assume application/json for this
+                mediaTypes = Collections.singletonList(MIME_TYPE_JSON);
+            }
+            for (String mediaType : mediaTypes) {
+                Map<String, String> kv = new HashMap<>();
+                kv.put(CONTENT_TYPE, mediaType);
+                if ((mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
+                    kv.put(EXAMPLE, Json.pretty(example));
+                    output.add(kv);
+                } else if (mediaType.startsWith(MIME_TYPE_XML)) {
+                    // TODO
+                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: " + example);
+                }
+            }
+        }
+
+        if (output.size() == 0) {
+            Map<String, String> kv = new HashMap<>();
+            kv.put(OUTPUT, NONE);
+            output.add(kv);
+        }
+        return output;
+    }
+
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
         LOGGER.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
@@ -205,16 +232,8 @@ public class ExampleGenerator {
             Schema innerType = ((ArraySchema) property).getItems();
             if (innerType != null) {
                 int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
-                if (arrayLength == Integer.MAX_VALUE) {
-                    // swagger-jersey2-jaxrs generated spec may contain maxItem = 2147483647
-                    // semantically this means there is no upper limit
-                    // treating this as if the property was not present at all
-                    LOGGER.warn("The max items allowed in property {} of {} equals Integer.MAX_VALUE. Treating this as if no max items has been specified.", property, arrayLength);
-                    arrayLength = 2;
-                } else if (arrayLength > 1024) {
-                    LOGGER.warn("The max items allowed in property {} is too large ({} items), restricting it to 1024 items", property, arrayLength);
-                    arrayLength = 1024;
-                }
+                // avoid memory issues by limiting to max. 5 items
+                arrayLength = Math.min(arrayLength, 5);
                 Object[] objectProperties = new Object[arrayLength];
                 Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
                 for (int i = 0; i < arrayLength; i++) {
@@ -227,12 +246,12 @@ public class ExampleGenerator {
         } else if (ModelUtils.isDateTimeSchema(property)) {
             return "2000-01-23T04:56:07.000+00:00";
         } else if (ModelUtils.isNumberSchema(property)) {
-            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
-            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            Double min = getPropertyValue(property.getMinimum());
+            Double max = getPropertyValue(property.getMaximum());
             if (ModelUtils.isFloatSchema(property)) { // float
                 return (float) randomNumber(min, max);
             } else if (ModelUtils.isDoubleSchema(property)) { // decimal/double
-                return new BigDecimal(randomNumber(min, max));
+                return BigDecimal.valueOf(randomNumber(min, max));
             } else { // no format defined
                 return randomNumber(min, max);
             }
@@ -240,8 +259,8 @@ public class ExampleGenerator {
             return "";  // TODO
 
         } else if (ModelUtils.isIntegerSchema(property)) {
-            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
-            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            Double min = getPropertyValue(property.getMinimum());
+            Double max = getPropertyValue(property.getMaximum());
             if (ModelUtils.isLongSchema(property)) {
                 return (long) randomNumber(min, max);
             }
@@ -258,6 +277,8 @@ public class ExampleGenerator {
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+        } else if (ModelUtils.isURISchema(property)) {
+            return "https://openapi-generator.tech";
         } else if (ModelUtils.isStringSchema(property)) {
             LOGGER.debug("String property");
             String defaultValue = (String) property.getDefault();
@@ -290,6 +311,10 @@ public class ExampleGenerator {
         }
 
         return "";
+    }
+
+    private Double getPropertyValue(BigDecimal propertyValue) {
+        return propertyValue == null ? null : propertyValue.doubleValue();
     }
 
     private double randomNumber(Double min, Double max) {

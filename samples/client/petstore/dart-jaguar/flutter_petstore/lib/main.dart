@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:http/io_client.dart';
 import 'package:openapi/api.dart';
 import 'package:openapi/model/order.dart';
 import 'package:openapi/model/pet.dart';

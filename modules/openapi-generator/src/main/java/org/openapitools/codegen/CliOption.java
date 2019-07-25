@@ -18,7 +18,6 @@
 package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.util.LinkedHashMap;
@@ -29,6 +28,7 @@ public class CliOption {
     private String description;
     private String type;
     private String defaultValue;
+    private String optValue;
     private Map<String, String> enumValues;
 
     public CliOption(String opt, String description) {
@@ -72,6 +72,18 @@ public class CliOption {
     public CliOption defaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
         return this;
+    }
+
+    public String getOptValue() {
+        return this.optValue;
+    }
+    
+    public void setOptValue(String optValue) {
+        if (this.enumValues!=null && this.enumValues.containsKey(optValue)) {
+            this.optValue = optValue;
+        } else {
+            this.optValue = null;
+        }
     }
 
     public CliOption addEnum(String value, String description) {

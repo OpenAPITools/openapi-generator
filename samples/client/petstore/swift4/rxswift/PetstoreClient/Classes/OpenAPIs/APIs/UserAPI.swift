@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
-
 open class UserAPI {
     /**
      Create user
      
-     - parameter user: (body) Created user object 
+     - parameter body: (body) Created user object 
      - returns: Observable<Void>
      */
-    open class func createUser(user: User) -> Observable<Void> {
+    open class func createUser(body: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
+            createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -36,13 +34,13 @@ open class UserAPI {
      Create user
      - POST /user
      - This can only be done by the logged in user.
-     - parameter user: (body) Created user object 
+     - parameter body: (body) Created user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func createUserWithRequestBuilder(user: User) -> RequestBuilder<Void> {
+    open class func createUserWithRequestBuilder(body: User) -> RequestBuilder<Void> {
         let path = "/user"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -54,12 +52,12 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      
-     - parameter user: (body) List of user object 
+     - parameter body: (body) List of user object 
      - returns: Observable<Void>
      */
-    open class func createUsersWithArrayInput(user: [User]) -> Observable<Void> {
+    open class func createUsersWithArrayInput(body: [User]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithArrayInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
+            createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -74,13 +72,13 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      - POST /user/createWithArray
-     - parameter user: (body) List of user object 
+     - parameter body: (body) List of user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func createUsersWithArrayInputWithRequestBuilder(user: [User]) -> RequestBuilder<Void> {
+    open class func createUsersWithArrayInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithArray"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -92,12 +90,12 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      
-     - parameter user: (body) List of user object 
+     - parameter body: (body) List of user object 
      - returns: Observable<Void>
      */
-    open class func createUsersWithListInput(user: [User]) -> Observable<Void> {
+    open class func createUsersWithListInput(body: [User]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithListInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
+            createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -112,13 +110,13 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      - POST /user/createWithList
-     - parameter user: (body) List of user object 
+     - parameter body: (body) List of user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func createUsersWithListInputWithRequestBuilder(user: [User]) -> RequestBuilder<Void> {
+    open class func createUsersWithListInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithList"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -156,12 +154,12 @@ open class UserAPI {
      */
     open class func deleteUserWithRequestBuilder(username: String) -> RequestBuilder<Void> {
         var path = "/user/{username}"
-        let usernamePreEscape = "\(username)"
+        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -199,12 +197,12 @@ open class UserAPI {
      */
     open class func getUserByNameWithRequestBuilder(username: String) -> RequestBuilder<User> {
         var path = "/user/{username}"
-        let usernamePreEscape = "\(username)"
+        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -246,11 +244,11 @@ open class UserAPI {
     open class func loginUserWithRequestBuilder(username: String, password: String) -> RequestBuilder<String> {
         let path = "/user/login"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": username, 
+            "username": username,
             "password": password
         ])
 
@@ -286,8 +284,8 @@ open class UserAPI {
     open class func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
         let path = "/user/logout"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -299,12 +297,12 @@ open class UserAPI {
      Updated user
      
      - parameter username: (path) name that need to be deleted 
-     - parameter user: (body) Updated user object 
+     - parameter body: (body) Updated user object 
      - returns: Observable<Void>
      */
-    open class func updateUser(username: String, user: User) -> Observable<Void> {
+    open class func updateUser(username: String, body: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updateUserWithRequestBuilder(username: username, user: user).execute { (response, error) -> Void in
+            updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -321,16 +319,16 @@ open class UserAPI {
      - PUT /user/{username}
      - This can only be done by the logged in user.
      - parameter username: (path) name that need to be deleted 
-     - parameter user: (body) Updated user object 
+     - parameter body: (body) Updated user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func updateUserWithRequestBuilder(username: String, user: User) -> RequestBuilder<Void> {
+    open class func updateUserWithRequestBuilder(username: String, body: User) -> RequestBuilder<Void> {
         var path = "/user/{username}"
-        let usernamePreEscape = "\(username)"
+        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 

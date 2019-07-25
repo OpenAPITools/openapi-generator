@@ -20,7 +20,9 @@ include(../client/client.pri)
 
 SOURCES += main.cpp \
 	PetApiTests.cpp \
-        StoreApiTests.cpp
+        StoreApiTests.cpp \
+        UserApiTests.cpp
 
 HEADERS += PetApiTests.h \
-           StoreApiTests.h
+           StoreApiTests.h \
+           UserApiTests.h

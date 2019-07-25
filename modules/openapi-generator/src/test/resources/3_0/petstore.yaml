@@ -94,7 +94,6 @@ paths:
           description: Invalid status value
       security:
         - petstore_auth:
-            - 'write:pets'
             - 'read:pets'
   /pet/findByTags:
     get:
@@ -116,6 +115,13 @@ paths:
             type: array
             items:
               type: string
+        - name: maxCount
+          in: query
+          description: Maximum number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
           description: successful operation
@@ -134,7 +140,6 @@ paths:
           description: Invalid tag value
       security:
         - petstore_auth:
-            - 'write:pets'
             - 'read:pets'
       deprecated: true
   '/pet/{petId}':
@@ -374,6 +379,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - auth_cookie: []
       requestBody:
         content:
           application/json:
@@ -391,6 +398,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - auth_cookie: []
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
   /user/createWithList:
@@ -403,6 +412,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - auth_cookie: []
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
   /user/login:
@@ -419,6 +430,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$'
         - name: password
           in: query
           description: The password for login in clear text
@@ -429,6 +441,13 @@ paths:
         '200':
           description: successful operation
           headers:
+            Set-Cookie:
+              description: >-
+                Cookie authentication key for use with the `auth_cookie`
+                apiKey authentication.
+              schema:
+                type: string
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
             X-Rate-Limit:
               description: calls per hour allowed by the user
               schema:
@@ -458,6 +477,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - auth_cookie: []
   '/user/{username}':
     get:
       tags:
@@ -504,6 +525,8 @@ paths:
           description: Invalid user supplied
         '404':
           description: User not found
+      security:
+        - auth_cookie: []
       requestBody:
         content:
           application/json:
@@ -529,6 +552,8 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+      security:
+        - auth_cookie: []
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -566,6 +591,10 @@ components:
       type: apiKey
       name: api_key
       in: header
+    auth_cookie:
+      type: apiKey
+      name: AUTH_KEY
+      in: cookie
   schemas:
     Order:
       title: Pet Order
@@ -606,6 +635,7 @@ components:
           format: int64
         name:
           type: string
+          pattern: '^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$'
       xml:
         name: Category
     User:

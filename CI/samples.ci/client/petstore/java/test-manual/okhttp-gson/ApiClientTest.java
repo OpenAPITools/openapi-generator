@@ -1,5 +1,6 @@
 package org.openapitools.client;
 
+import okhttp3.OkHttpClient;
 import org.openapitools.client.auth.*;
 
 import java.text.DateFormat;
@@ -157,41 +158,41 @@ public class ApiClientTest {
     public void testGetAndSetConnectTimeout() {
         // connect timeout defaults to 10 seconds
         assertEquals(10000, apiClient.getConnectTimeout());
-        assertEquals(10000, apiClient.getHttpClient().getConnectTimeout());
+        assertEquals(10000, apiClient.getHttpClient().connectTimeoutMillis());
 
         apiClient.setConnectTimeout(0);
         assertEquals(0, apiClient.getConnectTimeout());
-        assertEquals(0, apiClient.getHttpClient().getConnectTimeout());
+        assertEquals(0, apiClient.getHttpClient().connectTimeoutMillis());
 
         apiClient.setConnectTimeout(10000);
     }
-    
+
     @Test
     public void testGetAndSetReadTimeout() {
         // read timeout defaults to 10 seconds
         assertEquals(10000, apiClient.getReadTimeout());
-        assertEquals(10000, apiClient.getHttpClient().getReadTimeout());
+        assertEquals(10000, apiClient.getHttpClient().readTimeoutMillis());
 
         apiClient.setReadTimeout(0);
         assertEquals(0, apiClient.getReadTimeout());
-        assertEquals(0, apiClient.getHttpClient().getReadTimeout());
+        assertEquals(0, apiClient.getHttpClient().readTimeoutMillis());
 
         apiClient.setReadTimeout(10000);
     }
-    
+
     @Test
     public void testGetAndSetWriteTimeout() {
         // write timeout defaults to 10 seconds
         assertEquals(10000, apiClient.getWriteTimeout());
-        assertEquals(10000, apiClient.getHttpClient().getWriteTimeout());
+        assertEquals(10000, apiClient.getHttpClient().writeTimeoutMillis());
 
         apiClient.setWriteTimeout(0);
         assertEquals(0, apiClient.getWriteTimeout());
-        assertEquals(0, apiClient.getHttpClient().getWriteTimeout());
+        assertEquals(0, apiClient.getHttpClient().writeTimeoutMillis());
 
         apiClient.setWriteTimeout(10000);
     }
-    
+
     @Test
     public void testParameterToPairWhenNameIsInvalid() throws Exception {
         List<Pair> pairs_a = apiClient.parameterToPair(null, new Integer(1));
@@ -326,5 +327,26 @@ public class ApiClientTest {
         assertEquals("sun.gif", apiClient.sanitizeFilename("\\var\\tmp\\sun.gif"));
         assertEquals("sun.gif", apiClient.sanitizeFilename("c:\\var\\tmp\\sun.gif"));
         assertEquals("sun.gif", apiClient.sanitizeFilename(".\\sun.gif"));
+    }
+
+
+    @Test
+    public void testInterceptorCleanupWithNewClient() {
+        OkHttpClient oldClient = apiClient.getHttpClient();
+        assertEquals(1, oldClient.networkInterceptors().size());
+
+        OkHttpClient newClient = new OkHttpClient();
+        apiClient.setHttpClient(newClient);
+        assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
+        apiClient.setHttpClient(newClient);
+        assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
+    }
+
+    @Test
+    public void testInterceptorCleanupWithSameClient() {
+        OkHttpClient oldClient = apiClient.getHttpClient();
+        assertEquals(1, oldClient.networkInterceptors().size());
+        apiClient.setHttpClient(oldClient);
+        assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
     }
 }

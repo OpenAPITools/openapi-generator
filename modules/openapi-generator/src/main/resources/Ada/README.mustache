@@ -14,13 +14,14 @@ the [Swagger Ada library](https://github.com/stcarrez/swagger-ada).
 When the GNAT Ada compiler and Swagger Ada libraries are installed,
 run the following command:
 
-```
+```shell
   gprbuild -p -P{{projectName}}
 ```
 
 After the build is successful, you will get the server binary
 in bin/{{packageName}}-server and you can start it as follows:
-```
+
+```shell
   ./bin/{{packageName}}-server
 ```
 
@@ -51,8 +52,8 @@ The server instance is represented by the **{{package}}.Servers.Server_Type** Ad
 The REST API will need an instance of it to make the operation call.  Two server model
 exists:
 
-* The instance per request model creates an instance of the server type for each request.
-* The shared instance model shares the same instance across all concurrent REST requests.  This instance is protected using an Ada protected object which holds the server instance.
+- The instance per request model creates an instance of the server type for each request.
+- The shared instance model shares the same instance across all concurrent REST requests.  This instance is protected using an Ada protected object which holds the server instance.
 
 The choice of the server model is made at the compilation time by instantiating either
 the **{{package}}.Skeletons.Skeleton** package or the **{{package}}.Skeletons.Shared_Instance**
@@ -65,9 +66,9 @@ All you have to do is implement the server operation in the **src/{{packageName}
 The package already contains the operation with its parameters and you only have to replace
 the **null** instruction by real code.
 
-# Documentation
+## Documentation
 
-## API Documentation
+### API Documentation
 
 All URIs are relative to *{{basePath}}*
 
@@ -76,22 +77,30 @@ Method | HTTP request | Description
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}[**{{nickname}}**]({{apiDocPath}}{{classname}}.md#{{nickname}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
-## Models
+### Models
+
 {{#models}}{{#model}} - [{{package}}.Models.{{classname}}]({{modelDocPath}}{{classname}}.md)
 {{/model}}{{/models}}
 
-## Authorization
+### Authorization
+
 {{^authMethods}} All endpoints do not require authorization.
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
 {{#authMethods}}## {{{name}}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+
+- **Type**: API key
 - **API key parameter name**: {{{keyParamName}}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
+{{#isBasic}}
+
+- **Type**: HTTP basic authentication
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+
+- **Type**: OAuth
 - **Flow**: {{{flow}}}
 - **Authorization URL**: {{{authorizationUrl}}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}

@@ -1,26 +1,9 @@
-## Customization
+---
+id: customization
+title: Customization
+---
 
-### Modifying a template
-
-Clone OpenAPI Generator and navigate to `modules/openapi-generator/src/main/resources/${template}`, where `${template}` is the name of the generator you wish to modify. For example, if you are looking for the C# template, it's named `csharp`.  This directory contains all the templates used to generate your target client/server/doc output.
-
-Templates consist of multiple mustache files. [Mustache](https://mustache.github.io/) is used as the templating language for these templates, and the specific engine used is [jmustache](https://github.com/samskivert/jmustache).
-
-If you wish to modify one of these templates, copy and paste the template you're interested in to a templates directory you control. To let OpenAPI Generator know where this templates directory is, use the `-t` option (e.g: `-t ./templates/`).
-
-To tie that all together (example for modifying ruby templates):
-
-```sh
-mkdir templates
-export template=ruby
-cp -r modules/openapi-generator/src/main/resources/${template} templates/${template}
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
-  -t ./templates/${template} -g ruby -i ./foo.yml -o ./out/ruby
-```
-
-_**Note:** You cannot use this approach to create new templates, only override existing ones. If you'd like to create a new generator within the project, see `new.sh` in the repository root._
-
-### Creating a new template
+## Creating a new template
 
 If none of the templates suit your needs, you can create a brand new template. OpenAPI Generator can help with this, using the `meta` command:
 
@@ -35,7 +18,7 @@ These names can be anything you like. If you are building a client for the white
 
 **NOTE** Convention is to use kebab casing for names passed to `-n`. Example, `scala-finatra` would become `ScalaFinatraGenerator`.
 
-#### Use your new generator with the CLI
+### Use your new generator with the CLI
 
 To compile your library, enter the `out/generators/my-codegen` directory, run `mvn package` and execute the generator:
 
@@ -65,7 +48,7 @@ java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.ja
   -o ./out/myClient
 ```
 
-#### Use your new generator with the maven plugin
+### Use your new generator with the maven plugin
 
 Install your library to your local maven repository by running:
 
@@ -106,7 +89,7 @@ You can use this as additional dependency of the `openapi-generator-maven-plugin
 
 If you publish your artifact to a distant maven repository, do not forget to add this repository as `pluginRepository` for your project.
 
-### Selective generation
+## Selective generation
 You may not want to generate *all* models in your project.  Likewise you may want just one or two apis to be written.  If that's the case, you can use system properties to control the output:
 
 The default is generate *everything* supported by the specific library.  Once you enable a feature, it will restrict the contents generated:
@@ -164,7 +147,7 @@ java -DskipFormModel=true
 
 This option will be helpful to skip model generation due to the form parameter, which is defined differently in OAS3 as there's no form parameter in OAS3
 
-### Ignore file format
+## Ignore file format
 
 OpenAPI Generator supports a `.openapi-generator-ignore` file, similar to `.gitignore` or `.dockerignore` you're probably already familiar with.
 
@@ -206,7 +189,7 @@ Upon first code generation, you may also pass the CLI option `--ignore-file-over
 
 Editor support for `.openapi-generator-ignore` files is available in IntelliJ via the [.ignore plugin](https://plugins.jetbrains.com/plugin/7495--ignore).
 
-### Customizing the generator
+## Customizing the generator
 
 There are different aspects of customizing the code generator beyond just creating or modifying templates.  Each language has a supporting configuration file to handle different type mappings, etc:
 
@@ -234,9 +217,13 @@ and `config.json` contains the following as an example:
   "apiPackage" : "petstore"
 }
 ```
+You can use also `config.yml` with following equivalent example:
+```yaml
+apiPackage: "petstore"
+```
 
 Supported config options can be different per language. Running `config-help -g {lang}` will show available options.
-**These options are applied via configuration file (e.g. config.json) or by passing them with `-D{optionName}={optionValue}`**. (If `-D{optionName}` does not work, please open a [ticket](https://github.com/openapitools/openapi-generator/issues/new) and we'll look into it)
+**These options are applied via configuration file (e.g. config.json or config.yml) or by passing them with `-D{optionName}={optionValue}`**. (If `-D{optionName}` does not work, please open a [ticket](https://github.com/openapitools/openapi-generator/issues/new) and we'll look into it)
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -g java
@@ -261,7 +248,7 @@ CONFIG OPTIONS
 	    retrofit - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)
         retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
         google-api-client - HTTP client: google-api-client 1.23.0. JSON processing: Jackson 2.8.9
-        rest-assured - HTTP client: rest-assured : 3.1.0. JSON processing: Gson 2.6.1. Only for Java8
+        rest-assured - HTTP client: rest-assured : 4.0.0. JSON processing: Gson 2.8.5. Only for Java8
 ```
 
 Your config file for Java can look like
@@ -273,6 +260,15 @@ Your config file for Java can look like
   "artifactVersion":"1.2.0",
   "library":"feign"
 }
+```
+
+Or if you preffer yaml format it can look like
+
+```yaml
+groupId: "com.my.company"
+artifactId: "MyClient"
+artifactVersion: "1.2.0"
+library: "feign"
 ```
 
 For all the unspecified options default values will be used.
@@ -300,7 +296,7 @@ and specify the `classname` when running the generator:
 
 Your subclass will now be loaded and overrides the `PREFIX` value in the superclass.
 
-### Bringing your own models
+## Bringing your own models
 
 Sometimes you don't want a model generated.  In this case, you can simply specify an import mapping to tell
 the codegen what _not_ to create.  When doing this, every location that references a specific model will

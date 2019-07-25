@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
@@ -31,16 +31,25 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
-    protected String apiVersion = "1.0.0";
+    protected String packageVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "openapi-server";
-    protected String apiPath = "go";
+    protected String sourceFolder = "go";
+
 
     public GoServerCodegen() {
         super();
 
         // set the output folder here
         outputFolder = "generated-code/go";
+        
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
+                .defaultValue(sourceFolder));
+        
+        CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
+        optServerPort.setType("int");
+        optServerPort.defaultValue(Integer.toString(serverPort));
+        cliOptions.add(optServerPort);
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -89,21 +98,36 @@ public class GoServerCodegen extends AbstractGoCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        } else {
-            setPackageName("openapi");
-        }
-
+        
+        
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
-        additionalProperties.put("apiVersion", apiVersion);
-        additionalProperties.put("serverPort", serverPort);
-        additionalProperties.put("apiPath", apiPath);
-        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        } else {
+            setPackageName("openapi");
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        }
+        
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            this.setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+        } else {
+            additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+        }
+        
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+        } else {
+            additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
+        }
+        
+        if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
+            this.setServerPort((int) additionalProperties.get("serverPort"));
+        } else {
+            additionalProperties.put("serverPort", serverPort);
+        }
 
         modelPackage = packageName;
         apiPackage = packageName;
@@ -116,14 +140,14 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
-        supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
-        supportingFiles.add(new SupportingFile("logger.mustache", apiPath, "logger.go"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", apiPath, "README.md"));
+        supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
+        supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
     }
 
     @Override
     public String apiPackage() {
-        return apiPath;
+        return sourceFolder;
     }
 
     /**
@@ -173,5 +197,16 @@ public class GoServerCodegen extends AbstractGoCodegen {
     public String modelFileFolder() {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
+    
+    public void setSourceFolder(String sourceFolder) {
+        this.sourceFolder = sourceFolder;
+    }
 
+    public void setPackageVersion(String packageVersion) {
+        this.packageVersion = packageVersion;
+    }
+
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+    } 
 }

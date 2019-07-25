@@ -17,14 +17,11 @@
 
 package org.openapitools.codegen;
 
-import org.openapitools.codegen.options.OptionsProvider;
-
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-
 import mockit.FullVerifications;
-
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.options.OptionsProvider;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

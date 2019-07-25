@@ -37,6 +37,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
+*FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -95,6 +96,7 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.Foo](docs/Foo.md)
  - [org.openapitools.client.models.FormatTest](docs/FormatTest.md)
  - [org.openapitools.client.models.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [org.openapitools.client.models.HealthCheckResult](docs/HealthCheckResult.md)
  - [org.openapitools.client.models.InlineObject](docs/InlineObject.md)
  - [org.openapitools.client.models.InlineObject1](docs/InlineObject1.md)
  - [org.openapitools.client.models.InlineObject2](docs/InlineObject2.md)
@@ -111,6 +113,9 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.Order](docs/Order.md)
  - [org.openapitools.client.models.OuterComposite](docs/OuterComposite.md)
  - [org.openapitools.client.models.OuterEnum](docs/OuterEnum.md)
+ - [org.openapitools.client.models.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [org.openapitools.client.models.OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [org.openapitools.client.models.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [org.openapitools.client.models.Pet](docs/Pet.md)
  - [org.openapitools.client.models.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [org.openapitools.client.models.Return](docs/Return.md)
@@ -135,6 +140,11 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
+
+<a name="bearer_test"></a>
+### bearer_test
+
+- **Type**: HTTP basic authentication
 
 <a name="http_basic_test"></a>
 ### http_basic_test

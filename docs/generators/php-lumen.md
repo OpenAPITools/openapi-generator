@@ -1,43 +1,20 @@
 
-CONFIG OPTIONS for php-lumen
+---
+id: generator-opts-server-php-lumen
+title: Config Options for php-lumen
+sidebar_label: php-lumen
+---
 
-	sortParamsByRequiredFlag
-	    Sort method arguments to place required parameters before optional parameters. (Default: true)
-
-	ensureUniqueParams
-	    Whether to ensure parameter names are unique in an operation (rename parameters that are not). (Default: true)
-
-	allowUnicodeIdentifiers
-	    boolean, toggles whether unicode identifiers are allowed in names or not, default is false (Default: false)
-
-	prependFormOrBodyParameters
-	    Add form or body parameters to the beginning of the parameter list. (Default: false)
-
-	modelPackage
-	    package for generated models
-
-	apiPackage
-	    package for generated api classes
-
-	variableNamingConvention
-	    naming convention of variable name, e.g. camelCase. (Default: snake_case)
-
-	invokerPackage
-	    The main namespace to use for all classes. e.g. Yay\Pets
-
-	packageName
-	    The main package name for classes. e.g. GeneratedPetstore
-
-	srcBasePath
-	    The directory to serve as source root.
-
-	gitUserId
-	    Git user ID, e.g. openapitools.
-
-	gitRepoId
-	    Git repo ID, e.g. openapi-generator.
-
-	artifactVersion
-	    The version to use in the composer package version field. e.g. 1.2.3
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|modelPackage|package for generated models| |null|
+|apiPackage|package for generated api classes| |null|
+|variableNamingConvention|naming convention of variable name, e.g. camelCase.| |snake_case|
+|invokerPackage|The main namespace to use for all classes. e.g. Yay\Pets| |null|
+|packageName|The main package name for classes. e.g. GeneratedPetstore| |null|
+|srcBasePath|The directory to serve as source root.| |null|
+|artifactVersion|The version to use in the composer package version field. e.g. 1.2.3| |null|

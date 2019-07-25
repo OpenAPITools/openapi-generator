@@ -8,13 +8,14 @@ Method | HTTP request | Description
 
 
 # **call_123_test_special_tags**
-> Client call_123_test_special_tags(client)
+> Client call_123_test_special_tags(body)
 
 To test special tags
 
 To test special tags and operation ID starting with number
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -22,13 +23,13 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi()
-client = petstore_api.Client() # Client | client model
+body = petstore_api.Client() # Client | client model
 
 try:
     # To test special tags
-    api_response = api_instance.call_123_test_special_tags(client)
+    api_response = api_instance.call_123_test_special_tags(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
@@ -38,7 +39,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -52,6 +53,11 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
