@@ -37,12 +37,12 @@ public:
     void setApiTimeOutMs(const int tout);
     void addHeaders(const QString& key, const QString& value);
 
-    void addPet(const OAIPet& oai_pet);
+    void addPet(const OAIPet& body);
     void deletePet(const qint64& pet_id, const QString& api_key);
     void findPetsByStatus(const QList<QString>& status);
-    void findPetsByTags(const QList<QString>& tags, const qint32& max_count);
+    void findPetsByTags(const QList<QString>& tags);
     void getPetById(const qint64& pet_id);
-    void updatePet(const OAIPet& oai_pet);
+    void updatePet(const OAIPet& body);
     void updatePetWithForm(const qint64& pet_id, const QString& name, const QString& status);
     void uploadFile(const qint64& pet_id, const QString& additional_metadata, const OAIHttpRequestInputFileElement*& file);
     

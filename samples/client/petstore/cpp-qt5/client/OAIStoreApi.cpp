@@ -204,7 +204,7 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::placeOrder(const OAIOrder& oai_order) {
+OAIStoreApi::placeOrder(const OAIOrder& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
     
@@ -213,7 +213,7 @@ OAIStoreApi::placeOrder(const OAIOrder& oai_order) {
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QString output = oai_order.asJson();
+    QString output = body.asJson();
     input.request_body.append(output);
     
 

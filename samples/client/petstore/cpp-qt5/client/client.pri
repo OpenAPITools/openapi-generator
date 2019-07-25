@@ -4,8 +4,6 @@ HEADERS += \
 # Models
     $${PWD}/OAIApiResponse.h \
     $${PWD}/OAICategory.h \
-    $${PWD}/OAIInline_object.h \
-    $${PWD}/OAIInline_object_1.h \
     $${PWD}/OAIOrder.h \
     $${PWD}/OAIPet.h \
     $${PWD}/OAITag.h \
@@ -24,8 +22,6 @@ SOURCES += \
 # Models
     $${PWD}/OAIApiResponse.cpp \
     $${PWD}/OAICategory.cpp \
-    $${PWD}/OAIInline_object.cpp \
-    $${PWD}/OAIInline_object_1.cpp \
     $${PWD}/OAIOrder.cpp \
     $${PWD}/OAIPet.cpp \
     $${PWD}/OAITag.cpp \
