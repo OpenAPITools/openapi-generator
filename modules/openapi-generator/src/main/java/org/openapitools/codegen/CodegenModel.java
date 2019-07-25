@@ -46,7 +46,7 @@ public class CodegenModel {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
-    public boolean isString, isInteger;
+    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
@@ -96,7 +96,12 @@ public class CodegenModel {
                 .append("arrayModelType", arrayModelType)
                 .append("isAlias", isAlias)
                 .append("isString", isString)
+                .append("isNumeric", isNumeric)
                 .append("isInteger", isInteger)
+                .append("isLong", isLong)
+                .append("isNumber", isNumber)
+                .append("isFloat", isFloat)
+                .append("isDouble", isDouble)
                 .append("vars", vars)
                 .append("requiredVars", requiredVars)
                 .append("optionalVars", optionalVars)

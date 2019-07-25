@@ -1885,13 +1885,26 @@ public class DefaultCodegen implements CodegenConfig {
                 addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMapModel = true;
             }
-            if (ModelUtils.isIntegerSchema(schema)) { // integer type
-                if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
+            else if (ModelUtils.isIntegerSchema(schema)) { // integer type
+                m.isNumeric = Boolean.TRUE;
+                if (ModelUtils.isLongSchema(schema)) { // int64/long format
+                    m.isLong = Boolean.TRUE;
+                } else { // int32 format
                     m.isInteger = Boolean.TRUE;
                 }
             }
-            if (ModelUtils.isStringSchema(schema)) {
+            else if (ModelUtils.isStringSchema(schema)) {
                 m.isString = Boolean.TRUE;
+            }
+            else if (ModelUtils.isNumberSchema(schema)) {
+                m.isNumeric = Boolean.TRUE;
+                if (ModelUtils.isFloatSchema(schema)) { // float
+                    m.isFloat = Boolean.TRUE;
+                } else if (ModelUtils.isDoubleSchema(schema)) { // double
+                    m.isDouble = Boolean.TRUE;
+                } else { // type is number and without format
+                    m.isNumber = Boolean.TRUE;
+                }
             }
 
             // passing null to allProperties and allRequired as there's no parent
@@ -2059,7 +2072,7 @@ public class DefaultCodegen implements CodegenConfig {
         String type = getSchemaType(p);
         if (ModelUtils.isIntegerSchema(p)) { // integer type
             property.isNumeric = Boolean.TRUE;
-            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) { // int64/long format
+            if (ModelUtils.isLongSchema(p)) { // int64/long format
                 property.isLong = Boolean.TRUE;
             } else { // int32 format
                 property.isInteger = Boolean.TRUE;
