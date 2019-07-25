@@ -22,11 +22,13 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * ArrayOfNumberOnly
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrayOfNumberOnly {
   @JsonProperty("ArrayNumber")
   private List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();

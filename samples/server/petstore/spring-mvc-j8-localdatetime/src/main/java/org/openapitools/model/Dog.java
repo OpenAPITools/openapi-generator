@@ -10,11 +10,13 @@ import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Dog
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Dog extends Animal  {
   @JsonProperty("breed")
   private String breed;

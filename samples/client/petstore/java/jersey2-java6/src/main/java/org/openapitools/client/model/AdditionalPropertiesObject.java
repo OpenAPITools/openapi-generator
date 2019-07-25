@@ -21,11 +21,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * AdditionalPropertiesObject
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AdditionalPropertiesObject extends HashMap<String, Map> {
   @JsonProperty("name")
   private String name;

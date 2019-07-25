@@ -20,11 +20,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * CatAllOf
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CatAllOf {
   @JsonProperty("declawed")
   private Boolean declawed;

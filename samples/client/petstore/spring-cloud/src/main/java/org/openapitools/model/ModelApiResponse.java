@@ -8,12 +8,14 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Describes the result of uploading an image resource
  */
 @ApiModel(description = "Describes the result of uploading an image resource")
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ModelApiResponse   {
   @JsonProperty("code")
   private Integer code;

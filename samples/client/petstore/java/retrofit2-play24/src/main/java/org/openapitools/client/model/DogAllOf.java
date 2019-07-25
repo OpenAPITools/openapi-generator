@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -27,6 +28,7 @@ import javax.validation.Valid;
  * DogAllOf
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DogAllOf {
   @JsonProperty("breed")
   private String breed;

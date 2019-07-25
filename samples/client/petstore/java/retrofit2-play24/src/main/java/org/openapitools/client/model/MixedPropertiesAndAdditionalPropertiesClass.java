@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -33,6 +34,7 @@ import javax.validation.Valid;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty("uuid")
   private UUID uuid;

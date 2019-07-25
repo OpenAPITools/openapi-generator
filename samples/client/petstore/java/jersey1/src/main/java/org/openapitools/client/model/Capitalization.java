@@ -20,11 +20,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Capitalization
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Capitalization {
   @JsonProperty("smallCamel")
   private String smallCamel;

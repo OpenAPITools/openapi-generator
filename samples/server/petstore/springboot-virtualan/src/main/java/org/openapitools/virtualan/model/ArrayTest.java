@@ -11,11 +11,13 @@ import org.openapitools.virtualan.model.ReadOnlyFirst;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * ArrayTest
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrayTest   {
   @JsonProperty("array_of_string")
   @Valid

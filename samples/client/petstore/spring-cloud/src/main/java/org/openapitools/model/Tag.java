@@ -8,12 +8,14 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * A tag for a pet
  */
 @ApiModel(description = "A tag for a pet")
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Tag   {
   @JsonProperty("id")
   private Long id;

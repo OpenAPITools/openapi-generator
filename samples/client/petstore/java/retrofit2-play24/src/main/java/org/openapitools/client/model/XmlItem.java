@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -30,6 +31,7 @@ import javax.validation.Valid;
  * XmlItem
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class XmlItem {
   @JsonProperty("attribute_string")
   private String attributeString;

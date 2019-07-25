@@ -10,11 +10,13 @@ import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * AdditionalPropertiesAnyType
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
   @JsonProperty("name")
   private String name;

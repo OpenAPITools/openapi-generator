@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.DogAllOf;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -29,6 +30,7 @@ import javax.validation.Valid;
  * Dog
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Dog extends Animal {
   @JsonProperty("breed")
   private String breed;

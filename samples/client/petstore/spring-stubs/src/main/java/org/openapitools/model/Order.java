@@ -10,12 +10,14 @@ import java.time.OffsetDateTime;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * An order for a pets from the pet store
  */
 @ApiModel(description = "An order for a pets from the pet store")
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Order   {
   @JsonProperty("id")
   private Long id;

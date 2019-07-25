@@ -9,11 +9,13 @@ import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * OuterComposite
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OuterComposite   {
   @JsonProperty("my_number")
   private BigDecimal myNumber;

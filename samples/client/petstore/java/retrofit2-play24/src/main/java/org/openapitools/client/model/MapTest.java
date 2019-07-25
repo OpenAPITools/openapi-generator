@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -30,6 +31,7 @@ import javax.validation.Valid;
  * MapTest
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MapTest {
   @JsonProperty("map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();

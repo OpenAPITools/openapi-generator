@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "ArrayOfArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayOfArrayOfNumberOnly")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrayOfArrayOfNumberOnly {
   @JsonProperty("ArrayArrayNumber")
   // Is a container wrapped=false

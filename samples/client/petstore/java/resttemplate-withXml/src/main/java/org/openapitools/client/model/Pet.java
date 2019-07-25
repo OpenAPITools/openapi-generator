@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Pet")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pet {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")

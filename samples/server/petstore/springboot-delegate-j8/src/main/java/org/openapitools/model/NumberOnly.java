@@ -9,11 +9,13 @@ import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * NumberOnly
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NumberOnly   {
   @JsonProperty("JustNumber")
   private BigDecimal justNumber;

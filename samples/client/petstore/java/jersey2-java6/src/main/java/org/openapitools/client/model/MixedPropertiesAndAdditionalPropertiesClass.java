@@ -25,11 +25,13 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty("uuid")
   private UUID uuid;

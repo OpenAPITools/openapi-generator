@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(namespace="http://a.com/schema", name = "XmlItem")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(namespace="http://a.com/schema", localName = "XmlItem")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class XmlItem {
   @JsonProperty("attribute_string")
   @JacksonXmlProperty(isAttribute = true, localName = "attribute_string")

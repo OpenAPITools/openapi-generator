@@ -19,11 +19,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * ReadOnlyFirst
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ReadOnlyFirst {
   @JsonProperty("bar")
   private String bar;

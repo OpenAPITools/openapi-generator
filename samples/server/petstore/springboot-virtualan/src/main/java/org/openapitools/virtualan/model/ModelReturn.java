@@ -8,12 +8,14 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ModelReturn   {
   @JsonProperty("return")
   private Integer _return;

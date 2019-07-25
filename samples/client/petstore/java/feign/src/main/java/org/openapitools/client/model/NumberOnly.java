@@ -21,11 +21,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * NumberOnly
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NumberOnly {
   @JsonProperty("JustNumber")
   private BigDecimal justNumber;

@@ -10,11 +10,13 @@ import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * FileSchemaTestClass
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FileSchemaTestClass   {
   @JsonProperty("file")
   private java.io.File file = null;

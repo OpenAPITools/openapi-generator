@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -30,6 +31,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "Capitalization")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Capitalization")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Capitalization {
   @JsonProperty("smallCamel")
   @JacksonXmlProperty(localName = "smallCamel")

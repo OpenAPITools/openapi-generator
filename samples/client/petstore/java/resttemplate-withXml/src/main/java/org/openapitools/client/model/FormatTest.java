@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -35,6 +36,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "FormatTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FormatTest")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FormatTest {
   @JsonProperty("integer")
   @JacksonXmlProperty(localName = "integer")

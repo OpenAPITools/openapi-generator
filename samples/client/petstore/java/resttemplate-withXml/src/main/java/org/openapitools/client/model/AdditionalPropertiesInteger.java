@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -32,6 +33,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "AdditionalPropertiesInteger")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesInteger")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")

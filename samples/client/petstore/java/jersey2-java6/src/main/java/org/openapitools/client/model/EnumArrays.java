@@ -21,11 +21,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * EnumArrays
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol

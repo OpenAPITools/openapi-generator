@@ -20,12 +20,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Name {
   @JsonProperty("name")
   private Integer name;

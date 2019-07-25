@@ -22,11 +22,13 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * TypeHolderExample
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TypeHolderExample {
   @JsonProperty("string_item")
   private String stringItem;
