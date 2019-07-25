@@ -7,8 +7,8 @@
  *)
 
 type t = {
-    id: int64 option;
-    category: Category.t option;
+    id: int64 option [@default None];
+    category: Category.t option [@default None];
     name: string;
     photo_urls: string list;
     tags: Tag.t list;

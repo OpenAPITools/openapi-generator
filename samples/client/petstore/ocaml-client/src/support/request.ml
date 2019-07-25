@@ -1,3 +1,4 @@
+let api_key = ""
 let base_url = "http://petstore.swagger.io/v2"
 let default_headers = Cohttp.Header.init_with "Content-Type" "application/json"
 

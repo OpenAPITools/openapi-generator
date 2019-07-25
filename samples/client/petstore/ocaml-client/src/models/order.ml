@@ -7,13 +7,13 @@
  *)
 
 type t = {
-    id: int64 option;
-    pet_id: int64 option;
-    quantity: int32 option;
-    ship_date: string option;
+    id: int64 option [@default None];
+    pet_id: int64 option [@default None];
+    quantity: int32 option [@default None];
+    ship_date: string option [@default None];
     (* Order Status *)
     status: Enums.status option;
-    complete: bool option;
+    complete: bool option [@default None];
 } [@@deriving yojson, show ];;
 
 (** An order for a pets from the pet store *)

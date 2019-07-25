@@ -7,15 +7,15 @@
  *)
 
 type t = {
-    id: int64 option;
-    username: string option;
-    first_name: string option;
-    last_name: string option;
-    email: string option;
-    password: string option;
-    phone: string option;
+    id: int64 option [@default None];
+    username: string option [@default None];
+    first_name: string option [@default None];
+    last_name: string option [@default None];
+    email: string option [@default None];
+    password: string option [@default None];
+    phone: string option [@default None];
     (* User Status *)
-    user_status: int32 option;
+    user_status: int32 option [@default None];
 } [@@deriving yojson, show ];;
 
 (** A User who is purchasing from the pet store *)

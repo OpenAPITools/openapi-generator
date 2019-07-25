@@ -7,8 +7,8 @@
  *)
 
 type t = {
-    id: int64 option;
-    name: string option;
+    id: int64 option [@default None];
+    name: string option [@default None];
 } [@@deriving yojson, show ];;
 
 (** A category for a pet *)
