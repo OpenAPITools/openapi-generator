@@ -50,6 +50,7 @@ public class Tag implements Parcelable {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
@@ -68,6 +69,7 @@ public class Tag implements Parcelable {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public String getName() {
     return name;

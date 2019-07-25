@@ -54,6 +54,7 @@ public class ModelApiResponse implements Parcelable {
    * Get code
    * @return code
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public Integer getCode() {
     return code;
@@ -72,6 +73,7 @@ public class ModelApiResponse implements Parcelable {
    * Get type
    * @return type
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public String getType() {
     return type;
@@ -90,6 +92,7 @@ public class ModelApiResponse implements Parcelable {
    * Get message
    * @return message
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public String getMessage() {
     return message;
