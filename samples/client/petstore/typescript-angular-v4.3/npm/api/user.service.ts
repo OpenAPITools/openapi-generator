@@ -43,19 +43,6 @@ export class UserService {
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
 
-    /**
-     * @param consumes string[] mime-types
-     * @return true: consumes contains 'multipart/form-data', false: otherwise
-     */
-    private canConsumeForm(consumes: string[]): boolean {
-        const form = 'multipart/form-data';
-        for (const consume of consumes) {
-            if (form === consume) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 
     /**
@@ -83,6 +70,7 @@ export class UserService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
@@ -104,7 +92,6 @@ export class UserService {
 
     /**
      * Creates list of users with given input array
-     * 
      * @param body List of user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -127,6 +114,7 @@ export class UserService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
@@ -148,7 +136,6 @@ export class UserService {
 
     /**
      * Creates list of users with given input array
-     * 
      * @param body List of user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -170,6 +157,7 @@ export class UserService {
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -215,9 +203,6 @@ export class UserService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
@@ -231,7 +216,6 @@ export class UserService {
 
     /**
      * Get user by user name
-     * 
      * @param username The name that needs to be fetched. Use user1 for testing.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -256,9 +240,6 @@ export class UserService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
@@ -272,7 +253,6 @@ export class UserService {
 
     /**
      * Logs user into the system
-     * 
      * @param username The user name for login
      * @param password The password for login in clear text
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -309,9 +289,6 @@ export class UserService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
             {
@@ -326,7 +303,6 @@ export class UserService {
 
     /**
      * Logs out current logged in user session
-     * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -345,9 +321,6 @@ export class UserService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`,
             {
@@ -387,6 +360,7 @@ export class UserService {
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
