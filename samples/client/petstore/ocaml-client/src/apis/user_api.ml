@@ -10,35 +10,35 @@ let create_user body =
     let uri = Request.build_uri "/user" in
     let headers = Request.default_headers in
     let body = Request.write_json_body User.to_yojson body in
-    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) -> return ()
+    Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (_resp, body) -> return ()
 
 let create_users_with_array_input body =
     let open Lwt in
     let uri = Request.build_uri "/user/createWithArray" in
     let headers = Request.default_headers in
     let body = Request.write_json_body (JsonSupport.of_list_of User.to_yojson) body in
-    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) -> return ()
+    Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (_resp, body) -> return ()
 
 let create_users_with_list_input body =
     let open Lwt in
     let uri = Request.build_uri "/user/createWithList" in
     let headers = Request.default_headers in
     let body = Request.write_json_body (JsonSupport.of_list_of User.to_yojson) body in
-    Cohttp_lwt_unix.Client.post uri ~headers ~body >>= fun (_resp, body) -> return ()
+    Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (_resp, body) -> return ()
 
 let delete_user username =
     let open Lwt in
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "username" (username) in
-    Cohttp_lwt_unix.Client.delete uri ~headers >>= fun (_resp, body) -> return ()
+    Cohttp_lwt_unix.Client.call `DELETE uri ~headers >>= fun (_resp, body) -> return ()
 
 let get_user_by_name username =
     let open Lwt in
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "username" (username) in
-    Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
+    Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (_resp, body) ->
     Request.read_json_body_as (JsonSupport.unwrap  User.of_yojson) body
 
 let login_user username password =
@@ -47,14 +47,14 @@ let login_user username password =
     let headers = Request.default_headers in
     let uri = Uri.add_query_param' uri ("username", username) in
     let uri = Uri.add_query_param' uri ("password", password) in
-    Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) ->
+    Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (_resp, body) ->
     Request.read_json_body_as (JsonSupport.to_string) body
 
 let logout_user () =
     let open Lwt in
     let uri = Request.build_uri "/user/logout" in
     let headers = Request.default_headers in
-    Cohttp_lwt_unix.Client.get uri ~headers >>= fun (_resp, body) -> return ()
+    Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (_resp, body) -> return ()
 
 let update_user username body =
     let open Lwt in
@@ -62,5 +62,5 @@ let update_user username body =
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "username" (username) in
     let body = Request.write_json_body User.to_yojson body in
-    Cohttp_lwt_unix.Client.put uri ~headers ~body >>= fun (_resp, body) -> return ()
+    Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (_resp, body) -> return ()
 
