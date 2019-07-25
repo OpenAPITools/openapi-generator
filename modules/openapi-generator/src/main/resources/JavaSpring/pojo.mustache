@@ -3,8 +3,12 @@
  */{{#description}}
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
-{{^disableAdditionalFieldsAnnotation}}@JsonIgnoreProperties(ignoreUnknown = true)
-{{/disableAdditionalFieldsAnnotation}}public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends ResourceSupport {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#jackson}}
+{{^disableAdditionalFieldsAnnotation}}
+@JsonIgnoreProperties(ignoreUnknown = true)
+{{/disableAdditionalFieldsAnnotation}}
+{{/jackson}}
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends ResourceSupport {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 

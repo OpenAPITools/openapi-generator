@@ -1,8 +1,7 @@
 package {{package}};
 
 import java.util.Objects;
-{{^disableAdditionalFieldsAnnotation}}import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-{{/disableAdditionalFieldsAnnotation}}{{#imports}}import {{import}};
+{{#imports}}import {{import}};
 {{/imports}}
 import org.openapitools.jackson.nullable.JsonNullable;
 {{#serializableModel}}
@@ -16,6 +15,9 @@ import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}
 {{#jackson}}
+{{^disableAdditionalFieldsAnnotation}}
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+{{/disableAdditionalFieldsAnnotation}}
 {{#withXml}}
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
