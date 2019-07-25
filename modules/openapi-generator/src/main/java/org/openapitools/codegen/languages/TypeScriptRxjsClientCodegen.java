@@ -51,6 +51,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
 
+        languageSpecificPrimitives.add("Blob");
+        typeMapping.put("file", "Blob");
+
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
@@ -87,6 +90,11 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
+    }
+
+    @Override
+    public boolean isDataTypeFile(final String dataType) {
+        return dataType != null && dataType.equals("Blob");
     }
 
     @Override
@@ -156,6 +164,33 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             }
         }
         return result;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        parameter.dataType = applyLocalTypeMapping(parameter.dataType);
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+        if (isLanguagePrimitive(openAPIType)) {
+            return openAPIType;
+        }
+        applyLocalTypeMapping(openAPIType);
+        return openAPIType;
+    }
+
+    private String applyLocalTypeMapping(String type) {
+        if (typeMapping.containsKey(type)) {
+            type = typeMapping.get(type);
+        }
+        return type;
+    }
+
+    private boolean isLanguagePrimitive(String type) {
+        return languageSpecificPrimitives.contains(type);
     }
 
     private void addNpmPackageGeneration() {

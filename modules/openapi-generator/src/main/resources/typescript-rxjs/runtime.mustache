@@ -150,7 +150,7 @@ export interface RequestOpts {
     headers?: HttpHeaders;
     query?: HttpQuery;
     body?: HttpBody;
-    responseType?: string;
+    responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
 }
 
 export const encodeURI = (value: any) => encodeURIComponent(String(value))
