@@ -40,26 +40,11 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
-<<<<<<< HEAD
-=======
-    def test_fake_outer_enum_serialize(self):
-        """Test case for fake_outer_enum_serialize
-
-        """
-        # verify that the input and output are the correct type
-        endpoint = self.api.fake_outer_enum_serialize
-        assert endpoint.openapi_types['body'] == 'OuterEnum'
-        assert endpoint.settings['response_type'] == 'OuterEnum'
-
->>>>>>> b9d5dbd868... DefaultCodegen.java adds handleMethodResponse, PythonClientCodegen.java adds postProcessModelProperty, fromProperty, updateCodegenPropertyEnum, handleMethodResponse, fromModel
     def test_fake_outer_number_serialize(self):
         """Test case for fake_outer_number_serialize
 
         """
-        # verify that the input and output are the correct type
-        endpoint = self.api.fake_outer_number_serialize
-        assert endpoint.openapi_types['body'] == 'OuterNumber'
-        assert endpoint.settings['response_type'] == 'OuterNumber'
+        pass
 
     def test_fake_outer_string_serialize(self):
         """Test case for fake_outer_string_serialize

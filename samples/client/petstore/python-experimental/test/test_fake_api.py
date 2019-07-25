@@ -53,7 +53,10 @@ class TestFakeApi(unittest.TestCase):
         """Test case for fake_outer_number_serialize
 
         """
-        pass
+        # verify that the input and output are the correct type
+        endpoint = self.api.fake_outer_number_serialize
+        assert endpoint.openapi_types['body'] == 'OuterNumber'
+        assert endpoint.settings['response_type'] == 'OuterNumber'
 
     def test_fake_outer_string_serialize(self):
         """Test case for fake_outer_string_serialize
