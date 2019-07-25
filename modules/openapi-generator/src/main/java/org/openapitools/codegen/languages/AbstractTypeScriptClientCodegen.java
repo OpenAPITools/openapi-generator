@@ -54,6 +54,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
 
+    private List<String> reservedModelNames = new ArrayList<String>();
+
     public AbstractTypeScriptClientCodegen() {
         super();
 
@@ -70,9 +72,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         reservedWords.addAll(Arrays.asList(
                 // local variable names used in API methods (endpoints)
                 "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
-                "requestOptions",
-                // Typescript reserved words
-                "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
+                "requestOptions"
+        ));
+
+        reservedModelNames.addAll(Arrays.asList(
+            "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"
+        ));
 
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "string",
@@ -277,7 +282,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
+        if (isReservedWord(name) || isReservedModelName(name)) {
             String modelName = camelize("model_" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
@@ -432,6 +437,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected boolean isReservedWord(String word) {
         // NOTE: This differs from super's implementation in that TypeScript does _not_ want case insensitive matching.
         return reservedWords.contains(word);
+    }
+
+    private boolean isReservedModelName(String word) {
+        return reservedModelNames.contains(word);
     }
 
     @Override
