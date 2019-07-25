@@ -41,7 +41,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public BigDecimal getJustNumber() {

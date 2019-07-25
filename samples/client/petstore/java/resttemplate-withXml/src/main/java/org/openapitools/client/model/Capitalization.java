@@ -70,7 +70,7 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getSmallCamel() {
     return smallCamel;
@@ -89,7 +89,7 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getCapitalCamel() {
     return capitalCamel;
@@ -108,7 +108,7 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getSmallSnake() {
     return smallSnake;
@@ -127,7 +127,7 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getCapitalSnake() {
     return capitalSnake;
@@ -146,7 +146,7 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -165,7 +165,7 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "Name of the pet ")
   public String getATTNAME() {
     return ATT_NAME;

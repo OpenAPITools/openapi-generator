@@ -43,7 +43,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getCode() {
     return code;
@@ -62,7 +62,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getType() {
     return type;
@@ -81,7 +81,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getMessage() {
     return message;

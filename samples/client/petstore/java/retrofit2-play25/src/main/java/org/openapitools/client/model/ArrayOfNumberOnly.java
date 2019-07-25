@@ -51,7 +51,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public List<BigDecimal> getArrayNumber() {

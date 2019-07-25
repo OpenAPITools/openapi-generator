@@ -194,7 +194,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -213,7 +213,6 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
-
   @ApiModelProperty(required = true, value = "")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -232,7 +231,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -251,7 +250,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -270,7 +269,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public OuterEnum getOuterEnum() {
     return outerEnum;

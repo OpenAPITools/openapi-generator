@@ -51,7 +51,7 @@ public class Model200Response implements Parcelable {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getName() {
     return name;
@@ -70,7 +70,7 @@ public class Model200Response implements Parcelable {
    * Get propertyClass
    * @return propertyClass
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getPropertyClass() {
     return propertyClass;
