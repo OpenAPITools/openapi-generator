@@ -2,13 +2,12 @@
 const Service = require('./Service');
 
 class PetService {
-
   /**
    * Add a new pet to the store
    *
    * body Pet Pet object that needs to be added to the store
    * no response value expected for this operation
-   **/
+   * */
   static addPet({ body }) {
     return new Promise(
       async (resolve) => {
