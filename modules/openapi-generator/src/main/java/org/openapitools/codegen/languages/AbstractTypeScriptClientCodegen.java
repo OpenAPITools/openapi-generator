@@ -50,6 +50,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     protected String modelPropertyNaming = "camelCase";
     protected Boolean supportsES6 = false;
+    protected Boolean stringEnums = false;
     protected HashSet<String> languageGenericTypes;
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
@@ -128,6 +129,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(this.modelPropertyNaming));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
+        cliOptions.add(new CliOption(CodegenConstants.STRING_ENUMS, CodegenConstants.STRING_ENUMS_DESC).defaultValue(String.valueOf(this.getStringEnums())));
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
@@ -156,6 +158,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
             setSupportsES6(Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString()));
             additionalProperties.put("supportsES6", getSupportsES6());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.STRING_ENUMS)) {
+            setStringEnums(Boolean.valueOf(additionalProperties.get(CodegenConstants.STRING_ENUMS).toString()));
+            additionalProperties.put("stringEnums", getStringEnums());
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -549,7 +556,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = toModelName(property.name) + "Enum";
+        String enumName = toModelName(property.name);
+
+        if (!getStringEnums()) {
+            enumName += "Enum";
+        }
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -562,6 +573,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // process enum in models
         List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+        String classEnumSeparator = stringEnums ? "" : ".";
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
@@ -569,14 +581,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "." + var.enumName);
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + "." + var.enumName);
+                                .replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
                     }
                 }
             }
@@ -610,6 +622,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     public Boolean getSupportsES6() {
         return supportsES6;
+    }
+
+    public void setStringEnums(boolean value) {
+        stringEnums = value;
+    }
+
+    public Boolean getStringEnums() {
+        return stringEnums;
     }
 
     public String getNpmName() {
