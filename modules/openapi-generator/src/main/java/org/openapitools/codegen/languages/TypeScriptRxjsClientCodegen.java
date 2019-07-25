@@ -286,10 +286,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         this.reservedWords.add("ModelPropertyNaming");
         this.reservedWords.add("RequestArgs");
         this.reservedWords.add("RequestOpts");
+        this.reservedWords.add("ResponseArgs");
         this.reservedWords.add("exists");
-        this.reservedWords.add("RequestContext");
-        this.reservedWords.add("ResponseContext");
         this.reservedWords.add("Middleware");
+        this.reservedWords.add("AjaxRequest");
         this.reservedWords.add("AjaxResponse");
     }
 
