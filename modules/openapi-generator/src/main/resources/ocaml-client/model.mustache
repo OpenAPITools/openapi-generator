@@ -19,7 +19,7 @@ type t = {
     {{{name}}}: {{^isMapContainer}}Enums.{{/isMapContainer}}{{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option{{/required}}{{/isContainer}};
     {{/isEnum}}
     {{^isEnum}}
-    {{{name}}}: {{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option{{/required}}{{/isContainer}};
+    {{{name}}}: {{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#isNullable}} option [@default None]{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default None]{{/required}}{{/isContainer}};
     {{/isEnum}}
 {{/vars}}
 } [@@deriving yojson, show ];;
