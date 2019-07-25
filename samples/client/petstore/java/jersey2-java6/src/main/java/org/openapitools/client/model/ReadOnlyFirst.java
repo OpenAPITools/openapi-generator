@@ -35,6 +35,7 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public String getBar() {
     return bar;
@@ -49,6 +50,7 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public String getBaz() {
     return baz;

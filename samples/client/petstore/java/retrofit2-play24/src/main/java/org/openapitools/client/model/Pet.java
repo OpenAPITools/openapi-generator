@@ -96,6 +96,7 @@ public class Pet {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
@@ -114,6 +115,7 @@ public class Pet {
    * Get category
    * @return category
   **/
+  @javax.annotation.Nullable 
   @Valid
   @ApiModelProperty(value = "")
   public Category getCategory() {
@@ -133,6 +135,7 @@ public class Pet {
    * Get name
    * @return name
   **/
+
   @NotNull
   @ApiModelProperty(example = "doggie", required = true, value = "")
   public String getName() {
@@ -157,6 +160,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
+
   @NotNull
   @ApiModelProperty(required = true, value = "")
   public List<String> getPhotoUrls() {
@@ -184,6 +188,7 @@ public class Pet {
    * Get tags
    * @return tags
   **/
+  @javax.annotation.Nullable 
   @Valid
   @ApiModelProperty(value = "")
   public List<Tag> getTags() {
@@ -203,6 +208,7 @@ public class Pet {
    * pet status in the store
    * @return status
   **/
+  @javax.annotation.Nullable 
   @ApiModelProperty(value = "pet status in the store")
   public StatusEnum getStatus() {
     return status;

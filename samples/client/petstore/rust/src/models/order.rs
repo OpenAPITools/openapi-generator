@@ -11,7 +11,7 @@
 /// Order : An order for a pets from the pet store
 
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Order {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
@@ -23,7 +23,7 @@ pub struct Order {
     pub ship_date: Option<String>,
     /// Order Status
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
-    pub status: Option<String>,
+    pub status: Option<Status>,
     #[serde(rename = "complete", skip_serializing_if = "Option::is_none")]
     pub complete: Option<bool>,
 }
@@ -43,7 +43,7 @@ impl Order {
 }
 
 /// Order Status
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Status {
     #[serde(rename = "placed")]
     Placed,

@@ -52,6 +52,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   **/
+
   @ApiModelProperty(example = "what", required = true, value = "")
   public String getStringItem() {
     return stringItem;
@@ -70,6 +71,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   **/
+
   @ApiModelProperty(example = "1.234", required = true, value = "")
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -88,6 +90,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   **/
+
   @ApiModelProperty(example = "-2", required = true, value = "")
   public Integer getIntegerItem() {
     return integerItem;
@@ -106,6 +109,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   **/
+
   @ApiModelProperty(example = "true", required = true, value = "")
   public Boolean isBoolItem() {
     return boolItem;
@@ -129,6 +133,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   **/
+
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   public List<Integer> getArrayItem() {
     return arrayItem;

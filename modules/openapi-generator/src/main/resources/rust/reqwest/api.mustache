@@ -4,7 +4,7 @@ use std::borrow::Borrow;
 
 use reqwest;
 
-use super::{Error, configuration, urlencode};
+use super::{Error, configuration};
 
 pub struct {{{classname}}}Client {
     configuration: Rc<configuration::Configuration>,
@@ -33,7 +33,7 @@ impl {{{classname}}} for {{{classname}}}Client {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}urlencode({{/isString}}{{{paramName}}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{#isString}}){{/isString}}{{/pathParams}});
+        let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{#isString}}){{/isString}}{{/pathParams}});
         let mut req_builder = client.{{{httpMethod}}}(uri_str.as_str());
 
         {{#queryParams}}

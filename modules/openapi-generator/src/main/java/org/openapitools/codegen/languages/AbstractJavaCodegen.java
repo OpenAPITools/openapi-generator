@@ -425,6 +425,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // imports for pojos
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
         importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
@@ -591,6 +592,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if ("_".equals(name)) {
             name = "_u";
+        }
+
+        // numbers are not allowed at the beginning
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
         }
 
         // if it's all uppper case, do nothing
@@ -952,6 +958,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
             codegenModel = AbstractJavaCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
+        if ("BigDecimal".equals(codegenModel.dataType)) {
+            codegenModel.imports.add("BigDecimal");
+        }
         return codegenModel;
     }
 
@@ -1115,7 +1124,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // number
         if ("Integer".equals(datatype) || "Long".equals(datatype) ||
-                "Float".equals(datatype) || "Double".equals(datatype)) {
+                "Float".equals(datatype) || "Double".equals(datatype) || "BigDecimal".equals(datatype)) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -1142,6 +1151,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if ("Float".equals(datatype)) {
             // add f to number, e.g. 3.14 => 3.14f
             return value + "f";
+        } else if ("BigDecimal".equals(datatype)) {
+            // use BigDecimal String constructor
+            return "new BigDecimal(\"" + value + "\")";
         } else {
             return "\"" + escapeText(value) + "\"";
         }
