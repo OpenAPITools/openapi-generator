@@ -28,6 +28,7 @@ import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -100,8 +101,6 @@ public interface CodegenConfig {
     List<CliOption> cliOptions();
 
     String generateExamplePath(String path, Operation operation);
-
-    Set<String> reservedWords();
 
     List<SupportingFile> supportingFiles();
 
@@ -277,4 +276,10 @@ public interface CodegenConfig {
     boolean isStrictSpecBehavior();
 
     void setStrictSpecBehavior(boolean strictSpecBehavior);
+
+    boolean isReservedWord(String word);
+
+    void registerReservedWordsCaseInsensitive(Collection<String> reserved);
+
+    void registerReservedWordsCaseSensitive(Collection<String> reserved);
 }

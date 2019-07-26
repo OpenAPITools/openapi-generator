@@ -23,7 +23,6 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Set;
 
 public class MysqlSchemaCodegenTest {
 
@@ -227,7 +226,6 @@ public class MysqlSchemaCodegenTest {
     @Test
     public void testIsReservedWord() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Set<String> reservedWords = codegen.reservedWords();
         ArrayList<String> trueFixture = new ArrayList<String>(Arrays.asList(
             "accessible", "asc", "between", "blob", "change", "column", "day_hour", "distinct", "enclosed", "except", "explain", "float", "for", "function", "grant", "grouping", "high_priority", "groups", "hour_minute", "insensitive", "interval", "json_table", "keys", "kill", "leave", "left", "mediumblob", "modifies", "not", "null", "numeric", "optimize", "outer", "precision", "primary", "references", "replace", "select", "sql", "then", "tinytext", "unique", "unlock", "varchar", "virtual", "when", "where", "xor", "year_month", "zerofill"
         ));
@@ -235,10 +233,10 @@ public class MysqlSchemaCodegenTest {
             "after", "boolean", "charset", "cpu", "current", "delay_key_write", "end", "format", "global", "host", "install", "json", "key_block_size", "local", "max_size", "none", "offset", "partial", "quarter", "relay", "second", "status", "timestamp", "until", "variables", "without", "xml", "year"
         ));
         for(String trueValue : trueFixture) {
-            Assert.assertTrue(reservedWords.contains(trueValue), "'" + trueValue + "' isn't MySQL reserved word");
+            Assert.assertTrue(codegen.isReservedWord(trueValue), "'" + trueValue + "' isn't MySQL reserved word");
         }
         for(String falseValue : falseFixture) {
-            Assert.assertFalse(reservedWords.contains(falseValue), "'" + falseValue + "' is MySQL reserved word");
+            Assert.assertFalse(codegen.isReservedWord(falseValue), "'" + falseValue + "' is MySQL reserved word");
         }
     }
 

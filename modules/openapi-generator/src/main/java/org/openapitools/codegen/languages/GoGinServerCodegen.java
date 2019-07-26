@@ -71,7 +71,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        setReservedWordsLowerCase(
+        // TODO Are those case sensitive or insensitive
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         // data type
                         "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",

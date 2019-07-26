@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
@@ -45,7 +44,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        setReservedWordsLowerCase(
+        // TODO Are those case sensitive or insensitive
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         "alignas",
                         "alignof",

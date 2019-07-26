@@ -18,7 +18,12 @@
 package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
@@ -60,7 +65,8 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
 
-        setReservedWordsLowerCase(
+        // TODO Are those case sensitive or insensitive
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         // local variable names used in API methods (endpoints)
                         "path", "contentTypes", "contentType", "queryParams", "headerParams",

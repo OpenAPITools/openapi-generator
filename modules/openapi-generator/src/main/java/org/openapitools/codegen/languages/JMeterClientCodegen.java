@@ -29,7 +29,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
 
 public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -106,7 +105,7 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<String>(
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         "sample1",  // replace with static values
                         "sample2")

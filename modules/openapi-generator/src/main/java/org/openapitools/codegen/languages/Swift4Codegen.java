@@ -23,13 +23,29 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -126,7 +142,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         )
                 );
 
-        reservedWords = new HashSet<>(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         // name used by swift client
                         "ErrorResponse", "Response",
@@ -343,7 +359,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // add objc reserved words
         if (Boolean.TRUE.equals(objcCompatible)) {
-            reservedWords.addAll(objcReservedWords);
+            super.registerReservedWordsCaseSensitive(objcReservedWords);
         }
 
         // Setup unwrapRequired option, which makes all the properties with "required" non-optional
@@ -425,11 +441,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 "",
                 "project.yml"));
 
-    }
-
-    @Override
-    protected boolean isReservedWord(String word) {
-        return word != null && reservedWords.contains(word); //don't lowercase as super does
     }
 
     @Override

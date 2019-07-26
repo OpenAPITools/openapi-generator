@@ -20,17 +20,20 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.TreeSet;
-import java.util.Date;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -308,24 +311,29 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     private void addExtraReservedWords() {
-        this.reservedWords.add("BASE_PATH");
-        this.reservedWords.add("BaseAPI");
-        this.reservedWords.add("RequiredError");
-        this.reservedWords.add("COLLECTION_FORMATS");
-        this.reservedWords.add("ConfigurationParameters");
-        this.reservedWords.add("Configuration");
-        this.reservedWords.add("HttpMethod");
-        this.reservedWords.add("HttpHeaders");
-        this.reservedWords.add("HttpQuery");
-        this.reservedWords.add("HttpBody");
-        this.reservedWords.add("ModelPropertyNaming");
-        this.reservedWords.add("RequestArgs");
-        this.reservedWords.add("RequestOpts");
-        this.reservedWords.add("ResponseArgs");
-        this.reservedWords.add("exists");
-        this.reservedWords.add("Middleware");
-        this.reservedWords.add("AjaxRequest");
-        this.reservedWords.add("AjaxResponse");
+        // TODO Are those case sensitive or insensitive
+        super.registerReservedWordsCaseSensitive(
+                Arrays.asList(
+                        "BASE_PATH",
+                        "BaseAPI",
+                        "RequiredError",
+                        "COLLECTION_FORMATS",
+                        "ConfigurationParameters",
+                        "Configuration",
+                        "HttpMethod",
+                        "HttpHeaders",
+                        "HttpQuery",
+                        "HttpBody",
+                        "ModelPropertyNaming",
+                        "RequestArgs",
+                        "RequestOpts",
+                        "ResponseArgs",
+                        "exists",
+                        "Middleware",
+                        "AjaxRequest",
+                        "AjaxResponse"
+                )
+        );
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {

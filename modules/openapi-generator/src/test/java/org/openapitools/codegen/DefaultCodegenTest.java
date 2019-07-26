@@ -24,21 +24,32 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -865,4 +876,37 @@ public class DefaultCodegenTest {
         Assert.assertEquals(codegenModel.vars.size(), 1);
     }
 
+    @Test
+    public void isReservedWordConsideringCase() {
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        List<String> caseSensitive = new ArrayList<>(2);
+        caseSensitive.add("aaBb");
+        caseSensitive.add("BbCc");
+        codegen.registerReservedWordsCaseSensitive(caseSensitive);
+
+        List<String> caseInsensitive = new ArrayList<>(2);
+        caseInsensitive.add("DdEe");
+        caseInsensitive.add("ffGg");
+        codegen.registerReservedWordsCaseInsensitive(caseInsensitive);
+
+        // Rudimentary case sensitive test
+        Assert.assertTrue(codegen.isReservedWord("aaBb"));
+        Assert.assertFalse(codegen.isReservedWord("aaBB"));
+        Assert.assertFalse(codegen.isReservedWord("aabb"));
+        Assert.assertTrue(codegen.isReservedWord("BbCc"));
+        Assert.assertFalse(codegen.isReservedWord("bbcc"));
+        Assert.assertFalse(codegen.isReservedWord("bbCc"));
+
+        // Rudimentary case insensitive test
+        Assert.assertTrue(codegen.isReservedWord("DdEe"));
+        Assert.assertTrue(codegen.isReservedWord("ddee"));
+        Assert.assertTrue(codegen.isReservedWord("ffGg"));
+        Assert.assertTrue(codegen.isReservedWord("ffgg"));
+        Assert.assertTrue(codegen.isReservedWord("FFGG"));
+
+        // Not in the list test
+        Assert.assertFalse(codegen.isReservedWord("DoesNotExist"));
+        Assert.assertFalse(codegen.isReservedWord(null));
+    }
 }

@@ -34,7 +34,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 public class ScalaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaGatlingCodegen.class);
@@ -176,7 +183,8 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
 
-        setReservedWordsLowerCase(
+        // TODO Are those case sensitive or insensitive
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         // local variable names used in API methods (endpoints)
                         "path", "contentTypes", "contentType", "queryParams", "headerParams",

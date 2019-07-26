@@ -20,13 +20,19 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
-import java.util.TreeSet;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -254,31 +260,19 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void addExtraReservedWords() {
-        this.reservedWords.add("BASE_PATH");
-        this.reservedWords.add("BaseAPI");
-        this.reservedWords.add("RequiredError");
-        this.reservedWords.add("COLLECTION_FORMATS");
-        this.reservedWords.add("FetchAPI");
-        this.reservedWords.add("ConfigurationParameters");
-        this.reservedWords.add("Configuration");
-        this.reservedWords.add("configuration");
-        this.reservedWords.add("HTTPMethod");
-        this.reservedWords.add("HTTPHeaders");
-        this.reservedWords.add("HTTPQuery");
-        this.reservedWords.add("HTTPBody");
-        this.reservedWords.add("ModelPropertyNaming");
-        this.reservedWords.add("FetchParams");
-        this.reservedWords.add("RequestOpts");
-        this.reservedWords.add("exists");
-        this.reservedWords.add("RequestContext");
-        this.reservedWords.add("ResponseContext");
-        this.reservedWords.add("Middleware");
-        this.reservedWords.add("ApiResponse");
-        this.reservedWords.add("ResponseTransformer");
-        this.reservedWords.add("JSONApiResponse");
-        this.reservedWords.add("VoidApiResponse");
-        this.reservedWords.add("BlobApiResponse");
-        this.reservedWords.add("TextApiResponse");
+        super.registerReservedWordsCaseInsensitive(
+                Arrays.asList(
+                        "BASE_PATH", "BaseAPI", "RequiredError",
+                        "COLLECTION_FORMATS", "FetchAPI", "ConfigurationParameters",
+                        "Configuration", "configuration", "HTTPMethod",
+                        "HTTPHeaders", "HTTPQuery", "HTTPBody",
+                        "ModelPropertyNaming", "FetchParams", "RequestOpts",
+                        "exists", "RequestContext", "ResponseContext",
+                        "Middleware", "ApiResponse", "ResponseTransformer",
+                        "JSONApiResponse", "VoidApiResponse", "BlobApiResponse",
+                        "TextApiResponse"
+                )
+        );
     }
 
     private boolean getUseSingleRequestParameter() {

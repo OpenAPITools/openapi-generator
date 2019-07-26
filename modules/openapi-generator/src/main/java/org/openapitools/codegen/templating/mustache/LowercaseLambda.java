@@ -53,7 +53,7 @@ public class LowercaseLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
         String text = fragment.execute().toLowerCase(Locale.ROOT);
-        if (generator != null && generator.reservedWords().contains(text)) {
+        if (generator != null && generator.isReservedWord(text)) {
             text = generator.escapeReservedWord(text);
         }
         writer.write(text);
