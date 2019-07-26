@@ -18,14 +18,14 @@ public typealias Completable = PrimitiveSequence<CompletableTrait, Swift.Never>
 public enum CompletableEvent {
     /// Sequence terminated with an error. (underlying observable sequence emits: `.error(Error)`)
     case error(Swift.Error)
-    
+
     /// Sequence completed successfully.
     case completed
 }
 
 public extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType == Swift.Never {
-    public typealias CompletableObserver = (CompletableEvent) -> ()
-    
+    public typealias CompletableObserver = (CompletableEvent) -> Void
+
     /**
      Creates an observable sequence from a specified subscribe method implementation.
      
@@ -45,21 +45,21 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
                 }
             }
         }
-        
+
         return PrimitiveSequence(raw: source)
     }
-    
+
     /**
      Subscribes `observer` to receive events for this sequence.
      
      - returns: Subscription for `observer` that can be used to cancel production of sequence elements and free resources.
      */
-    public func subscribe(_ observer: @escaping (CompletableEvent) -> ()) -> Disposable {
+    public func subscribe(_ observer: @escaping (CompletableEvent) -> Void) -> Disposable {
         var stopped = false
         return self.primitiveSequence.asObservable().subscribe { event in
             if stopped { return }
             stopped = true
-            
+
             switch event {
             case .next:
                 rxFatalError("Completables can't emit values")
@@ -70,7 +70,7 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
             }
         }
     }
-    
+
     /**
      Subscribes a completion handler and an error handler for this sequence.
      
@@ -136,7 +136,7 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
 
 }
 
-public extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType == Swift.Never {    
+public extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType == Swift.Never {
     /**
      Invokes an action for each event in the observable sequence, and propagates all observer messages through the result sequence.
      
@@ -152,9 +152,9 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
      */
     public func `do`(onError: ((Swift.Error) throws -> Void)? = nil,
                      onCompleted: (() throws -> Void)? = nil,
-                     onSubscribe: (() -> ())? = nil,
-                     onSubscribed: (() -> ())? = nil,
-                     onDispose: (() -> ())? = nil)
+                     onSubscribe: (() -> Void)? = nil,
+                     onSubscribed: (() -> Void)? = nil,
+                     onDispose: (() -> Void)? = nil)
         -> Completable {
             return Completable(raw: primitiveSequence.source.do(
                 onError: onError,
@@ -164,8 +164,6 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
                 onDispose: onDispose)
             )
     }
-
-
 
     /**
      Concatenates the second observable sequence to `self` upon successful termination of `self`.
@@ -178,7 +176,7 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
     public func concat(_ second: Completable) -> Completable {
         return Completable.concat(primitiveSequence, second)
     }
-    
+
     /**
      Concatenates all observable sequences in the given sequence, as long as the previous observable sequence terminated successfully.
      
@@ -191,7 +189,7 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
             let source = Observable.concat(sequence.lazy.map { $0.asObservable() })
             return Completable(raw: source)
     }
-    
+
     /**
      Concatenates all observable sequences in the given sequence, as long as the previous observable sequence terminated successfully.
      
@@ -204,7 +202,7 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
             let source = Observable.concat(collection.map { $0.asObservable() })
             return Completable(raw: source)
     }
-    
+
     /**
      Concatenates all observable sequences in the given sequence, as long as the previous observable sequence terminated successfully.
      
@@ -216,7 +214,7 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
         let source = Observable.concat(sources.map { $0.asObservable() })
         return Completable(raw: source)
     }
-    
+
     /**
      Merges elements from all observable sequences from collection into a single observable sequence.
      
@@ -230,7 +228,7 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
             let source = Observable.merge(sources.map { $0.asObservable() })
             return Completable(raw: source)
     }
-    
+
     /**
      Merges elements from all observable sequences from array into a single observable sequence.
      
@@ -243,7 +241,7 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
         let source = Observable.merge(sources.map { $0.asObservable() })
         return Completable(raw: source)
     }
-    
+
     /**
      Merges elements from all observable sequences into a single observable sequence.
      

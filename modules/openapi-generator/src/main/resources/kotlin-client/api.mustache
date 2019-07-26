@@ -15,9 +15,6 @@ import {{packageName}}.infrastructure.RequestMethod
 import {{packageName}}.infrastructure.ResponseType
 import {{packageName}}.infrastructure.Success
 import {{packageName}}.infrastructure.toMultiValue
-{{#threetenbp}}
-import org.threeten.bp.LocalDateTime
-{{/threetenbp}}
 
 {{#operations}}
 class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {

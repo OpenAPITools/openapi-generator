@@ -54,6 +54,11 @@
   infoLink: "https://www.klarna.com/us/"
   pinned: false
 -
+  caption: "Kurusugawa Computer Inc."
+  image: "img/companies/kurusugawa.png"
+  infoLink: "https://www.kurusugawa.jp/"
+  pinned: false
+-
   caption: Metaswitch
   image: "img/companies/metaswitch.svg"
   infoLink: "https://www.metaswitch.com/"
@@ -67,6 +72,11 @@
   caption: Myworkout
   image: "img/companies/myworkout.png"
   infoLink: "https://myworkout.com/"
+  pinned: false
+-
+  caption: OPTiM
+  image: "img/companies/optim.png"
+  infoLink: "https://www.optim.co.jp/"
   pinned: false
 -
   caption: "Raiffeisen Schweiz Genossenschaft"
@@ -107,6 +117,11 @@
   caption: "unblu inc."
   image: "img/companies/unblu.svg"
   infoLink: "https://www.unblu.com/"
+  pinned: true
+-
+  caption: WSO2
+  image: "img/companies/wso2.png"
+  infoLink: "https://wso2.com/"
   pinned: true
 -
   caption: Xero

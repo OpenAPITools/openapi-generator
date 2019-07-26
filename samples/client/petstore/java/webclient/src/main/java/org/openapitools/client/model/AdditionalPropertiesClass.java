@@ -80,6 +80,7 @@ public class AdditionalPropertiesClass {
    * Get mapString
    * @return mapString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, String> getMapString() {
     return mapString;
@@ -106,6 +107,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -132,6 +134,7 @@ public class AdditionalPropertiesClass {
    * Get mapInteger
    * @return mapInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -158,6 +161,7 @@ public class AdditionalPropertiesClass {
    * Get mapBoolean
    * @return mapBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -184,6 +188,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -210,6 +215,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -236,6 +242,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -262,6 +269,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
@@ -280,6 +288,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Object getAnytype1() {
     return anytype1;
@@ -298,6 +307,7 @@ public class AdditionalPropertiesClass {
    * Get anytype2
    * @return anytype2
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Object getAnytype2() {
     return anytype2;
@@ -316,6 +326,7 @@ public class AdditionalPropertiesClass {
    * Get anytype3
    * @return anytype3
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Object getAnytype3() {
     return anytype3;

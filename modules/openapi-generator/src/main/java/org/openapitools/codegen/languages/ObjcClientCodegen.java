@@ -134,6 +134,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("bytearray", "NSData");
         typeMapping.put("byte", "NSData");
         typeMapping.put("uuid", "NSString");
+        typeMapping.put("uri", "NSString");
         typeMapping.put("password", "NSString");
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm

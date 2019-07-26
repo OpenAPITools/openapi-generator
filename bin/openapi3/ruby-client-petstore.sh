@@ -38,6 +38,6 @@ find samples/openapi3/client/petstore/ruby/spec -type f -not -name petstore_help
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/ruby-client -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -g ruby -c bin/ruby-petstore.json -o samples/openapi3/client/petstore/ruby -DskipFormModel=true $@"
+ags="generate -t modules/openapi-generator/src/main/resources/ruby-client -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -g ruby -c bin/ruby-petstore.json -o samples/openapi3/client/petstore/ruby --additional-properties skipFormModel=true $@"
 
 java $JAVA_OPTS -jar $executable $ags

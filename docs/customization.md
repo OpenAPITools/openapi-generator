@@ -248,7 +248,7 @@ CONFIG OPTIONS
 	    retrofit - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)
         retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
         google-api-client - HTTP client: google-api-client 1.23.0. JSON processing: Jackson 2.8.9
-        rest-assured - HTTP client: rest-assured : 3.3.0. JSON processing: Gson 2.8.5. Only for Java8
+        rest-assured - HTTP client: rest-assured : 4.0.0. JSON processing: Gson 2.8.5. Only for Java8
 ```
 
 Your config file for Java can look like

@@ -1580,6 +1580,7 @@ components:
               - fish
               - crab
     OuterEnum:
+      nullable: true
       type: string
       enum:
         - placed

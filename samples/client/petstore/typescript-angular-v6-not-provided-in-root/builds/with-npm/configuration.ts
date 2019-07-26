@@ -1,3 +1,5 @@
+import { HttpParameterCodec } from '@angular/common/http';
+
 export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
     username?: string;
@@ -5,6 +7,7 @@ export interface ConfigurationParameters {
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
+    encoder?: HttpParameterCodec;
 }
 
 export class Configuration {
@@ -14,6 +17,7 @@ export class Configuration {
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
+    encoder?: HttpParameterCodec;
 
     constructor(configurationParameters: ConfigurationParameters = {}) {
         this.apiKeys = configurationParameters.apiKeys;
@@ -22,6 +26,7 @@ export class Configuration {
         this.accessToken = configurationParameters.accessToken;
         this.basePath = configurationParameters.basePath;
         this.withCredentials = configurationParameters.withCredentials;
+        this.encoder = configurationParameters.encoder;
     }
 
     /**

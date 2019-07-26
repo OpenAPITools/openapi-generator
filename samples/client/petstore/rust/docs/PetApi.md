@@ -14,16 +14,18 @@ Method | HTTP request | Description
 [**upload_file**](PetApi.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
 
 
-# **add_pet**
-> add_pet(ctx, body)
+
+## add_pet
+
+> add_pet(body)
 Add a new pet to the store
 
-### Required Parameters
+### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | Required | 
 
 ### Return type
 
@@ -35,30 +37,24 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **delete_pet**
-> delete_pet(ctx, pet_id, optional)
+
+## delete_pet
+
+> delete_pet(pet_id, api_key)
 Deletes a pet
 
-### Required Parameters
+### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **pet_id** | **i64**| Pet id to delete | 
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
-### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **i64**| Pet id to delete | 
- **api_key** | **String**|  | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**pet_id** | **i64** | Pet id to delete | Required | 
+**api_key** | **String** |  |  | 
 
 ### Return type
 
@@ -70,27 +66,29 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **find_pets_by_status**
-> Vec<::models::Pet> find_pets_by_status(ctx, status)
+
+## find_pets_by_status
+
+> Vec<crate::models::Pet> find_pets_by_status(status)
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Required Parameters
+### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **status** | [**Vec<String>**](String.md)| Status values that need to be considered for filter | 
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**status** | [**Vec<String>**](String.md) | Status values that need to be considered for filter | Required | 
 
 ### Return type
 
-[**Vec<::models::Pet>**](Pet.md)
+[**Vec<crate::models::Pet>**](Pet.md)
 
 ### Authorization
 
@@ -98,27 +96,29 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **find_pets_by_tags**
-> Vec<::models::Pet> find_pets_by_tags(ctx, tags)
+
+## find_pets_by_tags
+
+> Vec<crate::models::Pet> find_pets_by_tags(tags)
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Required Parameters
+### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **tags** | [**Vec<String>**](String.md)| Tags to filter by | 
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**tags** | [**Vec<String>**](String.md) | Tags to filter by | Required | 
 
 ### Return type
 
-[**Vec<::models::Pet>**](Pet.md)
+[**Vec<crate::models::Pet>**](Pet.md)
 
 ### Authorization
 
@@ -126,27 +126,29 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_pet_by_id**
-> ::models::Pet get_pet_by_id(ctx, pet_id)
+
+## get_pet_by_id
+
+> crate::models::Pet get_pet_by_id(pet_id)
 Find pet by ID
 
 Returns a single pet
 
-### Required Parameters
+### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **pet_id** | **i64**| ID of pet to return | 
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**pet_id** | **i64** | ID of pet to return | Required | 
 
 ### Return type
 
-[**::models::Pet**](Pet.md)
+[**crate::models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -154,21 +156,23 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_pet**
-> update_pet(ctx, body)
+
+## update_pet
+
+> update_pet(body)
 Update an existing pet
 
-### Required Parameters
+### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | Required | 
 
 ### Return type
 
@@ -180,31 +184,25 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_pet_with_form**
-> update_pet_with_form(ctx, pet_id, optional)
+
+## update_pet_with_form
+
+> update_pet_with_form(pet_id, name, status)
 Updates a pet in the store with form data
 
-### Required Parameters
+### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **pet_id** | **i64**| ID of pet that needs to be updated | 
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
-### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **i64**| ID of pet that needs to be updated | 
- **name** | **String**| Updated name of the pet | 
- **status** | **String**| Updated status of the pet | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**pet_id** | **i64** | ID of pet that needs to be updated | Required | 
+**name** | **String** | Updated name of the pet |  | 
+**status** | **String** | Updated status of the pet |  | 
 
 ### Return type
 
@@ -216,35 +214,29 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **upload_file**
-> ::models::ApiResponse upload_file(ctx, pet_id, optional)
+
+## upload_file
+
+> crate::models::ApiResponse upload_file(pet_id, additional_metadata, file)
 uploads an image
 
-### Required Parameters
+### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **pet_id** | **i64**| ID of pet to update | 
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
-### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **i64**| ID of pet to update | 
- **additional_metadata** | **String**| Additional data to pass to server | 
- **file** | **&std::path::Path**| file to upload | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**pet_id** | **i64** | ID of pet to update | Required | 
+**additional_metadata** | **String** | Additional data to pass to server |  | 
+**file** | **std::path::PathBuf** | file to upload |  | 
 
 ### Return type
 
-[**::models::ApiResponse**](ApiResponse.md)
+[**crate::models::ApiResponse**](ApiResponse.md)
 
 ### Authorization
 
@@ -252,8 +244,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

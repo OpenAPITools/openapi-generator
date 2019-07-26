@@ -32,7 +32,7 @@ class StoreAPITests: XCTestCase {
             XCTAssert(order.complete == true, "invalid complete")
 
             expectation.fulfill()
-        }, onError: { errorType in
+        }, onError: { _ in
             XCTFail("error placing order")
         }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
@@ -46,7 +46,7 @@ class StoreAPITests: XCTestCase {
             XCTAssert(order.status == .placed, "invalid status")
             XCTAssert(order.complete == true, "invalid complete")
             expectation.fulfill()
-            }, onError: { errorType in
+            }, onError: { _ in
                 XCTFail("error placing order")
         }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
