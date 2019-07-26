@@ -96,11 +96,18 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (name.length() == 0) {
             return "default" + apiSuffix;
         }
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
         return camelize(name, true) + apiSuffix;
     }
 
     @Override
     public String toApiImport(String name) {
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
         return apiPackage() + "/" + toApiFilename(name);
     }
 
@@ -115,7 +122,11 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String toModelImport(String name) {
-        return modelPackage() + "/" + toModelFilename(name);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
+        return modelPackage() + "/" + camelize(toModelName(name), true);
     }
     
     @Override

@@ -207,28 +207,28 @@ public class TypeScriptNodeModelTest {
     }
 
     @Test(description = "prepend imports with ./ by default")
-    public void defaultImportsTest() {
+    public void defaultFromModelTest() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
         final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
         codegen.setOpenAPI(openAPI);
-        final Schema categorySchema = openAPI.getComponents().getSchemas().get("Category");
-        final CodegenModel cm = codegen.fromModel("Category", categorySchema);
+        final Schema categorySchema = openAPI.getComponents().getSchemas().get("ApiResponse");
+        final CodegenModel cm = codegen.fromModel("ApiResponse", categorySchema);
 
-        Assert.assertEquals(cm.name, "Category");
-        Assert.assertEquals(cm.classFilename, "./category");
+        Assert.assertEquals(cm.name, "ApiResponse");
+        Assert.assertEquals(cm.classFilename, "./apiResponse");
     }
 
     @Test(description = "use mapped imports for type")
-    public void mappedImportsTest() {
+    public void mappedFromModelTest() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
         final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
-        final String mappedName = "@namespace/dir/category";
-        codegen.importMapping().put("Category", mappedName);
+        final String mappedName = "@namespace/dir/response";
+        codegen.importMapping().put("ApiResponse", mappedName);
         codegen.setOpenAPI(openAPI);
-        final Schema categorySchema = openAPI.getComponents().getSchemas().get("Category");
-        final CodegenModel cm = codegen.fromModel("Category", categorySchema);
+        final Schema categorySchema = openAPI.getComponents().getSchemas().get("ApiResponse");
+        final CodegenModel cm = codegen.fromModel("ApiResponse", categorySchema);
 
-        Assert.assertEquals(cm.name, "Category");
+        Assert.assertEquals(cm.name, "ApiResponse");
         Assert.assertEquals(cm.classFilename, mappedName);
     }
 }
