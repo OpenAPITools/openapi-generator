@@ -174,6 +174,14 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 // for enum model
                 if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                     toRemove.add(modelEntry.getKey());
+                } else {
+                    enrichPropertiesWithEnumDefaultValues(cm.getAllVars());
+                    enrichPropertiesWithEnumDefaultValues(cm.getReadOnlyVars());
+                    enrichPropertiesWithEnumDefaultValues(cm.getReadWriteVars());
+                    enrichPropertiesWithEnumDefaultValues(cm.getRequiredVars());
+                    enrichPropertiesWithEnumDefaultValues(cm.getOptionalVars());
+                    enrichPropertiesWithEnumDefaultValues(cm.getVars());
+                    enrichPropertiesWithEnumDefaultValues(cm.getParentVars());
                 }
             }
         }
@@ -184,6 +192,15 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         return superobjs;
 
+    }
+
+    private void enrichPropertiesWithEnumDefaultValues(List<CodegenProperty> properties) {
+        for (CodegenProperty property : properties) {
+            if (property.get_enum() != null && property.get_enum().size() == 1) {
+                String value = property.get_enum().get(0);
+                property.defaultValue = ocamlizeEnumValue(value);
+            }
+        }
     }
 
     @Override
@@ -596,16 +613,22 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             Map<String, Object> m = new HashMap<>();
             String value = v.isEmpty() ? "empty" : v;
             m.put("name", value);
-
-            String sanitizedValue = super.toVarName(value).replace(" ", "_");
-            if (!sanitizedValue.matches("^[a-zA-Z_].*")) {
-                sanitizedValue = "_" + sanitizedValue;
-            }
-            m.put("camlEnumValueName", capitalize(sanitizedValue));
+            m.put("camlEnumValueName", ocamlizeEnumValue(value));
             result.add(m);
         }
 
         return result;
+    }
+
+    private String ocamlizeEnumValue(String value) {
+        String sanitizedValue =
+                super.toVarName(value.isEmpty() ? "empty" : value)
+                        .replace(" ", "_");
+
+        if (!sanitizedValue.matches("^[a-zA-Z_].*")) {
+            sanitizedValue = "_" + sanitizedValue;
+        }
+        return "`" + capitalize(sanitizedValue);
     }
 
     private CodegenModel buildEnumModel(String enumName, String values) {
@@ -614,6 +637,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         m.setName(enumName);
         m.setClassname(enumName);
         m.setDataType(enumName);
+        String[] vals = values.split(",");
+        if (vals.length == 1) {
+            m.setDefaultValue(ocamlizeEnumValue(vals[0]));
+        }
         m.isEnum = true;
 
         return m;
