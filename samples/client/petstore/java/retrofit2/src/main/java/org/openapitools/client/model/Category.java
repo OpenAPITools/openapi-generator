@@ -46,7 +46,7 @@ public class Category {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
@@ -65,7 +65,6 @@ public class Category {
    * Get name
    * @return name
   **/
-
   @ApiModelProperty(required = true, value = "")
   public String getName() {
     return name;

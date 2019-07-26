@@ -48,7 +48,6 @@ public class Animal {
    * Get className
    * @return className
   **/
-
   @ApiModelProperty(required = true, value = "")
   public String getClassName() {
     return className;
@@ -67,7 +66,7 @@ public class Animal {
    * Get color
    * @return color
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getColor() {
     return color;

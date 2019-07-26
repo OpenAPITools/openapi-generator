@@ -47,7 +47,7 @@ public class Model200Response {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getName() {
     return name;
@@ -66,7 +66,7 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getPropertyClass() {
     return propertyClass;

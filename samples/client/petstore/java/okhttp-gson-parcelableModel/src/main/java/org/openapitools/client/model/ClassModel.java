@@ -47,7 +47,7 @@ public class ClassModel implements Parcelable {
    * Get propertyClass
    * @return propertyClass
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getPropertyClass() {
     return propertyClass;

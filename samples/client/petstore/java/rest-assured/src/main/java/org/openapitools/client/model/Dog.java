@@ -44,7 +44,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getBreed() {
     return breed;

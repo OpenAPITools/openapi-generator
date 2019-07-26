@@ -43,7 +43,7 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public java.io.File getFile() {
     return file;
@@ -70,7 +70,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<java.io.File> getFiles() {
     return files;

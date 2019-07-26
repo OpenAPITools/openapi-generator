@@ -93,7 +93,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -120,7 +120,7 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -147,7 +147,7 @@ public class MapTest {
    * Get directMap
    * @return directMap
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -174,7 +174,7 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;

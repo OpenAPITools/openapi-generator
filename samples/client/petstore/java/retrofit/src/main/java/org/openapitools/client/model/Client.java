@@ -42,7 +42,7 @@ public class Client {
    * Get client
    * @return client
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getClient() {
     return client;
