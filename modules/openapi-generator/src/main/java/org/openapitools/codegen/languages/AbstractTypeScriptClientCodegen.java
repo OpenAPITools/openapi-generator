@@ -267,7 +267,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toModelName(String name) {
-        ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("|", " "));
+        ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("\\|", " "));
         name = sanitizeName(name, "(?![| ])\\W", exceptions); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
