@@ -48,6 +48,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String MODEL_SUFFIX = "modelSuffix";
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
+    public static final String STRING_ENUMS = "stringEnums";
+    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
     protected String ngVersion = "7.0.0";
     protected String npmRepository = null;
@@ -56,6 +58,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
+    protected Boolean stringEnums = false;
 
     private boolean taggedUnions = false;
 
@@ -88,6 +91,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
+        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
     }
 
     @Override
@@ -134,6 +138,15 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration(ngVersion);
+        }
+
+        if (additionalProperties.containsKey(STRING_ENUMS)) {
+            setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
+            additionalProperties.put("stringEnums", getStringEnums());
+            if (getStringEnums()) {
+                enumSuffix = "";
+                classEnumSeparator = "";
+            }
         }
 
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
@@ -269,6 +282,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private String getIndexDirectory() {
         String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
         return indexPackage.replace('.', File.separatorChar);
+    }
+
+    public void setStringEnums(boolean value) {
+        stringEnums = value;
+    }
+
+    public Boolean getStringEnums() {
+        return stringEnums;
     }
 
     @Override

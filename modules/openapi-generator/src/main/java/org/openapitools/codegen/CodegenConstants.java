@@ -223,9 +223,6 @@ public class CodegenConstants {
     public static final String SUPPORTS_ES6 = "supportsES6";
     public static final String SUPPORTS_ES6_DESC = "Generate code that conforms to ES6.";
 
-    public static final String STRING_ENUMS = "stringEnums";
-    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
-
     public static final String SUPPORTS_ASYNC = "supportsAsync";
     public static final String SUPPORTS_ASYNC_DESC = "Generate code that supports async operations.";
 

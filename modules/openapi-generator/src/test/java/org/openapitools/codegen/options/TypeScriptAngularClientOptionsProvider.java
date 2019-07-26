@@ -53,7 +53,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, SUPPORTS_ES6_VALUE)
-                .put(CodegenConstants.STRING_ENUMS, STRING_ENUMS_VALUE)
+                .put(TypeScriptAngularClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(TypeScriptAngularClientCodegen.NPM_NAME, NMP_NAME)
                 .put(TypeScriptAngularClientCodegen.NPM_VERSION, NMP_VERSION)
                 .put(TypeScriptAngularClientCodegen.SNAPSHOT, Boolean.FALSE.toString())

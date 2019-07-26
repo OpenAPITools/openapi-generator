@@ -47,7 +47,6 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, String.valueOf(SUPPORTS_ES6_VALUE))
-                .put(CodegenConstants.STRING_ENUMS, String.valueOf(STRING_ENUMS_VALUE))
                 .put(TypeScriptFetchClientCodegen.NPM_NAME, NMP_NAME)
                 .put(TypeScriptFetchClientCodegen.NPM_VERSION, NMP_VERSION)
                 .put(TypeScriptFetchClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
