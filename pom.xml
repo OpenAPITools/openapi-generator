@@ -1244,6 +1244,20 @@
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
             </modules>
         </profile>
+        <!-- test with JDK11 in Shippable CI -->
+        <profile>
+            <id>samples.droneio</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.droneio</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/client/petstore/java/native</module>
+            </modules>
+        </profile>
         <!-- test with Haskell -->
         <profile>
             <id>samples.misc</id>

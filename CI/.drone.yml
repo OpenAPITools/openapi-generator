@@ -1,0 +1,9 @@
+kind: pipeline
+name: default
+
+steps:
+- name: test
+  image: hirokimatsumoto/alpine-openjdk-11	
+  commands:
+  - mvn clean install
+  - mvn --quiet verify -Psamples.droneio
