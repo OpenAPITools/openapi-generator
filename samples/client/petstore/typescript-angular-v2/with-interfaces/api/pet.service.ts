@@ -47,6 +47,19 @@ export class PetService implements PetServiceInterface {
         this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
     }
 
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (const consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * 

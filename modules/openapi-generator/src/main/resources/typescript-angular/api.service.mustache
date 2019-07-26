@@ -82,7 +82,7 @@ export class {{classname}} {
 {{/useHttpClient}}
     }
 
-{{#hasFormParams}}
+{{#hasSomeFormParams}}
     /**
      * @param consumes string[] mime-types
      * @return true: consumes contains 'multipart/form-data', false: otherwise
@@ -96,7 +96,7 @@ export class {{classname}} {
         }
         return false;
     }
-{{/hasFormParams}}
+{{/hasSomeFormParams}}
 
 {{^useHttpClient}}
 {{! Before HttpClient implementation or method overloading we relied on 2 functions, 1 to return the straight body as json

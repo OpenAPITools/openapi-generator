@@ -330,7 +330,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
 
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+        boolean hasSomeFormParams = false;
         for (CodegenOperation op : ops) {
+            if (op.getHasFormParams()) {
+                System.out.println(op);
+                hasSomeFormParams = true;
+            }
             if ((boolean) additionalProperties.get("useHttpClient")) {
                 op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
             } else {
@@ -405,6 +410,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             // Overwrite path to TypeScript template string, after applying everything we just did.
             op.path = pathBuffer.toString();
         }
+
+        operations.put("hasSomeFormParams", hasSomeFormParams);
 
         // Add additional filename information for model imports in the services
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
