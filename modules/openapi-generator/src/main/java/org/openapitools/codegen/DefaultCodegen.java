@@ -4064,7 +4064,7 @@ public class DefaultCodegen implements CodegenConfig {
         name = this.sanitizeValue(name, "-", "_", exceptionList);
 
         // a|b => a_b
-        name = this.sanitizeValue(name, "|", "_", exceptionList);
+        name = this.sanitizeValue(name, "\\|", "_", exceptionList);
 
         // input name and age => input_name_and_age
         name = this.sanitizeValue(name, " ", "_", exceptionList);
@@ -4086,7 +4086,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private String sanitizeValue(String value, String replaceMatch, String replaceValue, ArrayList<String> exceptionList) {
-        if (exceptionList.size() > 0 && !exceptionList.contains(replaceMatch)) {
+        if (exceptionList.size() == 0 || !exceptionList.contains(replaceMatch)) {
             return value.replaceAll(replaceMatch, replaceValue);
         }
         return value;
