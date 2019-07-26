@@ -12,6 +12,7 @@ modules/openapi-generator-gradle-plugin/bin/
 .classpath
 lib/*
 build/*
+bazel-*
 generated-files/*
 generated-sources/*
 generated-code/*
