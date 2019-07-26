@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
@@ -266,7 +267,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("|", " "));
+        name = sanitizeName(name, "(?![| ])\\W", exceptions); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
@@ -695,5 +697,15 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+        return String.join(" | ", names);
+    }
+
+    @Override
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        return String.join(" | ", names);
     }
 }
