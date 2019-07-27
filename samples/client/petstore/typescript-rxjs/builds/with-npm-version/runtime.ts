@@ -12,7 +12,7 @@
  */
 
 import { Observable, of } from 'rxjs';
-import { ajax, AjaxResponse } from 'rxjs/ajax';
+import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { map, concatMap } from 'rxjs/operators';
 
 export const BASE_PATH = 'http://petstore.swagger.io/v2'.replace(/\/+$/, '');
@@ -84,8 +84,8 @@ export class BaseAPI {
     withPostMiddleware = <T extends BaseAPI>(postMiddlewares: Array<Middleware['post']>) =>
         this.withMiddleware<T>(postMiddlewares.map((post) => ({ post })));
 
-    protected request = <T>(context: RequestOpts): Observable<T> => 
-        this.rxjsRequest(this.createRequestArgs(context)).pipe(
+    protected request = <T>(requestOpts: RequestOpts): Observable<T> => 
+        this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
             map((res) => {
                 if (res.status >= 200 && res.status < 300) {
                     return res.response as T;
@@ -94,46 +94,39 @@ export class BaseAPI {
             })
         );
 
-    private createRequestArgs = (context: RequestOpts): RequestArgs => {
-        let url = this.configuration.basePath + context.path;
-        if (context.query !== undefined && Object.keys(context.query).length !== 0) {
+    private createRequestArgs = (requestOpts: RequestOpts): RequestArgs => {
+        let url = this.configuration.basePath + requestOpts.path;
+        if (requestOpts.query !== undefined && Object.keys(requestOpts.query).length !== 0) {
             // only add the queryString to the URL if there are query parameters.
             // this is done to avoid urls ending with a '?' character which buggy webservers
             // do not handle correctly sometimes.
-            url += '?' + queryString(context.query);
+            url += '?' + queryString(requestOpts.query);
         }
-        const body = context.body instanceof FormData ? context.body : JSON.stringify(context.body);
-        const options = {
-            method: context.method,
-            headers: context.headers,
-            body,
+        
+        return {
+            url,
+            method: requestOpts.method,
+            headers: requestOpts.headers,
+            body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
+            responseType: requestOpts.responseType || 'json'
         };
-        return { url, options };
     }
 
-    private rxjsRequest = (params: RequestContext): Observable<AjaxResponse> => {
-        const preMiddlewares = this.middleware.filter((item) => item.pre);
-        const postMiddlewares = this.middleware.filter((item) => item.post);
-
-        return of(params).pipe(
-            map((args) => {
-                if (preMiddlewares) {
-                    preMiddlewares.forEach((mw) => (args = mw.pre!({ ...args })));
-                }
-                return args;
+    private rxjsRequest = (params: RequestArgs): Observable<AjaxResponse> => 
+        of(params).pipe(
+            map((request) => {
+                this.middleware.filter((item) => item.pre).forEach((mw) => (request = mw.pre!(request)));
+                return request;
             }),
             concatMap((args) =>
-                ajax({ url: args.url, ...args.options }).pipe(
+                ajax(args).pipe(
                     map((response) => {
-                        if (postMiddlewares) {
-                            postMiddlewares.forEach((mw) => (response = mw.post!({ ...params, response })));
-                        }
+                        this.middleware.filter((item) => item.post).forEach((mw) => (response = mw.post!(response)));
                         return response;
                     })
                 )
             )
         );
-    }
 
     /**
      * Create a shallow clone of `this` by constructing a new instance
@@ -162,27 +155,23 @@ export type HttpQuery = { [key: string]: string | number | null | boolean | Arra
 export type HttpBody = Json | FormData;
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
-export interface RequestArgs {
-    url: string;
-    options: RequestInit;
-}
-
 export interface RequestOpts {
     path: string;
     method: HttpMethod;
-    headers: HttpHeaders;
+    headers?: HttpHeaders;
     query?: HttpQuery;
     body?: HttpBody;
+    responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
 }
+
+export const encodeURI = (value: any) => encodeURIComponent(String(value))
 
 const queryString = (params: HttpQuery): string => Object.keys(params)
     .map((key) => {
         const value = params[key];
-        if (value instanceof Array) {
-            return value.map((val) => `${encodeURIComponent(key)}=${encodeURIComponent(String(val))}`)
-                .join('&');
-        }
-        return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
+        return (value instanceof Array)
+            ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
+            : `${encodeURI(key)}=${encodeURI(value)}`;
     })
     .join('&');
 
@@ -195,12 +184,11 @@ export const throwIfRequired = (params: {[key: string]: any}, key: string, nickn
     }
 }
 
-export interface RequestContext extends RequestArgs {}
-export interface ResponseContext extends RequestArgs {
-    response: AjaxResponse;
-}
+// alias for easier importing
+export interface RequestArgs extends AjaxRequest {}
+export interface ResponseArgs extends AjaxResponse {}
 
 export interface Middleware {
-    pre?(context: RequestContext): RequestArgs;
-    post?(context: ResponseContext): AjaxResponse;
+    pre?(request: RequestArgs): RequestArgs;
+    post?(response: ResponseArgs): ResponseArgs;
 }

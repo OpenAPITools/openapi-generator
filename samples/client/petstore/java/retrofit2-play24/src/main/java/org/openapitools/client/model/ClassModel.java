@@ -41,6 +41,7 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getPropertyClass() {
     return propertyClass;

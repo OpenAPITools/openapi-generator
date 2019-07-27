@@ -10,7 +10,7 @@ fileprivate final class AsMaybeSink<O: ObserverType> : Sink<O>, ObserverType {
     typealias ElementType = O.E
     typealias E = ElementType
 
-    private var _element: Event<E>? = nil
+    private var _element: Event<E>?
 
     func on(_ event: Event<E>) {
         switch event {
@@ -41,7 +41,7 @@ final class AsMaybe<Element>: Producer<Element> {
         _source = source
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = AsMaybeSink(observer: observer, cancel: cancel)
         let subscription = _source.subscribe(sink)
         return (sink: sink, subscription: subscription)

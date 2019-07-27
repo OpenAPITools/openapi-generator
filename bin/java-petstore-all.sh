@@ -7,6 +7,7 @@
 ./bin/java-petstore-feign-10x.sh
 ./bin/java-petstore-okhttp-gson.sh
 ./bin/java-petstore-okhttp-gson-parcelable.sh
+./bin/java-petstore-native.sh
 ./bin/java-petstore-retrofit.sh
 ./bin/java-petstore-retrofit2.sh
 ./bin/java-petstore-retrofit2rx.sh

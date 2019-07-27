@@ -46,6 +46,7 @@ public class Client implements Parcelable {
    * Get client
    * @return client
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getClient() {
     return client;

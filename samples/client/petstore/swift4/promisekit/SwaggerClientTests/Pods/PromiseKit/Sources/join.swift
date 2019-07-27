@@ -32,7 +32,7 @@ public func join(_ promises: [Promise<Void>]) -> Promise<Void> {
 @available(*, deprecated: 4.0, message: "Use when(resolved:)")
 public func join<T>(_ promises: [Promise<T>]) -> Promise<[T]> {
     guard !promises.isEmpty else { return Promise(value: []) }
-  
+
     var countdown = promises.count
     let barrier = DispatchQueue(label: "org.promisekit.barrier.join", attributes: .concurrent)
     var rejected = false
@@ -50,7 +50,7 @@ public func join<T>(_ promises: [Promise<T>]) -> Promise<[T]> {
                         if rejected {
                             reject(PMKError.join(promises))
                         } else {
-                            fulfill(promises.map{ $0.value! })
+                            fulfill(promises.map { $0.value! })
                         }
                     }
                 }

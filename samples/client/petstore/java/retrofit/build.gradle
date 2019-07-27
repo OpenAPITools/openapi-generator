@@ -105,6 +105,7 @@ ext {
 
 dependencies {
     compile "com.squareup.okhttp:okhttp:$okhttp_version"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "com.squareup.retrofit:retrofit:$retrofit_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"

@@ -49,7 +49,7 @@ void
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("{{{path}}}");
     {{#pathParams}}
-    QString {{paramName}}PathParam("{"); 
+    QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
     fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
     {{/pathParams}}
@@ -103,7 +103,7 @@ void
     }
     {{/collectionFormat}}{{/queryParams}}
     {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    worker->setTimeOut(timeout);
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
     {{#formParams}}
     if ({{paramName}} != nullptr) {
@@ -166,7 +166,7 @@ void
     {{^isListContainer}}
     {{^isMapContainer}}
     {{#returnTypeIsPrimitive}}
-    {{{returnType}}} output;  
+    {{{returnType}}} output;
     ::{{cppNamespace}}::fromStringValue(QString(worker->response), output);
     {{/returnTypeIsPrimitive}}
     {{/isMapContainer}}

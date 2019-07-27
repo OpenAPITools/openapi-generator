@@ -70,6 +70,7 @@ public class Animal implements Parcelable {
    * Get color
    * @return color
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getColor() {
     return color;
