@@ -13,7 +13,7 @@ type t = {
     photo_urls: string list;
     tags: Tag.t list;
     (* pet status in the store *)
-    status: Enums.pet_status option;
+    status: Enums.pet_status option [@default None];
 } [@@deriving yojson, show ];;
 
 (** A pet for sale in the pet store *)

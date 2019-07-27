@@ -12,7 +12,7 @@ type t = {
     quantity: int32 option [@default None];
     ship_date: string option [@default None];
     (* Order Status *)
-    status: Enums.status option;
+    status: Enums.status option [@default None];
     complete: bool option [@default None];
 } [@@deriving yojson, show ];;
 
