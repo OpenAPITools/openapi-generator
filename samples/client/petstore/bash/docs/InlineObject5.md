@@ -1,10 +1,10 @@
-# Category
+# inline_object_5
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **integer** |  | [optional] [default to null]
-**name** | **string** |  | [default to default-name]
+**additionalMetadata** | **string** |  | [optional] [default to null]
+**requiredFile** | **binary** |  | [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

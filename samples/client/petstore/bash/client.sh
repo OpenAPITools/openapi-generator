@@ -95,16 +95,15 @@ declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$
 # 0 - optional
 # 1 - required
 declare -A operation_parameters_minimum_occurrences
-operation_parameters_minimum_occurrences["123Test@$%SpecialTags:::body"]=1
-operation_parameters_minimum_occurrences["createXmlItem:::XmlItem"]=1
+operation_parameters_minimum_occurrences["123Test@$%SpecialTags:::Client"]=1
 operation_parameters_minimum_occurrences["fakeOuterBooleanSerialize:::body"]=0
-operation_parameters_minimum_occurrences["fakeOuterCompositeSerialize:::body"]=0
+operation_parameters_minimum_occurrences["fakeOuterCompositeSerialize:::OuterComposite"]=0
 operation_parameters_minimum_occurrences["fakeOuterNumberSerialize:::body"]=0
 operation_parameters_minimum_occurrences["fakeOuterStringSerialize:::body"]=0
-operation_parameters_minimum_occurrences["testBodyWithFileSchema:::body"]=1
+operation_parameters_minimum_occurrences["testBodyWithFileSchema:::FileSchemaTestClass"]=1
 operation_parameters_minimum_occurrences["testBodyWithQueryParams:::query"]=1
-operation_parameters_minimum_occurrences["testBodyWithQueryParams:::body"]=1
-operation_parameters_minimum_occurrences["testClientModel:::body"]=1
+operation_parameters_minimum_occurrences["testBodyWithQueryParams:::User"]=1
+operation_parameters_minimum_occurrences["testClientModel:::Client"]=1
 operation_parameters_minimum_occurrences["testEndpointParameters:::number"]=1
 operation_parameters_minimum_occurrences["testEndpointParameters:::double"]=1
 operation_parameters_minimum_occurrences["testEndpointParameters:::pattern_without_delimiter"]=1
@@ -133,17 +132,17 @@ operation_parameters_minimum_occurrences["testGroupParameters:::required_int64_g
 operation_parameters_minimum_occurrences["testGroupParameters:::string_group"]=0
 operation_parameters_minimum_occurrences["testGroupParameters:::boolean_group"]=0
 operation_parameters_minimum_occurrences["testGroupParameters:::int64_group"]=0
-operation_parameters_minimum_occurrences["testInlineAdditionalProperties:::param"]=1
+operation_parameters_minimum_occurrences["testInlineAdditionalProperties:::request_body"]=1
 operation_parameters_minimum_occurrences["testJsonFormData:::param"]=1
 operation_parameters_minimum_occurrences["testJsonFormData:::param2"]=1
-operation_parameters_minimum_occurrences["testClassname:::body"]=1
-operation_parameters_minimum_occurrences["addPet:::body"]=1
+operation_parameters_minimum_occurrences["testClassname:::Client"]=1
+operation_parameters_minimum_occurrences["addPet:::Pet"]=1
 operation_parameters_minimum_occurrences["deletePet:::petId"]=1
 operation_parameters_minimum_occurrences["deletePet:::api_key"]=0
 operation_parameters_minimum_occurrences["findPetsByStatus:::status"]=1
 operation_parameters_minimum_occurrences["findPetsByTags:::tags"]=1
 operation_parameters_minimum_occurrences["getPetById:::petId"]=1
-operation_parameters_minimum_occurrences["updatePet:::body"]=1
+operation_parameters_minimum_occurrences["updatePet:::Pet"]=1
 operation_parameters_minimum_occurrences["updatePetWithForm:::petId"]=1
 operation_parameters_minimum_occurrences["updatePetWithForm:::name"]=0
 operation_parameters_minimum_occurrences["updatePetWithForm:::status"]=0
@@ -155,16 +154,16 @@ operation_parameters_minimum_occurrences["uploadFileWithRequiredFile:::requiredF
 operation_parameters_minimum_occurrences["uploadFileWithRequiredFile:::additionalMetadata"]=0
 operation_parameters_minimum_occurrences["deleteOrder:::order_id"]=1
 operation_parameters_minimum_occurrences["getOrderById:::order_id"]=1
-operation_parameters_minimum_occurrences["placeOrder:::body"]=1
-operation_parameters_minimum_occurrences["createUser:::body"]=1
-operation_parameters_minimum_occurrences["createUsersWithArrayInput:::body"]=1
-operation_parameters_minimum_occurrences["createUsersWithListInput:::body"]=1
+operation_parameters_minimum_occurrences["placeOrder:::Order"]=1
+operation_parameters_minimum_occurrences["createUser:::User"]=1
+operation_parameters_minimum_occurrences["createUsersWithArrayInput:::User"]=1
+operation_parameters_minimum_occurrences["createUsersWithListInput:::User"]=1
 operation_parameters_minimum_occurrences["deleteUser:::username"]=1
 operation_parameters_minimum_occurrences["getUserByName:::username"]=1
 operation_parameters_minimum_occurrences["loginUser:::username"]=1
 operation_parameters_minimum_occurrences["loginUser:::password"]=1
 operation_parameters_minimum_occurrences["updateUser:::username"]=1
-operation_parameters_minimum_occurrences["updateUser:::body"]=1
+operation_parameters_minimum_occurrences["updateUser:::User"]=1
 
 ##
 # This array stores the maximum number of allowed occurrences for parameter
@@ -173,16 +172,15 @@ operation_parameters_minimum_occurrences["updateUser:::body"]=1
 # N - N values
 # 0 - unlimited
 declare -A operation_parameters_maximum_occurrences
-operation_parameters_maximum_occurrences["123Test@$%SpecialTags:::body"]=0
-operation_parameters_maximum_occurrences["createXmlItem:::XmlItem"]=0
+operation_parameters_maximum_occurrences["123Test@$%SpecialTags:::Client"]=0
 operation_parameters_maximum_occurrences["fakeOuterBooleanSerialize:::body"]=0
-operation_parameters_maximum_occurrences["fakeOuterCompositeSerialize:::body"]=0
+operation_parameters_maximum_occurrences["fakeOuterCompositeSerialize:::OuterComposite"]=0
 operation_parameters_maximum_occurrences["fakeOuterNumberSerialize:::body"]=0
 operation_parameters_maximum_occurrences["fakeOuterStringSerialize:::body"]=0
-operation_parameters_maximum_occurrences["testBodyWithFileSchema:::body"]=0
+operation_parameters_maximum_occurrences["testBodyWithFileSchema:::FileSchemaTestClass"]=0
 operation_parameters_maximum_occurrences["testBodyWithQueryParams:::query"]=0
-operation_parameters_maximum_occurrences["testBodyWithQueryParams:::body"]=0
-operation_parameters_maximum_occurrences["testClientModel:::body"]=0
+operation_parameters_maximum_occurrences["testBodyWithQueryParams:::User"]=0
+operation_parameters_maximum_occurrences["testClientModel:::Client"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::number"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::double"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::pattern_without_delimiter"]=0
@@ -211,17 +209,17 @@ operation_parameters_maximum_occurrences["testGroupParameters:::required_int64_g
 operation_parameters_maximum_occurrences["testGroupParameters:::string_group"]=0
 operation_parameters_maximum_occurrences["testGroupParameters:::boolean_group"]=0
 operation_parameters_maximum_occurrences["testGroupParameters:::int64_group"]=0
-operation_parameters_maximum_occurrences["testInlineAdditionalProperties:::param"]=0
+operation_parameters_maximum_occurrences["testInlineAdditionalProperties:::request_body"]=0
 operation_parameters_maximum_occurrences["testJsonFormData:::param"]=0
 operation_parameters_maximum_occurrences["testJsonFormData:::param2"]=0
-operation_parameters_maximum_occurrences["testClassname:::body"]=0
-operation_parameters_maximum_occurrences["addPet:::body"]=0
+operation_parameters_maximum_occurrences["testClassname:::Client"]=0
+operation_parameters_maximum_occurrences["addPet:::Pet"]=0
 operation_parameters_maximum_occurrences["deletePet:::petId"]=0
 operation_parameters_maximum_occurrences["deletePet:::api_key"]=0
 operation_parameters_maximum_occurrences["findPetsByStatus:::status"]=0
 operation_parameters_maximum_occurrences["findPetsByTags:::tags"]=0
 operation_parameters_maximum_occurrences["getPetById:::petId"]=0
-operation_parameters_maximum_occurrences["updatePet:::body"]=0
+operation_parameters_maximum_occurrences["updatePet:::Pet"]=0
 operation_parameters_maximum_occurrences["updatePetWithForm:::petId"]=0
 operation_parameters_maximum_occurrences["updatePetWithForm:::name"]=0
 operation_parameters_maximum_occurrences["updatePetWithForm:::status"]=0
@@ -233,31 +231,30 @@ operation_parameters_maximum_occurrences["uploadFileWithRequiredFile:::requiredF
 operation_parameters_maximum_occurrences["uploadFileWithRequiredFile:::additionalMetadata"]=0
 operation_parameters_maximum_occurrences["deleteOrder:::order_id"]=0
 operation_parameters_maximum_occurrences["getOrderById:::order_id"]=0
-operation_parameters_maximum_occurrences["placeOrder:::body"]=0
-operation_parameters_maximum_occurrences["createUser:::body"]=0
-operation_parameters_maximum_occurrences["createUsersWithArrayInput:::body"]=0
-operation_parameters_maximum_occurrences["createUsersWithListInput:::body"]=0
+operation_parameters_maximum_occurrences["placeOrder:::Order"]=0
+operation_parameters_maximum_occurrences["createUser:::User"]=0
+operation_parameters_maximum_occurrences["createUsersWithArrayInput:::User"]=0
+operation_parameters_maximum_occurrences["createUsersWithListInput:::User"]=0
 operation_parameters_maximum_occurrences["deleteUser:::username"]=0
 operation_parameters_maximum_occurrences["getUserByName:::username"]=0
 operation_parameters_maximum_occurrences["loginUser:::username"]=0
 operation_parameters_maximum_occurrences["loginUser:::password"]=0
 operation_parameters_maximum_occurrences["updateUser:::username"]=0
-operation_parameters_maximum_occurrences["updateUser:::body"]=0
+operation_parameters_maximum_occurrences["updateUser:::User"]=0
 
 ##
 # The type of collection for specifying multiple values for parameter:
 # - multi, csv, ssv, tsv
 declare -A operation_parameters_collection_type
-operation_parameters_collection_type["123Test@$%SpecialTags:::body"]=""
-operation_parameters_collection_type["createXmlItem:::XmlItem"]=""
+operation_parameters_collection_type["123Test@$%SpecialTags:::Client"]=""
 operation_parameters_collection_type["fakeOuterBooleanSerialize:::body"]=""
-operation_parameters_collection_type["fakeOuterCompositeSerialize:::body"]=""
+operation_parameters_collection_type["fakeOuterCompositeSerialize:::OuterComposite"]=""
 operation_parameters_collection_type["fakeOuterNumberSerialize:::body"]=""
 operation_parameters_collection_type["fakeOuterStringSerialize:::body"]=""
-operation_parameters_collection_type["testBodyWithFileSchema:::body"]=""
+operation_parameters_collection_type["testBodyWithFileSchema:::FileSchemaTestClass"]=""
 operation_parameters_collection_type["testBodyWithQueryParams:::query"]=""
-operation_parameters_collection_type["testBodyWithQueryParams:::body"]=""
-operation_parameters_collection_type["testClientModel:::body"]=""
+operation_parameters_collection_type["testBodyWithQueryParams:::User"]=""
+operation_parameters_collection_type["testClientModel:::Client"]=""
 operation_parameters_collection_type["testEndpointParameters:::number"]=""
 operation_parameters_collection_type["testEndpointParameters:::double"]=""
 operation_parameters_collection_type["testEndpointParameters:::pattern_without_delimiter"]=""
@@ -274,7 +271,7 @@ operation_parameters_collection_type["testEndpointParameters:::password"]=""
 operation_parameters_collection_type["testEndpointParameters:::callback"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_header_string_array"]="csv"
 operation_parameters_collection_type["testEnumParameters:::enum_header_string"]=""
-operation_parameters_collection_type["testEnumParameters:::enum_query_string_array"]="csv"
+operation_parameters_collection_type["testEnumParameters:::enum_query_string_array"]="multi"
 operation_parameters_collection_type["testEnumParameters:::enum_query_string"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_integer"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_double"]=""
@@ -286,17 +283,17 @@ operation_parameters_collection_type["testGroupParameters:::required_int64_group
 operation_parameters_collection_type["testGroupParameters:::string_group"]=""
 operation_parameters_collection_type["testGroupParameters:::boolean_group"]=""
 operation_parameters_collection_type["testGroupParameters:::int64_group"]=""
-operation_parameters_collection_type["testInlineAdditionalProperties:::param"]=
+operation_parameters_collection_type["testInlineAdditionalProperties:::request_body"]=
 operation_parameters_collection_type["testJsonFormData:::param"]=""
 operation_parameters_collection_type["testJsonFormData:::param2"]=""
-operation_parameters_collection_type["testClassname:::body"]=""
-operation_parameters_collection_type["addPet:::body"]=""
+operation_parameters_collection_type["testClassname:::Client"]=""
+operation_parameters_collection_type["addPet:::Pet"]=""
 operation_parameters_collection_type["deletePet:::petId"]=""
 operation_parameters_collection_type["deletePet:::api_key"]=""
 operation_parameters_collection_type["findPetsByStatus:::status"]="csv"
 operation_parameters_collection_type["findPetsByTags:::tags"]="csv"
 operation_parameters_collection_type["getPetById:::petId"]=""
-operation_parameters_collection_type["updatePet:::body"]=""
+operation_parameters_collection_type["updatePet:::Pet"]=""
 operation_parameters_collection_type["updatePetWithForm:::petId"]=""
 operation_parameters_collection_type["updatePetWithForm:::name"]=""
 operation_parameters_collection_type["updatePetWithForm:::status"]=""
@@ -308,16 +305,16 @@ operation_parameters_collection_type["uploadFileWithRequiredFile:::requiredFile"
 operation_parameters_collection_type["uploadFileWithRequiredFile:::additionalMetadata"]=""
 operation_parameters_collection_type["deleteOrder:::order_id"]=""
 operation_parameters_collection_type["getOrderById:::order_id"]=""
-operation_parameters_collection_type["placeOrder:::body"]=""
-operation_parameters_collection_type["createUser:::body"]=""
-operation_parameters_collection_type["createUsersWithArrayInput:::body"]=
-operation_parameters_collection_type["createUsersWithListInput:::body"]=
+operation_parameters_collection_type["placeOrder:::Order"]=""
+operation_parameters_collection_type["createUser:::User"]=""
+operation_parameters_collection_type["createUsersWithArrayInput:::User"]=
+operation_parameters_collection_type["createUsersWithListInput:::User"]=
 operation_parameters_collection_type["deleteUser:::username"]=""
 operation_parameters_collection_type["getUserByName:::username"]=""
 operation_parameters_collection_type["loginUser:::username"]=""
 operation_parameters_collection_type["loginUser:::password"]=""
 operation_parameters_collection_type["updateUser:::username"]=""
-operation_parameters_collection_type["updateUser:::body"]=""
+operation_parameters_collection_type["updateUser:::User"]=""
 
 
 ##
@@ -328,19 +325,19 @@ declare -A body_parameters
 
 ##
 # These arguments will be directly passed to cURL
-curl_arguments="-sS --tlsv1.2"
+curl_arguments=""
 
 ##
 # The host for making the request
-host="$PETSTORE_HOST"
+host=""
 
 ##
 # The user credentials for basic authentication
-basic_auth_credential="$PETSTORE_BASIC_AUTH"
+basic_auth_credential=""
 
 ##
 # The user API key
-apikey_auth_credential="$PETSTORE_API_KEY"
+apikey_auth_credential=""
 
 ##
 # If true, the script will only output the actual cURL command that would be
@@ -574,10 +571,8 @@ build_request_path() {
         if [[ ${qparam} == "api_key_query" ]]; then
             if [[ -n "${parameter_values[*]}" ]]; then
                 parameter_value+="${qparam}=${parameter_values}"
-            elif [[ -n "$MATRIX_API_KEY" ]]; then
-                parameter_value+="${qparam}=$PETSTORE_API_KEY"
             else
-                echo "Missing ApiKey!!! Define env variable PETSTORE_API_KEY like 'export PETSTORE_API_KEY=...' or provide on command line option 'api_key_query=...'"
+                echo "Missing ApiKey!!! You have to provide on command line option 'api_key_query=...'"
                 exit 1
             fi
             continue
@@ -685,7 +680,7 @@ ${BOLD}${WHITE}Usage${OFF}
            [${BLUE}<headers>${OFF}] [${MAGENTA}<parameters>${OFF}] [${MAGENTA}<body-parameters>${OFF}]
 
   - ${CYAN}<url>${OFF} - endpoint of the REST service without basepath
-           Can also be specified in PETSTORE_HOST environment variable.
+
   - ${RED}<curl-options>${OFF} - any valid cURL options can be passed before ${YELLOW}<operation>${OFF}
   - ${GREEN}<mime-type>${OFF} - either full mime-type or one of supported abbreviations:
                    (text, html, md, csv, css, rtf, json, xml, yaml, js, bin,
@@ -705,11 +700,13 @@ EOF
     echo -e "${BOLD}${WHITE}Authentication methods${OFF}"
     echo -e ""
     echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
-    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    
     echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key_query=<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
-    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    
     echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
-    echo -e "                 or export ${RED}PETSTORE_BASIC_AUTH='<username>:<password>'${OFF}"
+    
+    echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
+    
     echo -e "  - ${MAGENTA}OAuth2 (flow: implicit)${OFF}"
     echo -e "      Authorization URL: "
     echo -e "        * http://petstore.swagger.io/api/oauth/dialog"
@@ -725,9 +722,15 @@ read -r -d '' ops <<EOF
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
+    echo -e "${BOLD}${WHITE}[default]${OFF}"
+read -r -d '' ops <<EOF
+  ${CYAN}fooGet${OFF};
+EOF
+echo "  $ops" | column -t -s ';'
+    echo ""
     echo -e "${BOLD}${WHITE}[fake]${OFF}"
 read -r -d '' ops <<EOF
-  ${CYAN}createXmlItem${OFF};creates an XmlItem
+  ${CYAN}fakeHealthGet${OFF};Health check endpoint
   ${CYAN}fakeOuterBooleanSerialize${OFF};
   ${CYAN}fakeOuterCompositeSerialize${OFF};
   ${CYAN}fakeOuterNumberSerialize${OFF};
@@ -740,7 +743,7 @@ read -r -d '' ops <<EOF
 偽のエンドポイント
 가짜 엔드 포인트 (AUTH)
   ${CYAN}testEnumParameters${OFF};To test enum parameters
-  ${CYAN}testGroupParameters${OFF};Fake endpoint to test group parameters (optional)
+  ${CYAN}testGroupParameters${OFF};Fake endpoint to test group parameters (optional) (AUTH)
   ${CYAN}testInlineAdditionalProperties${OFF};test inline additionalProperties
   ${CYAN}testJsonFormData${OFF};test json serialization of form data
 EOF
@@ -859,22 +862,31 @@ print_123Test@$%SpecialTags_help() {
 }
 ##############################################################################
 #
-# Print help for createXmlItem operation
+# Print help for fooGet operation
 #
 ##############################################################################
-print_createXmlItem_help() {
+print_fooGet_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}createXmlItem - creates an XmlItem${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}fooGet - ${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "this route creates an XmlItem" | paste -sd' ' | fold -sw 80
-    echo -e ""
-    echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/xml,application/xml; charset=utf-8,application/xml; charset=utf-16,text/xml,text/xml; charset=utf-8,text/xml; charset=utf-16]${OFF} ${RED}(required)${OFF}${OFF} - XmlItem Body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;response${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for fakeHealthGet operation
+#
+##############################################################################
+print_fakeHealthGet_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}fakeHealthGet - Health check endpoint${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
-    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    echo -e "${result_color_table[${code:0:1}]}  200;The instance started successfully${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -888,7 +900,7 @@ print_fakeOuterBooleanSerialize_help() {
     echo -e "Test serialization of outer boolean types" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input boolean as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input boolean as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -907,7 +919,7 @@ print_fakeOuterCompositeSerialize_help() {
     echo -e "Test serialization of object with outer number type" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input composite as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input composite as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -926,7 +938,7 @@ print_fakeOuterNumberSerialize_help() {
     echo -e "Test serialization of outer number types" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input number as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input number as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -945,7 +957,7 @@ print_fakeOuterStringSerialize_help() {
     echo -e "Test serialization of outer string types" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input string as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input string as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1048,7 +1060,7 @@ print_testEnumParameters_help() {
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}enum_header_string_array${OFF} ${BLUE}[array[string]]${OFF} ${CYAN}(default: null)${OFF} - Header parameter enum test (string array) ${YELLOW}Specify as: enum_header_string_array:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}enum_header_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Header parameter enum test (string) ${YELLOW}Specify as: enum_header_string:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[array[string]]${OFF} ${CYAN}(default: null)${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: enum_query_string_array="value1,value2,..."${OFF}" \
+    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[array[string]]${OFF} ${CYAN}(default: null)${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: enum_query_string_array=value1 enum_query_string_array=value2 enum_query_string_array=...${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}enum_query_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Query parameter enum test (string)${YELLOW} Specify as: enum_query_string=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1070,7 +1082,7 @@ print_testEnumParameters_help() {
 ##############################################################################
 print_testGroupParameters_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}testGroupParameters - Fake endpoint to test group parameters (optional)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}testGroupParameters - Fake endpoint to test group parameters (optional)${OFF}${BLUE}(AUTH - BASIC)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "Fake endpoint to test group parameters (optional)" | paste -sd' ' | fold -sw 80
     echo -e ""
@@ -1155,8 +1167,6 @@ print_addPet_help() {
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
-    code=200
-    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=405
     echo -e "${result_color_table[${code:0:1}]}  405;Invalid input${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -1174,8 +1184,6 @@ print_deletePet_help() {
     echo -e "  * ${GREEN}api_key${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} -  ${YELLOW}Specify as: api_key:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
-    code=200
-    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=400
     echo -e "${result_color_table[${code:0:1}]}  400;Invalid pet value${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -1257,8 +1265,6 @@ print_updatePet_help() {
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
-    code=200
-    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=400
     echo -e "${result_color_table[${code:0:1}]}  400;Invalid ID supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=404
@@ -1382,7 +1388,7 @@ print_placeOrder_help() {
     echo -e "${BOLD}${WHITE}placeOrder - Place an order for a pet${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - order placed for purchasing the pet" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - order placed for purchasing the pet" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1403,7 +1409,7 @@ print_createUser_help() {
     echo -e "This can only be done by the logged in user." | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Created user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - Created user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1420,7 +1426,7 @@ print_createUsersWithArrayInput_help() {
     echo -e "${BOLD}${WHITE}createUsersWithArrayInput - Creates list of users with given input array${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - List of user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - List of user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1437,7 +1443,7 @@ print_createUsersWithListInput_help() {
     echo -e "${BOLD}${WHITE}createUsersWithListInput - Creates list of users with given input array${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - List of user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - List of user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1535,7 +1541,7 @@ print_updateUser_help() {
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}username${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - name that need to be deleted ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Updated user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - Updated user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1626,10 +1632,10 @@ call_123Test@$%SpecialTags() {
 
 ##############################################################################
 #
-# Call createXmlItem operation
+# Call fooGet operation
 #
 ##############################################################################
-call_createXmlItem() {
+call_fooGet() {
     # ignore error about 'path_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
     local path_parameter_names=()
@@ -1638,11 +1644,11 @@ call_createXmlItem() {
     local query_parameter_names=()
     local path
 
-    if ! path=$(build_request_path "/v2/fake/create_xml_item" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v2/foo" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
-    local method="POST"
+    local method="GET"
     local headers_curl
     headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -1653,54 +1659,46 @@ call_createXmlItem() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
-    local body_json_curl=""
-
-    #
-    # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
-    #
-
-
-    if [[ -z $header_content_type && "$force" = false ]]; then
-        :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/xml"
-        echo -e "\\t- application/xml; charset=utf-8"
-        echo -e "\\t- application/xml; charset=utf-16"
-        echo -e "\\t- text/xml"
-        echo -e "\\t- text/xml; charset=utf-8"
-        echo -e "\\t- text/xml; charset=utf-16"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call fakeHealthGet operation
+#
+##############################################################################
+call_fakeHealthGet() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=()
+    local path
+
+    if ! path=$(build_request_path "/v2/fake/health" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="GET"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
 
-
-    #
-    # If we have received some body content over pipe, pass it from the
-    # temporary file to cURL
-    #
-    if [[ -n $body_content_temp_file ]]; then
-        if [[ "$print_curl" = true ]]; then
-            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
-        else
-            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
-        fi
-        rm "${body_content_temp_file}"
-    #
-    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
-    #
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        body_json_curl=$(body_parameters_to_json)
-        if [[ "$print_curl" = true ]]; then
-            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
-        else
-            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
-        fi
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -1740,10 +1738,19 @@ call_fakeOuterBooleanSerialize() {
     # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1809,10 +1816,19 @@ call_fakeOuterCompositeSerialize() {
     # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1878,10 +1894,19 @@ call_fakeOuterNumberSerialize() {
     # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1947,10 +1972,19 @@ call_fakeOuterStringSerialize() {
     # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2297,7 +2331,7 @@ call_testGroupParameters() {
     local path_parameter_names=()
     # ignore error about 'query_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
-    local query_parameter_names=(required_string_group required_int64_group string_group int64_group)
+    local query_parameter_names=(required_string_group required_int64_group string_group int64_group  )
     local path
 
     if ! path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names); then
@@ -3062,10 +3096,19 @@ call_placeOrder() {
     # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -3131,10 +3174,19 @@ call_createUser() {
     # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -3200,10 +3252,19 @@ call_createUsersWithArrayInput() {
     # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -3269,10 +3330,19 @@ call_createUsersWithListInput() {
     # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -3482,10 +3552,19 @@ call_updateUser() {
     # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -3615,8 +3694,11 @@ case $key in
     123Test@$%SpecialTags)
     operation="123Test@$%SpecialTags"
     ;;
-    createXmlItem)
-    operation="createXmlItem"
+    fooGet)
+    operation="fooGet"
+    ;;
+    fakeHealthGet)
+    operation="fakeHealthGet"
     ;;
     fakeOuterBooleanSerialize)
     operation="fakeOuterBooleanSerialize"
@@ -3791,7 +3873,7 @@ done
 
 # Check if user provided host name
 if [[ -z "$host" ]]; then
-    ERROR_MSG="ERROR: No hostname provided!!! Define env variable PETSTORE_HOST like 'export PETSTORE_HOST=...' or provide on command line option '--host ...'"
+    ERROR_MSG="ERROR: No hostname provided!!! You have to  provide on command line option '--host ...'"
     exit 1
 fi
 
@@ -3807,8 +3889,11 @@ case $operation in
     123Test@$%SpecialTags)
     call_123Test@$%SpecialTags
     ;;
-    createXmlItem)
-    call_createXmlItem
+    fooGet)
+    call_fooGet
+    ;;
+    fakeHealthGet)
+    call_fakeHealthGet
     ;;
     fakeOuterBooleanSerialize)
     call_fakeOuterBooleanSerialize
