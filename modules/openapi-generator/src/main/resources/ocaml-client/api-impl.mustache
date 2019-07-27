@@ -22,8 +22,9 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{{paramName}}
     let body = Request.init_form_encoded_body () in{{/hasFormParams}}{{#formParams}}
     let body = Request.add_form_encoded_body_param{{#isContainer}}s{{/isContainer}} body ("{{{paramName}}}", {{> to_string}}{{{paramName}}}) in{{/formParams}}{{#hasFormParams}}
     let body = Request.finalize_form_encoded_body body in{{/hasFormParams}}{{/hasBodyParam}}
-    Cohttp_lwt_unix.Client.call `{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}~body {{/hasFormParams}}{{/hasBodyParam}}>>= fun (_resp, body) ->{{^returnType}} return (){{/returnType}}{{#returnType}}
-    Request.read_json_body{{#returnContainer}}{{#isListContainer}}_as_list{{/isListContainer}}{{#isMapContainer}}_as_map{{/isMapContainer}}{{#returnBaseType}}_of{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}_as{{/returnBaseType}}{{/returnContainer}} {{#returnType}}({{> of_json}}){{/returnType}} body{{/returnType}}
+    Cohttp_lwt_unix.Client.call `{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}~body {{/hasFormParams}}{{/hasBodyParam}}>>= fun (resp, body) ->{{^returnType}}
+    Request.handle_unit_response resp{{/returnType}}{{#returnType}}
+    Request.read_json_body{{#returnContainer}}{{#isListContainer}}_as_list{{/isListContainer}}{{#isMapContainer}}_as_map{{/isMapContainer}}{{#returnBaseType}}_of{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}_as{{/returnBaseType}}{{/returnContainer}} {{#returnType}}({{> of_json}}){{/returnType}} resp body{{/returnType}}
 
 {{/operation}}
 {{/operations}}
