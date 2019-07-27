@@ -673,6 +673,7 @@ Here is a list of template creators:
    * Java (Vertx): @lopesmcc
    * Java (Google APIs Client Library): @charlescapps
    * Java (Rest-assured): @viclovsky
+   * Java (Java 11 Native HTTP client): @bbdouglas
    * Javascript/NodeJS: @jfiala
    * Javascript (Closure-annotated Angular) @achew22
    * Javascript (Flow types) @jaypea
