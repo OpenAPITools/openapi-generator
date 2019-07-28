@@ -59,7 +59,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     public String getName() {
-        return "ocaml-client";
+        return "ocaml";
     }
 
     public String getHelp() {
@@ -68,13 +68,13 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     public OCamlClientCodegen() {
         super();
-        outputFolder = "generated-code/ocaml-client";
+        outputFolder = "generated-code/ocaml";
         modelTemplateFiles.put("model.mustache", ".ml");
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        embeddedTemplateDir = templateDir = "ocaml-client";
+        embeddedTemplateDir = templateDir = "ocaml";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -95,6 +95,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         supportingFiles.add(new SupportingFile("dune.mustache", "", "dune"));
         supportingFiles.add(new SupportingFile("dune-project.mustache", "", "dune-project"));
+        supportingFiles.add(new SupportingFile("readme.mustache", "", "README.md"));
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -106,7 +107,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "char",
                         "string",
                         "list"
-                        )
+                )
         );
 
         languageSpecificPrimitives = new HashSet<>(
@@ -249,7 +250,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     private void collectEnumSchemas(String parentName, String sName, Schema schema) {
         if (schema instanceof ArraySchema) {
-            collectEnumSchemas(parentName, sName, ((ArraySchema)schema).getItems());
+            collectEnumSchemas(parentName, sName, ((ArraySchema) schema).getItems());
         } else if (schema instanceof MapSchema && schema.getAdditionalProperties() instanceof Schema) {
             collectEnumSchemas(parentName, sName, (Schema) schema.getAdditionalProperties());
         } else if (isEnumSchema(schema)) {
@@ -348,7 +349,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
             if (!hasDefName) {
                 int i = 0;
-                String candidate;;
+                String candidate;
                 while (definitiveNames.containsKey(candidate = sanitizeOCamlTypeName(nameCandidates.get(0) + "_" + i))) {
                     i++;
                 }
@@ -361,7 +362,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     private void collectEnumSchemas(OpenAPI openAPI) {
         Components components = openAPI.getComponents();
-        if (components != null && components.getSchemas() != null  && !components.getSchemas().isEmpty()) {
+        if (components != null && components.getSchemas() != null && !components.getSchemas().isEmpty()) {
             collectEnumSchemas(null, components.getSchemas());
         }
 
