@@ -14,4 +14,5 @@ steps:
   commands:
   - cd samples/client/petstore/ocaml-client
   - opam install ppx_deriving_yojson cohttp ppx_deriving cohttp-lwt-unix
+  - eval $(opam env)
   - dune build
