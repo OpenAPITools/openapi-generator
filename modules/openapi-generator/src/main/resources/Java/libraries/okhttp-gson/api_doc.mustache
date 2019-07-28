@@ -52,7 +52,7 @@ public class Example {
 
     {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
     {{#allParams}}
-    {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+    {{{dataType}}} {{{paramName}}} = {{#isString}}"{{/isString}}{{{example}}}{{#isString}}"{{/isString}}; // {{{dataType}}} | {{{description}}}
     {{/allParams}}
     try {
       {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}{{^vendorExtensions.x-group-parameters}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}({{#requiredParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}){{#optionalParams}}
