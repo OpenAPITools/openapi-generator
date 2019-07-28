@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-- name: test
+- name: java11-test
   image: hirokimatsumoto/alpine-openjdk-11	
   commands:
   - ./mvnw clean install
