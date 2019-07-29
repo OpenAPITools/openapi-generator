@@ -60,7 +60,7 @@ namespace {{packageName}}
 
             // Add framework services.
             services
-                .AddMvc({{^useDefaultRoutng}}opts => opts.EnableEndpointRouting = false{{/useDefaultRoutng}})
+                .AddMvc({{^useDefaultRouting}}opts => opts.EnableEndpointRouting = false{{/useDefaultRouting}})
                 {{#compatibilityVersion}}
                 .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
                 {{/compatibilityVersion}}
@@ -127,12 +127,12 @@ namespace {{packageName}}
 
                     //TODO: Or alternatively use the original Swagger contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
-                }){{/useSwashbuckle}};{{^useDefaultRoutng}}
+                }){{/useSwashbuckle}};{{^useDefaultRouting}}
             app.UseRouting();
             app.UseEndpoints(endpoints =>
 	            {
 	    	        endpoints.MapControllers();
-	            });{{/useDefaultRoutng}}
+	            });{{/useDefaultRouting}}
 
             if (env.IsDevelopment())
             {
