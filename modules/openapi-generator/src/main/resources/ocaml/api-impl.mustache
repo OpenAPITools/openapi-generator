@@ -10,18 +10,18 @@
 
 {{#operations}}
 {{#operation}}
-let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} =
+let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}{{#hasMore}} {{/hasMore}}{{#-last}}{{^required}} (){{/required}}{{/-last}}{{/allParams}} =
     let open Lwt in
     let uri = Request.build_uri "{{{path}}}" in
     let headers = Request.default_headers in{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
     let headers = Cohttp.Header.add headers "{{{keyParamName}}}" Request.api_key in{{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}{{#headerParams}}
-    let headers = Cohttp.Header.add{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" ({{> to_string}}{{paramName}}) in{{/headerParams}}{{#pathParams}}
-    let uri = Request.replace_path_param uri "{{{baseName}}}" ({{> to_string}}{{{paramName}}}) in{{/pathParams}}{{#queryParams}}
-    let uri = Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}) in{{/queryParams}}{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
+    let headers = {{^required}}{{^defaultValue}}{{^isContainer}}Request.option_fold (fun {{{paramName}}} -> {{/isContainer}}{{/defaultValue}}{{/required}}Cohttp.Header.add{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" ({{> to_string}}{{paramName}}){{^required}}{{^defaultValue}}{{^isContainer}}) headers {{{paramName}}}{{/isContainer}}{{/defaultValue}}{{/required}} in{{/headerParams}}{{#pathParams}}
+    let uri = {{^required}}{{^defaultValue}}{{^isContainer}}Request.option_fold (fun {{{paramName}}} -> {{/isContainer}}{{/defaultValue}}{{/required}}Request.replace_path_param uri "{{{baseName}}}" ({{> to_string}}{{{paramName}}}){{^required}}{{^defaultValue}}{{^isContainer}}) uri {{{paramName}}}{{/isContainer}}{{/defaultValue}}{{/required}} in{{/pathParams}}{{#queryParams}}
+    let uri = {{^required}}{{^defaultValue}}{{^isContainer}}Request.option_fold (fun {{{paramName}}} -> {{/isContainer}}{{/defaultValue}}{{/required}}Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}){{^required}}{{^defaultValue}}{{^isContainer}}) uri {{{paramName}}}{{/isContainer}}{{/defaultValue}}{{/required}} in{{/queryParams}}{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
     let uri = Uri.add_query_param' uri ("{{{keyParamName}}}", Request.api_key) in{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}{{#bodyParams}}
     let body = Request.{{#isFreeFormObject}}write_json_body{{/isFreeFormObject}}{{#isByteArray}}write_string_body{{/isByteArray}}{{^isFreeFormObject}}{{^isByteArray}}write_as_json_body{{/isByteArray}}{{/isFreeFormObject}} {{> to_json}} {{{paramName}}} in{{/bodyParams}}{{^hasBodyParam}}{{#hasFormParams}}
     let body = Request.init_form_encoded_body () in{{/hasFormParams}}{{#formParams}}
-    let body = Request.add_form_encoded_body_param{{#isContainer}}s{{/isContainer}} body ("{{{paramName}}}", {{> to_string}}{{{paramName}}}) in{{/formParams}}{{#hasFormParams}}
+    let body = {{^required}}{{^defaultValue}}{{^isContainer}}Request.option_fold (fun {{{paramName}}} -> {{/isContainer}}{{/defaultValue}}{{/required}}Request.add_form_encoded_body_param{{#isContainer}}s{{/isContainer}} body ("{{{paramName}}}", {{> to_string}}{{{paramName}}}){{^required}}{{^defaultValue}}{{^isContainer}}) body {{{paramName}}}{{/isContainer}}{{/defaultValue}}{{/required}} in{{/formParams}}{{#hasFormParams}}
     let body = Request.finalize_form_encoded_body body in{{/hasFormParams}}{{/hasBodyParam}}
     Cohttp_lwt_unix.Client.call `{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}~body {{/hasFormParams}}{{/hasBodyParam}}>>= fun (resp, body) ->{{^returnType}}
     Request.handle_unit_response resp{{/returnType}}{{#returnType}}

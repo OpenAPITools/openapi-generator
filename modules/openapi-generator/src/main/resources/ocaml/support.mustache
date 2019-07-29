@@ -2,6 +2,11 @@ let api_key = ""
 let base_url = "{{{basePath}}}"
 let default_headers = Cohttp.Header.init_with "Content-Type" "application/json"
 
+let option_fold f default o =
+  match o with
+  | Some v -> f v
+  | None -> default
+
 let build_uri operation_path = Uri.of_string (base_url ^ operation_path)
 
 let write_string_body s = Cohttp_lwt.Body.of_string s

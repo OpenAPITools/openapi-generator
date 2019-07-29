@@ -735,6 +735,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
+            if (p.getEnum() != null) {
+                return ocamlizeEnumValue(p.getDefault().toString());
+            }
             return p.getDefault().toString();
         } else {
             return null;
