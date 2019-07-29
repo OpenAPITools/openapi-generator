@@ -4928,6 +4928,15 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.dataType = codegenProperty.dataType;
                 codegenParameter.description = codegenProperty.description;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.minimum = codegenProperty.minimum;
+				codegenParameter.maximum = codegenProperty.maximum;
+				codegenParameter.exclusiveMinimum = codegenProperty.exclusiveMinimum;
+				codegenParameter.exclusiveMaximum = codegenProperty.exclusiveMaximum;
+				codegenParameter.minLength = codegenProperty.minLength;
+				codegenParameter.maxLength = codegenProperty.maxLength;
+				codegenParameter.pattern = codegenProperty.pattern;
+
+
 
                 if (codegenProperty.complexType != null) {
                     imports.add(codegenProperty.complexType);
