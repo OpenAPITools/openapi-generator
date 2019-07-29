@@ -49,6 +49,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getName() {
     return name;

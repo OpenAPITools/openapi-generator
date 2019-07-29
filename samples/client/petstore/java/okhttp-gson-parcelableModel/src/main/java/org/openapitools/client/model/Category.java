@@ -50,6 +50,7 @@ public class Category implements Parcelable {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;

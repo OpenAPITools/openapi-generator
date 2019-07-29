@@ -49,8 +49,6 @@ impl<T> From<serde_json::Error> for Error<T> {
     }
 }
 
-use super::models::*;
-
 mod request;
 
 mod pet_api;

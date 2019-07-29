@@ -39,6 +39,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Boolean isDeclawed() {
     return declawed;

@@ -11,7 +11,7 @@
 /// ApiResponse : Describes the result of uploading an image resource
 
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ApiResponse {
     #[serde(rename = "code", skip_serializing_if = "Option::is_none")]
     pub code: Option<i32>,

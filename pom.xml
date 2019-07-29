@@ -1064,8 +1064,8 @@
                 <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/server/petstore/rust-server</module>
                 <module>samples/server/petstore/python-aiohttp</module>
-                <!--<module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/python-flask-python2</module>-->
+                <module>samples/server/petstore/python-flask</module>
+                <module>samples/server/petstore/python-flask-python2</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1242,6 +1242,20 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+            </modules>
+        </profile>
+        <!-- test with JDK11 in drone.io -->
+        <profile>
+            <id>samples.droneio</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.droneio</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/client/petstore/java/native</module>
             </modules>
         </profile>
         <!-- test with Haskell -->

@@ -43,6 +43,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getName() {
     return name;

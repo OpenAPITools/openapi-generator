@@ -30,8 +30,6 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
     ::url::form_urlencoded::byte_serialize(s.as_ref().as_bytes()).collect()
 }
 
-use super::models::*;
-
 mod pet_api;
 pub use self::pet_api::{ PetApi, PetApiClient };
 mod store_api;

@@ -73,7 +73,7 @@ api.instance$CreateUsersWithArrayInput(var.body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**array[User]**](User.md)| List of user object | 
+ **body** | list( [**User**](User.md) )| List of user object | 
 
 ### Return type
 
@@ -110,7 +110,7 @@ api.instance$CreateUsersWithListInput(var.body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**array[User]**](User.md)| List of user object | 
+ **body** | list( [**User**](User.md) )| List of user object | 
 
 ### Return type
 
