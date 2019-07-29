@@ -117,7 +117,7 @@ index 3b40702..a6d12e0 100644
 <span class="hljs-comment">+++ b/libraries/resteasy/build.gradle.mustache</span>
 @@ -134,6 +134,7 @@ ext {
  }
- 
+
  dependencies {
 <span class="hljs-addition">+    compile "com.jcabi:jcabi-aspects:0.22.6"</span>
      compile "io.swagger:swagger-annotations:$swagger_annotations_version"
@@ -132,7 +132,7 @@ index a4d0f9f..49b17c7 100644
 <span class="hljs-comment">+++ b/libraries/resteasy/api.mustache</span>
 <span class="hljs-meta">@@ -1,5 +1,6 @@</span>
  package {{package}};
- 
+
 <span class="hljs-addition">+import com.jcabi.aspects.Loggable;</span>
  import {{invokerPackage}}.ApiException;
  import {{invokerPackage}}.ApiClient;
@@ -164,7 +164,7 @@ index 04a9d55..7a93c50 100644
  apply plugin: 'idea'
  apply plugin: 'eclipse'
 <span class="hljs-addition">+apply plugin: 'aspectj'</span>
- 
+
  group = '{{groupId}}'
  version = '{{artifactVersion}}'
 @@ -12,6 +13,7 @@ buildscript {
@@ -174,14 +174,14 @@ index 04a9d55..7a93c50 100644
 <span class="hljs-addition">+        classpath "net.uberfoo.gradle:gradle-aspectj:2.2"</span>
      }
  }
- 
+
 @@ -140,9 +142,18 @@ ext {
      jersey_version = "1.19.4"
      jodatime_version = "2.9.9"
      junit_version = "4.12"
 <span class="hljs-addition">+    aspectjVersion = '1.9.0'</span>
  }
- 
+
 <span class="hljs-addition">+sourceCompatibility = '1.8'</span>
 <span class="hljs-addition">+targetCompatibility = '1.8'</span>
 <span class="hljs-addition">+</span>
@@ -221,7 +221,7 @@ index b7a3647..3d9d088 100644
 <p>Make sure your custom template compiles:</p>
 <pre><code class="hljs css language-bash"><span class="hljs-built_in">cd</span> ~/.openapi-generator/example
 gradle assemble
-<span class="hljs-comment"># or, regenerate the wrapper </span>
+<span class="hljs-comment"># or, regenerate the wrapper</span>
 gradle wrapper --gradle-version 4.8 --distribution-type all
 ./gradlew assemble
 </code></pre>
@@ -295,7 +295,7 @@ Download https://jcenter.bintray.com/com/jcabi/jcabi-aspects/0.22.6/jcabi-aspect
     id 'org.jetbrains.kotlin.jvm' version '1.3.11'
     id "com.github.johnrengelman.shadow" version "5.0.0"
  }
- 
+
  dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile "org.openapitools:openapi-generator-core:4.0.0-SNAPSHOT"
@@ -362,7 +362,7 @@ import (
 </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endfor</span></span> %}</span><span class="xml">
 )
 
-type Generated</span><span class="hljs-template-variable">{{classname}}</span><span class="xml">Servicer 
+type Generated</span><span class="hljs-template-variable">{{classname}}</span><span class="xml">Servicer
 
 // etc
 </span></code></pre>
@@ -404,49 +404,49 @@ type </span><span class="hljs-template-variable">{{item.classname}}</span><span 
 <p>Aside from transforming an API document, the implementing class gets to decide how to apply the data structure to templates. We can decide which data structure to apply to which template files. You have the following structures at your disposal.</p>
 <p>Examples for the following structures will be presented using the following spec document:</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">  swagger:</span> <span class="hljs-string">"2.0"</span>
-<span class="hljs-attr">  info:</span> 
+<span class="hljs-attr">  info:</span>
 <span class="hljs-attr">    version:</span> <span class="hljs-string">"1.0.0"</span>
 <span class="hljs-attr">    title:</span> <span class="hljs-string">"Swagger Petstore"</span>
 <span class="hljs-attr">    description:</span> <span class="hljs-string">"A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification"</span>
 <span class="hljs-attr">    termsOfService:</span> <span class="hljs-string">"http://swagger.io/terms/"</span>
-<span class="hljs-attr">    contact:</span> 
+<span class="hljs-attr">    contact:</span>
 <span class="hljs-attr">      name:</span> <span class="hljs-string">"Swagger API Team"</span>
-<span class="hljs-attr">    license:</span> 
+<span class="hljs-attr">    license:</span>
 <span class="hljs-attr">      name:</span> <span class="hljs-string">"MIT"</span>
 <span class="hljs-attr">  host:</span> <span class="hljs-string">"petstore.swagger.io"</span>
 <span class="hljs-attr">  basePath:</span> <span class="hljs-string">"/api"</span>
-<span class="hljs-attr">  schemes:</span> 
+<span class="hljs-attr">  schemes:</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">"http"</span>
-<span class="hljs-attr">  consumes:</span> 
+<span class="hljs-attr">  consumes:</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">"application/json"</span>
-<span class="hljs-attr">  produces:</span> 
+<span class="hljs-attr">  produces:</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">"application/json"</span>
-<span class="hljs-attr">  paths:</span> 
-    <span class="hljs-string">/pets:</span> 
-<span class="hljs-attr">      get:</span> 
+<span class="hljs-attr">  paths:</span>
+    <span class="hljs-string">/pets:</span>
+<span class="hljs-attr">      get:</span>
 <span class="hljs-attr">        description:</span> <span class="hljs-string">"Returns all pets from the system that the user has access to"</span>
-<span class="hljs-attr">        produces:</span> 
+<span class="hljs-attr">        produces:</span>
 <span class="hljs-bullet">          -</span> <span class="hljs-string">"application/json"</span>
-<span class="hljs-attr">        responses:</span> 
+<span class="hljs-attr">        responses:</span>
           <span class="hljs-string">"200"</span><span class="hljs-string">:</span>
 <span class="hljs-attr">            description:</span> <span class="hljs-string">"A list of pets."</span>
-<span class="hljs-attr">            schema:</span> 
+<span class="hljs-attr">            schema:</span>
 <span class="hljs-attr">              type:</span> <span class="hljs-string">"array"</span>
-<span class="hljs-attr">              items:</span> 
+<span class="hljs-attr">              items:</span>
                 <span class="hljs-string">$ref:</span> <span class="hljs-string">"#/definitions/Pet"</span>
-<span class="hljs-attr">  definitions:</span> 
-<span class="hljs-attr">    Pet:</span> 
+<span class="hljs-attr">  definitions:</span>
+<span class="hljs-attr">    Pet:</span>
 <span class="hljs-attr">      type:</span> <span class="hljs-string">"object"</span>
-<span class="hljs-attr">      required:</span> 
+<span class="hljs-attr">      required:</span>
 <span class="hljs-bullet">        -</span> <span class="hljs-string">"id"</span>
 <span class="hljs-bullet">        -</span> <span class="hljs-string">"name"</span>
-<span class="hljs-attr">      properties:</span> 
-<span class="hljs-attr">        id:</span> 
+<span class="hljs-attr">      properties:</span>
+<span class="hljs-attr">        id:</span>
 <span class="hljs-attr">          type:</span> <span class="hljs-string">"integer"</span>
 <span class="hljs-attr">          format:</span> <span class="hljs-string">"int64"</span>
-<span class="hljs-attr">        name:</span> 
+<span class="hljs-attr">        name:</span>
 <span class="hljs-attr">          type:</span> <span class="hljs-string">"string"</span>
-<span class="hljs-attr">        tag:</span> 
+<span class="hljs-attr">        tag:</span>
 <span class="hljs-attr">          type:</span> <span class="hljs-string">"string"</span>
 
 </code></pre>
@@ -708,6 +708,19 @@ apiTemplateFiles.put(<span class="hljs-string">"api-body.mustache"</span>, <span
 <li><strong>isContainer</strong>: true if the parameter or property is an array or a map.</li>
 <li><strong>isPrimitiveType</strong>: true if the parameter or property type is a primitive type (e.g. string, integer, etc) as defined in the spec.</li>
 </ul>
+<h2><a class="anchor" aria-hidden="true" id="mustache-lambdas"></a><a href="#mustache-lambdas" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mustache Lambdas</h2>
+<p>Many generators (<em>those extending DefaultCodegen</em>) come with a small set of lambda functions available under the key <code>lambda</code>:</p>
+<ul>
+<li><code>lowercase</code> - Converts all of the characters in this fragment to lower case using the rules of the <code>ROOT</code> locale.</li>
+<li><code>uppercase</code> - Converts all of the characters in this fragment to upper case using the rules of the <code>ROOT</code> locale.</li>
+<li><code>titlecase</code> - Converts text in a fragment to title case. For example <code>once upon a time</code> to <code>Once Upon A Time</code>.</li>
+<li><code>camelcase</code> - Converts text in a fragment to camelCase. For example <code>Input-text</code> to <code>inputText</code>.</li>
+<li><code>indented</code> - Prepends 4 spaces indention from second line of a fragment on. First line will be indented by Mustache.</li>
+<li><code>indented_8</code> - Prepends 8 spaces indention from second line of a fragment on. First line will be indented by Mustache.</li>
+<li><code>indented_12</code> - Prepends 12 spaces indention from second line of a fragment on. First line will be indented by Mustache.</li>
+<li><code>indented_16</code> -Prepends 16 spaces indention from second line of a fragment on. First line will be indented by Mustache.</li>
+</ul>
+<p>Lambda is invoked by <code>lambda.[lambda name]</code> expression. For example: <code>{{#lambda.lowercase}}FRAGMENT TO LOWERCASE{{/lambda.lowercase}}</code> to lower case text between <code>lambda.lowercase</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="extensions"></a><a href="#extensions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Extensions</h2>
 <p>OpenAPI supports a concept called &quot;Extensions&quot;. These are called &quot;Specification Extensions&quot; <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#specificationExtensions">in 3.x</a> and &quot;Vendor Extensions&quot; <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#vendorExtensions">in 2.0</a>.
 You'll see them referred to as &quot;Vendor Extensions&quot; in most places in this project.</p>
@@ -838,4 +851,4 @@ For more details on Mustache see <a href="https://mustache.github.io/mustache.5.
 <p>If you'd like a 1-based index in your array traversal, you can use <code>{{-index}}</code>:</p>
 <pre><code class="hljs css language-mustache">{{#enums}}{{-index}} {{enum}}{{/enums}}
 </code></pre>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-7-18</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/usage"><span class="arrow-prev">← </span><span>Usage</span></a><a class="docs-next button" href="/docs/customization"><span>Customization</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#modifying-templates">Modifying Templates</a><ul class="toc-headings"><li><a href="#custom-logic">Custom Logic</a></li><li><a href="#custom-engines">Custom Engines</a></li></ul></li><li><a href="#structures">Structures</a><ul class="toc-headings"><li><a href="#operations">Operations</a></li><li><a href="#models">Models</a></li><li><a href="#supportingfiles">supportingFiles</a></li></ul></li><li><a href="#variables">Variables</a></li><li><a href="#extensions">Extensions</a><ul class="toc-headings"><li><a href="#all-generators-core">All generators (core)</a></li><li><a href="#objc">ObjC</a></li><li><a href="#java-feign">Java (Feign)</a></li><li><a href="#x-content-type">x-content-type</a></li><li><a href="#rust-server">Rust-server</a></li><li><a href="#mysql-schema">MySQL Schema</a></li></ul></li><li><a href="#mustache-tips">Mustache Tips</a><ul class="toc-headings"><li><a href="#first-last">First/Last</a></li><li><a href="#this">This</a></li><li><a href="#index">Index</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://gitter.im/OpenAPITools/openapi-generator">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-7-29</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/usage"><span class="arrow-prev">← </span><span>Usage</span></a><a class="docs-next button" href="/docs/customization"><span>Customization</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#modifying-templates">Modifying Templates</a><ul class="toc-headings"><li><a href="#custom-logic">Custom Logic</a></li><li><a href="#custom-engines">Custom Engines</a></li></ul></li><li><a href="#structures">Structures</a><ul class="toc-headings"><li><a href="#operations">Operations</a></li><li><a href="#models">Models</a></li><li><a href="#supportingfiles">supportingFiles</a></li></ul></li><li><a href="#variables">Variables</a></li><li><a href="#mustache-lambdas">Mustache Lambdas</a></li><li><a href="#extensions">Extensions</a><ul class="toc-headings"><li><a href="#all-generators-core">All generators (core)</a></li><li><a href="#objc">ObjC</a></li><li><a href="#java-feign">Java (Feign)</a></li><li><a href="#x-content-type">x-content-type</a></li><li><a href="#rust-server">Rust-server</a></li><li><a href="#mysql-schema">MySQL Schema</a></li></ul></li><li><a href="#mustache-tips">Mustache Tips</a><ul class="toc-headings"><li><a href="#first-last">First/Last</a></li><li><a href="#this">This</a></li><li><a href="#index">Index</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://gitter.im/OpenAPITools/openapi-generator">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
