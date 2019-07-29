@@ -4017,6 +4017,19 @@ public class DefaultCodegen implements CodegenConfig {
      * @return sanitized string
      */
     public String sanitizeName(String name, String removeCharRegEx) {
+        return sanitizeName(name, removeCharRegEx, new ArrayList<String>());
+    }
+
+    /**
+     * Sanitize name (parameter, property, method, etc)
+     *
+     * @param name            string to be sanitize
+     * @param removeCharRegEx a regex containing all char that will be removed
+     * @param exceptionList a list of matches which should not be sanitized (i.e expections)
+     * @return sanitized string
+     */
+    @SuppressWarnings("static-method")
+    public String sanitizeName(String name, String removeCharRegEx, ArrayList<String> exceptionList) {
         // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
         // character with _ or empty character. Below aims to spell out different cases we've
         // encountered so far and hopefully make it easier for others to add more special
@@ -4034,27 +4047,27 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // input[] => input
-        name = name.replaceAll("\\[\\]", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = this.sanitizeValue(name, "\\[\\]", "", exceptionList);
 
         // input[a][b] => input_a_b
-        name = name.replaceAll("\\[", "_");
-        name = name.replaceAll("\\]", "");
+        name = this.sanitizeValue(name, "\\[", "_", exceptionList);
+        name = this.sanitizeValue(name, "\\]", "", exceptionList);
 
         // input(a)(b) => input_a_b
-        name = name.replaceAll("\\(", "_");
-        name = name.replaceAll("\\)", "");
+        name = this.sanitizeValue(name, "\\(", "_", exceptionList);
+        name = this.sanitizeValue(name, "\\)", "", exceptionList);
 
         // input.name => input_name
-        name = name.replaceAll("\\.", "_");
+        name = this.sanitizeValue(name, "\\.", "_", exceptionList);
 
         // input-name => input_name
-        name = name.replaceAll("-", "_");
+        name = this.sanitizeValue(name, "-", "_", exceptionList);
 
         // a|b => a_b
-        name = name.replace("|", "_");
+        name = this.sanitizeValue(name, "\\|", "_", exceptionList);
 
         // input name and age => input_name_and_age
-        name = name.replaceAll(" ", "_");
+        name = this.sanitizeValue(name, " ", "_", exceptionList);
 
         // /api/films/get => _api_films_get
         // \api\films\get => _api_films_get
@@ -4070,6 +4083,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return name;
+    }
+
+    private String sanitizeValue(String value, String replaceMatch, String replaceValue, ArrayList<String> exceptionList) {
+        if (exceptionList.size() == 0 || !exceptionList.contains(replaceMatch)) {
+            return value.replaceAll(replaceMatch, replaceValue);
+        }
+        return value;
     }
 
     /**

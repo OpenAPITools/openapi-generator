@@ -18,6 +18,7 @@ public class TypeScriptNodeClientCodegenTest {
 
     @Test
     public void convertVarName() throws Exception {
+        TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
         Assert.assertEquals(codegen.toVarName("name"), "name");
         Assert.assertEquals(codegen.toVarName("$name"), "$name");
         Assert.assertEquals(codegen.toVarName("nam$$e"), "nam$$e");
@@ -30,6 +31,7 @@ public class TypeScriptNodeClientCodegenTest {
     @Test
     public void testSnapshotVersion() {
         OpenAPI api = TestUtils.createOpenAPI();
+        TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
 
         codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
         codegen.additionalProperties().put("snapshot", true);
@@ -52,6 +54,7 @@ public class TypeScriptNodeClientCodegenTest {
     @Test
     public void testWithoutSnapshotVersion() {
         OpenAPI api = TestUtils.createOpenAPI();
+        TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
 
         codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
         codegen.additionalProperties().put("snapshot", false);
