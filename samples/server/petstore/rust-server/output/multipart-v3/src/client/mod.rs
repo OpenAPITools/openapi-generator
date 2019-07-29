@@ -6,9 +6,7 @@ extern crate openssl;
 extern crate mime;
 extern crate chrono;
 extern crate url;
-
-extern crate multipart; 
-
+extern crate multipart;
 
 use hyper;
 use hyper::header::{Headers, ContentType};
@@ -27,16 +25,11 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
-
-
 use hyper::mime::Mime; 
 use std::io::Cursor; 
 use client::multipart::client::lazy::Multipart; 
-
 use mimetypes;
-
 use serde_json;
-
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
@@ -274,13 +267,10 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         let mut multipart = Multipart::new(); 
 
-    
-        //For each parameter, encode as appropriate and add to the multipart body as a stream.  
+        // For each parameter, encode as appropriate and add to the multipart body as a stream.
 
-        
         let string_field_str = match serde_json::to_string(&param_string_field) {
             Ok(str) => str,
             Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse string_field to string: {}", e))))),
@@ -293,10 +283,8 @@ impl<F, C> Api<C> for Client<F> where
         let string_field_cursor = Cursor::new(string_field_vec);
 
         multipart.add_stream("string_field",  string_field_cursor,  None as Option<&str>, Some(string_field_mime));  
-        
 
 
-        
         let optional_string_field_str = match serde_json::to_string(&param_optional_string_field) {
             Ok(str) => str,
             Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse optional_string_field to string: {}", e))))),
@@ -309,10 +297,8 @@ impl<F, C> Api<C> for Client<F> where
         let optional_string_field_cursor = Cursor::new(optional_string_field_vec);
 
         multipart.add_stream("optional_string_field",  optional_string_field_cursor,  None as Option<&str>, Some(optional_string_field_mime));  
-        
 
 
-        
         let object_field_str = match serde_json::to_string(&param_object_field) {
             Ok(str) => str,
             Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse object_field to string: {}", e))))),
@@ -325,10 +311,7 @@ impl<F, C> Api<C> for Client<F> where
         let object_field_cursor = Cursor::new(object_field_vec);
 
         multipart.add_stream("object_field",  object_field_cursor,  None as Option<&str>, Some(object_field_mime));  
-        
 
-
-        
 
         let binary_field_vec = param_binary_field.to_vec();
 
@@ -341,7 +324,6 @@ impl<F, C> Api<C> for Client<F> where
 
         let filename = None as Option<&str> ;
         multipart.add_stream("binary_field",  binary_field_cursor,  filename, Some(binary_field_mime));  
-    
 
 
         let mut fields = match multipart.prepare() {
@@ -362,11 +344,7 @@ impl<F, C> Api<C> for Client<F> where
         request.headers_mut().set(ContentType(multipart_header));
 
 
-
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {

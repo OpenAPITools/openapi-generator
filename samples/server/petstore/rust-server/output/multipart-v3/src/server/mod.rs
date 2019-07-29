@@ -5,13 +5,11 @@ extern crate native_tls;
 extern crate hyper_tls;
 extern crate openssl;
 extern crate mime;
-extern crate uuid;
 extern crate chrono;
 extern crate percent_encoding;
 extern crate url;
-
-extern crate multipart; 
-
+extern crate uuid;
+extern crate multipart;
 
 use std::sync::Arc;
 use std::marker::PhantomData;
@@ -21,13 +19,10 @@ use hyper::{Request, Response, Error, StatusCode};
 use hyper::header::{Headers, ContentType};
 use self::url::form_urlencoded;
 use mimetypes;
-
 use self::multipart::server::Multipart;
 use self::multipart::server::save::SaveResult;
-use std::fs; 
-
+use std::fs;
 use serde_json;
-
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
@@ -128,23 +123,10 @@ where
 
             // MultipartRequestPost - POST /multipart_request
             &hyper::Method::Post if path.matched(paths::ID_MULTIPART_REQUEST) => {
-
- 
                 let boundary = match multipart_boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
                 };
-
-
-
-
-
-
-
-
-
-
-
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -211,8 +193,6 @@ where
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter binary_field")))),
                                 };
                                 
-
-
                                 Box::new(api_impl.multipart_request_post(param_string_field, param_binary_field, param_optional_string_field, param_object_field, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -239,20 +219,13 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
-
-
                                 as Box<Future<Item=Response, Error=Error>>
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
                         }
                     })
                 )
-
-
             },
-
 
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
         }

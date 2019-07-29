@@ -7,9 +7,6 @@ extern crate mime;
 extern crate chrono;
 extern crate url;
 
-
-
-
 use hyper;
 use hyper::header::{Headers, ContentType};
 use hyper::Uri;
@@ -27,11 +24,7 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
-
-
-
 use mimetypes;
-
 use serde_json;
 use serde_xml_rs;
 
@@ -277,24 +270,13 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
-
-
-
-
         // Body parameter
         let body = param_body.0;
-
         request.set_body(body);
-
 
         request.headers_mut().set(ContentType(mimetypes::requests::REQUIRED_OCTET_STREAM_PUT.clone()));
 
-
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -355,16 +337,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
-
-
-
-
-
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -437,25 +410,17 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
-
-
-
         let body = param_duplicate_xml_object.map(|ref body| {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_EXTRA_POST.clone()));
 
-
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -524,25 +489,17 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
-
-
-
         let body = param_another_xml_object.map(|ref body| {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_OTHER_POST.clone()));
 
-
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -611,25 +568,17 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
-
-
-
         let body = param_string.map(|ref body| {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_OTHER_PUT.clone()));
 
-
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -698,25 +647,17 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
-
-
-
         let body = param_string.map(|ref body| {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_POST.clone()));
 
-
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -785,25 +726,17 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
-
-
-
         let body = param_xml_object.map(|ref body| {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_PUT.clone()));
 
-
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
