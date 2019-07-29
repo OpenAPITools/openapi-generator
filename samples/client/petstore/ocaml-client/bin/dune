@@ -1,0 +1,6 @@
+(include_subdirs no)
+(executable
+   (name test)
+   (libraries petstore_client)
+   (modules test)
+)

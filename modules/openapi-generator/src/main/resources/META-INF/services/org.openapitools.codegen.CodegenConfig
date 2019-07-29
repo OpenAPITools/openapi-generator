@@ -27,8 +27,8 @@ org.openapitools.codegen.languages.ErlangClientCodegen
 org.openapitools.codegen.languages.ErlangProperCodegen
 org.openapitools.codegen.languages.ErlangServerCodegen
 org.openapitools.codegen.languages.FlashClientCodegen
-org.openapitools.codegen.languages.FinchServerCodegen
 org.openapitools.codegen.languages.GoClientCodegen
+org.openapitools.codegen.languages.GoClientExperimentalCodegen
 org.openapitools.codegen.languages.GoServerCodegen
 org.openapitools.codegen.languages.GoGinServerCodegen
 org.openapitools.codegen.languages.GraphQLSchemaCodegen
@@ -62,6 +62,7 @@ org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MysqlSchemaCodegen
 org.openapitools.codegen.languages.NodeJSServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
+org.openapitools.codegen.languages.OCamlClientCodegen
 org.openapitools.codegen.languages.OpenAPIGenerator
 org.openapitools.codegen.languages.OpenAPIYamlGenerator
 org.openapitools.codegen.languages.PerlClientCodegen
@@ -74,6 +75,7 @@ org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
+org.openapitools.codegen.languages.PythonClientExperimentalCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
 org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen
 org.openapitools.codegen.languages.PythonBluePlanetServerCodegen
@@ -85,6 +87,7 @@ org.openapitools.codegen.languages.RustClientCodegen
 org.openapitools.codegen.languages.RustServerCodegen
 org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen
+org.openapitools.codegen.languages.ScalaFinchServerCodegen
 org.openapitools.codegen.languages.ScalaHttpClientCodegen
 org.openapitools.codegen.languages.ScalaGatlingCodegen
 org.openapitools.codegen.languages.ScalaLagomServerCodegen

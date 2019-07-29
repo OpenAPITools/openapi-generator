@@ -52,7 +52,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String SUPPORT_JAVA6 = "supportJava6";
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
-    public static final String USE_NULL_FOR_UNKNOWN_ENUM_VALUE = "useNullForUnknownEnumValue";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -86,7 +85,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean supportJava6 = false;
     protected boolean disableHtmlEscaping = false;
     protected String booleanGetterPrefix = "get";
-    protected boolean useNullForUnknownEnumValue = false;
     protected String parentGroupId = "";
     protected String parentArtifactId = "";
     protected String parentVersion = "";
@@ -175,7 +173,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
-        CliOption java8Mode = new CliOption(JAVA8_MODE, "Option. Use Java8 classes instead of third party equivalents").defaultValue(String.valueOf(this.java8Mode));
+        CliOption java8Mode = CliOption.newBoolean(JAVA8_MODE, "Option. Use Java8 classes instead of third party equivalents", this.java8Mode);
         Map<String, String> java8ModeOptions = new HashMap<>();
         java8ModeOptions.put("true", "Use Java 8 classes such as Base64");
         java8ModeOptions.put("false", "Various third party libraries as needed");
@@ -220,10 +218,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
         }
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
-        if (additionalProperties.containsKey(USE_NULL_FOR_UNKNOWN_ENUM_VALUE)) {
-            this.setUseNullForUnknownEnumValue(Boolean.valueOf(additionalProperties.get(USE_NULL_FOR_UNKNOWN_ENUM_VALUE).toString()));
-        }
-        additionalProperties.put(USE_NULL_FOR_UNKNOWN_ENUM_VALUE, useNullForUnknownEnumValue);
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -264,14 +258,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             //not set, use to be passed to template
             additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
-            Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
-
-            if (useSnapshotVersion) {
-                this.setArtifactVersion(this.buildSnapshotVersion(this.artifactVersion));
-            }
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_URL)) {
@@ -425,6 +411,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // imports for pojos
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
         importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
@@ -591,6 +578,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if ("_".equals(name)) {
             name = "_u";
+        }
+
+        // numbers are not allowed at the beginning
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
         }
 
         // if it's all uppper case, do nothing
@@ -792,6 +784,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return p.getDefault().toString();
             }
             return null;
+        } else if (ModelUtils.isURISchema(p)) {
+            if (p.getDefault() != null) {
+                return "URI.create(\"" + escapeText((String) p.getDefault()) + "\")";
+            }
+            return null;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 String _default = (String) p.getDefault();
@@ -947,6 +944,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
             codegenModel = AbstractJavaCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
+        if ("BigDecimal".equals(codegenModel.dataType)) {
+            codegenModel.imports.add("BigDecimal");
+        }
         return codegenModel;
     }
 
@@ -1047,11 +1047,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
         } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
             this.setArtifactVersion(openAPI.getInfo().getVersion());
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
+            Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
+            if (useSnapshotVersion) {
+                this.setArtifactVersion(this.buildSnapshotVersion(this.getArtifactVersion()));
+            }
+        }
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
     }
 
@@ -1060,7 +1064,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         String defaultContentType = "application/json";
         Set<String> producesInfo = getProducesInfo(openAPI, operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
-            ArrayList<String> produces = new ArrayList<String>(producesInfo);
+            ArrayList<String> produces = new ArrayList<>(producesInfo);
             StringBuilder sb = new StringBuilder();
             for (String produce : produces) {
                 if (defaultContentType.equalsIgnoreCase(produce)) {
@@ -1085,7 +1089,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     protected boolean needToImport(String type) {
-        return super.needToImport(type) && type.indexOf(".") < 0;
+        return super.needToImport(type) && !type.contains(".");
     }
 
     @Override
@@ -1106,7 +1110,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // number
         if ("Integer".equals(datatype) || "Long".equals(datatype) ||
-                "Float".equals(datatype) || "Double".equals(datatype)) {
+                "Float".equals(datatype) || "Double".equals(datatype) || "BigDecimal".equals(datatype)) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -1133,6 +1137,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if ("Float".equals(datatype)) {
             // add f to number, e.g. 3.14 => 3.14f
             return value + "f";
+        } else if ("BigDecimal".equals(datatype)) {
+            // use BigDecimal String constructor
+            return "new BigDecimal(\"" + value + "\")";
         } else {
             return "\"" + escapeText(value) + "\"";
         }
@@ -1183,10 +1190,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (removedChildEnum) {
             // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0, numVars = codegenProperties.size();
+            int count = 0;
+            int numVars = codegenProperties.size();
             for (CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
+                codegenProperty.hasMore = count < numVars;
             }
             codegenModel.vars = codegenProperties;
         }
@@ -1391,10 +1399,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.booleanGetterPrefix = booleanGetterPrefix;
     }
 
-    public void setUseNullForUnknownEnumValue(boolean useNullForUnknownEnumValue) {
-        this.useNullForUnknownEnumValue = useNullForUnknownEnumValue;
-    }
-
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -1444,27 +1448,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return escapeText(pattern);
     }
 
-    @Override
-    public boolean convertPropertyToBoolean(String propertyKey) {
-        boolean booleanValue = false;
-        if (additionalProperties.containsKey(propertyKey)) {
-            booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
-        }
-
-        return booleanValue;
-    }
-
-    @Override
-    public void writePropertyBack(String propertyKey, boolean value) {
-        additionalProperties.put(propertyKey, value);
-    }
-
     /**
      * Output the Getter name for boolean property, e.g. isActive
      *
      * @param name the name of the property
      * @return getter name based on naming convention
      */
+    @Override
     public String toBooleanGetter(String name) {
         return booleanGetterPrefix + getterAndSetterCapitalize(name);
     }
@@ -1504,7 +1494,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         return camelize(name, lowercaseFirstLetter);
     }
-
 
     @Override
     public void postProcessFile(File file, String fileType) {

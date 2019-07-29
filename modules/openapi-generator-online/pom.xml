@@ -3,7 +3,9 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>4.0.0</version>
+        <!-- RELEASE_VERSION -->
+        <version>4.1.0-SNAPSHOT</version>
+        <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
     <artifactId>openapi-generator-online</artifactId>
@@ -31,6 +33,14 @@
     <build>
         <finalName>openapi-generator-online</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -66,11 +76,6 @@
                     <artifactId>swagger-models</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-version}</version>
         </dependency>
 
         <dependency>

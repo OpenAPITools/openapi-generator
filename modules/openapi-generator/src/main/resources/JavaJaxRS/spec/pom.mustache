@@ -88,6 +88,12 @@
       <version>1.5.3</version>
     </dependency>
     {{/useSwaggerAnnotations}}
+    <!-- @Nullable annotation -->
+    <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+        <version>3.0.2</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -125,7 +131,7 @@
 {{/useBeanValidation}}
   </dependencies>
   <properties>
-    <jackson-version>2.8.9</jackson-version>
+    <jackson-version>2.9.9</jackson-version>
     <junit-version>4.8.1</junit-version>
   </properties>
 </project>

@@ -139,6 +139,12 @@ Class | Method | HTTP request | Description
  - [Petstore::FormatTest](docs/FormatTest.md)
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
+ - [Petstore::InlineObject](docs/InlineObject.md)
+ - [Petstore::InlineObject1](docs/InlineObject1.md)
+ - [Petstore::InlineObject2](docs/InlineObject2.md)
+ - [Petstore::InlineObject3](docs/InlineObject3.md)
+ - [Petstore::InlineObject4](docs/InlineObject4.md)
+ - [Petstore::InlineObject5](docs/InlineObject5.md)
  - [Petstore::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Petstore::List](docs/List.md)
  - [Petstore::MapTest](docs/MapTest.md)
@@ -180,7 +186,7 @@ Class | Method | HTTP request | Description
 
 ### bearer_test
 
-- **Type**: HTTP basic authentication
+- **Type**: Bearer authentication (JWT)
 
 ### http_basic_test
 

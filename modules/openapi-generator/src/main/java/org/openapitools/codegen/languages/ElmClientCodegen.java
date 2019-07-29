@@ -138,6 +138,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "String");
         typeMapping.put("binary", "String");
         typeMapping.put("UUID", "Uuid");
+        typeMapping.put("URI", "String");
 
         importMapping.clear();
 
@@ -445,7 +446,9 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
             } else {
                 final List<String> paths = Arrays.asList(op.path.substring(1).split("/"));
-                String path = paths.stream().map(str -> str.charAt(0) == '{' ? str : "\"" + str + "\"").collect(Collectors.joining(", "));
+                String path = paths.stream()
+                        .map(str -> str.startsWith("{") && str.endsWith("}") ? str : "\"" + str + "\"")
+                        .collect(Collectors.joining(", "));
                 for (CodegenParameter param : op.pathParams) {
                     String str = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", str);
@@ -567,44 +570,56 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "(Just " + value + ")";
     }
 
+    private Optional<String> paramToStringMapper(final String paramName, final CodegenProperty property) {
+        if (property.isEnum) {
+            return Optional.of(toVarName(paramName) + "ToString");
+        } else if (property.isString || property.isBinary || property.isByteArray) {
+            return Optional.empty();
+        } else if (property.isBoolean) {
+            return Optional.of("(\\val -> if val then \"true\" else \"false\")");
+        } else if (property.isDateTime) {
+            return Optional.of("DateTime.toString");
+        } else if (property.isDate) {
+            return Optional.of("DateOnly.toString");
+        } else if (property.isUuid) {
+            return Optional.of("Uuid.toString");
+        } else if (ElmVersion.ELM_018.equals(elmVersion)) {
+            return Optional.of("toString");
+        } else if (property.isInteger || property.isLong) {
+            return Optional.of("String.fromInt");
+        } else if (property.isFloat || property.isDouble) {
+            return Optional.of("String.fromFloat");
+        }
+        throw new RuntimeException("Parameter '" + paramName + "' cannot be converted to a string. Please report the issue.");
+    }
+
+    private CodegenProperty paramToProperty(final CodegenParameter parameter) {
+        final CodegenProperty property = new CodegenProperty();
+        property.isEnum = parameter.isEnum;
+        property.isString = parameter.isString;
+        property.isBinary = parameter.isBinary;
+        property.isByteArray = parameter.isByteArray;
+        property.isBoolean = parameter.isBoolean;
+        property.isDateTime = parameter.isDateTime;
+        property.isDate = parameter.isDate;
+        property.isUuid = parameter.isUuid;
+        property.isInteger = parameter.isInteger;
+        property.isLong = parameter.isLong;
+        property.isFloat = parameter.isFloat;
+        property.isDouble = parameter.isDouble;
+        return property;
+    }
+
     private String paramToString(final String prefix, final CodegenParameter param, final boolean useMaybe, final String maybeMapResult) {
         final String paramName = (ElmVersion.ELM_018.equals(elmVersion) ? "" : prefix + ".") + param.paramName;
         if (!useMaybe) {
             param.required = true;
         }
 
-        String mapFn = null;
-        if (param.isString || param.isBinary || param.isByteArray) {
-            mapFn = "";
-        } else if (param.isBoolean) {
-            mapFn = "(\\val -> if val then \"true\" else \"false\")";
-        } else if (param.isDateTime) {
-            mapFn = "DateTime.toString";
-        } else if (param.isDate) {
-            mapFn = "DateOnly.toString";
-        } else if (param.isUuid) {
-            mapFn = "Uuid.toString";
-        } else if (ElmVersion.ELM_018.equals(elmVersion)) {
-            mapFn = "toString";
-        } else if (param.isInteger || param.isLong) {
-            mapFn = "String.fromInt";
-        } else if (param.isFloat || param.isDouble) {
-            mapFn = "String.fromFloat";
-        } else if (param.isListContainer) {
-            // TODO duplicate ALL types from parameter to property...
-            if (param.items.isString || param.items.isUuid || param.items.isBinary || param.items.isByteArray) {
-                mapFn = "String.join \",\"";
-            }
-        }
-        if (mapFn == null) {
-            throw new RuntimeException("Parameter '" + param.paramName + "' cannot be converted to a string. Please report the issue.");
-        }
+        final String mapFn = param.isListContainer
+                ? "(String.join \",\"" + paramToStringMapper(param.paramName, param.items).map(mapper -> " << List.map " + mapper).orElse("") + ")"
+                : paramToStringMapper(param.paramName, paramToProperty(param)).orElse("");
 
-        if (param.isListContainer) {
-            if (!param.required) {
-                mapFn = "(" + mapFn + ")";
-            }
-        }
         String mapResult = "";
         if (maybeMapResult != null) {
             if ("".equals(mapFn)) {

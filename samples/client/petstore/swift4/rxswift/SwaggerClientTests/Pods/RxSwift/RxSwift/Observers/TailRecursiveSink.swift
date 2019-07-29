@@ -17,8 +17,7 @@ enum TailRecursiveSinkCommand {
 
 /// This class is usually used with `Generator` version of the operators.
 class TailRecursiveSink<S: Sequence, O: ObserverType>
-    : Sink<O>
-    , InvocableWithValueType where S.Iterator.Element: ObservableConvertibleType, S.Iterator.Element.E == O.E {
+    : Sink<O>, InvocableWithValueType where S.Iterator.Element: ObservableConvertibleType, S.Iterator.Element.E == O.E {
     typealias Value = TailRecursiveSinkCommand
     typealias E = O.E
     typealias SequenceGenerator = (generator: S.Iterator, remaining: IntMax?)
@@ -68,19 +67,19 @@ class TailRecursiveSink<S: Sequence, O: ObserverType>
     // should be done on gate locked
 
     private func moveNextCommand() {
-        var next: Observable<E>? = nil
+        var next: Observable<E>?
 
         repeat {
             guard let (g, left) = _generators.last else {
                 break
             }
-            
+
             if _isDisposed {
                 return
             }
 
             _generators.removeLast()
-            
+
             var e = g
 
             guard let nextCandidate = e.next()?.asObservable() else {
@@ -100,8 +99,7 @@ class TailRecursiveSink<S: Sequence, O: ObserverType>
                 if knownOriginalLeft - 1 >= 1 {
                     _generators.append((e, knownOriginalLeft - 1))
                 }
-            }
-            else {
+            } else {
                 _generators.append((e, nil))
             }
 
@@ -114,13 +112,12 @@ class TailRecursiveSink<S: Sequence, O: ObserverType>
                         maxTailRecursiveSinkStackSize = _generators.count
                     }
                 #endif
-            }
-            else {
+            } else {
                 next = nextCandidate
             }
         } while next == nil
 
-        guard let existingNext = next else  {
+        guard let existingNext = next else {
             done()
             return
         }
@@ -141,11 +138,10 @@ class TailRecursiveSink<S: Sequence, O: ObserverType>
 
     override func dispose() {
         super.dispose()
-        
+
         _subscription.dispose()
         _gate.dispose()
-        
+
         schedule(.dispose)
     }
 }
-

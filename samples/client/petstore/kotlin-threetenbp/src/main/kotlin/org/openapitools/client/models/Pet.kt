@@ -13,7 +13,6 @@ package org.openapitools.client.models
 
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
-import org.threeten.bp.LocalDateTime
 
 import com.squareup.moshi.Json
 /**

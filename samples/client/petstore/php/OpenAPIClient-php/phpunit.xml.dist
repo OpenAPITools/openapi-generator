@@ -11,11 +11,13 @@
             <directory>./test/Model</directory>
         </testsuite>
     </testsuites>
-
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./lib/Api</directory>
             <directory suffix=".php">./lib/Model</directory>
         </whitelist>
     </filter>
+    <php>
+        <ini name="error_reporting" value="E_ALL" />
+    </php>
 </phpunit>

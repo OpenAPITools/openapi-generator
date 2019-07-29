@@ -16,8 +16,8 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
 {{/additionalPropertiesType}}
 {{#vars}}
-    /**
-     * {{{description}}}
+    /**{{#description}}
+     * {{{description}}}{{/description}}
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
      */

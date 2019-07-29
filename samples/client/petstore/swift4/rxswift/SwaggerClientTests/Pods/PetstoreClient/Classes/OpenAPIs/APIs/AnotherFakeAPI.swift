@@ -9,8 +9,6 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
-
 open class AnotherFakeAPI {
     /**
      To test special tags
@@ -18,7 +16,7 @@ open class AnotherFakeAPI {
      - parameter client: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testSpecialTags(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+    open class func testSpecialTags(client: Client, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
         testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
             completion(response?.body, error)
         }

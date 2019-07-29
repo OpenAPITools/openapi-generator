@@ -97,10 +97,10 @@ if(hasProperty('target') && target == 'android') {
 ext {
     oltu_version = "1.0.1"
     retrofit_version = "2.3.0"
-    jackson_version = "2.8.11"
-    jackson_databind_version = "2.8.11.3"
+    jackson_version = "2.9.9"
+    jackson_databind_version = "2.9.9"
     play_version = "2.6.7"
-    swagger_annotations_version = "1.5.21"
+    swagger_annotations_version = "1.5.22"
     junit_version = "4.12"
     threetenbp_version = "1.3.5"
     json_fire_version = "1.8.0"
@@ -111,6 +111,7 @@ dependencies {
     compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
         exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'
     }

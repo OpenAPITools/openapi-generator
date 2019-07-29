@@ -12,7 +12,9 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>4.0.0</version>
+                <!-- RELEASE_VERSION -->
+                <version>4.0.3</version>
+                <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
                         <goals>
@@ -31,4 +33,10 @@
             </plugin>
         </plugins>
     </build>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

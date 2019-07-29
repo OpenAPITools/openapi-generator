@@ -9,8 +9,6 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
-
 open class FakeClassnameTags123API {
     /**
      To test class name in snake case

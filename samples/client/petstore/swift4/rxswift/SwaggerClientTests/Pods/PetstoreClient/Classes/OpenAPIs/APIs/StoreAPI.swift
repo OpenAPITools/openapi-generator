@@ -9,8 +9,6 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
-
 open class StoreAPI {
     /**
      Delete purchase order by ID
@@ -18,8 +16,8 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteOrder(orderId: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
+    open class func deleteOrder(orderId: String, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -61,8 +59,8 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -75,7 +73,7 @@ open class StoreAPI {
      
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInventory(completion: @escaping ((_ data: [String:Int]?,_ error: Error?) -> Void)) {
+    open class func getInventory(completion: @escaping ((_ data: [String: Int]?, _ error: Error?) -> Void)) {
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -86,9 +84,9 @@ open class StoreAPI {
      
      - returns: Observable<[String:Int]>
      */
-    open class func getInventory() -> Observable<[String:Int]> {
+    open class func getInventory() -> Observable<[String: Int]> {
         return Observable.create { observer -> Disposable in
-            getInventory() { data, error in
+            getInventory { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -109,14 +107,14 @@ open class StoreAPI {
        - name: api_key
      - returns: RequestBuilder<[String:Int]> 
      */
-    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int]> {
+    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
-        let requestBuilder: RequestBuilder<[String:Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -127,7 +125,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
+    open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?, _ error: Error?) -> Void)) {
         getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -181,8 +179,8 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -196,7 +194,7 @@ open class StoreAPI {
      - parameter order: (body) order placed for purchasing the pet 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func placeOrder(order: Order, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
+    open class func placeOrder(order: Order, completion: @escaping ((_ data: Order?, _ error: Error?) -> Void)) {
         placeOrderWithRequestBuilder(order: order).execute { (response, error) -> Void in
             completion(response?.body, error)
         }

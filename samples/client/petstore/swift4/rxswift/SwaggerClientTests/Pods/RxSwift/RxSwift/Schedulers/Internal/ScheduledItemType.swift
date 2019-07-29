@@ -6,8 +6,6 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-protocol ScheduledItemType
-    : Cancelable
-    , InvocableType {
+protocol ScheduledItemType: Cancelable, InvocableType {
     func invoke()
 }

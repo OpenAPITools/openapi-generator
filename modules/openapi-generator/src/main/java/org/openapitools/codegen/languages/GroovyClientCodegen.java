@@ -56,13 +56,15 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         artifactId = "openapi-groovy";
         dateLibrary = "legacy"; //TODO: add joda support to groovy
 
-        // clioOptions default redefinition need to be updated
+        // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
         updateOption(DATE_LIBRARY, this.getDateLibrary());
+        removeOption(CodegenConstants.ARTIFACT_URL);
+        removeOption(CodegenConstants.ARTIFACT_DESCRIPTION);
 
     }
 
@@ -95,7 +97,6 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
-
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
         for (CodegenOperation op : ops) {
             // Overwrite path to map variable with path parameters

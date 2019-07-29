@@ -154,6 +154,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("double", "f64");
         typeMapping.put("string", "String");
         typeMapping.put("UUID", uuidType);
+        typeMapping.put("URI", "String");
         typeMapping.put("byte", "u8");
         typeMapping.put("ByteArray", bytesType);
         typeMapping.put("binary", bytesType);

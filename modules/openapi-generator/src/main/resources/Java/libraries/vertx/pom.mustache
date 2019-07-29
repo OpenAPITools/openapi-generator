@@ -208,6 +208,13 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
 
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        
         <!-- Vertx -->
         <dependency>
             <groupId>io.vertx</groupId>
@@ -276,9 +283,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vertx-version>3.4.2</vertx-version>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <jackson-version>{{^threetenbp}}2.8.11{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}</jackson-version>
-        <jackson-databind>{{^threetenbp}}2.8.11.3{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}</jackson-databind>
+        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <jackson-version>{{^threetenbp}}2.9.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}</jackson-version>
+        <jackson-databind>{{^threetenbp}}2.9.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}</jackson-databind>
         <junit-version>4.12</junit-version>
     </properties>
 </project>
