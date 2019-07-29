@@ -42,6 +42,7 @@ let get_pet_by_id pet_id =
     let open Lwt in
     let uri = Request.build_uri "/pet/{petId}" in
     let headers = Request.default_headers in
+    let headers = Cohttp.Header.add headers "api_key" Request.api_key in
     let uri = Request.replace_path_param uri "petId" (Int64.to_string pet_id) in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.unwrap Pet.of_yojson) resp body

@@ -13,7 +13,8 @@
 let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} =
     let open Lwt in
     let uri = Request.build_uri "{{{path}}}" in
-    let headers = Request.default_headers in{{#headerParams}}
+    let headers = Request.default_headers in{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+    let headers = Cohttp.Header.add headers "{{{keyParamName}}}" Request.api_key in{{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}{{#headerParams}}
     let headers = Cohttp.Header.add{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" ({{> to_string}}{{paramName}}) in{{/headerParams}}{{#pathParams}}
     let uri = Request.replace_path_param uri "{{{baseName}}}" ({{> to_string}}{{{paramName}}}) in{{/pathParams}}{{#queryParams}}
     let uri = Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}) in{{/queryParams}}{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
