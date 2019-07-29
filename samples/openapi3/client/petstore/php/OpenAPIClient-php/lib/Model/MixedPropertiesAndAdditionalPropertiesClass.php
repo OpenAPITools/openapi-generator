@@ -74,6 +74,24 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     ];
 
     /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static $openAPINullables = [
+        'uuid' => false,
+        'date_time' => false,
+        'map' => false
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization
      *
      * @return array
@@ -91,6 +109,60 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     public static function openAPIFormats()
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of property to nullable mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPINullables()
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return array
+     */
+    public function getOpenAPINullablesSetToNull()
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    public function setOpenAPINullablesSetToNull($nullablesSetToNull)
+    {
+        $this->openAPINullablesSetToNull=$nullablesSetToNull;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        if (isset(self::$openAPINullables[$property])) {
+            return self::$openAPINullables[$property];
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        if (in_array($property, $this->getOpenAPINullablesSetToNull())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -187,9 +259,20 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      */
     public function __construct(array $data = null)
     {
-        $this->container['uuid'] = isset($data['uuid']) ? $data['uuid'] : null;
-        $this->container['date_time'] = isset($data['date_time']) ? $data['date_time'] : null;
-        $this->container['map'] = isset($data['map']) ? $data['map'] : null;
+        $this->setIfExists('uuid', $data, null);
+        $this->setIfExists('date_time', $data, null);
+        $this->setIfExists('map', $data, null);
+    }
+
+    public function setIfExists(string $variableName, $fields, $defaultValue)
+    {
+        if (is_array($fields) && array_key_exists($variableName, $fields) && is_null($fields[$variableName]) && self::isNullable($variableName)) {
+            array_push($this->openAPINullablesSetToNull, $variableName);
+        }
+
+        $this->container[$variableName] = isset($fields[$variableName]) ? $fields[$variableName] : $defaultValue;
+
+        return $this;
     }
 
     /**
@@ -235,6 +318,12 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      */
     public function setUuid($uuid)
     {
+
+
+        if (is_null($uuid)) {
+            throw new \InvalidArgumentException('non-nullable uuid cannot be null');
+        }
+
         $this->container['uuid'] = $uuid;
 
         return $this;
@@ -259,6 +348,12 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      */
     public function setDateTime($date_time)
     {
+
+
+        if (is_null($date_time)) {
+            throw new \InvalidArgumentException('non-nullable date_time cannot be null');
+        }
+
         $this->container['date_time'] = $date_time;
 
         return $this;
@@ -283,6 +378,12 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      */
     public function setMap($map)
     {
+
+
+        if (is_null($map)) {
+            throw new \InvalidArgumentException('non-nullable map cannot be null');
+        }
+
         $this->container['map'] = $map;
 
         return $this;

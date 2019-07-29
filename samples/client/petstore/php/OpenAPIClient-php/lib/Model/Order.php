@@ -80,6 +80,27 @@ class Order implements ModelInterface, ArrayAccess
     ];
 
     /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static $openAPINullables = [
+        'id' => false,
+        'pet_id' => false,
+        'quantity' => false,
+        'ship_date' => false,
+        'status' => false,
+        'complete' => false
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization
      *
      * @return array
@@ -97,6 +118,60 @@ class Order implements ModelInterface, ArrayAccess
     public static function openAPIFormats()
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of property to nullable mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPINullables()
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return array
+     */
+    public function getOpenAPINullablesSetToNull()
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    public function setOpenAPINullablesSetToNull($nullablesSetToNull)
+    {
+        $this->openAPINullablesSetToNull=$nullablesSetToNull;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        if (isset(self::$openAPINullables[$property])) {
+            return self::$openAPINullables[$property];
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        if (in_array($property, $this->getOpenAPINullablesSetToNull())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -219,12 +294,23 @@ class Order implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
-        $this->container['pet_id'] = isset($data['pet_id']) ? $data['pet_id'] : null;
-        $this->container['quantity'] = isset($data['quantity']) ? $data['quantity'] : null;
-        $this->container['ship_date'] = isset($data['ship_date']) ? $data['ship_date'] : null;
-        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
-        $this->container['complete'] = isset($data['complete']) ? $data['complete'] : false;
+        $this->setIfExists('id', $data, null);
+        $this->setIfExists('pet_id', $data, null);
+        $this->setIfExists('quantity', $data, null);
+        $this->setIfExists('ship_date', $data, null);
+        $this->setIfExists('status', $data, null);
+        $this->setIfExists('complete', $data, false);
+    }
+
+    public function setIfExists(string $variableName, $fields, $defaultValue)
+    {
+        if (is_array($fields) && array_key_exists($variableName, $fields) && is_null($fields[$variableName]) && self::isNullable($variableName)) {
+            array_push($this->openAPINullablesSetToNull, $variableName);
+        }
+
+        $this->container[$variableName] = isset($fields[$variableName]) ? $fields[$variableName] : $defaultValue;
+
+        return $this;
     }
 
     /**
@@ -278,6 +364,12 @@ class Order implements ModelInterface, ArrayAccess
      */
     public function setId($id)
     {
+
+
+        if (is_null($id)) {
+            throw new \InvalidArgumentException('non-nullable id cannot be null');
+        }
+
         $this->container['id'] = $id;
 
         return $this;
@@ -302,6 +394,12 @@ class Order implements ModelInterface, ArrayAccess
      */
     public function setPetId($pet_id)
     {
+
+
+        if (is_null($pet_id)) {
+            throw new \InvalidArgumentException('non-nullable pet_id cannot be null');
+        }
+
         $this->container['pet_id'] = $pet_id;
 
         return $this;
@@ -326,6 +424,12 @@ class Order implements ModelInterface, ArrayAccess
      */
     public function setQuantity($quantity)
     {
+
+
+        if (is_null($quantity)) {
+            throw new \InvalidArgumentException('non-nullable quantity cannot be null');
+        }
+
         $this->container['quantity'] = $quantity;
 
         return $this;
@@ -350,6 +454,12 @@ class Order implements ModelInterface, ArrayAccess
      */
     public function setShipDate($ship_date)
     {
+
+
+        if (is_null($ship_date)) {
+            throw new \InvalidArgumentException('non-nullable ship_date cannot be null');
+        }
+
         $this->container['ship_date'] = $ship_date;
 
         return $this;
@@ -383,6 +493,12 @@ class Order implements ModelInterface, ArrayAccess
                 )
             );
         }
+
+
+        if (is_null($status)) {
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        }
+
         $this->container['status'] = $status;
 
         return $this;
@@ -407,6 +523,12 @@ class Order implements ModelInterface, ArrayAccess
      */
     public function setComplete($complete)
     {
+
+
+        if (is_null($complete)) {
+            throw new \InvalidArgumentException('non-nullable complete cannot be null');
+        }
+
         $this->container['complete'] = $complete;
 
         return $this;

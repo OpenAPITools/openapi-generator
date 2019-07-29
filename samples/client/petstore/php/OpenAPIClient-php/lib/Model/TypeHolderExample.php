@@ -78,6 +78,26 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
     ];
 
     /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static $openAPINullables = [
+        'string_item' => false,
+        'number_item' => false,
+        'integer_item' => false,
+        'bool_item' => false,
+        'array_item' => false
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization
      *
      * @return array
@@ -95,6 +115,60 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
     public static function openAPIFormats()
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of property to nullable mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPINullables()
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return array
+     */
+    public function getOpenAPINullablesSetToNull()
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    public function setOpenAPINullablesSetToNull($nullablesSetToNull)
+    {
+        $this->openAPINullablesSetToNull=$nullablesSetToNull;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        if (isset(self::$openAPINullables[$property])) {
+            return self::$openAPINullables[$property];
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        if (in_array($property, $this->getOpenAPINullablesSetToNull())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -197,11 +271,22 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['string_item'] = isset($data['string_item']) ? $data['string_item'] : null;
-        $this->container['number_item'] = isset($data['number_item']) ? $data['number_item'] : null;
-        $this->container['integer_item'] = isset($data['integer_item']) ? $data['integer_item'] : null;
-        $this->container['bool_item'] = isset($data['bool_item']) ? $data['bool_item'] : null;
-        $this->container['array_item'] = isset($data['array_item']) ? $data['array_item'] : null;
+        $this->setIfExists('string_item', $data, null);
+        $this->setIfExists('number_item', $data, null);
+        $this->setIfExists('integer_item', $data, null);
+        $this->setIfExists('bool_item', $data, null);
+        $this->setIfExists('array_item', $data, null);
+    }
+
+    public function setIfExists(string $variableName, $fields, $defaultValue)
+    {
+        if (is_array($fields) && array_key_exists($variableName, $fields) && is_null($fields[$variableName]) && self::isNullable($variableName)) {
+            array_push($this->openAPINullablesSetToNull, $variableName);
+        }
+
+        $this->container[$variableName] = isset($fields[$variableName]) ? $fields[$variableName] : $defaultValue;
+
+        return $this;
     }
 
     /**
@@ -262,6 +347,12 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
      */
     public function setStringItem($string_item)
     {
+
+
+        if (is_null($string_item)) {
+            throw new \InvalidArgumentException('non-nullable string_item cannot be null');
+        }
+
         $this->container['string_item'] = $string_item;
 
         return $this;
@@ -286,6 +377,12 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
      */
     public function setNumberItem($number_item)
     {
+
+
+        if (is_null($number_item)) {
+            throw new \InvalidArgumentException('non-nullable number_item cannot be null');
+        }
+
         $this->container['number_item'] = $number_item;
 
         return $this;
@@ -310,6 +407,12 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
      */
     public function setIntegerItem($integer_item)
     {
+
+
+        if (is_null($integer_item)) {
+            throw new \InvalidArgumentException('non-nullable integer_item cannot be null');
+        }
+
         $this->container['integer_item'] = $integer_item;
 
         return $this;
@@ -334,6 +437,12 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
      */
     public function setBoolItem($bool_item)
     {
+
+
+        if (is_null($bool_item)) {
+            throw new \InvalidArgumentException('non-nullable bool_item cannot be null');
+        }
+
         $this->container['bool_item'] = $bool_item;
 
         return $this;
@@ -358,6 +467,12 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
      */
     public function setArrayItem($array_item)
     {
+
+
+        if (is_null($array_item)) {
+            throw new \InvalidArgumentException('non-nullable array_item cannot be null');
+        }
+
         $this->container['array_item'] = $array_item;
 
         return $this;

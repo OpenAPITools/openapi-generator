@@ -92,6 +92,33 @@ class NullableClass implements ModelInterface, ArrayAccess
     ];
 
     /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static $openAPINullables = [
+        'integer_prop' => true,
+        'number_prop' => true,
+        'boolean_prop' => true,
+        'string_prop' => true,
+        'date_prop' => true,
+        'datetime_prop' => true,
+        'array_nullable_prop' => true,
+        'array_and_items_nullable_prop' => true,
+        'array_items_nullable' => false,
+        'object_nullable_prop' => true,
+        'object_and_items_nullable_prop' => true,
+        'object_items_nullable' => false
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization
      *
      * @return array
@@ -109,6 +136,60 @@ class NullableClass implements ModelInterface, ArrayAccess
     public static function openAPIFormats()
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of property to nullable mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPINullables()
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return array
+     */
+    public function getOpenAPINullablesSetToNull()
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    public function setOpenAPINullablesSetToNull($nullablesSetToNull)
+    {
+        $this->openAPINullablesSetToNull=$nullablesSetToNull;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        if (isset(self::$openAPINullables[$property])) {
+            return self::$openAPINullables[$property];
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        if (in_array($property, $this->getOpenAPINullablesSetToNull())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -232,18 +313,29 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['integer_prop'] = isset($data['integer_prop']) ? $data['integer_prop'] : null;
-        $this->container['number_prop'] = isset($data['number_prop']) ? $data['number_prop'] : null;
-        $this->container['boolean_prop'] = isset($data['boolean_prop']) ? $data['boolean_prop'] : null;
-        $this->container['string_prop'] = isset($data['string_prop']) ? $data['string_prop'] : null;
-        $this->container['date_prop'] = isset($data['date_prop']) ? $data['date_prop'] : null;
-        $this->container['datetime_prop'] = isset($data['datetime_prop']) ? $data['datetime_prop'] : null;
-        $this->container['array_nullable_prop'] = isset($data['array_nullable_prop']) ? $data['array_nullable_prop'] : null;
-        $this->container['array_and_items_nullable_prop'] = isset($data['array_and_items_nullable_prop']) ? $data['array_and_items_nullable_prop'] : null;
-        $this->container['array_items_nullable'] = isset($data['array_items_nullable']) ? $data['array_items_nullable'] : null;
-        $this->container['object_nullable_prop'] = isset($data['object_nullable_prop']) ? $data['object_nullable_prop'] : null;
-        $this->container['object_and_items_nullable_prop'] = isset($data['object_and_items_nullable_prop']) ? $data['object_and_items_nullable_prop'] : null;
-        $this->container['object_items_nullable'] = isset($data['object_items_nullable']) ? $data['object_items_nullable'] : null;
+        $this->setIfExists('integer_prop', $data, null);
+        $this->setIfExists('number_prop', $data, null);
+        $this->setIfExists('boolean_prop', $data, null);
+        $this->setIfExists('string_prop', $data, null);
+        $this->setIfExists('date_prop', $data, null);
+        $this->setIfExists('datetime_prop', $data, null);
+        $this->setIfExists('array_nullable_prop', $data, null);
+        $this->setIfExists('array_and_items_nullable_prop', $data, null);
+        $this->setIfExists('array_items_nullable', $data, null);
+        $this->setIfExists('object_nullable_prop', $data, null);
+        $this->setIfExists('object_and_items_nullable_prop', $data, null);
+        $this->setIfExists('object_items_nullable', $data, null);
+    }
+
+    public function setIfExists(string $variableName, $fields, $defaultValue)
+    {
+        if (is_array($fields) && array_key_exists($variableName, $fields) && is_null($fields[$variableName]) && self::isNullable($variableName)) {
+            array_push($this->openAPINullablesSetToNull, $variableName);
+        }
+
+        $this->container[$variableName] = isset($fields[$variableName]) ? $fields[$variableName] : $defaultValue;
+
+        return $this;
     }
 
     /**
@@ -289,6 +381,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setIntegerProp($integer_prop)
     {
+
+        if (is_null($integer_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'integer_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('integer_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['integer_prop'] = $integer_prop;
 
         return $this;
@@ -313,6 +418,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setNumberProp($number_prop)
     {
+
+        if (is_null($number_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'number_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('number_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['number_prop'] = $number_prop;
 
         return $this;
@@ -337,6 +455,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setBooleanProp($boolean_prop)
     {
+
+        if (is_null($boolean_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'boolean_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('boolean_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['boolean_prop'] = $boolean_prop;
 
         return $this;
@@ -361,6 +492,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setStringProp($string_prop)
     {
+
+        if (is_null($string_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'string_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('string_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['string_prop'] = $string_prop;
 
         return $this;
@@ -385,6 +529,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setDateProp($date_prop)
     {
+
+        if (is_null($date_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'date_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('date_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['date_prop'] = $date_prop;
 
         return $this;
@@ -409,6 +566,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setDatetimeProp($datetime_prop)
     {
+
+        if (is_null($datetime_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'datetime_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('datetime_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['datetime_prop'] = $datetime_prop;
 
         return $this;
@@ -433,6 +603,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setArrayNullableProp($array_nullable_prop)
     {
+
+        if (is_null($array_nullable_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'array_nullable_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('array_nullable_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['array_nullable_prop'] = $array_nullable_prop;
 
         return $this;
@@ -457,6 +640,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setArrayAndItemsNullableProp($array_and_items_nullable_prop)
     {
+
+        if (is_null($array_and_items_nullable_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'array_and_items_nullable_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('array_and_items_nullable_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['array_and_items_nullable_prop'] = $array_and_items_nullable_prop;
 
         return $this;
@@ -481,6 +677,12 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setArrayItemsNullable($array_items_nullable)
     {
+
+
+        if (is_null($array_items_nullable)) {
+            throw new \InvalidArgumentException('non-nullable array_items_nullable cannot be null');
+        }
+
         $this->container['array_items_nullable'] = $array_items_nullable;
 
         return $this;
@@ -505,6 +707,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setObjectNullableProp($object_nullable_prop)
     {
+
+        if (is_null($object_nullable_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'object_nullable_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('object_nullable_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['object_nullable_prop'] = $object_nullable_prop;
 
         return $this;
@@ -529,6 +744,19 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setObjectAndItemsNullableProp($object_and_items_nullable_prop)
     {
+
+        if (is_null($object_and_items_nullable_prop)) {
+            array_push($this->openAPINullablesSetToNull, 'object_and_items_nullable_prop');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('object_and_items_nullable_prop', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+
         $this->container['object_and_items_nullable_prop'] = $object_and_items_nullable_prop;
 
         return $this;
@@ -553,6 +781,12 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function setObjectItemsNullable($object_items_nullable)
     {
+
+
+        if (is_null($object_items_nullable)) {
+            throw new \InvalidArgumentException('non-nullable object_items_nullable cannot be null');
+        }
+
         $this->container['object_items_nullable'] = $object_items_nullable;
 
         return $this;

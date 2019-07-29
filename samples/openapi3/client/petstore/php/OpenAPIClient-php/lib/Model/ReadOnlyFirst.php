@@ -72,6 +72,23 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
     ];
 
     /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static $openAPINullables = [
+        'bar' => false,
+        'baz' => false
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization
      *
      * @return array
@@ -89,6 +106,60 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
     public static function openAPIFormats()
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of property to nullable mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPINullables()
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return array
+     */
+    public function getOpenAPINullablesSetToNull()
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    public function setOpenAPINullablesSetToNull($nullablesSetToNull)
+    {
+        $this->openAPINullablesSetToNull=$nullablesSetToNull;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        if (isset(self::$openAPINullables[$property])) {
+            return self::$openAPINullables[$property];
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        if (in_array($property, $this->getOpenAPINullablesSetToNull())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -182,8 +253,19 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['bar'] = isset($data['bar']) ? $data['bar'] : null;
-        $this->container['baz'] = isset($data['baz']) ? $data['baz'] : null;
+        $this->setIfExists('bar', $data, null);
+        $this->setIfExists('baz', $data, null);
+    }
+
+    public function setIfExists(string $variableName, $fields, $defaultValue)
+    {
+        if (is_array($fields) && array_key_exists($variableName, $fields) && is_null($fields[$variableName]) && self::isNullable($variableName)) {
+            array_push($this->openAPINullablesSetToNull, $variableName);
+        }
+
+        $this->container[$variableName] = isset($fields[$variableName]) ? $fields[$variableName] : $defaultValue;
+
+        return $this;
     }
 
     /**
@@ -229,6 +311,12 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
      */
     public function setBar($bar)
     {
+
+
+        if (is_null($bar)) {
+            throw new \InvalidArgumentException('non-nullable bar cannot be null');
+        }
+
         $this->container['bar'] = $bar;
 
         return $this;
@@ -253,6 +341,12 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
      */
     public function setBaz($baz)
     {
+
+
+        if (is_null($baz)) {
+            throw new \InvalidArgumentException('non-nullable baz cannot be null');
+        }
+
         $this->container['baz'] = $baz;
 
         return $this;

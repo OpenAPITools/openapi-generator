@@ -72,6 +72,23 @@ class InlineObject2 implements ModelInterface, ArrayAccess
     ];
 
     /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static $openAPINullables = [
+        'enum_form_string_array' => false,
+        'enum_form_string' => false
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization
      *
      * @return array
@@ -89,6 +106,60 @@ class InlineObject2 implements ModelInterface, ArrayAccess
     public static function openAPIFormats()
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of property to nullable mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPINullables()
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return array
+     */
+    public function getOpenAPINullablesSetToNull()
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    public function setOpenAPINullablesSetToNull($nullablesSetToNull)
+    {
+        $this->openAPINullablesSetToNull=$nullablesSetToNull;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        if (isset(self::$openAPINullables[$property])) {
+            return self::$openAPINullables[$property];
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        if (in_array($property, $this->getOpenAPINullablesSetToNull())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -214,8 +285,19 @@ class InlineObject2 implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['enum_form_string_array'] = isset($data['enum_form_string_array']) ? $data['enum_form_string_array'] : null;
-        $this->container['enum_form_string'] = isset($data['enum_form_string']) ? $data['enum_form_string'] : '-efg';
+        $this->setIfExists('enum_form_string_array', $data, null);
+        $this->setIfExists('enum_form_string', $data, '-efg');
+    }
+
+    public function setIfExists(string $variableName, $fields, $defaultValue)
+    {
+        if (is_array($fields) && array_key_exists($variableName, $fields) && is_null($fields[$variableName]) && self::isNullable($variableName)) {
+            array_push($this->openAPINullablesSetToNull, $variableName);
+        }
+
+        $this->container[$variableName] = isset($fields[$variableName]) ? $fields[$variableName] : $defaultValue;
+
+        return $this;
     }
 
     /**
@@ -278,6 +360,12 @@ class InlineObject2 implements ModelInterface, ArrayAccess
                 )
             );
         }
+
+
+        if (is_null($enum_form_string_array)) {
+            throw new \InvalidArgumentException('non-nullable enum_form_string_array cannot be null');
+        }
+
         $this->container['enum_form_string_array'] = $enum_form_string_array;
 
         return $this;
@@ -311,6 +399,12 @@ class InlineObject2 implements ModelInterface, ArrayAccess
                 )
             );
         }
+
+
+        if (is_null($enum_form_string)) {
+            throw new \InvalidArgumentException('non-nullable enum_form_string cannot be null');
+        }
+
         $this->container['enum_form_string'] = $enum_form_string;
 
         return $this;

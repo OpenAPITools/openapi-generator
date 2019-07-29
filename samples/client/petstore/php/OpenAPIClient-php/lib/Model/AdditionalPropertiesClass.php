@@ -90,6 +90,32 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
     ];
 
     /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static $openAPINullables = [
+        'map_string' => false,
+        'map_number' => false,
+        'map_integer' => false,
+        'map_boolean' => false,
+        'map_array_integer' => false,
+        'map_array_anytype' => false,
+        'map_map_string' => false,
+        'map_map_anytype' => false,
+        'anytype_1' => false,
+        'anytype_2' => false,
+        'anytype_3' => false
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization
      *
      * @return array
@@ -107,6 +133,60 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
     public static function openAPIFormats()
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of property to nullable mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPINullables()
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return array
+     */
+    public function getOpenAPINullablesSetToNull()
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    public function setOpenAPINullablesSetToNull($nullablesSetToNull)
+    {
+        $this->openAPINullablesSetToNull=$nullablesSetToNull;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        if (isset(self::$openAPINullables[$property])) {
+            return self::$openAPINullables[$property];
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        if (in_array($property, $this->getOpenAPINullablesSetToNull())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -227,17 +307,28 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['map_string'] = isset($data['map_string']) ? $data['map_string'] : null;
-        $this->container['map_number'] = isset($data['map_number']) ? $data['map_number'] : null;
-        $this->container['map_integer'] = isset($data['map_integer']) ? $data['map_integer'] : null;
-        $this->container['map_boolean'] = isset($data['map_boolean']) ? $data['map_boolean'] : null;
-        $this->container['map_array_integer'] = isset($data['map_array_integer']) ? $data['map_array_integer'] : null;
-        $this->container['map_array_anytype'] = isset($data['map_array_anytype']) ? $data['map_array_anytype'] : null;
-        $this->container['map_map_string'] = isset($data['map_map_string']) ? $data['map_map_string'] : null;
-        $this->container['map_map_anytype'] = isset($data['map_map_anytype']) ? $data['map_map_anytype'] : null;
-        $this->container['anytype_1'] = isset($data['anytype_1']) ? $data['anytype_1'] : null;
-        $this->container['anytype_2'] = isset($data['anytype_2']) ? $data['anytype_2'] : null;
-        $this->container['anytype_3'] = isset($data['anytype_3']) ? $data['anytype_3'] : null;
+        $this->setIfExists('map_string', $data, null);
+        $this->setIfExists('map_number', $data, null);
+        $this->setIfExists('map_integer', $data, null);
+        $this->setIfExists('map_boolean', $data, null);
+        $this->setIfExists('map_array_integer', $data, null);
+        $this->setIfExists('map_array_anytype', $data, null);
+        $this->setIfExists('map_map_string', $data, null);
+        $this->setIfExists('map_map_anytype', $data, null);
+        $this->setIfExists('anytype_1', $data, null);
+        $this->setIfExists('anytype_2', $data, null);
+        $this->setIfExists('anytype_3', $data, null);
+    }
+
+    public function setIfExists(string $variableName, $fields, $defaultValue)
+    {
+        if (is_array($fields) && array_key_exists($variableName, $fields) && is_null($fields[$variableName]) && self::isNullable($variableName)) {
+            array_push($this->openAPINullablesSetToNull, $variableName);
+        }
+
+        $this->container[$variableName] = isset($fields[$variableName]) ? $fields[$variableName] : $defaultValue;
+
+        return $this;
     }
 
     /**
@@ -283,6 +374,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setMapString($map_string)
     {
+
+
+        if (is_null($map_string)) {
+            throw new \InvalidArgumentException('non-nullable map_string cannot be null');
+        }
+
         $this->container['map_string'] = $map_string;
 
         return $this;
@@ -307,6 +404,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setMapNumber($map_number)
     {
+
+
+        if (is_null($map_number)) {
+            throw new \InvalidArgumentException('non-nullable map_number cannot be null');
+        }
+
         $this->container['map_number'] = $map_number;
 
         return $this;
@@ -331,6 +434,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setMapInteger($map_integer)
     {
+
+
+        if (is_null($map_integer)) {
+            throw new \InvalidArgumentException('non-nullable map_integer cannot be null');
+        }
+
         $this->container['map_integer'] = $map_integer;
 
         return $this;
@@ -355,6 +464,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setMapBoolean($map_boolean)
     {
+
+
+        if (is_null($map_boolean)) {
+            throw new \InvalidArgumentException('non-nullable map_boolean cannot be null');
+        }
+
         $this->container['map_boolean'] = $map_boolean;
 
         return $this;
@@ -379,6 +494,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setMapArrayInteger($map_array_integer)
     {
+
+
+        if (is_null($map_array_integer)) {
+            throw new \InvalidArgumentException('non-nullable map_array_integer cannot be null');
+        }
+
         $this->container['map_array_integer'] = $map_array_integer;
 
         return $this;
@@ -403,6 +524,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setMapArrayAnytype($map_array_anytype)
     {
+
+
+        if (is_null($map_array_anytype)) {
+            throw new \InvalidArgumentException('non-nullable map_array_anytype cannot be null');
+        }
+
         $this->container['map_array_anytype'] = $map_array_anytype;
 
         return $this;
@@ -427,6 +554,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setMapMapString($map_map_string)
     {
+
+
+        if (is_null($map_map_string)) {
+            throw new \InvalidArgumentException('non-nullable map_map_string cannot be null');
+        }
+
         $this->container['map_map_string'] = $map_map_string;
 
         return $this;
@@ -451,6 +584,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setMapMapAnytype($map_map_anytype)
     {
+
+
+        if (is_null($map_map_anytype)) {
+            throw new \InvalidArgumentException('non-nullable map_map_anytype cannot be null');
+        }
+
         $this->container['map_map_anytype'] = $map_map_anytype;
 
         return $this;
@@ -475,6 +614,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setAnytype1($anytype_1)
     {
+
+
+        if (is_null($anytype_1)) {
+            throw new \InvalidArgumentException('non-nullable anytype_1 cannot be null');
+        }
+
         $this->container['anytype_1'] = $anytype_1;
 
         return $this;
@@ -499,6 +644,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setAnytype2($anytype_2)
     {
+
+
+        if (is_null($anytype_2)) {
+            throw new \InvalidArgumentException('non-nullable anytype_2 cannot be null');
+        }
+
         $this->container['anytype_2'] = $anytype_2;
 
         return $this;
@@ -523,6 +674,12 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function setAnytype3($anytype_3)
     {
+
+
+        if (is_null($anytype_3)) {
+            throw new \InvalidArgumentException('non-nullable anytype_3 cannot be null');
+        }
+
         $this->container['anytype_3'] = $anytype_3;
 
         return $this;
