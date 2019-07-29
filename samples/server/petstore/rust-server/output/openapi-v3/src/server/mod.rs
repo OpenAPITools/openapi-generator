@@ -55,7 +55,7 @@ mod paths {
     extern crate regex;
 
     lazy_static! {
-        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
+        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/required_octet_stream$",
             r"^/xml$",
             r"^/xml_extra$",

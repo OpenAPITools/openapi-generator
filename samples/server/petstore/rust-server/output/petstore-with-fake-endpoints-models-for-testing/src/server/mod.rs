@@ -81,7 +81,7 @@ mod paths {
     extern crate regex;
 
     lazy_static! {
-        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
+        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/v2/another-fake/dummy$",
             r"^/v2/fake$",
             r"^/v2/fake/body-with-query-params$",
