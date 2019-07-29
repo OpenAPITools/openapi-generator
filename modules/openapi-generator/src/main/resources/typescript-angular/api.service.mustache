@@ -69,10 +69,10 @@ export class {{classname}} {
 
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
+            this.configuration.basePath = (typeof configuration.basePath === 'string') ? configuration.basePath : ((typeof basePath === 'string') ? basePath : this.basePath);
 
         } else {
-            this.configuration.basePath = basePath || this.basePath;
+            this.configuration.basePath = (typeof basePath === 'string') ? basePath : this.basePath
         }
 {{#useHttpClient}}
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
