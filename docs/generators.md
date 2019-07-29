@@ -39,6 +39,7 @@ The following generators are available:
     - [kotlin](generators/kotlin.md)
     - [lua](generators/lua.md)
     - [objc](generators/objc.md)
+    - [ocaml](generators/ocaml.md)
     - [perl](generators/perl.md)
     - [php](generators/php.md)
     - [powershell](generators/powershell.md)

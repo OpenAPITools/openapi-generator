@@ -6,11 +6,13 @@
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=master)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
+[![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
 
 [`5.0.x`](https://github.com/OpenAPITools/openapi-generator/tree/5.0.x) branch: [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/5.0.x.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/5.0.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=5.0.x)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=5.0.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
+[![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/5.0.x)](https://cloud.drone.io/OpenAPITools/openapi-generator)
 </div>
 
 <div align="center">
@@ -57,7 +59,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 |                                | Languages/Frameworks |
 |-|-|
-**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client), **Kotlin**, **Lua**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types) **Objective-C**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (AngularJS, Angular (2.x - 7.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
+**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client), **Kotlin**, **Lua**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (AngularJS, Angular (2.x - 7.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
 **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin), **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples)), **Kotlin** (Spring Boot, Ktor), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)
 **API documentation generators** | **HTML**, **Confluence Wiki**
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
@@ -671,12 +673,14 @@ Here is a list of template creators:
    * Java (Vertx): @lopesmcc
    * Java (Google APIs Client Library): @charlescapps
    * Java (Rest-assured): @viclovsky
+   * Java (Java 11 Native HTTP client): @bbdouglas
    * Javascript/NodeJS: @jfiala
    * Javascript (Closure-annotated Angular) @achew22
    * Javascript (Flow types) @jaypea
    * JMeter: @davidkiss
    * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Lua: @daurnimator
+   * OCaml: @cgensoul
    * Perl: @wing328 [:heart:](https://www.patreon.com/wing328)
    * PHP (Guzzle): @baartosz
    * PowerShell: @beatcracker

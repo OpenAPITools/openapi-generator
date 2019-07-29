@@ -602,9 +602,6 @@ public class ApiClient {
         if (responseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
             return null;
         } else if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            if (returnType == null) {
-                return null;
-            }
             return responseEntity.getBody();
         } else {
             // The error handler built into the RestTemplate should handle 400 and 500 series errors.
