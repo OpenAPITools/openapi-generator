@@ -4929,12 +4929,12 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.description = codegenProperty.description;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
                 codegenParameter.minimum = codegenProperty.minimum;
-				codegenParameter.maximum = codegenProperty.maximum;
-				codegenParameter.exclusiveMinimum = codegenProperty.exclusiveMinimum;
-				codegenParameter.exclusiveMaximum = codegenProperty.exclusiveMaximum;
-				codegenParameter.minLength = codegenProperty.minLength;
-				codegenParameter.maxLength = codegenProperty.maxLength;
-				codegenParameter.pattern = codegenProperty.pattern;
+                codegenParameter.maximum = codegenProperty.maximum;
+                codegenParameter.exclusiveMinimum = codegenProperty.exclusiveMinimum;
+                codegenParameter.exclusiveMaximum = codegenProperty.exclusiveMaximum;
+                codegenParameter.minLength = codegenProperty.minLength;
+                codegenParameter.maxLength = codegenProperty.maxLength;
+                codegenParameter.pattern = codegenProperty.pattern;
 
 
 
