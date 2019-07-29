@@ -28,7 +28,7 @@ fi
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DdebugOperations -DloggerPath=conf/log4j.properties"
 
-args="generate -t modules/openapi-generator/src/main/resources/ocaml-client -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -g ocaml-client -o samples/openapi3/client/petstore/ocaml-client/ --additional-properties packageName=petstore_client $@"
+args="generate -t modules/openapi-generator/src/main/resources/ocaml -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -g ocaml -o samples/openapi3/client/petstore/ocaml/ --additional-properties packageName=petstore_client $@"
 
 echo "java ${JAVA_OPTS} -jar ${executable} ${args}"
 java $JAVA_OPTS -jar $executable $args

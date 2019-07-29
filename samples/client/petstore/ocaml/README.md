@@ -17,6 +17,7 @@ Please run the following commands to build the package `petstore_client`:
 
 ```sh
 opam install ppx_deriving_yojson cohttp ppx_deriving cohttp-lwt-unix
+eval $(opam env)
 dune build
 ```
 
