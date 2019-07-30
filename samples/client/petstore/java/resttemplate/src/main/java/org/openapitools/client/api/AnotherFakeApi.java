@@ -63,7 +63,7 @@ public class AnotherFakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling call123testSpecialTags");
         }
         
-        String path = apiClient.expandPath("/another-fake/dummy", Collections.emptyMap());
+        String path = apiClient.expandPath("/another-fake/dummy", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

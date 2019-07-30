@@ -62,7 +62,7 @@ public class UserApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUser");
         }
         
-        String path = apiClient.expandPath("/user", Collections.emptyMap());
+        String path = apiClient.expandPath("/user", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -93,7 +93,7 @@ public class UserApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
         }
         
-        String path = apiClient.expandPath("/user/createWithArray", Collections.emptyMap());
+        String path = apiClient.expandPath("/user/createWithArray", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -124,7 +124,7 @@ public class UserApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUsersWithListInput");
         }
         
-        String path = apiClient.expandPath("/user/createWithList", Collections.emptyMap());
+        String path = apiClient.expandPath("/user/createWithList", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -237,7 +237,7 @@ public class UserApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'password' when calling loginUser");
         }
         
-        String path = apiClient.expandPath("/user/login", Collections.emptyMap());
+        String path = apiClient.expandPath("/user/login", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -267,7 +267,7 @@ public class UserApi {
     public void logoutUser() throws RestClientException {
         Object postBody = null;
         
-        String path = apiClient.expandPath("/user/logout", Collections.emptyMap());
+        String path = apiClient.expandPath("/user/logout", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

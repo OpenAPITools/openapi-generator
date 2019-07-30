@@ -63,7 +63,7 @@ public class FakeClassnameTags123Api {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClassname");
         }
         
-        String path = apiClient.expandPath("/fake_classname_test", Collections.emptyMap());
+        String path = apiClient.expandPath("/fake_classname_test", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

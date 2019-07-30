@@ -65,7 +65,7 @@ public class PetApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling addPet");
         }
         
-        String path = apiClient.expandPath("/pet", Collections.emptyMap());
+        String path = apiClient.expandPath("/pet", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -139,7 +139,7 @@ public class PetApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'status' when calling findPetsByStatus");
         }
         
-        String path = apiClient.expandPath("/pet/findByStatus", Collections.emptyMap());
+        String path = apiClient.expandPath("/pet/findByStatus", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -176,7 +176,7 @@ public class PetApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'tags' when calling findPetsByTags");
         }
         
-        String path = apiClient.expandPath("/pet/findByTags", Collections.emptyMap());
+        String path = apiClient.expandPath("/pet/findByTags", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -253,7 +253,7 @@ public class PetApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updatePet");
         }
         
-        String path = apiClient.expandPath("/pet", Collections.emptyMap());
+        String path = apiClient.expandPath("/pet", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

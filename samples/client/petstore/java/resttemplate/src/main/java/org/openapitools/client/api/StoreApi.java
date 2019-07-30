@@ -92,7 +92,7 @@ public class StoreApi {
     public Map<String, Integer> getInventory() throws RestClientException {
         Object postBody = null;
         
-        String path = apiClient.expandPath("/store/inventory", Collections.emptyMap());
+        String path = apiClient.expandPath("/store/inventory", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -166,7 +166,7 @@ public class StoreApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
         }
         
-        String path = apiClient.expandPath("/store/order", Collections.emptyMap());
+        String path = apiClient.expandPath("/store/order", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
