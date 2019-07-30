@@ -40,8 +40,7 @@ namespace {{apiPackage}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}{{^useSwashbuckle}}{{#responses}}{{#dataType}}
         [ProducesResponseType(statusCode: {{code}}, type: typeof({{&dataType}}))]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
-        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}{{^isCookieParam}}, 
-{{/isCookieParam}}{{/hasMore}}{{/allParams}}){{^generateBody}};{{/generateBody}}
+        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}{{^isCookieParam}}, {{/isCookieParam}}{{/hasMore}}{{/allParams}}){{^generateBody}};{{/generateBody}}
         {{#generateBody}}
         { 
 	    {{#cookieParams}} 
@@ -56,7 +55,8 @@ namespace {{apiPackage}}
 {{^dataType}}
             //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode({{code}});
-{{/dataType}}{{/responses}}
+{{/dataType}}
+{{/responses}}
 {{#returnType}}
             string exampleJson = null;
             {{#examples}}
