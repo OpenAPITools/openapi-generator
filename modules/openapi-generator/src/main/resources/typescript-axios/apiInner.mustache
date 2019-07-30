@@ -170,10 +170,10 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             }
             {{/isListContainer}}
     {{/formParams}}{{/vendorExtensions}}
-    {{#hasFormParams}}{{#multipartFormData}}
+    {{#vendorExtensions}}{{#hasFormParams}}{{^multipartFormData}}
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';{{/multipartFormData}}{{#multipartFormData}}
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';{{/multipartFormData}}
-    {{/hasFormParams}}
+    {{/hasFormParams}}{{/vendorExtensions}}
     {{#bodyParam}}
             {{^consumes}}
             localVarHeaderParameter['Content-Type'] = 'application/json';

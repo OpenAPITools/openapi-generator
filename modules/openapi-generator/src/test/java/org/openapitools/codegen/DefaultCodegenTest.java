@@ -478,6 +478,44 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfRequired() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf-required.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema child = openAPI.getComponents().getSchemas().get("clubForCreation");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel childModel = codegen.fromModel("clubForCreation", child);
+        showVars(childModel);
+    }
+
+    @Test
+    public void testAllOfParent() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf-required-parent.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema person = openAPI.getComponents().getSchemas().get("person");
+        CodegenModel personModel = codegen.fromModel("person", person);
+        showVars(personModel);
+
+        Schema personForCreation = openAPI.getComponents().getSchemas().get("personForCreation");
+        CodegenModel personForCreationModel = codegen.fromModel("personForCreation", personForCreation);
+        showVars(personForCreationModel);
+
+        Schema personForUpdate = openAPI.getComponents().getSchemas().get("personForUpdate");
+        CodegenModel personForUpdateModel = codegen.fromModel("personForUpdate", personForUpdate);
+        showVars(personForUpdateModel);
+    }
+
+    private void showVars(CodegenModel model) {
+        if(model.getRequiredVars() != null) {
+
+            System.out.println(model.getRequiredVars().stream().map(v -> v.name).collect(Collectors.toList()));
+        }
+    }
+
+
+    @Test
     public void testCallbacks() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/callbacks.yaml");
         final CodegenConfig codegen = new DefaultCodegen();
