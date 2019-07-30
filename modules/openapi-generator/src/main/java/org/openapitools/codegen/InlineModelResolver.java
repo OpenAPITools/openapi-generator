@@ -407,11 +407,18 @@ public class InlineModelResolver {
         }
     }
 
+    /**
+     * Generates a unique model name. Non-alphanumeric characters will be replaced
+     * with underscores
+     *
+     * @param title String title field in the schema if present
+     * @param key String model name
+     */
     private String resolveModelName(String title, String key) {
         if (title == null) {
-            return uniqueName(key);
+            return uniqueName(key).replaceAll("[^A-Za-z0-9]", "_");
         } else {
-            return uniqueName(title);
+            return uniqueName(title).replaceAll("[^A-Za-z0-9]", "_");
         }
     }
 
