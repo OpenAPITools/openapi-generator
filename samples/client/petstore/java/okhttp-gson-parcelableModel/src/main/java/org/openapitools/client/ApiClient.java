@@ -177,16 +177,7 @@ public class ApiClient {
      */
     public ApiClient setHttpClient(OkHttpClient newHttpClient) {
         if(!httpClient.equals(newHttpClient)) {
-            OkHttpClient.Builder builder = newHttpClient.newBuilder();
-            Iterator<Interceptor> networkInterceptorIterator = httpClient.networkInterceptors().iterator();
-            while(networkInterceptorIterator.hasNext()) {
-                builder.addNetworkInterceptor(networkInterceptorIterator.next());
-            }
-            Iterator<Interceptor> interceptorIterator = httpClient.interceptors().iterator();
-            while(interceptorIterator.hasNext()) {
-                builder.addInterceptor(interceptorIterator.next());
-            }
-            this.httpClient = builder.build();
+            this.httpClient = newHttpClient;
         }
         return this;
     }

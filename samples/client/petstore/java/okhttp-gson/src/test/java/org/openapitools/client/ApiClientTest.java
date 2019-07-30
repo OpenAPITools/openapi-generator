@@ -335,7 +335,7 @@ public class ApiClientTest {
         OkHttpClient oldClient = apiClient.getHttpClient();
         assertEquals(1, oldClient.networkInterceptors().size());
 
-        OkHttpClient newClient = new OkHttpClient();
+        OkHttpClient newClient = apiClient.getHttpClient().newBuilder().build();
         apiClient.setHttpClient(newClient);
         assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
         apiClient.setHttpClient(newClient);
