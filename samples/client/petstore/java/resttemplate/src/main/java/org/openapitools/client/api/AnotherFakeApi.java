@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Client;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -62,7 +63,7 @@ public class AnotherFakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling call123testSpecialTags");
         }
         
-        String path = UriComponentsBuilder.fromPath("/another-fake/dummy").build().toUriString();
+        String path = apiClient.expandPath("/another-fake/dummy", Collections.emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

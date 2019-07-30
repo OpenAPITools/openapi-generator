@@ -7,6 +7,7 @@ import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -64,7 +65,7 @@ public class PetApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling addPet");
         }
         
-        String path = UriComponentsBuilder.fromPath("/pet").build().toUriString();
+        String path = apiClient.expandPath("/pet", Collections.emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -102,7 +103,7 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
-        String path = UriComponentsBuilder.fromPath("/pet/{petId}").buildAndExpand(uriVariables).toUriString();
+        String path = apiClient.expandPath("/pet/{petId}", uriVariables);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -138,7 +139,7 @@ public class PetApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'status' when calling findPetsByStatus");
         }
         
-        String path = UriComponentsBuilder.fromPath("/pet/findByStatus").build().toUriString();
+        String path = apiClient.expandPath("/pet/findByStatus", Collections.emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -175,7 +176,7 @@ public class PetApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'tags' when calling findPetsByTags");
         }
         
-        String path = UriComponentsBuilder.fromPath("/pet/findByTags").build().toUriString();
+        String path = apiClient.expandPath("/pet/findByTags", Collections.emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -216,7 +217,7 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
-        String path = UriComponentsBuilder.fromPath("/pet/{petId}").buildAndExpand(uriVariables).toUriString();
+        String path = apiClient.expandPath("/pet/{petId}", uriVariables);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -252,7 +253,7 @@ public class PetApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updatePet");
         }
         
-        String path = UriComponentsBuilder.fromPath("/pet").build().toUriString();
+        String path = apiClient.expandPath("/pet", Collections.emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -290,7 +291,7 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
-        String path = UriComponentsBuilder.fromPath("/pet/{petId}").buildAndExpand(uriVariables).toUriString();
+        String path = apiClient.expandPath("/pet/{petId}", uriVariables);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -334,7 +335,7 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
-        String path = UriComponentsBuilder.fromPath("/pet/{petId}/uploadImage").buildAndExpand(uriVariables).toUriString();
+        String path = apiClient.expandPath("/pet/{petId}/uploadImage", uriVariables);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -385,7 +386,7 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
-        String path = UriComponentsBuilder.fromPath("/fake/{petId}/uploadImageWithRequiredFile").buildAndExpand(uriVariables).toUriString();
+        String path = apiClient.expandPath("/fake/{petId}/uploadImageWithRequiredFile", uriVariables);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

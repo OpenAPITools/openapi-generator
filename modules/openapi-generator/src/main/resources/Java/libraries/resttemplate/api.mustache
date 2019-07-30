@@ -6,6 +6,7 @@ import {{invokerPackage}}.ApiClient;
 {{/imports}}
 
 {{^fullJavaUtil}}import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -72,7 +73,7 @@ public class {{classname}} {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
         uriVariables.put("{{baseName}}", {{#collectionFormat}}apiClient.collectionPathParameterToString(ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase()), {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}});{{/pathParams}}{{/hasPathParams}}
-        String path = UriComponentsBuilder.fromPath("{{{path}}}"){{#hasPathParams}}.buildAndExpand(uriVariables){{/hasPathParams}}{{^hasPathParams}}.build(){{/hasPathParams}}.toUriString();
+        String path = apiClient.expandPath("{{{path}}}", {{#hasPathParams}}uriVariables{{/hasPathParams}}{{^hasPathParams}}Collections.emptyMap(){{/hasPathParams}});
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
