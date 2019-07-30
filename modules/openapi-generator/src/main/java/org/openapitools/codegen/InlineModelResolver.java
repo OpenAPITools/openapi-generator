@@ -418,7 +418,7 @@ public class InlineModelResolver {
         if (title == null) {
             return uniqueName(key).replaceAll("[^A-Za-z0-9]", "_");
         } else {
-            return uniqueName(title).replaceAll("[^A-Za-z0-9]", "_");
+            return uniqueName(title);
         }
     }
 
