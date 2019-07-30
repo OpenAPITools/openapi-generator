@@ -106,11 +106,25 @@ pub enum {{{operationId}}}Response {
     {{/dataType}}
     {{#dataType}}
       {{^hasHeaders}}
-    ({{{dataType}}})
+        {{#vendorExtensions}}
+          {{#producesPlainText}}
+            (String)
+          {{/producesPlainText}}
+          {{^producesPlainText}}
+            ( {{{dataType}}} )
+          {{/producesPlainText}}
+        {{/vendorExtensions}}
       {{/hasHeaders}}
       {{#hasHeaders}}
-    {
-        body: {{{dataType}}},
+        {
+          {{#vendorExtensions}}
+            {{#producesPlainText}}
+              body: String,
+            {{/producesPlainText}}
+            {{^producesPlainText}}
+              body: {{{dataType}}},
+            {{/producesPlainText}}
+          {{/vendorExtensions}}
       {{/hasHeaders}}
     {{/dataType}}
     {{#headers}}
