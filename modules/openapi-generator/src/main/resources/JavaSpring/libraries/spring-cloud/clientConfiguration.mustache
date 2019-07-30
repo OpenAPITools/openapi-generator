@@ -80,7 +80,7 @@ public class ClientConfiguration {
         {{/isPassword}}
         {{#isApplication}}
   @Bean
-  @ConditionalOnProperty("{{}{{#lowercase}}{{{title}}}{{/lowercase}}.security.{{{name}}}.client-id")
+  @ConditionalOnProperty("{{#lowercase}}{{{title}}}{{/lowercase}}.security.{{{name}}}.client-id")
   @ConfigurationProperties("{{#lowercase}}{{{title}}}{{/lowercase}}.security.{{{name}}}")
   public ClientCredentialsResourceDetails {{{name}}}ResourceDetails() {
     ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
