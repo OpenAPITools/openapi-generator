@@ -71,7 +71,7 @@ addPet params =
 
 deletePet :
     { apiKey : Maybe (String)
-    } ->
+    } -> 
     { onSend : Result Http.Error () -> msg
 
 
