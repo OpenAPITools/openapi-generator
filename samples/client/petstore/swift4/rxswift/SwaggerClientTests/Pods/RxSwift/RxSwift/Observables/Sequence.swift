@@ -47,7 +47,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class ObservableSequenceSink<S: Sequence, O: ObserverType> : Sink<O> where S.Iterator.Element == O.E {
+final private class ObservableSequenceSink<S: Sequence, O: ObserverType> : Sink<O> where S.Iterator.Element == O.E {
     typealias Parent = ObservableSequence<S>
 
     private let _parent: Parent
@@ -63,8 +63,7 @@ final fileprivate class ObservableSequenceSink<S: Sequence, O: ObserverType> : S
             if let next = mutableIterator.0.next() {
                 self.forwardOn(.next(next))
                 recurse(mutableIterator)
-            }
-            else {
+            } else {
                 self.forwardOn(.completed)
                 self.dispose()
             }
@@ -72,7 +71,7 @@ final fileprivate class ObservableSequenceSink<S: Sequence, O: ObserverType> : S
     }
 }
 
-final fileprivate class ObservableSequence<S: Sequence> : Producer<S.Iterator.Element> {
+final private class ObservableSequence<S: Sequence> : Producer<S.Iterator.Element> {
     fileprivate let _elements: S
     fileprivate let _scheduler: ImmediateSchedulerType
 
@@ -81,7 +80,7 @@ final fileprivate class ObservableSequence<S: Sequence> : Producer<S.Iterator.El
         _scheduler = scheduler
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
         let sink = ObservableSequenceSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)

@@ -119,9 +119,9 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.21"
-    jackson_version = "2.8.11"
-    jackson_databind_version = "2.8.11.3"
+    swagger_annotations_version = "1.5.22"
+    jackson_version = "2.9.9"
+    jackson_databind_version = "2.9.9"
     google_api_client_version = "1.23.0"
     jersey_common_version = "2.25.1"
     jodatime_version = "2.9.9"
@@ -133,6 +133,7 @@ ext {
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "com.google.api-client:google-api-client:${google_api_client_version}"
     compile "org.glassfish.jersey.core:jersey-common:${jersey_common_version}"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"

@@ -5,17 +5,29 @@
 /// {{{classname}}} : {{{description}}}
 {{/description}}
 
-#[allow(unused_imports)]
-use serde_json::Value;
-
+{{!-- for enum schemas --}}
+{{#isEnum}}
+/// {{{description}}}
 #[derive(Debug, Serialize, Deserialize)]
+pub enum {{classname}} {
+{{#allowableValues}}
+{{#enumVars}}
+    #[serde(rename = "{{{value}}}")]
+    {{name}},
+{{/enumVars}}{{/allowableValues}}
+}
+{{/isEnum}}
+
+{{!-- for non-enum schemas --}}
+{{^isEnum}}
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
     {{#description}}
     /// {{{description}}}
     {{/description}}
-    #[serde(rename = "{{{baseName}}}")]
-    pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
+    #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
+    pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
 {{/vars}}
 }
 
@@ -23,7 +35,7 @@ impl {{{classname}}} {
     {{#description}}
     /// {{{description}}}
     {{/description}}
-    pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
+    pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
         {{{classname}}} {
             {{#vars}}
             {{{name}}}: {{#required}}{{{name}}}{{/required}}{{^required}}{{#isListContainer}}None{{/isListContainer}}{{#isMapContainer}}None{{/isMapContainer}}{{^isContainer}}None{{/isContainer}}{{/required}},
@@ -31,16 +43,23 @@ impl {{{classname}}} {
         }
     }
 }
-{{#isEnum}}
-// TODO enum
-// List of {{{name}}}
-//const (
-//    {{#allowableValues}}
-//    {{#enumVars}}
-//    {{{name}}} {{{classname}}} = "{{{value}}}"
-//    {{/enumVars}}
-//    {{/allowableValues}}
-//)
 {{/isEnum}}
+
+{{!-- for properties that are of enum type --}}
+{{#vars}}
+{{#isEnum}}
+/// {{{description}}}
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum {{enumName}} {
+{{#allowableValues}}
+{{#enumVars}}
+    #[serde(rename = "{{{value}}}")]
+    {{name}},
+{{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+
 {{/model}}
 {{/models}}

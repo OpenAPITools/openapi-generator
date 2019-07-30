@@ -71,6 +71,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         typeMapping.put("boolean", "BOOLEAN");
         typeMapping.put("string", "STRING_32");
         typeMapping.put("UUID", "UUID"); //
+        typeMapping.put("URI", "STRING"); //
         typeMapping.put("date", "DATE");
         typeMapping.put("DateTime", "DATE_TIME");
         typeMapping.put("date-time", "DATE_TIME");

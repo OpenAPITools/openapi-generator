@@ -70,6 +70,10 @@ public class Generate implements Runnable {
             description = "folder containing the template files")
     private String templateDir;
 
+    @Option(name = {"-e", "--engine"}, title = "templating engine",
+        description = "templating engine: \"mustache\" (default) or \"handlebars\" (beta)")
+    private String templatingEngine;
+
     @Option(
             name = {"-a", "--auth"},
             title = "authorization",
@@ -97,6 +101,11 @@ public class Generate implements Runnable {
             description = "specifies if the existing files should be "
                     + "overwritten during the generation.")
     private Boolean skipOverwrite;
+
+
+    @Option(name = {"--package-name"}, title = "package name",
+            description = CodegenConstants.PACKAGE_NAME_DESC)
+    private String packageName;
 
     @Option(name = {"--api-package"}, title = "api package",
             description = CodegenConstants.API_PACKAGE_DESC)
@@ -131,7 +140,7 @@ public class Generate implements Runnable {
     private List<String> typeMappings = new ArrayList<>();
 
     @Option(
-            name = {"--additional-properties"},
+            name = {"-p", "--additional-properties"},
             title = "additional properties",
             description = "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value."
                     + " You can also have multiple occurrences of this option.")
@@ -204,6 +213,12 @@ public class Generate implements Runnable {
             title = "skip spec validation",
             description = "Skips the default behavior of validating an input specification.")
     private Boolean skipValidateSpec;
+
+    @Option(name = {"--strict-spec"},
+            title = "true/false strict behavior",
+            description = "'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to. e.g. when false, no fixes will be applied to documents which pass validation but don't follow the spec.",
+            arity = 1)
+    private Boolean strictSpecBehavior;
 
     @Option(name = {"--log-to-stderr"},
             title = "Log to STDERR",
@@ -284,6 +299,14 @@ public class Generate implements Runnable {
             configurator.setTemplateDir(templateDir);
         }
 
+        if (isNotEmpty(packageName)) {
+            configurator.setPackageName(packageName);
+        }
+
+        if (isNotEmpty(templatingEngine)) {
+            configurator.setTemplatingEngineName(templatingEngine);
+        }
+
         if (isNotEmpty(apiPackage)) {
             configurator.setApiPackage(apiPackage);
         }
@@ -351,11 +374,19 @@ public class Generate implements Runnable {
         if (generateAliasAsModel != null) {
             configurator.setGenerateAliasAsModel(generateAliasAsModel);
         }
+
         if (minimalUpdate != null) {
             configurator.setEnableMinimalUpdate(minimalUpdate);
         }
 
-        applySystemPropertiesKvpList(systemProperties, configurator);
+        if (strictSpecBehavior != null) {
+            configurator.setStrictSpecBehavior(strictSpecBehavior);
+        }
+
+        if (systemProperties != null && !systemProperties.isEmpty()) {
+            System.err.println("[DEPRECATED] -D arguments after 'generate' are application arguments and not Java System Properties, please consider changing to -p, or apply your options to JAVA_OPTS, or move the -D arguments before the jar option.");
+            applySystemPropertiesKvpList(systemProperties, configurator);
+        }
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);

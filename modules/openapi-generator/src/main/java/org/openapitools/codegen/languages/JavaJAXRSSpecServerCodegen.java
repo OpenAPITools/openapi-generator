@@ -37,12 +37,14 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String GENERATE_POM = "generatePom";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String JACKSON = "jackson";
+    public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
 
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
     private boolean generatePom = true;
     private boolean useSwaggerAnnotations = true;
     private boolean useJackson = false;
+    private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
 
     private String primaryResourceName;
 
@@ -51,11 +53,17 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-server";
         outputFolder = "generated-code/JavaJaxRS-Spec";
+        apiPackage = "org.openapitools.api";
+        modelPackage = "org.openapitools.model";
+
+        // cliOptions default redefinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        apiPackage = "org.openapitools.api";
-        modelPackage = "org.openapitools.model";
 
         apiTestTemplateFiles.clear(); // TODO: add api test template
         modelTestTemplateFiles.clear(); // TODO: add model test template
@@ -74,18 +82,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
 
-        for (int i = 0; i < cliOptions.size(); i++) {
-            if (CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
-                cliOptions.remove(i);
-                break;
-            }
-        }
-
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
-
-        Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
-
+        removeOption(CodegenConstants.LIBRARY);
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_LIBRARY);
+        Map<String, String> supportedLibraries = new LinkedHashMap<>();
         supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS");
         library.setEnum(supportedLibraries);
 
@@ -94,6 +93,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
+        cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
     }
 
     @Override
@@ -117,6 +117,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             useSwaggerAnnotations = Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
         }
         writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
+        if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
+            openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
+        }
+        additionalProperties.put(OPEN_API_SPEC_FILE_LOCATION, openApiSpecFileLocation);
 
         useJackson = convertPropertyToBoolean(JACKSON);
 
@@ -137,16 +141,36 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
         }
 
-        supportingFiles.add(new SupportingFile("openapi.mustache",
-                "src/main/openapi",
-                "openapi.yaml")
-        );
+        if(StringUtils.isNotEmpty(openApiSpecFileLocation)) {
+            int index = openApiSpecFileLocation.lastIndexOf('/');
+            String fileFolder;
+            String fileName;
+            if(index >= 0) {
+                fileFolder = openApiSpecFileLocation.substring(0, index);
+                fileName = openApiSpecFileLocation.substring(index + 1);
+            } else {
+                fileFolder = "";
+                fileName = openApiSpecFileLocation;
+            }
+            supportingFiles.add(new SupportingFile("openapi.mustache", fileFolder, fileName));
+        }
     }
-
 
     @Override
     public String getName() {
         return "jaxrs-spec";
+    }
+
+    public String getOpenApiSpecFileLocation() {
+        return openApiSpecFileLocation;
+    }
+
+    /**
+     * Location where the file containing the spec will be generated in the output folder.
+     * @param location location inside the output folder. No file generated when set to null or empty string.
+     */
+    public void setOpenApiSpecFileLocation(String location) {
+        this.openApiSpecFileLocation = location;
     }
 
     @Override

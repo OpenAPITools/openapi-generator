@@ -23,49 +23,48 @@ extension ObservableType {
         -> Observable<E> {
             if let scheduler = scheduler as? SerialDispatchQueueScheduler {
                 return ObserveOnSerialDispatchQueue(source: self.asObservable(), scheduler: scheduler)
-            }
-            else {
+            } else {
                 return ObserveOn(source: self.asObservable(), scheduler: scheduler)
             }
     }
 }
 
-final fileprivate class ObserveOn<E> : Producer<E> {
+final private class ObserveOn<E> : Producer<E> {
     let scheduler: ImmediateSchedulerType
     let source: Observable<E>
-    
+
     init(source: Observable<E>, scheduler: ImmediateSchedulerType) {
         self.scheduler = scheduler
         self.source = source
-        
+
 #if TRACE_RESOURCES
-        let _ = Resources.incrementTotal()
+        _ = Resources.incrementTotal()
 #endif
     }
-    
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
+
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
         let sink = ObserveOnSink(scheduler: scheduler, observer: observer, cancel: cancel)
         let subscription = source.subscribe(sink)
         return (sink: sink, subscription: subscription)
     }
-    
+
 #if TRACE_RESOURCES
     deinit {
-        let _ = Resources.decrementTotal()
+        _ = Resources.decrementTotal()
     }
 #endif
 }
 
-enum ObserveOnState : Int32 {
+enum ObserveOnState: Int32 {
     // pump is not running
     case stopped = 0
     // pump is running
     case running = 1
 }
 
-final fileprivate class ObserveOnSink<O: ObserverType> : ObserverBase<O.E> {
+final private class ObserveOnSink<O: ObserverType> : ObserverBase<O.E> {
     typealias E = O.E
-    
+
     let _scheduler: ImmediateSchedulerType
 
     var _lock = SpinLock()
@@ -87,7 +86,7 @@ final fileprivate class ObserveOnSink<O: ObserverType> : ObserverBase<O.E> {
     override func onCore(_ event: Event<E>) {
         let shouldStart = _lock.calculateLocked { () -> Bool in
             self._queue.enqueue(event)
-            
+
             switch self._state {
             case .stopped:
                 self._state = .running
@@ -96,18 +95,17 @@ final fileprivate class ObserveOnSink<O: ObserverType> : ObserverBase<O.E> {
                 return false
             }
         }
-        
+
         if shouldStart {
             _scheduleDisposable.disposable = self._scheduler.scheduleRecursive((), action: self.run)
         }
     }
-    
-    func run(_ state: (), _ recurse: (()) -> ()) {
+
+    func run(_ state: (), _ recurse: (()) -> Void) {
         let (nextEvent, observer) = self._lock.calculateLocked { () -> (Event<E>?, O) in
             if !self._queue.isEmpty {
                 return (self._queue.dequeue(), self._observer)
-            }
-            else {
+            } else {
                 self._state = .stopped
                 return (nil, self._observer)
             }
@@ -118,8 +116,7 @@ final fileprivate class ObserveOnSink<O: ObserverType> : ObserverBase<O.E> {
             if nextEvent.isStopEvent {
                 dispose()
             }
-        }
-        else {
+        } else {
             return
         }
 
@@ -134,14 +131,13 @@ final fileprivate class ObserveOnSink<O: ObserverType> : ObserverBase<O.E> {
         _lock.lock(); defer { _lock.unlock() } // {
             if !self._queue.isEmpty {
                 return true
-            }
-            else {
+            } else {
                 self._state = .stopped
                 return false
             }
         // }
     }
-    
+
     override func dispose() {
         super.dispose()
 
@@ -151,7 +147,7 @@ final fileprivate class ObserveOnSink<O: ObserverType> : ObserverBase<O.E> {
 }
 
 #if TRACE_RESOURCES
-    fileprivate var _numberOfSerialDispatchQueueObservables = AtomicInt(0)
+    private var _numberOfSerialDispatchQueueObservables = AtomicInt(0)
     extension Resources {
         /**
          Counts number of `SerialDispatchQueueObservables`.
@@ -164,7 +160,7 @@ final fileprivate class ObserveOnSink<O: ObserverType> : ObserverBase<O.E> {
     }
 #endif
 
-final fileprivate class ObserveOnSerialDispatchQueueSink<O: ObserverType> : ObserverBase<O.E> {
+final private class ObserveOnSerialDispatchQueueSink<O: ObserverType> : ObserverBase<O.E> {
     let scheduler: SerialDispatchQueueScheduler
     let observer: O
 
@@ -192,7 +188,7 @@ final fileprivate class ObserveOnSerialDispatchQueueSink<O: ObserverType> : Obse
     }
 
     override func onCore(_ event: Event<E>) {
-        let _ = self.scheduler.schedule((self, event), action: cachedScheduleLambda!)
+        _ = self.scheduler.schedule((self, event), action: cachedScheduleLambda!)
     }
 
     override func dispose() {
@@ -202,7 +198,7 @@ final fileprivate class ObserveOnSerialDispatchQueueSink<O: ObserverType> : Obse
     }
 }
 
-final fileprivate class ObserveOnSerialDispatchQueue<E> : Producer<E> {
+final private class ObserveOnSerialDispatchQueue<E> : Producer<E> {
     let scheduler: SerialDispatchQueueScheduler
     let source: Observable<E>
 
@@ -211,12 +207,12 @@ final fileprivate class ObserveOnSerialDispatchQueue<E> : Producer<E> {
         self.source = source
 
         #if TRACE_RESOURCES
-            let _ = Resources.incrementTotal()
-            let _ = _numberOfSerialDispatchQueueObservables.increment()
+            _ = Resources.incrementTotal()
+            _ = _numberOfSerialDispatchQueueObservables.increment()
         #endif
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
         let sink = ObserveOnSerialDispatchQueueSink(scheduler: scheduler, observer: observer, cancel: cancel)
         let subscription = source.subscribe(sink)
         return (sink: sink, subscription: subscription)
@@ -224,8 +220,8 @@ final fileprivate class ObserveOnSerialDispatchQueue<E> : Producer<E> {
 
     #if TRACE_RESOURCES
     deinit {
-        let _ = Resources.decrementTotal()
-        let _ = _numberOfSerialDispatchQueueObservables.decrement()
+        _ = Resources.decrementTotal()
+        _ = _numberOfSerialDispatchQueueObservables.decrement()
     }
     #endif
 }

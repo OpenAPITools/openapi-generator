@@ -17,13 +17,29 @@
 
 package org.openapitools.codegen.java.spring;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import static java.util.stream.Collectors.groupingBy;
+import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 
 public class SpringCodegenTest {
 
@@ -50,6 +66,7 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.getConfigPackage(), "org.openapitools.configuration");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8082");
+        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), false);
     }
 
     @Test
@@ -61,6 +78,7 @@ public class SpringCodegenTest {
         codegen.setInvokerPackage("xx.yyyyyyyy.invoker");
         codegen.setBasePackage("xx.yyyyyyyy.base");
         codegen.setConfigPackage("xx.yyyyyyyy.config");
+        codegen.setUnhandledException(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -75,6 +93,8 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
         Assert.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
+        Assert.assertEquals(codegen.isUnhandledException(), true);
+        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
     }
 
     @Test
@@ -109,5 +129,54 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xyz.yyyyy.cccc.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.TITLE), "someTest");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
+    }
+
+    @Test
+    public void interfaceDefaultImplDisableWithReponseWrapper() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
+        codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), false);
+    }
+
+    @Test
+    public void doNotGenerateRequestParamForObjectQueryParam() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/objectQueryParam.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/PonyApi.java",  "@RequestParam");
+    }
+
+    private void checkFileNotContains(MockDefaultGenerator generator, String path, String... lines) {
+        String file = generator.getFiles().get(path);
+        assertNotNull(file);
+        for (String line : lines)
+            assertFalse(file.contains(line));
+    }
+
+    @Test
+    public void clientOptsUnicity() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.cliOptions()
+                .stream()
+                .collect(groupingBy(CliOption::getOpt))
+                .forEach((k,v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
     }
 }

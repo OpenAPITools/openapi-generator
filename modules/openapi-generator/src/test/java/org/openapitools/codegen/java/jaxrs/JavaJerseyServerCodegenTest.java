@@ -3,13 +3,13 @@ package org.openapitools.codegen.java.jaxrs;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -96,11 +96,9 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         ((JavaJerseyServerCodegen) codegen).setUseTags(false);
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -175,11 +173,9 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         ((JavaJerseyServerCodegen) codegen).setUseTags(true);
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();

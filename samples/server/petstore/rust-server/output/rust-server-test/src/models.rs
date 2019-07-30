@@ -2,12 +2,13 @@
 extern crate chrono;
 extern crate uuid;
 
-
 use serde::ser::Serializer;
 
 use std::collections::HashMap;
 use models;
 use swagger;
+use std::string::ParseError;
+
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -32,6 +33,20 @@ impl ANullableContainer {
     }
 }
 
+
+/// An additionalPropertiesObject
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AdditionalPropertiesObject {
+}
+
+impl AdditionalPropertiesObject {
+    pub fn new() -> AdditionalPropertiesObject {
+        AdditionalPropertiesObject {
+        }
+    }
+}
+
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct InlineObject {
     #[serde(rename = "id")]
@@ -52,6 +67,7 @@ impl InlineObject {
     }
 }
 
+
 /// An object of objects
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ObjectOfObjects {
@@ -69,22 +85,24 @@ impl ObjectOfObjects {
     }
 }
 
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ObjectOfObjectsInner {
+    #[serde(rename = "required_thing")]
+    pub required_thing: String,
+
     #[serde(rename = "optional_thing")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_thing: Option<isize>,
-
-    #[serde(rename = "required_thing")]
-    pub required_thing: String,
 
 }
 
 impl ObjectOfObjectsInner {
     pub fn new(required_thing: String, ) -> ObjectOfObjectsInner {
         ObjectOfObjectsInner {
-            optional_thing: None,
             required_thing: required_thing,
+            optional_thing: None,
         }
     }
 }
+

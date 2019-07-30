@@ -305,6 +305,31 @@ components:
             type: string
           city:
             type: string
+    ComposedObjectModelInline:
+      allOf:
+      - type: object
+        properties:
+          composed_object_model_inline_allOf:
+            type: object
+            properties:
+              prop1:
+                type: string
+      anyOf:
+      - type: object
+        properties:
+          composed_object_model_inline_anyOf:
+            type: object
+            properties:
+              prop1:
+                type: string
+      oneOf:
+      - type: object
+        properties:
+          composed_object_model_inline_oneOf:
+            type: object
+            properties:
+              prop1:
+                type: string
     ArbitraryObjectModelInline:
       type: object
       properties:

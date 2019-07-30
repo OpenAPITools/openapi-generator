@@ -45,16 +45,27 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
     : QObject(parent), manager(nullptr)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
-
+    timeout = 0;
+    timer = new QTimer();
     manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, &{{prefix}}HttpRequestWorker::on_manager_finished);
 }
 
 {{prefix}}HttpRequestWorker::~{{prefix}}HttpRequestWorker() {
+    if(timer != nullptr){
+        if(timer->isActive()){
+            timer->stop();
+        }
+        timer->deleteLater();
+    }
 }
 
 QMap<QByteArray, QByteArray> {{prefix}}HttpRequestWorker::getResponseHeaders() const {
     return headers;
+}
+
+void {{prefix}}HttpRequestWorker::setTimeOut(int tout){
+    timeout = tout;
 }
 
 QString {{prefix}}HttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
@@ -108,7 +119,7 @@ QString {{prefix}}HttpRequestWorker::http_attribute_encode(QString attribute_nam
 void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
 
     // reset variables
-
+    QNetworkReply* reply = nullptr;
     QByteArray request_content = "";
     response = "";
     error_type = QNetworkReply::NoError;
@@ -276,19 +287,19 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
     }
 
     if (input->http_method == "GET") {
-        manager->get(request);
+        reply = manager->get(request);
     }
     else if (input->http_method == "POST") {
-        manager->post(request, request_content);
+        reply = manager->post(request, request_content);
     }
     else if (input->http_method == "PUT") {
-        manager->put(request, request_content);
+        reply = manager->put(request, request_content);
     }
     else if (input->http_method == "HEAD") {
-        manager->head(request);
+        reply = manager->head(request);
     }
     else if (input->http_method == "DELETE") {
-        manager->deleteResource(request);
+        reply = manager->deleteResource(request);
     }
     else {
 #if (QT_VERSION >= 0x050800)
@@ -298,11 +309,16 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         buffer->setData(request_content);
         buffer->open(QIODevice::ReadOnly);
 
-        QNetworkReply* reply = manager->sendCustomRequest(request, input->http_method.toLatin1(), buffer);
+        reply = manager->sendCustomRequest(request, input->http_method.toLatin1(), buffer);
         buffer->setParent(reply);
 #endif
     }
-
+    if(timeout > 0){
+        timer->setSingleShot(true);
+        timer->setInterval(timeout);
+        connect(timer, &QTimer::timeout, this, [=](){ on_manager_timeout(reply); });
+        timer->start();
+    }
 }
 
 void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
@@ -314,6 +330,16 @@ void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
             headers.insert(item.first, item.second);
         }
     }
+    reply->deleteLater();
+
+    emit on_execution_finished(this);
+}
+void {{prefix}}HttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
+    error_type = QNetworkReply::TimeoutError;
+    response = "";
+    error_str = "Timed out waiting for response";
+    disconnect(manager, nullptr, nullptr, nullptr);
+    reply->abort();
     reply->deleteLater();
 
     emit on_execution_finished(this);

@@ -64,9 +64,11 @@ public class GenerateTest {
 
     @Test
     public void testRequiredArgs_ShortArgs() throws Exception {
-        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null);
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null, "-p", "foo=bar");
         new FullVerifications() {
             {
+                configurator.addAdditionalProperty("foo", "bar");
+                times = 1;
             }
         };
     }
@@ -139,85 +141,6 @@ public class GenerateTest {
     }
 
     @Test
-    public void testSystemProperties() throws Exception {
-
-        setupAndRunGenericTest("-D", "hello=world,foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-Dhello=world,foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-D", "hello=world,key=,foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-                configurator.addSystemProperty("key", "");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-D", "hello=world,key,foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-                configurator.addSystemProperty("key", "");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-D", "hello=world", "-D", "key", "-D", "foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-                configurator.addSystemProperty("key", "");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-Dhello=world", "-Dkey", "-Dfoo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-                configurator.addSystemProperty("key", "");
-                times = 1;
-            }
-        };
-    }
-
-
-    @Test
     public void testConfigJson() throws Exception {
 
         setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
@@ -272,6 +195,39 @@ public class GenerateTest {
         new FullVerifications() {
             {
                 configurator.setSkipOverwrite(true);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void testStrictSpec() throws Exception {
+
+        setupAndRunGenericTest("--strict-spec", "true");
+        new FullVerifications() {
+            {
+                configurator.setStrictSpecBehavior(true);
+                times = 1;
+            }
+        };
+
+        setupAndRunGenericTest("--strict-spec", "false");
+        new FullVerifications() {
+            {
+                configurator.setStrictSpecBehavior(false);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void testPackageName() throws Exception {
+        final String value = "io.foo.bar.baz";
+        setupAndRunGenericTest("--package-name", value);
+
+        new FullVerifications() {
+            {
+                configurator.setPackageName(value);
                 times = 1;
             }
         };

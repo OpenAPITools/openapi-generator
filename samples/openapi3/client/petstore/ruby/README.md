@@ -124,10 +124,12 @@ Class | Method | HTTP request | Description
  - [Petstore::ArrayTest](docs/ArrayTest.md)
  - [Petstore::Capitalization](docs/Capitalization.md)
  - [Petstore::Cat](docs/Cat.md)
+ - [Petstore::CatAllOf](docs/CatAllOf.md)
  - [Petstore::Category](docs/Category.md)
  - [Petstore::ClassModel](docs/ClassModel.md)
  - [Petstore::Client](docs/Client.md)
  - [Petstore::Dog](docs/Dog.md)
+ - [Petstore::DogAllOf](docs/DogAllOf.md)
  - [Petstore::EnumArrays](docs/EnumArrays.md)
  - [Petstore::EnumClass](docs/EnumClass.md)
  - [Petstore::EnumTest](docs/EnumTest.md)
@@ -137,6 +139,12 @@ Class | Method | HTTP request | Description
  - [Petstore::FormatTest](docs/FormatTest.md)
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
+ - [Petstore::InlineObject](docs/InlineObject.md)
+ - [Petstore::InlineObject1](docs/InlineObject1.md)
+ - [Petstore::InlineObject2](docs/InlineObject2.md)
+ - [Petstore::InlineObject3](docs/InlineObject3.md)
+ - [Petstore::InlineObject4](docs/InlineObject4.md)
+ - [Petstore::InlineObject5](docs/InlineObject5.md)
  - [Petstore::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Petstore::List](docs/List.md)
  - [Petstore::MapTest](docs/MapTest.md)
@@ -178,7 +186,7 @@ Class | Method | HTTP request | Description
 
 ### bearer_test
 
-- **Type**: HTTP basic authentication
+- **Type**: Bearer authentication (JWT)
 
 ### http_basic_test
 

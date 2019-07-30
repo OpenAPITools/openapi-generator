@@ -246,6 +246,14 @@ genCat n =
     <*> arbitraryReducedMaybe n -- catColor :: Maybe Text
     <*> arbitraryReducedMaybe n -- catDeclawed :: Maybe Bool
   
+instance Arbitrary CatAllOf where
+  arbitrary = sized genCatAllOf
+
+genCatAllOf :: Int -> Gen CatAllOf
+genCatAllOf n =
+  CatAllOf
+    <$> arbitraryReducedMaybe n -- catAllOfDeclawed :: Maybe Bool
+  
 instance Arbitrary Category where
   arbitrary = sized genCategory
 
@@ -280,6 +288,14 @@ genDog n =
     <$> arbitrary -- dogClassName :: Text
     <*> arbitraryReducedMaybe n -- dogColor :: Maybe Text
     <*> arbitraryReducedMaybe n -- dogBreed :: Maybe Text
+  
+instance Arbitrary DogAllOf where
+  arbitrary = sized genDogAllOf
+
+genDogAllOf :: Int -> Gen DogAllOf
+genDogAllOf n =
+  DogAllOf
+    <$> arbitraryReducedMaybe n -- dogAllOfBreed :: Maybe Text
   
 instance Arbitrary EnumArrays where
   arbitrary = sized genEnumArrays

@@ -173,6 +173,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "Double");
         typeMapping.put("any", "Value");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "Text");
         typeMapping.put("ByteArray", "Text");
         typeMapping.put("object", "Value");
 
@@ -301,7 +302,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      */
     private void setGenerateToSchema(CodegenModel model) {
         for (CodegenProperty var : model.vars) {
-            LOGGER.warn(var.dataType);
             if (var.dataType.contentEquals("Value") || var.dataType.contains(" Value")) {
                 additionalProperties.put("generateToSchema", false);
             }
@@ -349,7 +349,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        LOGGER.debug("debugging swager type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
+        LOGGER.debug("debugging OpenAPI type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
@@ -410,6 +410,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         HashMap<String, String> captureTypes = new HashMap<String, String>();
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
+        }
+        
+        // Properly handle root-only routes (#3256)
+        if (path.contentEquals("/")) {
+            return new ArrayList<>();
         }
 
         // Cut off the leading slash, if it is present.

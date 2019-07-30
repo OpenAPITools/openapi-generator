@@ -131,8 +131,8 @@ public class UserApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = String.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
-    public Response loginUser(@ApiParam(value = "The user name for login",required=true) @QueryParam("username") String username
-,@ApiParam(value = "The password for login in clear text",required=true) @QueryParam("password") String password
+    public Response loginUser(@ApiParam(value = "The user name for login",required=true)@QueryParam("username") String username
+,@ApiParam(value = "The password for login in clear text",required=true)@QueryParam("password") String password
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.loginUser(username, password, securityContext);

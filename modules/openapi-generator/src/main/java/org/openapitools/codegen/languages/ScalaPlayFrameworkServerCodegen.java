@@ -16,12 +16,13 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
+import com.google.common.collect.ImmutableMap.Builder;
+import com.samskivert.mustache.Mustache.Lambda;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.mustache.*;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +85,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         importMapping.put("TemporaryFile", "play.api.libs.Files.TemporaryFile");
 
         cliOptions.add(new CliOption(ROUTES_FILE_NAME, "Name of the routes file to generate.").defaultValue(routesFileName));
-        cliOptions.add(new CliOption(ROUTES_FILE_NAME, "Base package in which supporting classes are generated.").defaultValue(basePackage));
+        cliOptions.add(new CliOption(BASE_PACKAGE, "Base package in which supporting classes are generated.").defaultValue(basePackage));
 
         addCliOptionWithDefault(SKIP_STUBS, "If set, skips generation of stub classes.", skipStubs);
         addCliOptionWithDefault(SUPPORT_ASYNC, "If set, wraps API return types with Futures and generates async actions.", supportAsync);
@@ -192,15 +193,12 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             supportingFiles.add(new SupportingFile("public/openapi.json.mustache", "public", "openapi.json"));
             supportingFiles.add(new SupportingFile("app/apiDocController.scala.mustache", String.format(Locale.ROOT, "app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.scala"));
         }
-        addMustacheLambdas(additionalProperties);
     }
 
-    private void addMustacheLambdas(Map<String, Object> objs) {
-        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-                .put("indented_4", new IndentedLambda(4, " "))
-                .put("indented_8", new IndentedLambda(8, " "))
-                .build();
-        objs.put("lambda", lambdas);
+    @Override
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("indented_4", new IndentedLambda(4, " "));
     }
 
     @SuppressWarnings("unchecked")
@@ -358,7 +356,15 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return camelize(property.name);
+        return camelizeStripReservedEscape(property.name);
+    }
+
+    public String camelizeStripReservedEscape(String str) {
+        if (str.startsWith("`") && str.endsWith("`")) {
+            str = str.substring(1, str.length() - 1);
+        }
+
+        return camelize(str);
     }
 
     @Override

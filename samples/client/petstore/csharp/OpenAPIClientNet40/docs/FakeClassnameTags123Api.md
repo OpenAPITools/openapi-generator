@@ -7,8 +7,9 @@ Method | HTTP request | Description
 [**TestClassname**](FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
-<a name="testclassname"></a>
-# **TestClassname**
+
+## TestClassname
+
 > ModelClient TestClassname (ModelClient body)
 
 To test class name in snake case
@@ -16,6 +17,7 @@ To test class name in snake case
 To test class name in snake case
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -54,6 +56,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**ModelClient**](ModelClient.md)| client model | 
@@ -68,8 +71,11 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 

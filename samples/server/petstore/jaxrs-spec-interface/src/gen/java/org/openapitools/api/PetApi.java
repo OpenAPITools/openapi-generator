@@ -28,6 +28,7 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     void addPet(@Valid Pet body);
 
@@ -40,6 +41,7 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
     void deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")    String apiKey);
 
@@ -55,7 +57,7 @@ public interface PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value", response = Void.class, responseContainer = "List") })
-    List<Pet> findPetsByStatus(@QueryParam("status") @NotNull  @DefaultValue("new ArrayList<String>()")  @ApiParam("Status values that need to be considered for filter")  List<String> status);
+    List<Pet> findPetsByStatus(@QueryParam("status") @NotNull   @ApiParam("Status values that need to be considered for filter")  List<String> status);
 
     @GET
     @Path("/findByTags")
@@ -69,7 +71,7 @@ public interface PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class, responseContainer = "List") })
-    List<Pet> findPetsByTags(@QueryParam("tags") @NotNull  @DefaultValue("new ArrayList<String>()")  @ApiParam("Tags to filter by")  List<String> tags);
+    List<Pet> findPetsByTags(@QueryParam("tags") @NotNull   @ApiParam("Tags to filter by")  List<String> tags);
 
     @GET
     @Path("/{petId}")
@@ -92,6 +94,7 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })

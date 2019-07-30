@@ -17,11 +17,8 @@
 
 package org.openapitools.codegen.config;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.core.util.Yaml;
@@ -29,312 +26,139 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.Validate;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConfigLoader;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SpecValidationException;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.auth.AuthParser;
-import org.openapitools.codegen.languages.CSharpNancyFXServerCodegen;
-import org.openapitools.codegen.languages.CppQt5ClientCodegen;
-import org.openapitools.codegen.languages.CppRestSdkClientCodegen;
-import org.openapitools.codegen.languages.CppTizenClientCodegen;
-import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
-import org.openapitools.codegen.languages.PhpLumenServerCodegen;
-import org.openapitools.codegen.languages.PhpSlimServerCodegen;
-import org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen;
-import org.openapitools.codegen.languages.RubySinatraServerCodegen;
-import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
-import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
-import org.openapitools.codegen.languages.SwiftClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 /**
- * A class that contains all codegen configuration properties a user would want to manipulate. An
- * instance could be created by deserializing a JSON file or being populated from CLI or Maven
- * plugin parameters. It also has a convenience method for creating a ClientOptInput class which is
- * THE object DefaultGenerator.java needs to generate code.
+ * A class which manages the contextual configuration for code generation.
+ * This includes configuring the generator, templating, and the workflow which orchestrates these.
+ *
+ * This helper also enables the deserialization of {@link GeneratorSettings} via application-specific Jackson JSON usage
+ * (see {@link DynamicSettings}.
  */
-public class CodegenConfigurator implements Serializable {
+@SuppressWarnings("UnusedReturnValue")
+public class CodegenConfigurator {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
-    private static Map<String, String> nameMigrationMap = new HashMap<>();
-
-    static {
-        nameMigrationMap.put("akka-scala", new ScalaAkkaClientCodegen().getName());
-        nameMigrationMap.put("scala", new ScalaHttpClientCodegen().getName());
-        nameMigrationMap.put("jaxrs", new JavaJerseyServerCodegen().getName());
-        nameMigrationMap.put("qt5cpp", new CppQt5ClientCodegen().getName());
-        nameMigrationMap.put("cpprest", new CppRestSdkClientCodegen().getName());
-        nameMigrationMap.put("tizen", new CppTizenClientCodegen().getName());
-        nameMigrationMap.put("sinatra", new RubySinatraServerCodegen().getName());
-        nameMigrationMap.put("swift", new SwiftClientCodegen().getName());
-        nameMigrationMap.put("lumen", new PhpLumenServerCodegen().getName());
-        nameMigrationMap.put("slim", new PhpSlimServerCodegen().getName());
-        nameMigrationMap.put("ze-ph", new PhpZendExpressivePathHandlerServerCodegen().getName());
-        nameMigrationMap.put("nancyfx", new CSharpNancyFXServerCodegen().getName());
-    }
+    private GeneratorSettings.Builder generatorSettingsBuilder = GeneratorSettings.newBuilder();
+    private WorkflowSettings.Builder workflowSettingsBuilder = WorkflowSettings.newBuilder();
 
     private String generatorName;
     private String inputSpec;
-    private String outputDir;
-    private boolean verbose;
-    private boolean skipOverwrite;
-    private boolean removeOperationIdPrefix;
-    private boolean logToStderr;
-    private boolean validateSpec;
-    private boolean enablePostProcessFile;
-    private boolean enableMinimalUpdate;
-    private String templateDir;
+    private String templatingEngineName;
+    private Map<String, String> systemProperties = new HashMap<>();
+    private Map<String, String> instantiationTypes = new HashMap<>();
+    private Map<String, String> typeMappings = new HashMap<>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
+    private Map<String, String> importMappings = new HashMap<>();
+    private Set<String> languageSpecificPrimitives = new HashSet<>();
+    private Map<String, String> reservedWordMappings = new HashMap<>();
     private String auth;
-    private String apiPackage;
-    private String modelPackage;
-    private String invokerPackage;
-    private String packageName;
-    private String modelNamePrefix;
-    private String modelNameSuffix;
-    private String groupId;
-    private String artifactId;
-    private String artifactVersion;
-    private String library;
-    private String ignoreFileOverride;
-    private Map<String, String> systemProperties = new HashMap<String, String>();
-    private Map<String, String> instantiationTypes = new HashMap<String, String>();
-    private Map<String, String> typeMappings = new HashMap<String, String>();
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private Map<String, String> importMappings = new HashMap<String, String>();
-    private Set<String> languageSpecificPrimitives = new HashSet<String>();
-    private Map<String, String> reservedWordMappings = new HashMap<String, String>();
-
-    private String gitUserId = "GIT_USER_ID";
-    private String gitRepoId = "GIT_REPO_ID";
-    private String releaseNote = "Minor update";
-    private String httpUserAgent;
-
-    private final Map<String, Object> dynamicProperties = new HashMap<String, Object>();
-    //the map that holds the JsonAnySetter/JsonAnyGetter values
 
     public CodegenConfigurator() {
-        this.validateSpec = true;
-        this.setOutputDir(".");
+
     }
 
-    // TODO: When setLang is removed, please remove nameMigrationMap and its usage(s).
+    public static CodegenConfigurator fromFile(String configFile) {
 
-    /**
-     * Set the "language". This has drifted away from language-only to include framework and
-     * hyphenated generator types as well as language.
-     * <p>
-     * NOTE: This will eventually become language only again. It is deprecated in its current
-     * state.
-     * </p>
-     *
-     * @param lang The generator name. Previously, language name only.
-     * @return The fluent instance of {@link CodegenConfigurator}
-     * @deprecated Please use {@link #setGeneratorName(String)}, as generators are no longer
-     * identified only by language. We may reuse language in the future.
-     */
-    @Deprecated public CodegenConfigurator setLang(String lang) {
-        this.setGeneratorName(lang);
-        return this;
-    }
+        if (isNotEmpty(configFile)) {
+            ObjectMapper mapper;
 
-    /**
-     * Sets the name of the target generator.
-     *
-     * The generator's name is used to uniquely identify the generator as a mechanism to lookup the
-     * desired implementation at runtime.
-     *
-     * @param generatorName The name of the generator.
-     * @return The fluent instance of {@link CodegenConfigurator}
-     */
-    public CodegenConfigurator setGeneratorName(final String generatorName) {
-        if (nameMigrationMap.containsKey(generatorName)) {
-            String newValue = nameMigrationMap.get(generatorName);
-            LOGGER.warn(String.format(Locale.ROOT,
-                    "The name '%s' is a deprecated. Please update to the new name of '%s'.",
-                    generatorName, newValue));
-            this.generatorName = newValue;
-        } else {
-            this.generatorName = generatorName;
+            if (FilenameUtils.isExtension(configFile, new String[]{"yml", "yaml"})) {
+                mapper = Yaml.mapper();
+            } else {
+                mapper = Json.mapper();
+            }
+
+            mapper.registerModule(new GuavaModule());
+
+            try {
+                DynamicSettings settings = mapper.readValue(new File(configFile), DynamicSettings.class);
+                CodegenConfigurator configurator = new CodegenConfigurator();
+                configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(settings.getGeneratorSettings());
+                return configurator;
+            } catch (IOException ex) {
+                LOGGER.error("Unable to deserialize config file: " + configFile, ex);
+            }
         }
+        return null;
+    }
+
+    public CodegenConfigurator addAdditionalProperty(String key, Object value) {
+        this.additionalProperties.put(key, value);
+        generatorSettingsBuilder.withAdditionalProperty(key, value);
         return this;
     }
 
-    public CodegenConfigurator setInputSpec(String inputSpec) {
-        this.inputSpec = inputSpec;
+    public CodegenConfigurator addAdditionalReservedWordMapping(String key, String value) {
+        this.reservedWordMappings.put(key, value);
+        generatorSettingsBuilder.withReservedWordMapping(key, value);
         return this;
     }
 
-    public String getInputSpec() {
-        return inputSpec;
-    }
-
-    public String getOutputDir() {
-        return outputDir;
-    }
-
-    public CodegenConfigurator setOutputDir(String outputDir) {
-        this.outputDir = toAbsolutePathStr(outputDir);
+    public CodegenConfigurator addImportMapping(String key, String value) {
+        this.importMappings.put(key, value);
+        generatorSettingsBuilder.withImportMapping(key, value);
         return this;
     }
 
-    public String getModelPackage() {
-        return modelPackage;
-    }
-
-    public CodegenConfigurator setModelPackage(String modelPackage) {
-        this.modelPackage = modelPackage;
+    public CodegenConfigurator addInstantiationType(String key, String value) {
+        this.instantiationTypes.put(key, value);
+        generatorSettingsBuilder.withInstantiationType(key, value);
         return this;
     }
 
-    public String getModelNamePrefix() {
-        return modelNamePrefix;
-    }
-
-    public CodegenConfigurator setModelNamePrefix(String prefix) {
-        this.modelNamePrefix = prefix;
+    public CodegenConfigurator addLanguageSpecificPrimitive(String value) {
+        this.languageSpecificPrimitives.add(value);
+        generatorSettingsBuilder.withLanguageSpecificPrimitive(value);
         return this;
     }
 
-    public boolean getRemoveOperationIdPrefix() {
-        return removeOperationIdPrefix;
-    }
-
-    public CodegenConfigurator setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
-        this.removeOperationIdPrefix = removeOperationIdPrefix;
+    public CodegenConfigurator addSystemProperty(String key, String value) {
+        this.systemProperties.put(key, value);
+        workflowSettingsBuilder.withSystemProperty(key, value);
         return this;
     }
 
-    public boolean getEnablePostProcessFile() {
-        return enablePostProcessFile;
-    }
-
-    public CodegenConfigurator setEnablePostProcessFile(boolean enablePostProcessFile) {
-        this.enablePostProcessFile = enablePostProcessFile;
+    public CodegenConfigurator addTypeMapping(String key, String value) {
+        this.typeMappings.put(key, value);
+        generatorSettingsBuilder.withTypeMappings(this.typeMappings);
         return this;
     }
 
-    public boolean getLogToStderr() {
-        return logToStderr;
-    }
-
-    public CodegenConfigurator setLogToStderr(boolean logToStderrte) {
-        this.logToStderr = logToStderr;
+    public CodegenConfigurator setAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        generatorSettingsBuilder.withAdditionalProperties(additionalProperties);
         return this;
     }
 
-    public boolean getEnableMinimalUpdate() {
-        return enableMinimalUpdate;
-    }
-
-    public CodegenConfigurator setEnableMinimalUpdate(boolean enableMinimalUpdate) {
-        this.enableMinimalUpdate = enableMinimalUpdate;
+    public CodegenConfigurator setApiPackage(String apiPackage) {
+        generatorSettingsBuilder.withApiPackage(apiPackage);
         return this;
     }
 
-    public boolean isGenerateAliasAsModel() {
-        return ModelUtils.isGenerateAliasAsModel();
-    }
-
-    public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
-        ModelUtils.setGenerateAliasAsModel(generateAliasAsModel);
+    public CodegenConfigurator setArtifactId(String artifactId) {
+        generatorSettingsBuilder.withArtifactId(artifactId);
         return this;
     }
 
-    public String getModelNameSuffix() {
-        return modelNameSuffix;
-    }
-
-    public CodegenConfigurator setModelNameSuffix(String suffix) {
-        this.modelNameSuffix = suffix;
+    public CodegenConfigurator setArtifactVersion(String artifactVersion) {
+        generatorSettingsBuilder.withArtifactVersion(artifactVersion);
         return this;
-    }
-
-    public boolean isVerbose() {
-        return verbose;
-    }
-
-    public CodegenConfigurator setVerbose(boolean verbose) {
-        this.verbose = verbose;
-        return this;
-    }
-
-    public boolean isValidateSpec() {
-        return validateSpec;
-    }
-
-    public CodegenConfigurator setValidateSpec(final boolean validateSpec) {
-        this.validateSpec = validateSpec;
-        return this;
-    }
-
-    public boolean isSkipOverwrite() {
-        return skipOverwrite;
-    }
-
-    public CodegenConfigurator setSkipOverwrite(boolean skipOverwrite) {
-        this.skipOverwrite = skipOverwrite;
-        return this;
-    }
-
-
-    /**
-     * Gets the "language". This has drifted away from language-only to include framework and
-     * hyphenated generator types as well as language.
-     * <p>
-     * NOTE: This will eventually become language only again. It is deprecated in its current
-     * state.
-     * </p>
-     *
-     * @return A string which defines the generator.
-     * @deprecated Please use {@link #getGeneratorName()}, as generators are no longer identified
-     * only by language. We may reuse language in the future.
-     */
-    @Deprecated public String getLang() {
-        return getGeneratorName();
-    }
-
-    public String getGeneratorName() {
-        return generatorName;
-    }
-
-    public String getTemplateDir() {
-        return templateDir;
-    }
-
-    public CodegenConfigurator setTemplateDir(String templateDir) {
-        File f = new File(templateDir);
-
-        // check to see if the folder exists
-        if (!(f.exists() && f.isDirectory())) {
-            throw new IllegalArgumentException(
-                    "Template directory " + templateDir + " does not exist.");
-        }
-
-        this.templateDir = f.getAbsolutePath();
-        return this;
-    }
-
-    public String getAuth() {
-        return auth;
     }
 
     public CodegenConfigurator setAuth(String auth) {
@@ -342,269 +166,225 @@ public class CodegenConfigurator implements Serializable {
         return this;
     }
 
-    public String getApiPackage() {
-        return apiPackage;
-    }
-
-    public CodegenConfigurator setApiPackage(String apiPackage) {
-        this.apiPackage = apiPackage;
+    public CodegenConfigurator setEnableMinimalUpdate(boolean enableMinimalUpdate) {
+        workflowSettingsBuilder.withEnableMinimalUpdate(enableMinimalUpdate);
         return this;
     }
 
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
-    public CodegenConfigurator setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
+    public CodegenConfigurator setEnablePostProcessFile(boolean enablePostProcessFile) {
+        workflowSettingsBuilder.withEnablePostProcessFile(enablePostProcessFile);
         return this;
     }
 
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public CodegenConfigurator setPackageName(String packageName) {
-        this.packageName = packageName;
+    public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
+        // TODO: Move to GlobalSettings?
+        ModelUtils.setGenerateAliasAsModel(generateAliasAsModel);
         return this;
     }
 
-    public String getGroupId() {
-        return groupId;
+    /**
+     * Sets the name of the target generator.
+     * <p>
+     * The generator's name is used to uniquely identify the generator as a mechanism to lookup the
+     * desired implementation at runtime.
+     *
+     * @param generatorName The name of the generator.
+     * @return The fluent instance of {@link CodegenConfigurator}
+     */
+    public CodegenConfigurator setGeneratorName(final String generatorName) {
+        this.generatorName = generatorName;
+        generatorSettingsBuilder.withGeneratorName(generatorName);
+        return this;
+    }
+
+    public CodegenConfigurator setGitRepoId(String gitRepoId) {
+        generatorSettingsBuilder.withGitRepoId(gitRepoId);
+        return this;
+    }
+
+    public CodegenConfigurator setGitUserId(String gitUserId) {
+        generatorSettingsBuilder.withGitUserId(gitUserId);
+        return this;
     }
 
     public CodegenConfigurator setGroupId(String groupId) {
-        this.groupId = groupId;
+        generatorSettingsBuilder.withGroupId(groupId);
         return this;
     }
 
-    public String getArtifactId() {
-        return artifactId;
-    }
-
-    public CodegenConfigurator setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
+    public CodegenConfigurator setHttpUserAgent(String httpUserAgent) {
+        generatorSettingsBuilder.withHttpUserAgent(httpUserAgent);
         return this;
     }
 
-    public String getArtifactVersion() {
-        return artifactVersion;
-    }
-
-    public CodegenConfigurator setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
+    public CodegenConfigurator setIgnoreFileOverride(final String ignoreFileOverride) {
+        workflowSettingsBuilder.withIgnoreFileOverride(ignoreFileOverride);
         return this;
-    }
-
-    public Map<String, String> getSystemProperties() {
-        return systemProperties;
-    }
-
-    public CodegenConfigurator setSystemProperties(Map<String, String> systemProperties) {
-        this.systemProperties = systemProperties;
-        return this;
-    }
-
-    public CodegenConfigurator addSystemProperty(String key, String value) {
-        this.systemProperties.put(key, value);
-        return this;
-    }
-
-    public Map<String, String> getInstantiationTypes() {
-        return instantiationTypes;
-    }
-
-    public CodegenConfigurator setInstantiationTypes(Map<String, String> instantiationTypes) {
-        this.instantiationTypes = instantiationTypes;
-        return this;
-    }
-
-    public CodegenConfigurator addInstantiationType(String key, String value) {
-        this.instantiationTypes.put(key, value);
-        return this;
-    }
-
-    public Map<String, String> getTypeMappings() {
-        return typeMappings;
-    }
-
-    public CodegenConfigurator setTypeMappings(Map<String, String> typeMappings) {
-        this.typeMappings = typeMappings;
-        return this;
-    }
-
-    public CodegenConfigurator addTypeMapping(String key, String value) {
-        this.typeMappings.put(key, value);
-        return this;
-    }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return additionalProperties;
-    }
-
-    public CodegenConfigurator setAdditionalProperties(Map<String, Object> additionalProperties) {
-        this.additionalProperties = additionalProperties;
-        return this;
-    }
-
-    public CodegenConfigurator addAdditionalProperty(String key, Object value) {
-        this.additionalProperties.put(key, value);
-        return this;
-    }
-
-    public Map<String, String> getImportMappings() {
-        return importMappings;
     }
 
     public CodegenConfigurator setImportMappings(Map<String, String> importMappings) {
         this.importMappings = importMappings;
+        generatorSettingsBuilder.withImportMappings(importMappings);
         return this;
     }
 
-    public CodegenConfigurator addImportMapping(String key, String value) {
-        this.importMappings.put(key, value);
+    public CodegenConfigurator setInputSpec(String inputSpec) {
+        this.inputSpec = inputSpec;
+        workflowSettingsBuilder.withInputSpec(inputSpec);
         return this;
     }
 
-    public Set<String> getLanguageSpecificPrimitives() {
-        return languageSpecificPrimitives;
+    public CodegenConfigurator setInstantiationTypes(Map<String, String> instantiationTypes) {
+        this.instantiationTypes = instantiationTypes;
+        generatorSettingsBuilder.withInstantiationTypes(instantiationTypes);
+        return this;
+    }
+
+    public CodegenConfigurator setInvokerPackage(String invokerPackage) {
+        generatorSettingsBuilder.withInvokerPackage(invokerPackage);
+        return this;
     }
 
     public CodegenConfigurator setLanguageSpecificPrimitives(
             Set<String> languageSpecificPrimitives) {
-        this.languageSpecificPrimitives = languageSpecificPrimitives;
+        generatorSettingsBuilder.withLanguageSpecificPrimitives(languageSpecificPrimitives);
         return this;
-    }
-
-    public CodegenConfigurator addLanguageSpecificPrimitive(String value) {
-        this.languageSpecificPrimitives.add(value);
-        return this;
-    }
-
-    public String getLibrary() {
-        return library;
     }
 
     public CodegenConfigurator setLibrary(String library) {
-        this.library = library;
+        generatorSettingsBuilder.withLibrary(library);
         return this;
     }
 
-    public String getGitUserId() {
-        return gitUserId;
-    }
-
-    public CodegenConfigurator setGitUserId(String gitUserId) {
-        this.gitUserId = gitUserId;
+    public CodegenConfigurator setLogToStderr(boolean logToStderr) {
+        workflowSettingsBuilder.withLogToStderr(logToStderr);
         return this;
     }
 
-    public String getGitRepoId() {
-        return gitRepoId;
-    }
-
-    public CodegenConfigurator setGitRepoId(String gitRepoId) {
-        this.gitRepoId = gitRepoId;
+    public CodegenConfigurator setModelNamePrefix(String prefix) {
+        generatorSettingsBuilder.withModelNamePrefix(prefix);
         return this;
     }
 
-    public String getReleaseNote() {
-        return releaseNote;
+    public CodegenConfigurator setModelNameSuffix(String suffix) {
+        generatorSettingsBuilder.withModelNameSuffix(suffix);
+        return this;
+    }
+
+    public CodegenConfigurator setModelPackage(String modelPackage) {
+        generatorSettingsBuilder.withModelPackage(modelPackage);
+        return this;
+    }
+
+    public CodegenConfigurator setOutputDir(String outputDir) {
+        workflowSettingsBuilder.withOutputDir(outputDir);
+        return this;
+    }
+
+    public CodegenConfigurator setPackageName(String packageName) {
+        generatorSettingsBuilder.withPackageName(packageName);
+        return this;
     }
 
     public CodegenConfigurator setReleaseNote(String releaseNote) {
-        this.releaseNote = releaseNote;
+        generatorSettingsBuilder.withReleaseNote(releaseNote);
         return this;
     }
 
-    public String getHttpUserAgent() {
-        return httpUserAgent;
-    }
-
-    public CodegenConfigurator setHttpUserAgent(String httpUserAgent) {
-        this.httpUserAgent = httpUserAgent;
+    public CodegenConfigurator setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
+        workflowSettingsBuilder.withRemoveOperationIdPrefix(removeOperationIdPrefix);
         return this;
     }
 
-    public Map<String, String> getReservedWordsMappings() {
-        return reservedWordMappings;
-    }
-
-    public CodegenConfigurator setReservedWordsMappings(Map<String, String> reservedWordsMappings) {
-        this.reservedWordMappings = reservedWordsMappings;
+    public CodegenConfigurator setReservedWordsMappings(Map<String, String> reservedWordMappings) {
+        this.reservedWordMappings = reservedWordMappings;
+        generatorSettingsBuilder.withReservedWordMappings(reservedWordMappings);
         return this;
     }
 
-    public CodegenConfigurator addAdditionalReservedWordMapping(String key, String value) {
-        this.reservedWordMappings.put(key, value);
+    public CodegenConfigurator setSkipOverwrite(boolean skipOverwrite) {
+        workflowSettingsBuilder.withSkipOverwrite(skipOverwrite);
         return this;
     }
 
-    public String getIgnoreFileOverride() {
-        return ignoreFileOverride;
-    }
-
-    public CodegenConfigurator setIgnoreFileOverride(final String ignoreFileOverride) {
-        this.ignoreFileOverride = ignoreFileOverride;
+    public CodegenConfigurator setStrictSpecBehavior(boolean strictSpecBehavior) {
+        workflowSettingsBuilder.withStrictSpecBehavior(strictSpecBehavior);
         return this;
     }
 
-    public ClientOptInput toClientOptInput() {
+    public CodegenConfigurator setSystemProperties(Map<String, String> systemProperties) {
+        this.systemProperties = systemProperties;
+        workflowSettingsBuilder.withSystemProperties(systemProperties);
+        return this;
+    }
 
+    public CodegenConfigurator setTemplateDir(String templateDir) {
+        workflowSettingsBuilder.withTemplateDir(templateDir);
+        return this;
+    }
+
+    public CodegenConfigurator setTemplatingEngineName(String templatingEngineName) {
+        this.templatingEngineName = templatingEngineName;
+        workflowSettingsBuilder.withTemplatingEngineName(templatingEngineName);
+        return this;
+    }
+
+    public CodegenConfigurator setTypeMappings(Map<String, String> typeMappings) {
+        this.typeMappings = typeMappings;
+        generatorSettingsBuilder.withTypeMappings(typeMappings);
+        return this;
+    }
+
+    public CodegenConfigurator setValidateSpec(final boolean validateSpec) {
+        workflowSettingsBuilder.withValidateSpec(validateSpec);
+        return this;
+    }
+
+    public CodegenConfigurator setVerbose(boolean verbose) {
+        workflowSettingsBuilder.withVerbose(verbose);
+        return this;
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public Context<?> toContext() {
         Validate.notEmpty(generatorName, "language/generatorName must be specified");
         Validate.notEmpty(inputSpec, "input spec must be specified");
 
-        setVerboseFlags();
-        setSystemProperties();
-
-        CodegenConfig config = CodegenConfigLoader.forName(generatorName);
-
-        config.setInputSpec(inputSpec);
-        config.setOutputDir(outputDir);
-        config.setSkipOverwrite(skipOverwrite);
-        config.setIgnoreFilePathOverride(ignoreFileOverride);
-        config.setRemoveOperationIdPrefix(removeOperationIdPrefix);
-        config.setEnablePostProcessFile(enablePostProcessFile);
-        config.setEnableMinimalUpdate(enableMinimalUpdate);
-
-        config.instantiationTypes().putAll(instantiationTypes);
-        config.typeMapping().putAll(typeMappings);
-        config.importMapping().putAll(importMappings);
-        config.languageSpecificPrimitives().addAll(languageSpecificPrimitives);
-        config.reservedWordsMappings().putAll(reservedWordMappings);
-
-        checkAndSetAdditionalProperty(apiPackage, CodegenConstants.API_PACKAGE);
-        checkAndSetAdditionalProperty(modelPackage, CodegenConstants.MODEL_PACKAGE);
-        checkAndSetAdditionalProperty(invokerPackage, CodegenConstants.INVOKER_PACKAGE);
-        checkAndSetAdditionalProperty(packageName, CodegenConstants.PACKAGE_NAME);
-        checkAndSetAdditionalProperty(groupId, CodegenConstants.GROUP_ID);
-        checkAndSetAdditionalProperty(artifactId, CodegenConstants.ARTIFACT_ID);
-        checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
-        checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir),
-                CodegenConstants.TEMPLATE_DIR);
-        checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
-        checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
-        checkAndSetAdditionalProperty(gitUserId, CodegenConstants.GIT_USER_ID);
-        checkAndSetAdditionalProperty(gitRepoId, CodegenConstants.GIT_REPO_ID);
-        checkAndSetAdditionalProperty(releaseNote, CodegenConstants.RELEASE_NOTE);
-        checkAndSetAdditionalProperty(httpUserAgent, CodegenConstants.HTTP_USER_AGENT);
-
-        handleDynamicProperties(config);
-
-        if (isNotEmpty(library)) {
-            config.setLibrary(library);
+        if (isEmpty(templatingEngineName)) {
+            // Built-in templates are mustache, but allow users to use a simplified handlebars engine for their custom templates.
+            workflowSettingsBuilder.withTemplatingEngineName("mustache");
+        } else {
+            workflowSettingsBuilder.withTemplatingEngineName(templatingEngineName);
         }
 
-        config.additionalProperties().putAll(additionalProperties);
+        // at this point, all "additionalProperties" are set, and are now immutable per GeneratorSettings instance.
+        GeneratorSettings generatorSettings = generatorSettingsBuilder.build();
+        WorkflowSettings workflowSettings = workflowSettingsBuilder.build();
 
-        ClientOptInput input = new ClientOptInput().config(config);
+        if (workflowSettings.isVerbose()) {
+            LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected"
+                    + "\n - [debugOpenAPI] prints the OpenAPI specification as interpreted by the codegen"
+                    + "\n - [debugModels] prints models passed to the template engine"
+                    + "\n - [debugOperations] prints operations passed to the template engine"
+                    + "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
-        final List<AuthorizationValue> authorizationValues = AuthParser.parse(auth);
+            GlobalSettings.setProperty("debugOpenAPI", "");
+            GlobalSettings.setProperty("debugModels", "");
+            GlobalSettings.setProperty("debugOperations", "");
+            GlobalSettings.setProperty("debugSupportingFiles", "");
+        }
+
+        for (Map.Entry<String, String> entry : workflowSettings.getSystemProperties().entrySet()) {
+            GlobalSettings.setProperty(entry.getKey(), entry.getValue());
+        }
+
+        // TODO: Support custom spec loader implementations (https://github.com/OpenAPITools/openapi-generator/issues/844)
+        final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
-        SwaggerParseResult result =
-                new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
+        SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
 
+        // TODO: Move custom validations to a separate type as part of a "Workflow"
         Set<String> validationMessages = new HashSet<>(result.getMessages());
         OpenAPI specification = result.getOpenAPI();
 
@@ -618,12 +398,10 @@ public class CodegenConfigurator implements Serializable {
                 }
             }
 
-            if (this.isValidateSpec()) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(
-                        "There were issues with the specification. The option can be disabled via validateSpec (Maven/Gradle) or --skip-validate-spec (CLI).");
-                sb.append(System.lineSeparator());
-                SpecValidationException ex = new SpecValidationException(sb.toString());
+            if (workflowSettings.isValidateSpec()) {
+                String sb = "There were issues with the specification. The option can be disabled via validateSpec (Maven/Gradle) or --skip-validate-spec (CLI)." +
+                        System.lineSeparator();
+                SpecValidationException ex = new SpecValidationException(sb);
                 ex.setErrors(validationMessages);
                 ex.setWarnings(warnings);
                 throw ex;
@@ -646,90 +424,50 @@ public class CodegenConfigurator implements Serializable {
             }
         }
 
-        input.opts(new ClientOpts()).openAPI(specification);
-
-        return input;
+        return new Context<>(specification, generatorSettings, workflowSettings);
     }
 
-    @JsonAnySetter public CodegenConfigurator addDynamicProperty(String name, Object value) {
-        dynamicProperties.put(name, value);
-        return this;
-    }
+    public ClientOptInput toClientOptInput() {
+        CodegenConfig config = CodegenConfigLoader.forName(generatorName);
 
-    @JsonAnyGetter public Map<String, Object> getDynamicProperties() {
-        return dynamicProperties;
-    }
+        Context<?> context = toContext();
+        WorkflowSettings workflowSettings = context.getWorkflowSettings();
+        GeneratorSettings generatorSettings = context.getGeneratorSettings();
 
-    private void handleDynamicProperties(CodegenConfig codegenConfig) {
-        for (CliOption langCliOption : codegenConfig.cliOptions()) {
-            String opt = langCliOption.getOpt();
-            if (dynamicProperties.containsKey(opt)) {
-                codegenConfig.additionalProperties().put(opt, dynamicProperties.get(opt));
-            } else if (systemProperties.containsKey(opt)) {
-                codegenConfig.additionalProperties().put(opt, systemProperties.get(opt));
-            }
-        }
-    }
-
-    private void setVerboseFlags() {
-        if (!verbose) {
-            return;
-        }
-        LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected"
-                + "\n - [debugOpenAPI] prints the OpenAPI specification as interpreted by the codegen"
-                + "\n - [debugModels] prints models passed to the template engine"
-                + "\n - [debugOperations] prints operations passed to the template engine"
-                + "\n - [debugSupportingFiles] prints additional data passed to the template engine");
-
-        GeneratorProperties.setProperty("debugOpenAPI", "");
-        GeneratorProperties.setProperty("debugModels", "");
-        GeneratorProperties.setProperty("debugOperations", "");
-        GeneratorProperties.setProperty("debugSupportingFiles", "");
-    }
-
-    private void setSystemProperties() {
-        for (Map.Entry<String, String> entry : systemProperties.entrySet()) {
-            GeneratorProperties.setProperty(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private static String toAbsolutePathStr(String path) {
-        if (isNotEmpty(path)) {
-            return Paths.get(path).toAbsolutePath().toString();
+        if (isNotEmpty(generatorSettings.getLibrary())) {
+            config.setLibrary(generatorSettings.getLibrary());
         }
 
-        return path;
+        // TODO: Work toward CodegenConfig having a "WorkflowSettings" property, or better a "Workflow" object which itself has a "WorkflowSettings" property.
+        config.setInputSpec(workflowSettings.getInputSpec());
+        config.setOutputDir(workflowSettings.getOutputDir());
+        config.setSkipOverwrite(workflowSettings.isSkipOverwrite());
+        config.setIgnoreFilePathOverride(workflowSettings.getIgnoreFileOverride());
+        config.setRemoveOperationIdPrefix(workflowSettings.isRemoveOperationIdPrefix());
+        config.setEnablePostProcessFile(workflowSettings.isEnablePostProcessFile());
+        config.setEnableMinimalUpdate(workflowSettings.isEnableMinimalUpdate());
+        config.setStrictSpecBehavior(workflowSettings.isStrictSpecBehavior());
 
-    }
+        TemplatingEngineAdapter templatingEngine = TemplatingEngineLoader.byIdentifier(workflowSettings.getTemplatingEngineName());
+        config.setTemplatingEngine(templatingEngine);
 
-    private void checkAndSetAdditionalProperty(String property, String propertyKey) {
-        checkAndSetAdditionalProperty(property, property, propertyKey);
-    }
+        // TODO: Work toward CodegenConfig having a "GeneratorSettings" property.
+        config.instantiationTypes().putAll(generatorSettings.getInstantiationTypes());
+        config.typeMapping().putAll(generatorSettings.getTypeMappings());
+        config.importMapping().putAll(generatorSettings.getImportMappings());
+        config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
+        config.reservedWordsMappings().putAll(generatorSettings.getReservedWordMappings());
+        config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
 
-    private void checkAndSetAdditionalProperty(String property, String valueToSet,
-            String propertyKey) {
-        if (isNotEmpty(property)) {
-            additionalProperties.put(propertyKey, valueToSet);
+        // any other additional properties?
+        String templateDir = workflowSettings.getTemplateDir();
+        if (templateDir != null) {
+            config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
         }
-    }
 
-    public static CodegenConfigurator fromFile(String configFile) {
+        ClientOptInput input = new ClientOptInput()
+                .config(config);
 
-        if (isNotEmpty(configFile)) {
-            ObjectMapper mapper;
-
-            if (FilenameUtils.isExtension(configFile, new String[] {"yml", "yaml"})) {
-                mapper = Yaml.mapper();
-            } else {
-                mapper = Json.mapper();
-            }
-
-            try {
-                return mapper.readValue(new File(configFile), CodegenConfigurator.class);
-            } catch (IOException ex) {
-                LOGGER.error("Unable to deserialize config file: " + configFile, ex);
-            }
-        }
-        return null;
+        return input.openAPI((OpenAPI)context.getSpecDocument());
     }
 }

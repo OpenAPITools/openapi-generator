@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
@@ -39,14 +41,19 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
-    protected static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
-
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
+    public static final String NPM_NAME = "npmName";
+    public static final String NPM_VERSION = "npmVersion";
+    public static final String SNAPSHOT = "snapshot";
+
+    protected static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     protected String modelPropertyNaming = "camelCase";
-    protected Boolean supportsES6 = true;
+    protected Boolean supportsES6 = false;
     protected HashSet<String> languageGenericTypes;
+    protected String npmName = null;
+    protected String npmVersion = "1.0.0";
 
     public AbstractTypeScriptClientCodegen() {
         super();
@@ -117,10 +124,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("File", "any");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
         typeMapping.put("Error", "Error");
 
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
-        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(this.modelPropertyNaming));
+        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
+        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
+                " Required to generate a full package"));
+        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
+        this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
+                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.toPattern(),
+                false));
 
     }
 
@@ -130,6 +144,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         if (StringUtils.isEmpty(System.getenv("TS_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable 'TS_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export TS_POST_PROCESS_FILE=\"/usr/local/bin/prettier --write\"' (Linux/Mac)");
+            LOGGER.info("Note: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+        else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'TS_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
@@ -140,6 +158,37 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             setSupportsES6(Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString()));
             additionalProperties.put("supportsES6", getSupportsES6());
         }
+
+        if (additionalProperties.containsKey(NPM_NAME)) {
+            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
+        }
+
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+
+        if (additionalProperties.containsKey(NPM_NAME)) {
+
+            // If no npmVersion is provided in additional properties, version from API specification is used.
+            // If none of them is provided then fallbacks to default version
+            if (additionalProperties.containsKey(NPM_VERSION)) {
+                this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+            } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+                this.setNpmVersion(openAPI.getInfo().getVersion());
+            }
+
+            if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
+                if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
+                    this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+                } else {
+                    this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+                }
+            }
+            additionalProperties.put(NPM_VERSION, npmVersion);
+
+        }
+
     }
 
     @Override
@@ -193,7 +242,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String toVarName(String name) {
         name = this.toParamName(name);
         
-        // if the proprty name has any breaking characters such as :, ;, . etc.
+        // if the property name has any breaking characters such as :, ;, . etc.
         // then wrap the name within single quotes.
         // my:interface:property: string; => 'my:interface:property': string;
         if (propertyHasBreakingCharacters(name)) {
@@ -218,7 +267,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("\\|", " "));
+        name = sanitizeName(name, "(?![| ])\\W", exceptions); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
@@ -564,6 +614,22 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return supportsES6;
     }
 
+    public String getNpmName() {
+        return npmName;
+    }
+
+    public void setNpmName(String npmName) {
+        this.npmName = npmName;
+    }
+
+    public String getNpmVersion() {
+        return npmVersion;
+    }
+
+    public void setNpmVersion(String npmVersion) {
+        this.npmVersion = npmVersion;
+    }
+
     private void setDiscriminatorValue(CodegenModel model, String baseName, String value) {
         for (CodegenProperty prop : model.allVars) {
             if (prop.baseName.equals(baseName)) {
@@ -631,5 +697,15 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+        return String.join(" | ", names);
+    }
+
+    @Override
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        return String.join(" | ", names);
     }
 }

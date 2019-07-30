@@ -19,11 +19,11 @@ dependencies {
     providedCompile 'javax.validation:validation-api:1.1.0.Final'
 {{/useBeanValidation}}
 {{^java8}}
-    compile         'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.3'
+    compile         'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.9'
     compile         'joda-time:joda-time:2.7'
 {{/java8}}
 {{#java8}}
-    compile         'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.6.3'
+    compile         'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.9'
 {{/java8}}
     testCompile     'junit:junit:4.12',
                     'org.hamcrest:hamcrest-core:1.3'
