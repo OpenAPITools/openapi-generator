@@ -55,6 +55,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
 
+    protected String enumSuffix = "Enum";
+    protected String classEnumSeparator = ".";
+
     public AbstractTypeScriptClientCodegen() {
         super();
 
@@ -551,8 +554,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = toModelName(property.name) + "Enum";
-
+        String enumName = toModelName(property.name) + enumSuffix;
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
         } else {
@@ -571,14 +573,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "." + var.enumName);
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + "." + var.enumName);
+                                .replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
                     }
                 }
             }
