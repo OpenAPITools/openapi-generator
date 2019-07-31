@@ -7,29 +7,13 @@ use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\Pet;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__.'/FakeHttpClient.php';
+require_once __DIR__ . '/FakeHttpClient.php';
 
 class ResponseTypesTest extends TestCase
 {
-    const SAMPLE_PET = [
-        'id' => 1,
-        'category' => [
-            'id' => 1,
-            'name' => 'any category name',
-        ],
-        'name' => 'any pet name',
-        'photoUrls' => ['example.com'],
-        'tags' => [
-            ['id' => 1,
-            'name' => 'any tag name',
-            ],
-        ],
-        'status' => 'pending',
-    ];
-
     /** @var PetApi */
     private $api;
-    /** @var FakeHttpClient */
+    /** @var  FakeHttpClient */
     private $fakeHttpClient;
 
     public function setUp()
@@ -40,31 +24,17 @@ class ResponseTypesTest extends TestCase
 
     public function testDefined200ReturnType()
     {
-        // given
-        $statusCode = 200;
-        $this->fakeHttpClient->setResponse(
-            new Response($statusCode, [], json_encode(self::SAMPLE_PET))
-        );
-
-        // when
+        $this->fakeHttpClient->setResponse(new Response(200, [], json_encode([])));
         $result = $this->api->getPetById(123);
 
-        // then
         $this->assertInstanceOf(Pet::class, $result);
     }
 
     public function testDefault2xxReturnType()
     {
-        // given
-        $statusCode = 255;
-        $this->fakeHttpClient->setResponse(
-            new Response($statusCode, [], json_encode(self::SAMPLE_PET))
-        );
-
-        // when
+        $this->fakeHttpClient->setResponse(new Response(255, [], json_encode([])));
         $result = $this->api->getPetById(123);
 
-        // then
         $this->assertInstanceOf(Pet::class, $result);
     }
 
