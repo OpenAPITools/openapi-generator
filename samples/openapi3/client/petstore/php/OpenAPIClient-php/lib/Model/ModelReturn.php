@@ -50,7 +50,7 @@ class ModelReturn implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'Return';
+    protected static $openAPIModelName = '_Return';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
