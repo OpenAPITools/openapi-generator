@@ -1,6 +1,5 @@
 const ExpressServer = require('./expressServer');
 const logger = require('./logger');
-// const swaggerRouter = require('./utils/swaggerRouter');
 
 class App {
   constructor(config) {

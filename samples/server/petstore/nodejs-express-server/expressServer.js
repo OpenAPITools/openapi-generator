@@ -6,7 +6,6 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { OpenApiValidator } = require('express-openapi-validator');
-// const pathToRegexp = require('path-to-regexp');
 const openapiRouter = require('./utils/openapiRouter');
 const logger = require('./logger');
 
@@ -16,37 +15,8 @@ class ExpressServer {
     this.app = express();
     this.openApiPath = openApiYaml;
     this.schema = yamljs.load(openApiYaml);
-    // this.middleware = new Middleware(this.app);
     this.setupMiddleware();
   }
-
-  // handleIncomingMedia(request) {
-  //   console.log(this.apiValidator);
-  //   const incomingMedia = request.headers['content-type'].split(';')[0];
-  //   logger.info(`checking access for media type ${incomingMedia}`);
-  //   const currentServer = this.schema.servers.find(
-  //     server => server.url.indexOf(request.headers.host) > -1,
-  //   );
-  //   const currentServerUrl = currentServer.url.substr(currentServer.url.indexOf('://') + 3);
-  //   // const path = `${request.headers.host}${request.originalUrl}`;
-  //   const requestPath = `${request.headers.host}${request.originalUrl}`.substr(currentServerUrl.length);
-  //   this.allowedMedia.forEach((permissions, path) => {
-  //     console.log(path, permissions);
-  //     const keys = [];
-  //     const regex = pathToRegexp(path, keys);
-  //     const matches = regex.exec(requestPath);
-  //     console.log(matches);
-  //   });
-  //   // this.allowedMedia.find((instance) => {
-  //   //   const keys = [];
-  //   //   const regex = pathToRegexp(Object.keys(instance)[0], keys);
-  //   //   return instance.path === regex;
-  //   // });
-  //
-  //   logger.info(`analysing incoming media. content type: ${request.headers['content-type']}`); '';
-  //   logger.info(this.schema.paths[request.url]);
-  //   logger.info(this.schema);
-  // }
 
   setupMiddleware() {
     // this.setupAllowedMedia();
@@ -55,9 +25,6 @@ class ExpressServer {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser());
-    // this.app.use(bodyParser.raw({
-    //   type: (req => this.handleIncomingMedia(req)),
-    // }));
     this.app.get('/spec', express.static(this.openApiPath));
     this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(this.schema));
     this.app.get('/login-redirect', (req, res) => {
@@ -85,7 +52,7 @@ class ExpressServer {
     });
     /**
      * suppressed eslint rule: The next variable is required here, even though it's not used.
-      *
+     *
      ** */
     // eslint-disable-next-line no-unused-vars
     this.app.use((error, req, res, next) => {
@@ -118,25 +85,6 @@ class ExpressServer {
       console.log(`Server on port ${this.port} shut down`);
     }
   }
-
-  setupAllowedMedia() {
-    this.allowedMedia = new Map();
-    logger.info('Setting up allowed media types according to schema deifnition');
-    Object.entries(this.schema.paths).forEach(([pathName, pathOperation]) => {
-      const pathMedia = {};
-      ['post', 'put', 'patch'].forEach((method) => {
-        if (pathOperation[method] !== undefined
-            && pathOperation[method].requestBody !== undefined) {
-          pathMedia[method] = [];
-          Object.keys(pathOperation[method].requestBody.content).forEach((mediaType) => {
-            pathMedia[method].push(mediaType);
-          });
-        }
-      });
-      if (Object.keys(pathMedia).length > 0) {
-        this.allowedMedia.set(pathName, pathMedia);
-      }
-    });
-  }
 }
+
 module.exports = ExpressServer;

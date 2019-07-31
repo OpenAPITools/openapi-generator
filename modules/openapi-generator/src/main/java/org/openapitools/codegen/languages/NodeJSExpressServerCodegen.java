@@ -90,7 +90,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
         // utils folder
         supportingFiles.add(new SupportingFile("utils" + File.separator + "openapiRouter.mustache", "utils", "openapiRouter.js"));
-        supportingFiles.add(new SupportingFile("utils" + File.separator + "writer.mustache", "utils", "writer.js"));
 
         // controllers folder
         supportingFiles.add(new SupportingFile("controllers" + File.separator + "index.mustache", "controllers", "index.js"));
