@@ -176,6 +176,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
+        typeMapping.put("ref", "kotlin.Any");
 
         instantiationTypes.put("array", "kotlin.arrayOf");
         instantiationTypes.put("list", "kotlin.arrayOf");
@@ -612,6 +613,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema items = arr.getItems();
         String nestedType = getTypeDeclaration(items);
+        additionalProperties.put("nestedType", nestedType);
         // TODO: We may want to differentiate here between generics and primitive arrays.
         instantiationType.append("<").append(nestedType).append(">");
         return instantiationType.toString();
