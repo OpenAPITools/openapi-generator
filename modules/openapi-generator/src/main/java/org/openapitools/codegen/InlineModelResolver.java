@@ -416,6 +416,9 @@ public class InlineModelResolver {
      */
     private String resolveModelName(String title, String key) {
         if (title == null) {
+            // for auto-generated schema name, replace non-alphanumeric characters with underscore
+            // to avoid bugs with schema look up with inline schema created on the fly
+            // e.g. io.schema.User_name => io_schema_User_name
             return uniqueName(key).replaceAll("[^A-Za-z0-9]", "_");
         } else {
             return uniqueName(title);
