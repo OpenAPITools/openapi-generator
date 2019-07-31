@@ -27,7 +27,6 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final Boolean SUPPORTS_ES6_VALUE = false;
-    public static final Boolean STRING_ENUMS_VALUE = false;
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
     private static final String NMP_NAME = "npmName";
     private static final String NMP_VERSION = "1.0.0";

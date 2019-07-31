@@ -24,7 +24,6 @@ import java.util.Map;
 
 public class TypeScriptAngularJsClientOptionsProvider implements OptionsProvider {
     public static final String SUPPORTS_ES6_VALUE = "false";
-    public static final String STRING_ENUMS_VALUE = "false";
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
