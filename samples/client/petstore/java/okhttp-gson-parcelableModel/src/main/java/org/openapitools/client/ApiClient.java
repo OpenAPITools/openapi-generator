@@ -170,15 +170,14 @@ public class ApiClient {
     }
 
     /**
-     * Set HTTP client
+     * Set HTTP client, which must never be null.
      *
      * @param newHttpClient An instance of OkHttpClient
      * @return Api Client
+     * @throws NullPointerException when newHttpClient is null
      */
     public ApiClient setHttpClient(OkHttpClient newHttpClient) {
-        if(!httpClient.equals(newHttpClient)) {
-            this.httpClient = newHttpClient;
-        }
+        this.httpClient = Objects.requireNonNull(newHttpClient, "HttpClient must not be null!");
         return this;
     }
 
