@@ -41,6 +41,9 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 
+import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
+import static org.testng.Assert.assertTrue;
+
 public class SpringCodegenTest {
 
     @Test
@@ -103,10 +106,10 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"xyz.yyyyy.iiii.invoker");
-        codegen.additionalProperties().put(SpringCodegen.BASE_PACKAGE,"xyz.yyyyy.bbbb.base");
-        codegen.additionalProperties().put(SpringCodegen.CONFIG_PACKAGE,"xyz.yyyyy.cccc.config");
-        codegen.additionalProperties().put(SpringCodegen.SERVER_PORT,"8088");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties().put(SpringCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
+        codegen.additionalProperties().put(SpringCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
+        codegen.additionalProperties().put(SpringCodegen.SERVER_PORT, "8088");
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
@@ -178,5 +181,47 @@ public class SpringCodegenTest {
                 .stream()
                 .collect(groupingBy(CliOption::getOpt))
                 .forEach((k,v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
+    }
+
+    @Test
+    public void springcloudWithJava8DisabeJdk8() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("jdk8-default-interface"), false);
+    }
+
+    @Test
+    public void springcloudWithAsyncHasResponseWrapperCallable() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(SpringCodegen.JAVA_8, false);
+        codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
+        codegen.processOpts();
+
+        Assert.assertNull(codegen.additionalProperties().get("jdk8-default-interface"));
+        Assert.assertEquals(codegen.additionalProperties().get(RESPONSE_WRAPPER), "Callable");
+    }
+
+    @Test
+    public void springcloudWithAsyncAndJava8HasResponseWrapperCompletableFuture() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
+        codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("jdk8-default-interface"), false);
+        Assert.assertEquals(codegen.additionalProperties().get(RESPONSE_WRAPPER), "CompletableFuture");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void reactiveRequiredSpringBoot() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
+        codegen.processOpts();
     }
 }
