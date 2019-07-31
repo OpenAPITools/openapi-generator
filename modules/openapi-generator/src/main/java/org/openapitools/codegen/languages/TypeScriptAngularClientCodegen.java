@@ -333,7 +333,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         boolean hasSomeFormParams = false;
         for (CodegenOperation op : ops) {
             if (op.getHasFormParams()) {
-                System.out.println(op);
                 hasSomeFormParams = true;
             }
             if ((boolean) additionalProperties.get("useHttpClient")) {
