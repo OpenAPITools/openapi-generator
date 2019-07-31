@@ -32,25 +32,32 @@ class FileSchemaTestClass(object):
     """
     openapi_types = {
         'file': 'File',
-        'files': 'list[File]'
+        'files': 'list[File]',
     }
 
     attribute_map = {
-        'file': 'file',
-        'files': 'files'
+        'file': 'file',  # noqa: E501
+        'files': 'files',  # noqa: E501
     }
 
     def __init__(self, file=None, files=None):  # noqa: E501
-        """FileSchemaTestClass - a model defined in OpenAPI"""  # noqa: E501
+        """FileSchemaTestClass - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            file (File): [optional]  # noqa: E501
+            files (list[File]): [optional]  # noqa: E501
+        """
 
         self._file = None
         self._files = None
         self.discriminator = None
 
         if file is not None:
-            self.file = file
+            self.file = file  # noqa: E501
         if files is not None:
-            self.files = files
+            self.files = files  # noqa: E501
 
     @property
     def file(self):
@@ -63,7 +70,9 @@ class FileSchemaTestClass(object):
         return self._file
 
     @file.setter
-    def file(self, file):
+    def file(
+            self,
+            file):
         """Sets the file of this FileSchemaTestClass.
 
 
@@ -71,7 +80,8 @@ class FileSchemaTestClass(object):
         :type: File
         """
 
-        self._file = file
+        self._file = (
+            file)
 
     @property
     def files(self):
@@ -84,7 +94,9 @@ class FileSchemaTestClass(object):
         return self._files
 
     @files.setter
-    def files(self, files):
+    def files(
+            self,
+            files):
         """Sets the files of this FileSchemaTestClass.
 
 
@@ -92,7 +104,8 @@ class FileSchemaTestClass(object):
         :type: list[File]
         """
 
-        self._files = files
+        self._files = (
+            files)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

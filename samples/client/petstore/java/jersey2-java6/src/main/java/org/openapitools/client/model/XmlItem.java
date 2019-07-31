@@ -124,6 +124,7 @@ public class XmlItem {
    * Get attributeString
    * @return attributeString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getAttributeString() {
     return attributeString;
@@ -142,6 +143,7 @@ public class XmlItem {
    * Get attributeNumber
    * @return attributeNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -160,6 +162,7 @@ public class XmlItem {
    * Get attributeInteger
    * @return attributeInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -178,6 +181,7 @@ public class XmlItem {
    * Get attributeBoolean
    * @return attributeBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean isAttributeBoolean() {
     return attributeBoolean;
@@ -204,6 +208,7 @@ public class XmlItem {
    * Get wrappedArray
    * @return wrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getWrappedArray() {
     return wrappedArray;
@@ -222,6 +227,7 @@ public class XmlItem {
    * Get nameString
    * @return nameString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getNameString() {
     return nameString;
@@ -240,6 +246,7 @@ public class XmlItem {
    * Get nameNumber
    * @return nameNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getNameNumber() {
     return nameNumber;
@@ -258,6 +265,7 @@ public class XmlItem {
    * Get nameInteger
    * @return nameInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getNameInteger() {
     return nameInteger;
@@ -276,6 +284,7 @@ public class XmlItem {
    * Get nameBoolean
    * @return nameBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean isNameBoolean() {
     return nameBoolean;
@@ -302,6 +311,7 @@ public class XmlItem {
    * Get nameArray
    * @return nameArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getNameArray() {
     return nameArray;
@@ -328,6 +338,7 @@ public class XmlItem {
    * Get nameWrappedArray
    * @return nameWrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
@@ -346,6 +357,7 @@ public class XmlItem {
    * Get prefixString
    * @return prefixString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getPrefixString() {
     return prefixString;
@@ -364,6 +376,7 @@ public class XmlItem {
    * Get prefixNumber
    * @return prefixNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -382,6 +395,7 @@ public class XmlItem {
    * Get prefixInteger
    * @return prefixInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -400,6 +414,7 @@ public class XmlItem {
    * Get prefixBoolean
    * @return prefixBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean isPrefixBoolean() {
     return prefixBoolean;
@@ -426,6 +441,7 @@ public class XmlItem {
    * Get prefixArray
    * @return prefixArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getPrefixArray() {
     return prefixArray;
@@ -452,6 +468,7 @@ public class XmlItem {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
@@ -470,6 +487,7 @@ public class XmlItem {
    * Get namespaceString
    * @return namespaceString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getNamespaceString() {
     return namespaceString;
@@ -488,6 +506,7 @@ public class XmlItem {
    * Get namespaceNumber
    * @return namespaceNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -506,6 +525,7 @@ public class XmlItem {
    * Get namespaceInteger
    * @return namespaceInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -524,6 +544,7 @@ public class XmlItem {
    * Get namespaceBoolean
    * @return namespaceBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean isNamespaceBoolean() {
     return namespaceBoolean;
@@ -550,6 +571,7 @@ public class XmlItem {
    * Get namespaceArray
    * @return namespaceArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
@@ -576,6 +598,7 @@ public class XmlItem {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
@@ -594,6 +617,7 @@ public class XmlItem {
    * Get prefixNsString
    * @return prefixNsString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getPrefixNsString() {
     return prefixNsString;
@@ -612,6 +636,7 @@ public class XmlItem {
    * Get prefixNsNumber
    * @return prefixNsNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
@@ -630,6 +655,7 @@ public class XmlItem {
    * Get prefixNsInteger
    * @return prefixNsInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
@@ -648,6 +674,7 @@ public class XmlItem {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean isPrefixNsBoolean() {
     return prefixNsBoolean;
@@ -674,6 +701,7 @@ public class XmlItem {
    * Get prefixNsArray
    * @return prefixNsArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
@@ -700,6 +728,7 @@ public class XmlItem {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;

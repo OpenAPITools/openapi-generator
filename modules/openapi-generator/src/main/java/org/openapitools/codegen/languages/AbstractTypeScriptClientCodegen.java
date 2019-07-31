@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
@@ -53,7 +54,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected HashSet<String> languageGenericTypes;
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
-
+    protected String enumSuffix = "Enum";
+    protected String classEnumSeparator = ".";
+    
     private List<String> reservedModelNames = new ArrayList<String>();
 
     public AbstractTypeScriptClientCodegen() {
@@ -271,7 +274,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("\\|", " "));
+        name = sanitizeName(name, "(?![| ])\\W", exceptions); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
@@ -558,8 +562,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = toModelName(property.name) + "Enum";
-
+        String enumName = toModelName(property.name) + enumSuffix;
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
         } else {
@@ -578,14 +581,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "." + var.enumName);
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + "." + var.enumName);
+                                .replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
                     }
                 }
             }
@@ -704,5 +707,15 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+        return String.join(" | ", names);
+    }
+
+    @Override
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        return String.join(" | ", names);
     }
 }

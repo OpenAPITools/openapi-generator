@@ -1,6 +1,6 @@
 {{#models}}
 {{#model}}
-export * from './{{{ classFilename }}}';
+export * from '{{{ classFilename }}}';
 {{/model}}
 {{/models}}
 
@@ -8,7 +8,7 @@ import localVarRequest = require('request');
 
 {{#models}}
 {{#model}}
-import { {{classname}} } from './{{{ classFilename }}}';
+import { {{classname}} } from '{{{ classFilename }}}';
 {{/model}}
 {{/models}}
 

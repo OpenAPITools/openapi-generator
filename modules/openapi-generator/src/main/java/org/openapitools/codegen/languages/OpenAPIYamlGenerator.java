@@ -42,7 +42,7 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         super();
         embeddedTemplateDir = templateDir = "openapi-yaml";
         outputFolder = "generated-code/openapi-yaml";
-        cliOptions.add(new CliOption(OUTPUT_NAME, "output filename"));
+        cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output filename").defaultValue(outputFile));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
     }
 

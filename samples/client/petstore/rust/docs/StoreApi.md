@@ -18,12 +18,12 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **order_id** | **String**| ID of the order that needs to be deleted | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**order_id** | **String** | ID of the order that needs to be deleted | Required | 
 
 ### Return type
 
@@ -43,12 +43,12 @@ No authorization required
 
 ## get_inventory
 
-> ::std::collections::HashMap<String, i32> get_inventory(ctx, )
+> ::std::collections::HashMap<String, i32> get_inventory()
 Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Required Parameters
+### Parameters
 
 This endpoint does not need any parameter.
 
@@ -75,12 +75,12 @@ Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **order_id** | **i64**| ID of pet that needs to be fetched | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**order_id** | **i64** | ID of pet that needs to be fetched | Required | 
 
 ### Return type
 
@@ -103,12 +103,12 @@ No authorization required
 > crate::models::Order place_order(body)
 Place an order for a pet
 
-### Required Parameters
+### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**body** | [**Order**](Order.md) | order placed for purchasing the pet | Required | 
 
 ### Return type
 

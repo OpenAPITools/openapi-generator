@@ -89,15 +89,31 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toVarName("USERname"), "usERname");
         Assert.assertEquals(fakeJavaCodegen.toVarName("USERNAME"), "USERNAME");
         Assert.assertEquals(fakeJavaCodegen.toVarName("USER123NAME"), "USER123NAME");
-   }
+        Assert.assertEquals(fakeJavaCodegen.toVarName("1"), "_1");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("1a"), "_1a");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("1A"), "_1A");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("1AAAA"), "_1AAAA");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("1AAaa"), "_1aAaa");
+    }
 
-   @Test
-   public void convertModelName() throws Exception {
+    @Test
+    public void convertModelName() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toModelName("name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("$name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("nam#e"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("$another-fake?"), "AnotherFake");
-   }
+        Assert.assertEquals(fakeJavaCodegen.toModelName("1a"), "Model1a");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("1A"), "Model1A");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("AAAb"), "AAAb");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("aBB"), "ABB");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("AaBBa"), "AaBBa");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("A_B"), "AB");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("A-B"), "AB");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("Aa_Bb"), "AaBb");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("Aa-Bb"), "AaBb");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("Aa_bb"), "AaBb");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("Aa-bb"), "AaBb");
+    }
 
     @Test
     public void testInitialConfigValues() throws Exception {
@@ -113,7 +129,6 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools");
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "get");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.USE_NULL_FOR_UNKNOWN_ENUM_VALUE), Boolean.FALSE);
     }
 
     @Test
@@ -124,7 +139,6 @@ public class AbstractJavaCodegenTest {
         codegen.setApiPackage("xyz.yyyyy.zzzzzzz.api");
         codegen.setInvokerPackage("xyz.yyyyy.zzzzzzz.invoker");
         codegen.setBooleanGetterPrefix("is");
-        codegen.setUseNullForUnknownEnumValue(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -136,7 +150,6 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "is");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.USE_NULL_FOR_UNKNOWN_ENUM_VALUE), Boolean.TRUE);
     }
 
     @Test
@@ -147,7 +160,6 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.api.oooooo");
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.invoker.oooooo");
         codegen.additionalProperties().put(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "getBoolean");
-        codegen.additionalProperties().put(AbstractJavaCodegen.USE_NULL_FOR_UNKNOWN_ENUM_VALUE, "true");
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
@@ -159,11 +171,10 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.invoker.oooooo");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.invoker.oooooo");
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "getBoolean");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.USE_NULL_FOR_UNKNOWN_ENUM_VALUE), Boolean.TRUE);
     }
 
     @Test
-    public void toEnumValue(){
+    public void toEnumValue() {
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         Assert.assertEquals(codegen.toEnumValue("1", "Integer"), "1");
         Assert.assertEquals(codegen.toEnumValue("42", "Double"), "42");
@@ -213,7 +224,7 @@ public class AbstractJavaCodegenTest {
         codegen.setOutputDir("/User/open.api.tools");
         Assert.assertEquals(codegen.apiDocFileFolder(), "/User/open.api.tools/docs/".replace('/', File.separatorChar));
     }
-  
+
     @Test(description = "tests if API version specification is used if no version is provided in additional properties")
     public void openApiversionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -310,6 +321,7 @@ public class AbstractJavaCodegenTest {
         /**
          * Gets artifact version.
          * Only for testing purposes.
+         *
          * @return version
          */
         public String getArtifactVersion() {

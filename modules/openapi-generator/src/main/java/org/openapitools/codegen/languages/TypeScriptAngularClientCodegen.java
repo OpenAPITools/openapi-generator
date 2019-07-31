@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -48,6 +49,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String MODEL_SUFFIX = "modelSuffix";
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
+    public static final String STRING_ENUMS = "stringEnums";
+    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
     protected String ngVersion = "7.0.0";
     protected String npmRepository = null;
@@ -56,6 +59,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
+    protected Boolean stringEnums = false;
 
     private boolean taggedUnions = false;
 
@@ -88,6 +92,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
+        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
     }
 
     @Override
@@ -134,6 +139,15 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration(ngVersion);
+        }
+
+        if (additionalProperties.containsKey(STRING_ENUMS)) {
+            setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
+            additionalProperties.put("stringEnums", getStringEnums());
+            if (getStringEnums()) {
+                enumSuffix = "";
+                classEnumSeparator = "";
+            }
         }
 
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
@@ -271,6 +285,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return indexPackage.replace('.', File.separatorChar);
     }
 
+    public void setStringEnums(boolean value) {
+        stringEnums = value;
+    }
+
+    public Boolean getStringEnums() {
+        return stringEnums;
+    }
+
     @Override
     public boolean isDataTypeFile(final String dataType) {
         return dataType != null && dataType.equals("Blob");
@@ -330,7 +352,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
 
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+        boolean hasSomeFormParams = false;
         for (CodegenOperation op : ops) {
+            if (op.getHasFormParams()) {
+                hasSomeFormParams = true;
+            }
             if ((boolean) additionalProperties.get("useHttpClient")) {
                 op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
             } else {
@@ -406,6 +432,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             op.path = pathBuffer.toString();
         }
 
+        operations.put("hasSomeFormParams", hasSomeFormParams);
+
         // Add additional filename information for model imports in the services
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
@@ -458,10 +486,31 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                     }
                 }
                 // Add additional filename information for imports
-                mo.put("tsImports", toTsImports(cm, cm.imports));
+                Set<String> parsedImports = parseImports(cm);
+                mo.put("tsImports", toTsImports(cm, parsedImports));
             }
         }
         return result;
+    }
+
+    /**
+     * Parse imports 
+     */
+    private Set<String> parseImports(CodegenModel cm) {
+        Set<String> newImports = new HashSet<String>();
+        if (cm.imports.size() > 0) {
+            for (String name : cm.imports) {
+                if (name.indexOf(" | ") >= 0) {
+                    String[] parts = name.split(" \\| ");
+                    for (String s : parts) {
+                        newImports.add(s);
+                    }
+                } else {
+                    newImports.add(name);
+                }
+            }
+        }
+        return newImports;
     }
 
     private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {

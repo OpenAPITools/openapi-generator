@@ -18,7 +18,7 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.exceptions import (
+from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
@@ -45,21 +45,28 @@ class FakeClassnameTags123Api(object):
         >>> thread = api.test_classname(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param Client body: client model (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Client
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Client): client model
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            Client:
         """
         kwargs['_return_http_data_only'] = True
-        return self.test_classname_with_http_info(body, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.test_classname_with_http_info(body, **kwargs)  # noqa: E501
+        else:
+            (data) = self.test_classname_with_http_info(body, **kwargs)  # noqa: E501
+            return data
 
     def test_classname_with_http_info(self, body, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
@@ -70,20 +77,21 @@ class FakeClassnameTags123Api(object):
         >>> thread = api.test_classname_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param Client body: client model (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Client, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Client): client model
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            Client:
         """
 
         local_var_params = locals()

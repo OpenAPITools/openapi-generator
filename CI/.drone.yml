@@ -1,0 +1,20 @@
+kind: pipeline
+name: default
+
+steps:
+# test Java 11 HTTP client
+- name: java11-test
+  image: hirokimatsumoto/alpine-openjdk-11	
+  commands:
+  - ./mvnw clean install
+  - ./mvnw --quiet verify -Psamples.droneio
+# test ocaml petstore client
+- name: ocaml-test
+  image: ocaml/opam2:4.07
+  commands:
+  - sudo apt-get -y install m4
+  - cd samples/client/petstore/ocaml
+  - opam install ppx_deriving_yojson cohttp ppx_deriving cohttp-lwt-unix
+  - eval $(opam env)
+  - sudo chmod -R 777 .
+  - dune build --build-dir=./_build
