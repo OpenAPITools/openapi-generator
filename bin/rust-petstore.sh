@@ -27,6 +27,17 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/rust -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g rust -o samples/client/petstore/rust --additional-properties packageName=petstore_client --library=hyper $@"
 
-java ${JAVA_OPTS} -jar ${executable} ${ags}
+for spec_path in modules/openapi-generator/src/test/resources/2_0/petstore.yaml ; do
+  spec=$(basename "$spec_path" | sed 's/.yaml//')
+
+  for library in hyper reqwest; do
+    ags="generate --template-dir modules/openapi-generator/src/main/resources/rust
+                  --input-spec $spec_path
+                  --generator-name rust
+                  --output samples/client/petstore/rust/$library/$spec
+                  --additional-properties packageName=$spec
+                  --library=$library $@"
+    java ${JAVA_OPTS} -jar ${executable} ${ags}
+  done
+done
