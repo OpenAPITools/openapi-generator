@@ -20,7 +20,7 @@ steps:
   - dune build --build-dir=./_build
 # test ruby faraday client
 - name: ruby-faraday-test
-  image: frolvlad/alpine-ruby
+  image: ruby:2.6.1-alpine3.9
   commands:
   - cd samples/openapi3/client/petstore/ruby-faraday
   - bundle update --bundler
