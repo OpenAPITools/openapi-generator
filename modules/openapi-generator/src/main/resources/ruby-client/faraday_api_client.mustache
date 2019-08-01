@@ -277,13 +277,15 @@ module {{moduleName}}
     # @return [String] HTTP body data in the form of string
     def build_request_body(header_params, form_params, body)
       # http form
-      if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
-          header_params['Content-Type'] == 'multipart/form-data'
+      if header_params['Content-Type'] == 'application/x-www-form-urlencoded'
+        data = URI.encode_www_form(form_params)
+      elsif header_params['Content-Type'] == 'multipart/form-data'
         data = {}
         form_params.each do |key, value|
           case value
           when ::File, ::Tempfile
-            data[key] = Faraday::UploadIO.new(value.path, '')
+            # TODO hardcode to application/octet-stream, need better way to detect content type
+            data[key] = Faraday::UploadIO.new(value.path, 'application/octet-stream', value.path)
           when ::Array, nil
             # let Faraday handle Array and nil parameters
             data[key] = value
