@@ -22,6 +22,4 @@ sidebar_label: ruby
 |gemAuthor|gem author (only one is supported).| |null|
 |gemAuthorEmail|gem author email (only one is supported).| |null|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|faraday|Faraday (https://github.com/lostisland/faraday)| |false|
-|typhoeus|Typhoeus (https://github.com/typhoeus/typhoeus)| |false|
-|library|HTTP library template (sub-template) to use|<dl><dt>**faraday**</dt><dd>Faraday (https://github.com/lostisland/faraday)</dd><dt>**typhoeus**</dt><dd>Typhoeus &gt;= 1.0.1 (https://github.com/typhoeus/typhoeus)</dd><dl>|faraday|
+|library|HTTP library template (sub-template) to use|<dl><dt>**faraday**</dt><dd>Faraday (https://github.com/lostisland/faraday) (Beta support)</dd><dt>**typhoeus**</dt><dd>Typhoeus &gt;= 1.0.1 (https://github.com/typhoeus/typhoeus)</dd><dl>|typhoeus|
