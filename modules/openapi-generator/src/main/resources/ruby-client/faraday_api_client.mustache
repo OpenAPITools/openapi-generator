@@ -41,34 +41,34 @@ module {{moduleName}}
       connection = Faraday.new(:url => config.base_url) do |conn|
         conn.basic_auth(config.username, config.password)
         if opts[:header_params]["Content-Type"] == "multipart/form-data"
-            conn.request :multipart
-            conn.request :url_encoded
+          conn.request :multipart
+          conn.request :url_encoded
         end
         conn.adapter(Faraday.default_adapter)
       end
       begin
-          response = connection.public_send(http_method.to_sym.downcase) do |req|
-              build_request(http_method, path, req, opts)
-          end
+        response = connection.public_send(http_method.to_sym.downcase) do |req|
+          build_request(http_method, path, req, opts)
+        end
 
-          if @config.debugging
-            @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
-          end
+        if @config.debugging
+          @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+        end
 
-          unless response.success?
-            if response.status == 0
-              # Errors from libcurl will be made visible here
-              fail ApiError.new(:code => 0,
-                                :message => response.return_message)
-            else
-              fail ApiError.new(:code => response.status,
-                                :response_headers => response.headers,
-                                :response_body => response.body),
-                   response.reason_phrase
-            end
+        unless response.success?
+          if response.status == 0
+            # Errors from libcurl will be made visible here
+            fail ApiError.new(:code => 0,
+                              :message => response.return_message)
+          else
+            fail ApiError.new(:code => response.status,
+                              :response_headers => response.headers,
+                              :response_body => response.body),
+                 response.reason_phrase
           end
+        end
       rescue Faraday::TimeoutError
-          fail ApiError.new('Connection timed out')
+        fail ApiError.new('Connection timed out')
       end
 
       if opts[:return_type]
@@ -126,7 +126,7 @@ module {{moduleName}}
       end
       request.headers = header_params
       request.body = req_body
-      request.url path
+      request.url url
       request.params = query_params
       download_file(request) if opts[:return_type] == 'File'
       request
