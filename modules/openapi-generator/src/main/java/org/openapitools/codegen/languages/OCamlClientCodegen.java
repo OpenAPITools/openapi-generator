@@ -88,7 +88,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "new", "nonrec", "object", "of", "open", "or",
                         "private", "rec", "sig", "struct", "then", "to",
                         "true", "try", "type", "val", "virtual", "when",
-                        "while", "with"
+                        "while", "with",
+
+                        "result"
                 )
         );
 
