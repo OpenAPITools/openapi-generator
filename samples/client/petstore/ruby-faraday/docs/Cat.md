@@ -1,10 +1,17 @@
 # Petstore::Cat
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**class_name** | **String** |  | 
-**color** | **String** |  | [optional] [default to &#39;red&#39;]
-**declawed** | **BOOLEAN** |  | [optional] 
+**declawed** | **Boolean** |  | [optional] 
+
+## Code Sample
+
+```ruby
+require 'Petstore'
+
+instance = Petstore::Cat.new(declawed: null)
+```
 
 
