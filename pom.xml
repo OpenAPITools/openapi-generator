@@ -1169,7 +1169,6 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/openapi3/client/petstore/ruby-faraday</module>
                 <module>samples/openapi3/client/petstore/ruby</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
