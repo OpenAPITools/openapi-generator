@@ -25,6 +25,7 @@ Then either install the gem locally:
 ```shell
 gem install ./petstore-1.0.0.gem
 ```
+
 (for development, run `gem install --dev ./petstore-1.0.0.gem` to install the development dependencies)
 
 or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
@@ -50,16 +51,17 @@ ruby -Ilib script.rb
 ## Getting Started
 
 Please follow the [installation](#installation) procedure and then run the following code:
+
 ```ruby
 # Load the gem
 require 'petstore'
 
 api_instance = Petstore::AnotherFakeApi.new
-client = Petstore::Client.new # Client | client model
+body = Petstore::Client.new # Client | client model
 
 begin
   #To test special tags
-  result = api_instance.call_123_test_special_tags(client)
+  result = api_instance.call_123_test_special_tags(body)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling AnotherFakeApi->call_123_test_special_tags: #{e}"
@@ -74,6 +76,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *Petstore::AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*Petstore::FakeApi* | [**create_xml_item**](docs/FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 *Petstore::FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -112,19 +115,27 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [Petstore::AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
+ - [Petstore::AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
+ - [Petstore::AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [Petstore::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [Petstore::AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
+ - [Petstore::AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
+ - [Petstore::AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [Petstore::AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [Petstore::Animal](docs/Animal.md)
- - [Petstore::AnimalFarm](docs/AnimalFarm.md)
  - [Petstore::ApiResponse](docs/ApiResponse.md)
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Petstore::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Petstore::ArrayTest](docs/ArrayTest.md)
  - [Petstore::Capitalization](docs/Capitalization.md)
  - [Petstore::Cat](docs/Cat.md)
+ - [Petstore::CatAllOf](docs/CatAllOf.md)
  - [Petstore::Category](docs/Category.md)
  - [Petstore::ClassModel](docs/ClassModel.md)
  - [Petstore::Client](docs/Client.md)
  - [Petstore::Dog](docs/Dog.md)
+ - [Petstore::DogAllOf](docs/DogAllOf.md)
  - [Petstore::EnumArrays](docs/EnumArrays.md)
  - [Petstore::EnumClass](docs/EnumClass.md)
  - [Petstore::EnumTest](docs/EnumTest.md)
@@ -145,9 +156,11 @@ Class | Method | HTTP request | Description
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
- - [Petstore::StringBooleanMap](docs/StringBooleanMap.md)
  - [Petstore::Tag](docs/Tag.md)
+ - [Petstore::TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [Petstore::TypeHolderExample](docs/TypeHolderExample.md)
  - [Petstore::User](docs/User.md)
+ - [Petstore::XmlItem](docs/XmlItem.md)
 
 
 ## Documentation for Authorization
@@ -155,11 +168,13 @@ Class | Method | HTTP request | Description
 
 ### api_key
 
+
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
 ### api_key_query
+
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
@@ -170,6 +185,7 @@ Class | Method | HTTP request | Description
 - **Type**: HTTP basic authentication
 
 ### petstore_auth
+
 
 - **Type**: OAuth
 - **Flow**: implicit
