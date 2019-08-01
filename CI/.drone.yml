@@ -23,6 +23,5 @@ steps:
   image: ruby:2.6.1-alpine3.9
   commands:
   - cd samples/openapi3/client/petstore/ruby-faraday
-  - bundle update --bundler
   - bundle install --path vendor/bundle
   - bundle exec rspec
