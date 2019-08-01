@@ -1170,6 +1170,7 @@
             <modules>
                 <!-- clients -->
                 <module>samples/openapi3/client/petstore/ruby</module>
+                <module>samples/openapi3/client/petstore/ruby-faraday</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
