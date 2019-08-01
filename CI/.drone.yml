@@ -23,5 +23,6 @@ steps:
   image: frolvlad/alpine-ruby
   commands:
   - cd samples/openapi3/client/petstore/ruby-faraday
+  - bundle update --bundler
   - bundle install --path vendor/bundle
   - bundle exec rspec
