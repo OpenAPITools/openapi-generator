@@ -232,16 +232,15 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("gemspec.mustache", "", gemName + ".gemspec"));
 
         if (TYPHOEUS.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
             supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
-            supportingFiles.add(new SupportingFile("gemspec.mustache", "", gemName + ".gemspec"));
             supportingFiles.add(new SupportingFile("Gemfile.lock.mustache", "", "Gemfile.lock"));
         } else if (FARADAY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("faraday_api_client.mustache", gemFolder, "api_client.rb"));
             supportingFiles.add(new SupportingFile("faraday_configuration.mustache", gemFolder, "configuration.rb"));
-            supportingFiles.add(new SupportingFile("faraday_gemspec.mustache", "", gemName + ".gemspec"));
         } else {
             throw new RuntimeException("Invalid HTTP library " +  getLibrary() + ". Only faraday, typhoeus are supported.");
         }
