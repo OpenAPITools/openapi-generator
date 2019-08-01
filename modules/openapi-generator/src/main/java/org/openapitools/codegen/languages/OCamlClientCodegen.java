@@ -142,7 +142,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("object", "Yojson.Safe.t");
         typeMapping.put("any", "Yojson.Safe.t");
         typeMapping.put("file", "string");
-        typeMapping.put("ByteArray", "bytes");
+        typeMapping.put("ByteArray", "string");
         // lib
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
@@ -675,6 +675,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 if (param.isModel && param.dataType.endsWith(".t")) {
                     param.vendorExtensions.put(X_MODEL_MODULE, param.dataType.substring(0, param.dataType.lastIndexOf('.')));
                 }
+            }
+
+            if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
+                operation.vendorExtensions.put("x-returnFreeFormObject", true);
             }
         }
 
