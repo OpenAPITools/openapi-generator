@@ -22,6 +22,7 @@ steps:
 - name: ruby-faraday-test
   image: ruby:2.6.1-alpine3.9
   commands:
+  - sudo apt-get install build-essential
   - cd samples/openapi3/client/petstore/ruby-faraday
   - bundle install --path vendor/bundle
   - bundle exec rspec
