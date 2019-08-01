@@ -712,7 +712,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return input
                 .replace("*)", "*_)")
                 .replace("(*", "(_*")
-                .replace("\"", "\\\"");
+                .replace("\"", "''");
     }
 
     @Override
