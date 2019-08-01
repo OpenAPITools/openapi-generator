@@ -28,7 +28,7 @@ fi
 echo "purge ruby petstore lib, docs, spec folder"
 rm -Rf samples/client/petstore/ruby/lib
 rm -Rf samples/client/petstore/ruby/docs
-#rm -Rf samples/client/petstore/ruby/spec
+rm -Rf samples/client/petstore/ruby/spec
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
