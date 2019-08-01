@@ -184,9 +184,9 @@ class EnumTest implements ModelInterface, ArrayAccess
     const ENUM_STRING_REQUIRED_UPPER = 'UPPER';
     const ENUM_STRING_REQUIRED_LOWER = 'lower';
     const ENUM_STRING_REQUIRED_EMPTY = '';
-    const ENUM_INTEGER_1 = 1;
+    const ENUM_INTEGER_N1 = 1;
     const ENUM_INTEGER_MINUS_1 = -1;
-    const ENUM_NUMBER_1_DOT_1 = 1.1;
+    const ENUM_NUMBER_N1_DOT_1 = 1.1;
     const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
     
 
@@ -227,7 +227,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     public function getEnumIntegerAllowableValues()
     {
         return [
-            self::ENUM_INTEGER_1,
+            self::ENUM_INTEGER_N1,
             self::ENUM_INTEGER_MINUS_1,
         ];
     }
@@ -240,7 +240,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     public function getEnumNumberAllowableValues()
     {
         return [
-            self::ENUM_NUMBER_1_DOT_1,
+            self::ENUM_NUMBER_N1_DOT_1,
             self::ENUM_NUMBER_MINUS_1_DOT_2,
         ];
     }

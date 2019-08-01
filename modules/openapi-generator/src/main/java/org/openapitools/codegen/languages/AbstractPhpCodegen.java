@@ -37,6 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public abstract class AbstractPhpCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
+    private static final String NUMERIC_ENUM_PREFIX = "N";
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
@@ -629,6 +630,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
             varName = varName.replaceAll("\\.", "_DOT_");
+
+            if (varName.matches("\\d.*")) { // if after replacements the value is still numeric
+                return NUMERIC_ENUM_PREFIX + varName;
+            }
             return varName;
         }
 
@@ -637,8 +642,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);
+        } else if (enumName.matches("\\d.*")) { // or starts with number
+            return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
         }

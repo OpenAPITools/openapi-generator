@@ -336,7 +336,7 @@ public class PhpModelTest {
     }
 
     @Test(description = "test enum model for values (numeric, string, etc)")
-    public void enumMdoelValueTest() {
+    public void enumModelValueTest() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
@@ -353,7 +353,7 @@ public class PhpModelTest {
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
 
         HashMap<String, Object> one = new HashMap<String, Object>();
-        one.put("name", "1");
+        one.put("name", "N1");
         one.put("value", "1");
         one.put("isString", false);
         HashMap<String, Object> minusOne = new HashMap<String, Object>();
