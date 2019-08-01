@@ -18,3 +18,10 @@ steps:
   - eval $(opam env)
   - sudo chmod -R 777 .
   - dune build --build-dir=./_build
+# test ruby faraday client
+- name: ruby-faraday-test
+  image: ruby/2.6.3-alpine3.9
+  commands:
+  - cd samples/openapi3/client/petstore/ruby-faraday
+  - bundle install --path vendor/bundle
+  - bundle exec rspec
