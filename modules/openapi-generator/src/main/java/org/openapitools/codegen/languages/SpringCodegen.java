@@ -176,7 +176,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
-
         List<Pair<String,String>> configOptions = additionalProperties.entrySet().stream()
                 .filter(e -> !Arrays.asList(API_FIRST, "hideGenerationTimestamp").contains(e.getKey()))
                 .filter(e -> cliOptions.stream().map(CliOption::getOpt).anyMatch(opt -> opt.equals(e.getKey())))
