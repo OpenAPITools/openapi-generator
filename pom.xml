@@ -1039,7 +1039,6 @@
                 <!-- <module>samples/client/petstore/cpp-qt5</module> -->
                 <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/rust</module>
-                <module>samples/client/petstore/rust-reqwest</module>
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
