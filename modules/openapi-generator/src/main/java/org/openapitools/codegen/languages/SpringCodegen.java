@@ -69,6 +69,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
 
+    public static final String OPEN_BRACE = "{";
+    public static final String CLOSE_BRACE = "}";
+
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
     protected String basePackage = "org.openapitools";
@@ -103,7 +106,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-spring";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
@@ -113,6 +116,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         // spring uses the jackson lib
         additionalProperties.put("jackson", "true");
+        additionalProperties.put("openbrace", OPEN_BRACE);
+        additionalProperties.put("closebrace", CLOSE_BRACE);
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(this.getConfigPackage()));

@@ -24,10 +24,10 @@ public class ClientConfiguration {
 
 {{#authMethods}}
     {{#isBasic}}
-  {{=<% %>=}}@Value("${{{#lambda.lowercase}}<%title%>{{/lambda.lowercase}}.security.<%name%>.username:}")<%={{ }}=%>
+  {{=<% %>=}}@Value("${{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username:}")<%={{ }}=%>
   private String {{{name}}}Username;
 
-  {{=<% %>=}}@Value("${{{#lambda.lowercase}}<%title%>{{/lambda.lowercase}}.security.<%name%>.password:}")<%={{ }}=%>
+  }@Value("$'{'{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.password:'}'")
   private String {{{name}}}Password;
 
   @Bean
