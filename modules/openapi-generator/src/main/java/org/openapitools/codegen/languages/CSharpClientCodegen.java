@@ -879,15 +879,15 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return null;
         }
     }
-    
+
     @Override
     public String getNullableType(Schema p, String type) {
-        boolean isNullableExpected = p.getNullable() == null || (p.getNullable() != null && p.getNullable());
-
-        if (isNullableExpected && languageSpecificPrimitives.contains(type + "?")) {
-            return type + "?";
-        } else if (languageSpecificPrimitives.contains(type)) {
-            return type;
+        if (languageSpecificPrimitives.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+                return type + "?";
+            } else {
+                return type;
+            }
         } else {
             return null;
         }
