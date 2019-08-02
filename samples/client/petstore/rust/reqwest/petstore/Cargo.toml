@@ -1,5 +1,5 @@
 [package]
-name = "petstore_client"
+name = "petstore-reqwest"
 version = "1.0.0"
 authors = ["OpenAPI Generator team and contributors"]
 
