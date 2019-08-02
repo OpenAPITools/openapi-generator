@@ -36,7 +36,7 @@ for spec_path in modules/openapi-generator/src/test/resources/2_0/petstore.yaml 
                   --input-spec $spec_path
                   --generator-name rust
                   --output samples/client/petstore/rust/$library/$spec
-                  --additional-properties packageName=$spec
+                  --additional-properties packageName=${spec}-${library}
                   --library=$library $@"
     java ${JAVA_OPTS} -jar ${executable} ${ags}
   done
