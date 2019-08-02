@@ -115,8 +115,6 @@ module Petstore
 
       update_params_for_auth! header_params, query_params, opts[:auth_names]
 
-
-
       req_opts = {
         :method => http_method,
         :headers => header_params,
@@ -125,7 +123,6 @@ module Petstore
         :timeout => @config.timeout,
         :verbose => @config.debugging
       }
-
 
       if [:post, :patch, :put, :delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
