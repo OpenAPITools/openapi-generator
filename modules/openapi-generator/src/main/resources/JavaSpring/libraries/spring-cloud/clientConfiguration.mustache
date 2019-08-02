@@ -24,10 +24,10 @@ public class ClientConfiguration {
 
 {{#authMethods}}
     {{#isBasic}}
-  {{=<% %>=}}@Value("${{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username:}")<%={{ }}=%>
+  @Value("${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username:{{closebrace}}")
   private String {{{name}}}Username;
 
-  }@Value("$'{'{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.password:'}'")
+  @Value("${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.password:{{closebrace}}")
   private String {{{name}}}Password;
 
   @Bean
@@ -38,7 +38,7 @@ public class ClientConfiguration {
 
     {{/isBasic}}
     {{#isApiKey}}
-  {{=<% %>=}}@Value("${<%title%>.security.<%name%>.key:}")<%={{ }}=%>
+  @Value("${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.key:{{closebrace}}")
   private String {{{name}}}Key;
 
   @Bean
