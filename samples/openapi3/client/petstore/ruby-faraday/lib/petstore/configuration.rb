@@ -74,16 +74,6 @@ module Petstore
     # Default to 0 (never times out).
     attr_accessor :timeout
 
-    # Set this to false to skip client side validation in the operation.
-    # Default to true.
-    # @return [true, false]
-    attr_accessor :client_side_validation
-
-    # Set this to false to skip client side validation in the operation.
-    # Default to true.
-    # @return [true, false]
-    attr_accessor :client_side_validation
-
     ### TLS/SSL setting
     # Set this to false to skip verifying SSL certificate when calling API from https server.
     # Default to true.
@@ -114,6 +104,7 @@ module Petstore
     # Client private key file (for client certificate)
     attr_accessor :ssl_client_key
 
+
     # Set this to customize parameters encoding of array parameter with multi collectionFormat.
     # Default to nil.
     #
@@ -127,11 +118,10 @@ module Petstore
 
     def initialize
       @scheme = 'http'
-      @host = 'localhost'
-      @base_path = ''
+      @host = 'petstore.swagger.io'
+      @base_path = '/v2'
       @api_key = {}
       @api_key_prefix = {}
-      @params_encoding = nil
       @timeout = 0
       @client_side_validation = true
       @ssl_verify = true
