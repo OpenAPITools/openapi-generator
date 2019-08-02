@@ -66,13 +66,11 @@ module {{moduleName}}
     # Default to 0 (never times out).
     attr_accessor :timeout
 
-    {{^isFaraday}}
     # Set this to false to skip client side validation in the operation.
     # Default to true.
     # @return [true, false]
     attr_accessor :client_side_validation
 
-    {{/isFaraday}}
 {{^isFaraday}}
 {{> configuration_tls_typhoeus_partial}}
 {{/isFaraday}}

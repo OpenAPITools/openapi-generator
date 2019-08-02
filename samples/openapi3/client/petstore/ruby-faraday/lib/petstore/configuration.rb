@@ -74,6 +74,11 @@ module Petstore
     # Default to 0 (never times out).
     attr_accessor :timeout
 
+    # Set this to false to skip client side validation in the operation.
+    # Default to true.
+    # @return [true, false]
+    attr_accessor :client_side_validation
+
     ### TLS/SSL setting
     # Set this to false to skip verifying SSL certificate when calling API from https server.
     # Default to true.
