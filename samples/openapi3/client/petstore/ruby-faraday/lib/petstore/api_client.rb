@@ -46,7 +46,15 @@ module Petstore
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
-      connection = Faraday.new(:url => config.base_url) do |conn|
+      ssl_options = {
+        :ca_file => @config.ssl_ca_file,
+        :verify => @config.ssl_verify,
+        :verify => @config.ssl_verify_mode,
+        :client_cert => @config.ssl_client_cert,
+        :client_key => @config.ssl_client_key
+      }
+
+      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options) do |conn|
         conn.basic_auth(config.username, config.password)
         if opts[:header_params]["Content-Type"] == "multipart/form-data"
           conn.request :multipart
@@ -54,6 +62,7 @@ module Petstore
         end
         conn.adapter(Faraday.default_adapter)
       end
+
       begin
         response = connection.public_send(http_method.to_sym.downcase) do |req|
           build_request(http_method, path, req, opts)
@@ -106,8 +115,7 @@ module Petstore
 
       update_params_for_auth! header_params, query_params, opts[:auth_names]
 
-      # set ssl_verifyhosts option based on @config.verify_ssl_host (true/false)
-      _verify_ssl_host = @config.verify_ssl_host ? 2 : 0
+
 
       req_opts = {
         :method => http_method,
@@ -115,15 +123,9 @@ module Petstore
         :params => query_params,
         :params_encoding => @config.params_encoding,
         :timeout => @config.timeout,
-        :ssl_verifypeer => @config.verify_ssl,
-        :ssl_verifyhost => _verify_ssl_host,
-        :sslcert => @config.cert_file,
-        :sslkey => @config.key_file,
         :verbose => @config.debugging
       }
 
-      # set custom cert, if provided
-      req_opts[:cainfo] = @config.ssl_ca_cert if @config.ssl_ca_cert
 
       if [:post, :patch, :put, :delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
