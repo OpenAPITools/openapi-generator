@@ -1,0 +1,29 @@
+    ### TLS/SSL setting
+    # Set this to false to skip verifying SSL certificate when calling API from https server.
+    # Default to true.
+    #
+    # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
+    #
+    # @return [true, false]
+    attr_accessor :ssl_verify
+
+    ### TLS/SSL setting
+    # Any `OpenSSL::SSL::` constant (see https://ruby-doc.org/stdlib-2.5.1/libdoc/openssl/rdoc/OpenSSL/SSL.html)
+    #
+    # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
+    #
+    attr_accessor :ssl_verify_mode
+
+    ### TLS/SSL setting
+    # Set this to customize the certificate file to verify the peer.
+    #
+    # @return [String] the path to the certificate file
+    attr_accessor :ssl_ca_file
+
+    ### TLS/SSL setting
+    # Client certificate file (for client certificate)
+    attr_accessor :ssl_client_cert
+
+    ### TLS/SSL setting
+    # Client private key file (for client certificate)
+    attr_accessor :ssl_client_key
