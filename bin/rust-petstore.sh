@@ -31,8 +31,9 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 for spec_path in \
   modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   modules/openapi-generator/src/test/resources/3_0/rust/rust-test.yaml \
+  modules/openapi-generator/src/test/resources/2_0/fileResponseTest.json\
   ; do
-  spec=$(basename "$spec_path" | sed 's/.yaml//')
+  spec=$(basename "$spec_path" | sed 's/.yaml//' | sed 's/.json//' )
 
   for library in hyper reqwest; do
     ags="generate --template-dir modules/openapi-generator/src/main/resources/rust
