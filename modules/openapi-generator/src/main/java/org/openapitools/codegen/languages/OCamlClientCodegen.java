@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -87,7 +88,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "new", "nonrec", "object", "of", "open", "or",
                         "private", "rec", "sig", "struct", "then", "to",
                         "true", "try", "type", "val", "virtual", "when",
-                        "while", "with"
+                        "while", "with",
+
+                        "result"
                 )
         );
 
@@ -141,7 +144,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("object", "Yojson.Safe.t");
         typeMapping.put("any", "Yojson.Safe.t");
         typeMapping.put("file", "string");
-        typeMapping.put("ByteArray", "bytes");
+        typeMapping.put("ByteArray", "string");
         // lib
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
@@ -316,6 +319,13 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                         Content content = apiResponse.getContent();
                         for (String p : content.keySet()) {
                             collectEnumSchemas(p, content.get(p).getSchema());
+                        }
+                    }
+                    if (apiResponse.getHeaders() != null) {
+                        Map<String, Header> headers = apiResponse.getHeaders();
+                        for (String h : headers.keySet()) {
+                            Header header = headers.get(h);
+                            collectEnumSchemas(h, header.getSchema());
                         }
                     }
                 }
@@ -668,6 +678,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     param.vendorExtensions.put(X_MODEL_MODULE, param.dataType.substring(0, param.dataType.lastIndexOf('.')));
                 }
             }
+
+            if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
+                operation.vendorExtensions.put("x-returnFreeFormObject", true);
+            }
         }
 
         for (Map.Entry<String, String> e : enumUniqNames.entrySet()) {
@@ -704,7 +718,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return input
                 .replace("*)", "*_)")
                 .replace("(*", "(_*")
-                .replace("\"", "\\\"");
+                .replace("\"", "''");
     }
 
     @Override

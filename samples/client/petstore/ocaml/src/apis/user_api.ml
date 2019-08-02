@@ -9,7 +9,7 @@ let create_user body =
     let open Lwt in
     let uri = Request.build_uri "/user" in
     let headers = Request.default_headers in
-    let body = Request.write_json_body User.to_yojson body in
+    let body = Request.write_as_json_body User.to_yojson body in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -17,7 +17,7 @@ let create_users_with_array_input body =
     let open Lwt in
     let uri = Request.build_uri "/user/createWithArray" in
     let headers = Request.default_headers in
-    let body = Request.write_json_body (JsonSupport.of_list_of User.to_yojson) body in
+    let body = Request.write_as_json_body (JsonSupport.of_list_of User.to_yojson) body in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -25,7 +25,7 @@ let create_users_with_list_input body =
     let open Lwt in
     let uri = Request.build_uri "/user/createWithList" in
     let headers = Request.default_headers in
-    let body = Request.write_json_body (JsonSupport.of_list_of User.to_yojson) body in
+    let body = Request.write_as_json_body (JsonSupport.of_list_of User.to_yojson) body in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -66,7 +66,7 @@ let update_user username body =
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "username" (username) in
-    let body = Request.write_json_body User.to_yojson body in
+    let body = Request.write_as_json_body User.to_yojson body in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 

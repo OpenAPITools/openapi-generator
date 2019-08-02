@@ -3,8 +3,13 @@ let base_url = "http://petstore.swagger.io/v2"
 let default_headers = Cohttp.Header.init_with "Content-Type" "application/json"
 
 let build_uri operation_path = Uri.of_string (base_url ^ operation_path)
-let write_json_body to_json payload =
-  to_json payload |> Yojson.Safe.to_string ~std:true |> Cohttp_lwt.Body.of_string
+
+let write_string_body s = Cohttp_lwt.Body.of_string s
+
+let write_json_body payload =
+  Cohttp_lwt.Body.of_string (Yojson.Safe.to_string payload ~std:true)
+
+let write_as_json_body to_json payload = write_json_body (to_json payload)
 
 let handle_response resp on_success_handler =
   match Cohttp_lwt.Response.status resp with
@@ -26,8 +31,11 @@ let read_json_body_as_list resp body =
 let read_json_body_as_list_of of_json resp body =
   Lwt.(read_json_body_as_list resp body >|= List.map of_json)
 
+let read_json_body_as_map resp body =
+  Lwt.(read_json_body resp body >|= Yojson.Safe.Util.to_assoc)
+
 let read_json_body_as_map_of of_json resp body =
-  Lwt.(read_json_body resp body >|= Yojson.Safe.Util.to_assoc >|= List.map (fun (s, v) -> (s, of_json v)))
+  Lwt.(read_json_body_as_map resp body >|= List.map (fun (s, v) -> (s, of_json v)))
 
 let replace_path_param uri param_name param_value =
   let regexp = Str.regexp (Str.quote ("{" ^ param_name ^ "}")) in
