@@ -28,7 +28,10 @@ fi
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 
-for spec_path in modules/openapi-generator/src/test/resources/2_0/petstore.yaml ; do
+for spec_path in \
+  modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
+  modules/openapi-generator/src/test/resources/3_0/rust/rust-test.yaml \
+  ; do
   spec=$(basename "$spec_path" | sed 's/.yaml//')
 
   for library in hyper reqwest; do
