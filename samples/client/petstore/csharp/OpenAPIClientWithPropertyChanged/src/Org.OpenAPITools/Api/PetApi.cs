@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns></returns>
-        void DeletePet (long petId, string apiKey = null);
+        void DeletePet (long petId, string apiKey = default(string));
 
         /// <summary>
         /// Deletes a pet
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeletePetWithHttpInfo (long petId, string apiKey = null);
+        ApiResponse<Object> DeletePetWithHttpInfo (long petId, string apiKey = default(string));
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns></returns>
-        void UpdatePetWithForm (long petId, string name = null, string status = null);
+        void UpdatePetWithForm (long petId, string name = default(string), string status = default(string));
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long petId, string name = null, string status = null);
+        ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long petId, string name = default(string), string status = default(string));
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -188,7 +188,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFile (long petId, string additionalMetadata = null, System.IO.Stream file = null);
+        ApiResponse UploadFile (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream));
 
         /// <summary>
         /// uploads an image
@@ -201,7 +201,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long petId, string additionalMetadata = null, System.IO.Stream file = null);
+        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream));
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -213,7 +213,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
 
         /// <summary>
         /// uploads an image (required)
@@ -226,7 +226,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -260,7 +260,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeletePetAsync (long petId, string apiKey = null);
+        System.Threading.Tasks.Task DeletePetAsync (long petId, string apiKey = default(string));
 
         /// <summary>
         /// Deletes a pet
@@ -272,7 +272,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long petId, string apiKey = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long petId, string apiKey = default(string));
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -368,7 +368,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdatePetWithFormAsync (long petId, string name = null, string status = null);
+        System.Threading.Tasks.Task UpdatePetWithFormAsync (long petId, string name = default(string), string status = default(string));
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -381,7 +381,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (long petId, string name = null, string status = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (long petId, string name = default(string), string status = default(string));
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -393,7 +393,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long petId, string additionalMetadata = null, System.IO.Stream file = null);
+        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream));
 
         /// <summary>
         /// uploads an image
@@ -406,7 +406,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long petId, string additionalMetadata = null, System.IO.Stream file = null);
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream));
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -418,7 +418,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
 
         /// <summary>
         /// uploads an image (required)
@@ -431,7 +431,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
         #endregion Asynchronous Operations
     }
 
