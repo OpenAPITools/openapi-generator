@@ -446,7 +446,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
-        public ApiResponse< Dictionary<string, int> > GetInventoryWithHttpInfo ()
+        public ApiResponse<Dictionary<string, int>> GetInventoryWithHttpInfo ()
         {
 
             var localVarPath = "/store/inventory";
@@ -579,7 +579,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Order</returns>
-        public ApiResponse< Order > GetOrderByIdWithHttpInfo (long orderId)
+        public ApiResponse<Order> GetOrderByIdWithHttpInfo (long orderId)
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null)
@@ -714,7 +714,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body)
+        public ApiResponse<Order> PlaceOrderWithHttpInfo (Order body)
         {
             // verify the required parameter 'body' is set
             if (body == null)
