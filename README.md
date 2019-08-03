@@ -684,6 +684,7 @@ Here is a list of template creators:
    * PHP (Guzzle): @baartosz
    * PowerShell: @beatcracker
    * R: @ramnov
+   * Ruby (Faraday): @meganemura @dkliban 
    * Rust: @farcaller
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
