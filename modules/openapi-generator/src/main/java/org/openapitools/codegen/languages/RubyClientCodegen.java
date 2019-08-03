@@ -237,7 +237,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         if (TYPHOEUS.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
-            supportingFiles.add(new SupportingFile("Gemfile.lock.mustache", "", "Gemfile.lock"));
         } else if (FARADAY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("faraday_api_client.mustache", gemFolder, "api_client.rb"));
             additionalProperties.put("isFaraday", Boolean.TRUE);
