@@ -451,7 +451,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // remove dollar sign
         name = name.replaceAll("$", "");
 
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -460,8 +460,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // petId => pet_id
         name = underscore(name);
 
-        // remove leading underscore
-        name = name.replaceAll("^_*", "");
+        if (name.startsWith("_")) {
+            // Double leading underscores cause name mangling as described in PEP 8. Model
+            // implementation details create a conflict between setters of variables that
+            // differ only by a leading underscore. e.g.: 'name' and '_name'. Move the
+            // underscores to the end of the name to avoid both of these problems.
+            String[] name_parts = name.split("^_*");
+            name = name_parts[1] + name.replaceAll(name_parts[1], "");
+        }
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
