@@ -5,11 +5,10 @@ extern crate native_tls;
 extern crate hyper_tls;
 extern crate openssl;
 extern crate mime;
-extern crate uuid;
 extern crate chrono;
 extern crate percent_encoding;
 extern crate url;
-
+extern crate uuid;
 
 use std::sync::Arc;
 use std::marker::PhantomData;
@@ -19,9 +18,7 @@ use hyper::{Request, Response, Error, StatusCode};
 use hyper::header::{Headers, ContentType};
 use self::url::form_urlencoded;
 use mimetypes;
-
 use serde_json;
-
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
@@ -230,16 +227,8 @@ where
 
             // Op10Get - GET /op10
             &hyper::Method::Get if path.matched(paths::ID_OP10) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op10_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -266,26 +255,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op11Get - GET /op11
             &hyper::Method::Get if path.matched(paths::ID_OP11) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op11_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -312,26 +289,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op12Get - GET /op12
             &hyper::Method::Get if path.matched(paths::ID_OP12) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op12_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -358,26 +323,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op13Get - GET /op13
             &hyper::Method::Get if path.matched(paths::ID_OP13) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op13_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -404,26 +357,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op14Get - GET /op14
             &hyper::Method::Get if path.matched(paths::ID_OP14) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op14_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -450,26 +391,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op15Get - GET /op15
             &hyper::Method::Get if path.matched(paths::ID_OP15) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op15_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -496,26 +425,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op16Get - GET /op16
             &hyper::Method::Get if path.matched(paths::ID_OP16) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op16_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -542,26 +459,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op17Get - GET /op17
             &hyper::Method::Get if path.matched(paths::ID_OP17) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op17_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -588,26 +493,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op18Get - GET /op18
             &hyper::Method::Get if path.matched(paths::ID_OP18) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op18_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -634,26 +527,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op19Get - GET /op19
             &hyper::Method::Get if path.matched(paths::ID_OP19) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op19_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -680,26 +561,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op1Get - GET /op1
             &hyper::Method::Get if path.matched(paths::ID_OP1) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op1_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -726,26 +595,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op20Get - GET /op20
             &hyper::Method::Get if path.matched(paths::ID_OP20) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op20_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -772,26 +629,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op21Get - GET /op21
             &hyper::Method::Get if path.matched(paths::ID_OP21) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op21_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -818,26 +663,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op22Get - GET /op22
             &hyper::Method::Get if path.matched(paths::ID_OP22) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op22_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -864,26 +697,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op23Get - GET /op23
             &hyper::Method::Get if path.matched(paths::ID_OP23) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op23_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -910,26 +731,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op24Get - GET /op24
             &hyper::Method::Get if path.matched(paths::ID_OP24) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op24_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -956,26 +765,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op25Get - GET /op25
             &hyper::Method::Get if path.matched(paths::ID_OP25) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op25_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1002,26 +799,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op26Get - GET /op26
             &hyper::Method::Get if path.matched(paths::ID_OP26) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op26_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1048,26 +833,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op27Get - GET /op27
             &hyper::Method::Get if path.matched(paths::ID_OP27) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op27_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1094,26 +867,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op28Get - GET /op28
             &hyper::Method::Get if path.matched(paths::ID_OP28) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op28_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1140,26 +901,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op29Get - GET /op29
             &hyper::Method::Get if path.matched(paths::ID_OP29) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op29_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1186,26 +935,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op2Get - GET /op2
             &hyper::Method::Get if path.matched(paths::ID_OP2) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op2_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1232,26 +969,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op30Get - GET /op30
             &hyper::Method::Get if path.matched(paths::ID_OP30) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op30_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1278,26 +1003,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op31Get - GET /op31
             &hyper::Method::Get if path.matched(paths::ID_OP31) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op31_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1324,26 +1037,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op32Get - GET /op32
             &hyper::Method::Get if path.matched(paths::ID_OP32) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op32_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1370,26 +1071,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op33Get - GET /op33
             &hyper::Method::Get if path.matched(paths::ID_OP33) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op33_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1416,26 +1105,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op34Get - GET /op34
             &hyper::Method::Get if path.matched(paths::ID_OP34) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op34_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1462,26 +1139,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op35Get - GET /op35
             &hyper::Method::Get if path.matched(paths::ID_OP35) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op35_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1508,26 +1173,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op36Get - GET /op36
             &hyper::Method::Get if path.matched(paths::ID_OP36) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op36_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1554,26 +1207,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op37Get - GET /op37
             &hyper::Method::Get if path.matched(paths::ID_OP37) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op37_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1600,26 +1241,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op3Get - GET /op3
             &hyper::Method::Get if path.matched(paths::ID_OP3) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op3_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1646,26 +1275,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op4Get - GET /op4
             &hyper::Method::Get if path.matched(paths::ID_OP4) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op4_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1692,26 +1309,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op5Get - GET /op5
             &hyper::Method::Get if path.matched(paths::ID_OP5) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op5_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1738,26 +1343,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op6Get - GET /op6
             &hyper::Method::Get if path.matched(paths::ID_OP6) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op6_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1784,26 +1377,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op7Get - GET /op7
             &hyper::Method::Get if path.matched(paths::ID_OP7) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op7_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1830,26 +1411,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op8Get - GET /op8
             &hyper::Method::Get if path.matched(paths::ID_OP8) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op8_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1876,26 +1445,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // Op9Get - GET /op9
             &hyper::Method::Get if path.matched(paths::ID_OP9) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.op9_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1922,13 +1479,9 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
         }
@@ -1944,6 +1497,7 @@ impl<T, C> Clone for Service<T, C>
         }
     }
 }
+
 
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
