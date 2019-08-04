@@ -1,20 +1,17 @@
-const path = require('path');
-const fs = require('fs');
 const {
   describe, before, after, it,
 } = require('mocha');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const { get, post } = require('axios');
+const { get } = require('axios');
 
 const logger = require('./logger');
 const config = require('./config');
-const App = require('../app');
+const ExpressServer = require('../expressServer');
 
-const app = new App(config);
+const app = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
 chai.use(chaiAsPromised);
 chai.should();
-const filesDirectory = path.join(__dirname, 'testFiles');
 
 describe('Server tests, checking launch, terminate, and various error messages', () => {
   before(async () => {
@@ -56,12 +53,5 @@ describe('Server tests, checking launch, terminate, and various error messages',
       console.log(e.message);
       throw e;
     }
-  });
-
-  it('should run a post request to add new pet', async () => {
-    const pet = JSON.parse(fs.readFileSync(path.join(filesDirectory, 'pet.json')));
-    const url = `${config.FULL_PATH}/pet`;
-    const response = await post(url, pet);
-    response.status.should.equal(200);
   });
 });
