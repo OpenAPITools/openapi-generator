@@ -104,6 +104,7 @@ The following generators are available:
 * [php-lumen](generators/php-lumen.md)  
 * [php-silex](generators/php-silex.md)  
 * [php-slim](generators/php-slim.md)  
+* [php-slim4](generators/php-slim4.md)  
 * [php-symfony](generators/php-symfony.md)  
 * [php-ze-ph](generators/php-ze-ph.md)  
 * [python-aiohttp](generators/python-aiohttp.md)  

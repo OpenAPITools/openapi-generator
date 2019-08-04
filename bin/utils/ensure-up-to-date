@@ -39,6 +39,7 @@ declare -a scripts=(
 "./bin/php-symfony-petstore.sh"
 "./bin/php-lumen-petstore-server.sh"
 "./bin/php-slim-server-petstore.sh"
+"./bin/php-slim4-server-petstore.sh"
 "./bin/php-ze-ph-petstore-server.sh"
 "./bin/openapi3/php-petstore.sh"
 "./bin/typescript-angularjs-petstore.sh"
