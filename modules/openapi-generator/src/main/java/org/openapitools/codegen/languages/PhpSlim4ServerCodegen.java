@@ -49,6 +49,19 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
         // override cliOptions from AbstractPhpCodegen
         updateOption(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION, "camelCase");
+
+        // Slim 4 can use any PSR-7 implementation
+        // https://www.slimframework.com/docs/v4/concepts/value-objects.html
+        CliOption psr7Option = new CliOption(PSR7_IMPLEMENTATION,
+                "Slim 4 provides its own PSR-7 implementation so that it works out of the box. However, you are free to replace Slim’s default PSR-7 objects with a third-party implementation. Ref: https://www.slimframework.com/docs/v4/concepts/value-objects.html");
+
+        psr7Option.addEnum("slim-psr7", "Slim PSR-7 Message implementation")
+                .addEnum("nyholm-psr7", "Nyholm PSR-7 Message implementation")
+                .addEnum("guzzle-psr7", "Guzzle PSR-7 Message implementation")
+                .addEnum("zend-diactoros", "Zend Diactoros PSR-7 Message implementation")
+                .setDefault("slim-psr7");
+
+        cliOptions.add(psr7Option);
     }
 
     @Override
@@ -104,5 +117,34 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
         additionalProperties.put("composerPackages", composerPackages);
         additionalProperties.put("composerDevPackages", composerDevPackages);
+    }
+
+    /**
+     * Set PSR-7 implementation package.
+     * Ref: https://www.slimframework.com/docs/v4/concepts/value-objects.html
+     *
+     * @param psr7Implementation PSR-7 implementation package
+     */
+    public void setPsr7Implementation(String psr7Implementation) {
+        switch (psr7Implementation) {
+            case "slim-psr7":
+            case "nyholm-psr7":
+            case "guzzle-psr7":
+            case "zend-diactoros":
+                this.psr7Implementation = psr7Implementation;
+                break;
+            default:
+                this.psr7Implementation = "slim-psr7";
+                LOGGER.warn("\"" + (String) psr7Implementation + "\" is invalid \"psr7Implementation\" argument. Default \"slim-psr7\" used instead.");
+        }
+    }
+
+    /**
+     * Returns PSR-7 implementation package.
+     *
+     * @return PSR-7 implementation package
+     */
+    public String getPsr7Implementation() {
+        return this.psr7Implementation;
     }
 }

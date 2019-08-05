@@ -20,6 +20,7 @@ package org.openapitools.codegen.options;
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractPhpCodegen;
+import org.openapitools.codegen.languages.PhpSlim4ServerCodegen;
 
 import java.util.Map;
 
@@ -35,6 +36,7 @@ public class PhpSlim4ServerOptionsProvider implements OptionsProvider {
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
+    public static final String PSR7_IMPLEMENTATION_VALUE = "zend-diactoros";
 
     @Override
     public String getLanguage() {
@@ -55,6 +57,7 @@ public class PhpSlim4ServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(PhpSlim4ServerCodegen.PSR7_IMPLEMENTATION, PSR7_IMPLEMENTATION_VALUE)
                 .build();
     }
 
