@@ -273,6 +273,14 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
+            if (configuration.DefaultHeader != null)
+            {
+                foreach (var headerParam in configuration.DefaultHeader)
+                {
+                    request.AddHeader(headerParam.Key, headerParam.Value);
+                }
+            }
+
             if (options.HeaderParameters != null)
             {
                 foreach (var headerParam in options.HeaderParameters)
