@@ -165,8 +165,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)) {
                 additionalProperties.put(PROVIDED_IN_ROOT, true);
             } else {
-                additionalProperties.put(PROVIDED_IN_ROOT, Boolean.valueOf(
-                        (String) additionalProperties.get(PROVIDED_IN_ROOT)));
+                additionalProperties.put(PROVIDED_IN_ROOT, Boolean.parseBoolean(
+                    additionalProperties.get(PROVIDED_IN_ROOT).toString()
+                ));
             }
         } else {
             additionalProperties.put(PROVIDED_IN_ROOT, false);
