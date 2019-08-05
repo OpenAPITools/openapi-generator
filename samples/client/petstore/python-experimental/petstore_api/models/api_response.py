@@ -33,17 +33,25 @@ class ApiResponse(object):
     openapi_types = {
         'code': 'int',
         'type': 'str',
-        'message': 'str'
+        'message': 'str',
     }
 
     attribute_map = {
-        'code': 'code',
-        'type': 'type',
-        'message': 'message'
+        'code': 'code',  # noqa: E501
+        'type': 'type',  # noqa: E501
+        'message': 'message',  # noqa: E501
     }
 
     def __init__(self, code=None, type=None, message=None):  # noqa: E501
-        """ApiResponse - a model defined in OpenAPI"""  # noqa: E501
+        """ApiResponse - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            code (int): [optional]  # noqa: E501
+            type (str): [optional]  # noqa: E501
+            message (str): [optional]  # noqa: E501
+        """
 
         self._code = None
         self._type = None
@@ -51,11 +59,11 @@ class ApiResponse(object):
         self.discriminator = None
 
         if code is not None:
-            self.code = code
+            self.code = code  # noqa: E501
         if type is not None:
-            self.type = type
+            self.type = type  # noqa: E501
         if message is not None:
-            self.message = message
+            self.message = message  # noqa: E501
 
     @property
     def code(self):
@@ -68,7 +76,9 @@ class ApiResponse(object):
         return self._code
 
     @code.setter
-    def code(self, code):
+    def code(
+            self,
+            code):
         """Sets the code of this ApiResponse.
 
 
@@ -76,7 +86,8 @@ class ApiResponse(object):
         :type: int
         """
 
-        self._code = code
+        self._code = (
+            code)
 
     @property
     def type(self):
@@ -89,7 +100,9 @@ class ApiResponse(object):
         return self._type
 
     @type.setter
-    def type(self, type):
+    def type(
+            self,
+            type):
         """Sets the type of this ApiResponse.
 
 
@@ -97,7 +110,8 @@ class ApiResponse(object):
         :type: str
         """
 
-        self._type = type
+        self._type = (
+            type)
 
     @property
     def message(self):
@@ -110,7 +124,9 @@ class ApiResponse(object):
         return self._message
 
     @message.setter
-    def message(self, message):
+    def message(
+            self,
+            message):
         """Sets the message of this ApiResponse.
 
 
@@ -118,7 +134,8 @@ class ApiResponse(object):
         :type: str
         """
 
-        self._message = message
+        self._message = (
+            message)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

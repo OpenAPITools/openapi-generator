@@ -20,14 +20,14 @@ pub enum {{classname}} {
 
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
     {{#description}}
     /// {{{description}}}
     {{/description}}
     #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
-    pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
+    pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
 {{/vars}}
 }
 
@@ -35,7 +35,7 @@ impl {{{classname}}} {
     {{#description}}
     /// {{{description}}}
     {{/description}}
-    pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
+    pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
         {{{classname}}} {
             {{#vars}}
             {{{name}}}: {{#required}}{{{name}}}{{/required}}{{^required}}{{#isListContainer}}None{{/isListContainer}}{{#isMapContainer}}None{{/isMapContainer}}{{^isContainer}}None{{/isContainer}}{{/required}},
@@ -49,7 +49,7 @@ impl {{{classname}}} {
 {{#vars}}
 {{#isEnum}}
 /// {{{description}}}
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum {{enumName}} {
 {{#allowableValues}}
 {{#enumVars}}

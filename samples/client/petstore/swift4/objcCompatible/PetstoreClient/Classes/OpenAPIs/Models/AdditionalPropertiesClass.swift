@@ -7,23 +7,21 @@
 
 import Foundation
 
-
-
 public struct AdditionalPropertiesClass: Codable {
 
-    public var mapString: [String:String]?
-    public var mapNumber: [String:Double]?
-    public var mapInteger: [String:Int]?
-    public var mapBoolean: [String:Bool]?
-    public var mapArrayInteger: [String:[Int]]?
-    public var mapArrayAnytype: [String:[Any]]?
-    public var mapMapString: [String:[String:String]]?
-    public var mapMapAnytype: [String:[String:Any]]?
+    public var mapString: [String: String]?
+    public var mapNumber: [String: Double]?
+    public var mapInteger: [String: Int]?
+    public var mapBoolean: [String: Bool]?
+    public var mapArrayInteger: [String: [Int]]?
+    public var mapArrayAnytype: [String: [Any]]?
+    public var mapMapString: [String: [String: String]]?
+    public var mapMapAnytype: [String: [String: Any]]?
     public var anytype1: Any?
     public var anytype2: Any?
     public var anytype3: Any?
 
-    public init(mapString: [String:String]?, mapNumber: [String:Double]?, mapInteger: [String:Int]?, mapBoolean: [String:Bool]?, mapArrayInteger: [String:[Int]]?, mapArrayAnytype: [String:[Any]]?, mapMapString: [String:[String:String]]?, mapMapAnytype: [String:[String:Any]]?, anytype1: Any?, anytype2: Any?, anytype3: Any?) {
+    public init(mapString: [String: String]?, mapNumber: [String: Double]?, mapInteger: [String: Int]?, mapBoolean: [String: Bool]?, mapArrayInteger: [String: [Int]]?, mapArrayAnytype: [String: [Any]]?, mapMapString: [String: [String: String]]?, mapMapAnytype: [String: [String: Any]]?, anytype1: Any?, anytype2: Any?, anytype3: Any?) {
         self.mapString = mapString
         self.mapNumber = mapNumber
         self.mapInteger = mapInteger
@@ -37,7 +35,7 @@ public struct AdditionalPropertiesClass: Codable {
         self.anytype3 = anytype3
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case mapString = "map_string"
         case mapNumber = "map_number"
         case mapInteger = "map_integer"
@@ -51,6 +49,4 @@ public struct AdditionalPropertiesClass: Codable {
         case anytype3 = "anytype_3"
     }
 
-
 }
-

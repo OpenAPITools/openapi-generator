@@ -24,7 +24,12 @@ Gem::Specification.new do |s|
   {{/gemLicense}}
   s.required_ruby_version = "{{{gemRequiredRubyVersion}}}{{^gemRequiredRubyVersion}}>= 1.9{{/gemRequiredRubyVersion}}"
 
+  {{#isFaraday}}
+  s.add_runtime_dependency 'faraday', '>= 0.14.0'
+  {{/isFaraday}}
+  {{^isFaraday}}
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'
+  {{/isFaraday}}
   s.add_runtime_dependency 'json', '~> 2.1', '>= 2.1.0'
 
   s.add_development_dependency 'rspec', '~> 3.6', '>= 3.6.0'

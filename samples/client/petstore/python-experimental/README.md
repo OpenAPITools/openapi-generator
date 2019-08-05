@@ -52,7 +52,9 @@ from petstore_api.rest import ApiException
 from pprint import pprint
 
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
 body = petstore_api.Client() # Client | client model
 
@@ -80,6 +82,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
+*FakeApi* | [**test_endpoint_enums_length_one**](docs/FakeApi.md#test_endpoint_enums_length_one) | **PUT** /fake/enums-of-length-one/{path_string}/{path_integer} | 
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)

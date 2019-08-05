@@ -478,6 +478,44 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfRequired() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf-required.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema child = openAPI.getComponents().getSchemas().get("clubForCreation");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel childModel = codegen.fromModel("clubForCreation", child);
+        showVars(childModel);
+    }
+
+    @Test
+    public void testAllOfParent() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf-required-parent.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema person = openAPI.getComponents().getSchemas().get("person");
+        CodegenModel personModel = codegen.fromModel("person", person);
+        showVars(personModel);
+
+        Schema personForCreation = openAPI.getComponents().getSchemas().get("personForCreation");
+        CodegenModel personForCreationModel = codegen.fromModel("personForCreation", personForCreation);
+        showVars(personForCreationModel);
+
+        Schema personForUpdate = openAPI.getComponents().getSchemas().get("personForUpdate");
+        CodegenModel personForUpdateModel = codegen.fromModel("personForUpdate", personForUpdate);
+        showVars(personForUpdateModel);
+    }
+
+    private void showVars(CodegenModel model) {
+        if(model.getRequiredVars() != null) {
+
+            System.out.println(model.getRequiredVars().stream().map(v -> v.name).collect(Collectors.toList()));
+        }
+    }
+
+
+    @Test
     public void testCallbacks() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/callbacks.yaml");
         final CodegenConfig codegen = new DefaultCodegen();
@@ -576,6 +614,166 @@ public class DefaultCodegenTest {
         CodegenProperty property = codegen.fromProperty("address", (Schema) openAPI.getComponents().getSchemas().get("User").getProperties().get("address"));
 
         Assert.assertTrue(property.isNullable);
+    }
+
+    @Test
+    public void integerSchemaPropertyAndModelTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema schema = new IntegerSchema().format("int32");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        //Property:
+        final CodegenProperty cp = codegen.fromProperty("someProperty", schema);
+        Assert.assertEquals(cp.baseType, "integer");
+        Assert.assertEquals(cp.baseName, "someProperty");
+        Assert.assertFalse(cp.isString);
+        Assert.assertTrue(cp.isInteger);
+        Assert.assertFalse(cp.isLong);
+        Assert.assertFalse(cp.isNumber);
+        Assert.assertTrue(cp.isNumeric);
+        Assert.assertFalse(cp.isFloat);
+        Assert.assertFalse(cp.isDouble);
+
+        //Model:
+        final CodegenModel cm = codegen.fromModel("someModel", schema);
+        Assert.assertEquals(cm.dataType, "integer");
+        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertFalse(cm.isString);
+        Assert.assertTrue(cm.isInteger);
+        Assert.assertFalse(cm.isLong);
+        Assert.assertFalse(cm.isNumber);
+        Assert.assertTrue(cm.isNumeric);
+        Assert.assertFalse(cm.isFloat);
+        Assert.assertFalse(cm.isDouble);
+    }
+
+    @Test
+    public void longSchemaPropertyAndModelTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema schema = new IntegerSchema().format("int64");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        //Property:
+        final CodegenProperty cp = codegen.fromProperty("someProperty", schema);
+        Assert.assertEquals(cp.baseType, "long");
+        Assert.assertEquals(cp.baseName, "someProperty");
+        Assert.assertFalse(cp.isString);
+        Assert.assertFalse(cp.isInteger);
+        Assert.assertTrue(cp.isLong);
+        Assert.assertFalse(cp.isNumber);
+        Assert.assertTrue(cp.isNumeric);
+        Assert.assertFalse(cp.isFloat);
+        Assert.assertFalse(cp.isDouble);
+
+        //Model:
+        final CodegenModel cm = codegen.fromModel("someModel", schema);
+        Assert.assertEquals(cm.dataType, "long");
+        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertFalse(cm.isString);
+        Assert.assertFalse(cm.isInteger);
+        Assert.assertTrue(cm.isLong);
+        Assert.assertFalse(cm.isNumber);
+        Assert.assertTrue(cm.isNumeric);
+        Assert.assertFalse(cm.isFloat);
+        Assert.assertFalse(cm.isDouble);
+    }
+
+    @Test
+    public void numberSchemaPropertyAndModelTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema schema = new NumberSchema();
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        //Property:
+        final CodegenProperty cp = codegen.fromProperty("someProperty", schema);
+        Assert.assertEquals(cp.baseType, "number");
+        Assert.assertEquals(cp.baseName, "someProperty");
+        Assert.assertFalse(cp.isString);
+        Assert.assertFalse(cp.isInteger);
+        Assert.assertFalse(cp.isLong);
+        Assert.assertTrue(cp.isNumber);
+        Assert.assertTrue(cp.isNumeric);
+        Assert.assertFalse(cp.isFloat);
+        Assert.assertFalse(cp.isDouble);
+
+        //Model:
+        final CodegenModel cm = codegen.fromModel("someModel", schema);
+        Assert.assertEquals(cm.dataType, "number");
+        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertFalse(cm.isString);
+        Assert.assertFalse(cm.isInteger);
+        Assert.assertFalse(cm.isLong);
+        Assert.assertTrue(cm.isNumber);
+        Assert.assertTrue(cm.isNumeric);
+        Assert.assertFalse(cm.isFloat);
+        Assert.assertFalse(cm.isDouble);
+    }
+
+    @Test
+    public void numberFloatSchemaPropertyAndModelTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema schema = new NumberSchema().format("float");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        //Property:
+        final CodegenProperty cp = codegen.fromProperty("someProperty", schema);
+        Assert.assertEquals(cp.baseType, "float");
+        Assert.assertEquals(cp.baseName, "someProperty");
+        Assert.assertFalse(cp.isString);
+        Assert.assertFalse(cp.isInteger);
+        Assert.assertFalse(cp.isLong);
+        Assert.assertFalse(cp.isNumber);
+        Assert.assertTrue(cp.isNumeric);
+        Assert.assertTrue(cp.isFloat);
+        Assert.assertFalse(cp.isDouble);
+
+        //Model:
+        final CodegenModel cm = codegen.fromModel("someModel", schema);
+        Assert.assertEquals(cm.dataType, "float");
+        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertFalse(cm.isString);
+        Assert.assertFalse(cm.isInteger);
+        Assert.assertFalse(cm.isLong);
+        Assert.assertFalse(cm.isNumber);
+        Assert.assertTrue(cm.isNumeric);
+        Assert.assertTrue(cm.isFloat);
+        Assert.assertFalse(cm.isDouble);
+    }
+
+    @Test
+    public void numberDoubleSchemaPropertyAndModelTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema schema = new NumberSchema().format("double");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        //Property:
+        final CodegenProperty cp = codegen.fromProperty("someProperty", schema);
+        Assert.assertEquals(cp.baseType, "double");
+        Assert.assertEquals(cp.baseName, "someProperty");
+        Assert.assertFalse(cp.isString);
+        Assert.assertFalse(cp.isInteger);
+        Assert.assertFalse(cp.isLong);
+        Assert.assertFalse(cp.isNumber);
+        Assert.assertTrue(cp.isNumeric);
+        Assert.assertFalse(cp.isFloat);
+        Assert.assertTrue(cp.isDouble);
+
+        //Model:
+        final CodegenModel cm = codegen.fromModel("someModel", schema);
+        Assert.assertEquals(cm.dataType, "double");
+        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertFalse(cm.isString);
+        Assert.assertFalse(cm.isInteger);
+        Assert.assertFalse(cm.isLong);
+        Assert.assertFalse(cm.isNumber);
+        Assert.assertTrue(cm.isNumeric);
+        Assert.assertFalse(cm.isFloat);
+        Assert.assertTrue(cm.isDouble);
     }
 
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {

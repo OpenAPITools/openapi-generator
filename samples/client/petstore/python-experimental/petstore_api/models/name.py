@@ -34,18 +34,27 @@ class Name(object):
         'name': 'int',
         'snake_case': 'int',
         '_property': 'str',
-        '_123_number': 'int'
+        '_123_number': 'int',
     }
 
     attribute_map = {
-        'name': 'name',
-        'snake_case': 'snake_case',
-        '_property': 'property',
-        '_123_number': '123Number'
+        'name': 'name',  # noqa: E501
+        'snake_case': 'snake_case',  # noqa: E501
+        '_property': 'property',  # noqa: E501
+        '_123_number': '123Number',  # noqa: E501
     }
 
-    def __init__(self, name=None, snake_case=None, _property=None, _123_number=None):  # noqa: E501
-        """Name - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, name, snake_case=None, _property=None, _123_number=None):  # noqa: E501
+        """Name - a model defined in OpenAPI
+
+        Args:
+            name (int):
+
+        Keyword Args:  # noqa: E501
+            snake_case (int): [optional]  # noqa: E501
+            _property (str): [optional]  # noqa: E501
+            _123_number (int): [optional]  # noqa: E501
+        """
 
         self._name = None
         self._snake_case = None
@@ -55,11 +64,11 @@ class Name(object):
 
         self.name = name
         if snake_case is not None:
-            self.snake_case = snake_case
+            self.snake_case = snake_case  # noqa: E501
         if _property is not None:
-            self._property = _property
+            self._property = _property  # noqa: E501
         if _123_number is not None:
-            self._123_number = _123_number
+            self._123_number = _123_number  # noqa: E501
 
     @property
     def name(self):
@@ -72,7 +81,9 @@ class Name(object):
         return self._name
 
     @name.setter
-    def name(self, name):
+    def name(
+            self,
+            name):
         """Sets the name of this Name.
 
 
@@ -82,7 +93,8 @@ class Name(object):
         if name is None:
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._name = name
+        self._name = (
+            name)
 
     @property
     def snake_case(self):
@@ -95,7 +107,9 @@ class Name(object):
         return self._snake_case
 
     @snake_case.setter
-    def snake_case(self, snake_case):
+    def snake_case(
+            self,
+            snake_case):
         """Sets the snake_case of this Name.
 
 
@@ -103,7 +117,8 @@ class Name(object):
         :type: int
         """
 
-        self._snake_case = snake_case
+        self._snake_case = (
+            snake_case)
 
     @property
     def _property(self):
@@ -116,7 +131,9 @@ class Name(object):
         return self.__property
 
     @_property.setter
-    def _property(self, _property):
+    def _property(
+            self,
+            _property):
         """Sets the _property of this Name.
 
 
@@ -124,7 +141,8 @@ class Name(object):
         :type: str
         """
 
-        self.__property = _property
+        self.__property = (
+            _property)
 
     @property
     def _123_number(self):
@@ -137,7 +155,9 @@ class Name(object):
         return self.__123_number
 
     @_123_number.setter
-    def _123_number(self, _123_number):
+    def _123_number(
+            self,
+            _123_number):
         """Sets the _123_number of this Name.
 
 
@@ -145,7 +165,8 @@ class Name(object):
         :type: int
         """
 
-        self.__123_number = _123_number
+        self.__123_number = (
+            _123_number)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

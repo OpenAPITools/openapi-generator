@@ -1,0 +1,30 @@
+{{>partial_header}}
+{{#operations}}
+{{#operation}}
+{{#description}}
+ * Schema {{{classname}}} : {{{description}}}
+{{/description}}
+{{/operation}}
+{{/operations}}
+ *)
+
+{{#operations}}
+{{#operation}}
+let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{{paramName}}}{{#hasMore}} {{/hasMore}}{{/allParams}} =
+    let open Lwt in
+    let uri = Request.build_uri "{{{path}}}" in
+    let headers = Request.default_headers in{{#headerParams}}
+    let headers = Cohttp.Header.add{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" ({{> to_string}}{{paramName}}) in{{/headerParams}}{{#pathParams}}
+    let uri = Request.replace_path_param uri "{{{baseName}}}" ({{> to_string}}{{{paramName}}}) in{{/pathParams}}{{#queryParams}}
+    let uri = Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}) in{{/queryParams}}{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
+    let uri = Uri.add_query_param' uri ("{{{keyParamName}}}", Request.api_key) in{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}{{#bodyParams}}
+    let body = Request.{{#isFreeFormObject}}write_json_body{{/isFreeFormObject}}{{#isByteArray}}write_string_body{{/isByteArray}}{{^isFreeFormObject}}{{^isByteArray}}write_as_json_body{{/isByteArray}}{{/isFreeFormObject}} {{> to_json}} {{{paramName}}} in{{/bodyParams}}{{^hasBodyParam}}{{#hasFormParams}}
+    let body = Request.init_form_encoded_body () in{{/hasFormParams}}{{#formParams}}
+    let body = Request.add_form_encoded_body_param{{#isContainer}}s{{/isContainer}} body ("{{{paramName}}}", {{> to_string}}{{{paramName}}}) in{{/formParams}}{{#hasFormParams}}
+    let body = Request.finalize_form_encoded_body body in{{/hasFormParams}}{{/hasBodyParam}}
+    Cohttp_lwt_unix.Client.call `{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}~body {{/hasFormParams}}{{/hasBodyParam}}>>= fun (resp, body) ->{{^returnType}}
+    Request.handle_unit_response resp{{/returnType}}{{#returnType}}
+    Request.read_json_body{{#returnContainer}}{{#isListContainer}}_as_list{{/isListContainer}}{{#isMapContainer}}_as_map{{/isMapContainer}}{{#returnBaseType}}{{^vendorExtensions.x-returnFreeFormObject}}_of{{/vendorExtensions.x-returnFreeFormObject}}{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}{{^vendorExtensions.x-returnFreeFormObject}}_as{{/vendorExtensions.x-returnFreeFormObject}}{{/returnBaseType}}{{/returnContainer}} {{#returnType}}{{^vendorExtensions.x-returnFreeFormObject}}({{> of_json}}){{/vendorExtensions.x-returnFreeFormObject}}{{/returnType}} resp body{{/returnType}}
+
+{{/operation}}
+{{/operations}}

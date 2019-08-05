@@ -27,7 +27,7 @@ npm run build
 
 ### Publishing
 
-First build the package then run ```npm publish```
+First build the package then run `npm publish`
 
 ### Consuming
 
@@ -43,3 +43,45 @@ _unPublished (not recommended):_
 
 ```
 npm install PATH_TO_GENERATED_PACKAGE --save
+```
+
+### How to apply middleware
+
+First, add a singleton class that extends the generated `Configuration` class.
+
+```
+export class AuthInterceptor extends Configuration {
+  private static config: AuthInterceptor;
+
+  private constructor() {
+    const middleware: Middleware[] = [
+      {
+        pre(request: RequestArgs): RequestArgs {
+          const token = getAuthToken();
+
+          return {
+            ...request,
+            headers: {
+              ...request.headers,
+              Authorization: `Bearer ${token}`,
+            },
+          };
+        },
+      },
+    ];
+
+    super({ middleware });
+  }
+
+  public static get Instance() {
+    return AuthInterceptor.config || (AuthInterceptor.config = new this());
+  }
+}
+```
+
+Next, pass it to the generated api controller.
+
+```
+const api = new StoreApi(AuthInterceptor.Instance);
+
+```

@@ -37,6 +37,6 @@ if (String.valueOf(b.value).equals(text)) {
 return b;
 }
 }
-{{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + text + "'");{{/useNullForUnknownEnumValue}}
+{{#isNullable}}return null;{{/isNullable}}{{^isNullable}}throw new IllegalArgumentException("Unexpected value '" + text + "'");{{/isNullable}}
 }
 }
