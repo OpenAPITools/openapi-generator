@@ -65,7 +65,7 @@ let read_json_body_as_map_of of_json resp body =
 
 let replace_path_param uri param_name param_value =
   let regexp = Str.regexp (Str.quote ("{" ^ param_name ^ "}")) in
-  let path = Str.global_replace regexp param_value (Uri.path uri) in
+  let path = Str.global_replace regexp param_value (Uri.pct_decode (Uri.path uri)) in
   Uri.with_path uri path
 
 let init_form_encoded_body () = ""
