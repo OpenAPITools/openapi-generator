@@ -33,6 +33,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -631,9 +632,19 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return result;
     }
 
+    public String toEnumValueName(String name) {
+        if (reservedWords.contains(name)) {
+            return escapeReservedWord(name);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+            return escape(name, specialCharReplacements, Collections.singletonList("_"), null);
+        } else {
+            return name;
+        }
+    }
+
     private String ocamlizeEnumValue(String value) {
         String sanitizedValue =
-                super.toVarName(value.isEmpty() ? "empty" : value)
+                toEnumValueName(value.isEmpty() ? "empty" : value)
                         .replace(" ", "_");
 
         if (!sanitizedValue.matches("^[a-zA-Z_].*")) {
