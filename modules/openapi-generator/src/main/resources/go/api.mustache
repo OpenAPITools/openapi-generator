@@ -132,11 +132,11 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 	{{#hasQueryParams}}
 	{{#queryParams}}
 	{{#required}}
-	localVarQueryParams.Add("{{baseName}}", parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	localVarQueryParams = addQueryParams(localVarQueryParams, "{{baseName}}", {{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")
 	{{/required}}
 	{{^required}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
-		localVarQueryParams.Add("{{baseName}}", parameterToString(localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value(), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+		localVarQueryParams = addQueryParams(localVarQueryParams, "{{baseName}}", localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value(), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")
 	}
 	{{/required}}
 	{{/queryParams}}
