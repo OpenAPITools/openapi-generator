@@ -30,37 +30,48 @@ import java.util.Map;
  */
 
 public class AdditionalPropertiesClass {
-  @JsonProperty("map_string")
+  public static final String JSON_PROPERTY_MAP_STRING = "map_string";
+  @JsonProperty(JSON_PROPERTY_MAP_STRING)
   private Map<String, String> mapString = new HashMap<String, String>();
 
-  @JsonProperty("map_number")
+  public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
+  @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   private Map<String, BigDecimal> mapNumber = new HashMap<String, BigDecimal>();
 
-  @JsonProperty("map_integer")
+  public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
+  @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   private Map<String, Integer> mapInteger = new HashMap<String, Integer>();
 
-  @JsonProperty("map_boolean")
+  public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
+  @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   private Map<String, Boolean> mapBoolean = new HashMap<String, Boolean>();
 
-  @JsonProperty("map_array_integer")
+  public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<String, List<Integer>>();
 
-  @JsonProperty("map_array_anytype")
+  public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<String, List<Object>>();
 
-  @JsonProperty("map_map_string")
+  public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   private Map<String, Map<String, String>> mapMapString = new HashMap<String, Map<String, String>>();
 
-  @JsonProperty("map_map_anytype")
+  public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<String, Map<String, Object>>();
 
-  @JsonProperty("anytype_1")
+  public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
+  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   private Object anytype1 = null;
 
-  @JsonProperty("anytype_2")
+  public static final String JSON_PROPERTY_ANYTYPE2 = "anytype_2";
+  @JsonProperty(JSON_PROPERTY_ANYTYPE2)
   private Object anytype2 = null;
 
-  @JsonProperty("anytype_3")
+  public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
+  @JsonProperty(JSON_PROPERTY_ANYTYPE3)
   private Object anytype3 = null;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {

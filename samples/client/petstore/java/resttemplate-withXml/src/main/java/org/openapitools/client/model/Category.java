@@ -31,12 +31,14 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Category")
 public class Category {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
   private Long id;
 
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
   private String name = "default-name";

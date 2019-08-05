@@ -34,13 +34,16 @@ import javax.validation.Valid;
  */
 
 public class MixedPropertiesAndAdditionalPropertiesClass {
-  @JsonProperty("uuid")
+  public static final String JSON_PROPERTY_UUID = "uuid";
+  @JsonProperty(JSON_PROPERTY_UUID)
   private UUID uuid;
 
-  @JsonProperty("dateTime")
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("map")
+  public static final String JSON_PROPERTY_MAP = "map";
+  @JsonProperty(JSON_PROPERTY_MAP)
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {

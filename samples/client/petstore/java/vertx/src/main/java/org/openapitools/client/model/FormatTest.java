@@ -31,43 +31,56 @@ import java.util.UUID;
  */
 
 public class FormatTest {
-  @JsonProperty("integer")
+  public static final String JSON_PROPERTY_INTEGER = "integer";
+  @JsonProperty(JSON_PROPERTY_INTEGER)
   private Integer integer;
 
-  @JsonProperty("int32")
+  public static final String JSON_PROPERTY_INT32 = "int32";
+  @JsonProperty(JSON_PROPERTY_INT32)
   private Integer int32;
 
-  @JsonProperty("int64")
+  public static final String JSON_PROPERTY_INT64 = "int64";
+  @JsonProperty(JSON_PROPERTY_INT64)
   private Long int64;
 
-  @JsonProperty("number")
+  public static final String JSON_PROPERTY_NUMBER = "number";
+  @JsonProperty(JSON_PROPERTY_NUMBER)
   private BigDecimal number;
 
-  @JsonProperty("float")
+  public static final String JSON_PROPERTY_FLOAT = "float";
+  @JsonProperty(JSON_PROPERTY_FLOAT)
   private Float _float;
 
-  @JsonProperty("double")
+  public static final String JSON_PROPERTY_DOUBLE = "double";
+  @JsonProperty(JSON_PROPERTY_DOUBLE)
   private Double _double;
 
-  @JsonProperty("string")
+  public static final String JSON_PROPERTY_STRING = "string";
+  @JsonProperty(JSON_PROPERTY_STRING)
   private String string;
 
-  @JsonProperty("byte")
+  public static final String JSON_PROPERTY_BYTE = "byte";
+  @JsonProperty(JSON_PROPERTY_BYTE)
   private byte[] _byte;
 
-  @JsonProperty("binary")
+  public static final String JSON_PROPERTY_BINARY = "binary";
+  @JsonProperty(JSON_PROPERTY_BINARY)
   private AsyncFile binary;
 
-  @JsonProperty("date")
+  public static final String JSON_PROPERTY_DATE = "date";
+  @JsonProperty(JSON_PROPERTY_DATE)
   private LocalDate date;
 
-  @JsonProperty("dateTime")
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("uuid")
+  public static final String JSON_PROPERTY_UUID = "uuid";
+  @JsonProperty(JSON_PROPERTY_UUID)
   private UUID uuid;
 
-  @JsonProperty("password")
+  public static final String JSON_PROPERTY_PASSWORD = "password";
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
   private String password;
 
   public FormatTest integer(Integer integer) {

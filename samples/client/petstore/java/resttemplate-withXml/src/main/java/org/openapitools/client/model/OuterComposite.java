@@ -32,17 +32,20 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "OuterComposite")
 public class OuterComposite {
-  @JsonProperty("my_number")
+  public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
+  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JacksonXmlProperty(localName = "my_number")
   @XmlElement(name = "my_number")
   private BigDecimal myNumber;
 
-  @JsonProperty("my_string")
+  public static final String JSON_PROPERTY_MY_STRING = "my_string";
+  @JsonProperty(JSON_PROPERTY_MY_STRING)
   @JacksonXmlProperty(localName = "my_string")
   @XmlElement(name = "my_string")
   private String myString;
 
-  @JsonProperty("my_boolean")
+  public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
+  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   @JacksonXmlProperty(localName = "my_boolean")
   @XmlElement(name = "my_boolean")
   private Boolean myBoolean;

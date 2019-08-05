@@ -26,10 +26,12 @@ import javax.validation.Valid;
  */
 
 public class InlineObject4   {
-  @JsonProperty("param")
+  public static final String JSON_PROPERTY_PARAM = "param";
+  @JsonProperty(JSON_PROPERTY_PARAM)
   private String param;
 
-  @JsonProperty("param2")
+  public static final String JSON_PROPERTY_PARAM2 = "param2";
+  @JsonProperty(JSON_PROPERTY_PARAM2)
   private String param2;
 
   public InlineObject4 param(String param) {

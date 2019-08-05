@@ -26,10 +26,12 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Model for testing model name starting with number")
 
 public class Model200Response {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private Integer name;
 
-  @JsonProperty("class")
+  public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   private String propertyClass;
 
   public Model200Response name(Integer name) {

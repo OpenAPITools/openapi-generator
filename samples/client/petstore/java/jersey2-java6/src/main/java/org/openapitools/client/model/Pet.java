@@ -29,19 +29,24 @@ import org.openapitools.client.model.Tag;
  */
 
 public class Pet {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   private Long id;
 
-  @JsonProperty("category")
+  public static final String JSON_PROPERTY_CATEGORY = "category";
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
   private Category category = null;
 
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
-  @JsonProperty("photoUrls")
+  public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   private List<String> photoUrls = new ArrayList<String>();
 
-  @JsonProperty("tags")
+  public static final String JSON_PROPERTY_TAGS = "tags";
+  @JsonProperty(JSON_PROPERTY_TAGS)
   private List<Tag> tags = new ArrayList<Tag>();
 
   /**
@@ -81,7 +86,8 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @JsonProperty(JSON_PROPERTY_STATUS)
   private StatusEnum status;
 
   public Pet id(Long id) {

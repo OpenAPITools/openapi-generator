@@ -31,7 +31,8 @@ import javax.validation.Valid;
  */
 
 public class ArrayOfArrayOfNumberOnly {
-  @JsonProperty("ArrayArrayNumber")
+  public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
