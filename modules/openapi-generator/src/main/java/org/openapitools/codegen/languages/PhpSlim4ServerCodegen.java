@@ -147,4 +147,37 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     public String getPsr7Implementation() {
         return this.psr7Implementation;
     }
+
+    /**
+     * Add new package to the `composer.json`.
+     *
+     * @param packageName    Package vendor and name
+     * @param packageVersion Package version e.g. ^1.0.0, default "*"
+     * @param isDev          Add packages to `require-dev`
+     */
+    protected void addComposerPackage(String packageName,
+                                      String packageVersion,
+                                      Boolean isDev) {
+        Map<String, String> composerPackage = new HashMap<String, String>();
+        composerPackage.put("vendorName", packageName);
+        composerPackage.put("vendorVersion", "*");
+        if (packageVersion != null) {
+            composerPackage.put("vendorVersion", packageVersion);
+        }
+        if (Boolean.TRUE.equals(isDev)) {
+            composerDevPackages.add(composerPackage);
+        } else {
+            composerPackages.add(composerPackage);
+        }
+    }
+
+    /**
+     * Add new package to the `composer.json`.
+     *
+     * @param packageName    Package vendor and name
+     * @param packageVersion Package version e.g. ^1.0.0, default "*"
+     */
+    protected void addComposerPackage(String packageName, String packageVersion) {
+        addComposerPackage(packageName, packageVersion, false);
+    }
 }
