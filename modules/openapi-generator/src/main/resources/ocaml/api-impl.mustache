@@ -24,13 +24,13 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}
     {{/authMethods}}
 {{/hasAuthMethods}}
 {{#headerParams}}
-    let headers = Request.{{^required}}{{^defaultValue}}{{^isContainer}}maybe_{{/isContainer}}{{/defaultValue}}{{/required}}add_header{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" {{> to_string}}{{{paramName}}} in
+    let headers = Request.{{> to_optional_prefix}}add_header{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" {{> to_string}} {{{paramName}}} in
 {{/headerParams}}
 {{#pathParams}}
-    let uri = {{^required}}{{^defaultValue}}{{^isContainer}}Request.option_fold (fun {{{paramName}}} -> {{/isContainer}}{{/defaultValue}}{{/required}}Request.replace_path_param uri "{{{baseName}}}" ({{> to_string}}{{{paramName}}}){{^required}}{{^defaultValue}}{{^isContainer}}) uri {{{paramName}}}{{/isContainer}}{{/defaultValue}}{{/required}} in
+    let uri = Request.{{> to_optional_prefix}}replace_path_param uri "{{{baseName}}}" {{> to_string}} {{{paramName}}} in
 {{/pathParams}}
 {{#queryParams}}
-    let uri = {{^required}}{{^defaultValue}}{{^isContainer}}Request.option_fold (fun {{{paramName}}} -> {{/isContainer}}{{/defaultValue}}{{/required}}Uri.add_query_param{{^isListContainer}}'{{/isListContainer}} uri ("{{{baseName}}}", {{> to_string}}{{{paramName}}}){{^required}}{{^defaultValue}}{{^isContainer}}) uri {{{paramName}}}{{/isContainer}}{{/defaultValue}}{{/required}} in
+    let uri = Request.{{> to_optional_prefix}}add_query_param{{#isListContainer}}_list{{/isListContainer}} uri "{{{baseName}}}" {{> to_string}} {{{paramName}}} in
 {{/queryParams}}
 {{#hasAuthMethods}}
     {{#authMethods}}
@@ -49,7 +49,7 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}
     let body = Request.init_form_encoded_body () in
     {{/hasFormParams}}
     {{#formParams}}
-    let body = {{^required}}{{^defaultValue}}{{^isContainer}}Request.option_fold (fun {{{paramName}}} -> {{/isContainer}}{{/defaultValue}}{{/required}}Request.add_form_encoded_body_param{{#isContainer}}s{{/isContainer}} body ("{{{paramName}}}", {{> to_string}}{{{paramName}}}){{^required}}{{^defaultValue}}{{^isContainer}}) body {{{paramName}}}{{/isContainer}}{{/defaultValue}}{{/required}} in
+    let body = Request.{{> to_optional_prefix}}add_form_encoded_body_param{{#isContainer}}_list{{/isContainer}} body "{{{paramName}}}" {{> to_string}} {{{paramName}}} in
     {{/formParams}}
     {{#hasFormParams}}
     let body = Request.finalize_form_encoded_body body in
