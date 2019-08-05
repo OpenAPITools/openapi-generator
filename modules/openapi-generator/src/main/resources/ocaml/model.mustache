@@ -22,7 +22,7 @@ type t = {
     {{{name}}}: {{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default None]{{/required}}{{/isContainer}};
     {{/isEnum}}
 {{/vars}}
-} [@@deriving yojson, show ];;
+} [@@deriving yojson { strict = false }, show ];;
 
 {{#description}}
 (** {{{description}}} *)
