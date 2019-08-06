@@ -12,9 +12,9 @@ class Pet {
       this.photoUrls = photoUrls;
       this.name = name;
       this.id = id;
-      this.tags = tags.map(t => new Tag(...t));
+      this.tags = tags.map(t => new Tag(t.id, t.name));
       this.status = status;
-      this.category = new Category(category);
+      this.category = new Category(category.id, category.name);
     } else {
       throw ono('Tried to create an invalid Pet instance', { errors: validationErrors });
     }
@@ -24,7 +24,7 @@ class Pet {
 Pet.types = {
   photoUrls: 'array',
   name: 'string',
-  id: 'string',
+  id: 'integer',
   tags: 'array',
   status: 'string',
   category: 'object',

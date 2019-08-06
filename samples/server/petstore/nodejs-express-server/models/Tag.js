@@ -2,7 +2,7 @@ const ono = require('ono');
 const Model = require('./Model');
 
 class Tag {
-  constructor(name, id) {
+  constructor(id, name) {
     const validationErrors = Model.validateModel(Tag,
       { name, id });
     if (validationErrors.length === 0) {
@@ -13,5 +13,12 @@ class Tag {
     }
   }
 }
+
+Tag.types = {
+  name: 'string',
+  id: 'integer',
+};
+
+Tag.required = [];
 
 module.exports = Tag;

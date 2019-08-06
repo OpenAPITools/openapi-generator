@@ -21,7 +21,7 @@ class Model {
           }
           break;
         case 'object':
-          if (!(value && typeof value === 'object' && value.constructor === Array)) {
+          if (!(value && typeof value === 'object' && value.constructor === Object)) {
             invalidArray.push({ key, expectedType: typeToCheck, value });
           }
           break;

@@ -18,9 +18,9 @@ const openApiSampler = require('openapi-sampler');
 const jstoxml = require('jstoxml');
 const logger = require('./logger');
 const config = require('./config');
-const App = require('../app');
+const ExpressServer = require('../expressServer');
 
-const app = new App(config);
+const app = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
 chai.use(chaiAsPromised);
 chai.should();
 
