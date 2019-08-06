@@ -41,10 +41,10 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
         //TODO: change to something else that works with kotlin native (without reflection)
         typeMapping.put("file", "kotlin.String");
-        typeMapping.put("object", "JsonObject");
+        typeMapping.put("object", "JsonElement");
 
         importMapping = new HashMap<>();
-        importMapping.put("JsonObject", "kotlinx.serialization.json.JsonObject");
+        importMapping.put("JsonElement", "kotlinx.serialization.json.JsonElement");
 
         addSwitch(CodegenConstants.NON_PUBLIC_API, CodegenConstants.NON_PUBLIC_API_DESC, this.nonPublicApi);
     }
