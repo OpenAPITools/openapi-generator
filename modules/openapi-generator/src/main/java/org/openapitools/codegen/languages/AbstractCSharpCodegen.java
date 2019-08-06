@@ -160,6 +160,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "Int64",
                         "Float",
                         "Guid?",
+                        "Guid",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );

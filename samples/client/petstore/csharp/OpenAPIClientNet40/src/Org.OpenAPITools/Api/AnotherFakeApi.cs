@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public ApiResponse< ModelClient > Call123TestSpecialTagsWithHttpInfo (ModelClient body)
+        public ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo (ModelClient body)
         {
             // verify the required parameter 'body' is set
             if (body == null)
