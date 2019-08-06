@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapOfEnumString">mapOfEnumString.</param>
         /// <param name="directMap">directMap.</param>
         /// <param name="indirectMap">indirectMap.</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool?> directMap = default(Dictionary<string, bool?>), Dictionary<string, bool?> indirectMap = default(Dictionary<string, bool?>))
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
         {
             this.MapMapOfString = mapMapOfString;
             this.MapOfEnumString = mapOfEnumString;
@@ -82,13 +82,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [DataMember(Name="direct_map", EmitDefaultValue=false)]
-        public Dictionary<string, bool?> DirectMap { get; set; }
+        public Dictionary<string, bool> DirectMap { get; set; }
 
         /// <summary>
         /// Gets or Sets IndirectMap
         /// </summary>
         [DataMember(Name="indirect_map", EmitDefaultValue=false)]
-        public Dictionary<string, bool?> IndirectMap { get; set; }
+        public Dictionary<string, bool> IndirectMap { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

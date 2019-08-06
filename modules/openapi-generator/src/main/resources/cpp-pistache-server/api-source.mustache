@@ -70,7 +70,12 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     try {
     {{#hasBodyParam}}
     {{#bodyParam}}
+    {{^isPrimitiveType}}
       nlohmann::json::parse(request.body()).get_to({{paramName}});
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+      {{paramName}} = request.body();
+    {{/isPrimitiveType}}
     {{/bodyParam}}
     {{/hasBodyParam}}
       this->{{operationIdSnakeCase}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}response);

@@ -33,7 +33,9 @@ configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
@@ -48,7 +50,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -72,7 +74,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_pet**
-> delete_pet(pet_id, api_key=api_key)
+> delete_pet(pet_id)
 
 Deletes a pet
 
@@ -89,7 +91,9 @@ configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | Pet id to delete
 api_key = 'api_key_example' # str |  (optional)
@@ -105,8 +109,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| Pet id to delete | 
- **api_key** | **str**|  | [optional] 
+ **pet_id** | **int**| Pet id to delete |
+ **api_key** | **str**|  | [optional]
 
 ### Return type
 
@@ -149,7 +153,9 @@ configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 status = ['status_example'] # list[str] | Status values that need to be considered for filter
 
@@ -165,7 +171,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**list[str]**](str.md)| Status values that need to be considered for filter | 
+ **status** | [**list[str]**](str.md)| Status values that need to be considered for filter |
 
 ### Return type
 
@@ -208,7 +214,9 @@ configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 tags = ['tags_example'] # list[str] | Tags to filter by
 
@@ -224,7 +232,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**list[str]**](str.md)| Tags to filter by | 
+ **tags** | [**list[str]**](str.md)| Tags to filter by |
 
 ### Return type
 
@@ -269,7 +277,9 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to return
 
@@ -285,7 +295,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to return | 
+ **pet_id** | **int**| ID of pet to return |
 
 ### Return type
 
@@ -327,7 +337,9 @@ configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
@@ -342,7 +354,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -368,7 +380,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet_with_form**
-> update_pet_with_form(pet_id, name=name, status=status)
+> update_pet_with_form(pet_id)
 
 Updates a pet in the store with form data
 
@@ -385,7 +397,9 @@ configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet that needs to be updated
 name = 'name_example' # str | Updated name of the pet (optional)
@@ -402,9 +416,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet that needs to be updated | 
- **name** | **str**| Updated name of the pet | [optional] 
- **status** | **str**| Updated status of the pet | [optional] 
+ **pet_id** | **int**| ID of pet that needs to be updated |
+ **name** | **str**| Updated name of the pet | [optional]
+ **status** | **str**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -427,7 +441,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file**
-> ApiResponse upload_file(pet_id, additional_metadata=additional_metadata, file=file)
+> ApiResponse upload_file(pet_id)
 
 uploads an image
 
@@ -444,7 +458,9 @@ configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
@@ -462,9 +478,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update | 
- **additional_metadata** | **str**| Additional data to pass to server | [optional] 
- **file** | **file**| file to upload | [optional] 
+ **pet_id** | **int**| ID of pet to update |
+ **additional_metadata** | **str**| Additional data to pass to server | [optional]
+ **file** | **file**| file to upload | [optional]
 
 ### Return type
 
@@ -487,7 +503,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file_with_required_file**
-> ApiResponse upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
+> ApiResponse upload_file_with_required_file(pet_id, required_file)
 
 uploads an image (required)
 
@@ -504,7 +520,9 @@ configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# create an instance of the API class
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
 required_file = '/path/to/file' # file | file to upload
@@ -522,9 +540,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update | 
- **required_file** | **file**| file to upload | 
- **additional_metadata** | **str**| Additional data to pass to server | [optional] 
+ **pet_id** | **int**| ID of pet to update |
+ **required_file** | **file**| file to upload |
+ **additional_metadata** | **str**| Additional data to pass to server | [optional]
 
 ### Return type
 

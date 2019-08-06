@@ -153,13 +153,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "DateTime?",
                         "DateTime",
                         "DateTimeOffset?",
-                        "DataTimeOffset",
+                        "DateTimeOffset",
                         "Boolean",
                         "Double",
                         "Int32",
                         "Int64",
                         "Float",
                         "Guid?",
+                        "Guid",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
@@ -192,7 +193,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // nullable type
         nullableType = new HashSet<String>(
-                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "Guid")
+                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "DateTimeOffset", "Guid")
         );
         // value Types
         valueTypes = new HashSet<String>(
@@ -226,9 +227,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void useDateTimeOffset(boolean flag) {
         this.useDateTimeOffsetFlag = flag;
         if (flag) {
-            typeMapping.put("DateTime", "DateTimeOffset?");
+            typeMapping.put("DateTime", "DateTimeOffset");
         } else {
-            typeMapping.put("DateTime", "DateTime?");
+            typeMapping.put("DateTime", "DateTime");
         }
     }
 
