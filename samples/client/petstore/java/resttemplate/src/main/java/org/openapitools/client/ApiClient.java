@@ -539,6 +539,16 @@ public class ApiClient {
     }
 
     /**
+     * Expand path template with variables
+     * @param pathTemplate path template with placeholders
+     * @param variables variables to replace
+     * @return path with placeholders replaced by variables
+     */
+    public String expandPath(String pathTemplate, Map<String, Object> variables) {
+        return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
+    }
+
+    /**
      * Invoke API by sending HTTP request with the given options.
      *
      * @param <T> the return type to use
