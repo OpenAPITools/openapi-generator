@@ -1,0 +1,119 @@
+{{>partial_header}}
+package {{packageName}}
+
+import (
+	"net/http"
+
+	"fmt"
+	"github.com/gin-gonic/gin"
+)
+
+// Logger interface
+type Logger interface {
+	Debug(...interface{})
+	Info(...interface{})
+	Warn(...interface{})
+	Error(...interface{})
+	Fatal(...interface{})
+	Panic(...interface{})
+}
+
+// Configuration of the server
+type Configuration struct {
+	Port     int
+	TLS      bool
+	CertFile string
+	KeyFile  string
+}
+
+// Server object
+type Server struct {
+	log   Logger
+	cnf   *Configuration
+	hndsc HandlerCommands
+}
+
+// Run server
+func (o *Server) Run() {
+	addr := fmt.Sprintf(":%d", o.cnf.Port)
+	router := NewRouter(&o.hndsc)
+
+	o.log.Info(fmt.Sprintf("Server started [%s]", addr))
+
+	if o.cnf.TLS {
+		o.log.Fatal(router.RunTLS(addr, o.cnf.CertFile, o.cnf.KeyFile))
+	} else {
+		o.log.Fatal(router.Run(addr))
+	}
+}
+
+// NewServer constructor
+func NewServer(handlersCmd HandlerCommands, config *Configuration, logger Logger) *Server {
+	return &Server{
+		log:  logger,
+		cnf:  config,
+		hndsc: handlersCmd,
+	}
+}
+
+{{=<% %>=}}
+// HandlerCommands mapping
+type HandlerCommands struct {<% #apiInfo %><% #apis %><% #operations %><% #operation %>
+	<% operationId %> Command<% /operation %><% /operations %><% /apis %><% /apiInfo %>
+}
+<%={{ }}=%>
+
+// Route is the information for every URI.
+type Route struct {
+	// Name is the name of this Route.
+	Name        string
+	// Method is the string for the HTTP method. ex) GET, POST etc..
+	Method      string
+	// Pattern is the pattern of the URI.
+	Pattern     string
+	// HandlerFunc is the handler function of this route.
+	HandlerFunc gin.HandlerFunc
+}
+
+// Routes is the list of the generated Route.
+type Routes []Route
+
+// NewRouter returns a new router.
+func NewRouter(h *HandlerCommands) *gin.Engine {
+	routes := Routes{
+		{
+			"Index",
+			http.MethodGet,
+			"{{{basePathWithoutHost}}}/",
+			Index,
+		},{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+
+		{
+			"{{operationId}}",
+			http.Method{{httpMethod}},
+			"{{{basePathWithoutHost}}}{{{path}}}",
+			New{{operationId}}Handler(h.{{operationId}}),
+		},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+	}
+
+	router := gin.Default()
+	for _, route := range routes {
+		switch route.Method {
+		case http.MethodGet:
+			router.GET(route.Pattern, route.HandlerFunc)
+		case http.MethodPost:
+			router.POST(route.Pattern, route.HandlerFunc)
+		case http.MethodPut:
+			router.PUT(route.Pattern, route.HandlerFunc)
+		case http.MethodDelete:
+			router.DELETE(route.Pattern, route.HandlerFunc)
+		}
+	}
+
+	return router
+}
+
+// Index is the index handler.
+func Index(c *gin.Context) {
+	c.String(http.StatusOK, "Hello World!")
+}

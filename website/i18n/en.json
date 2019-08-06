@@ -148,6 +148,9 @@
       "generators/go-gin-server": {
         "title": "generators/go-gin-server"
       },
+      "generators/go-gin-driver-server": {
+        "title": "generators/go-gin-driver-server"
+      },
       "generators/go-server": {
         "title": "generators/go-server"
       },

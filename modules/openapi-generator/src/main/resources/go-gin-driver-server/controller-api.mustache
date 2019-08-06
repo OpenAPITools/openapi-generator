@@ -1,0 +1,54 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#operations}}
+import (
+	"fmt"
+	"net/http"
+	"regexp"
+	"github.com/gin-gonic/gin"
+)
+
+var (
+	jsonCheck = regexp.MustCompile(`(?i:(?:application|text)/(?:vnd\.[^;]+\+)?json)`)
+	xmlCheck  = regexp.MustCompile(`(?i:(?:application|text)/xml)`)
+)
+
+// Command passed to handler type
+type Command func(*gin.Context) interface{}
+
+{{#operation}}{{#responses}}
+// {{nickname}}Response{{code}} controller response type
+type {{nickname}}Response{{code}} struct {
+	{{#isModel}}{{{dataType}}}{{/isModel}}{{^isModel}}Payload {{dataType}}{{/isModel}}
+}{{/responses}}
+
+// {{=<% %>=}}
+// // payload<% nickname %> object
+// type payload<% nickname %> struct {<% #allParams %>
+// 	<% paramName %> <% dataType %> `json:"<% baseName %>" <% #isPathParam %>uri:"<% baseName %>"<% /isPathParam %> <% #required %>binding:"required"<% /required %>`<% /allParams %>
+// }
+// <%={{ }}=%>
+
+// New{{nickname}}Handler constructor
+// {{{summary}}}
+func New{{nickname}}Handler(cmd Command) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// var j payload{{nickname}}
+		// err := c.ShouldBindJSON(&j)
+		// if err != nil {
+		// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		// 	return
+		// }
+
+		resp := cmd(c)
+		{{=<% %>=}}
+		switch resp.(type) {<% #responses %>
+		case <% nickname %>Response<% code %>:
+			c.JSON(<% code %>, resp)<% /responses %>
+		<%={{ }}=%>
+		default:
+			c.String(http.StatusNotImplemented, fmt.Sprintf("{{nickname}}() command response type mismatch. [%T] != ENUM[{{#responses}}{{nickname}}Response{{code}}, {{/responses}}]", resp))
+		}
+	}
+}{{/operation}}{{/operations}}

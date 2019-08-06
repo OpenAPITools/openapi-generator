@@ -1,0 +1,33 @@
+{{>partial_header}}
+package main
+
+import (
+	"fmt"
+	"github.com/sirupsen/logrus"
+	"github.com/gin-gonic/gin"
+	// WARNING!
+	// Change this to a fully-qualified import path
+	// once you place this file into your project.
+	// For example,
+	//
+	//    sw "github.com/myname/myrepo/{{apiPath}}"
+	//
+	sw "./{{apiPath}}"
+)
+
+func main() {
+    l := logrus.New()
+    l.SetLevel(logrus.DebugLevel)
+
+    ni := func(data *gin.Context) interface{} { return nil }
+    hs := sw.HandlerCommands{
+		{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{operationId}}: ni,{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+    }
+
+    s := sw.NewServer(
+		hs,
+		&Configuration{Port: {{serverPort}}},
+		l,
+    )
+    s.Run()
+}
