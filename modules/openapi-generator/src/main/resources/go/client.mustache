@@ -111,6 +111,21 @@ func contains(haystack []string, needle string) bool {
 	return false
 }
 
+// addQueryParams adds a query params depending on collectionFormat
+// if collectionFormat == "multi" it will add multiple entries to query string e.g.
+// ["q1", "q2, "q3"] will be converted to `paramName=q1&paramName=q2&paramName=q3`
+func addQueryParams(q url.Values, paramName string, paramValue interface{}, collectionFormat string) url.Values {
+    if collectionFormat == "multi" && reflect.TypeOf(paramValue).Kind() == reflect.Slice {
+        paramSlice := reflect.ValueOf(paramValue)
+
+        for i := 0; i < paramSlice.Len(); i++ {
+            q.Add(paramName, parameterToString(paramSlice.Index(i).Interface(), ""))
+        }
+    }
+    q.Add(paramName, parameterToString(paramValue, collectionFormat))
+    return q
+}
+
 // Verify optional parameters are of the correct type.
 func typeCheckParameter(obj interface{}, expected string, name string) error {
 	// Make sure there is an object.
