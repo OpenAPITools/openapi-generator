@@ -19,7 +19,7 @@ class {{classname}} {
     {{#allParams}}
       {{#required}}
     if({{paramName}} == null) {
-     throw new ApiException(400, "Missing required param: {{paramName}}");
+     throw ApiException(400, "Missing required param: {{paramName}}");
     }
       {{/required}}
     {{/allParams}}
@@ -51,7 +51,7 @@ class {{classname}} {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       {{#formParams}}
       {{^isFile}}
       if ({{paramName}} != null) {
@@ -89,7 +89,7 @@ class {{classname}} {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       {{#isListContainer}}
         {{#returnType}}
@@ -99,7 +99,7 @@ class {{classname}} {
       {{^isListContainer}}
         {{#isMapContainer}}
           {{#returnType}}
-      return new {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
+      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
           {{/returnType}};
         {{/isMapContainer}}
         {{^isMapContainer}}
