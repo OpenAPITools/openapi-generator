@@ -49,7 +49,12 @@ class {{classname}} {
           {{name}} = (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
         {{/isMapContainer}}
         {{^isMapContainer}}
+	{{#isDouble}}
+          {{name}} = json['{{baseName}}'].toDouble();
+	{{/isDouble}}
+	{{^isDouble}}
           {{name}} = json['{{baseName}}'];
+	{{/isDouble}}
         {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
