@@ -27,7 +27,7 @@ class ExpressServer {
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser());
     this.app.use('/spec', express.static(path.join(__dirname, 'api')));
-    this.app.get('/hello', (req, res) => res.send('hello Yishai. path: '+this.openApiPath));
+    this.app.get('/hello', (req, res) => res.send('Hello World. path: '+this.openApiPath));
     // this.app.get('/spec', express.static(this.openApiPath));
     this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(this.schema));
     this.app.get('/login-redirect', (req, res) => {

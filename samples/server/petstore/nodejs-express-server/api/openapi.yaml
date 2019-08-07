@@ -8,15 +8,7 @@ info:
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
-- url: http://localhost:{port}/api/{basePath}
-  variables:
-    port:
-      enum:
-        - '3000'
-        - '3009'
-      default: '3000'
-    basePath:
-      default: 'v2'
+- url: http://petstore.swagger.io/v2
 tags:
 - description: Everything about your Pets
   name: pet
