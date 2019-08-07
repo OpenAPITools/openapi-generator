@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 /// tests for PetApi
 void main() {
-  var instance = new PetApi();
+  var instance = PetApi();
 
   group('tests for PetApi', () {
     // Add a new pet to the store

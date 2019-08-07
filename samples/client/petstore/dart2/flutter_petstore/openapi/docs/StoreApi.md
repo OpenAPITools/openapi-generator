@@ -26,7 +26,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new StoreApi();
+var api_instance = StoreApi();
 var orderId = orderId_example; // String | ID of the order that needs to be deleted
 
 try { 
@@ -72,7 +72,7 @@ import 'package:openapi/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
-var api_instance = new StoreApi();
+var api_instance = StoreApi();
 
 try { 
     var result = api_instance.getInventory();
@@ -111,7 +111,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new StoreApi();
+var api_instance = StoreApi();
 var orderId = 789; // int | ID of pet that needs to be fetched
 
 try { 
@@ -152,8 +152,8 @@ Place an order for a pet
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new StoreApi();
-var body = new Order(); // Order | order placed for purchasing the pet
+var api_instance = StoreApi();
+var body = Order(); // Order | order placed for purchasing the pet
 
 try { 
     var result = api_instance.placeOrder(body);
