@@ -5,7 +5,7 @@
  *
  *)
 
-val delete_order : string -> unit Lwt.t
+val delete_order : order_id:string -> unit Lwt.t
 val get_inventory : unit -> (string * int32) list Lwt.t
-val get_order_by_id : int64 -> Order.t Lwt.t
-val place_order : Order.t -> Order.t Lwt.t
+val get_order_by_id : order_id:int64 -> Order.t Lwt.t
+val place_order : body:Order.t -> Order.t Lwt.t
