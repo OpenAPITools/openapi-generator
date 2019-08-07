@@ -81,7 +81,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         apiTemplateFiles.put("service.mustache", ".js");
 
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
-        supportingFiles.add(new SupportingFile("app.mustache", "", "app.js"));
         supportingFiles.add(new SupportingFile("config.mustache", "", "config.js"));
         supportingFiles.add(new SupportingFile("expressServer.mustache", "", "expressServer.js"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.js"));
