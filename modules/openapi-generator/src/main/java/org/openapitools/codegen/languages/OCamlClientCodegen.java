@@ -22,9 +22,10 @@ import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -409,6 +411,13 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public void processOpts() {
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("OCAML_POST_PROCESS_FILE"))) {
+            LOGGER.info("Hint: Environment variable 'OCAML_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export OCAML_POST_PROCESS_FILE=\"ocamlformat -i --enable-outside-detected-project\"' (Linux/Mac)");
+            LOGGER.info("Note: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'OCAML_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
@@ -605,11 +614,11 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId) || sanitizedOperationId.matches("^[0-9].*")) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + StringUtils.underscore("call_" + operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return StringUtils.underscore(sanitizedOperationId);
+        return underscore(sanitizedOperationId);
     }
 
     private Map<String, Object> allowableValues(String valueString) {
@@ -752,6 +761,34 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             return p.getDefault().toString();
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
+
+        if (file == null) {
+            return;
+        }
+        String ocamlPostProcessFile = System.getenv("OCAML_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(ocamlPostProcessFile)) {
+            return; // skip if OCAML_POST_PROCESS_FILE env variable is not defined
+        }
+        // only process files with ml or mli extension
+        if ("ml".equals(FilenameUtils.getExtension(file.toString())) || "mli".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = ocamlPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
         }
     }
 }
