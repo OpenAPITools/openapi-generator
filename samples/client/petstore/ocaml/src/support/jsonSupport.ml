@@ -1,47 +1,42 @@
 open Ppx_deriving_yojson_runtime
 
 let unwrap to_json json =
-  match to_json json with
-  | Result.Ok json ->
-      json
-  | Result.Error s ->
-      failwith s
+    match to_json json with
+    | Result.Ok json -> json
+    | Result.Error s -> failwith s
 
 let to_int json =
-  match json with
-  | `Int x ->
-      x
-  | `Intlit s ->
-      int_of_string s
-  | _ ->
-      failwith "JsonSupport.to_int"
+    match json with
+    | `Int x -> x
+    | `Intlit s -> int_of_string s
+    | _ -> failwith "JsonSupport.to_int"
 
 let to_bool json =
-  match json with `Bool x -> x | _ -> failwith "JsonSupport.to_bool"
+    match json with
+    | `Bool x -> x
+    | _ -> failwith "JsonSupport.to_bool"
 
 let to_float json =
-  match json with `Float x -> x | _ -> failwith "JsonSupport.to_float"
+    match json with
+    | `Float x -> x
+    | _ -> failwith "JsonSupport.to_float"
 
 let to_string json =
-  match json with `String s -> s | _ -> failwith "JsonSupport.to_string"
+    match json with
+    | `String s -> s
+    | _ -> failwith "JsonSupport.to_string"
 
 let to_int32 json : int32 =
-  match json with
-  | `Int x ->
-      Int32.of_int x
-  | `Intlit s ->
-      Int32.of_string s
-  | _ ->
-      failwith "JsonSupport.to_int32"
+    match json with
+    | `Int x -> Int32.of_int x
+    | `Intlit s -> Int32.of_string s
+    | _ -> failwith "JsonSupport.to_int32"
 
 let to_int64 json : int64 =
-  match json with
-  | `Int x ->
-      Int64.of_int x
-  | `Intlit s ->
-      Int64.of_string s
-  | _ ->
-      failwith "JsonSupport.to_int64"
+    match json with
+    | `Int x -> Int64.of_int x
+    | `Intlit s -> Int64.of_string s
+    | _ -> failwith "JsonSupport.to_int64"
 
 let of_int x = `Int x
 
