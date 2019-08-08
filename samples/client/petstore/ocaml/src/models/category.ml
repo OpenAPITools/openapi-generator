@@ -6,14 +6,8 @@
  * Schema Category.t : A category for a pet
  *)
 
-type t = {
-    id: int64 option [@default None];
-    name: string option [@default None];
-} [@@deriving yojson { strict = false }, show ];;
+type t = {id: int64 option [@default None]; name: string option [@default None]}
+[@@deriving yojson {strict= false}, show]
 
 (** A category for a pet *)
-let create () : t = {
-    id = None;
-    name = None;
-}
-
+let create () : t = {id= None; name= None}
