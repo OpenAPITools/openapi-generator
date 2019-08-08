@@ -43,9 +43,9 @@ class OuterEnumIntegerDefaultValue
     /**
      * Possible values of this enum
      */
-    const N0 = 0;
-    const N1 = 1;
-    const N2 = 2;
+    const 0 = 0;
+    const 1 = 1;
+    const 2 = 2;
     
     /**
      * Gets allowable values of the enum
@@ -54,9 +54,9 @@ class OuterEnumIntegerDefaultValue
     public static function getAllowableEnumValues()
     {
         return [
-            self::N0,
-            self::N1,
-            self::N2,
+            self::0,
+            self::1,
+            self::2,
         ];
     }
 }
