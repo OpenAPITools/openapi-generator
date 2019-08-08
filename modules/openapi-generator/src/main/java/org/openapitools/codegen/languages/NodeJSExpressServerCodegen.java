@@ -140,7 +140,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
      */
     @Override
     public String getHelp() {
-        return "Generates a NodeJS Express server (beta and may subject to breaking changes without further notice).";
+        return "Generates a NodeJS Express server (alpha). IMPORTANT: this generator may subject to breaking changes without further notice).";
     }
 
     @Override
