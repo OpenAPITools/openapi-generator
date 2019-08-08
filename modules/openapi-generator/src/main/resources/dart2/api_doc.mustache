@@ -45,9 +45,9 @@ import 'package:{{pubName}}/api.dart';
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-var api_instance = new {{classname}}();
+var api_instance = {{classname}}();
 {{#allParams}}
-var {{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}new {{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; // {{{dataType}}} | {{{description}}}
+var {{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 try { 

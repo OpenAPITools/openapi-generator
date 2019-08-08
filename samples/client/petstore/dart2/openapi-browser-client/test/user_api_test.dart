@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 /// tests for UserApi
 void main() {
-  var instance = new UserApi();
+  var instance = UserApi();
 
   group('tests for UserApi', () {
     // Create user
