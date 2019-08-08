@@ -17,38 +17,90 @@ var (
 // Command passed to handler type
 type Command func(*gin.Context) interface{}
 
-{{#operation}}{{#responses}}
+// render response based on content type
+func render(c *gin.Context, contentType string, code int, response interface{}) {
+	switch {
+	case jsonCheck.MatchString(contentType):
+		c.JSON(code, response)
+	case xmlCheck.MatchString(contentType):
+		c.XML(code, response)
+	default:
+		c.String(http.StatusNotImplemented, "content type not implemented", response)
+	}
+}
+
+{{#operation}}
+{{#responses}}
 // {{nickname}}Response{{code}} controller response type
 type {{nickname}}Response{{code}} struct {
-	{{#isModel}}{{{dataType}}}{{/isModel}}{{^isModel}}Payload {{dataType}}{{/isModel}}
-}{{/responses}}
+	{{#isModel}}{{{dataType}}}{{/isModel}}{{^isModel}}Payload {{{dataType}}}{{/isModel}}
+}
 
-// {{=<% %>=}}
-// // payload<% nickname %> object
-// type payload<% nickname %> struct {<% #allParams %>
-// 	<% paramName %> <% dataType %> `json:"<% baseName %>" <% #isPathParam %>uri:"<% baseName %>"<% /isPathParam %> <% #required %>binding:"required"<% /required %>`<% /allParams %>
-// }
-// <%={{ }}=%>
+{{/responses}}
+type {{nickname}}Headers struct {
+	{{#headerParams}}
+	{{#description}}
+	// {{unescapedDescription}}
+	{{/description}}
+	{{#camelize}}{{paramName}}{{/camelize}} {{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#isHeaderParam}} header:"{{baseName}}"{{/isHeaderParam}} binding:"{{#required}}required{{/required}}{{#isEmail}},email{{/isEmail}}{{#isUuid}},uuid{{/isUuid}}{{#isEmail}},email{{/isEmail}}"`
+	{{/headerParams}}
+}
+
+type {{nickname}}Params struct {
+	{{#allParams}}
+	{{^isHeaderParam}}
+	{{#description}}
+	// {{unescapedDescription}}
+	{{/description}}
+	{{#camelize}}{{paramName}}{{/camelize}} {{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#isPathParam}} uri:"{{baseName}}"{{/isPathParam}}{{#isFormParam}} form:"{{baseName}}"{{/isFormParam}}{{#isQueryParam}} form:"{{baseName}}"{{/isQueryParam}}{{#isHeaderParam}} header:"{{baseName}}"{{/isHeaderParam}} binding:"{{#required}}required{{/required}}{{#isEmail}},email{{/isEmail}}{{#isUuid}},uuid{{/isUuid}}{{#isEmail}},email{{/isEmail}}"`
+	{{/isHeaderParam}}
+	{{/allParams}}
+}
+
+// {{nickname}}Request payload object
+type {{nickname}}Request struct {
+	Headers *{{nickname}}Headers	
+	Params *{{nickname}}Params
+}
+
+// Bind : gin bind
+func (o *{{nickname}}Request) Bind (c *gin.Context) error {
+    var err error
+
+	{{#hasHeaderParams}}
+    o.Headers = &{{nickname}}Headers{}
+	err = c.ShouldBindHeader(o.Headers)
+	if err != nil {
+		return err
+	}
+
+	{{/hasHeaderParams}}
+	{{#hasParams}}
+    o.Params = &{{nickname}}Params{}
+	err = c.ShouldBind(o.Params)
+	if err != nil {
+		return err
+	}
+	
+	{{/hasParams}}
+	return err
+}
 
 // New{{nickname}}Handler constructor
-// {{{summary}}}
 func New{{nickname}}Handler(cmd Command) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// var j payload{{nickname}}
-		// err := c.ShouldBindJSON(&j)
-		// if err != nil {
-		// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		// 	return
-		// }
-
 		resp := cmd(c)
-		{{=<% %>=}}
-		switch resp.(type) {<% #responses %>
-		case <% nickname %>Response<% code %>:
-			c.JSON(<% code %>, resp)<% /responses %>
-		<%={{ }}=%>
+
+		switch resp.(type) {
+		{{#responses}}
+		case {{nickname}}Response{{code}}:
+			render(c, "{{#produces}}{{mediaType}}{{/produces}}", {{code}}, resp)
+		{{/responses}}
 		default:
-			c.String(http.StatusNotImplemented, fmt.Sprintf("{{nickname}}() command response type mismatch. [%T] != ENUM[{{#responses}}{{nickname}}Response{{code}}, {{/responses}}]", resp))
+			err := fmt.Sprintf("{{nickname}}() command response type mismatch. [%T] != ENUM[{{#responses}}{{nickname}}Response{{code}}, {{/responses}}]")
+			c.String(http.StatusNotImplemented, err, resp)
 		}
 	}
-}{{/operation}}{{/operations}}
+}
+{{/operation}}
+{{/operations}}

@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.util.Json;
 import org.openapitools.codegen.*;
 
@@ -9,6 +10,8 @@ import java.util.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GoGinDriverServerCodegen extends AbstractGoCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(GoGinDriverServerCodegen.class);
@@ -38,12 +41,6 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
         modelTemplateFiles.put("model.mustache", ".go");
         apiTemplateFiles.put("controller-api.mustache", ".go");
         embeddedTemplateDir = templateDir = "go-gin-driver-server";
-
-        // apiPackage = File.separator + "Apis";
-        // modelPackage = File.separator + "Models";
-        
-        // supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        // TODO: Fill this out.
     }
 
     @Override
@@ -64,6 +61,9 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
         additionalProperties.put("serverPort", serverPort);
         additionalProperties.put("apiPath", apiPath);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+
+        additionalProperties.put("camelize",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(camelize(fragment.execute(), false)));
 
         modelPackage = apiPath;
         apiPackage = apiPath;
@@ -96,31 +96,27 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
                     CodegenModel im = ModelUtils.getModelByName(toModelName(cm.getInterfaces().get(0)), result);
                     if (im != null) {
                         cm.vendorExtensions.put("inheritInterface", im);
-                        LOGGER.info(String.format("append inheritInterface [%s] to [%s] model", im.name, cm.name));
+                        LOGGER.info(String.format("append vendorExtensions.inheritInterface [%s] to [%s] model", im.name, cm.name));
                         LOGGER.debug(Json.pretty(cm));
-//                        cm.interfaces.clear();
-//                        cm.imports.clear();
-//                        cm.allOf.clear();
-//
-//                        cm.dataType = im.dataType;
-//                        cm.description = (cm.getDescription() == null || cm.getDescription().isEmpty()) ? im.getDescription() : cm.getDescription();
-//                        cm.isString = im.isString;
-//                        cm.isInteger = im.isInteger;
-//                        cm.isLong = im.isLong;
-//                        cm.isNumber = im.isNumber;
-//                        cm.isNumeric = im.isNumeric;
-//                        cm.isFloat = im.isFloat;
-//                        cm.isDouble = im.isDouble;
-//                        cm.isEnum = im.isEnum;
-//                        cm.isNullable = im.isNullable;
-//
-//                        LOGGER.info(String.format("merge [%s] type properties to [%s] model", im.name, cm.name));
-//                        LOGGER.debug(Json.pretty(cm));
                     }
                 }
             }
         }
 
         return result;
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            if (op.path != null) {
+                op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");
+            }
+        }
+        return objs;
     }
 }

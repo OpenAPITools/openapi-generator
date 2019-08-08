@@ -1,24 +1,23 @@
 {{>partial_header}}
 package {{packageName}}
+
 {{#models}}
 {{#imports}}
 {{#-first}}import (
 {{/-first}}	"{{import}}"{{#-last}}
 )
-{{/-last}}{{/imports}}
+{{/-last}}
 
+{{/imports}}
 {{#model}}
 {{#vendorExtensions.inheritInterface}}
-{{#model.description}}
-// {{model.classname}} : {{{model.description}}}{{/model.description}}
-type {{model.name}} {{dataType}}
+// {{model.classname}} : {{#model.description}}{{{model.description}}}{{/model.description}}{{^model.description}}{{{description}}}{{/model.description}}
+type {{model.classname}} {{dataType}}
 {{/vendorExtensions.inheritInterface}}
-
 {{^vendorExtensions.inheritInterface}}
 {{#isEnum}}
-{{#description}}
-// {{{classname}}} : {{{description}}}{{/description}}
-type {{{name}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
 
 // List of {{{name}}}
 const (
@@ -27,16 +26,18 @@ const (
 	{{name}} {{{classname}}} = "{{{value}}}"
 	{{/enumVars}}
 	{{/allowableValues}}
-){{/isEnum}}
+)
 
+{{/isEnum}}
 {{^isEnum}}
-{{#description}}
-// {{classname}} - {{{description}}}{{/description}}
+{{#description}}// {{classname}} - {{{description}}}{{/description}}
 type {{classname}} struct {
-{{#vars}}{{#description}}
-	// {{{description}}}{{/description}}
+	{{#vars}}
+	{{#description}}
+	// {{{description}}}
+	{{/description}}
 	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
-{{/vars}}
+	{{/vars}}
 }
 {{/isEnum}}
 {{/vendorExtensions.inheritInterface}}

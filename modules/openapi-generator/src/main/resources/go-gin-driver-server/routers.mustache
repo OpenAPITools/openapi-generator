@@ -56,12 +56,18 @@ func NewServer(handlersCmd HandlerCommands, config *Configuration, logger Logger
 	}
 }
 
-{{=<% %>=}}
 // HandlerCommands mapping
-type HandlerCommands struct {<% #apiInfo %><% #apis %><% #operations %><% #operation %>
-	<% operationId %> Command<% /operation %><% /operations %><% /apis %><% /apiInfo %>
+type HandlerCommands struct {
+	{{#apiInfo}}
+	{{#apis}}
+	{{#operations}}
+	{{#operation}}
+	{{operationId}} Command
+	{{/operation}}
+	{{/operations}}
+	{{/apis}}
+	{{/apiInfo}}
 }
-<%={{ }}=%>
 
 // Route is the information for every URI.
 type Route struct {
@@ -86,14 +92,21 @@ func NewRouter(h *HandlerCommands) *gin.Engine {
 			http.MethodGet,
 			"{{{basePathWithoutHost}}}/",
 			Index,
-		},{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-
+		},
+		{{#apiInfo}}
+		{{#apis}}
+		{{#operations}}
+		{{#operation}}
 		{
 			"{{operationId}}",
 			http.Method{{httpMethod}},
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			New{{operationId}}Handler(h.{{operationId}}),
-		},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+		},
+		{{/operation}}
+		{{/operations}}
+		{{/apis}}
+		{{/apiInfo}}
 	}
 
 	router := gin.Default()
