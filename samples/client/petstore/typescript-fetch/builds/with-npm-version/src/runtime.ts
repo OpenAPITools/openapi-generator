@@ -64,7 +64,7 @@ export class BaseAPI {
 	    ? context.body
 	    : JSON.stringify(context.body);
 
-        const headers = Object.assign(context.headers, this.configuration.headers);
+        const headers = Object.assign({}, this.configuration.headers, context.headers);
         const init = {
             method: context.method,
             headers: headers,
