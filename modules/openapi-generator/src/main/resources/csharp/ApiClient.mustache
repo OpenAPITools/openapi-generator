@@ -58,6 +58,7 @@ namespace {{packageName}}.Client
             {{#netStandard}}
             RestClient.IgnoreResponseStatusCode = true;
             {{/netStandard}}
+            RestClient.UserAgent = Configuration.UserAgent;
         }
 
         /// <summary>
@@ -203,7 +204,6 @@ namespace {{packageName}}.Client
             {{#netStandard}}RestClient.Timeout = TimeSpan.FromMilliseconds(Configuration.Timeout);{{/netStandard}}
             {{^netStandard}}RestClient.Timeout = Configuration.Timeout;{{/netStandard}}
             // set user agent
-            RestClient.UserAgent = Configuration.UserAgent;
 
             InterceptRequest(request);
             {{#netStandard}}
