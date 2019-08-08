@@ -730,6 +730,7 @@ Here is a list of template creators:
    * JAX-RS RestEasy (JBoss EAP): @jfiala
    * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Kotlin (Spring Boot): @dr4ke616
+   * NodeJS Express: @YishTish
    * PHP Laravel: @renepardon
    * PHP Lumen: @abcsun
    * PHP Slim: @jfastnacht
