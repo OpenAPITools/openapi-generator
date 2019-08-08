@@ -97,6 +97,13 @@ To test the templates, please perform the following:
 
 To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all the required tools installed to run tests for different languages) or you can leverage http://travis-ci.org to run the CI tests by adding your own openapi-generator repository.
 
+Note, you need to have a petstore API running locally in order to pass all tests in `PythonPetstoreClientTests`:
+
+ ```bash
+docker pull swaggerapi/petstore
+docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+```
+
 ### Tips
 - Smaller changes are easier to review
 - [Optional] For bug fixes, provide a OpenAPI Spec to repeat the issue so that the reviewer can use it to confirm the fix
