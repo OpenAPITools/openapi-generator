@@ -31,7 +31,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
@@ -238,7 +237,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
             if (methodResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
-                response = ModelUtils.unaliasSchema(this.openAPI, response);
+                response = ModelUtils.unaliasSchema(this.openAPI, response, importMapping);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);

@@ -196,7 +196,20 @@ public class ModelUtilsTest {
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("SomeComposedSchema", composedSchema);
 
-        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(openAPI, refToComposedSchema));
+        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(openAPI, refToComposedSchema, new HashMap<>()));
+    }
+
+    @Test
+    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping(){
+        Schema emailSchema = new Schema().$ref("#/components/schemas/Email").type("string");
+        StringSchema stringSchema = new StringSchema();
+        HashMap<String, String> importMappings = new HashMap<>();
+        importMappings.put("Email","foo.bar.Email");
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Email", stringSchema);
+
+        Assert.assertEquals(emailSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, importMappings));
+        Assert.assertEquals(stringSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, new HashMap<>()));
     }
 
     /**
