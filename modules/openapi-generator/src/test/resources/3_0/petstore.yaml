@@ -115,13 +115,6 @@ paths:
             type: array
             items:
               type: string
-        - name: maxCount
-          in: query
-          description: Maximum number of items to return
-          required: false
-          schema:
-            type: integer
-            format: int32
       responses:
         '200':
           description: successful operation
