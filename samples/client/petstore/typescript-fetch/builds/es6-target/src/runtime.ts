@@ -63,10 +63,13 @@ export class BaseAPI {
         const body = (context.body instanceof FormData || isBlob(context.body))
 	    ? context.body
 	    : JSON.stringify(context.body);
+
+        const headers = Object.assign(context.headers, this.configuration.headers);
         const init = {
             method: context.method,
-            headers: context.headers,
+            headers: headers,
             body,
+            credentials: this.configuration.credentials
         };
         return { url, init };
     }
@@ -132,6 +135,8 @@ export interface ConfigurationParameters {
     password?: string; // parameter for basic security
     apiKey?: string | ((name: string) => string); // parameter for apiKey security
     accessToken?: string | ((name?: string, scopes?: string[]) => string); // parameter for oauth2 security
+    headers?: HTTPHeaders; //header params we want to use on every request
+    credentials?: RequestCredentials; //value for the credentials param we want to use on each request
 }
 
 export class Configuration {
@@ -175,6 +180,14 @@ export class Configuration {
             return typeof accessToken === 'function' ? accessToken : () => accessToken;
         }
         return undefined;
+    }
+
+    get headers():  HTTPHeaders {
+        return this.configuration.headers;
+    }
+
+    get credentials(): RequestCredentials {
+        return this.configuration.credentials;
     }
 }
 
