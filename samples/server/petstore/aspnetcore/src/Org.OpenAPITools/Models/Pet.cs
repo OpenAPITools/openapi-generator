@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Category
@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Models
             return 
                 (
                     Id == other.Id ||
-                    Id != null &&
+                    
                     Id.Equals(other.Id)
                 ) && 
                 (
@@ -184,7 +184,7 @@ namespace Org.OpenAPITools.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Id != null)
+                    
                     hashCode = hashCode * 59 + Id.GetHashCode();
                     if (Category != null)
                     hashCode = hashCode * 59 + Category.GetHashCode();

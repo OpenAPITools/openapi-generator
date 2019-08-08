@@ -28,25 +28,25 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name="petId", EmitDefaultValue=false)]
-        public long? PetId { get; set; }
+        public long PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name="quantity", EmitDefaultValue=false)]
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         [DataMember(Name="shipDate", EmitDefaultValue=false)]
-        public DateTime? ShipDate { get; set; }
+        public DateTime ShipDate { get; set; }
 
         /// <summary>
         /// Order Status
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name="complete", EmitDefaultValue=false)]
-        public bool? Complete { get; set; }
+        public bool Complete { get; set; } = false;
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -140,17 +140,17 @@ namespace Org.OpenAPITools.Models
             return 
                 (
                     Id == other.Id ||
-                    Id != null &&
+                    
                     Id.Equals(other.Id)
                 ) && 
                 (
                     PetId == other.PetId ||
-                    PetId != null &&
+                    
                     PetId.Equals(other.PetId)
                 ) && 
                 (
                     Quantity == other.Quantity ||
-                    Quantity != null &&
+                    
                     Quantity.Equals(other.Quantity)
                 ) && 
                 (
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Models
                 ) && 
                 (
                     Complete == other.Complete ||
-                    Complete != null &&
+                    
                     Complete.Equals(other.Complete)
                 );
         }
@@ -180,17 +180,17 @@ namespace Org.OpenAPITools.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Id != null)
+                    
                     hashCode = hashCode * 59 + Id.GetHashCode();
-                    if (PetId != null)
+                    
                     hashCode = hashCode * 59 + PetId.GetHashCode();
-                    if (Quantity != null)
+                    
                     hashCode = hashCode * 59 + Quantity.GetHashCode();
                     if (ShipDate != null)
                     hashCode = hashCode * 59 + ShipDate.GetHashCode();
                     
                     hashCode = hashCode * 59 + Status.GetHashCode();
-                    if (Complete != null)
+                    
                     hashCode = hashCode * 59 + Complete.GetHashCode();
                 return hashCode;
             }
