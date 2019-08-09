@@ -261,6 +261,10 @@ namespace Org.OpenAPITools.Client
                         headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
                         
                         break;
+                    case "auth_cookie":
+                        
+                        
+                        break;
                     case "petstore_auth":
                         
                         //TODO support oauth

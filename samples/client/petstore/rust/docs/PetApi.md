@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## add_pet
 
-> add_pet(body)
+> add_pet(pet)
 Add a new pet to the store
 
 ### Parameters
@@ -25,7 +25,7 @@ Add a new pet to the store
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | Required | 
+**pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | Required | 
 
 ### Return type
 
@@ -104,7 +104,7 @@ Name | Type | Description  | Required | Notes
 
 ## find_pets_by_tags
 
-> Vec<crate::models::Pet> find_pets_by_tags(tags)
+> Vec<crate::models::Pet> find_pets_by_tags(tags, max_count)
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -115,6 +115,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **tags** | [**Vec<String>**](String.md) | Tags to filter by | Required | 
+**max_count** | **i32** | Maximum number of items to return |  | 
 
 ### Return type
 
@@ -164,7 +165,7 @@ Name | Type | Description  | Required | Notes
 
 ## update_pet
 
-> update_pet(body)
+> update_pet(pet)
 Update an existing pet
 
 ### Parameters
@@ -172,7 +173,7 @@ Update an existing pet
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | Required | 
+**pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | Required | 
 
 ### Return type
 

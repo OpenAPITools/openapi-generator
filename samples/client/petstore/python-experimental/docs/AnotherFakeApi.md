@@ -1,4 +1,4 @@
-# petstore_api.AnotherFakeApi
+# openapi_client.AnotherFakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -19,13 +19,13 @@ To test special tags and operation ID starting with number
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.AnotherFakeApi()
-body = petstore_api.Client() # Client | client model
+# Create an instance of the API class
+api_instance = openapi_client.AnotherFakeApi()
+body = openapi_client.Client() # Client | client model
 
 try:
     # To test special tags

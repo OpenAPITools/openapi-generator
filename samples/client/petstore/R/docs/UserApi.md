@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **CreateUser**
-> CreateUser(body)
+> CreateUser(user)
 
 Create user
 
@@ -25,18 +25,20 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.body <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
+var.user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 
 #Create user
 api.instance <- UserApi$new()
-api.instance$CreateUser(var.body)
+# Configure API key authorization: auth_cookie
+api.instance$apiClient$apiKeys['AUTH_KEY'] <- 'TODO_YOUR_API_KEY';
+api.instance$CreateUser(var.user)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **user** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -44,17 +46,17 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 
 
 # **CreateUsersWithArrayInput**
-> CreateUsersWithArrayInput(body)
+> CreateUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
@@ -62,18 +64,20 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
+var.user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
-api.instance$CreateUsersWithArrayInput(var.body)
+# Configure API key authorization: auth_cookie
+api.instance$apiClient$apiKeys['AUTH_KEY'] <- 'TODO_YOUR_API_KEY';
+api.instance$CreateUsersWithArrayInput(var.user)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | list( [**User**](User.md) )| List of user object | 
+ **user** | list( [**User**](User.md) )| List of user object | 
 
 ### Return type
 
@@ -81,17 +85,17 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 
 
 # **CreateUsersWithListInput**
-> CreateUsersWithListInput(body)
+> CreateUsersWithListInput(user)
 
 Creates list of users with given input array
 
@@ -99,18 +103,20 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
+var.user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
-api.instance$CreateUsersWithListInput(var.body)
+# Configure API key authorization: auth_cookie
+api.instance$apiClient$apiKeys['AUTH_KEY'] <- 'TODO_YOUR_API_KEY';
+api.instance$CreateUsersWithListInput(var.user)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | list( [**User**](User.md) )| List of user object | 
+ **user** | list( [**User**](User.md) )| List of user object | 
 
 ### Return type
 
@@ -118,11 +124,11 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 
@@ -142,6 +148,8 @@ var.username <- 'username_example' # character | The name that needs to be delet
 
 #Delete user
 api.instance <- UserApi$new()
+# Configure API key authorization: auth_cookie
+api.instance$apiClient$apiKeys['AUTH_KEY'] <- 'TODO_YOUR_API_KEY';
 api.instance$DeleteUser(var.username)
 ```
 
@@ -157,7 +165,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
@@ -256,6 +264,8 @@ library(petstore)
 
 #Logs out current logged in user session
 api.instance <- UserApi$new()
+# Configure API key authorization: auth_cookie
+api.instance$apiClient$apiKeys['AUTH_KEY'] <- 'TODO_YOUR_API_KEY';
 api.instance$LogoutUser()
 ```
 
@@ -268,7 +278,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
@@ -278,7 +288,7 @@ No authorization required
 
 
 # **UpdateUser**
-> UpdateUser(username, body)
+> UpdateUser(username, user)
 
 Updated user
 
@@ -289,11 +299,13 @@ This can only be done by the logged in user.
 library(petstore)
 
 var.username <- 'username_example' # character | name that need to be deleted
-var.body <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
+var.user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
 #Updated user
 api.instance <- UserApi$new()
-api.instance$UpdateUser(var.username, var.body)
+# Configure API key authorization: auth_cookie
+api.instance$apiClient$apiKeys['AUTH_KEY'] <- 'TODO_YOUR_API_KEY';
+api.instance$UpdateUser(var.username, var.user)
 ```
 
 ### Parameters
@@ -301,7 +313,7 @@ api.instance$UpdateUser(var.username, var.body)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **character**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -309,11 +321,11 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 

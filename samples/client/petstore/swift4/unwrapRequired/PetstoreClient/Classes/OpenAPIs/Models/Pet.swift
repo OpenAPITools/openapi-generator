@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 public struct Pet: Codable {
 
     public enum Status: String, Codable {
@@ -31,4 +33,6 @@ public struct Pet: Codable {
         self.status = status
     }
 
+
 }
+

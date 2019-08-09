@@ -60,8 +60,8 @@ object PetApi {
         * @return An endpoint representing a Unit
         */
         private def addPet(da: DataAccessor): Endpoint[Unit] =
-        post("pet" :: jsonBody[Pet]) { (body: Pet) =>
-          da.Pet_addPet(body) match {
+        post("pet" :: jsonBody[Pet]) { (pet: Pet) =>
+          da.Pet_addPet(pet) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -102,8 +102,8 @@ object PetApi {
         * @return An endpoint representing a Seq[Pet]
         */
         private def findPetsByTags(da: DataAccessor): Endpoint[Seq[Pet]] =
-        get("pet" :: "findByTags" :: params("tags")) { (tags: Seq[String]) =>
-          da.Pet_findPetsByTags(tags) match {
+        get("pet" :: "findByTags" :: params("tags") :: paramOption("maxCount").map(_.map(_.toInt))) { (tags: Seq[String], maxCount: Option[Int]) =>
+          da.Pet_findPetsByTags(tags, maxCount) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -130,8 +130,8 @@ object PetApi {
         * @return An endpoint representing a Unit
         */
         private def updatePet(da: DataAccessor): Endpoint[Unit] =
-        put("pet" :: jsonBody[Pet]) { (body: Pet) =>
-          da.Pet_updatePet(body) match {
+        put("pet" :: jsonBody[Pet]) { (pet: Pet) =>
+          da.Pet_updatePet(pet) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }

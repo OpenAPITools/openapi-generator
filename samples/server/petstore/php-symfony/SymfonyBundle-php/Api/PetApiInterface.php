@@ -62,18 +62,27 @@ interface PetApiInterface
     public function setapi_key($value);
 
     /**
+     * Sets authentication method petstore_auth
+     *
+     * @param string $value Value of the petstore_auth authentication method.
+     *
+     * @return void
+     */
+    public function setpetstore_auth($value);
+
+    /**
      * Operation addPet
      *
      * Add a new pet to the store
      *
-     * @param  OpenAPI\Server\Model\Pet $body  Pet object that needs to be added to the store (required)
+     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      *
      */
-    public function addPet(Pet $body, &$responseCode, array &$responseHeaders);
+    public function addPet(Pet $pet, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation deletePet
@@ -110,13 +119,14 @@ interface PetApiInterface
      * Finds Pets by tags
      *
      * @param  string[] $tags  Tags to filter by (required)
+     * @param  int $maxCount  Maximum number of items to return (optional)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return OpenAPI\Server\Model\Pet[]
      *
      */
-    public function findPetsByTags(array $tags, &$responseCode, array &$responseHeaders);
+    public function findPetsByTags(array $tags, $maxCount = null, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation getPetById
@@ -137,14 +147,14 @@ interface PetApiInterface
      *
      * Update an existing pet
      *
-     * @param  OpenAPI\Server\Model\Pet $body  Pet object that needs to be added to the store (required)
+     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      *
      */
-    public function updatePet(Pet $body, &$responseCode, array &$responseHeaders);
+    public function updatePet(Pet $pet, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation updatePetWithForm

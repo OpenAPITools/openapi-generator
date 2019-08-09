@@ -198,7 +198,7 @@ No authorization required
 
 <a name="placeorder"></a>
 # **PlaceOrder**
-> Order PlaceOrder (Order body)
+> Order PlaceOrder (Order order)
 
 Place an order for a pet
 
@@ -218,12 +218,12 @@ namespace Example
         {
             
             var apiInstance = new StoreApi();
-            var body = new Order(); // Order | order placed for purchasing the pet
+            var order = new Order(); // Order | order placed for purchasing the pet
 
             try
             {
                 // Place an order for a pet
-                Order result = apiInstance.PlaceOrder(body);
+                Order result = apiInstance.PlaceOrder(order);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -239,7 +239,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -251,7 +251,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

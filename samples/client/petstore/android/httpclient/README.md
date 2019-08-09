@@ -49,8 +49,8 @@ At first generate the JAR by executing:
 
 Then manually install the following JARs:
 
-* target/openapi-android-client-1.0.0.jar
-* target/lib/*.jar
+- target/openapi-android-client-1.0.0.jar
+- target/lib/*.jar
 
 ## Getting Started
 
@@ -108,6 +108,8 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](docs/ApiResponse.md)
  - [Category](docs/Category.md)
+ - [InlineObject](docs/InlineObject.md)
+ - [InlineObject1](docs/InlineObject1.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)
@@ -120,10 +122,19 @@ Authentication schemes defined for the API:
 ### api_key
 
 - **Type**: API key
+
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+### auth_cookie
+
+- **Type**: API key
+
+- **API key parameter name**: AUTH_KEY
+- **Location**: 
+
 ### petstore_auth
+
 
 - **Type**: OAuth
 - **Flow**: implicit

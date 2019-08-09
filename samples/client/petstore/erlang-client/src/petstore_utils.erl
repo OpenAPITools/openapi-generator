@@ -75,7 +75,10 @@ update_params_with_auth(Cfg, Headers, QS) ->
     Auths = #{ 'api_key' =>
                 #{type => 'apiKey',
                   key => <<"api_key">>,
-                  in => header}, 'petstore_auth' =>
+                  in => header}, 'auth_cookie' =>
+                #{type => 'apiKey',
+                  key => <<"AUTH_KEY">>,
+                  in => }, 'petstore_auth' =>
                 #{type => 'oauth2',
                   key => <<"Authorization">>,
                   in => header}},

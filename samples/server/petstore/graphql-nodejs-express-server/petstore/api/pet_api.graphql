@@ -16,7 +16,7 @@
 
 input AddPetInput {
     # Pet object that needs to be added to the store
-    body: PetInput
+    pet: PetInput
 }
 
 input DeletePetInput {
@@ -28,7 +28,7 @@ input DeletePetInput {
 
 input UpdatePetInput {
     # Pet object that needs to be added to the store
-    body: PetInput
+    pet: PetInput
 }
 
 input UpdatePetWithFormInput {
@@ -51,7 +51,7 @@ input UploadFileInput {
 
 type Mutation {
   # Add a new pet to the store
-  # @param Pet body Pet object that needs to be added to the store
+  # @param Pet pet Pet object that needs to be added to the store
   # @return [Boolean]
   AddPet(input: AddPetInput!): Boolean
   # Deletes a pet
@@ -60,7 +60,7 @@ type Mutation {
   # @return [Boolean]
   DeletePet(input: DeletePetInput!): Boolean
   # Update an existing pet
-  # @param Pet body Pet object that needs to be added to the store
+  # @param Pet pet Pet object that needs to be added to the store
   # @return [Boolean]
   UpdatePet(input: UpdatePetInput!): Boolean
   # Updates a pet in the store with form data
@@ -86,8 +86,9 @@ type Query {
   # Finds Pets by tags
   # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
   # @param String! tags Tags to filter by
+  # @param Int! maxCount Maximum number of items to return
   # @return [Pet]
-  FindPetsByTags(tags: String!): Pet
+  FindPetsByTags(tags: String!, maxCount: Int!): Pet
   # Find pet by ID
   # Returns a single pet
   # @param Int! petId ID of pet to return

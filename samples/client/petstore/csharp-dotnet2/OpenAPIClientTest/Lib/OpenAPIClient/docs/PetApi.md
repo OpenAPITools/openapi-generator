@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="addpet"></a>
 # **AddPet**
-> void AddPet (Pet body)
+> void AddPet (Pet pet)
 
 Add a new pet to the store
 
@@ -39,12 +39,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(body);
+                apiInstance.AddPet(pet);
             }
             catch (Exception e)
             {
@@ -59,7 +59,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -207,7 +207,7 @@ Name | Type | Description  | Notes
 
 <a name="findpetsbytags"></a>
 # **FindPetsByTags**
-> List<Pet> FindPetsByTags (List<string> tags)
+> List<Pet> FindPetsByTags (List<string> tags, int? maxCount)
 
 Finds Pets by tags
 
@@ -233,11 +233,12 @@ namespace Example
 
             var apiInstance = new PetApi();
             var tags = new List<string>(); // List<string> | Tags to filter by
+            var maxCount = 56;  // int? | Maximum number of items to return (optional) 
 
             try
             {
                 // Finds Pets by tags
-                List&lt;Pet&gt; result = apiInstance.FindPetsByTags(tags);
+                List&lt;Pet&gt; result = apiInstance.FindPetsByTags(tags, maxCount);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -254,6 +255,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**List<string>**](string.md)| Tags to filter by | 
+ **maxCount** | **int?**| Maximum number of items to return | [optional] 
 
 ### Return type
 
@@ -339,7 +341,7 @@ Name | Type | Description  | Notes
 
 <a name="updatepet"></a>
 # **UpdatePet**
-> void UpdatePet (Pet body)
+> void UpdatePet (Pet pet)
 
 Update an existing pet
 
@@ -362,12 +364,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(body);
+                apiInstance.UpdatePet(pet);
             }
             catch (Exception e)
             {
@@ -382,7 +384,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 

@@ -24,7 +24,7 @@ This can only be done by the logged in user.
 ### Example
 
 ```bash
-petstore-cli createUser
+ createUser
 ```
 
 ### Parameters
@@ -32,7 +32,7 @@ petstore-cli createUser
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md) | Created user object |
+ **user** | [**User**](User.md) | Created user object |
 
 ### Return type
 
@@ -44,7 +44,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -57,7 +57,7 @@ Creates list of users with given input array
 ### Example
 
 ```bash
-petstore-cli createUsersWithArrayInput
+ createUsersWithArrayInput
 ```
 
 ### Parameters
@@ -65,7 +65,7 @@ petstore-cli createUsersWithArrayInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**array[User]**](User.md) | List of user object |
+ **user** | [**array[User]**](User.md) | List of user object |
 
 ### Return type
 
@@ -77,7 +77,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -90,7 +90,7 @@ Creates list of users with given input array
 ### Example
 
 ```bash
-petstore-cli createUsersWithListInput
+ createUsersWithListInput
 ```
 
 ### Parameters
@@ -98,7 +98,7 @@ petstore-cli createUsersWithListInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**array[User]**](User.md) | List of user object |
+ **user** | [**array[User]**](User.md) | List of user object |
 
 ### Return type
 
@@ -110,7 +110,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -125,7 +125,7 @@ This can only be done by the logged in user.
 ### Example
 
 ```bash
-petstore-cli deleteUser username=value
+ deleteUser username=value
 ```
 
 ### Parameters
@@ -158,7 +158,7 @@ Get user by user name
 ### Example
 
 ```bash
-petstore-cli getUserByName username=value
+ getUserByName username=value
 ```
 
 ### Parameters
@@ -191,7 +191,7 @@ Logs user into the system
 ### Example
 
 ```bash
-petstore-cli loginUser  username=value  password=value
+ loginUser  username=value  password=value
 ```
 
 ### Parameters
@@ -225,7 +225,7 @@ Logs out current logged in user session
 ### Example
 
 ```bash
-petstore-cli logoutUser
+ logoutUser
 ```
 
 ### Parameters
@@ -257,7 +257,7 @@ This can only be done by the logged in user.
 ### Example
 
 ```bash
-petstore-cli updateUser username=value
+ updateUser username=value
 ```
 
 ### Parameters
@@ -266,7 +266,7 @@ petstore-cli updateUser username=value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string** | name that need to be deleted | [default to null]
- **body** | [**User**](User.md) | Updated user object |
+ **user** | [**User**](User.md) | Updated user object |
 
 ### Return type
 
@@ -278,7 +278,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

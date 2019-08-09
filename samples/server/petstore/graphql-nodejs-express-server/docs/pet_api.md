@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="AddPet"></a>
 # **AddPet**
-> AddPet(body)
+> AddPet(pet)
 
 Add a new pet to the store
 <a name="DeletePet"></a>
@@ -33,7 +33,7 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 <a name="FindPetsByTags"></a>
 # **FindPetsByTags**
-> Pet FindPetsByTags(tags)
+> Pet FindPetsByTags(tags, maxCount)
 
 Finds Pets by tags
 
@@ -47,7 +47,7 @@ Find pet by ID
 Returns a single pet
 <a name="UpdatePet"></a>
 # **UpdatePet**
-> UpdatePet(body)
+> UpdatePet(pet)
 
 Update an existing pet
 <a name="UpdatePetWithForm"></a>

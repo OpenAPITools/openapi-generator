@@ -82,17 +82,17 @@ export class PetApi {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public async addPet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async addPet (pet: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addPet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -106,7 +106,7 @@ export class PetApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Pet")
+            body: ObjectSerializer.serialize(pet, "Pet")
         };
 
         let authenticationPromise = Promise.resolve();
@@ -260,8 +260,9 @@ export class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @summary Finds Pets by tags
      * @param tags Tags to filter by
+     * @param maxCount Maximum number of items to return
      */
-    public async findPetsByTags (tags: Array<string>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
+    public async findPetsByTags (tags: Array<string>, maxCount?: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByTags';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -274,6 +275,10 @@ export class PetApi {
 
         if (tags !== undefined) {
             localVarQueryParameters['tags'] = ObjectSerializer.serialize(tags, "Array<string>");
+        }
+
+        if (maxCount !== undefined) {
+            localVarQueryParameters['maxCount'] = ObjectSerializer.serialize(maxCount, "number");
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -378,17 +383,17 @@ export class PetApi {
     /**
      * 
      * @summary Update an existing pet
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public async updatePet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async updatePet (pet: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updatePet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -402,7 +407,7 @@ export class PetApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Pet")
+            body: ObjectSerializer.serialize(pet, "Pet")
         };
 
         let authenticationPromise = Promise.resolve();

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createuser"></a>
 # **CreateUser**
-> void CreateUser (User body)
+> void CreateUser (User user)
 
 Create user
 
@@ -37,13 +37,18 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
-            var body = new User(); // User | Created user object
+            var user = new User(); // User | Created user object
 
             try
             {
                 // Create user
-                apiInstance.CreateUser(body);
+                apiInstance.CreateUser(user);
             }
             catch (Exception e)
             {
@@ -58,7 +63,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **user** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -66,18 +71,18 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="createuserswitharrayinput"></a>
 # **CreateUsersWithArrayInput**
-> void CreateUsersWithArrayInput (List<User> body)
+> void CreateUsersWithArrayInput (List<User> user)
 
 Creates list of users with given input array
 
@@ -96,13 +101,18 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
-            var body = new List<User>(); // List<User> | List of user object
+            var user = new List<User>(); // List<User> | List of user object
 
             try
             {
                 // Creates list of users with given input array
-                apiInstance.CreateUsersWithArrayInput(body);
+                apiInstance.CreateUsersWithArrayInput(user);
             }
             catch (Exception e)
             {
@@ -117,7 +127,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List<User>**](List.md)| List of user object | 
+ **user** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -125,18 +135,18 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="createuserswithlistinput"></a>
 # **CreateUsersWithListInput**
-> void CreateUsersWithListInput (List<User> body)
+> void CreateUsersWithListInput (List<User> user)
 
 Creates list of users with given input array
 
@@ -155,13 +165,18 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
-            var body = new List<User>(); // List<User> | List of user object
+            var user = new List<User>(); // List<User> | List of user object
 
             try
             {
                 // Creates list of users with given input array
-                apiInstance.CreateUsersWithListInput(body);
+                apiInstance.CreateUsersWithListInput(user);
             }
             catch (Exception e)
             {
@@ -176,7 +191,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List<User>**](List.md)| List of user object | 
+ **user** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -184,11 +199,11 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -216,6 +231,11 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
             var username = username_example;  // string | The name that needs to be deleted
 
@@ -245,7 +265,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
@@ -397,6 +417,11 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
 
             try
@@ -422,7 +447,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
@@ -433,7 +458,7 @@ No authorization required
 
 <a name="updateuser"></a>
 # **UpdateUser**
-> void UpdateUser (string username, User body)
+> void UpdateUser (string username, User user)
 
 Updated user
 
@@ -454,14 +479,19 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
             var username = username_example;  // string | name that need to be deleted
-            var body = new User(); // User | Updated user object
+            var user = new User(); // User | Updated user object
 
             try
             {
                 // Updated user
-                apiInstance.UpdateUser(username, body);
+                apiInstance.UpdateUser(username, user);
             }
             catch (Exception e)
             {
@@ -477,7 +507,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -485,11 +515,11 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

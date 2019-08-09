@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **addPet**
-> addPet(body)
+> addPet(pet)
 
 Add a new pet to the store
 
@@ -28,13 +28,13 @@ Add a new pet to the store
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.addPet(body);
+    api_instance.addPet(pet);
 } catch (e) {
     print("Exception when calling PetApi->addPet: $e\n");
 }
@@ -44,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -70,7 +70,7 @@ Deletes a pet
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
 var petId = 789; // int | Pet id to delete
@@ -116,7 +116,7 @@ Multiple status values can be provided with comma separated strings
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
 var status = []; // List<String> | Status values that need to be considered for filter
@@ -151,7 +151,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByTags**
-> List<Pet> findPetsByTags(tags)
+> List<Pet> findPetsByTags(tags, maxCount)
 
 Finds Pets by tags
 
@@ -161,13 +161,14 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
 var tags = []; // List<String> | Tags to filter by
+var maxCount = 56; // int | Maximum number of items to return
 
 try { 
-    var result = api_instance.findPetsByTags(tags);
+    var result = api_instance.findPetsByTags(tags, maxCount);
     print(result);
 } catch (e) {
     print("Exception when calling PetApi->findPetsByTags: $e\n");
@@ -179,6 +180,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to []]
+ **maxCount** | **int**| Maximum number of items to return | [optional] [default to null]
 
 ### Return type
 
@@ -206,9 +208,9 @@ Returns a single pet
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure API key authorization: api_key
-//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
 var api_instance = new PetApi();
 var petId = 789; // int | ID of pet to return
@@ -243,7 +245,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePet**
-> updatePet(body)
+> updatePet(pet)
 
 Update an existing pet
 
@@ -251,13 +253,13 @@ Update an existing pet
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.updatePet(body);
+    api_instance.updatePet(pet);
 } catch (e) {
     print("Exception when calling PetApi->updatePet: $e\n");
 }
@@ -267,7 +269,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -293,7 +295,7 @@ Updates a pet in the store with form data
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
 var petId = 789; // int | ID of pet that needs to be updated
@@ -339,7 +341,7 @@ uploads an image
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
 var petId = 789; // int | ID of pet to update

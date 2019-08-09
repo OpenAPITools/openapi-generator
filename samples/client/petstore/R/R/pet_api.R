@@ -18,7 +18,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link[petstore:Pet]{ Pet }
+#' \item \emph{ @param } pet \link[petstore:Pet]{ Pet }
 #'
 #'
 #' \item status code : 405 | Invalid input
@@ -76,6 +76,7 @@
 #'
 #' \itemize{
 #' \item \emph{ @param } tags list( character )
+#' \item \emph{ @param } max.count integer
 #' \item \emph{ @returnType } \link[petstore:Pet]{ list(Pet) }   \cr
 #'
 #'
@@ -130,7 +131,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link[petstore:Pet]{ Pet }
+#' \item \emph{ @param } pet \link[petstore:Pet]{ Pet }
 #'
 #'
 #' \item status code : 400 | Invalid ID supplied
@@ -201,7 +202,7 @@
 #' ####################  AddPet  ####################
 #'
 #' library(petstore)
-#' var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var.pet <- Pet$new() # Pet | Pet object that needs to be added to the store
 #'
 #' #Add a new pet to the store
 #' api.instance <- PetApi$new()
@@ -209,7 +210,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$AddPet(var.body)
+#' result <- api.instance$AddPet(var.pet)
 #'
 #'
 #' ####################  DeletePet  ####################
@@ -245,6 +246,7 @@
 #'
 #' library(petstore)
 #' var.tags <- ['tags_example'] # array[character] | Tags to filter by
+#' var.max.count <- 56 # integer | Maximum number of items to return
 #'
 #' #Finds Pets by tags
 #' api.instance <- PetApi$new()
@@ -252,7 +254,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$FindPetsByTags(var.tags)
+#' result <- api.instance$FindPetsByTags(var.tags, max.count=var.max.count)
 #'
 #'
 #' ####################  GetPetById  ####################
@@ -272,7 +274,7 @@
 #' ####################  UpdatePet  ####################
 #'
 #' library(petstore)
-#' var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var.pet <- Pet$new() # Pet | Pet object that needs to be added to the store
 #'
 #' #Update an existing pet
 #' api.instance <- PetApi$new()
@@ -280,7 +282,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$UpdatePet(var.body)
+#' result <- api.instance$UpdatePet(var.pet)
 #'
 #'
 #' ####################  UpdatePetWithForm  ####################
@@ -331,8 +333,8 @@ PetApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    AddPet = function(body, ...){
-      apiResponse <- self$AddPetWithHttpInfo(body, ...)
+    AddPet = function(pet, ...){
+      apiResponse <- self$AddPetWithHttpInfo(pet, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -343,17 +345,17 @@ PetApi <- R6::R6Class(
       }
     },
 
-    AddPetWithHttpInfo = function(body, ...){
+    AddPetWithHttpInfo = function(pet, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`pet`)) {
+        stop("Missing required parameter `pet`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`pet`)) {
+        body <- `pet`$toJSONString()
       } else {
         body <- NULL
       }
@@ -471,8 +473,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    FindPetsByTags = function(tags, ...){
-      apiResponse <- self$FindPetsByTagsWithHttpInfo(tags, ...)
+    FindPetsByTags = function(tags, max.count=NULL, ...){
+      apiResponse <- self$FindPetsByTagsWithHttpInfo(tags, max.count, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -483,7 +485,7 @@ PetApi <- R6::R6Class(
       }
     },
 
-    FindPetsByTagsWithHttpInfo = function(tags, ...){
+    FindPetsByTagsWithHttpInfo = function(tags, max.count=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -493,6 +495,8 @@ PetApi <- R6::R6Class(
       }
 
       queryParams['tags'] <- tags
+
+      queryParams['maxCount'] <- max.count
 
       urlPath <- "/pet/findByTags"
       # OAuth token
@@ -571,8 +575,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    UpdatePet = function(body, ...){
-      apiResponse <- self$UpdatePetWithHttpInfo(body, ...)
+    UpdatePet = function(pet, ...){
+      apiResponse <- self$UpdatePetWithHttpInfo(pet, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -583,17 +587,17 @@ PetApi <- R6::R6Class(
       }
     },
 
-    UpdatePetWithHttpInfo = function(body, ...){
+    UpdatePetWithHttpInfo = function(pet, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`pet`)) {
+        stop("Missing required parameter `pet`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`pet`)) {
+        body <- `pet`$toJSONString()
       } else {
         body <- NULL
       }

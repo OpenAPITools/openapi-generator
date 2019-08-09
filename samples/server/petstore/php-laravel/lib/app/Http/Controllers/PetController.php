@@ -2,7 +2,7 @@
 
 /**
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -31,26 +31,6 @@ class PetController extends Controller
     }
 
     /**
-     * Operation uploadFileWithRequiredFile
-     *
-     * uploads an image (required).
-     *
-     * @param int $petId ID of pet to update (required)
-     *
-     * @return Http response
-     */
-    public function uploadFileWithRequiredFile($petId)
-    {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-
-        return response('How about implementing uploadFileWithRequiredFile as a post method ?');
-    }
-    /**
      * Operation addPet
      *
      * Add a new pet to the store.
@@ -66,10 +46,10 @@ class PetController extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling addPet');
+        if (!isset($input['pet'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet when calling addPet');
         }
-        $body = $input['body'];
+        $pet = $input['pet'];
 
 
         return response('How about implementing addPet as a post method ?');
@@ -90,10 +70,10 @@ class PetController extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling updatePet');
+        if (!isset($input['pet'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet when calling updatePet');
         }
-        $body = $input['body'];
+        $pet = $input['pet'];
 
 
         return response('How about implementing updatePet as a put method ?');
@@ -142,6 +122,8 @@ class PetController extends Controller
             throw new \InvalidArgumentException('Missing the required parameter $tags when calling findPetsByTags');
         }
         $tags = $input['tags'];
+
+        $maxCount = $input['maxCount'];
 
 
         return response('How about implementing findPetsByTags as a get method ?');

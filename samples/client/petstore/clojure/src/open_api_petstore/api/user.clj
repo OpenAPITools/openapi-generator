@@ -3,10 +3,12 @@
             [clojure.spec.alpha :as s]
             [spec-tools.core :as st]
             [orchestra.core :refer [defn-spec]]
+            [open-api-petstore.specs.inline-object :refer :all]
             [open-api-petstore.specs.tag :refer :all]
             [open-api-petstore.specs.category :refer :all]
             [open-api-petstore.specs.user :refer :all]
             [open-api-petstore.specs.pet :refer :all]
+            [open-api-petstore.specs.inline-object-1 :refer :all]
             [open-api-petstore.specs.order :refer :all]
             )
   (:import (java.io File)))
@@ -23,7 +25,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    user
-              :content-types []
+              :content-types ["application/json"]
               :accepts       []
               :auth-names    []})))
 
@@ -48,7 +50,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    user
-              :content-types []
+              :content-types ["application/json"]
               :accepts       []
               :auth-names    []})))
 
@@ -72,7 +74,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    user
-              :content-types []
+              :content-types ["application/json"]
               :accepts       []
               :auth-names    []})))
 
@@ -188,7 +190,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    user
-              :content-types []
+              :content-types ["application/json"]
               :accepts       []
               :auth-names    []})))
 

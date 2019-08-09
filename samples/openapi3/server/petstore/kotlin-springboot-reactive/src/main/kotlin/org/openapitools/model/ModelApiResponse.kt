@@ -20,13 +20,13 @@ import io.swagger.annotations.ApiModelProperty
 data class ModelApiResponse (
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("code") val code: Int? = null,
+        @JsonProperty("code") val code: kotlin.Int? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("type") val type: String? = null,
+        @JsonProperty("type") val type: kotlin.String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("message") val message: String? = null
+        @JsonProperty("message") val message: kotlin.String? = null
 ) {
 
 }

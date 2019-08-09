@@ -12,7 +12,7 @@
 
 from setuptools import setup, find_packages  # noqa: H301
 
-NAME = "petstore-api"
+NAME = "openapi-client"
 VERSION = "1.0.0"
 # To install the library, run the following
 #

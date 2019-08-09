@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **createUser**
 ```objc
--(NSURLSessionTask*) createUserWithUser: (SWGUser*) user
+-(NSURLSessionTask*) createUserWithBody: (SWGUser*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -27,12 +27,12 @@ This can only be done by the logged in user.
 ### Example 
 ```objc
 
-SWGUser* user = [[SWGUser alloc] init]; // Created user object (optional)
+SWGUser* body = [[SWGUser alloc] init]; // Created user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 // Create user
-[apiInstance createUserWithUser:user
+[apiInstance createUserWithBody:body
           completionHandler: ^(NSError* error) {
                         if (error) {
                             NSLog(@"Error calling SWGUserApi->createUser: %@", error);
@@ -44,7 +44,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**SWGUser***](SWGUser.md)| Created user object | [optional] 
+ **body** | [**SWGUser***](SWGUser.md)| Created user object | [optional] 
 
 ### Return type
 
@@ -63,7 +63,7 @@ No authorization required
 
 # **createUsersWithArrayInput**
 ```objc
--(NSURLSessionTask*) createUsersWithArrayInputWithUser: (NSArray<SWGUser>*) user
+-(NSURLSessionTask*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -72,12 +72,12 @@ Creates list of users with given input array
 ### Example 
 ```objc
 
-NSArray<SWGUser>* user = @[[[NSArray alloc] init]]; // List of user object (optional)
+NSArray<SWGUser>* body = @[[[SWGUser alloc] init]]; // List of user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 // Creates list of users with given input array
-[apiInstance createUsersWithArrayInputWithUser:user
+[apiInstance createUsersWithArrayInputWithBody:body
           completionHandler: ^(NSError* error) {
                         if (error) {
                             NSLog(@"Error calling SWGUserApi->createUsersWithArrayInput: %@", error);
@@ -89,7 +89,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**NSArray&lt;SWGUser&gt;***](NSArray.md)| List of user object | [optional] 
+ **body** | [**NSArray&lt;SWGUser&gt;***](SWGUser.md)| List of user object | [optional] 
 
 ### Return type
 
@@ -108,7 +108,7 @@ No authorization required
 
 # **createUsersWithListInput**
 ```objc
--(NSURLSessionTask*) createUsersWithListInputWithUser: (NSArray<SWGUser>*) user
+-(NSURLSessionTask*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -117,12 +117,12 @@ Creates list of users with given input array
 ### Example 
 ```objc
 
-NSArray<SWGUser>* user = @[[[NSArray alloc] init]]; // List of user object (optional)
+NSArray<SWGUser>* body = @[[[SWGUser alloc] init]]; // List of user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 // Creates list of users with given input array
-[apiInstance createUsersWithListInputWithUser:user
+[apiInstance createUsersWithListInputWithBody:body
           completionHandler: ^(NSError* error) {
                         if (error) {
                             NSLog(@"Error calling SWGUserApi->createUsersWithListInput: %@", error);
@@ -134,7 +134,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**NSArray&lt;SWGUser&gt;***](NSArray.md)| List of user object | [optional] 
+ **body** | [**NSArray&lt;SWGUser&gt;***](SWGUser.md)| List of user object | [optional] 
 
 ### Return type
 
@@ -342,7 +342,7 @@ No authorization required
 # **updateUser**
 ```objc
 -(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
-    user: (SWGUser*) user
+    body: (SWGUser*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -354,13 +354,13 @@ This can only be done by the logged in user.
 ```objc
 
 NSString* username = @"username_example"; // name that need to be deleted
-SWGUser* user = [[SWGUser alloc] init]; // Updated user object (optional)
+SWGUser* body = [[SWGUser alloc] init]; // Updated user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 // Updated user
 [apiInstance updateUserWithUsername:username
-              user:user
+              body:body
           completionHandler: ^(NSError* error) {
                         if (error) {
                             NSLog(@"Error calling SWGUserApi->updateUser: %@", error);
@@ -373,7 +373,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **NSString***| name that need to be deleted | 
- **user** | [**SWGUser***](SWGUser.md)| Updated user object | [optional] 
+ **body** | [**SWGUser***](SWGUser.md)| Updated user object | [optional] 
 
 ### Return type
 

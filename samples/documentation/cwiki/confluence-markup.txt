@@ -21,7 +21,7 @@ h2. Endpoints
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |pet |Pet object that needs to be added to the store |(/) | |  |
+        |body |Pet object that needs to be added to the store |(/) | |  |
 
 
 
@@ -325,7 +325,7 @@ Pet
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |pet |Pet object that needs to be added to the store |(/) | |  |
+        |body |Pet object that needs to be added to the store |(/) | |  |
 
 
 
@@ -657,7 +657,7 @@ Order
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |order |order placed for purchasing the pet |(/) | |  |
+        |body |order placed for purchasing the pet |(/) | |  |
 
 
 
@@ -722,7 +722,7 @@ Order
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |user |Created user object |(/) | |  |
+        |body |Created user object |(/) | |  |
 
 
 
@@ -761,7 +761,7 @@ Order
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |user |List of user object |(/) | |  |
+        |body |List of user object |(/) | |  |
 
 
 
@@ -800,7 +800,7 @@ Order
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |user |List of user object |(/) | |  |
+        |body |List of user object |(/) | |  |
 
 
 
@@ -1095,7 +1095,7 @@ String
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |user |Updated user object |(/) | |  |
+        |body |Updated user object |(/) | |  |
 
 
 

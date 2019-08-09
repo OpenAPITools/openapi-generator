@@ -39,7 +39,7 @@ public interface PetApi  {
     @ApiOperation(value = "Add a new pet to the store", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
-    public void addPet(Pet body);
+    public void addPet(Pet pet);
 
     /**
      * Deletes a pet
@@ -80,7 +80,7 @@ public interface PetApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid tag value") })
-    public List<Pet> findPetsByTags(@QueryParam("tags") List<String> tags);
+    public List<Pet> findPetsByTags(@QueryParam("tags") List<String> tags, @QueryParam("maxCount") Integer maxCount);
 
     /**
      * Find pet by ID
@@ -110,7 +110,7 @@ public interface PetApi  {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    public void updatePet(Pet body);
+    public void updatePet(Pet pet);
 
     /**
      * Updates a pet in the store with form data

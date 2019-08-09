@@ -33,7 +33,8 @@ request_params('FindPetsByStatus') ->
 
 request_params('FindPetsByTags') ->
     [
-        'tags'
+        'tags',
+        'maxCount'
     ];
 
 request_params('GetPetById') ->
@@ -196,6 +197,15 @@ request_param_info('FindPetsByTags', 'tags') ->
         ]
     };
 
+request_param_info('FindPetsByTags', 'maxCount') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'integer'},
+            not_required
+        ]
+    };
+
 request_param_info('GetPetById', 'petId') ->
     #{
         source =>  binding ,
@@ -349,6 +359,7 @@ request_param_info('LoginUser', 'username') ->
         source => qs_val  ,
         rules => [
             {type, 'binary'},
+            {pattern, "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/" },
             required
         ]
     };

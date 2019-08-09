@@ -514,7 +514,7 @@ static bool findPetsByTagsProcessor(MemoryStruct_s p_chunk, long code, char* err
 }
 
 static bool findPetsByTagsHelper(char * accessToken,
-	std::list<std::string> tags, 
+	std::list<std::string> tags, int maxCount, 
 	void(* handler)(std::list<Pet>, Error, void* )
 	, void* userData, bool isAsync)
 {
@@ -537,6 +537,13 @@ static bool findPetsByTagsHelper(char * accessToken,
 		queryParams.insert(pair<string, string>("tags", itemAt));
 	}
 	
+
+	itemAtq = stringify(&maxCount, "int");
+	queryParams.insert(pair<string, string>("maxCount", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("maxCount");
+	}
+
 	string mBody = "";
 	JsonNode* node;
 	JsonArray* json_array;
@@ -591,22 +598,22 @@ static bool findPetsByTagsHelper(char * accessToken,
 
 
 bool PetManager::findPetsByTagsAsync(char * accessToken,
-	std::list<std::string> tags, 
+	std::list<std::string> tags, int maxCount, 
 	void(* handler)(std::list<Pet>, Error, void* )
 	, void* userData)
 {
 	return findPetsByTagsHelper(accessToken,
-	tags, 
+	tags, maxCount, 
 	handler, userData, true);
 }
 
 bool PetManager::findPetsByTagsSync(char * accessToken,
-	std::list<std::string> tags, 
+	std::list<std::string> tags, int maxCount, 
 	void(* handler)(std::list<Pet>, Error, void* )
 	, void* userData)
 {
 	return findPetsByTagsHelper(accessToken,
-	tags, 
+	tags, maxCount, 
 	handler, userData, false);
 }
 

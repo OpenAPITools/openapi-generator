@@ -61,8 +61,8 @@ initial_state() -> #{}.
 %% create_user
 %%==============================================================================
 
-create_user(PetstoreUser) ->
-  petstore_api:create_user(PetstoreUser).
+create_user(Body) ->
+  petstore_api:create_user(Body).
 
 create_user_args(_S) ->
   [petstore_user:petstore_user()].
@@ -71,8 +71,8 @@ create_user_args(_S) ->
 %% create_users_with_array_input
 %%==============================================================================
 
-create_users_with_array_input(PetstoreUserArray) ->
-  petstore_api:create_users_with_array_input(PetstoreUserArray).
+create_users_with_array_input(Body) ->
+  petstore_api:create_users_with_array_input(Body).
 
 create_users_with_array_input_args(_S) ->
   [list(petstore_user:petstore_user())].
@@ -81,8 +81,8 @@ create_users_with_array_input_args(_S) ->
 %% create_users_with_list_input
 %%==============================================================================
 
-create_users_with_list_input(PetstoreUserArray) ->
-  petstore_api:create_users_with_list_input(PetstoreUserArray).
+create_users_with_list_input(Body) ->
+  petstore_api:create_users_with_list_input(Body).
 
 create_users_with_list_input_args(_S) ->
   [list(petstore_user:petstore_user())].
@@ -131,8 +131,8 @@ logout_user_args(_S) ->
 %% update_user
 %%==============================================================================
 
-update_user(Username, PetstoreUser) ->
-  petstore_api:update_user(Username, PetstoreUser).
+update_user(Username, Body) ->
+  petstore_api:update_user(Username, Body).
 
 update_user_args(_S) ->
   [binary(), petstore_user:petstore_user()].

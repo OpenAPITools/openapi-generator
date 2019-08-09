@@ -65,8 +65,8 @@ private:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="body">Pet object that needs to be added to the store</param>
-    virtual void add_pet(const Pet &body, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="pet">Pet object that needs to be added to the store</param>
+    virtual void add_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Deletes a pet
@@ -94,7 +94,8 @@ private:
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     /// </remarks>
     /// <param name="tags">Tags to filter by</param>
-    virtual void find_pets_by_tags(const Pistache::Optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="maxCount">Maximum number of items to return (optional, default to 0)</param>
+    virtual void find_pets_by_tags(const Pistache::Optional<std::vector<std::string>> &tags, const Pistache::Optional<int32_t> &maxCount, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Find pet by ID
@@ -111,8 +112,8 @@ private:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="body">Pet object that needs to be added to the store</param>
-    virtual void update_pet(const Pet &body, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="pet">Pet object that needs to be added to the store</param>
+    virtual void update_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Updates a pet in the store with form data

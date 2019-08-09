@@ -29,22 +29,22 @@ export class PetApi {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public addPet (body: models.Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+    public addPet (pet: models.Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/pet';
 
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addPet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
 
         let httpRequestParams: ng.IRequestConfig = {
             method: 'POST',
             url: localVarPath,
-            data: body,
+            data: pet,
             params: queryParameters,
             headers: headerParams
         };
@@ -123,8 +123,9 @@ export class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @summary Finds Pets by tags
      * @param tags Tags to filter by
+     * @param maxCount Maximum number of items to return
      */
-    public findPetsByTags (tags: Array<string>, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<models.Pet>> {
+    public findPetsByTags (tags: Array<string>, maxCount?: number, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<models.Pet>> {
         const localVarPath = this.basePath + '/pet/findByTags';
 
         let queryParameters: any = {};
@@ -136,6 +137,10 @@ export class PetApi {
 
         if (tags !== undefined) {
             queryParameters['tags'] = tags;
+        }
+
+        if (maxCount !== undefined) {
+            queryParameters['maxCount'] = maxCount;
         }
 
         let httpRequestParams: ng.IRequestConfig = {
@@ -183,22 +188,22 @@ export class PetApi {
     /**
      * 
      * @summary Update an existing pet
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public updatePet (body: models.Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+    public updatePet (pet: models.Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/pet';
 
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updatePet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
 
         let httpRequestParams: ng.IRequestConfig = {
             method: 'PUT',
             url: localVarPath,
-            data: body,
+            data: pet,
             params: queryParameters,
             headers: headerParams
         };

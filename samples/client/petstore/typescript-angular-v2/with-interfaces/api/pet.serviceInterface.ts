@@ -28,9 +28,9 @@ export interface PetServiceInterface {
     /**
     * Add a new pet to the store
     * 
-    * @param body Pet object that needs to be added to the store
+    * @param pet Pet object that needs to be added to the store
     */
-    addPet(body: Pet, extraHttpRequestParams?: any): Observable<{}>;
+    addPet(pet: Pet, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
     * Deletes a pet
@@ -51,8 +51,9 @@ export interface PetServiceInterface {
     * Finds Pets by tags
     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     * @param tags Tags to filter by
+    * @param maxCount Maximum number of items to return
     */
-    findPetsByTags(tags: Array<string>, extraHttpRequestParams?: any): Observable<Array<Pet>>;
+    findPetsByTags(tags: Array<string>, maxCount?: number, extraHttpRequestParams?: any): Observable<Array<Pet>>;
 
     /**
     * Find pet by ID
@@ -64,9 +65,9 @@ export interface PetServiceInterface {
     /**
     * Update an existing pet
     * 
-    * @param body Pet object that needs to be added to the store
+    * @param pet Pet object that needs to be added to the store
     */
-    updatePet(body: Pet, extraHttpRequestParams?: any): Observable<{}>;
+    updatePet(pet: Pet, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
     * Updates a pet in the store with form data

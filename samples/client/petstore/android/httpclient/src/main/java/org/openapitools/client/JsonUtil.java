@@ -42,6 +42,14 @@ public class JsonUtil {
       return new TypeToken<List<Category>>(){}.getType();
     }
     
+    if ("InlineObject".equalsIgnoreCase(className)) {
+      return new TypeToken<List<InlineObject>>(){}.getType();
+    }
+    
+    if ("InlineObject1".equalsIgnoreCase(className)) {
+      return new TypeToken<List<InlineObject1>>(){}.getType();
+    }
+    
     if ("Order".equalsIgnoreCase(className)) {
       return new TypeToken<List<Order>>(){}.getType();
     }
@@ -70,6 +78,14 @@ public class JsonUtil {
     
     if ("Category".equalsIgnoreCase(className)) {
       return new TypeToken<Category>(){}.getType();
+    }
+    
+    if ("InlineObject".equalsIgnoreCase(className)) {
+      return new TypeToken<InlineObject>(){}.getType();
+    }
+    
+    if ("InlineObject1".equalsIgnoreCase(className)) {
+      return new TypeToken<InlineObject1>(){}.getType();
     }
     
     if ("Order".equalsIgnoreCase(className)) {

@@ -63,10 +63,10 @@ export class PetService {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public addPet(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
-        return this.addPetWithHttpInfo(body, extraHttpRequestParams)
+    public addPet(pet: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
+        return this.addPetWithHttpInfo(pet, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -113,9 +113,10 @@ export class PetService {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @summary Finds Pets by tags
      * @param tags Tags to filter by
+     * @param maxCount Maximum number of items to return
      */
-    public findPetsByTags(tags: Array<string>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Array<Pet>> {
-        return this.findPetsByTagsWithHttpInfo(tags, extraHttpRequestParams)
+    public findPetsByTags(tags: Array<string>, maxCount?: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Array<Pet>> {
+        return this.findPetsByTagsWithHttpInfo(tags, maxCount, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -144,10 +145,10 @@ export class PetService {
     /**
      * 
      * @summary Update an existing pet
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public updatePet(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
-        return this.updatePetWithHttpInfo(body, extraHttpRequestParams)
+    public updatePet(pet: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
+        return this.updatePetWithHttpInfo(pet, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -197,12 +198,12 @@ export class PetService {
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      
      */
-    public addPetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addPet.');
+    public addPetWithHttpInfo(pet: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -236,7 +237,7 @@ export class PetService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            body: pet == null ? '' : JSON.stringify(pet), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -355,9 +356,10 @@ export class PetService {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
+     * @param maxCount Maximum number of items to return
      
      */
-    public findPetsByTagsWithHttpInfo(tags: Array<string>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public findPetsByTagsWithHttpInfo(tags: Array<string>, maxCount?: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
@@ -365,6 +367,9 @@ export class PetService {
         let queryParameters = new URLSearchParams('', this.encoder);
         if (tags) {
             queryParameters.set('tags', tags.join(COLLECTION_FORMATS['csv']));
+        }
+        if (maxCount !== undefined && maxCount !== null) {
+            queryParameters.set('maxCount', <any>maxCount);
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -453,12 +458,12 @@ export class PetService {
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      
      */
-    public updatePetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updatePet.');
+    public updatePetWithHttpInfo(pet: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -492,7 +497,7 @@ export class PetService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Put,
             headers: headers,
-            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            body: pet == null ? '' : JSON.stringify(pet), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037

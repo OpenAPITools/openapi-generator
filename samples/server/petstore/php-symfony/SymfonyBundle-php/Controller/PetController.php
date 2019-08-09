@@ -74,13 +74,13 @@ class PetController extends Controller
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $pet = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
-            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+            $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -90,7 +90,7 @@ class PetController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($pet, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -105,7 +105,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->addPet($body, $responseCode, $responseHeaders);
+            $result = $handler->addPet($pet, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -329,12 +329,14 @@ class PetController extends Controller
 
         // Read out all input parameter values into variables
         $tags = $request->query->get('tags');
+        $maxCount = $request->query->get('maxCount');
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
             $tags = $this->deserialize($tags, 'array<csv,string>', 'string');
+            $maxCount = $this->deserialize($maxCount, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -349,6 +351,12 @@ class PetController extends Controller
         if ($response instanceof Response) {
             return $response;
         }
+        $asserts = [];
+        $asserts[] = new Assert\Type("int");
+        $response = $this->validate($maxCount, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
 
 
         try {
@@ -360,7 +368,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->findPetsByTags($tags, $responseCode, $responseHeaders);
+            $result = $handler->findPetsByTags($tags, $maxCount, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -503,13 +511,13 @@ class PetController extends Controller
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $pet = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
-            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+            $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -519,7 +527,7 @@ class PetController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($pet, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -534,7 +542,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updatePet($body, $responseCode, $responseHeaders);
+            $result = $handler->updatePet($pet, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';

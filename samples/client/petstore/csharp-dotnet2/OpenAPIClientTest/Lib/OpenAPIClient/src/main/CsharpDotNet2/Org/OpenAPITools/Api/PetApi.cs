@@ -14,9 +14,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void AddPet (Pet body);
+        void AddPet (Pet pet);
         /// <summary>
         /// Deletes a pet 
         /// </summary>
@@ -34,8 +34,9 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
         /// <param name="tags">Tags to filter by</param>
+        /// <param name="maxCount">Maximum number of items to return</param>
         /// <returns>List&lt;Pet&gt;</returns>
-        List<Pet> FindPetsByTags (List<string> tags);
+        List<Pet> FindPetsByTags (List<string> tags, int? maxCount);
         /// <summary>
         /// Find pet by ID Returns a single pet
         /// </summary>
@@ -45,9 +46,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Update an existing pet 
         /// </summary>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void UpdatePet (Pet body);
+        void UpdatePet (Pet pet);
         /// <summary>
         /// Updates a pet in the store with form data 
         /// </summary>
@@ -122,13 +123,13 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
-        /// <param name="body">Pet object that needs to be added to the store</param> 
+        /// <param name="pet">Pet object that needs to be added to the store</param> 
         /// <returns></returns>            
-        public void AddPet (Pet body)
+        public void AddPet (Pet pet)
         {
             
-            // verify the required parameter 'body' is set
-            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling AddPet");
+            // verify the required parameter 'pet' is set
+            if (pet == null) throw new ApiException(400, "Missing required parameter 'pet' when calling AddPet");
             
     
             var path = "/pet";
@@ -140,7 +141,7 @@ namespace Org.OpenAPITools.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(pet); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] { "petstore_auth" };
@@ -236,8 +237,9 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
         /// <param name="tags">Tags to filter by</param> 
+        /// <param name="maxCount">Maximum number of items to return</param> 
         /// <returns>List&lt;Pet&gt;</returns>            
-        public List<Pet> FindPetsByTags (List<string> tags)
+        public List<Pet> FindPetsByTags (List<string> tags, int? maxCount)
         {
             
             // verify the required parameter 'tags' is set
@@ -254,6 +256,7 @@ namespace Org.OpenAPITools.Api
             String postBody = null;
     
              if (tags != null) queryParams.Add("tags", ApiClient.ParameterToString(tags)); // query parameter
+ if (maxCount != null) queryParams.Add("maxCount", ApiClient.ParameterToString(maxCount)); // query parameter
                                         
             // authentication setting, if any
             String[] authSettings = new String[] { "petstore_auth" };
@@ -309,13 +312,13 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Update an existing pet 
         /// </summary>
-        /// <param name="body">Pet object that needs to be added to the store</param> 
+        /// <param name="pet">Pet object that needs to be added to the store</param> 
         /// <returns></returns>            
-        public void UpdatePet (Pet body)
+        public void UpdatePet (Pet pet)
         {
             
-            // verify the required parameter 'body' is set
-            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling UpdatePet");
+            // verify the required parameter 'pet' is set
+            if (pet == null) throw new ApiException(400, "Missing required parameter 'pet' when calling UpdatePet");
             
     
             var path = "/pet";
@@ -327,7 +330,7 @@ namespace Org.OpenAPITools.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(pet); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] { "petstore_auth" };

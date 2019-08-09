@@ -31,22 +31,22 @@ impl<C: hyper::client::Connect> PetApiClient<C> {
 }
 
 pub trait PetApi {
-    fn add_pet(&self, body: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn add_pet(&self, pet: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn delete_pet(&self, pet_id: i64, api_key: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn find_pets_by_status(&self, status: Vec<String>) -> Box<Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>>;
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>>;
+    fn find_pets_by_tags(&self, tags: Vec<String>, max_count: i32) -> Box<Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>>;
     fn get_pet_by_id(&self, pet_id: i64) -> Box<Future<Item = crate::models::Pet, Error = Error<serde_json::Value>>>;
-    fn update_pet(&self, body: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn update_pet(&self, pet: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Box<Future<Item = crate::models::ApiResponse, Error = Error<serde_json::Value>>>;
 }
 
 
 impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
-    fn add_pet(&self, body: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn add_pet(&self, pet: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         __internal_request::Request::new(hyper::Method::Post, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_body_param(body)
+            .with_body_param(pet)
             .returns_nothing()
             .execute(self.configuration.borrow())
     }
@@ -67,10 +67,11 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
             .execute(self.configuration.borrow())
     }
 
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>> {
+    fn find_pets_by_tags(&self, tags: Vec<String>, max_count: i32) -> Box<Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>> {
         __internal_request::Request::new(hyper::Method::Get, "/pet/findByTags".to_string())
             .with_auth(__internal_request::Auth::Oauth)
             .with_query_param("tags".to_string(), tags.join(",").to_string())
+            .with_query_param("maxCount".to_string(), max_count.to_string())
             .execute(self.configuration.borrow())
     }
 
@@ -85,10 +86,10 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
             .execute(self.configuration.borrow())
     }
 
-    fn update_pet(&self, body: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn update_pet(&self, pet: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         __internal_request::Request::new(hyper::Method::Put, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_body_param(body)
+            .with_body_param(pet)
             .returns_nothing()
             .execute(self.configuration.borrow())
     }

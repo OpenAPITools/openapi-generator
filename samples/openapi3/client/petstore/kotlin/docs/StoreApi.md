@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **kotlin.String**| ID of the order that needs to be deleted | [default to null]
+ **orderId** | **kotlin.String**| ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -131,7 +131,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **kotlin.Long**| ID of pet that needs to be fetched | [default to null]
+ **orderId** | **kotlin.Long**| ID of pet that needs to be fetched |
 
 ### Return type
 

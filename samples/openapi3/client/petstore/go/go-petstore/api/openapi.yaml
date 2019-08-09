@@ -1682,6 +1682,7 @@ components:
       - placed
       - approved
       - delivered
+      nullable: true
       type: string
     OuterEnumInteger:
       enum:

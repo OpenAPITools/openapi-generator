@@ -10,18 +10,19 @@ class QueryParam {
 class ApiClient {
 
   String basePath;
-  var client = new Client();
+  var client = Client();
 
   Map<String, String> _defaultHeaderMap = {};
   Map<String, Authentication> _authentications = {};
 
-  final _RegList = new RegExp(r'^List<(.*)>$');
-  final _RegMap = new RegExp(r'^Map<String,(.*)>$');
+  final _regList = RegExp(r'^List<(.*)>$');
+  final _regMap = RegExp(r'^Map<String,(.*)>$');
 
-  ApiClient({this.basePath: "http://petstore.swagger.io/v2"}) {
+  ApiClient({this.basePath = "http://petstore.swagger.io/v2"}) {
     // Setup authentications (key: authentication name, value: authentication).
-    _authentications['api_key'] = new ApiKeyAuth("header", "api_key");
-    _authentications['petstore_auth'] = new OAuth();
+    _authentications['api_key'] = ApiKeyAuth("header", "api_key");
+    _authentications['auth_cookie'] = ApiKeyAuth("query", "AUTH_KEY");
+    _authentications['petstore_auth'] = OAuth();
   }
 
   void addDefaultHeader(String key, String value) {
@@ -40,36 +41,40 @@ class ApiClient {
         case 'double':
           return value is double ? value : double.parse('$value');
         case 'ApiResponse':
-          return new ApiResponse.fromJson(value);
+          return ApiResponse.fromJson(value);
         case 'Category':
-          return new Category.fromJson(value);
+          return Category.fromJson(value);
+        case 'InlineObject':
+          return InlineObject.fromJson(value);
+        case 'InlineObject1':
+          return InlineObject1.fromJson(value);
         case 'Order':
-          return new Order.fromJson(value);
+          return Order.fromJson(value);
         case 'Pet':
-          return new Pet.fromJson(value);
+          return Pet.fromJson(value);
         case 'Tag':
-          return new Tag.fromJson(value);
+          return Tag.fromJson(value);
         case 'User':
-          return new User.fromJson(value);
+          return User.fromJson(value);
         default:
           {
             Match match;
             if (value is List &&
-                (match = _RegList.firstMatch(targetType)) != null) {
+                (match = _regList.firstMatch(targetType)) != null) {
               var newTargetType = match[1];
               return value.map((v) => _deserialize(v, newTargetType)).toList();
             } else if (value is Map &&
-                (match = _RegMap.firstMatch(targetType)) != null) {
+                (match = _regMap.firstMatch(targetType)) != null) {
               var newTargetType = match[1];
-              return new Map.fromIterables(value.keys,
+              return Map.fromIterables(value.keys,
                   value.values.map((v) => _deserialize(v, newTargetType)));
             }
           }
       }
-    } catch (e, stack) {
-      throw new ApiException.withInner(500, 'Exception during deserialization.', e, stack);
+    } on Exception catch (e, stack) {
+      throw ApiException.withInner(500, 'Exception during deserialization.', e, stack);
     }
-    throw new ApiException(500, 'Could not find a suitable class for deserialization');
+    throw ApiException(500, 'Could not find a suitable class for deserialization');
   }
 
   dynamic deserialize(String json, String targetType) {
@@ -78,7 +83,7 @@ class ApiClient {
 
     if (targetType == 'String') return json;
 
-    var decodedJson = JSON.decode(json);
+    var decodedJson = jsonDecode(json);
     return _deserialize(decodedJson, targetType);
   }
 
@@ -87,7 +92,7 @@ class ApiClient {
     if (obj == null) {
       serialized = '';
     } else {
-      serialized = JSON.encode(obj);
+      serialized = json.encode(obj);
     }
     return serialized;
   }
@@ -119,7 +124,7 @@ class ApiClient {
     headerParams['Content-Type'] = contentType;
 
     if(body is MultipartRequest) {
-      var request = new MultipartRequest(method, Uri.parse(url));
+      var request = MultipartRequest(method, Uri.parse(url));
       request.fields.addAll(body.fields);
       request.files.addAll(body.files);
       request.headers.addAll(body.headers);
@@ -148,16 +153,14 @@ class ApiClient {
   void _updateParamsForAuth(List<String> authNames, List<QueryParam> queryParams, Map<String, String> headerParams) {
     authNames.forEach((authName) {
       Authentication auth = _authentications[authName];
-      if (auth == null) throw new ArgumentError("Authentication undefined: " + authName);
+      if (auth == null) throw ArgumentError("Authentication undefined: " + authName);
       auth.applyToParams(queryParams, headerParams);
     });
   }
 
-  void setAccessToken(String accessToken) {
-    _authentications.forEach((key, auth) {
-      if (auth is OAuth) {
-        auth.setAccessToken(accessToken);
-      }
-    });
+  T getAuthentication<T extends Authentication>(String name) {
+    var authentication = _authentications[name];
+
+    return authentication is T ? authentication : null;
   }
 }

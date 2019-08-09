@@ -53,12 +53,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(body);
+                apiInstance.AddPet(pet);
             }
             catch (Exception e)
             {
@@ -103,6 +103,8 @@ Class | Method | HTTP request | Description
 
  - [Org.OpenAPITools.Model.ApiResponse](docs/ApiResponse.md)
  - [Org.OpenAPITools.Model.Category](docs/Category.md)
+ - [Org.OpenAPITools.Model.InlineObject](docs/InlineObject.md)
+ - [Org.OpenAPITools.Model.InlineObject1](docs/InlineObject1.md)
  - [Org.OpenAPITools.Model.Order](docs/Order.md)
  - [Org.OpenAPITools.Model.Pet](docs/Pet.md)
  - [Org.OpenAPITools.Model.Tag](docs/Tag.md)
@@ -118,6 +120,13 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+<a name="auth_cookie"></a>
+### auth_cookie
+
+- **Type**: API key
+- **API key parameter name**: AUTH_KEY
+- **Location**: 
 
 <a name="petstore_auth"></a>
 ### petstore_auth

@@ -26,6 +26,7 @@ $app->GET('/v2/pet/findByStatus', function(Application $app, Request $request) {
 
 $app->GET('/v2/pet/findByTags', function(Application $app, Request $request) {
             $tags = $request->get('tags');
+            $max_count = $request->get('max_count');
             return new Response('How about implementing findPetsByTags as a GET method ?');
             });
 

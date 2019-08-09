@@ -2,8 +2,8 @@
 
 ## Requires
 
-* Kotlin 1.1.2
-* Gradle 3.3
+* Kotlin 1.3.31
+* Gradle 4.9
 
 ## Build
 
@@ -85,10 +85,12 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.ArrayTest](docs/ArrayTest.md)
  - [org.openapitools.client.models.Capitalization](docs/Capitalization.md)
  - [org.openapitools.client.models.Cat](docs/Cat.md)
+ - [org.openapitools.client.models.CatAllOf](docs/CatAllOf.md)
  - [org.openapitools.client.models.Category](docs/Category.md)
  - [org.openapitools.client.models.ClassModel](docs/ClassModel.md)
  - [org.openapitools.client.models.Client](docs/Client.md)
  - [org.openapitools.client.models.Dog](docs/Dog.md)
+ - [org.openapitools.client.models.DogAllOf](docs/DogAllOf.md)
  - [org.openapitools.client.models.EnumArrays](docs/EnumArrays.md)
  - [org.openapitools.client.models.EnumClass](docs/EnumClass.md)
  - [org.openapitools.client.models.EnumTest](docs/EnumTest.md)
@@ -109,6 +111,7 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [org.openapitools.client.models.Model200Response](docs/Model200Response.md)
  - [org.openapitools.client.models.Name](docs/Name.md)
+ - [org.openapitools.client.models.NullableClass](docs/NullableClass.md)
  - [org.openapitools.client.models.NumberOnly](docs/NumberOnly.md)
  - [org.openapitools.client.models.Order](docs/Order.md)
  - [org.openapitools.client.models.OuterComposite](docs/OuterComposite.md)

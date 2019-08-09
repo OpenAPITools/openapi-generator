@@ -87,7 +87,7 @@ find_pets_by_tags(Ctx, Tags, Optional) ->
 
     Method = get,
     Path = ["/pet/findByTags"],
-    QS = lists:flatten([[{<<"tags">>, X} || X <- Tags]])++petstore_utils:optional_params([], _OptionalParams),
+    QS = lists:flatten([[{<<"tags">>, X} || X <- Tags]])++petstore_utils:optional_params(['maxCount'], _OptionalParams),
     Headers = [],
     Body1 = [],
     ContentTypeHeader = petstore_utils:select_header_content_type([]),

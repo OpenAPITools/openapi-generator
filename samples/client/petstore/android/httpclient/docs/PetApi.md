@@ -14,13 +14,15 @@ Method | HTTP request | Description
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
-<a name="addPet"></a>
-# **addPet**
+
+## addPet
+
 > addPet(pet)
 
 Add a new pet to the store
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.PetApi;
@@ -37,6 +39,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
@@ -51,16 +54,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
-<a name="deletePet"></a>
-# **deletePet**
+
+## deletePet
+
 > deletePet(petId, apiKey)
 
 Deletes a pet
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.PetApi;
@@ -78,6 +83,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| Pet id to delete | [default to null]
@@ -93,11 +99,12 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
-# **findPetsByStatus**
+
+## findPetsByStatus
+
 > List&lt;Pet&gt; findPetsByStatus(status)
 
 Finds Pets by status
@@ -105,6 +112,7 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.PetApi;
@@ -122,6 +130,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold]
@@ -136,26 +145,29 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="findPetsByTags"></a>
-# **findPetsByTags**
-> List&lt;Pet&gt; findPetsByTags(tags)
+
+## findPetsByTags
+
+> List&lt;Pet&gt; findPetsByTags(tags, maxCount)
 
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
 List<String> tags = null; // List<String> | Tags to filter by
+Integer maxCount = null; // Integer | Maximum number of items to return
 try {
-    List<Pet> result = apiInstance.findPetsByTags(tags);
+    List<Pet> result = apiInstance.findPetsByTags(tags, maxCount);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -165,9 +177,11 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to null]
+ **maxCount** | **Integer**| Maximum number of items to return | [optional] [default to null]
 
 ### Return type
 
@@ -179,11 +193,12 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="getPetById"></a>
-# **getPetById**
+
+## getPetById
+
 > Pet getPetById(petId)
 
 Find pet by ID
@@ -191,6 +206,7 @@ Find pet by ID
 Returns a single pet
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.PetApi;
@@ -208,6 +224,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to return | [default to null]
@@ -222,16 +239,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="updatePet"></a>
-# **updatePet**
+
+## updatePet
+
 > updatePet(pet)
 
 Update an existing pet
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.PetApi;
@@ -248,6 +267,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
@@ -262,16 +282,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
-# **updatePetWithForm**
+
+## updatePetWithForm
+
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.PetApi;
@@ -290,6 +312,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet that needs to be updated | [default to null]
@@ -306,16 +329,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-<a name="uploadFile"></a>
-# **uploadFile**
+
+## uploadFile
+
 > ApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.PetApi;
@@ -335,6 +360,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update | [default to null]
@@ -351,6 +377,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 

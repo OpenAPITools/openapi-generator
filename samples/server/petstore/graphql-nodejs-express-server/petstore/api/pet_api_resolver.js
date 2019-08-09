@@ -25,9 +25,10 @@ export default {
         },
 
         // @return Pet
-        FindPetsByTags: ($tags) => {
+        FindPetsByTags: ($tags, $maxCount) => {
             return {
-                "tags": ""
+                "tags": "",
+                "maxCount": "56"
             };
         },
 
@@ -43,9 +44,9 @@ export default {
     Mutation: {
 
         // @return 
-        AddPet: ($body) => {
+        AddPet: ($pet) => {
             return {
-                "body": ""
+                "pet": ""
             };
         },
 
@@ -58,9 +59,9 @@ export default {
         },
 
         // @return 
-        UpdatePet: ($body) => {
+        UpdatePet: ($pet) => {
             return {
-                "body": ""
+                "pet": ""
             };
         },
 

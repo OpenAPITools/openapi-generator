@@ -61,6 +61,7 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json",
         "x-serviceid" : "updatePet",
@@ -95,6 +96,7 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json",
         "x-serviceid" : "addPet",
@@ -118,8 +120,8 @@
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ "available", "pending", "sold" ],
-              "default" : "available"
+              "default" : "available",
+              "enum" : [ "available", "pending", "sold" ]
             }
           }
         } ],
@@ -464,6 +466,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json",
         "x-serviceid" : "placeOrder",
@@ -569,6 +572,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json",
         "x-serviceid" : "createUser",
@@ -600,6 +604,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json",
         "x-serviceid" : "createUsersWithArrayInput",
@@ -631,6 +636,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json",
         "x-serviceid" : "createUsersWithListInput",
@@ -795,6 +801,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json",
         "x-serviceid" : "updateUser",

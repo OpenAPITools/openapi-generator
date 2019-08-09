@@ -1,0 +1,90 @@
+<div class="main-content">
+  <h2><a name=""></a></h2>
+  <p>This is the  API</p>
+
+  <h2><a name="deleteOrder"></a>deleteOrder</h2>
+  <hr>
+  <p></p>
+  <p>For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors</p>
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/store/order/{orderId}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>DELETE</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model=""><a href=""></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">orderId</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">ID of the order that needs to be deleted</p>
+	  </li>
+  </ul>
+  <h2><a name="getInventory"></a>getInventory</h2>
+  <hr>
+  <p></p>
+  <p>Returns a map of status codes to quantities</p>
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/store/inventory</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="integer"><a href="">Map</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  </ul>
+  <h2><a name="getOrderById"></a>getOrderById</h2>
+  <hr>
+  <p></p>
+  <p>For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions</p>
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/store/order/{orderId}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="Order"><a href="">Order</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">orderId</span>
+      <span class="param-type">Long</span>
+      
+      <p class="param-description">ID of pet that needs to be fetched</p>
+	  </li>
+  </ul>
+  <h2><a name="placeOrder"></a>placeOrder</h2>
+  <hr>
+  <p></p>
+  
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/store/order</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="Order"><a href="">Order</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      
+      
+      <span class="param-in">Body: </span>
+      <span class="param-name">Order</span>
+      <span class="param-type">Order(Order)</span>
+      
+      <p class="param-description">order placed for purchasing the pet</p>
+	  </li>
+  </ul>
+</div>

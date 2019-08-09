@@ -11,7 +11,7 @@ class StoreApi {
   ///
   /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
   Future deleteOrder(String orderId) async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
     if(orderId == null) {
@@ -28,7 +28,7 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -60,7 +60,7 @@ class StoreApi {
   ///
   /// Returns a map of status codes to quantities
   Future<Map<String, int>> getInventory() async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
 
@@ -74,7 +74,7 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["api_key"];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -108,7 +108,7 @@ class StoreApi {
   ///
   /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
   Future<Order> getOrderById(int orderId) async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
     if(orderId == null) {
@@ -125,7 +125,7 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -157,12 +157,12 @@ class StoreApi {
   /// Place an order for a pet
   ///
   /// 
-  Future<Order> placeOrder(Order body) async {
-    Object postBody = body;
+  Future<Order> placeOrder(Order order) async {
+    Object postBody = order;
 
     // verify required params are set
-    if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+    if(order == null) {
+     throw new ApiException(400, "Missing required param: order");
     }
 
     // create path and map variables
@@ -173,9 +173,9 @@ class StoreApi {
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
 
-    List<String> contentTypes = [];
+    List<String> contentTypes = ["application/json"];
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {

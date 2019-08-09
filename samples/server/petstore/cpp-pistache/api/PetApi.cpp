@@ -49,11 +49,11 @@ void PetApi::add_pet_handler(const Pistache::Rest::Request &request, Pistache::H
 
     // Getting the body param
     
-    Pet body;
+    Pet pet;
     
     try {
-      nlohmann::json::parse(request.body()).get_to(body);
-      this->add_pet(body, response);
+      nlohmann::json::parse(request.body()).get_to(pet);
+      this->add_pet(pet, response);
     } catch (nlohmann::detail::exception &e) {
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
@@ -121,9 +121,17 @@ void PetApi::find_pets_by_tags_handler(const Pistache::Rest::Request &request, P
             tags = Pistache::Some(value);
         }
     }
+    auto maxCountQuery = request.query().get("maxCount");
+    Pistache::Optional<int32_t> maxCount;
+    if(!maxCountQuery.isEmpty()){
+        int32_t value;
+        if(fromStringValue(maxCountQuery.get(), value)){
+            maxCount = Pistache::Some(value);
+        }
+    }
     
     try {
-      this->find_pets_by_tags(tags, response);
+      this->find_pets_by_tags(tags, maxCount, response);
     } catch (nlohmann::detail::exception &e) {
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
@@ -156,11 +164,11 @@ void PetApi::update_pet_handler(const Pistache::Rest::Request &request, Pistache
 
     // Getting the body param
     
-    Pet body;
+    Pet pet;
     
     try {
-      nlohmann::json::parse(request.body()).get_to(body);
-      this->update_pet(body, response);
+      nlohmann::json::parse(request.body()).get_to(pet);
+      this->update_pet(pet, response);
     } catch (nlohmann::detail::exception &e) {
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());

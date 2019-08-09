@@ -14,8 +14,9 @@ Method | HTTP request | Description
 [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
 
 
-<a name="createUser"></a>
-# **createUser**
+
+## createUser
+
 > createUser(user)
 
 Create user
@@ -23,6 +24,7 @@ Create user
 This can only be done by the logged in user.
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.UserApi;
@@ -39,6 +41,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user** | [**User**](User.md)| Created user object |
@@ -49,26 +52,28 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="createUsersWithArrayInput"></a>
-# **createUsersWithArrayInput**
+
+## createUsersWithArrayInput
+
 > createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
-List<User> user = Arrays.asList(new List()); // List<User> | List of user object
+List<User> user = Arrays.asList(new User()); // List<User> | List of user object
 try {
     apiInstance.createUsersWithArrayInput(user);
 } catch (ApiException e) {
@@ -79,9 +84,10 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](List.md)| List of user object |
+ **user** | [**List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -89,26 +95,28 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="createUsersWithListInput"></a>
-# **createUsersWithListInput**
+
+## createUsersWithListInput
+
 > createUsersWithListInput(user)
 
 Creates list of users with given input array
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
-List<User> user = Arrays.asList(new List()); // List<User> | List of user object
+List<User> user = Arrays.asList(new User()); // List<User> | List of user object
 try {
     apiInstance.createUsersWithListInput(user);
 } catch (ApiException e) {
@@ -119,9 +127,10 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](List.md)| List of user object |
+ **user** | [**List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -129,15 +138,16 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="deleteUser"></a>
-# **deleteUser**
+
+## deleteUser
+
 > deleteUser(username)
 
 Delete user
@@ -145,6 +155,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.UserApi;
@@ -161,6 +172,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| The name that needs to be deleted | [default to null]
@@ -171,20 +183,22 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="getUserByName"></a>
-# **getUserByName**
+
+## getUserByName
+
 > User getUserByName(username)
 
 Get user by user name
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.UserApi;
@@ -202,6 +216,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
@@ -216,16 +231,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="loginUser"></a>
-# **loginUser**
+
+## loginUser
+
 > String loginUser(username, password)
 
 Logs user into the system
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.UserApi;
@@ -244,6 +261,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| The user name for login | [default to null]
@@ -259,16 +277,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="logoutUser"></a>
-# **logoutUser**
+
+## logoutUser
+
 > logoutUser()
 
 Logs out current logged in user session
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.UserApi;
@@ -283,6 +303,7 @@ try {
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -291,15 +312,16 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="updateUser"></a>
-# **updateUser**
+
+## updateUser
+
 > updateUser(username, user)
 
 Updated user
@@ -307,6 +329,7 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.api.UserApi;
@@ -324,6 +347,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | [default to null]
@@ -335,10 +359,10 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 

@@ -1,4 +1,4 @@
-# petstore_api.FakeApi
+# openapi_client.FakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -31,13 +31,13 @@ this route creates an XmlItem
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
-xml_item = petstore_api.XmlItem() # XmlItem | XmlItem Body
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
+xml_item = openapi_client.XmlItem() # XmlItem | XmlItem Body
 
 try:
     # creates an XmlItem
@@ -84,12 +84,12 @@ Test serialization of outer boolean types
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
 body = True # bool | Input boolean as post body (optional)
 
 try:
@@ -137,13 +137,13 @@ Test serialization of object with outer number type
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
+body = openapi_client.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_composite_serialize(body=body)
@@ -190,12 +190,12 @@ Test serialization of outer number types
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
 body = 3.4 # float | Input number as post body (optional)
 
 try:
@@ -243,12 +243,12 @@ Test serialization of outer string types
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
 body = 'body_example' # str | Input string as post body (optional)
 
 try:
@@ -296,13 +296,13 @@ For this test, the body for this request much reference a schema named `File`.
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
+body = openapi_client.FileSchemaTestClass() # FileSchemaTestClass | 
 
 try:
     api_instance.test_body_with_file_schema(body)
@@ -346,14 +346,14 @@ No authorization required
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
 query = 'query_example' # str | 
-body = petstore_api.User() # User | 
+body = openapi_client.User() # User | 
 
 try:
     api_instance.test_body_with_query_params(query, body)
@@ -400,13 +400,13 @@ To test \"client\" model
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = petstore_api.Client() # Client | client model
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
+body = openapi_client.Client() # Client | client model
 
 try:
     # To test \"client\" model
@@ -455,16 +455,18 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
-configuration = petstore_api.Configuration()
+configuration = openapi_client.Configuration()
 # Configure HTTP basic authorization: http_basic_test
 configuration.username = 'YOUR_USERNAME'
 configuration.password = 'YOUR_PASSWORD'
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
+# Defining host is optional and default to http://petstore.swagger.io:80/v2
+configuration.host = "http://petstore.swagger.io:80/v2"
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi(openapi_client.ApiClient(configuration))
 number = 3.4 # float | None
 double = 3.4 # float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
@@ -539,12 +541,12 @@ To test enum parameters
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
 enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
 enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
@@ -607,12 +609,12 @@ Fake endpoint to test group parameters (optional)
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
 required_string_group = 56 # int | Required String in group parameters
 required_boolean_group = True # bool | Required Boolean in group parameters
 required_int64_group = 56 # int | Required Integer in group parameters
@@ -668,12 +670,12 @@ test inline additionalProperties
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
 param = {'key': 'param_example'} # dict(str, str) | request body
 
 try:
@@ -719,12 +721,12 @@ test json serialization of form data
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
 param = 'param_example' # str | field1
 param2 = 'param2_example' # str | field2
 

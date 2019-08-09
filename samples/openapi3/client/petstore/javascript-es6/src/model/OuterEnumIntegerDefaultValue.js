@@ -23,21 +23,21 @@ export default class OuterEnumIntegerDefaultValue {
          * value: 0
          * @const
          */
-        "0" = 0;
+        "NUMBER_0" = 0;
 
     
         /**
          * value: 1
          * @const
          */
-        "1" = 1;
+        "NUMBER_1" = 1;
 
     
         /**
          * value: 2
          * @const
          */
-        "2" = 2;
+        "NUMBER_2" = 2;
 
     
 

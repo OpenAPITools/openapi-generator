@@ -27,7 +27,7 @@ create_user(Ctx, PetstoreUser, Optional) ->
     QS = [],
     Headers = [],
     Body1 = PetstoreUser,
-    ContentTypeHeader = petstore_utils:select_header_content_type([]),
+    ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
@@ -48,7 +48,7 @@ create_users_with_array_input(Ctx, PetstoreUserArray, Optional) ->
     QS = [],
     Headers = [],
     Body1 = PetstoreUserArray,
-    ContentTypeHeader = petstore_utils:select_header_content_type([]),
+    ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
@@ -69,7 +69,7 @@ create_users_with_list_input(Ctx, PetstoreUserArray, Optional) ->
     QS = [],
     Headers = [],
     Body1 = PetstoreUserArray,
-    ContentTypeHeader = petstore_utils:select_header_content_type([]),
+    ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
@@ -174,7 +174,7 @@ update_user(Ctx, Username, PetstoreUser, Optional) ->
     QS = [],
     Headers = [],
     Body1 = PetstoreUser,
-    ContentTypeHeader = petstore_utils:select_header_content_type([]),
+    ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).

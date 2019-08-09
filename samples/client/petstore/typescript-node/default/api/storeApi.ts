@@ -237,17 +237,17 @@ export class StoreApi {
     /**
      * 
      * @summary Place an order for a pet
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      */
-    public async placeOrder (body: Order, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
+    public async placeOrder (order: Order, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
+        // verify required parameter 'order' is not null or undefined
+        if (order === null || order === undefined) {
+            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -261,7 +261,7 @@ export class StoreApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Order")
+            body: ObjectSerializer.serialize(order, "Order")
         };
 
         let authenticationPromise = Promise.resolve();

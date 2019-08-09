@@ -44,13 +44,13 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import 'package:openapi/api.dart';
 
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try {
-    api_instance.addPet(body);
+    api_instance.addPet(pet);
 } catch (e) {
     print("Exception when calling PetApi->addPet: $e\n");
 }
@@ -89,6 +89,8 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](docs//ApiResponse.md)
  - [Category](docs//Category.md)
+ - [InlineObject](docs//InlineObject.md)
+ - [InlineObject1](docs//InlineObject1.md)
  - [Order](docs//Order.md)
  - [Pet](docs//Pet.md)
  - [Tag](docs//Tag.md)
@@ -103,6 +105,12 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+## auth_cookie
+
+- **Type**: API key
+- **API key parameter name**: AUTH_KEY
+- **Location**: 
 
 ## petstore_auth
 

@@ -23,7 +23,7 @@ Add a new pet to the store
 ### Example
 
 ```bash
-petstore-cli addPet
+ addPet
 ```
 
 ### Parameters
@@ -31,7 +31,7 @@ petstore-cli addPet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -56,7 +56,7 @@ Deletes a pet
 ### Example
 
 ```bash
-petstore-cli deletePet petId=value api_key:value
+ deletePet petId=value api_key:value
 ```
 
 ### Parameters
@@ -92,7 +92,7 @@ Multiple status values can be provided with comma separated strings
 ### Example
 
 ```bash
-petstore-cli findPetsByStatus  Specify as:  status="value1,value2,..."
+ findPetsByStatus  Specify as:  status="value1,value2,..."
 ```
 
 ### Parameters
@@ -127,7 +127,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 
 ```bash
-petstore-cli findPetsByTags  Specify as:  tags="value1,value2,..."
+ findPetsByTags  Specify as:  tags="value1,value2,..."
 ```
 
 ### Parameters
@@ -162,7 +162,7 @@ Returns a single pet
 ### Example
 
 ```bash
-petstore-cli getPetById petId=value
+ getPetById petId=value
 ```
 
 ### Parameters
@@ -195,7 +195,7 @@ Update an existing pet
 ### Example
 
 ```bash
-petstore-cli updatePet
+ updatePet
 ```
 
 ### Parameters
@@ -203,7 +203,7 @@ petstore-cli updatePet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -228,7 +228,7 @@ Updates a pet in the store with form data
 ### Example
 
 ```bash
-petstore-cli updatePetWithForm petId=value
+ updatePetWithForm petId=value
 ```
 
 ### Parameters
@@ -263,7 +263,7 @@ uploads an image
 ### Example
 
 ```bash
-petstore-cli uploadFile petId=value
+ uploadFile petId=value
 ```
 
 ### Parameters
@@ -298,7 +298,7 @@ uploads an image (required)
 ### Example
 
 ```bash
-petstore-cli uploadFileWithRequiredFile petId=value
+ uploadFileWithRequiredFile petId=value
 ```
 
 ### Parameters

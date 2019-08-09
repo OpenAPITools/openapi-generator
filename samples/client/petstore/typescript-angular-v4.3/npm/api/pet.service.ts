@@ -62,16 +62,16 @@ export class PetService {
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public addPet(body: Pet, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addPet(body: Pet, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addPet(body: Pet, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addPet(body: Pet, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addPet.');
+    public addPet(pet: Pet, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addPet(pet: Pet, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addPet(pet: Pet, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addPet(pet: Pet, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
 
         let headers = this.defaultHeaders;
@@ -103,7 +103,7 @@ export class PetService {
         }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/pet`,
-            body,
+            pet,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -223,13 +223,14 @@ export class PetService {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
+     * @param maxCount Maximum number of items to return
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findPetsByTags(tags: Array<string>, observe?: 'body', reportProgress?: boolean): Observable<Array<Pet>>;
-    public findPetsByTags(tags: Array<string>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Pet>>>;
-    public findPetsByTags(tags: Array<string>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Pet>>>;
-    public findPetsByTags(tags: Array<string>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findPetsByTags(tags: Array<string>, maxCount?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Pet>>;
+    public findPetsByTags(tags: Array<string>, maxCount?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Pet>>>;
+    public findPetsByTags(tags: Array<string>, maxCount?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Pet>>>;
+    public findPetsByTags(tags: Array<string>, maxCount?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
@@ -237,6 +238,9 @@ export class PetService {
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (tags) {
             queryParameters = queryParameters.set('tags', tags.join(COLLECTION_FORMATS['csv']));
+        }
+        if (maxCount !== undefined && maxCount !== null) {
+            queryParameters = queryParameters.set('maxCount', <any>maxCount);
         }
 
         let headers = this.defaultHeaders;
@@ -323,16 +327,16 @@ export class PetService {
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updatePet(body: Pet, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updatePet(body: Pet, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updatePet(body: Pet, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updatePet(body: Pet, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updatePet.');
+    public updatePet(pet: Pet, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updatePet(pet: Pet, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updatePet(pet: Pet, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updatePet(pet: Pet, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
 
         let headers = this.defaultHeaders;
@@ -364,7 +368,7 @@ export class PetService {
         }
 
         return this.httpClient.put<any>(`${this.configuration.basePath}/pet`,
-            body,
+            pet,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

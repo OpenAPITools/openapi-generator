@@ -2,9 +2,9 @@ part of openapi.api;
 
 class ApiException implements Exception {
   int code = 0;
-  String message = null;
-  Exception innerException = null;
-  StackTrace stackTrace = null;
+  String message;
+  Exception innerException;
+  StackTrace stackTrace;
 
   ApiException(this.code, this.message);
 
@@ -17,7 +17,7 @@ class ApiException implements Exception {
       return "ApiException $code: $message";
     }
 
-    return "ApiException $code: $message (Inner exception: ${innerException})\n\n" +
+    return "ApiException $code: $message (Inner exception: $innerException)\n\n" +
         stackTrace.toString();
   }
 }

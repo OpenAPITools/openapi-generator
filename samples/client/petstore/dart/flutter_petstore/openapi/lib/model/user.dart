@@ -29,66 +29,74 @@ class User {
     if (json['id'] == null) {
       id = null;
     } else {
-      id = json['id'];
+          id = json['id'];
     }
     if (json['username'] == null) {
       username = null;
     } else {
-      username = json['username'];
+          username = json['username'];
     }
     if (json['firstName'] == null) {
       firstName = null;
     } else {
-      firstName = json['firstName'];
+          firstName = json['firstName'];
     }
     if (json['lastName'] == null) {
       lastName = null;
     } else {
-      lastName = json['lastName'];
+          lastName = json['lastName'];
     }
     if (json['email'] == null) {
       email = null;
     } else {
-      email = json['email'];
+          email = json['email'];
     }
     if (json['password'] == null) {
       password = null;
     } else {
-      password = json['password'];
+          password = json['password'];
     }
     if (json['phone'] == null) {
       phone = null;
     } else {
-      phone = json['phone'];
+          phone = json['phone'];
     }
     if (json['userStatus'] == null) {
       userStatus = null;
     } else {
-      userStatus = json['userStatus'];
+          userStatus = json['userStatus'];
     }
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'username': username,
-      'firstName': firstName,
-      'lastName': lastName,
-      'email': email,
-      'password': password,
-      'phone': phone,
-      'userStatus': userStatus
-    };
+    Map <String, dynamic> json = {};
+    if (id != null)
+      json['id'] = id;
+    if (username != null)
+      json['username'] = username;
+    if (firstName != null)
+      json['firstName'] = firstName;
+    if (lastName != null)
+      json['lastName'] = lastName;
+    if (email != null)
+      json['email'] = email;
+    if (password != null)
+      json['password'] = password;
+    if (phone != null)
+      json['phone'] = phone;
+    if (userStatus != null)
+      json['userStatus'] = userStatus;
+    return json;
   }
 
   static List<User> listFromJson(List<dynamic> json) {
     return json == null ? new List<User>() : json.map((value) => new User.fromJson(value)).toList();
   }
 
-  static Map<String, User> mapFromJson(Map<String, Map<String, dynamic>> json) {
+  static Map<String, User> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, User>();
-    if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) => map[key] = new User.fromJson(value));
+    if (json != null && json.isNotEmpty) {
+      json.forEach((String key, dynamic value) => map[key] = new User.fromJson(value));
     }
     return map;
   }

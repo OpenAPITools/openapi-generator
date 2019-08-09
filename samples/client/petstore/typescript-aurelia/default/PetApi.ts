@@ -23,7 +23,7 @@ import {
  * addPet - parameters interface
  */
 export interface IAddPetParams {
-  body: Pet;
+  pet: Pet;
 }
 
 /**
@@ -46,6 +46,7 @@ export interface IFindPetsByStatusParams {
  */
 export interface IFindPetsByTagsParams {
   tags: Array<string>;
+  maxCount?: number;
 }
 
 /**
@@ -59,7 +60,7 @@ export interface IGetPetByIdParams {
  * updatePet - parameters interface
  */
 export interface IUpdatePetParams {
-  body: Pet;
+  pet: Pet;
 }
 
 /**
@@ -98,11 +99,11 @@ export class PetApi extends Api {
 
   /**
    * Add a new pet to the store
-   * @param params.body Pet object that needs to be added to the store
+   * @param params.pet Pet object that needs to be added to the store
    */
   async addPet(params: IAddPetParams): Promise<any> {
     // Verify required parameters are set
-    this.ensureParamIsSet('addPet', params, 'body');
+    this.ensureParamIsSet('addPet', params, 'pet');
 
     // Create URL to call
     const url = `${this.basePath}/pet`;
@@ -112,7 +113,7 @@ export class PetApi extends Api {
       .asPost()
       // Encode body parameter
       .withHeader('content-type', 'application/json')
-      .withContent(JSON.stringify(params['body'] || {}))
+      .withContent(JSON.stringify(params['pet'] || {}))
 
       // Authentication 'petstore_auth' required
       // Send the request
@@ -191,6 +192,7 @@ export class PetApi extends Api {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param params.tags Tags to filter by
+   * @param params.maxCount Maximum number of items to return
    */
   async findPetsByTags(params: IFindPetsByTagsParams): Promise<Array<Pet>> {
     // Verify required parameters are set
@@ -205,6 +207,7 @@ export class PetApi extends Api {
       // Set query parameters
       .withParams({ 
         'tags': params['tags'],
+        'maxCount': params['maxCount'],
       })
 
       // Authentication 'petstore_auth' required
@@ -251,11 +254,11 @@ export class PetApi extends Api {
 
   /**
    * Update an existing pet
-   * @param params.body Pet object that needs to be added to the store
+   * @param params.pet Pet object that needs to be added to the store
    */
   async updatePet(params: IUpdatePetParams): Promise<any> {
     // Verify required parameters are set
-    this.ensureParamIsSet('updatePet', params, 'body');
+    this.ensureParamIsSet('updatePet', params, 'pet');
 
     // Create URL to call
     const url = `${this.basePath}/pet`;
@@ -265,7 +268,7 @@ export class PetApi extends Api {
       .asPut()
       // Encode body parameter
       .withHeader('content-type', 'application/json')
-      .withContent(JSON.stringify(params['body'] || {}))
+      .withContent(JSON.stringify(params['pet'] || {}))
 
       // Authentication 'petstore_auth' required
       // Send the request

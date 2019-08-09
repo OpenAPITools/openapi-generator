@@ -112,12 +112,13 @@ bool findPetsByStatusAsync(char * accessToken,
  *
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * \param tags Tags to filter by *Required*
+ * \param maxCount Maximum number of items to return
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool findPetsByTagsSync(char * accessToken,
-	std::list<std::string> tags, 
+	std::list<std::string> tags, int maxCount, 
 	void(* handler)(std::list<Pet>, Error, void* )
 	, void* userData);
 
@@ -125,12 +126,13 @@ bool findPetsByTagsSync(char * accessToken,
  *
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * \param tags Tags to filter by *Required*
+ * \param maxCount Maximum number of items to return
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool findPetsByTagsAsync(char * accessToken,
-	std::list<std::string> tags, 
+	std::list<std::string> tags, int maxCount, 
 	void(* handler)(std::list<Pet>, Error, void* )
 	, void* userData);
 

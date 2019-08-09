@@ -10,25 +10,25 @@ The script uses cURL underneath for making all REST calls.
 
 ```shell
 # Make sure the script has executable rights
-$ chmod u+x petstore-cli
+$ chmod u+x 
 
 # Print the list of operations available on the service
-$ ./petstore-cli -h
+$ ./ -h
 
 # Print the service description
-$ ./petstore-cli --about
+$ ./ --about
 
 # Print detailed information about specific operation
-$ ./petstore-cli <operationId> -h
+$ ./ <operationId> -h
 
 # Make GET request
-./petstore-cli --host http://<hostname>:<port> --accept xml <operationId> <queryParam1>=<value1> <header_key1>:<header_value2>
+./ --host http://<hostname>:<port> --accept xml <operationId> <queryParam1>=<value1> <header_key1>:<header_value2>
 
 # Make GET request using arbitrary curl options (must be passed before <operationId>) to an SSL service using username:password
-petstore-cli -k -sS --tlsv1.2 --host https://<hostname> -u <user>:<password> --accept xml <operationId> <queryParam1>=<value1> <header_key1>:<header_value2>
+ -k -sS --tlsv1.2 --host https://<hostname> -u <user>:<password> --accept xml <operationId> <queryParam1>=<value1> <header_key1>:<header_value2>
 
 # Make POST request
-$ echo '<body_content>' | petstore-cli --host <hostname> --content-type json <operationId> -
+$ echo '<body_content>' |  --host <hostname> --content-type json <operationId> -
 
 # Make POST request with simple JSON content, e.g.:
 # {
@@ -36,10 +36,10 @@ $ echo '<body_content>' | petstore-cli --host <hostname> --content-type json <op
 #   "key2": "value2",
 #   "key3": 23
 # }
-$ echo '<body_content>' | petstore-cli --host <hostname> --content-type json <operationId> key1==value1 key2=value2 key3:=23 -
+$ echo '<body_content>' |  --host <hostname> --content-type json <operationId> key1==value1 key2=value2 key3:=23 -
 
 # Preview the cURL command without actually executing it
-$ petstore-cli --host http://<hostname>:<port> --dry-run <operationid>
+$  --host http://<hostname>:<port> --dry-run <operationid>
 
 ```
 
@@ -65,13 +65,13 @@ is also available.
 The generated bash-completion script can be either directly loaded to the current Bash session using:
 
 ```shell
-source petstore-cli.bash-completion
+source .bash-completion
 ```
 
 Alternatively, the script can be copied to the `/etc/bash-completion.d` (or on OSX with Homebrew to `/usr/local/etc/bash-completion.d`):
 
 ```shell
-sudo cp petstore-cli.bash-completion /etc/bash-completion.d/petstore-cli
+sudo cp .bash-completion /etc/bash-completion.d/
 ```
 
 #### OS X
@@ -92,7 +92,7 @@ fi
 
 ### Zsh
 
-In Zsh, the generated `_petstore-cli` Zsh completion file must be copied to one of the folders under `$FPATH` variable.
+In Zsh, the generated `_` Zsh completion file must be copied to one of the folders under `$FPATH` variable.
 
 ## Documentation for API Endpoints
 
@@ -101,7 +101,8 @@ All URIs are relative to */v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**123Test@$%SpecialTags**](docs/AnotherFakeApi.md#123test@$%specialtags) | **PATCH** /another-fake/dummy | To test special tags
-*FakeApi* | [**createXmlItem**](docs/FakeApi.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
+*DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
+*FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -143,16 +144,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [$special[modelName]](docs/$special[modelName].md)
  - [200Response](docs/200Response.md)
- - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
- - [AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
- - [AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
- - [AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
- - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [Animal](docs/Animal.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -170,23 +163,34 @@ Class | Method | HTTP request | Description
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [Foo](docs/Foo.md)
  - [FormatTest](docs/FormatTest.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [InlineObject](docs/InlineObject.md)
+ - [InlineObject1](docs/InlineObject1.md)
+ - [InlineObject2](docs/InlineObject2.md)
+ - [InlineObject3](docs/InlineObject3.md)
+ - [InlineObject4](docs/InlineObject4.md)
+ - [InlineObject5](docs/InlineObject5.md)
+ - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Name](docs/Name.md)
+ - [NullableClass](docs/NullableClass.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
+ - [OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Return](docs/Return.md)
+ - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
- - [TypeHolderDefault](docs/TypeHolderDefault.md)
- - [TypeHolderExample](docs/TypeHolderExample.md)
  - [User](docs/User.md)
- - [XmlItem](docs/XmlItem.md)
 
 
 ## Documentation For Authorization
@@ -205,6 +209,10 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
+
+## bearer_test
+
+- **Type**: HTTP basic authentication
 
 ## http_basic_test
 

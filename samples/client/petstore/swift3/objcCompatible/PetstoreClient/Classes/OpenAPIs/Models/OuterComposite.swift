@@ -11,11 +11,6 @@ import Foundation
 open class OuterComposite: JSONEncodable {
 
     public var myNumber: Double?
-    public var myNumberNum: NSNumber? {
-        get {
-            return myNumber.map({ return NSNumber(value: $0) })
-        }
-    }
     public var myString: String?
     public var myBoolean: Bool?
     public var myBooleanNum: NSNumber? {

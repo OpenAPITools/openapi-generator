@@ -13,22 +13,22 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Capitalization   {
   @JsonProperty("smallCamel")
-  private String smallCamel = null;
+  private String smallCamel;
 
   @JsonProperty("CapitalCamel")
-  private String capitalCamel = null;
+  private String capitalCamel;
 
   @JsonProperty("small_Snake")
-  private String smallSnake = null;
+  private String smallSnake;
 
   @JsonProperty("Capital_Snake")
-  private String capitalSnake = null;
+  private String capitalSnake;
 
   @JsonProperty("SCA_ETH_Flow_Points")
-  private String scAETHFlowPoints = null;
+  private String scAETHFlowPoints;
 
   @JsonProperty("ATT_NAME")
-  private String ATT_NAME = null;
+  private String ATT_NAME;
 
   /**
    **/

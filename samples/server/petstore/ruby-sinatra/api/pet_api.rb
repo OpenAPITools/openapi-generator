@@ -89,6 +89,13 @@ MyApp.add_route('GET', '/v2/pet/findByTags', {
       "collectionFormat" => "csv",
       "paramType" => "query",
     },
+    {
+      "name" => "max_count",
+      "description" => "Maximum number of items to return",
+      "dataType" => "Integer",
+      "allowableValues" => "",
+      "paramType" => "query",
+    },
     ]}) do
   cross_origin
   # the guts live here

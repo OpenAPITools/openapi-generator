@@ -49,9 +49,9 @@ export class PetApi {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public addPet(body: models.Pet, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public addPet(pet: models.Pet, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
@@ -59,9 +59,9 @@ export class PetApi {
 
         let queryParameters: any = {};
         let headerParams: any = {};
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addPet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
 
 
@@ -95,7 +95,7 @@ export class PetApi {
             processData: false
         };
 
-        requestOptions.data = JSON.stringify(body);
+        requestOptions.data = JSON.stringify(pet);
         if (headerParams['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
         }
@@ -273,8 +273,9 @@ export class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @summary Finds Pets by tags
      * @param tags Tags to filter by
+     * @param maxCount Maximum number of items to return
      */
-    public findPetsByTags(tags: Array<string>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public findPetsByTags(tags: Array<string>, maxCount?: number, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body: Array<models.Pet>;  },
     { response: JQueryXHR; errorThrown: string }
     > {
@@ -289,6 +290,9 @@ export class PetApi {
 
         if (tags) {
             queryParameters['tags'] = tags.join(COLLECTION_FORMATS['csv']);
+        }
+        if (maxCount !== null && maxCount !== undefined) {
+            queryParameters['maxCount'] = <string><any>maxCount;
         }
 
         localVarPath = localVarPath + "?" + $.param(queryParameters);
@@ -415,9 +419,9 @@ export class PetApi {
     /**
      * 
      * @summary Update an existing pet
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public updatePet(body: models.Pet, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public updatePet(pet: models.Pet, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
@@ -425,9 +429,9 @@ export class PetApi {
 
         let queryParameters: any = {};
         let headerParams: any = {};
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updatePet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
 
 
@@ -461,7 +465,7 @@ export class PetApi {
             processData: false
         };
 
-        requestOptions.data = JSON.stringify(body);
+        requestOptions.data = JSON.stringify(pet);
         if (headerParams['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
         }

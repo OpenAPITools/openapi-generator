@@ -3,7 +3,7 @@ function Invoke-PetApiAddPet {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Org.OpenAPITools.Model.Pet]
-        ${body}
+        ${pet}
     )
 
     Process {
@@ -11,7 +11,7 @@ function Invoke-PetApiAddPet {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $Script:PetApi.AddPet(
-            ${body}
+            ${pet}
         )
     }
 }
@@ -61,7 +61,10 @@ function Invoke-PetApiFindPetsByTags {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String[]]
-        ${tags}
+        ${tags},
+        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Int32]
+        ${maxCount}
     )
 
     Process {
@@ -69,7 +72,8 @@ function Invoke-PetApiFindPetsByTags {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $Script:PetApi.FindPetsByTags(
-            ${tags}
+            ${tags},
+            ${maxCount}
         )
     }
 }
@@ -97,7 +101,7 @@ function Invoke-PetApiUpdatePet {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Org.OpenAPITools.Model.Pet]
-        ${body}
+        ${pet}
     )
 
     Process {
@@ -105,7 +109,7 @@ function Invoke-PetApiUpdatePet {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $Script:PetApi.UpdatePet(
-            ${body}
+            ${pet}
         )
     }
 }

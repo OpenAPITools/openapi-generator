@@ -81,6 +81,8 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Category](docs/Category.md)
+ - [InlineObject](docs/InlineObject.md)
+ - [InlineObject1](docs/InlineObject1.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
@@ -96,6 +98,12 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+### auth_cookie
+
+- **Type**: API key
+- **API key parameter name**: AUTH_KEY
+- **Location**: 
 
 ### petstore_auth
 

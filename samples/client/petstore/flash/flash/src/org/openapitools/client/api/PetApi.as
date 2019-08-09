@@ -135,7 +135,7 @@ public class PetApi extends OpenApi {
     /*
      * Returns Array 
      */
-    public function find_pets_by_tags (tags: Array): String {
+    public function find_pets_by_tags (tags: Array, maxCount: Number): String {
         // create path and map variables
         var path: String = "/pet/findByTags".replace(/{format}/g,"xml");
 
@@ -144,12 +144,18 @@ public class PetApi extends OpenApi {
         var headerParams: Dictionary = new Dictionary();
 
         // verify required params are set
+        if(        // verify required params are set
         if() {
+            throw new ApiError(400, "missing required params");
+        }
+) {
             throw new ApiError(400, "missing required params");
         }
 
         if("null" != String(tags))
             queryParams["tags"] = toPathValue(tags);
+if("null" != String(maxCount))
+            queryParams["maxCount"] = toPathValue(maxCount);
 
         
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);

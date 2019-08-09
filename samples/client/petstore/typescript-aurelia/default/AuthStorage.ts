@@ -46,6 +46,31 @@ export class AuthStorage {
   }
 
   /**
+   * Sets the auth_cookie auth method value.
+   *
+   * @param value The new value to set for auth_cookie.
+   */
+  setauth_cookie(value: string): this {
+    this.storage.set('auth_cookie', value);
+    return this;
+  }
+
+  /**
+   * Removes the auth_cookie auth method value.
+   */
+  removeauth_cookie(): this {
+    this.storage.delete('auth_cookie');
+    return this;
+  }
+
+  /**
+   * Gets the auth_cookie auth method value.
+   */
+  getauth_cookie(): null | string {
+    return this.storage.get('auth_cookie') || null;
+  }
+
+  /**
    * Sets the petstore_auth auth method value.
    *
    * @param value The new value to set for petstore_auth.

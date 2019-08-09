@@ -44,23 +44,23 @@ export default {
     Mutation: {
 
         // @return 
-        CreateUser: ($body) => {
+        CreateUser: ($user) => {
             return {
-                "body": ""
+                "user": ""
             };
         },
 
         // @return 
-        CreateUsersWithArrayInput: ($body) => {
+        CreateUsersWithArrayInput: ($user) => {
             return {
-                "body": ""
+                "user": ""
             };
         },
 
         // @return 
-        CreateUsersWithListInput: ($body) => {
+        CreateUsersWithListInput: ($user) => {
             return {
-                "body": ""
+                "user": ""
             };
         },
 
@@ -72,10 +72,10 @@ export default {
         },
 
         // @return 
-        UpdateUser: ($username, $body) => {
+        UpdateUser: ($username, $user) => {
             return {
                 "username": "username_example",
-                "body": ""
+                "user": ""
             };
         },
 
