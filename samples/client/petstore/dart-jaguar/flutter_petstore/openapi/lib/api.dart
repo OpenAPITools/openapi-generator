@@ -29,7 +29,7 @@ final _jsonJaguarRepo = JsonRepo()
 ..add(TagSerializer())
 ..add(UserSerializer())
 ;
-final Map<String, CodecRepo> defaultConverters = {
+final Map<String, CodecRepo> _converters = {
     MimeTypes.json: _jsonJaguarRepo,
 };
 
@@ -37,7 +37,7 @@ final Map<String, CodecRepo> defaultConverters = {
 
 final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];
 
-class Openapi {
+class JaguarApiGen {
     List<Interceptor> interceptors;
     String basePath = "http://petstore.swagger.io/v2";
     Route _baseRoute;
@@ -46,7 +46,7 @@ class Openapi {
     /**
     * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
     */
-    Openapi({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl, this.timeout = const Duration(minutes: 2)}) {
+    JaguarApiGen({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl, this.timeout = const Duration(minutes: 2)}) {
         _baseRoute = Route(baseUrl ?? basePath).withClient(globalClient ?? IOClient());
         if(interceptors == null) {
             this.interceptors = _defaultInterceptors;
@@ -86,7 +86,7 @@ class Openapi {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = defaultConverters;
+            converters = _converters;
         }
         return PetApi(base: base, converters: converters, timeout: timeout);
     }
@@ -101,7 +101,7 @@ class Openapi {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = defaultConverters;
+            converters = _converters;
         }
         return StoreApi(base: base, converters: converters, timeout: timeout);
     }
@@ -116,7 +116,7 @@ class Openapi {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = defaultConverters;
+            converters = _converters;
         }
         return UserApi(base: base, converters: converters, timeout: timeout);
     }
