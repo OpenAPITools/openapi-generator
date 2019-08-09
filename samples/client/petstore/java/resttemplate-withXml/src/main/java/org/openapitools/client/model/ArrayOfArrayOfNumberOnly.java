@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayOfArrayOfNumberOnly")
 public class ArrayOfArrayOfNumberOnly {
-  @JsonProperty("ArrayArrayNumber")
+  public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   // Is a container wrapped=false
   // items.name=arrayArrayNumber items.baseName=arrayArrayNumber items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;BigDecimal&gt;
