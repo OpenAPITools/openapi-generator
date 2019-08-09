@@ -614,18 +614,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumVarName(String name, String datatype) {
-        if (datatype != null && !typeMapping.containsKey(datatype) && datatype.contains("\\") && !isReservedWord(name)){
-            // https://www.regular-expressions.info/floatingpoint.html
-            Pattern numberPattern = Pattern.compile("^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$");
-            Matcher numberIsMatch = numberPattern.matcher(name);
-
-            if (numberIsMatch.find()) {
-                String schemaName = datatype.substring(datatype.lastIndexOf("\\") + 1);
-                String result = underscore(schemaName).toUpperCase(Locale.ROOT) + '_' + name;
-                return result;
-            }
-        }
-
         if (name.length() == 0) {
             return "EMPTY";
         }

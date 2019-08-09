@@ -355,6 +355,9 @@ public class DefaultCodegen implements CodegenConfig {
                 List<Map<String, Object>> enumVars = new ArrayList<Map<String, Object>>();
                 String commonPrefix = findCommonPrefixOfVars(values);
                 int truncateIdx = commonPrefix.length();
+                // https://www.regular-expressions.info/floatingpoint.html
+                Pattern numberPattern = Pattern.compile("^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$");
+
                 for (Object value : values) {
                     Map<String, Object> enumVar = new HashMap<String, Object>();
                     String enumName;
@@ -366,7 +369,15 @@ public class DefaultCodegen implements CodegenConfig {
                             enumName = value.toString();
                         }
                     }
-                    enumVar.put("name", toEnumVarName(enumName, cm.dataType));
+
+                    String enumVarName = toEnumVarName(enumName, cm.dataType);
+                    Matcher numberIsMatch = numberPattern.matcher(enumVarName);
+                    if (numberIsMatch.find()) {
+                        enumVar.put("name", "NUMBER_" + enumVarName);
+                    } else {
+                        enumVar.put("name", enumVarName);
+                    }
+
                     enumVar.put("value", toEnumValue(value.toString(), cm.dataType));
                     enumVar.put("isString", isDataTypeString(cm.dataType));
                     enumVars.add(enumVar);
