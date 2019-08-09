@@ -260,3 +260,12 @@ components:
       xml:
         name: snake_another_xml_object
         namespace: http://foo.bar
+    ObjectWithArrayOfObjects:
+      type: object
+      properties:
+       objectArray:
+         type: array
+         items:
+           $ref: '#/components/schemas/StringObject'
+    StringObject:
+      type: string
