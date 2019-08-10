@@ -182,11 +182,11 @@ export class Configuration {
         return undefined;
     }
 
-    get headers():  HTTPHeaders {
+    get headers():  HTTPHeaders | undefined {
         return this.configuration.headers;
     }
 
-    get credentials(): RequestCredentials {
+    get credentials(): RequestCredentials | undefined {
         return this.configuration.credentials;
     }
 }
