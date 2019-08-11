@@ -31,7 +31,8 @@ import javax.validation.Valid;
  */
 
 public class MapTest {
-  @JsonProperty("map_map_of_string")
+  public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -69,13 +70,16 @@ public class MapTest {
     }
   }
 
-  @JsonProperty("map_of_enum_string")
+  public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
+  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  @JsonProperty("direct_map")
+  public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
+  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  @JsonProperty("indirect_map")
+  public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
+  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -95,6 +99,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -122,6 +127,7 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -148,6 +154,7 @@ public class MapTest {
    * Get directMap
    * @return directMap
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -174,6 +181,7 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;

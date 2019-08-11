@@ -34,13 +34,16 @@ import javax.validation.Valid;
  */
 
 public class MixedPropertiesAndAdditionalPropertiesClass {
-  @JsonProperty("uuid")
+  public static final String JSON_PROPERTY_UUID = "uuid";
+  @JsonProperty(JSON_PROPERTY_UUID)
   private UUID uuid;
 
-  @JsonProperty("dateTime")
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("map")
+  public static final String JSON_PROPERTY_MAP = "map";
+  @JsonProperty(JSON_PROPERTY_MAP)
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
@@ -52,6 +55,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get uuid
    * @return uuid
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public UUID getUuid() {
@@ -71,6 +75,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get dateTime
    * @return dateTime
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public OffsetDateTime getDateTime() {
@@ -98,6 +103,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get map
    * @return map
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Map<String, Animal> getMap() {

@@ -1,0 +1,17 @@
+# Petstore::AdditionalPropertiesArray
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**name** | **String** |  | [optional] 
+
+## Code Sample
+
+```ruby
+require 'Petstore'
+
+instance = Petstore::AdditionalPropertiesArray.new(name: null)
+```
+
+

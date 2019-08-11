@@ -29,16 +29,20 @@ import javax.validation.Valid;
  */
 
 public class Order {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   private Long id;
 
-  @JsonProperty("petId")
+  public static final String JSON_PROPERTY_PET_ID = "petId";
+  @JsonProperty(JSON_PROPERTY_PET_ID)
   private Long petId;
 
-  @JsonProperty("quantity")
+  public static final String JSON_PROPERTY_QUANTITY = "quantity";
+  @JsonProperty(JSON_PROPERTY_QUANTITY)
   private Integer quantity;
 
-  @JsonProperty("shipDate")
+  public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
+  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   private OffsetDateTime shipDate;
 
   /**
@@ -78,10 +82,12 @@ public class Order {
     }
   }
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @JsonProperty(JSON_PROPERTY_STATUS)
   private StatusEnum status;
 
-  @JsonProperty("complete")
+  public static final String JSON_PROPERTY_COMPLETE = "complete";
+  @JsonProperty(JSON_PROPERTY_COMPLETE)
   private Boolean complete = false;
 
   public Order id(Long id) {
@@ -93,6 +99,7 @@ public class Order {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
@@ -111,6 +118,7 @@ public class Order {
    * Get petId
    * @return petId
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getPetId() {
     return petId;
@@ -129,6 +137,7 @@ public class Order {
    * Get quantity
    * @return quantity
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getQuantity() {
     return quantity;
@@ -147,6 +156,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public OffsetDateTime getShipDate() {
@@ -166,6 +176,7 @@ public class Order {
    * Order Status
    * @return status
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "Order Status")
   public StatusEnum getStatus() {
     return status;
@@ -184,6 +195,7 @@ public class Order {
    * Get complete
    * @return complete
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Boolean getComplete() {
     return complete;

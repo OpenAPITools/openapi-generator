@@ -31,7 +31,8 @@ import javax.validation.Valid;
  */
 
 public class AdditionalPropertiesArray extends HashMap<String, List> {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
   public AdditionalPropertiesArray name(String name) {
@@ -43,6 +44,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getName() {
     return name;

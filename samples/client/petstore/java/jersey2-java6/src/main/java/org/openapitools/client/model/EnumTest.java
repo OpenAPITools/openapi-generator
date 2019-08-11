@@ -59,11 +59,12 @@ public class EnumTest {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  @JsonProperty("enum_string")
+  public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
   private EnumStringEnum enumString;
 
   /**
@@ -99,11 +100,12 @@ public class EnumTest {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  @JsonProperty("enum_string_required")
+  public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -137,11 +139,12 @@ public class EnumTest {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  @JsonProperty("enum_integer")
+  public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -175,14 +178,16 @@ public class EnumTest {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  @JsonProperty("enum_number")
+  public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
+  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
   private EnumNumberEnum enumNumber;
 
-  @JsonProperty("outerEnum")
+  public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -194,6 +199,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -230,6 +236,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -248,6 +255,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -266,6 +274,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public OuterEnum getOuterEnum() {
     return outerEnum;

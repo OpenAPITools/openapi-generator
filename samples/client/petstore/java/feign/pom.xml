@@ -192,6 +192,13 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
 
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        
         <!-- HTTP client: Netflix Feign -->
         <dependency>
             <groupId>io.github.openfeign</groupId>
@@ -267,7 +274,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <feign-version>9.4.0</feign-version>
+        <feign-version>9.7.0</feign-version>
         <feign-form-version>2.1.0</feign-form-version>
         <jackson-version>2.9.9</jackson-version>
         <jackson-databind-version>2.9.9</jackson-databind-version>

@@ -28,19 +28,19 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 
 # Generate client
-ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart-jaguar -o samples/client/petstore/dart-jaguar/openapi -DhideGenerationTimestamp=true -DpubName=openapi"
+ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart-jaguar -o samples/client/petstore/dart-jaguar/openapi --additional-properties hideGenerationTimestamp=true,pubName=openapi"
 java $JAVA_OPTS -jar $executable $ags
 
 # Generate non-browserClient and put it to the flutter sample app
-ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart-jaguar -o samples/client/petstore/dart-jaguar/flutter_petstore/openapi -DhideGenerationTimestamp=true -DpubName=openapi"
+ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart-jaguar -o samples/client/petstore/dart-jaguar/flutter_petstore/openapi --additional-properties hideGenerationTimestamp=true,pubName=openapi"
 java $JAVA_OPTS -jar $executable $ags
 
 # Generate proto and put it to the flutter sample app
-ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore-proto.yaml -g dart-jaguar -o samples/client/petstore/dart-jaguar/flutter_proto_petstore/openapi -Dserialization=proto -DhideGenerationTimestamp=true -DpubName=openapi"
+ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore-proto.yaml -g dart-jaguar -o samples/client/petstore/dart-jaguar/flutter_proto_petstore/openapi --additional-properties serialization=proto,hideGenerationTimestamp=true,pubName=openapi"
 java $JAVA_OPTS -jar $executable $ags
 
 # Generate proto and put it to the sample
-ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore-proto.yaml -g dart-jaguar -o samples/client/petstore/dart-jaguar/openapi_proto -Dserialization=proto -DhideGenerationTimestamp=true -DpubName=openapi"
+ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore-proto.yaml -g dart-jaguar -o samples/client/petstore/dart-jaguar/openapi_proto --additional-properties serialization=proto,hideGenerationTimestamp=true,pubName=openapi"
 java $JAVA_OPTS -jar $executable $ags
 
 # There is a proposal to allow importing different libraries depending on the environment:

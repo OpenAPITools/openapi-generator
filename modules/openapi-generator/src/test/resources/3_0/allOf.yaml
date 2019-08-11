@@ -32,7 +32,7 @@ components:
         propertyName: $_type
         mapping:
           a: '#/components/schemas/Adult'
-          c: '#/components/schemas/Child'
+          c: Child
       properties:
         $_type:
           type: string

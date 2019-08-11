@@ -43,6 +43,7 @@ public class ModelReturn {
    * Get _return
    * @return _return
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getReturn() {
     return _return;

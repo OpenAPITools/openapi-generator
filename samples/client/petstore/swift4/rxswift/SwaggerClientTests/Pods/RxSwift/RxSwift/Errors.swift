@@ -10,9 +10,7 @@ let RxErrorDomain       = "RxErrorDomain"
 let RxCompositeFailures = "RxCompositeFailures"
 
 /// Generic Rx error codes.
-public enum RxError
-    : Swift.Error
-    , CustomDebugStringConvertible {
+public enum RxError: Swift.Error, CustomDebugStringConvertible {
     /// Unknown error occurred.
     case unknown
     /// Performing an action on disposed object.

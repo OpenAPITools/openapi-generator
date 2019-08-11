@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Client")
 public class Client {
-  @JsonProperty("client")
+  public static final String JSON_PROPERTY_CLIENT = "client";
+  @JsonProperty(JSON_PROPERTY_CLIENT)
   @JacksonXmlProperty(localName = "client")
   @XmlElement(name = "client")
   private String client;
@@ -45,6 +46,7 @@ public class Client {
    * Get client
    * @return client
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getClient() {
     return client;

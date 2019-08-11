@@ -18,43 +18,36 @@
  */
 export interface User {
     /**
-     * 
      * @type {number}
      * @memberof User
      */
     id?: number;
     /**
-     * 
      * @type {string}
      * @memberof User
      */
     username?: string;
     /**
-     * 
      * @type {string}
      * @memberof User
      */
     firstName?: string;
     /**
-     * 
      * @type {string}
      * @memberof User
      */
     lastName?: string;
     /**
-     * 
      * @type {string}
      * @memberof User
      */
     email?: string;
     /**
-     * 
      * @type {string}
      * @memberof User
      */
     password?: string;
     /**
-     * 
      * @type {string}
      * @memberof User
      */

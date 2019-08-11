@@ -29,16 +29,20 @@ import javax.validation.Valid;
 @ApiModel(description = "Model for testing model name same as property name")
 
 public class Name {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private Integer name;
 
-  @JsonProperty("snake_case")
+  public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
+  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   private Integer snakeCase;
 
-  @JsonProperty("property")
+  public static final String JSON_PROPERTY_PROPERTY = "property";
+  @JsonProperty(JSON_PROPERTY_PROPERTY)
   private String property;
 
-  @JsonProperty("123Number")
+  public static final String JSON_PROPERTY_123NUMBER = "123Number";
+  @JsonProperty(JSON_PROPERTY_123NUMBER)
   private Integer _123number;
 
   public Name name(Integer name) {
@@ -64,6 +68,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getSnakeCase() {
     return snakeCase;
@@ -78,6 +83,7 @@ public class Name {
    * Get property
    * @return property
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getProperty() {
     return property;
@@ -91,6 +97,7 @@ public class Name {
    * Get _123number
    * @return _123number
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer get123number() {
     return _123number;

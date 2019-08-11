@@ -28,13 +28,14 @@ class OAIStoreApi: public QObject {
 
 public:
     OAIStoreApi();
-    OAIStoreApi(const QString& host, const QString& basePath);
+    OAIStoreApi(const QString& host, const QString& basePath, const int toutMs = 0);
     ~OAIStoreApi();
 
     void setBasePath(const QString& basePath);
     void setHost(const QString& host);
+    void setApiTimeOutMs(const int tout);
     void addHeaders(const QString& key, const QString& value);
-    
+
     void deleteOrder(const QString& order_id);
     void getInventory();
     void getOrderById(const qint64& order_id);
@@ -43,6 +44,7 @@ public:
 private:
     QString basePath;
     QString host;
+    int timeout;
     QMap<QString, QString> defaultHeaders;
     void deleteOrderCallback (OAIHttpRequestWorker * worker);
     void getInventoryCallback (OAIHttpRequestWorker * worker);
@@ -60,15 +62,15 @@ signals:
     void getOrderByIdSignalFull(OAIHttpRequestWorker* worker, OAIOrder summary);
     void placeOrderSignalFull(OAIHttpRequestWorker* worker, OAIOrder summary);
     
-    void deleteOrderSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventorySignalE(QMap<QString, qint32> summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void deleteOrderSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void getInventorySignalE(QMap<QString, qint32> summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void getOrderByIdSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void placeOrderSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString error_str);
     
-    void deleteOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventorySignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    void deleteOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void getInventorySignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void getOrderByIdSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void placeOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
     
 };
 

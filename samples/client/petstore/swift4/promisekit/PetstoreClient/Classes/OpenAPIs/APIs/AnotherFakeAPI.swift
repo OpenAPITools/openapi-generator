@@ -9,8 +9,6 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-
-
 open class AnotherFakeAPI {
     /**
      To test special tags

@@ -14,12 +14,14 @@ import (
 
 var client *sw.APIClient
 
-const testHost = "testhost"
+const testHost = "petstore.swagger.io:80"
+const testScheme = "http"
 
 func TestMain(m *testing.M) {
 	cfg := sw.NewConfiguration()
 	cfg.AddDefaultHeader("testheader", "testvalue")
 	cfg.Host = testHost
+	cfg.Scheme = testScheme
 	client = sw.NewAPIClient(cfg)
 	retCode := m.Run()
 	os.Exit(retCode)
@@ -32,8 +34,7 @@ func TestAddPet(t *testing.T) {
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
 	if err != nil {
-		t.Errorf("Error while adding pet")
-		t.Log(err)
+		t.Fatalf("Error while adding pet: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -44,8 +45,7 @@ func TestFindPetsByStatusWithMissingParam(t *testing.T) {
 	_, r, err := client.PetApi.FindPetsByStatus(context.Background(), nil)
 
 	if err != nil {
-		t.Errorf("Error while testing TestFindPetsByStatusWithMissingParam")
-		t.Log(err)
+		t.Fatalf("Error while testing TestFindPetsByStatusWithMissingParam: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -66,8 +66,7 @@ func TestGetPetByIdWithInvalidID(t *testing.T) {
 
 		a.Contains(assertedError.Error(), "Not Found")
 	} else if err != nil {
-		t.Errorf("Error while getting pet by invalid id")
-		t.Log(err)
+		t.Fatalf("Error while getting pet by invalid id: %v", err)
 		t.Log(r)
 	} else {
 		t.Log(resp)
@@ -80,8 +79,7 @@ func TestUpdatePetWithForm(t *testing.T) {
 		Status: optional.NewString("available"),
 	})
 	if err != nil {
-		t.Errorf("Error while updating pet by id")
-		t.Log(err)
+		t.Fatalf("Error while updating pet by id: %v", err)
 		t.Log(r)
 	}
 	if r.StatusCode != 200 {
@@ -96,8 +94,7 @@ func TestFindPetsByTag(t *testing.T) {
 	var found = false
 	resp, r, err := client.PetApi.FindPetsByTags(context.Background(), []string{"tag2"})
 	if err != nil {
-		t.Errorf("Error while getting pet by tag")
-		t.Log(err)
+		t.Fatalf("Error while getting pet by tag: %v", err)
 		t.Log(r)
 	} else {
 		if len(resp) == 0 {
@@ -126,8 +123,7 @@ func TestFindPetsByTag(t *testing.T) {
 func TestFindPetsByStatus(t *testing.T) {
 	resp, r, err := client.PetApi.FindPetsByStatus(context.Background(), []string{"available"})
 	if err != nil {
-		t.Errorf("Error while getting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while getting pet by id: %v", err)
 		t.Log(r)
 	} else {
 		if len(resp) == 0 {
@@ -154,8 +150,7 @@ func TestUploadFile(t *testing.T) {
 	})
 
 	if err != nil {
-		t.Errorf("Error while uploading file")
-		t.Log(err)
+		t.Fatalf("Error while uploading file: %v", err)
 	}
 
 	if r.StatusCode != 200 {
@@ -174,8 +169,7 @@ func TestUploadFileRequired(t *testing.T) {
 		})
 
 	if err != nil {
-		t.Errorf("Error while uploading file")
-		t.Log(err)
+		t.Fatalf("Error while uploading file: %v", err)
 	}
 
 	if r.StatusCode != 200 {
@@ -187,8 +181,7 @@ func TestDeletePet(t *testing.T) {
 	r, err := client.PetApi.DeletePet(context.Background(), 12830, nil)
 
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -269,8 +262,7 @@ func waitOnFunctions(t *testing.T, errc chan error, n int) {
 	for i := 0; i < n; i++ {
 		err := <-errc
 		if err != nil {
-			t.Errorf("Error performing concurrent test")
-			t.Log(err)
+			t.Fatalf("Error performing concurrent test: %v", err)
 		}
 	}
 }
@@ -279,8 +271,7 @@ func deletePet(t *testing.T, id int64) {
 	r, err := client.PetApi.DeletePet(context.Background(), id, nil)
 
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -291,8 +282,7 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 	assert := assert.New(t)
 	resp, r, err := client.PetApi.GetPetById(context.Background(), id)
 	if err != nil {
-		t.Errorf("Error while getting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while getting pet by id: %v", err)
 	} else {
 		assert.Equal(resp.Id, int64(id), "Pet id should be equal")
 		assert.Equal(resp.Name, name, fmt.Sprintf("Pet name should be %s", name))

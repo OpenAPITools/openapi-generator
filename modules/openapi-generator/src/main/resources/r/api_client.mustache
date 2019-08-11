@@ -12,14 +12,22 @@
 #' Ref: https://openapi-generator.tech
 #' Do not edit the class manually.
 #'
-#' @field basePath
-#' @field userAgent
+#' @docType class
+#' @title ApiClient
+#' @description ApiClient Class
+#' @format An \code{R6Class} generator object
+#' @field basePath Base url
+#' @field userAgent Default user agent
 #' @field defaultHeaders
-#' @field username
-#' @field password
+#' @field username Username for HTTP basic authentication
+#' @field password Password for HTTP basic authentication
 #' @field apiKeys
 #' @field accessToken
-#' @importFrom httr
+#' @field timeout Default timeout in seconds
+#' @importFrom httr add_headers accept timeout content
+{{#useRlangExceptionHandling}}
+#' @importFrom rlang abort
+{{/useRlangExceptionHandling}}
 #' @export
 ApiClient  <- R6::R6Class(
   'ApiClient',
@@ -38,8 +46,10 @@ ApiClient  <- R6::R6Class(
     apiKeys = NULL,
     # Access token
     accessToken = NULL,
+    # Time Out (seconds)
+    timeout = NULL,
     # constructor
-    initialize = function(basePath=NULL, userAgent=NULL, defaultHeaders=NULL, username=NULL, password=NULL, apiKeys=NULL, accessToken=NULL){
+    initialize = function(basePath=NULL, userAgent=NULL, defaultHeaders=NULL, username=NULL, password=NULL, apiKeys=NULL, accessToken=NULL, timeout=NULL){
       if (!is.null(basePath)) {
         self$basePath <- basePath
       }
@@ -69,25 +79,99 @@ ApiClient  <- R6::R6Class(
       if (!is.null(userAgent)) {
         self$`userAgent` <- userAgent
       }
+
+      if (!is.null(timeout)) {
+        self$timeout <- timeout
+      }
     },
     CallApi = function(url, method, queryParams, headerParams, body, ...){
       headers <- httr::add_headers(c(headerParams, self$defaultHeaders))
 
-      if (method == "GET") {
-        httr::GET(url, queryParams, headers, ...)
-      } else if (method == "POST") {
-        httr::POST(url, query = queryParams, headers, body = body, httr::content_type("application/json"), ...)
-      } else if (method == "PUT") {
-        httr::PUT(url, query = queryParams, headers, body = body, httr::content_type("application/json"), ...)
-      } else if (method == "PATCH") {
-        httr::PATCH(url, query = queryParams, headers, body = body, httr::content_type("application/json"), ...)
-      } else if (method == "HEAD") {
-        httr::HEAD(url, query = queryParams, headers, ...)
-      } else if (method == "DELETE") {
-        httr::DELETE(url, query = queryParams, headers, ...)
-      } else {
-        stop("http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`.")
+      {{! Adding timeout that can be set at the apiClient object level}}
+      httpTimeout <- NULL
+      if (!is.null(self$timeout)) {
+        httpTimeout <- httr::timeout(self$timeout)
       }
+
+      if (method == "GET") {
+        httr::GET(url, query = queryParams, headers, httpTimeout, httr::user_agent(self$`userAgent`), ...)
+      } else if (method == "POST") {
+        httr::POST(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, httr::user_agent(self$`userAgent`), ...)
+      } else if (method == "PUT") {
+        httr::PUT(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
+      } else if (method == "PATCH") {
+        httr::PATCH(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
+      } else if (method == "HEAD") {
+        httr::HEAD(url, query = queryParams, headers, httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
+      } else if (method == "DELETE") {
+        httr::DELETE(url, query = queryParams, headers, httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
+      } else {
+        errMsg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
+        {{#useDefaultExceptionHandling}}
+        stop(errMsg)
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = errMsg, .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = errMsg))
+        {{/useRlangExceptionHandling}}
+      }
+    },
+
+    # Deserialize the content of api response to the given type.
+    deserialize = function(resp, returnType, pkgEnv) {
+      respObj <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+      self$deserializeObj(respObj, returnType, pkgEnv)
+    },
+
+
+    # Deserialize the response from jsonlite object based on the given type
+    # by handling complex and nested types by iterating recursively
+    # Example returnTypes will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.,
+
+    deserializeObj = function(obj, returnType, pkgEnv) {
+      returnObj <- NULL
+      primitiveTypes <- c("character", "numeric", "integer", "logical", "complex")
+
+      # To handle the "map" type 
+      if (startsWith(returnType, "map(")) {
+        innerReturnType <- regmatches(returnType, regexec(pattern = "map\\((.*)\\)", returnType))[[1]][2]
+        returnObj <- lapply(names(obj), function(name) {
+          self$deserializeObj(obj[[name]], innerReturnType, pkgEnv)
+        })
+        names(returnObj) <- names(obj)
+      }
+
+      # To handle the "array" type
+      else if (startsWith(returnType, "array[")) {
+        innerReturnType <- regmatches(returnType, regexec(pattern = "array\\[(.*)\\]", returnType))[[1]][2]
+        if (c(innerReturnType) %in% primitiveTypes) {
+          returnObj <- vector("list", length = length(obj))
+          if (length(obj) > 0) {
+            for (row in 1:length(obj)) {
+              returnObj[[row]] <- self$deserializeObj(obj[row], innerReturnType, pkgEnv)
+            }
+          }
+        } else {
+          returnObj <- vector("list", length = nrow(obj))
+          if (nrow(obj) > 0) {
+            for (row in 1:nrow(obj)) {
+              returnObj[[row]] <- self$deserializeObj(obj[row, , drop = FALSE], innerReturnType, pkgEnv)
+            }
+          }
+        }
+      }
+
+      # To handle model objects which are not array or map containers. Ex:"Pet"
+      else if (exists(returnType, pkgEnv) && !(c(returnType) %in% primitiveTypes)) {
+        returnType <- get(returnType, envir = as.environment(pkgEnv))
+        returnObj <- returnType$new()
+        returnObj$fromJSON(jsonlite::toJSON(obj, digits = NA))
+      } 
+
+      # To handle primitive type
+      else {
+        returnObj <- obj
+      }
+      returnObj
     }
   )
 )

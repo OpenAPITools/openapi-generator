@@ -34,13 +34,13 @@ public class ApiClient {
      {{#apiInfo}}
      {{#apis}}
     public {{classname}} {{classVarName}}() {
-        return {{classname}}.{{classVarName}}(config.baseReqSpec.get());
+        return {{classname}}.{{classVarName}}(config.reqSpecSupplier);
     }
      {{/apis}}
      {{/apiInfo}}
 
     public static class Config {
-        private Supplier<RequestSpecBuilder> baseReqSpec = () -> new RequestSpecBuilder()
+        private Supplier<RequestSpecBuilder> reqSpecSupplier = () -> new RequestSpecBuilder()
                 {{#basePath}}.setBaseUri(BASE_URI){{/basePath}}
                 .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())));
 
@@ -50,7 +50,7 @@ public class ApiClient {
          * @return configuration
          */
         public Config reqSpecSupplier(Supplier<RequestSpecBuilder> supplier) {
-            this.baseReqSpec = supplier;
+            this.reqSpecSupplier = supplier;
             return this;
         }
 

@@ -28,7 +28,8 @@ import javax.validation.Valid;
  */
 
 public class DogAllOf {
-  @JsonProperty("breed")
+  public static final String JSON_PROPERTY_BREED = "breed";
+  @JsonProperty(JSON_PROPERTY_BREED)
   private String breed;
 
   public DogAllOf breed(String breed) {
@@ -40,6 +41,7 @@ public class DogAllOf {
    * Get breed
    * @return breed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getBreed() {
     return breed;

@@ -1,0 +1,91 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "OpenAPI enums",
+    "description" : "Tests generation of enums with open opi",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://enums.openapi3"
+  } ],
+  "paths" : {
+    "/postobjectwithenums" : {
+      "post" : {
+        "operationId" : "postObjectWithEnums",
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/ObjectWithEnums"
+        },
+        "responses" : {
+          "405" : {
+            "description" : "Invalid input"
+          }
+        }
+      }
+    },
+    "/getobjectwithenums" : {
+      "get" : {
+        "operationId" : "getObjectWithEnums",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/xml" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ObjectWithEnums"
+                  }
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ObjectWithEnums"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "ObjectWithEnums" : {
+        "type" : "object",
+        "properties" : {
+          "enumInObject" : {
+            "type" : "string",
+            "enum" : [ "red", "blue" ]
+          },
+          "externalEnum" : {
+            "$ref" : "#/components/schemas/ExternalEnum"
+          }
+        }
+      },
+      "ExternalEnum" : {
+        "type" : "string",
+        "enum" : [ "green", "yellow" ]
+      }
+    },
+    "requestBodies" : {
+      "ObjectWithEnums" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ObjectWithEnums"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ObjectWithEnums"
+            }
+          }
+        },
+        "required" : true
+      }
+    }
+  }
+}

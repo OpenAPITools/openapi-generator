@@ -95,7 +95,7 @@ UserAPI.createUsersWithArrayInput(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md) | List of user object | 
+ **body** | [**[User]**](User.md) | List of user object | 
 
 ### Return type
 
@@ -143,7 +143,7 @@ UserAPI.createUsersWithListInput(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md) | List of user object | 
+ **body** | [**[User]**](User.md) | List of user object | 
 
 ### Return type
 

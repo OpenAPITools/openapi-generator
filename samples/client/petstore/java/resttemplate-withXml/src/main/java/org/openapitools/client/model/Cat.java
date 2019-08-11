@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Cat")
 public class Cat extends Animal {
-  @JsonProperty("declawed")
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
   @JacksonXmlProperty(localName = "declawed")
   @XmlElement(name = "declawed")
   private Boolean declawed;
@@ -47,6 +48,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Boolean getDeclawed() {
     return declawed;

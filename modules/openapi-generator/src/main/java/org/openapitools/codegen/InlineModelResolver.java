@@ -407,9 +407,19 @@ public class InlineModelResolver {
         }
     }
 
+    /**
+     * Generates a unique model name. Non-alphanumeric characters will be replaced
+     * with underscores
+     *
+     * @param title String title field in the schema if present
+     * @param key String model name
+     */
     private String resolveModelName(String title, String key) {
         if (title == null) {
-            return uniqueName(key);
+            // for auto-generated schema name, replace non-alphanumeric characters with underscore
+            // to avoid bugs with schema look up with inline schema created on the fly
+            // e.g. io.schema.User_name => io_schema_User_name
+            return uniqueName(key).replaceAll("[^A-Za-z0-9]", "_");
         } else {
             return uniqueName(title);
         }

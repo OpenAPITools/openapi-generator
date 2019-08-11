@@ -31,19 +31,24 @@ import javax.validation.Valid;
  */
 
 public class TypeHolderExample {
-  @JsonProperty("string_item")
+  public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
+  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   private String stringItem;
 
-  @JsonProperty("number_item")
+  public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
+  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   private BigDecimal numberItem;
 
-  @JsonProperty("integer_item")
+  public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
+  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
+  public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
+  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   private Boolean boolItem;
 
-  @JsonProperty("array_item")
+  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample stringItem(String stringItem) {

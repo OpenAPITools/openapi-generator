@@ -61,6 +61,7 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -87,6 +88,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -113,6 +115,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

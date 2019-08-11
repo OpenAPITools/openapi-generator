@@ -7,6 +7,5 @@
 
 import Foundation
 
-
 /** This defines an array of strings. */
 public typealias ModelStringArray = [String]

@@ -68,7 +68,7 @@ public:
     void setStatus(const QString &status);
 
     
-    
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 
@@ -102,5 +102,7 @@ private:
     };
 
 }
+
+Q_DECLARE_METATYPE(OpenAPI::OAIPet)
 
 #endif // OAIPet_H

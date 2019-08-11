@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, RequiredError, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, HttpHeaders, HttpQuery, throwIfRequired, encodeURI, COLLECTION_FORMATS } from '../runtime';
 import {
     ApiResponse,
     Pet,
@@ -63,31 +63,23 @@ export class PetApi extends BaseAPI {
     /**
      * Add a new pet to the store
      */
-    addPet(requestParameters: AddPetRequest): Observable<void> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling addPet.');
-        }
+    addPet = (requestParameters: AddPetRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'body', 'addPet');
 
-        const queryParameters: HttpQuery = {};
-
-        const headerParameters: HttpHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
+        const headers: HttpHeaders = {
+            'Content-Type': 'application/json',
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
-        }
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
+        };
 
         return this.request<void>({
-            path: `/pet`,
+            path: '/pet',
             method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
             body: requestParameters.body,
         });
     }
@@ -95,33 +87,23 @@ export class PetApi extends BaseAPI {
     /**
      * Deletes a pet
      */
-    deletePet(requestParameters: DeletePetRequest): Observable<void> {
-        if (requestParameters.petId === null || requestParameters.petId === undefined) {
-            throw new RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
-        }
+    deletePet = (requestParameters: DeletePetRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'petId', 'deletePet');
 
-        const queryParameters: HttpQuery = {};
-
-        const headerParameters: HttpHeaders = {};
-
-        if (requestParameters.apiKey !== undefined && requestParameters.apiKey !== null) {
-            headerParameters['api_key'] = String(requestParameters.apiKey);
-        }
-
-        if (this.configuration && this.configuration.accessToken) {
+        const headers: HttpHeaders = {
+            ...(requestParameters.apiKey && { 'api_key': String(requestParameters.apiKey) }),
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
-        }
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
+        };
 
         return this.request<void>({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            path: '/pet/{petId}'.replace('{petId}', encodeURI(requestParameters.petId)),
             method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
         });
     }
 
@@ -129,33 +111,27 @@ export class PetApi extends BaseAPI {
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    findPetsByStatus(requestParameters: FindPetsByStatusRequest): Observable<Array<Pet>> {
-        if (requestParameters.status === null || requestParameters.status === undefined) {
-            throw new RequiredError('status','Required parameter requestParameters.status was null or undefined when calling findPetsByStatus.');
-        }
+    findPetsByStatus = (requestParameters: FindPetsByStatusRequest): Observable<Array<Pet>> => {
+        throwIfRequired(requestParameters, 'status', 'findPetsByStatus');
 
-        const queryParameters: HttpQuery = {};
-
-        if (requestParameters.status) {
-            queryParameters['status'] = requestParameters.status.join(COLLECTION_FORMATS["csv"]);
-        }
-
-        const headerParameters: HttpHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
+        const headers: HttpHeaders = {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
-        }
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
+        };
+
+        const query: HttpQuery = {
+            ...(requestParameters.status && { 'status': requestParameters.status.join(COLLECTION_FORMATS['csv']) }),
+        };
 
         return this.request<Array<Pet>>({
-            path: `/pet/findByStatus`,
+            path: '/pet/findByStatus',
             method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
         });
     }
 
@@ -163,33 +139,27 @@ export class PetApi extends BaseAPI {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    findPetsByTags(requestParameters: FindPetsByTagsRequest): Observable<Array<Pet>> {
-        if (requestParameters.tags === null || requestParameters.tags === undefined) {
-            throw new RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
-        }
+    findPetsByTags = (requestParameters: FindPetsByTagsRequest): Observable<Array<Pet>> => {
+        throwIfRequired(requestParameters, 'tags', 'findPetsByTags');
 
-        const queryParameters: HttpQuery = {};
-
-        if (requestParameters.tags) {
-            queryParameters['tags'] = requestParameters.tags.join(COLLECTION_FORMATS["csv"]);
-        }
-
-        const headerParameters: HttpHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
+        const headers: HttpHeaders = {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
-        }
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
+        };
+
+        const query: HttpQuery = {
+            ...(requestParameters.tags && { 'tags': requestParameters.tags.join(COLLECTION_FORMATS['csv']) }),
+        };
 
         return this.request<Array<Pet>>({
-            path: `/pet/findByTags`,
+            path: '/pet/findByTags',
             method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
+            query,
         });
     }
 
@@ -197,55 +167,40 @@ export class PetApi extends BaseAPI {
      * Returns a single pet
      * Find pet by ID
      */
-    getPetById(requestParameters: GetPetByIdRequest): Observable<Pet> {
-        if (requestParameters.petId === null || requestParameters.petId === undefined) {
-            throw new RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
-        }
+    getPetById = (requestParameters: GetPetByIdRequest): Observable<Pet> => {
+        throwIfRequired(requestParameters, 'petId', 'getPetById');
 
-        const queryParameters: HttpQuery = {};
-
-        const headerParameters: HttpHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["api_key"] = this.configuration.apiKey("api_key"); // api_key authentication
-        }
+        const headers: HttpHeaders = {
+            ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
+        };
 
         return this.request<Pet>({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            path: '/pet/{petId}'.replace('{petId}', encodeURI(requestParameters.petId)),
             method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
         });
     }
 
     /**
      * Update an existing pet
      */
-    updatePet(requestParameters: UpdatePetRequest): Observable<void> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
-        }
+    updatePet = (requestParameters: UpdatePetRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'body', 'updatePet');
 
-        const queryParameters: HttpQuery = {};
-
-        const headerParameters: HttpHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
+        const headers: HttpHeaders = {
+            'Content-Type': 'application/json',
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
-        }
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
+        };
 
         return this.request<void>({
-            path: `/pet`,
+            path: '/pet',
             method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
             body: requestParameters.body,
         });
     }
@@ -253,23 +208,17 @@ export class PetApi extends BaseAPI {
     /**
      * Updates a pet in the store with form data
      */
-    updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Observable<void> {
-        if (requestParameters.petId === null || requestParameters.petId === undefined) {
-            throw new RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
-        }
+    updatePetWithForm = (requestParameters: UpdatePetWithFormRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'petId', 'updatePetWithForm');
 
-        const queryParameters: HttpQuery = {};
-
-        const headerParameters: HttpHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
+        const headers: HttpHeaders = {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
-        }
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
+        };
 
         const formData = new FormData();
         if (requestParameters.name !== undefined) {
@@ -281,10 +230,9 @@ export class PetApi extends BaseAPI {
         }
 
         return this.request<void>({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            path: '/pet/{petId}'.replace('{petId}', encodeURI(requestParameters.petId)),
             method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
             body: formData,
         });
     }
@@ -292,23 +240,17 @@ export class PetApi extends BaseAPI {
     /**
      * uploads an image
      */
-    uploadFile(requestParameters: UploadFileRequest): Observable<ApiResponse> {
-        if (requestParameters.petId === null || requestParameters.petId === undefined) {
-            throw new RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
-        }
+    uploadFile = (requestParameters: UploadFileRequest): Observable<ApiResponse> => {
+        throwIfRequired(requestParameters, 'petId', 'uploadFile');
 
-        const queryParameters: HttpQuery = {};
-
-        const headerParameters: HttpHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
+        const headers: HttpHeaders = {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
-        }
+            ...(this.configuration.accessToken && {
+                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    : this.configuration.accessToken)
+            }),
+        };
 
         const formData = new FormData();
         if (requestParameters.additionalMetadata !== undefined) {
@@ -320,10 +262,9 @@ export class PetApi extends BaseAPI {
         }
 
         return this.request<ApiResponse>({
-            path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            path: '/pet/{petId}/uploadImage'.replace('{petId}', encodeURI(requestParameters.petId)),
             method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
+            headers,
             body: formData,
         });
     }
@@ -331,9 +272,9 @@ export class PetApi extends BaseAPI {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum FindPetsByStatusStatusEnum {
     Available = 'available',
     Pending = 'pending',

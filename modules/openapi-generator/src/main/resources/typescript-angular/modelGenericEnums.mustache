@@ -1,8 +1,20 @@
 {{#hasEnums}}
 
+{{^stringEnums}}
 export namespace {{classname}} {
+{{/stringEnums}}
 {{#vars}}
     {{#isEnum}}
+{{#stringEnums}}
+export enum {{classname}}{{enumName}} {
+{{#allowableValues}}
+{{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+};
+{{/stringEnums}}
+{{^stringEnums}}
     export type {{enumName}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
     export const {{enumName}} = {
     {{#allowableValues}}
@@ -11,6 +23,8 @@ export namespace {{classname}} {
     {{/enumVars}}
     {{/allowableValues}}
     };
+{{/stringEnums}}
     {{/isEnum}}
 {{/vars}}
-}{{/hasEnums}}
+{{^stringEnums}}}{{/stringEnums}}
+{{/hasEnums}}

@@ -16,9 +16,14 @@
   },
   "dependencies": {
     "inversify": "^4.3.0",
-    "rxjs": "~5.5.7",
     "whatwg-fetch": "~2.0.1",
-    "reflect-metadata": "0.1.8"
+    "reflect-metadata": "0.1.8",
+    {{^useRxJS6}}
+    "rxjs": "^6.0.0"
+    {{/useRxJS6}}
+    {{#useRxJS6}}
+    "rxjs": "^5.0.0"
+    {{/useRxJS6}}
   },
   "devDependencies": {
   }{{#npmRepository}},{{/npmRepository}}

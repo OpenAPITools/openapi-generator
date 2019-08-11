@@ -28,7 +28,8 @@ import javax.validation.Valid;
  */
 
 public class Client {
-  @JsonProperty("client")
+  public static final String JSON_PROPERTY_CLIENT = "client";
+  @JsonProperty(JSON_PROPERTY_CLIENT)
   private String client;
 
   public Client client(String client) {
@@ -40,6 +41,7 @@ public class Client {
    * Get client
    * @return client
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getClient() {
     return client;

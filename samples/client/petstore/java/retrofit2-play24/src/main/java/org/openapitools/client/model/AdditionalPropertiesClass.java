@@ -32,37 +32,48 @@ import javax.validation.Valid;
  */
 
 public class AdditionalPropertiesClass {
-  @JsonProperty("map_string")
+  public static final String JSON_PROPERTY_MAP_STRING = "map_string";
+  @JsonProperty(JSON_PROPERTY_MAP_STRING)
   private Map<String, String> mapString = new HashMap<>();
 
-  @JsonProperty("map_number")
+  public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
+  @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
-  @JsonProperty("map_integer")
+  public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
+  @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   private Map<String, Integer> mapInteger = new HashMap<>();
 
-  @JsonProperty("map_boolean")
+  public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
+  @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
-  @JsonProperty("map_array_integer")
+  public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
-  @JsonProperty("map_array_anytype")
+  public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
-  @JsonProperty("map_map_string")
+  public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
-  @JsonProperty("map_map_anytype")
+  public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  @JsonProperty("anytype_1")
+  public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
+  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   private Object anytype1 = null;
 
-  @JsonProperty("anytype_2")
+  public static final String JSON_PROPERTY_ANYTYPE2 = "anytype_2";
+  @JsonProperty(JSON_PROPERTY_ANYTYPE2)
   private Object anytype2 = null;
 
-  @JsonProperty("anytype_3")
+  public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
+  @JsonProperty(JSON_PROPERTY_ANYTYPE3)
   private Object anytype3 = null;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
@@ -82,6 +93,7 @@ public class AdditionalPropertiesClass {
    * Get mapString
    * @return mapString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, String> getMapString() {
     return mapString;
@@ -108,6 +120,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Map<String, BigDecimal> getMapNumber() {
@@ -135,6 +148,7 @@ public class AdditionalPropertiesClass {
    * Get mapInteger
    * @return mapInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -161,6 +175,7 @@ public class AdditionalPropertiesClass {
    * Get mapBoolean
    * @return mapBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -187,6 +202,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -214,6 +230,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -241,6 +258,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapMapString() {
@@ -268,6 +286,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -287,6 +306,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Object getAnytype1() {
@@ -306,6 +326,7 @@ public class AdditionalPropertiesClass {
    * Get anytype2
    * @return anytype2
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Object getAnytype2() {
@@ -325,6 +346,7 @@ public class AdditionalPropertiesClass {
    * Get anytype3
    * @return anytype3
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public Object getAnytype3() {
