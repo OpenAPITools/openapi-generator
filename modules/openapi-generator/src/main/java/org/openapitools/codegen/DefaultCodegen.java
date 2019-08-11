@@ -240,13 +240,10 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey("lambda")) {
-            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
-                    "You'll likely need to use a custom template, " +
-                    "see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/templating.md. ");
-            additionalProperties.put("_lambda", lambdas);
-        } else {
-            additionalProperties.put("lambda", lambdas);
+            LOGGER.error("A property called 'lambda' already exists in additionalProperties");
+            throw new RuntimeException("A property called 'lambda' already exists in additionalProperties");
         }
+        additionalProperties.put("lambda", lambdas);
     }
 
     // override with any special post-processing for all models
