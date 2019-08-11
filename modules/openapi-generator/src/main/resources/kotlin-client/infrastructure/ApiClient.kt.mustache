@@ -2,10 +2,12 @@ package {{packageName}}.infrastructure
 
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.MediaType
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.FormBody
-import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.ResponseBody
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import java.io.File
 
@@ -29,8 +31,8 @@ open class ApiClient(val baseUrl: String) {
 
     protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
         when {
-            content is File -> RequestBody.create(
-                MediaType.parse(mediaType), content
+            content is File -> content.asRequestBody(
+                mediaType.toMediaTypeOrNull()
             )
             mediaType == FormDataMediaType || mediaType == FormUrlEncMediaType -> {
                 FormBody.Builder().apply {
@@ -41,8 +43,8 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> RequestBody.create(
-                MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+            mediaType == JsonMediaType -> Serializer.moshi.adapter(T::class.java).toJson(content).toRequestBody(
+                mediaType.toMediaTypeOrNull()
             )
             mediaType == XmlMediaType -> TODO("xml not currently supported.")
             // TODO: this should be extended with other serializers
@@ -64,7 +66,7 @@ open class ApiClient(val baseUrl: String) {
     }
 
     protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
-        val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
+        val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         val url = httpUrl.newBuilder()
             .addPathSegments(requestConfig.path.trimStart('/'))
@@ -114,29 +116,29 @@ open class ApiClient(val baseUrl: String) {
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         when {
             response.isRedirect -> return Redirection(
-                    response.code(),
-                    response.headers().toMultimap()
+                    response.code,
+                    response.headers.toMultimap()
             )
             response.isInformational -> return Informational(
-                    response.message(),
-                    response.code(),
-                    response.headers().toMultimap()
+                    response.message,
+                    response.code,
+                    response.headers.toMultimap()
             )
             response.isSuccessful -> return Success(
-                    responseBody(response.body(), accept),
-                    response.code(),
-                    response.headers().toMultimap()
+                    responseBody(response.body, accept),
+                    response.code,
+                    response.headers.toMultimap()
             )
             response.isClientError -> return ClientError(
-                    response.body()?.string(),
-                    response.code(),
-                    response.headers().toMultimap()
+                    response.body?.string(),
+                    response.code,
+                    response.headers.toMultimap()
             )
             else -> return ServerError(
                     null,
-                    response.body()?.string(),
-                    response.code(),
-                    response.headers().toMultimap()
+                    response.body?.string(),
+                    response.code,
+                    response.headers.toMultimap()
             )
         }
     }
