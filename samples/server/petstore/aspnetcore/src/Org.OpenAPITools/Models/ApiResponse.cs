@@ -12,9 +12,11 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
 { 
@@ -28,7 +30,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Code
         /// </summary>
         [DataMember(Name="code", EmitDefaultValue=false)]
-        public int? Code { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
@@ -91,7 +93,7 @@ namespace Org.OpenAPITools.Models
             return 
                 (
                     Code == other.Code ||
-                    Code != null &&
+                    
                     Code.Equals(other.Code)
                 ) && 
                 (
@@ -116,7 +118,7 @@ namespace Org.OpenAPITools.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Code != null)
+                    
                     hashCode = hashCode * 59 + Code.GetHashCode();
                     if (Type != null)
                     hashCode = hashCode * 59 + Type.GetHashCode();
