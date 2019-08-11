@@ -36,67 +36,80 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FormatTest")
 public class FormatTest {
-  @JsonProperty("integer")
+  public static final String JSON_PROPERTY_INTEGER = "integer";
+  @JsonProperty(JSON_PROPERTY_INTEGER)
   @JacksonXmlProperty(localName = "integer")
   @XmlElement(name = "integer")
   private Integer integer;
 
-  @JsonProperty("int32")
+  public static final String JSON_PROPERTY_INT32 = "int32";
+  @JsonProperty(JSON_PROPERTY_INT32)
   @JacksonXmlProperty(localName = "int32")
   @XmlElement(name = "int32")
   private Integer int32;
 
-  @JsonProperty("int64")
+  public static final String JSON_PROPERTY_INT64 = "int64";
+  @JsonProperty(JSON_PROPERTY_INT64)
   @JacksonXmlProperty(localName = "int64")
   @XmlElement(name = "int64")
   private Long int64;
 
-  @JsonProperty("number")
+  public static final String JSON_PROPERTY_NUMBER = "number";
+  @JsonProperty(JSON_PROPERTY_NUMBER)
   @JacksonXmlProperty(localName = "number")
   @XmlElement(name = "number")
   private BigDecimal number;
 
-  @JsonProperty("float")
+  public static final String JSON_PROPERTY_FLOAT = "float";
+  @JsonProperty(JSON_PROPERTY_FLOAT)
   @JacksonXmlProperty(localName = "float")
   @XmlElement(name = "float")
   private Float _float;
 
-  @JsonProperty("double")
+  public static final String JSON_PROPERTY_DOUBLE = "double";
+  @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JacksonXmlProperty(localName = "double")
   @XmlElement(name = "double")
   private Double _double;
 
-  @JsonProperty("string")
+  public static final String JSON_PROPERTY_STRING = "string";
+  @JsonProperty(JSON_PROPERTY_STRING)
   @JacksonXmlProperty(localName = "string")
   @XmlElement(name = "string")
   private String string;
 
-  @JsonProperty("byte")
+  public static final String JSON_PROPERTY_BYTE = "byte";
+  @JsonProperty(JSON_PROPERTY_BYTE)
   @JacksonXmlProperty(localName = "byte")
   @XmlElement(name = "byte")
   private byte[] _byte;
 
-  @JsonProperty("binary")
+  public static final String JSON_PROPERTY_BINARY = "binary";
+  @JsonProperty(JSON_PROPERTY_BINARY)
   @JacksonXmlProperty(localName = "binary")
   @XmlElement(name = "binary")
   private File binary;
 
-  @JsonProperty("date")
+  public static final String JSON_PROPERTY_DATE = "date";
+  @JsonProperty(JSON_PROPERTY_DATE)
   @JacksonXmlProperty(localName = "date")
   @XmlElement(name = "date")
   private LocalDate date;
 
-  @JsonProperty("dateTime")
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JacksonXmlProperty(localName = "dateTime")
   @XmlElement(name = "dateTime")
   private OffsetDateTime dateTime;
 
-  @JsonProperty("uuid")
+  public static final String JSON_PROPERTY_UUID = "uuid";
+  @JsonProperty(JSON_PROPERTY_UUID)
   @JacksonXmlProperty(localName = "uuid")
   @XmlElement(name = "uuid")
   private UUID uuid;
 
-  @JsonProperty("password")
+  public static final String JSON_PROPERTY_PASSWORD = "password";
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JacksonXmlProperty(localName = "password")
   @XmlElement(name = "password")
   private String password;
@@ -112,6 +125,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getInteger() {
     return integer;
@@ -132,6 +146,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getInt32() {
     return int32;
@@ -150,6 +165,7 @@ public class FormatTest {
    * Get int64
    * @return int64
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getInt64() {
     return int64;
@@ -190,6 +206,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Float getFloat() {
     return _float;
@@ -210,6 +227,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Double getDouble() {
     return _double;
@@ -228,6 +246,7 @@ public class FormatTest {
    * Get string
    * @return string
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getString() {
     return string;
@@ -264,6 +283,7 @@ public class FormatTest {
    * Get binary
    * @return binary
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public File getBinary() {
     return binary;
@@ -300,6 +320,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -318,6 +339,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   public UUID getUuid() {
     return uuid;

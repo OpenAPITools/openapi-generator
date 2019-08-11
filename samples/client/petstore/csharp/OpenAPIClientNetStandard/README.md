@@ -40,7 +40,7 @@ using Org.OpenAPITools.Model;
 ## Getting Started
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -50,10 +50,11 @@ namespace Example
 {
     public class Example
     {
-        public void main()
+        public static void Main()
         {
 
-            var apiInstance = new AnotherFakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new AnotherFakeApi(Configuration.Default);
             var body = new ModelClient(); // ModelClient | client model
 
             try
@@ -62,9 +63,11 @@ namespace Example
                 ModelClient result = apiInstance.Call123TestSpecialTags(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
 
         }
@@ -133,9 +136,11 @@ Class | Method | HTTP request | Description
  - [Model.ArrayTest](docs/ArrayTest.md)
  - [Model.Capitalization](docs/Capitalization.md)
  - [Model.Cat](docs/Cat.md)
+ - [Model.CatAllOf](docs/CatAllOf.md)
  - [Model.Category](docs/Category.md)
  - [Model.ClassModel](docs/ClassModel.md)
  - [Model.Dog](docs/Dog.md)
+ - [Model.DogAllOf](docs/DogAllOf.md)
  - [Model.EnumArrays](docs/EnumArrays.md)
  - [Model.EnumClass](docs/EnumClass.md)
  - [Model.EnumTest](docs/EnumTest.md)

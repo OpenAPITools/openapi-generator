@@ -77,48 +77,52 @@ Please follow the [installation](#installation) instruction and execute the foll
 
 ```java
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
-import {{{invokerPackage}}}.*;
-import {{{invokerPackage}}}.auth.*;
-import {{{modelPackage}}}.*;
+// Import classes:
+import {{{invokerPackage}}}.ApiClient;
+import {{{invokerPackage}}}.ApiException;
+import {{{invokerPackage}}}.Configuration;{{#hasAuthMethods}}
+import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
+import {{{invokerPackage}}}.models.*;
 import {{{package}}}.{{{classname}}};
 
-import java.io.File;
-import java.util.*;
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("{{{basePath}}}");
+    {{#hasAuthMethods}}
+    {{#authMethods}}{{#isBasic}}
+    // Configure HTTP basic authorization: {{{name}}}
+    HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
+    {{{name}}}.setUsername("YOUR USERNAME");
+    {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isApiKey}}
+    // Configure API key authorization: {{{name}}}
+    ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
+    {{{name}}}.setApiKey("YOUR API KEY");
+    // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+    //{{{name}}}.setApiKeyPrefix("Token");{{/isApiKey}}{{#isOAuth}}
+    // Configure OAuth2 access token for authorization: {{{name}}}
+    OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
+    {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}
+    {{/authMethods}}
+    {{/hasAuthMethods}}
 
-public class {{{classname}}}Example {
-
-    public static void main(String[] args) {
-        {{#hasAuthMethods}}ApiClient defaultClient = Configuration.getDefaultApiClient();
-        {{#authMethods}}{{#isBasic}}
-        // Configure HTTP basic authorization: {{{name}}}
-        HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
-        {{{name}}}.setUsername("YOUR USERNAME");
-        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isApiKey}}
-        // Configure API key authorization: {{{name}}}
-        ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
-        {{{name}}}.setApiKey("YOUR API KEY");
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //{{{name}}}.setApiKeyPrefix("Token");{{/isApiKey}}{{#isOAuth}}
-        // Configure OAuth2 access token for authorization: {{{name}}}
-        OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
-        {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}
-        {{/authMethods}}
-        {{/hasAuthMethods}}
-
-        {{{classname}}} apiInstance = new {{{classname}}}();
-        {{#allParams}}
-        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
-        {{/allParams}}
-        try {
-            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}{{^vendorExtensions.x-group-parameters}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}({{#requiredParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}){{#optionalParams}}
-                    .{{{paramName}}}({{{paramName}}}){{/optionalParams}}
-                    .execute();{{/vendorExtensions.x-group-parameters}}{{#returnType}}
-            System.out.println(result);{{/returnType}}
-        } catch (ApiException e) {
-            System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
-            e.printStackTrace();
-        }
+    {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
+    {{#allParams}}
+    {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+    {{/allParams}}
+    try {
+      {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}{{^vendorExtensions.x-group-parameters}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}({{#requiredParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}){{#optionalParams}}
+            .{{{paramName}}}({{{paramName}}}){{/optionalParams}}
+            .execute();{{/vendorExtensions.x-group-parameters}}{{#returnType}}
+      System.out.println(result);{{/returnType}}
+    } catch (ApiException e) {
+      System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
+  }
 }
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
 ```

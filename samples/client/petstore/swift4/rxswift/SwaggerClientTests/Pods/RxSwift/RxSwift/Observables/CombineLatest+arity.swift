@@ -7,8 +7,6 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-
-
 // 2
 
 extension ObservableType {
@@ -104,8 +102,6 @@ final class CombineLatest2<E1, E2, R> : Producer<R> {
         return (sink: sink, subscription: subscription)
     }
 }
-
-
 
 // 3
 
@@ -209,8 +205,6 @@ final class CombineLatest3<E1, E2, E3, R> : Producer<R> {
         return (sink: sink, subscription: subscription)
     }
 }
-
-
 
 // 4
 
@@ -321,8 +315,6 @@ final class CombineLatest4<E1, E2, E3, E4, R> : Producer<R> {
         return (sink: sink, subscription: subscription)
     }
 }
-
-
 
 // 5
 
@@ -440,8 +432,6 @@ final class CombineLatest5<E1, E2, E3, E4, E5, R> : Producer<R> {
         return (sink: sink, subscription: subscription)
     }
 }
-
-
 
 // 6
 
@@ -566,8 +556,6 @@ final class CombineLatest6<E1, E2, E3, E4, E5, E6, R> : Producer<R> {
         return (sink: sink, subscription: subscription)
     }
 }
-
-
 
 // 7
 
@@ -699,8 +687,6 @@ final class CombineLatest7<E1, E2, E3, E4, E5, E6, E7, R> : Producer<R> {
         return (sink: sink, subscription: subscription)
     }
 }
-
-
 
 // 8
 
@@ -839,5 +825,3 @@ final class CombineLatest8<E1, E2, E3, E4, E5, E6, E7, E8, R> : Producer<R> {
         return (sink: sink, subscription: subscription)
     }
 }
-
-

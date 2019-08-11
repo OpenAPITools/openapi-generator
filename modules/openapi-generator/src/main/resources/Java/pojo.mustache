@@ -20,7 +20,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
     {{/isContainer}}
     {{/isEnum}}
   {{#jackson}}
-  @JsonProperty("{{baseName}}")
+  public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
+  @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
   {{#withXml}}
     {{^isContainer}}
   @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
@@ -129,6 +130,14 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{/maximum}}
    * @return {{name}}
   **/
+{{#required}}
+{{#isNullable}}
+  @javax.annotation.Nullable
+{{/isNullable}}
+{{/required}}
+{{^required}}
+  @javax.annotation.Nullable
+{{/required}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
 {{#vendorExtensions.extraAnnotation}}
   {{{vendorExtensions.extraAnnotation}}}

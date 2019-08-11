@@ -30,7 +30,6 @@ install:
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
   - cmd: java -version
   - cmd: gradle -v
-  - cmd: gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --info
   - cmd: dir/w
   - git clone https://github.com/wing328/swagger-samples
   - ps: Start-Process -FilePath 'C:\maven\apache-maven-3.2.5\bin\mvn' -ArgumentList 'jetty:run' -WorkingDirectory "$env:appveyor_build_folder\swagger-samples\java\java-jersey-jaxrs-ci"
@@ -50,6 +49,8 @@ build_script:
   - msbuild samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # install openapi-generator locally
   - mvn clean install --quiet
+  # run the locally installed openapi-generator-gradle-plugin
+  - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --info
 test_script:
   # restore test-related files
   - copy /b/v/y CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
@@ -57,9 +58,9 @@ test_script:
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client
-  - nunit-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
+  - nunit3-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
   # test c# API client (with PropertyChanged)
-  - nunit-console samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
+  - nunit3-console samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
 
   # generate all petstore clients
   - .\bin\windows\run-all-petstore.cmd

@@ -27,7 +27,8 @@ import org.openapitools.client.model.DogAllOf;
  */
 
 public class Dog extends Animal {
-  @JsonProperty("breed")
+  public static final String JSON_PROPERTY_BREED = "breed";
+  @JsonProperty(JSON_PROPERTY_BREED)
   private String breed;
 
   public Dog breed(String breed) {
@@ -39,6 +40,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getBreed() {
     return breed;

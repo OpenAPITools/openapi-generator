@@ -140,7 +140,7 @@ public class Generate implements Runnable {
     private List<String> typeMappings = new ArrayList<>();
 
     @Option(
-            name = {"--additional-properties"},
+            name = {"-p", "--additional-properties"},
             title = "additional properties",
             description = "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value."
                     + " You can also have multiple occurrences of this option.")
@@ -383,7 +383,10 @@ public class Generate implements Runnable {
             configurator.setStrictSpecBehavior(strictSpecBehavior);
         }
 
-        applySystemPropertiesKvpList(systemProperties, configurator);
+        if (systemProperties != null && !systemProperties.isEmpty()) {
+            System.err.println("[DEPRECATED] -D arguments after 'generate' are application arguments and not Java System Properties, please consider changing to -p, or apply your options to JAVA_OPTS, or move the -D arguments before the jar option.");
+            applySystemPropertiesKvpList(systemProperties, configurator);
+        }
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);

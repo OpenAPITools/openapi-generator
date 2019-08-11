@@ -28,16 +28,19 @@ import javax.validation.Valid;
  */
 
 public class HasOnlyReadOnly {
-  @JsonProperty("bar")
+  public static final String JSON_PROPERTY_BAR = "bar";
+  @JsonProperty(JSON_PROPERTY_BAR)
   private String bar;
 
-  @JsonProperty("foo")
+  public static final String JSON_PROPERTY_FOO = "foo";
+  @JsonProperty(JSON_PROPERTY_FOO)
   private String foo;
 
    /**
    * Get bar
    * @return bar
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getBar() {
     return bar;
@@ -47,6 +50,7 @@ public class HasOnlyReadOnly {
    * Get foo
    * @return foo
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getFoo() {
     return foo;

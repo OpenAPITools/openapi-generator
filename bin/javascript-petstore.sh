@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/Javascript -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g javascript -o samples/client/petstore/javascript  -DappName=PetstoreClient --additional-properties useES6=false $@"
+ags="generate -t modules/openapi-generator/src/main/resources/Javascript -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g javascript -o samples/client/petstore/javascript  --additional-properties appName=PetstoreClient,useES6=false $@"
 
 java $JAVA_OPTS -jar $executable $ags

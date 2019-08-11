@@ -49,7 +49,7 @@ public:
     void setName(const QString &name);
 
     
-    
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 
@@ -67,5 +67,7 @@ private:
     };
 
 }
+
+Q_DECLARE_METATYPE(OpenAPI::OAICategory)
 
 #endif // OAICategory_H

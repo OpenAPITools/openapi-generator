@@ -58,11 +58,12 @@ public class EnumArrays {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  @JsonProperty("just_symbol")
+  public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   private JustSymbolEnum justSymbol;
 
   /**
@@ -96,11 +97,12 @@ public class EnumArrays {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  @JsonProperty("array_enum")
+  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
@@ -112,6 +114,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -138,6 +141,7 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;

@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QTimer>
 #include <QMap>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -69,7 +70,7 @@ public:
     QByteArray response;
     QNetworkReply::NetworkError error_type;
     QString error_str;
-
+    QTimer *timer;
     explicit OAIHttpRequestWorker(QObject *parent = nullptr);
     virtual ~OAIHttpRequestWorker();
 
@@ -77,16 +78,17 @@ public:
     QString http_attribute_encode(QString attribute_name, QString input);
     void execute(OAIHttpRequestInput *input);
     static QSslConfiguration* sslDefaultConfiguration;
-
+    void setTimeOut(int tout);
 signals:
     void on_execution_finished(OAIHttpRequestWorker *worker);
 
 private:
     QNetworkAccessManager *manager;
     QMap<QByteArray, QByteArray> headers;
+    int timeout;
+    void on_manager_timeout(QNetworkReply *reply);
 private slots:
     void on_manager_finished(QNetworkReply *reply);
-
 };
 
 }

@@ -1,0 +1,53 @@
+{{#models}}{{#model}}# {{classname}}
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#vars}}**{{name}}** | Pointer to {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#readOnly}}[readonly] {{/readOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{/vars}}
+
+{{^isEnum}}
+## Methods
+
+{{#vars}}
+### Get{{name}}
+
+`func (o *{{classname}}) Get{{name}}() {{dataType}}`
+
+Get{{name}} returns the {{name}} field if non-nil, zero value otherwise.
+
+### Get{{name}}Ok
+
+`func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool)`
+
+Get{{name}}Ok returns a tuple with the {{name}} field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### Has{{name}}
+
+`func (o *{{classname}}) Has{{name}}() bool`
+
+Has{{name}} returns a boolean if a field has been set.
+
+### Set{{name}}
+
+`func (o *{{classname}}) Set{{name}}(v {{dataType}})`
+
+Set{{name}} gets a reference to the given {{dataType}} and assigns it to the {{name}} field.
+
+{{#isNullable}}
+### Set{{name}}ExplicitNull
+
+`func (o *{{classname}}) Set{{name}}ExplicitNull(b bool)`
+
+Set{{name}}ExplicitNull (un)sets {{name}} to be considered as explicit "null" value
+when serializing to JSON (pass true as argument to set this, false to unset)
+The {{name}} value is set to nil even if false is passed
+{{/isNullable}}
+{{/vars}}
+{{/isEnum}}
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+{{/model}}{{/models}}

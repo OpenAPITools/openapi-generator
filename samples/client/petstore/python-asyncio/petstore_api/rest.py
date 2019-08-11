@@ -46,8 +46,11 @@ class RESTResponse(io.IOBase):
 
 class RESTClientObject(object):
 
-    def __init__(self, configuration, pools_size=4, maxsize=4):
+    def __init__(self, configuration, pools_size=4, maxsize=None):
+
         # maxsize is number of requests to host that are allowed in parallel
+        if maxsize is None:
+            maxsize = configuration.connection_pool_maxsize
 
         # ca_certs
         if configuration.ssl_ca_cert:

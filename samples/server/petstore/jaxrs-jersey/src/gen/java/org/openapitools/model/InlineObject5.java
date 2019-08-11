@@ -27,10 +27,12 @@ import javax.validation.Valid;
  */
 
 public class InlineObject5   {
-  @JsonProperty("additionalMetadata")
+  public static final String JSON_PROPERTY_ADDITIONAL_METADATA = "additionalMetadata";
+  @JsonProperty(JSON_PROPERTY_ADDITIONAL_METADATA)
   private String additionalMetadata;
 
-  @JsonProperty("requiredFile")
+  public static final String JSON_PROPERTY_REQUIRED_FILE = "requiredFile";
+  @JsonProperty(JSON_PROPERTY_REQUIRED_FILE)
   private File requiredFile;
 
   public InlineObject5 additionalMetadata(String additionalMetadata) {

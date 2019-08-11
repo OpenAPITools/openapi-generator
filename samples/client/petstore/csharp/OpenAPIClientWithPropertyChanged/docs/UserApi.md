@@ -26,7 +26,7 @@ This can only be done by the logged in user.
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -36,9 +36,10 @@ namespace Example
 {
     public class CreateUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var body = new User(); // User | Created user object
 
             try
@@ -46,9 +47,11 @@ namespace Example
                 // Create user
                 apiInstance.CreateUser(body);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.CreateUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -75,6 +78,11 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **0** | successful operation |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -90,7 +98,7 @@ Creates list of users with given input array
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -100,9 +108,10 @@ namespace Example
 {
     public class CreateUsersWithArrayInputExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var body = new List<User>(); // List<User> | List of user object
 
             try
@@ -110,9 +119,11 @@ namespace Example
                 // Creates list of users with given input array
                 apiInstance.CreateUsersWithArrayInput(body);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.CreateUsersWithArrayInput: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -124,7 +135,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -138,6 +149,11 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **0** | successful operation |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -154,7 +170,7 @@ Creates list of users with given input array
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -164,9 +180,10 @@ namespace Example
 {
     public class CreateUsersWithListInputExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var body = new List<User>(); // List<User> | List of user object
 
             try
@@ -174,9 +191,11 @@ namespace Example
                 // Creates list of users with given input array
                 apiInstance.CreateUsersWithListInput(body);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.CreateUsersWithListInput: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -188,7 +207,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -202,6 +221,11 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **0** | successful operation |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -220,7 +244,7 @@ This can only be done by the logged in user.
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -230,9 +254,10 @@ namespace Example
 {
     public class DeleteUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var username = username_example;  // string | The name that needs to be deleted
 
             try
@@ -240,9 +265,11 @@ namespace Example
                 // Delete user
                 apiInstance.DeleteUser(username);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.DeleteUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -269,6 +296,12 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid username supplied |  -  |
+| **404** | User not found |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -284,7 +317,7 @@ Get user by user name
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -294,9 +327,10 @@ namespace Example
 {
     public class GetUserByNameExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var username = username_example;  // string | The name that needs to be fetched. Use user1 for testing.
 
             try
@@ -305,9 +339,11 @@ namespace Example
                 User result = apiInstance.GetUserByName(username);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.GetUserByName: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -334,6 +370,13 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid username supplied |  -  |
+| **404** | User not found |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -349,7 +392,7 @@ Logs user into the system
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -359,9 +402,10 @@ namespace Example
 {
     public class LoginUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var username = username_example;  // string | The user name for login
             var password = password_example;  // string | The password for login in clear text
 
@@ -371,9 +415,11 @@ namespace Example
                 string result = apiInstance.LoginUser(username, password);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.LoginUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -401,6 +447,12 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
+| **400** | Invalid username/password supplied |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -416,7 +468,7 @@ Logs out current logged in user session
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -426,18 +478,21 @@ namespace Example
 {
     public class LogoutUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
 
             try
             {
                 // Logs out current logged in user session
                 apiInstance.LogoutUser();
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.LogoutUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -461,6 +516,11 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **0** | successful operation |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -478,7 +538,7 @@ This can only be done by the logged in user.
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -488,9 +548,10 @@ namespace Example
 {
     public class UpdateUserExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new UserApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(Configuration.Default);
             var username = username_example;  // string | name that need to be deleted
             var body = new User(); // User | Updated user object
 
@@ -499,9 +560,11 @@ namespace Example
                 // Updated user
                 apiInstance.UpdateUser(username, body);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.UpdateUser: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -528,6 +591,12 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid user supplied |  -  |
+| **404** | User not found |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)

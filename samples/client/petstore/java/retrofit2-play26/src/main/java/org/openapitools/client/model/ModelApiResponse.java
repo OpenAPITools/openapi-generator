@@ -28,13 +28,16 @@ import javax.validation.Valid;
  */
 
 public class ModelApiResponse {
-  @JsonProperty("code")
+  public static final String JSON_PROPERTY_CODE = "code";
+  @JsonProperty(JSON_PROPERTY_CODE)
   private Integer code;
 
-  @JsonProperty("type")
+  public static final String JSON_PROPERTY_TYPE = "type";
+  @JsonProperty(JSON_PROPERTY_TYPE)
   private String type;
 
-  @JsonProperty("message")
+  public static final String JSON_PROPERTY_MESSAGE = "message";
+  @JsonProperty(JSON_PROPERTY_MESSAGE)
   private String message;
 
   public ModelApiResponse code(Integer code) {
@@ -46,6 +49,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getCode() {
     return code;
@@ -64,6 +68,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getType() {
     return type;
@@ -82,6 +87,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getMessage() {
     return message;

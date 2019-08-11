@@ -73,7 +73,7 @@ public:
     void setUserStatus(const qint32 &user_status);
 
     
-    
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 
@@ -115,5 +115,7 @@ private:
     };
 
 }
+
+Q_DECLARE_METATYPE(OpenAPI::OAIUser)
 
 #endif // OAIUser_H

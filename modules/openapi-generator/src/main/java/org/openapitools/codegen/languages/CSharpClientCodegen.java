@@ -73,6 +73,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     // use KellermanSoftware.CompareNetObjects for deep recursive object comparision
     protected boolean useCompareNetObjects = Boolean.FALSE;
 
+    // To make API response's headers dictionary case insensitive
+    protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+
     public CSharpClientCodegen() {
         super();
         supportsInheritance = true;
@@ -95,6 +98,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
 
         setSupportNullable(Boolean.TRUE);
 
@@ -197,6 +201,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.USE_COMPARE_NET_OBJECTS,
                 CodegenConstants.USE_COMPARE_NET_OBJECTS_DESC,
                 this.useCompareNetObjects);
+
+        addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
+                CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
+                this.caseInsensitiveResponseHeaders);
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IgnoreCase");
@@ -801,6 +809,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.useCompareNetObjects = useCompareNetObjects;
     }
 
+    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
+        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
+    }
+
     public boolean isNonPublicApi() {
         return nonPublicApi;
     }
@@ -867,15 +879,15 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return null;
         }
     }
-    
+
     @Override
     public String getNullableType(Schema p, String type) {
-        boolean isNullableExpected = p.getNullable() == null || (p.getNullable() != null && p.getNullable());
-
-        if (isNullableExpected && languageSpecificPrimitives.contains(type + "?")) {
-            return type + "?";
-        } else if (languageSpecificPrimitives.contains(type)) {
-            return type;
+        if (languageSpecificPrimitives.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+                return type + "?";
+            } else {
+                return type;
+            }
         } else {
             return null;
         }

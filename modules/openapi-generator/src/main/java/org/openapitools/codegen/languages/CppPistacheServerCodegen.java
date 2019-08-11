@@ -107,6 +107,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "std::string");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
 
         super.importMapping = new HashMap<String, String>();

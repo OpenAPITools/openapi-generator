@@ -31,7 +31,8 @@ import javax.validation.Valid;
  */
 
 public class ArrayOfNumberOnly {
-  @JsonProperty("ArrayNumber")
+  public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
+  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
@@ -51,6 +52,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public List<BigDecimal> getArrayNumber() {

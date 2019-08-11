@@ -36,6 +36,7 @@ ext {
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "io.vertx:vertx-web-client:$vertx_version"
     compile "io.vertx:vertx-rx-java:$vertx_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"

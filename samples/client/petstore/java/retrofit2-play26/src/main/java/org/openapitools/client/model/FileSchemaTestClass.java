@@ -30,10 +30,12 @@ import javax.validation.Valid;
  */
 
 public class FileSchemaTestClass {
-  @JsonProperty("file")
+  public static final String JSON_PROPERTY_FILE = "file";
+  @JsonProperty(JSON_PROPERTY_FILE)
   private java.io.File file = null;
 
-  @JsonProperty("files")
+  public static final String JSON_PROPERTY_FILES = "files";
+  @JsonProperty(JSON_PROPERTY_FILES)
   private List<java.io.File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(java.io.File file) {
@@ -45,6 +47,7 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public java.io.File getFile() {
@@ -72,6 +75,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public List<java.io.File> getFiles() {

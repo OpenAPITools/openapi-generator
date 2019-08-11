@@ -117,7 +117,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List<User>**](List.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -176,7 +176,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List<User>**](List.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 

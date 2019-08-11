@@ -37,7 +37,7 @@ class UserApiTest {
     */
     @Test
     fun createUsersWithArrayInputTest() {
-        val body:List<User>? = null
+        val body:kotlin.collections.List<User>? = null
         val response: ResponseEntity<Unit> = api.createUsersWithArrayInput(body!!)
 
         // TODO: test validations
@@ -53,7 +53,7 @@ class UserApiTest {
     */
     @Test
     fun createUsersWithListInputTest() {
-        val body:List<User>? = null
+        val body:kotlin.collections.List<User>? = null
         val response: ResponseEntity<Unit> = api.createUsersWithListInput(body!!)
 
         // TODO: test validations
@@ -69,7 +69,7 @@ class UserApiTest {
     */
     @Test
     fun deleteUserTest() {
-        val username:String? = null
+        val username:kotlin.String? = null
         val response: ResponseEntity<Unit> = api.deleteUser(username!!)
 
         // TODO: test validations
@@ -85,7 +85,7 @@ class UserApiTest {
     */
     @Test
     fun getUserByNameTest() {
-        val username:String? = null
+        val username:kotlin.String? = null
         val response: ResponseEntity<User> = api.getUserByName(username!!)
 
         // TODO: test validations
@@ -101,9 +101,9 @@ class UserApiTest {
     */
     @Test
     fun loginUserTest() {
-        val username:String? = null
-        val password:String? = null
-        val response: ResponseEntity<String> = api.loginUser(username!!, password!!)
+        val username:kotlin.String? = null
+        val password:kotlin.String? = null
+        val response: ResponseEntity<kotlin.String> = api.loginUser(username!!, password!!)
 
         // TODO: test validations
     }
@@ -133,7 +133,7 @@ class UserApiTest {
     */
     @Test
     fun updateUserTest() {
-        val username:String? = null
+        val username:kotlin.String? = null
         val body:User? = null
         val response: ResponseEntity<Unit> = api.updateUser(username!!, body!!)
 

@@ -33,12 +33,14 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FileSchemaTestClass")
 public class FileSchemaTestClass {
-  @JsonProperty("file")
+  public static final String JSON_PROPERTY_FILE = "file";
+  @JsonProperty(JSON_PROPERTY_FILE)
   @JacksonXmlProperty(localName = "file")
   @XmlElement(name = "file")
   private java.io.File file = null;
 
-  @JsonProperty("files")
+  public static final String JSON_PROPERTY_FILES = "files";
+  @JsonProperty(JSON_PROPERTY_FILES)
   // Is a container wrapped=false
   // items.name=files items.baseName=files items.xmlName= items.xmlNamespace=
   // items.example= items.type=java.io.File
@@ -54,6 +56,7 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public java.io.File getFile() {
     return file;
@@ -80,6 +83,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<java.io.File> getFiles() {
     return files;

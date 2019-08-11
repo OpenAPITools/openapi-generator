@@ -15,6 +15,7 @@
 
 #include <QString>
 #include <QJsonValue>
+#include <QMetaType>
 
 namespace OpenAPI {
 
@@ -23,7 +24,7 @@ class OAIEnum {
     OAIEnum() {
 
     }
-    
+
     OAIEnum(QString jsonString) {
         fromJson(jsonString);
     }
@@ -56,9 +57,11 @@ class OAIEnum {
         return true;
     }
 private :
-    QString jstr; 
+    QString jstr;
 };
 
 }
+
+Q_DECLARE_METATYPE(OpenAPI::OAIEnum)
 
 #endif // OAI_ENUM_H

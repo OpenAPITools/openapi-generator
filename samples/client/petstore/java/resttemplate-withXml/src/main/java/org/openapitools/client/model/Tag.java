@@ -31,12 +31,14 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Tag")
 public class Tag {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
   private Long id;
 
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
   private String name;
@@ -50,6 +52,7 @@ public class Tag {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
@@ -68,6 +71,7 @@ public class Tag {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getName() {
     return name;

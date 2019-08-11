@@ -45,8 +45,15 @@ class UserApi(object):
         >>> thread = api.create_user(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param User body: Created user object (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -63,8 +70,17 @@ class UserApi(object):
         >>> thread = api.create_user_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param User body: Created user object (required)
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -132,8 +148,15 @@ class UserApi(object):
         >>> thread = api.create_users_with_array_input(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param list[User] body: List of user object (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -149,8 +172,17 @@ class UserApi(object):
         >>> thread = api.create_users_with_array_input_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param list[User] body: List of user object (required)
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -218,8 +250,15 @@ class UserApi(object):
         >>> thread = api.create_users_with_list_input(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param list[User] body: List of user object (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -235,8 +274,17 @@ class UserApi(object):
         >>> thread = api.create_users_with_list_input_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param list[User] body: List of user object (required)
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -305,8 +353,15 @@ class UserApi(object):
         >>> thread = api.delete_user(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param str username: The name that needs to be deleted (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -323,8 +378,17 @@ class UserApi(object):
         >>> thread = api.delete_user_with_http_info(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param str username: The name that needs to be deleted (required)
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -392,8 +456,15 @@ class UserApi(object):
         >>> thread = api.get_user_by_name(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param str username: The name that needs to be fetched. Use user1 for testing. (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: User
                  If the method is called asynchronously,
                  returns the request thread.
@@ -409,9 +480,18 @@ class UserApi(object):
         >>> thread = api.get_user_by_name_with_http_info(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param str username: The name that needs to be fetched. Use user1 for testing. (required)
-        :return: User
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(User, status_code(int), headers(HTTPHeaderDict))
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -482,9 +562,16 @@ class UserApi(object):
         >>> thread = api.login_user(username, password, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param str username: The user name for login (required)
         :param str password: The password for login in clear text (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: str
                  If the method is called asynchronously,
                  returns the request thread.
@@ -500,10 +587,19 @@ class UserApi(object):
         >>> thread = api.login_user_with_http_info(username, password, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param str username: The user name for login (required)
         :param str password: The password for login in clear text (required)
-        :return: str
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(str, status_code(int), headers(HTTPHeaderDict))
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -580,7 +676,14 @@ class UserApi(object):
         >>> thread = api.logout_user(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -596,7 +699,16 @@ class UserApi(object):
         >>> thread = api.logout_user_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -659,9 +771,16 @@ class UserApi(object):
         >>> thread = api.update_user(username, body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param str username: name that need to be deleted (required)
         :param User body: Updated user object (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -678,9 +797,18 @@ class UserApi(object):
         >>> thread = api.update_user_with_http_info(username, body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param str username: name that need to be deleted (required)
         :param User body: Updated user object (required)
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.

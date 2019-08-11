@@ -23,6 +23,7 @@
         </whitelist>
     </filter>
     <php>
+        <ini name="error_reporting" value="E_ALL" />
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>

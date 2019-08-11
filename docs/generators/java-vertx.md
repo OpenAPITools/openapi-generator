@@ -43,4 +43,5 @@ sidebar_label: java-vertx
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd><dl>|null|
 |rxInterface|When specified, API interfaces are generated with RX and methods return Single&lt;&gt; and Comparable.| |false|
+|rxVersion2|When specified in combination with rxInterface, API interfaces are generated with RxJava2.| |false|
 |vertxSwaggerRouterVersion|Specify the version of the swagger router library| |null|
