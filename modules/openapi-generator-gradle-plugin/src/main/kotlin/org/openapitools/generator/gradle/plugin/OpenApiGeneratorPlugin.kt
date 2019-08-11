@@ -19,6 +19,7 @@ package org.openapitools.generator.gradle.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGenerateExtension
+import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGeneratorsExtension
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorMetaExtension
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorValidateExtension
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
@@ -53,12 +54,20 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     project
             )
 
+            val generators = extensions.create(
+                "openApiGenerators",
+                OpenApiGeneratorGeneratorsExtension::class.java,
+                project
+            )
+
             generate.outputDir.set("$buildDir/generate-resources/main")
 
             tasks.apply {
                 create("openApiGenerators", GeneratorsTask::class.java) {
                     group = pluginGroup
                     description = "Lists generators available via Open API Generators."
+
+                    include.set(generators.include)
                 }
 
                 create("openApiMeta", MetaTask::class.java) {
