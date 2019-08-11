@@ -1822,6 +1822,7 @@ public class DefaultCodegen implements CodegenConfig {
                         } else {
                             // composition
                             addProperties(properties, required, refSchema);
+                            addProperties(allProperties, allRequired, refSchema);
                         }
                     }
 
