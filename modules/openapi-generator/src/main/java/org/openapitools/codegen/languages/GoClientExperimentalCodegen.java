@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +35,10 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         super();
         outputFolder = "generated-code/go-experimental";
         embeddedTemplateDir = templateDir = "go-experimental";
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.EXPERIMENTAL)
+                .build();
     }
 
     /**
