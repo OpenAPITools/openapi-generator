@@ -68,63 +68,74 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                     val params = context.params
                 {{#allParams}}
                     {{#isListContainer}}
-                        val {{paramName}}Param = ApiHandlerUtils.searchJsonArrayInJson(params,"{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{baseName}}{{/isBodyParam}}")
+                    val {{paramName}}Param = ApiHandlerUtils.searchJsonArrayInJson(params,"{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{baseName}}{{/isBodyParam}}")
                         {{#required}}
-                            if({{paramName}} == null){
-                                throw IllegalArgumentException("{{paramName}} is required")
-                            }
-                            val {{paramName}}:{{{dataType}}} = Gson().fromJson({{paramName}}Param.encode()
+                    if({{paramName}} == null){
+                         throw IllegalArgumentException("{{paramName}} is required")
+                    }
+                    val {{paramName}}:{{{dataType}}} = Gson().fromJson({{paramName}}Param.encode()
                             , object : TypeToken<kotlin.List<{{{baseType}}}>>(){}.type)
                         {{/required}}
                         {{^required}}
-                            val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+                    val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
                             else Gson().fromJson({{paramName}}Param.encode(),
                             , object : TypeToken<kotlin.List<{{{baseType}}}>>(){}.type)
                         {{/required}}
                     {{/isListContainer}}
                     {{^isListContainer}}
                         {{#isPrimitiveType}}
-                            val {{paramName}}Param = message.body().getString("{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{#isString}}
-                                val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                    val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{/isString}}
+                            {{#isDate}}
+                    val {{paramName}} = java.time.LocalDate.parse(ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}"))
+                            {{/isDate}}
+                            {{#isDateTime}}
+                    val {{paramName}} = java.time.LocalDateTime.parse(ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}"))
+                            {{/isDateTime}}
+                            {{#isEmail}}
+                    val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isEmail}}
+                            {{#isUuid}}
+                    val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isUuid}}
                             {{#isNumber}}
-                                val {{paramName}} = ApiHandlerUtils.searchDoubleInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                    val {{paramName}} = ApiHandlerUtils.searchDoubleInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{/isNumber}}
                             {{#isLong}}
-                                val {{paramName}} = ApiHandlerUtils.searchLongInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                    val {{paramName}} = ApiHandlerUtils.searchLongInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{/isLong}}
                             {{#isInteger}}
-                                val {{paramName}} = ApiHandlerUtils.searchIntegerInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                    val {{paramName}} = ApiHandlerUtils.searchIntegerInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{/isInteger}}
                             {{#isFloat}}
-                                val {{paramName}} = ApiHandlerUtils.searchDoubleInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")?.toFloat()
+                    val {{paramName}} = ApiHandlerUtils.searchDoubleInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")?.toFloat()
                             {{/isFloat}}
                             {{#isDouble}}
-                                val {{paramName}} = ApiHandlerUtils.searchDoubleInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                    val {{paramName}} = ApiHandlerUtils.searchDoubleInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{/isDouble}}
                             {{#isBoolean}}
-                                val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")?.toBoolean()
+                    val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")?.toBoolean()
                             {{/isBoolean}}
                             {{#isFreeFormObject}}
-                                val {{paramName}} = ApiHandlerUtils.searchJsonObjectInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                    val {{paramName}} = ApiHandlerUtils.searchJsonObjectInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{/isFreeFormObject}}
                             {{#required}}
-                                if({{paramName}} == null){
-                                    throw IllegalArgumentException("{{paramName}} is required")
-                                }
+                    if({{paramName}} == null){
+                        throw IllegalArgumentException("{{paramName}} is required")
+                    }
                             {{/required}}
                         {{/isPrimitiveType}}
                         {{^isPrimitiveType}}
-                            val {{paramName}}Param = ApiHandlerUtils.searchJsonObjectInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                    val {{paramName}}Param = ApiHandlerUtils.searchJsonObjectInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{#required}}
-                                if ({{paramName}}Param == null) {
-                                    throw IllegalArgumentException("{{paramName}} is required")
-                                }
-                                val {{paramName}} = Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
+                    if ({{paramName}}Param == null) {
+                        throw IllegalArgumentException("{{paramName}} is required")
+                    }
+                    val {{paramName}} = Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
                             {{/required}}
                             {{^required}}
-                                val {{paramName}} = if({{paramName}}Param ==null) null else Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
+                    val {{paramName}} = if({{paramName}}Param ==null) null else Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
                             {{/required}}
                         {{/isPrimitiveType}}
                     {{/isListContainer}}
