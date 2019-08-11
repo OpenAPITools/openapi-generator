@@ -8,6 +8,12 @@
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
 [![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
 
+[`4.2.x`](https://github.com/OpenAPITools/openapi-generator/tree/4.2.x) branch: [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/4.2.x.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
+[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/4.2.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
+[![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=4.2.x)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
+[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=4.2.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
+[![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/4.2.x)](https://cloud.drone.io/OpenAPITools/openapi-generator)
+
 [`5.0.x`](https://github.com/OpenAPITools/openapi-generator/tree/5.0.x) branch: [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/5.0.x.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/5.0.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=5.0.x)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
