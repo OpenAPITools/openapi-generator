@@ -282,7 +282,7 @@ public class CodeGenMojo extends AbstractMojo {
      * A map of server variable overrides for specs that support server URL templating
      */
     @Parameter(name = "serverVariableOverrides", property = "openapi.generator.maven.plugin.serverVariableOverrides")
-    private List<String> serverVariables;
+    private List<String> serverVariableOverrides;
 
     /**
      * A map of reserved names and how they should be escaped
@@ -610,7 +610,7 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
-                if (serverVariables == null && configOptions.containsKey("server-variables")) {
+                if (serverVariableOverrides == null && configOptions.containsKey("server-variables")) {
                     applyServerVariablesKvp(configOptions.get("server-variables").toString(), configurator);
                 }
 
@@ -647,8 +647,8 @@ public class CodeGenMojo extends AbstractMojo {
                 applyAdditionalPropertiesKvpList(additionalProperties, configurator);
             }
 
-            if (serverVariables != null && (configOptions == null || !configOptions.containsKey("server-variables"))) {
-                applyServerVariablesKvpList(serverVariables, configurator);
+            if (serverVariableOverrides != null && (configOptions == null || !configOptions.containsKey("server-variables"))) {
+                applyServerVariablesKvpList(serverVariableOverrides, configurator);
             }
 
             // Apply Reserved Words Mappings
