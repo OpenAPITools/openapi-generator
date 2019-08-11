@@ -2,7 +2,7 @@
 {{#models}}
 {{#model}}
 {{#tsImports}}
-import { {{classname}} } from './{{filename}}';
+import { {{classname}} } from '{{filename}}';
 {{/tsImports}}
 
 {{#description}}
@@ -10,6 +10,7 @@ import { {{classname}} } from './{{filename}}';
 * {{{description}}}
 */
 {{/description}}
+{{^isEnum}}
 export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{#vars}}
 {{#description}}
@@ -65,5 +66,15 @@ export namespace {{classname}} {
 {{/vars}}
 }
 {{/hasEnums}}
+{{/isEnum}}
+{{#isEnum}}
+export enum {{classname}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = <any> {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
+{{/isEnum}}
 {{/model}}
 {{/models}}

@@ -28,7 +28,8 @@ import java.util.List;
  */
 
 public class ArrayOfArrayOfNumberOnly {
-  @JsonProperty("ArrayArrayNumber")
+  public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
@@ -48,6 +49,7 @@ public class ArrayOfArrayOfNumberOnly {
    * Get arrayArrayNumber
    * @return arrayArrayNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;

@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="CatAllOf" /> class.
         /// </summary>
         /// <param name="declawed">declawed.</param>
-        public CatAllOf(bool? declawed = default(bool?))
+        public CatAllOf(bool declawed = default(bool))
         {
             this.Declawed = declawed;
         }
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name="declawed", EmitDefaultValue=false)]
-        public bool? Declawed { get; set; }
+        public bool Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

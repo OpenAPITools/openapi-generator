@@ -36,7 +36,7 @@ public:
     void setHost(const QString& host);
     void setApiTimeOutMs(const int tout);
     void addHeaders(const QString& key, const QString& value);
-    
+
     void addPet(const OAIPet& body);
     void deletePet(const qint64& pet_id, const QString& api_key);
     void findPetsByStatus(const QList<QString>& status);

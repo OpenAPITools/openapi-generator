@@ -35,22 +35,26 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Pet")
 public class Pet {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
   private Long id;
 
-  @JsonProperty("category")
+  public static final String JSON_PROPERTY_CATEGORY = "category";
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JacksonXmlProperty(localName = "category")
   @XmlElement(name = "category")
   private Category category = null;
 
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
   private String name;
 
-  @JsonProperty("photoUrls")
+  public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   // items.xmlName=
   @JacksonXmlElementWrapper(useWrapping = true, localName = "photoUrls")
   // Is a container wrapped=true
@@ -60,7 +64,8 @@ public class Pet {
   @XmlElementWrapper(name = "photoUrl")
   private List<String> photoUrls = new ArrayList<String>();
 
-  @JsonProperty("tags")
+  public static final String JSON_PROPERTY_TAGS = "tags";
+  @JsonProperty(JSON_PROPERTY_TAGS)
   // items.xmlName=
   @JacksonXmlElementWrapper(useWrapping = true, localName = "tags")
   // Is a container wrapped=true
@@ -107,7 +112,8 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @JsonProperty(JSON_PROPERTY_STATUS)
   @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
   private StatusEnum status;
@@ -121,6 +127,7 @@ public class Pet {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
@@ -139,6 +146,7 @@ public class Pet {
    * Get category
    * @return category
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Category getCategory() {
     return category;
@@ -206,6 +214,7 @@ public class Pet {
    * Get tags
    * @return tags
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Tag> getTags() {
     return tags;
@@ -224,6 +233,7 @@ public class Pet {
    * pet status in the store
    * @return status
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "pet status in the store")
   public StatusEnum getStatus() {
     return status;

@@ -18,3 +18,4 @@ sidebar_label: typescript-fetch
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|

@@ -67,6 +67,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String GOOGLE_API_CLIENT = "google-api-client";
     public static final String JERSEY1 = "jersey1";
     public static final String JERSEY2 = "jersey2";
+    public static final String NATIVE = "native";
     public static final String OKHTTP_GSON = "okhttp-gson";
     public static final String RESTEASY = "resteasy";
     public static final String RESTTEMPLATE = "resttemplate";
@@ -139,6 +140,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(VERTX, "HTTP client: VertX client 3.x. JSON processing: Jackson 2.8.x");
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.8.x");
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x. Only for Java8");
+        supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -166,7 +168,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
-        if (WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) {
+        if ((WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) || NATIVE.equals(getLibrary())) {
             dateLibrary = "java8";
         }
 
@@ -254,12 +256,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
-        if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
+        if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
 
         // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)
-        if (!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
+        if (!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
             supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.mustache", authFolder, "HttpBearerAuth.java"));
             supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -293,7 +295,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
         }
 
-        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
+        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
@@ -324,6 +326,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (JERSEY2.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
+            additionalProperties.put("jackson", "true");
+        } else if (NATIVE.equals(getLibrary())) {
+            setJava8Mode(true);
+            additionalProperties.put("java8", "true");
             additionalProperties.put("jackson", "true");
         } else if (RESTEASY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -412,7 +418,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.remove("gson");
         }
 
-        if (additionalProperties.containsKey("jackson")) {
+        if (additionalProperties.containsKey("jackson") && !NATIVE.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
             if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
                 supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
@@ -500,7 +506,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)
-        if ((!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || usePlayWS)) && ProcessUtils.hasOAuthMethods(objs)) {
+        if ((!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || usePlayWS || NATIVE.equals(getLibrary()))) && ProcessUtils.hasOAuthMethods(objs)) {
             supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
             supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
         }

@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayOfNumberOnly")
 public class ArrayOfNumberOnly {
-  @JsonProperty("ArrayNumber")
+  public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
+  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   // Is a container wrapped=false
   // items.name=arrayNumber items.baseName=arrayNumber items.xmlName= items.xmlNamespace=
   // items.example= items.type=BigDecimal
@@ -58,6 +59,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;

@@ -68,7 +68,8 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("just_symbol")
+  public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   @JacksonXmlProperty(localName = "just_symbol")
   @XmlElement(name = "just_symbol")
   private JustSymbolEnum justSymbol;
@@ -108,7 +109,8 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("array_enum")
+  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   // Is a container wrapped=false
   // items.name=arrayEnum items.baseName=arrayEnum items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
@@ -124,6 +126,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -150,6 +153,7 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;

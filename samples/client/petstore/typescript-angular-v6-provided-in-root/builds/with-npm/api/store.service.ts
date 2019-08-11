@@ -13,9 +13,8 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
-
+         HttpResponse, HttpEvent, HttpParameterCodec }       from '@angular/common/http';
+import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { Order } from '../model/order';
@@ -32,6 +31,7 @@ export class StoreService {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
+    public encoder: HttpParameterCodec;
 
     constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
@@ -42,21 +42,9 @@ export class StoreService {
         } else {
             this.configuration.basePath = basePath || this.basePath;
         }
+        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
 
-    /**
-     * @param consumes string[] mime-types
-     * @return true: consumes contains 'multipart/form-data', false: otherwise
-     */
-    private canConsumeForm(consumes: string[]): boolean {
-        const form = 'multipart/form-data';
-        for (const consume of consumes) {
-            if (form === consume) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 
     /**
@@ -84,9 +72,6 @@ export class StoreService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
@@ -125,9 +110,6 @@ export class StoreService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}/store/inventory`,
             {
@@ -166,9 +148,6 @@ export class StoreService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.get<Order>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
@@ -182,7 +161,6 @@ export class StoreService {
 
     /**
      * Place an order for a pet
-     * 
      * @param body order placed for purchasing the pet
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -206,6 +184,7 @@ export class StoreService {
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [

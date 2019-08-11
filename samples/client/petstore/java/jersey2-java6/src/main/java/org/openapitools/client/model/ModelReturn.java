@@ -26,7 +26,8 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Model for testing reserved words")
 
 public class ModelReturn {
-  @JsonProperty("return")
+  public static final String JSON_PROPERTY_RETURN = "return";
+  @JsonProperty(JSON_PROPERTY_RETURN)
   private Integer _return;
 
   public ModelReturn _return(Integer _return) {
@@ -38,6 +39,7 @@ public class ModelReturn {
    * Get _return
    * @return _return
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getReturn() {
     return _return;

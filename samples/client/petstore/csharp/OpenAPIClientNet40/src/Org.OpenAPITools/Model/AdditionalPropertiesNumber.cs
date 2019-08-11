@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// AdditionalPropertiesNumber
     /// </summary>
     [DataContract]
-    public partial class AdditionalPropertiesNumber : Dictionary<String, decimal?>,  IEquatable<AdditionalPropertiesNumber>, IValidatableObject
+    public partial class AdditionalPropertiesNumber : Dictionary<String, decimal>,  IEquatable<AdditionalPropertiesNumber>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesNumber" /> class.

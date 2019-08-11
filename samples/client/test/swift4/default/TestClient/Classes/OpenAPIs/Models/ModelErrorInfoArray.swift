@@ -7,6 +7,5 @@
 
 import Foundation
 
-
 /** This defines an array of ErrorInfo objects. */
 public typealias ModelErrorInfoArray = [ErrorInfo]

@@ -12,19 +12,19 @@ import XCTest
 @testable import SwaggerClient
 
 class PetAPITests: XCTestCase {
-    
+
     let testTimeout = 10.0
 
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func test1CreatePet() {
         let expectation = self.expectation(description: "testCreatePet")
         let category = PetstoreClient.Category(id: 1234, name: "eyeColor")
@@ -35,12 +35,12 @@ class PetAPITests: XCTestCase {
                 expectation.fulfill()
             }.always {
                 // Noop for now
-            }.catch { errorType in
+            }.catch { _ in
                 XCTFail("error creating pet")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test2GetPet() {
         let expectation = self.expectation(description: "testGetPet")
         PetAPI.getPetById(petId: 1000).then { pet -> Void in
@@ -49,19 +49,19 @@ class PetAPITests: XCTestCase {
                 expectation.fulfill()
             }.always {
                 // Noop for now
-            }.catch { errorType in
+            }.catch { _ in
                 XCTFail("error creating pet")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test3DeletePet() {
         let expectation = self.expectation(description: "testDeletePet")
         PetAPI.deletePet(petId: 1000).then {
             expectation.fulfill()
             }.always {
                 // Noop for now
-            }.catch { (errorType) in
+            }.catch { (_) in
                 XCTFail("error deleting pet")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)

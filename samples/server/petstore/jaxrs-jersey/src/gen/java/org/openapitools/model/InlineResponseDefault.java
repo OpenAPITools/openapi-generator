@@ -27,7 +27,8 @@ import javax.validation.Valid;
  */
 
 public class InlineResponseDefault   {
-  @JsonProperty("string")
+  public static final String JSON_PROPERTY_STRING = "string";
+  @JsonProperty(JSON_PROPERTY_STRING)
   private Foo string = null;
 
   public InlineResponseDefault string(Foo string) {

@@ -12,11 +12,10 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
-import { Http, Headers, URLSearchParams }                    from '@angular/http';
-import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
-import { Response, ResponseContentType }                     from '@angular/http';
+import { Http, Headers, URLSearchParams,
+        RequestMethod, RequestOptions, RequestOptionsArgs,
+        Response, ResponseContentType, QueryEncoder }        from '@angular/http';
 import { CustomQueryEncoderHelper }                          from '../encoder';
-
 import { Observable }                                        from 'rxjs/Observable';
 import '../rxjs-operators';
 
@@ -33,6 +32,7 @@ export class StoreService implements StoreServiceInterface {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders = new Headers();
     public configuration = new Configuration();
+    public encoder: QueryEncoder;
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
@@ -43,21 +43,9 @@ export class StoreService implements StoreServiceInterface {
         } else {
             this.configuration.basePath = basePath || this.basePath;
         }
+        this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
     }
 
-    /**
-     * @param consumes string[] mime-types
-     * @return true: consumes contains 'multipart/form-data', false: otherwise
-     */
-    private canConsumeForm(consumes: string[]): boolean {
-        const form = 'multipart/form-data';
-        for (const consume of consumes) {
-            if (form === consume) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -144,9 +132,6 @@ export class StoreService implements StoreServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -184,9 +169,6 @@ export class StoreService implements StoreServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -224,9 +206,6 @@ export class StoreService implements StoreServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -243,7 +222,6 @@ export class StoreService implements StoreServiceInterface {
 
     /**
      * Place an order for a pet
-     * 
      * @param body order placed for purchasing the pet
      
      */
@@ -263,6 +241,7 @@ export class StoreService implements StoreServiceInterface {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [

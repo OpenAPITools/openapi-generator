@@ -28,10 +28,12 @@ import javax.validation.Valid;
  */
 
 public class Tag {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   private Long id;
 
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
   public Tag id(Long id) {
@@ -43,6 +45,7 @@ public class Tag {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
@@ -61,6 +64,7 @@ public class Tag {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getName() {
     return name;

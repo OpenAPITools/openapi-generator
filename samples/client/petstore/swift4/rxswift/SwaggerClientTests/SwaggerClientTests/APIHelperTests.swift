@@ -11,17 +11,17 @@ import PetstoreClient
 @testable import SwaggerClient
 
 class APIHelperTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testRejectNil() {
         let source: [String: Any?] = ["a": 1, "b": nil, "c": ["1", nil, "2"], "d": true, "e": false]
         let expected: [String: Any] = ["a": 1, "c": ["1", nil, "2"], "d": true, "e": false]

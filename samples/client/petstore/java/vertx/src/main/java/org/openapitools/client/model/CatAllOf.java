@@ -26,7 +26,8 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class CatAllOf {
-  @JsonProperty("declawed")
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
   private Boolean declawed;
 
   public CatAllOf declawed(Boolean declawed) {
@@ -38,6 +39,7 @@ public class CatAllOf {
    * Get declawed
    * @return declawed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Boolean getDeclawed() {
     return declawed;

@@ -34,27 +34,32 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(namespace="http://a.com/schema", localName = "XmlItem")
 public class XmlItem {
-  @JsonProperty("attribute_string")
+  public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
+  @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
   @JacksonXmlProperty(isAttribute = true, localName = "attribute_string")
   @XmlAttribute(name = "attribute_string")
   private String attributeString;
 
-  @JsonProperty("attribute_number")
+  public static final String JSON_PROPERTY_ATTRIBUTE_NUMBER = "attribute_number";
+  @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
   @JacksonXmlProperty(isAttribute = true, localName = "attribute_number")
   @XmlAttribute(name = "attribute_number")
   private BigDecimal attributeNumber;
 
-  @JsonProperty("attribute_integer")
+  public static final String JSON_PROPERTY_ATTRIBUTE_INTEGER = "attribute_integer";
+  @JsonProperty(JSON_PROPERTY_ATTRIBUTE_INTEGER)
   @JacksonXmlProperty(isAttribute = true, localName = "attribute_integer")
   @XmlAttribute(name = "attribute_integer")
   private Integer attributeInteger;
 
-  @JsonProperty("attribute_boolean")
+  public static final String JSON_PROPERTY_ATTRIBUTE_BOOLEAN = "attribute_boolean";
+  @JsonProperty(JSON_PROPERTY_ATTRIBUTE_BOOLEAN)
   @JacksonXmlProperty(isAttribute = true, localName = "attribute_boolean")
   @XmlAttribute(name = "attribute_boolean")
   private Boolean attributeBoolean;
 
-  @JsonProperty("wrapped_array")
+  public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
+  @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
   // items.xmlName=
   @JacksonXmlElementWrapper(useWrapping = true, localName = "wrappedArray")
   // Is a container wrapped=true
@@ -64,34 +69,40 @@ public class XmlItem {
   @XmlElementWrapper(name = "wrapped_array")
   private List<Integer> wrappedArray = new ArrayList<Integer>();
 
-  @JsonProperty("name_string")
+  public static final String JSON_PROPERTY_NAME_STRING = "name_string";
+  @JsonProperty(JSON_PROPERTY_NAME_STRING)
   @JacksonXmlProperty(localName = "xml_name_string")
   @XmlElement(name = "xml_name_string")
   private String nameString;
 
-  @JsonProperty("name_number")
+  public static final String JSON_PROPERTY_NAME_NUMBER = "name_number";
+  @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
   @JacksonXmlProperty(localName = "xml_name_number")
   @XmlElement(name = "xml_name_number")
   private BigDecimal nameNumber;
 
-  @JsonProperty("name_integer")
+  public static final String JSON_PROPERTY_NAME_INTEGER = "name_integer";
+  @JsonProperty(JSON_PROPERTY_NAME_INTEGER)
   @JacksonXmlProperty(localName = "xml_name_integer")
   @XmlElement(name = "xml_name_integer")
   private Integer nameInteger;
 
-  @JsonProperty("name_boolean")
+  public static final String JSON_PROPERTY_NAME_BOOLEAN = "name_boolean";
+  @JsonProperty(JSON_PROPERTY_NAME_BOOLEAN)
   @JacksonXmlProperty(localName = "xml_name_boolean")
   @XmlElement(name = "xml_name_boolean")
   private Boolean nameBoolean;
 
-  @JsonProperty("name_array")
+  public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
+  @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
   // Is a container wrapped=false
   // items.name=nameArray items.baseName=nameArray items.xmlName=xml_name_array_item items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "xml_name_array_item")
   private List<Integer> nameArray = new ArrayList<Integer>();
 
-  @JsonProperty("name_wrapped_array")
+  public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
+  @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
   // items.xmlName=xml_name_wrapped_array_item
   @JacksonXmlElementWrapper(useWrapping = true, localName = "xml_name_wrapped_array_item")
   // Is a container wrapped=true
@@ -101,34 +112,40 @@ public class XmlItem {
   @XmlElementWrapper(name = "xml_name_wrapped_array")
   private List<Integer> nameWrappedArray = new ArrayList<Integer>();
 
-  @JsonProperty("prefix_string")
+  public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
+  @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
   @JacksonXmlProperty(localName = "prefix_string")
   @XmlElement(name = "prefix_string")
   private String prefixString;
 
-  @JsonProperty("prefix_number")
+  public static final String JSON_PROPERTY_PREFIX_NUMBER = "prefix_number";
+  @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
   @JacksonXmlProperty(localName = "prefix_number")
   @XmlElement(name = "prefix_number")
   private BigDecimal prefixNumber;
 
-  @JsonProperty("prefix_integer")
+  public static final String JSON_PROPERTY_PREFIX_INTEGER = "prefix_integer";
+  @JsonProperty(JSON_PROPERTY_PREFIX_INTEGER)
   @JacksonXmlProperty(localName = "prefix_integer")
   @XmlElement(name = "prefix_integer")
   private Integer prefixInteger;
 
-  @JsonProperty("prefix_boolean")
+  public static final String JSON_PROPERTY_PREFIX_BOOLEAN = "prefix_boolean";
+  @JsonProperty(JSON_PROPERTY_PREFIX_BOOLEAN)
   @JacksonXmlProperty(localName = "prefix_boolean")
   @XmlElement(name = "prefix_boolean")
   private Boolean prefixBoolean;
 
-  @JsonProperty("prefix_array")
+  public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
+  @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
   // Is a container wrapped=false
   // items.name=prefixArray items.baseName=prefixArray items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "prefixArray")
   private List<Integer> prefixArray = new ArrayList<Integer>();
 
-  @JsonProperty("prefix_wrapped_array")
+  public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
+  @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
   // items.xmlName=
   @JacksonXmlElementWrapper(useWrapping = true, localName = "prefixWrappedArray")
   // Is a container wrapped=true
@@ -138,34 +155,40 @@ public class XmlItem {
   @XmlElementWrapper(name = "prefix_wrapped_array")
   private List<Integer> prefixWrappedArray = new ArrayList<Integer>();
 
-  @JsonProperty("namespace_string")
+  public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
+  @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
   @JacksonXmlProperty(namespace="http://a.com/schema", localName = "namespace_string")
   @XmlElement(namespace="http://a.com/schema", name = "namespace_string")
   private String namespaceString;
 
-  @JsonProperty("namespace_number")
+  public static final String JSON_PROPERTY_NAMESPACE_NUMBER = "namespace_number";
+  @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
   @JacksonXmlProperty(namespace="http://b.com/schema", localName = "namespace_number")
   @XmlElement(namespace="http://b.com/schema", name = "namespace_number")
   private BigDecimal namespaceNumber;
 
-  @JsonProperty("namespace_integer")
+  public static final String JSON_PROPERTY_NAMESPACE_INTEGER = "namespace_integer";
+  @JsonProperty(JSON_PROPERTY_NAMESPACE_INTEGER)
   @JacksonXmlProperty(namespace="http://c.com/schema", localName = "namespace_integer")
   @XmlElement(namespace="http://c.com/schema", name = "namespace_integer")
   private Integer namespaceInteger;
 
-  @JsonProperty("namespace_boolean")
+  public static final String JSON_PROPERTY_NAMESPACE_BOOLEAN = "namespace_boolean";
+  @JsonProperty(JSON_PROPERTY_NAMESPACE_BOOLEAN)
   @JacksonXmlProperty(namespace="http://d.com/schema", localName = "namespace_boolean")
   @XmlElement(namespace="http://d.com/schema", name = "namespace_boolean")
   private Boolean namespaceBoolean;
 
-  @JsonProperty("namespace_array")
+  public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
+  @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
   // Is a container wrapped=false
   // items.name=namespaceArray items.baseName=namespaceArray items.xmlName= items.xmlNamespace=http://e.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://e.com/schema", name = "namespaceArray")
   private List<Integer> namespaceArray = new ArrayList<Integer>();
 
-  @JsonProperty("namespace_wrapped_array")
+  public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
+  @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
   // items.xmlName=
   @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "namespaceWrappedArray")
   // Is a container wrapped=true
@@ -175,34 +198,40 @@ public class XmlItem {
   @XmlElementWrapper(namespace="http://f.com/schema", name = "namespace_wrapped_array")
   private List<Integer> namespaceWrappedArray = new ArrayList<Integer>();
 
-  @JsonProperty("prefix_ns_string")
+  public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
+  @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
   @JacksonXmlProperty(namespace="http://a.com/schema", localName = "prefix_ns_string")
   @XmlElement(namespace="http://a.com/schema", name = "prefix_ns_string")
   private String prefixNsString;
 
-  @JsonProperty("prefix_ns_number")
+  public static final String JSON_PROPERTY_PREFIX_NS_NUMBER = "prefix_ns_number";
+  @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
   @JacksonXmlProperty(namespace="http://b.com/schema", localName = "prefix_ns_number")
   @XmlElement(namespace="http://b.com/schema", name = "prefix_ns_number")
   private BigDecimal prefixNsNumber;
 
-  @JsonProperty("prefix_ns_integer")
+  public static final String JSON_PROPERTY_PREFIX_NS_INTEGER = "prefix_ns_integer";
+  @JsonProperty(JSON_PROPERTY_PREFIX_NS_INTEGER)
   @JacksonXmlProperty(namespace="http://c.com/schema", localName = "prefix_ns_integer")
   @XmlElement(namespace="http://c.com/schema", name = "prefix_ns_integer")
   private Integer prefixNsInteger;
 
-  @JsonProperty("prefix_ns_boolean")
+  public static final String JSON_PROPERTY_PREFIX_NS_BOOLEAN = "prefix_ns_boolean";
+  @JsonProperty(JSON_PROPERTY_PREFIX_NS_BOOLEAN)
   @JacksonXmlProperty(namespace="http://d.com/schema", localName = "prefix_ns_boolean")
   @XmlElement(namespace="http://d.com/schema", name = "prefix_ns_boolean")
   private Boolean prefixNsBoolean;
 
-  @JsonProperty("prefix_ns_array")
+  public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
+  @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
   // Is a container wrapped=false
   // items.name=prefixNsArray items.baseName=prefixNsArray items.xmlName= items.xmlNamespace=http://e.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://e.com/schema", name = "prefixNsArray")
   private List<Integer> prefixNsArray = new ArrayList<Integer>();
 
-  @JsonProperty("prefix_ns_wrapped_array")
+  public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
+  @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
   // items.xmlName=
   @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "prefixNsWrappedArray")
   // Is a container wrapped=true
@@ -221,6 +250,7 @@ public class XmlItem {
    * Get attributeString
    * @return attributeString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getAttributeString() {
     return attributeString;
@@ -239,6 +269,7 @@ public class XmlItem {
    * Get attributeNumber
    * @return attributeNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -257,6 +288,7 @@ public class XmlItem {
    * Get attributeInteger
    * @return attributeInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -275,6 +307,7 @@ public class XmlItem {
    * Get attributeBoolean
    * @return attributeBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
@@ -301,6 +334,7 @@ public class XmlItem {
    * Get wrappedArray
    * @return wrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getWrappedArray() {
     return wrappedArray;
@@ -319,6 +353,7 @@ public class XmlItem {
    * Get nameString
    * @return nameString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getNameString() {
     return nameString;
@@ -337,6 +372,7 @@ public class XmlItem {
    * Get nameNumber
    * @return nameNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getNameNumber() {
     return nameNumber;
@@ -355,6 +391,7 @@ public class XmlItem {
    * Get nameInteger
    * @return nameInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getNameInteger() {
     return nameInteger;
@@ -373,6 +410,7 @@ public class XmlItem {
    * Get nameBoolean
    * @return nameBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean getNameBoolean() {
     return nameBoolean;
@@ -399,6 +437,7 @@ public class XmlItem {
    * Get nameArray
    * @return nameArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getNameArray() {
     return nameArray;
@@ -425,6 +464,7 @@ public class XmlItem {
    * Get nameWrappedArray
    * @return nameWrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
@@ -443,6 +483,7 @@ public class XmlItem {
    * Get prefixString
    * @return prefixString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getPrefixString() {
     return prefixString;
@@ -461,6 +502,7 @@ public class XmlItem {
    * Get prefixNumber
    * @return prefixNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -479,6 +521,7 @@ public class XmlItem {
    * Get prefixInteger
    * @return prefixInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -497,6 +540,7 @@ public class XmlItem {
    * Get prefixBoolean
    * @return prefixBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
@@ -523,6 +567,7 @@ public class XmlItem {
    * Get prefixArray
    * @return prefixArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getPrefixArray() {
     return prefixArray;
@@ -549,6 +594,7 @@ public class XmlItem {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
@@ -567,6 +613,7 @@ public class XmlItem {
    * Get namespaceString
    * @return namespaceString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getNamespaceString() {
     return namespaceString;
@@ -585,6 +632,7 @@ public class XmlItem {
    * Get namespaceNumber
    * @return namespaceNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -603,6 +651,7 @@ public class XmlItem {
    * Get namespaceInteger
    * @return namespaceInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -621,6 +670,7 @@ public class XmlItem {
    * Get namespaceBoolean
    * @return namespaceBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
@@ -647,6 +697,7 @@ public class XmlItem {
    * Get namespaceArray
    * @return namespaceArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
@@ -673,6 +724,7 @@ public class XmlItem {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
@@ -691,6 +743,7 @@ public class XmlItem {
    * Get prefixNsString
    * @return prefixNsString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
   public String getPrefixNsString() {
     return prefixNsString;
@@ -709,6 +762,7 @@ public class XmlItem {
    * Get prefixNsNumber
    * @return prefixNsNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
@@ -727,6 +781,7 @@ public class XmlItem {
    * Get prefixNsInteger
    * @return prefixNsInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
@@ -745,6 +800,7 @@ public class XmlItem {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
@@ -771,6 +827,7 @@ public class XmlItem {
    * Get prefixNsArray
    * @return prefixNsArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
@@ -797,6 +854,7 @@ public class XmlItem {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;

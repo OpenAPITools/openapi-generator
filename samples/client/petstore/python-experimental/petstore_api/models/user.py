@@ -38,22 +38,35 @@ class User(object):
         'email': 'str',
         'password': 'str',
         'phone': 'str',
-        'user_status': 'int'
+        'user_status': 'int',
     }
 
     attribute_map = {
-        'id': 'id',
-        'username': 'username',
-        'first_name': 'firstName',
-        'last_name': 'lastName',
-        'email': 'email',
-        'password': 'password',
-        'phone': 'phone',
-        'user_status': 'userStatus'
+        'id': 'id',  # noqa: E501
+        'username': 'username',  # noqa: E501
+        'first_name': 'firstName',  # noqa: E501
+        'last_name': 'lastName',  # noqa: E501
+        'email': 'email',  # noqa: E501
+        'password': 'password',  # noqa: E501
+        'phone': 'phone',  # noqa: E501
+        'user_status': 'userStatus',  # noqa: E501
     }
 
     def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None):  # noqa: E501
-        """User - a model defined in OpenAPI"""  # noqa: E501
+        """User - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            id (int): [optional]  # noqa: E501
+            username (str): [optional]  # noqa: E501
+            first_name (str): [optional]  # noqa: E501
+            last_name (str): [optional]  # noqa: E501
+            email (str): [optional]  # noqa: E501
+            password (str): [optional]  # noqa: E501
+            phone (str): [optional]  # noqa: E501
+            user_status (int): User Status. [optional]  # noqa: E501
+        """
 
         self._id = None
         self._username = None
@@ -66,21 +79,21 @@ class User(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id
+            self.id = id  # noqa: E501
         if username is not None:
-            self.username = username
+            self.username = username  # noqa: E501
         if first_name is not None:
-            self.first_name = first_name
+            self.first_name = first_name  # noqa: E501
         if last_name is not None:
-            self.last_name = last_name
+            self.last_name = last_name  # noqa: E501
         if email is not None:
-            self.email = email
+            self.email = email  # noqa: E501
         if password is not None:
-            self.password = password
+            self.password = password  # noqa: E501
         if phone is not None:
-            self.phone = phone
+            self.phone = phone  # noqa: E501
         if user_status is not None:
-            self.user_status = user_status
+            self.user_status = user_status  # noqa: E501
 
     @property
     def id(self):
@@ -93,7 +106,9 @@ class User(object):
         return self._id
 
     @id.setter
-    def id(self, id):
+    def id(
+            self,
+            id):
         """Sets the id of this User.
 
 
@@ -101,7 +116,8 @@ class User(object):
         :type: int
         """
 
-        self._id = id
+        self._id = (
+            id)
 
     @property
     def username(self):
@@ -114,7 +130,9 @@ class User(object):
         return self._username
 
     @username.setter
-    def username(self, username):
+    def username(
+            self,
+            username):
         """Sets the username of this User.
 
 
@@ -122,7 +140,8 @@ class User(object):
         :type: str
         """
 
-        self._username = username
+        self._username = (
+            username)
 
     @property
     def first_name(self):
@@ -135,7 +154,9 @@ class User(object):
         return self._first_name
 
     @first_name.setter
-    def first_name(self, first_name):
+    def first_name(
+            self,
+            first_name):
         """Sets the first_name of this User.
 
 
@@ -143,7 +164,8 @@ class User(object):
         :type: str
         """
 
-        self._first_name = first_name
+        self._first_name = (
+            first_name)
 
     @property
     def last_name(self):
@@ -156,7 +178,9 @@ class User(object):
         return self._last_name
 
     @last_name.setter
-    def last_name(self, last_name):
+    def last_name(
+            self,
+            last_name):
         """Sets the last_name of this User.
 
 
@@ -164,7 +188,8 @@ class User(object):
         :type: str
         """
 
-        self._last_name = last_name
+        self._last_name = (
+            last_name)
 
     @property
     def email(self):
@@ -177,7 +202,9 @@ class User(object):
         return self._email
 
     @email.setter
-    def email(self, email):
+    def email(
+            self,
+            email):
         """Sets the email of this User.
 
 
@@ -185,7 +212,8 @@ class User(object):
         :type: str
         """
 
-        self._email = email
+        self._email = (
+            email)
 
     @property
     def password(self):
@@ -198,7 +226,9 @@ class User(object):
         return self._password
 
     @password.setter
-    def password(self, password):
+    def password(
+            self,
+            password):
         """Sets the password of this User.
 
 
@@ -206,7 +236,8 @@ class User(object):
         :type: str
         """
 
-        self._password = password
+        self._password = (
+            password)
 
     @property
     def phone(self):
@@ -219,7 +250,9 @@ class User(object):
         return self._phone
 
     @phone.setter
-    def phone(self, phone):
+    def phone(
+            self,
+            phone):
         """Sets the phone of this User.
 
 
@@ -227,7 +260,8 @@ class User(object):
         :type: str
         """
 
-        self._phone = phone
+        self._phone = (
+            phone)
 
     @property
     def user_status(self):
@@ -241,7 +275,9 @@ class User(object):
         return self._user_status
 
     @user_status.setter
-    def user_status(self, user_status):
+    def user_status(
+            self,
+            user_status):
         """Sets the user_status of this User.
 
         User Status  # noqa: E501
@@ -250,7 +286,8 @@ class User(object):
         :type: int
         """
 
-        self._user_status = user_status
+        self._user_status = (
+            user_status)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

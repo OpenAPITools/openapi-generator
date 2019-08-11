@@ -16,7 +16,7 @@ Abstracts work that needs to be performed on `MainThread`. In case `schedule` me
 This scheduler is optimized for `subscribeOn` operator. If you want to observe observable sequence elements on main thread using `observeOn` operator,
 `MainScheduler` is more suitable for that purpose.
 */
-public final class ConcurrentMainScheduler : SchedulerType {
+public final class ConcurrentMainScheduler: SchedulerType {
     public typealias TimeInterval = Foundation.TimeInterval
     public typealias Time = Date
 
@@ -24,7 +24,7 @@ public final class ConcurrentMainScheduler : SchedulerType {
     private let _mainQueue: DispatchQueue
 
     /// - returns: Current time.
-    public var now : Date {
+    public var now: Date {
         return _mainScheduler.now as Date
     }
 

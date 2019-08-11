@@ -37,17 +37,20 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "MixedPropertiesAndAdditionalPropertiesClass")
 public class MixedPropertiesAndAdditionalPropertiesClass {
-  @JsonProperty("uuid")
+  public static final String JSON_PROPERTY_UUID = "uuid";
+  @JsonProperty(JSON_PROPERTY_UUID)
   @JacksonXmlProperty(localName = "uuid")
   @XmlElement(name = "uuid")
   private UUID uuid;
 
-  @JsonProperty("dateTime")
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JacksonXmlProperty(localName = "dateTime")
   @XmlElement(name = "dateTime")
   private OffsetDateTime dateTime;
 
-  @JsonProperty("map")
+  public static final String JSON_PROPERTY_MAP = "map";
+  @JsonProperty(JSON_PROPERTY_MAP)
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Animal
@@ -63,6 +66,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get uuid
    * @return uuid
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public UUID getUuid() {
     return uuid;
@@ -81,6 +85,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get dateTime
    * @return dateTime
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -107,6 +112,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get map
    * @return map
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Map<String, Animal> getMap() {
     return map;

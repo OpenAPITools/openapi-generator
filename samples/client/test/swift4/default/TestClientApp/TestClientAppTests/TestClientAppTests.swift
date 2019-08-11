@@ -12,7 +12,6 @@ import TestClient
 
 class TestClientAppTests: XCTestCase {
 
-
     func testWhenVariableNameIsDifferentFromPropertyName() {
         // This tests to make sure that the swift4 language can handle when
         // we have property names which map to variable names that are not the same.
@@ -38,6 +37,5 @@ class TestClientAppTests: XCTestCase {
         XCTAssertTrue(variableNameTest.exampleName == "Test example name", "Did not decode snake_case property correctly.")
         XCTAssertTrue(variableNameTest._for == "Some reason", "Did not decode property name that is a reserved word correctly.")
     }
-
 
 }

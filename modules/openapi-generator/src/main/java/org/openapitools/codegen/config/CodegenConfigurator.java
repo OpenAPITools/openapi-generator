@@ -480,6 +480,12 @@ public class CodegenConfigurator {
             config.serverVariableOverrides().putAll(serverVariables);
         }
 
+        // any other additional properties?
+        String templateDir = workflowSettings.getTemplateDir();
+        if (templateDir != null) {
+            config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
+        }
+
         ClientOptInput input = new ClientOptInput()
                 .config(config);
 

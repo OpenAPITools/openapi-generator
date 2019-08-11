@@ -11,14 +11,14 @@ import (
 
 func TestCreateUser(t *testing.T) {
 	newUser := sw.User{
-		Id:         1000,
-		FirstName:  "gopher",
-		LastName:   "lang",
-		Username:   "gopher",
-		Password:   "lang",
-		Email:      "lang@test.com",
-		Phone:      "5101112222",
-		UserStatus: 1}
+		Id:         sw.PtrInt64(1000),
+		FirstName:  sw.PtrString("gopher"),
+		LastName:   sw.PtrString("lang"),
+        Username:   sw.PtrString("gopher"),
+		Password:   sw.PtrString("lang"),
+		Email:      sw.PtrString("lang@test.com"),
+		Phone:      sw.PtrString("5101112222"),
+		UserStatus: sw.PtrInt32(1)}
 
 	apiResponse, err := client.UserApi.CreateUser(context.Background(), newUser)
 
@@ -34,24 +34,24 @@ func TestCreateUser(t *testing.T) {
 func TestCreateUsersWithArrayInput(t *testing.T) {
 	newUsers := []sw.User{
 		sw.User{
-			Id:         int64(1001),
-			FirstName:  "gopher1",
-			LastName:   "lang1",
-			Username:   "gopher1",
-			Password:   "lang1",
-			Email:      "lang1@test.com",
-			Phone:      "5101112222",
-			UserStatus: int32(1),
+			Id:         sw.PtrInt64(1001),
+			FirstName:  sw.PtrString("gopher1"),
+			LastName:   sw.PtrString("lang1"),
+			Username:   sw.PtrString("gopher1"),
+			Password:   sw.PtrString("lang1"),
+			Email:      sw.PtrString("lang1@test.com"),
+			Phone:      sw.PtrString("5101112222"),
+			UserStatus: sw.PtrInt32(1),
 		},
 		sw.User{
-			Id:         int64(1002),
-			FirstName:  "gopher2",
-			LastName:   "lang2",
-			Username:   "gopher2",
-			Password:   "lang2",
-			Email:      "lang2@test.com",
-			Phone:      "5101112222",
-			UserStatus: int32(1),
+			Id:         sw.PtrInt64(1002),
+			FirstName:  sw.PtrString("gopher2"),
+			LastName:   sw.PtrString("lang2"),
+			Username:   sw.PtrString("gopher2"),
+			Password:   sw.PtrString("lang2"),
+			Email:      sw.PtrString("lang2@test.com"),
+			Phone:      sw.PtrString("5101112222"),
+			UserStatus: sw.PtrInt32(1),
 		},
 	}
 
@@ -84,9 +84,9 @@ func TestGetUserByName(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Error while getting user by id: %v", err)
 	} else {
-		assert.Equal(resp.Id, int64(1000), "User id should be equal")
-		assert.Equal(resp.Username, "gopher", "User name should be gopher")
-		assert.Equal(resp.LastName, "lang", "Last name should be lang")
+		assert.Equal(*resp.Id, int64(1000), "User id should be equal")
+		assert.Equal(*resp.Username, "gopher", "User name should be gopher")
+		assert.Equal(*resp.LastName, "lang", "Last name should be lang")
 		//t.Log(resp)
 	}
 	if apiResponse.StatusCode != 200 {
@@ -113,14 +113,14 @@ func TestUpdateUser(t *testing.T) {
 	assert := assert.New(t)
 
 	newUser := sw.User{
-		Id:         1000,
-		FirstName:  "gopher20",
-		LastName:   "lang20",
-		Username:   "gopher",
-		Password:   "lang",
-		Email:      "lang@test.com",
-		Phone:      "5101112222",
-		UserStatus: 1}
+		Id:         sw.PtrInt64(1000),
+		FirstName:  sw.PtrString("gopher20"),
+		LastName:   sw.PtrString("lang20"),
+		Username:   sw.PtrString("gopher"),
+		Password:   sw.PtrString("lang"),
+		Email:      sw.PtrString("lang@test.com"),
+		Phone:      sw.PtrString("5101112222"),
+		UserStatus: sw.PtrInt32(1)}
 
 	apiResponse, err := client.UserApi.UpdateUser(context.Background(), "gopher", newUser)
 	if err != nil {
@@ -135,9 +135,9 @@ func TestUpdateUser(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Error while getting user by id: %v", err)
 	} else {
-		assert.Equal(resp.Id, int64(1000), "User id should be equal")
-		assert.Equal(resp.FirstName, "gopher20", "User name should be gopher")
-		assert.Equal(resp.Password, "lang", "User name should be the same")
+		assert.Equal(*resp.Id, int64(1000), "User id should be equal")
+		assert.Equal(*resp.FirstName, "gopher20", "User name should be gopher")
+		assert.Equal(*resp.Password, "lang", "User name should be the same")
 	}
 }
 

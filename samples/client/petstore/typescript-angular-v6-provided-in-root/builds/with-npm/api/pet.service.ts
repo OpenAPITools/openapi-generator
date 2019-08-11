@@ -13,9 +13,8 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
-
+         HttpResponse, HttpEvent, HttpParameterCodec }       from '@angular/common/http';
+import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { ApiResponse } from '../model/apiResponse';
@@ -33,6 +32,7 @@ export class PetService {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
+    public encoder: HttpParameterCodec;
 
     constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
 
@@ -43,6 +43,7 @@ export class PetService {
         } else {
             this.configuration.basePath = basePath || this.basePath;
         }
+        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
 
     /**
@@ -62,7 +63,6 @@ export class PetService {
 
     /**
      * Add a new pet to the store
-     * 
      * @param body Pet object that needs to be added to the store
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -93,6 +93,7 @@ export class PetService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+
         // to determine the Content-Type header
         const consumes: string[] = [
             'application/json',
@@ -116,7 +117,6 @@ export class PetService {
 
     /**
      * Deletes a pet
-     * 
      * @param petId Pet id to delete
      * @param apiKey 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -151,9 +151,6 @@ export class PetService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
@@ -180,7 +177,7 @@ export class PetService {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
 
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        let queryParameters = new HttpParams({encoder: this.encoder});
         if (status) {
             queryParameters = queryParameters.set('status', status.join(COLLECTION_FORMATS['csv']));
         }
@@ -205,9 +202,6 @@ export class PetService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByStatus`,
             {
@@ -235,7 +229,7 @@ export class PetService {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
 
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        let queryParameters = new HttpParams({encoder: this.encoder});
         if (tags) {
             queryParameters = queryParameters.set('tags', tags.join(COLLECTION_FORMATS['csv']));
         }
@@ -260,9 +254,6 @@ export class PetService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByTags`,
             {
@@ -307,9 +298,6 @@ export class PetService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         return this.httpClient.get<Pet>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
@@ -323,7 +311,6 @@ export class PetService {
 
     /**
      * Update an existing pet
-     * 
      * @param body Pet object that needs to be added to the store
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -354,6 +341,7 @@ export class PetService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+
         // to determine the Content-Type header
         const consumes: string[] = [
             'application/json',
@@ -377,7 +365,6 @@ export class PetService {
 
     /**
      * Updates a pet in the store with form data
-     * 
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -423,7 +410,7 @@ export class PetService {
         if (useForm) {
             formParams = new FormData();
         } else {
-            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+            formParams = new HttpParams({encoder: this.encoder});
         }
 
         if (name !== undefined) {
@@ -446,7 +433,6 @@ export class PetService {
 
     /**
      * uploads an image
-     * 
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
@@ -496,7 +482,7 @@ export class PetService {
         if (useForm) {
             formParams = new FormData();
         } else {
-            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+            formParams = new HttpParams({encoder: this.encoder});
         }
 
         if (additionalMetadata !== undefined) {

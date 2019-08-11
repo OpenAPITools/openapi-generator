@@ -18,21 +18,15 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
-import org.openapitools.codegen.templating.mustache.IndentedLambda;
-import org.openapitools.codegen.templating.mustache.LowercaseLambda;
-import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
-import org.openapitools.codegen.templating.mustache.UppercaseLambda;
+import org.openapitools.codegen.templating.mustache.OnChangeLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
+import com.google.common.collect.ImmutableMap.Builder;
+import com.samskivert.mustache.Mustache.Lambda;
+
 import io.swagger.v3.oas.models.Operation;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +42,7 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         super();
         embeddedTemplateDir = templateDir = "openapi-yaml";
         outputFolder = "generated-code/openapi-yaml";
-        cliOptions.add(new CliOption(OUTPUT_NAME, "output filename"));
+        cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output filename").defaultValue(outputFile));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
     }
 
@@ -75,32 +69,12 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         }
         LOGGER.info("Output file [outputFile={}]", outputFile);
         supportingFiles.add(new SupportingFile("openapi.mustache", outputFile));
-
-        addMustacheLambdas(additionalProperties);
     }
 
-    private void addMustacheLambdas(Map<String, Object> objs) {
-
-        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-                .put("lowercase", new LowercaseLambda().generator(this))
-                .put("uppercase", new UppercaseLambda())
-                .put("titlecase", new TitlecaseLambda())
-                .put("camelcase", new CamelCaseLambda().generator(this))
-                .put("indented", new IndentedLambda())
-                .put("indented_8", new IndentedLambda(8, " "))
-                .put("indented_12", new IndentedLambda(12, " "))
-                .put("indented_16", new IndentedLambda(16, " "))
-                .put("onchange",  new OnChangeLambda())
-                .build();
-
-        if (objs.containsKey("lambda")) {
-            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
-                    "You'll likely need to use a custom template, " +
-                    "see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/templating.md. ");
-            objs.put("_lambda", lambdas);
-        } else {
-            objs.put("lambda", lambdas);
-        }
+    @Override
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("onchange", new OnChangeLambda());
     }
 
     /**
@@ -131,26 +105,6 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
     public String escapeUnsafeCharacters(String input) {
         // just return the original string
         return input;
-    }
-
-    /**
-     * Lambda writes current fragment to the output when it is different than
-     * previous fragment.
-     */
-    public static class OnChangeLambda implements Mustache.Lambda {
-        private static final Logger LOGGER = LoggerFactory.getLogger(OnChangeLambda.class);
-
-        private String lastVal = null;
-
-        @Override
-        public void execute(Template.Fragment frag, Writer out) throws IOException {
-            String curVal = frag.execute();
-            LOGGER.debug("[lastVal={}, curVal={}]", lastVal, curVal);
-            if (curVal != null && !curVal.equals(lastVal)) {
-                out.write(curVal);
-                lastVal = curVal;
-            }
-        }
     }
 
 }

@@ -26,3 +26,4 @@ sidebar_label: typescript-angular
 |modelSuffix|The suffix of the generated model.| |null|
 |modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
 |fileNaming|Naming convention for the output files: 'camelCase', 'kebab-case'.| |camelCase|
+|stringEnums|Generate string enums instead of objects for enum values.| |false|

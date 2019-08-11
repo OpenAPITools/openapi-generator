@@ -32,22 +32,26 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Order")
 public class Order {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
   private Long id;
 
-  @JsonProperty("petId")
+  public static final String JSON_PROPERTY_PET_ID = "petId";
+  @JsonProperty(JSON_PROPERTY_PET_ID)
   @JacksonXmlProperty(localName = "petId")
   @XmlElement(name = "petId")
   private Long petId;
 
-  @JsonProperty("quantity")
+  public static final String JSON_PROPERTY_QUANTITY = "quantity";
+  @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JacksonXmlProperty(localName = "quantity")
   @XmlElement(name = "quantity")
   private Integer quantity;
 
-  @JsonProperty("shipDate")
+  public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
+  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JacksonXmlProperty(localName = "shipDate")
   @XmlElement(name = "shipDate")
   private OffsetDateTime shipDate;
@@ -89,12 +93,14 @@ public class Order {
     }
   }
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @JsonProperty(JSON_PROPERTY_STATUS)
   @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
   private StatusEnum status;
 
-  @JsonProperty("complete")
+  public static final String JSON_PROPERTY_COMPLETE = "complete";
+  @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JacksonXmlProperty(localName = "complete")
   @XmlElement(name = "complete")
   private Boolean complete = false;
@@ -108,6 +114,7 @@ public class Order {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
@@ -126,6 +133,7 @@ public class Order {
    * Get petId
    * @return petId
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Long getPetId() {
     return petId;
@@ -144,6 +152,7 @@ public class Order {
    * Get quantity
    * @return quantity
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Integer getQuantity() {
     return quantity;
@@ -162,6 +171,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -180,6 +190,7 @@ public class Order {
    * Order Status
    * @return status
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "Order Status")
   public StatusEnum getStatus() {
     return status;
@@ -198,6 +209,7 @@ public class Order {
    * Get complete
    * @return complete
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public Boolean getComplete() {
     return complete;

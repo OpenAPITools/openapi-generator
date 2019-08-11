@@ -29,7 +29,8 @@ import javax.validation.Valid;
 @ApiModel(description = "Model for testing model with \"_class\" property")
 
 public class ClassModel {
-  @JsonProperty("_class")
+  public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   private String propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
@@ -41,6 +42,7 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getPropertyClass() {
     return propertyClass;

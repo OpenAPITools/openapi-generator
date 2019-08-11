@@ -27,7 +27,8 @@ import javax.validation.Valid;
 @ApiModel(description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
 
 public class HealthCheckResult   {
-  @JsonProperty("NullableMessage")
+  public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
+  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   private String nullableMessage;
 
   public HealthCheckResult nullableMessage(String nullableMessage) {

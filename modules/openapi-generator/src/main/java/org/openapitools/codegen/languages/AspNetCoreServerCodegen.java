@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -353,7 +354,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Filters" + File.separator + "GeneratePathParamsValidationFilter.mustache",
                     packageFolder + File.separator + "Filters", "GeneratePathParamsValidationFilter.cs"));
         }
- 
+
         supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache",packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
     }
 
@@ -407,12 +408,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getNullableType(Schema p, String type) {
-        boolean isNullableExpected = p.getNullable() == null || (p.getNullable() != null && p.getNullable());
-
-        if (isNullableExpected && languageSpecificPrimitives.contains(type + "?")) {
-            return type + "?";
-        } else if (languageSpecificPrimitives.contains(type)) {
-            return type;
+        if (languageSpecificPrimitives.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+                return type + "?";
+            } else {
+                return type;
+            }
         } else {
             return null;
         }

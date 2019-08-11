@@ -24,6 +24,7 @@ impl ApiKey {
     }
 }
 
+#[allow(dead_code)]
 pub(crate) enum Auth {
     None,
     ApiKey(ApiKey),

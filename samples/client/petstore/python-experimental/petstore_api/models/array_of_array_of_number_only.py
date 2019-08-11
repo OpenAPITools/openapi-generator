@@ -31,21 +31,27 @@ class ArrayOfArrayOfNumberOnly(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'array_array_number': 'list[list[float]]'
+        'array_array_number': 'list[list[float]]',
     }
 
     attribute_map = {
-        'array_array_number': 'ArrayArrayNumber'
+        'array_array_number': 'ArrayArrayNumber',  # noqa: E501
     }
 
     def __init__(self, array_array_number=None):  # noqa: E501
-        """ArrayOfArrayOfNumberOnly - a model defined in OpenAPI"""  # noqa: E501
+        """ArrayOfArrayOfNumberOnly - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            array_array_number (list[list[float]]): [optional]  # noqa: E501
+        """
 
         self._array_array_number = None
         self.discriminator = None
 
         if array_array_number is not None:
-            self.array_array_number = array_array_number
+            self.array_array_number = array_array_number  # noqa: E501
 
     @property
     def array_array_number(self):
@@ -58,7 +64,9 @@ class ArrayOfArrayOfNumberOnly(object):
         return self._array_array_number
 
     @array_array_number.setter
-    def array_array_number(self, array_array_number):
+    def array_array_number(
+            self,
+            array_array_number):
         """Sets the array_array_number of this ArrayOfArrayOfNumberOnly.
 
 
@@ -66,7 +74,8 @@ class ArrayOfArrayOfNumberOnly(object):
         :type: list[list[float]]
         """
 
-        self._array_array_number = array_array_number
+        self._array_array_number = (
+            array_array_number)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

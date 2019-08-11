@@ -29,7 +29,8 @@ import javax.validation.Valid;
  */
 
 public class NumberOnly {
-  @JsonProperty("JustNumber")
+  public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
+  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
@@ -41,6 +42,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
   public BigDecimal getJustNumber() {

@@ -26,22 +26,28 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class Capitalization {
-  @JsonProperty("smallCamel")
+  public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
+  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
   private String smallCamel;
 
-  @JsonProperty("CapitalCamel")
+  public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
+  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
   private String capitalCamel;
 
-  @JsonProperty("small_Snake")
+  public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
+  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
   private String smallSnake;
 
-  @JsonProperty("Capital_Snake")
+  public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
+  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
   private String capitalSnake;
 
-  @JsonProperty("SCA_ETH_Flow_Points")
+  public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
+  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   private String scAETHFlowPoints;
 
-  @JsonProperty("ATT_NAME")
+  public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
+  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
   private String ATT_NAME;
 
   public Capitalization smallCamel(String smallCamel) {
@@ -53,6 +59,7 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getSmallCamel() {
     return smallCamel;
@@ -71,6 +78,7 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getCapitalCamel() {
     return capitalCamel;
@@ -89,6 +97,7 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getSmallSnake() {
     return smallSnake;
@@ -107,6 +116,7 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getCapitalSnake() {
     return capitalSnake;
@@ -125,6 +135,7 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -143,6 +154,7 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "Name of the pet ")
   public String getATTNAME() {
     return ATT_NAME;

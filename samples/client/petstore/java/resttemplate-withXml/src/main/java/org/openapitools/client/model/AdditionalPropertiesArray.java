@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesArray")
 public class AdditionalPropertiesArray extends HashMap<String, List> {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
   private String name;
@@ -48,6 +49,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getName() {
     return name;

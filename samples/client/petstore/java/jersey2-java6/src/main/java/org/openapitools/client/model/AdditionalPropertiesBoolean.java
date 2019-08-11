@@ -27,7 +27,8 @@ import java.util.Map;
  */
 
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
   public AdditionalPropertiesBoolean name(String name) {
@@ -39,6 +40,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public String getName() {
     return name;

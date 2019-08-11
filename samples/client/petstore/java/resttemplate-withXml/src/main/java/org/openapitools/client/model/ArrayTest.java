@@ -34,21 +34,24 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayTest")
 public class ArrayTest {
-  @JsonProperty("array_of_string")
+  public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
+  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   // Is a container wrapped=false
   // items.name=arrayOfString items.baseName=arrayOfString items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayOfString")
   private List<String> arrayOfString = new ArrayList<String>();
 
-  @JsonProperty("array_array_of_integer")
+  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   // Is a container wrapped=false
   // items.name=arrayArrayOfInteger items.baseName=arrayArrayOfInteger items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Long&gt;
   @XmlElement(name = "arrayArrayOfInteger")
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
 
-  @JsonProperty("array_array_of_model")
+  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   // Is a container wrapped=false
   // items.name=arrayArrayOfModel items.baseName=arrayArrayOfModel items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;ReadOnlyFirst&gt;
@@ -72,6 +75,7 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -98,6 +102,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -124,6 +129,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

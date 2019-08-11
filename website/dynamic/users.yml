@@ -54,6 +54,11 @@
   infoLink: "https://www.klarna.com/us/"
   pinned: false
 -
+  caption: "Kurusugawa Computer Inc."
+  image: "img/companies/kurusugawa.png"
+  infoLink: "https://www.kurusugawa.jp/"
+  pinned: false
+-
   caption: Metaswitch
   image: "img/companies/metaswitch.svg"
   infoLink: "https://www.metaswitch.com/"
