@@ -17,8 +17,19 @@
 
 package org.openapitools.codegen.plugin;
 
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvp;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvp;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvp;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsv;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvp;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvp;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsvList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvpList;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
 import java.io.File;
 import java.util.HashMap;
@@ -277,12 +288,6 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "additionalProperties", property = "openapi.generator.maven.plugin.additionalProperties")
     private List<String> additionalProperties;
-
-    /**
-     * A map of server variable overrides for specs that support server URL templating
-     */
-    @Parameter(name = "serverVariableOverrides", property = "openapi.generator.maven.plugin.serverVariableOverrides")
-    private List<String> serverVariables;
 
     /**
      * A map of reserved names and how they should be escaped
@@ -610,10 +615,6 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
-                if (serverVariables == null && configOptions.containsKey("server-variables")) {
-                    applyServerVariablesKvp(configOptions.get("server-variables").toString(), configurator);
-                }
-
                 // Retained for backwards-compataibility with configOptions -> reserved-words-mappings
                 if (reservedWordsMappings == null && configOptions.containsKey("reserved-words-mappings")) {
                     applyReservedWordsMappingsKvp(configOptions.get("reserved-words-mappings")
@@ -645,10 +646,6 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Additional Properties
             if (additionalProperties != null && (configOptions == null || !configOptions.containsKey("additional-properties"))) {
                 applyAdditionalPropertiesKvpList(additionalProperties, configurator);
-            }
-
-            if (serverVariables != null && (configOptions == null || !configOptions.containsKey("server-variables"))) {
-                applyServerVariablesKvpList(serverVariables, configurator);
             }
 
             // Apply Reserved Words Mappings
@@ -701,10 +698,10 @@ public class CodeGenMojo extends AbstractMojo {
             // Store a checksum of the input spec
             File storedInputSpecHashFile = getHashFile(inputSpecFile);
             ByteSource inputSpecByteSource =
-                inputSpecFile.exists()
-                    ? Files.asByteSource(inputSpecFile)
-                    : CharSource.wrap(ClasspathHelper.loadFileFromClasspath(inputSpecFile.toString().replaceAll("\\\\","/")))
-                        .asByteSource(Charsets.UTF_8);
+                    inputSpecFile.exists()
+                            ? Files.asByteSource(inputSpecFile)
+                            : CharSource.wrap(ClasspathHelper.loadFileFromClasspath(inputSpecFile.toString().replaceAll("\\\\","/")))
+                            .asByteSource(Charsets.UTF_8);
             String  inputSpecHash =inputSpecByteSource.hash(Hashing.sha256()).toString();
 
             if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
