@@ -698,10 +698,10 @@ public class CodeGenMojo extends AbstractMojo {
             // Store a checksum of the input spec
             File storedInputSpecHashFile = getHashFile(inputSpecFile);
             ByteSource inputSpecByteSource =
-                inputSpecFile.exists()
-                    ? Files.asByteSource(inputSpecFile)
-                    : CharSource.wrap(ClasspathHelper.loadFileFromClasspath(inputSpecFile.toString().replaceAll("\\\\","/")))
-                        .asByteSource(Charsets.UTF_8);
+                    inputSpecFile.exists()
+                            ? Files.asByteSource(inputSpecFile)
+                            : CharSource.wrap(ClasspathHelper.loadFileFromClasspath(inputSpecFile.toString().replaceAll("\\\\","/")))
+                            .asByteSource(Charsets.UTF_8);
             String  inputSpecHash =inputSpecByteSource.hash(Hashing.sha256()).toString();
 
             if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {

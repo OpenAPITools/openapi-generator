@@ -97,6 +97,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String embeddedTemplateDir;
     protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
@@ -503,12 +504,12 @@ public class DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
     }
 
-    //override with any special handling of the entire swagger spec
+    //override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
     }
 
-    // override with any special handling of the entire swagger spec
+    // override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void processOpenAPI(OpenAPI openAPI) {
     }
@@ -720,6 +721,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public Map<String, Object> additionalProperties() {
         return additionalProperties;
+    }
+
+    public Map<String, String> serverVariableOverrides() {
+        return serverVariables;
     }
 
     public Map<String, Object> vendorExtensions() {
@@ -5053,14 +5058,34 @@ public class DefaultCodegen implements CodegenConfig {
         if (variables == null) {
             return Collections.emptyList();
         }
+
+        Map<String, String> variableOverrides = serverVariableOverrides();
+
         List<CodegenServerVariable> codegenServerVariables = new LinkedList<>();
         for (Entry<String, ServerVariable> variableEntry : variables.entrySet()) {
             CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
             ServerVariable variable = variableEntry.getValue();
+            List<String> enums = variable.getEnum();
+
             codegenServerVariable.defaultValue = variable.getDefault();
             codegenServerVariable.description = escapeText(variable.getDescription());
-            codegenServerVariable.enumValues = variable.getEnum();
+            codegenServerVariable.enumValues = enums;
             codegenServerVariable.name = variableEntry.getKey();
+
+            // Sets the override value for a server variable pattern.
+            // NOTE: OpenAPI Specification doesn't prevent multiple server URLs with variables. If multiple objects have the same
+            //       variables pattern, user overrides will apply to _all_ of these patterns. We may want to consider indexed overrides.
+            if (variableOverrides != null && !variableOverrides.isEmpty()) {
+                String value = variableOverrides.getOrDefault(variableEntry.getKey(), variable.getDefault());
+                codegenServerVariable.value = value;
+
+                if (enums != null && !enums.isEmpty() && !enums.contains(value)) {
+                    LOGGER.warn("Variable override of '{}' is not listed in the enum of allowed values ({}).", value, StringUtils.join(enums, ","));
+                }
+            } else {
+                codegenServerVariable.value = variable.getDefault();
+            }
+
             codegenServerVariables.add(codegenServerVariable);
         }
         return codegenServerVariables;

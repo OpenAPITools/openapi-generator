@@ -24,9 +24,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.XML;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
@@ -291,7 +289,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
         info.setVersion(StringUtils.join(versionComponents, "."));
 
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", URLPathUtils.getPort(url, 80));
     }
