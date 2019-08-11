@@ -32,22 +32,26 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Name")
 public class Name {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
   private Integer name;
 
-  @JsonProperty("snake_case")
+  public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
+  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   @JacksonXmlProperty(localName = "snake_case")
   @XmlElement(name = "snake_case")
   private Integer snakeCase;
 
-  @JsonProperty("property")
+  public static final String JSON_PROPERTY_PROPERTY = "property";
+  @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JacksonXmlProperty(localName = "property")
   @XmlElement(name = "property")
   private String property;
 
-  @JsonProperty("123Number")
+  public static final String JSON_PROPERTY_123NUMBER = "123Number";
+  @JsonProperty(JSON_PROPERTY_123NUMBER)
   @JacksonXmlProperty(localName = "123Number")
   @XmlElement(name = "123Number")
   private Integer _123number;

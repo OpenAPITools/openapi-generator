@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Order;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -65,7 +66,7 @@ public class StoreApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
-        String path = UriComponentsBuilder.fromPath("/store/order/{order_id}").buildAndExpand(uriVariables).toUriString();
+        String path = apiClient.expandPath("/store/order/{order_id}", uriVariables);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -91,7 +92,7 @@ public class StoreApi {
     public Map<String, Integer> getInventory() throws RestClientException {
         Object postBody = null;
         
-        String path = UriComponentsBuilder.fromPath("/store/inventory").build().toUriString();
+        String path = apiClient.expandPath("/store/inventory", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -130,7 +131,7 @@ public class StoreApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
-        String path = UriComponentsBuilder.fromPath("/store/order/{order_id}").buildAndExpand(uriVariables).toUriString();
+        String path = apiClient.expandPath("/store/order/{order_id}", uriVariables);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -165,7 +166,7 @@ public class StoreApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
         }
         
-        String path = UriComponentsBuilder.fromPath("/store/order").build().toUriString();
+        String path = apiClient.expandPath("/store/order", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

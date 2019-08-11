@@ -31,42 +31,50 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "User")
 public class User {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
   private Long id;
 
-  @JsonProperty("username")
+  public static final String JSON_PROPERTY_USERNAME = "username";
+  @JsonProperty(JSON_PROPERTY_USERNAME)
   @JacksonXmlProperty(localName = "username")
   @XmlElement(name = "username")
   private String username;
 
-  @JsonProperty("firstName")
+  public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
+  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JacksonXmlProperty(localName = "firstName")
   @XmlElement(name = "firstName")
   private String firstName;
 
-  @JsonProperty("lastName")
+  public static final String JSON_PROPERTY_LAST_NAME = "lastName";
+  @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JacksonXmlProperty(localName = "lastName")
   @XmlElement(name = "lastName")
   private String lastName;
 
-  @JsonProperty("email")
+  public static final String JSON_PROPERTY_EMAIL = "email";
+  @JsonProperty(JSON_PROPERTY_EMAIL)
   @JacksonXmlProperty(localName = "email")
   @XmlElement(name = "email")
   private String email;
 
-  @JsonProperty("password")
+  public static final String JSON_PROPERTY_PASSWORD = "password";
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JacksonXmlProperty(localName = "password")
   @XmlElement(name = "password")
   private String password;
 
-  @JsonProperty("phone")
+  public static final String JSON_PROPERTY_PHONE = "phone";
+  @JsonProperty(JSON_PROPERTY_PHONE)
   @JacksonXmlProperty(localName = "phone")
   @XmlElement(name = "phone")
   private String phone;
 
-  @JsonProperty("userStatus")
+  public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
+  @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JacksonXmlProperty(localName = "userStatus")
   @XmlElement(name = "userStatus")
   private Integer userStatus;

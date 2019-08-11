@@ -3,9 +3,9 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**string_item** | **str** |  | 
-**number_item** | **float** |  | 
-**integer_item** | **int** |  | 
+**string_item** | **str** |  | [default to 'what']
+**number_item** | **float** |  | [default to 1.234]
+**integer_item** | **int** |  | [default to -2]
 **bool_item** | **bool** |  | 
 **array_item** | **list[int]** |  | 
 

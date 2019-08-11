@@ -34,27 +34,32 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "TypeHolderDefault")
 public class TypeHolderDefault {
-  @JsonProperty("string_item")
+  public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
+  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JacksonXmlProperty(localName = "string_item")
   @XmlElement(name = "string_item")
   private String stringItem = "what";
 
-  @JsonProperty("number_item")
+  public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
+  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JacksonXmlProperty(localName = "number_item")
   @XmlElement(name = "number_item")
   private BigDecimal numberItem;
 
-  @JsonProperty("integer_item")
+  public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
+  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JacksonXmlProperty(localName = "integer_item")
   @XmlElement(name = "integer_item")
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
+  public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
+  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JacksonXmlProperty(localName = "bool_item")
   @XmlElement(name = "bool_item")
   private Boolean boolItem = true;
 
-  @JsonProperty("array_item")
+  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   // Is a container wrapped=false
   // items.name=arrayItem items.baseName=arrayItem items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer

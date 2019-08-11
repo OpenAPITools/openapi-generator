@@ -31,24 +31,31 @@ class Category(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'name': 'str',
         'id': 'int',
-        'name': 'str'
     }
 
     attribute_map = {
-        'id': 'id',
-        'name': 'name'
+        'name': 'name',  # noqa: E501
+        'id': 'id',  # noqa: E501
     }
 
-    def __init__(self, id=None, name='default-name'):  # noqa: E501
-        """Category - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, name='default-name', id=None):  # noqa: E501
+        """Category - a model defined in OpenAPI
+
+        Args:
+
+        Keyword Args:
+            name (str): defaults to 'default-name', must be one of ['default-name']  # noqa: E501
+            id (int): [optional]  # noqa: E501
+        """
 
         self._id = None
         self._name = None
         self.discriminator = None
 
         if id is not None:
-            self.id = id
+            self.id = id  # noqa: E501
         self.name = name
 
     @property
@@ -62,7 +69,9 @@ class Category(object):
         return self._id
 
     @id.setter
-    def id(self, id):
+    def id(
+            self,
+            id):
         """Sets the id of this Category.
 
 
@@ -70,7 +79,8 @@ class Category(object):
         :type: int
         """
 
-        self._id = id
+        self._id = (
+            id)
 
     @property
     def name(self):
@@ -83,7 +93,9 @@ class Category(object):
         return self._name
 
     @name.setter
-    def name(self, name):
+    def name(
+            self,
+            name):
         """Sets the name of this Category.
 
 
@@ -93,7 +105,8 @@ class Category(object):
         if name is None:
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._name = name
+        self._name = (
+            name)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

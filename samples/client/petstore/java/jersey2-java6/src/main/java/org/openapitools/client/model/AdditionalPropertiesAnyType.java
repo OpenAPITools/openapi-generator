@@ -27,7 +27,8 @@ import java.util.Map;
  */
 
 public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
   public AdditionalPropertiesAnyType name(String name) {

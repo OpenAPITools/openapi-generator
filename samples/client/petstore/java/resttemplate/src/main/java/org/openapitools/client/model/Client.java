@@ -26,7 +26,8 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class Client {
-  @JsonProperty("client")
+  public static final String JSON_PROPERTY_CLIENT = "client";
+  @JsonProperty(JSON_PROPERTY_CLIENT)
   private String client;
 
   public Client client(String client) {

@@ -27,16 +27,20 @@ import java.time.OffsetDateTime;
  */
 
 public class Order {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   private Long id;
 
-  @JsonProperty("petId")
+  public static final String JSON_PROPERTY_PET_ID = "petId";
+  @JsonProperty(JSON_PROPERTY_PET_ID)
   private Long petId;
 
-  @JsonProperty("quantity")
+  public static final String JSON_PROPERTY_QUANTITY = "quantity";
+  @JsonProperty(JSON_PROPERTY_QUANTITY)
   private Integer quantity;
 
-  @JsonProperty("shipDate")
+  public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
+  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   private OffsetDateTime shipDate;
 
   /**
@@ -76,10 +80,12 @@ public class Order {
     }
   }
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @JsonProperty(JSON_PROPERTY_STATUS)
   private StatusEnum status;
 
-  @JsonProperty("complete")
+  public static final String JSON_PROPERTY_COMPLETE = "complete";
+  @JsonProperty(JSON_PROPERTY_COMPLETE)
   private Boolean complete = false;
 
   public Order id(Long id) {

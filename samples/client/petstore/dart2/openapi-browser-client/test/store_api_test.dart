@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 /// tests for StoreApi
 void main() {
-  var instance = new StoreApi();
+  var instance = StoreApi();
 
   group('tests for StoreApi', () {
     // Delete purchase order by ID

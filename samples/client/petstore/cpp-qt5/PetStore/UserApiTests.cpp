@@ -1,10 +1,11 @@
 #include "UserApiTests.h"
 
+#include <stdlib.h>
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QDebug>
-#include <QRandomGenerator>
+
 UserApiTests::UserApiTests () {}
 
 UserApiTests::~UserApiTests () {
@@ -32,7 +33,7 @@ OAIUser UserApiTests::createRandomUser() {
     user.setPhone(QString("123456789"));
     user.setUsername(QString("janedoe"));
     user.setPassword(QString("secretPassword"));
-    user.setUserStatus(static_cast<int>(QRandomGenerator::system()->generate()));
+    user.setUserStatus(static_cast<int>(rand()));
     return user;
 }
 

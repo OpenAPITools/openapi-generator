@@ -19,36 +19,39 @@ class ApiResponse {
     if (json['code'] == null) {
       code = null;
     } else {
-      code = json['code'];
+          code = json['code'];
     }
     if (json['type'] == null) {
       type = null;
     } else {
-      type = json['type'];
+          type = json['type'];
     }
     if (json['message'] == null) {
       message = null;
     } else {
-      message = json['message'];
+          message = json['message'];
     }
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'code': code,
-      'type': type,
-      'message': message
-    };
+    Map <String, dynamic> json = {};
+    if (code != null)
+      json['code'] = code;
+    if (type != null)
+      json['type'] = type;
+    if (message != null)
+      json['message'] = message;
+    return json;
   }
 
   static List<ApiResponse> listFromJson(List<dynamic> json) {
-    return json == null ? new List<ApiResponse>() : json.map((value) => new ApiResponse.fromJson(value)).toList();
+    return json == null ? List<ApiResponse>() : json.map((value) => ApiResponse.fromJson(value)).toList();
   }
 
-  static Map<String, ApiResponse> mapFromJson(Map<String, Map<String, dynamic>> json) {
-    var map = new Map<String, ApiResponse>();
-    if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) => map[key] = new ApiResponse.fromJson(value));
+  static Map<String, ApiResponse> mapFromJson(Map<String, dynamic> json) {
+    var map = Map<String, ApiResponse>();
+    if (json != null && json.isNotEmpty) {
+      json.forEach((String key, dynamic value) => map[key] = ApiResponse.fromJson(value));
     }
     return map;
   }

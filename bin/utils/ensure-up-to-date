@@ -13,7 +13,7 @@ sleep 5
 declare -a scripts=(
 # SAMPLES
 "./bin/openapi3/ruby-client-petstore.sh"
-"./bin/ruby-client-petstore.sh"
+"./bin/openapi3/ruby-client-faraday-petstore.sh"
 "./bin/java-petstore-all.sh"
 "./bin/java-jaxrs-petstore-server-all.sh"
 "./bin/java-msf4j-petstore-server.sh"

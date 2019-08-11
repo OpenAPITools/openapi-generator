@@ -31,17 +31,20 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 public class ModelApiResponse {
-  @JsonProperty("code")
+  public static final String JSON_PROPERTY_CODE = "code";
+  @JsonProperty(JSON_PROPERTY_CODE)
   @JacksonXmlProperty(localName = "code")
   @XmlElement(name = "code")
   private Integer code;
 
-  @JsonProperty("type")
+  public static final String JSON_PROPERTY_TYPE = "type";
+  @JsonProperty(JSON_PROPERTY_TYPE)
   @JacksonXmlProperty(localName = "type")
   @XmlElement(name = "type")
   private String type;
 
-  @JsonProperty("message")
+  public static final String JSON_PROPERTY_MESSAGE = "message";
+  @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JacksonXmlProperty(localName = "message")
   @XmlElement(name = "message")
   private String message;

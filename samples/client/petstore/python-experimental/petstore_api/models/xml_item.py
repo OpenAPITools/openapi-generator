@@ -59,43 +59,77 @@ class XmlItem(object):
         'prefix_ns_integer': 'int',
         'prefix_ns_boolean': 'bool',
         'prefix_ns_array': 'list[int]',
-        'prefix_ns_wrapped_array': 'list[int]'
+        'prefix_ns_wrapped_array': 'list[int]',
     }
 
     attribute_map = {
-        'attribute_string': 'attribute_string',
-        'attribute_number': 'attribute_number',
-        'attribute_integer': 'attribute_integer',
-        'attribute_boolean': 'attribute_boolean',
-        'wrapped_array': 'wrapped_array',
-        'name_string': 'name_string',
-        'name_number': 'name_number',
-        'name_integer': 'name_integer',
-        'name_boolean': 'name_boolean',
-        'name_array': 'name_array',
-        'name_wrapped_array': 'name_wrapped_array',
-        'prefix_string': 'prefix_string',
-        'prefix_number': 'prefix_number',
-        'prefix_integer': 'prefix_integer',
-        'prefix_boolean': 'prefix_boolean',
-        'prefix_array': 'prefix_array',
-        'prefix_wrapped_array': 'prefix_wrapped_array',
-        'namespace_string': 'namespace_string',
-        'namespace_number': 'namespace_number',
-        'namespace_integer': 'namespace_integer',
-        'namespace_boolean': 'namespace_boolean',
-        'namespace_array': 'namespace_array',
-        'namespace_wrapped_array': 'namespace_wrapped_array',
-        'prefix_ns_string': 'prefix_ns_string',
-        'prefix_ns_number': 'prefix_ns_number',
-        'prefix_ns_integer': 'prefix_ns_integer',
-        'prefix_ns_boolean': 'prefix_ns_boolean',
-        'prefix_ns_array': 'prefix_ns_array',
-        'prefix_ns_wrapped_array': 'prefix_ns_wrapped_array'
+        'attribute_string': 'attribute_string',  # noqa: E501
+        'attribute_number': 'attribute_number',  # noqa: E501
+        'attribute_integer': 'attribute_integer',  # noqa: E501
+        'attribute_boolean': 'attribute_boolean',  # noqa: E501
+        'wrapped_array': 'wrapped_array',  # noqa: E501
+        'name_string': 'name_string',  # noqa: E501
+        'name_number': 'name_number',  # noqa: E501
+        'name_integer': 'name_integer',  # noqa: E501
+        'name_boolean': 'name_boolean',  # noqa: E501
+        'name_array': 'name_array',  # noqa: E501
+        'name_wrapped_array': 'name_wrapped_array',  # noqa: E501
+        'prefix_string': 'prefix_string',  # noqa: E501
+        'prefix_number': 'prefix_number',  # noqa: E501
+        'prefix_integer': 'prefix_integer',  # noqa: E501
+        'prefix_boolean': 'prefix_boolean',  # noqa: E501
+        'prefix_array': 'prefix_array',  # noqa: E501
+        'prefix_wrapped_array': 'prefix_wrapped_array',  # noqa: E501
+        'namespace_string': 'namespace_string',  # noqa: E501
+        'namespace_number': 'namespace_number',  # noqa: E501
+        'namespace_integer': 'namespace_integer',  # noqa: E501
+        'namespace_boolean': 'namespace_boolean',  # noqa: E501
+        'namespace_array': 'namespace_array',  # noqa: E501
+        'namespace_wrapped_array': 'namespace_wrapped_array',  # noqa: E501
+        'prefix_ns_string': 'prefix_ns_string',  # noqa: E501
+        'prefix_ns_number': 'prefix_ns_number',  # noqa: E501
+        'prefix_ns_integer': 'prefix_ns_integer',  # noqa: E501
+        'prefix_ns_boolean': 'prefix_ns_boolean',  # noqa: E501
+        'prefix_ns_array': 'prefix_ns_array',  # noqa: E501
+        'prefix_ns_wrapped_array': 'prefix_ns_wrapped_array',  # noqa: E501
     }
 
     def __init__(self, attribute_string=None, attribute_number=None, attribute_integer=None, attribute_boolean=None, wrapped_array=None, name_string=None, name_number=None, name_integer=None, name_boolean=None, name_array=None, name_wrapped_array=None, prefix_string=None, prefix_number=None, prefix_integer=None, prefix_boolean=None, prefix_array=None, prefix_wrapped_array=None, namespace_string=None, namespace_number=None, namespace_integer=None, namespace_boolean=None, namespace_array=None, namespace_wrapped_array=None, prefix_ns_string=None, prefix_ns_number=None, prefix_ns_integer=None, prefix_ns_boolean=None, prefix_ns_array=None, prefix_ns_wrapped_array=None):  # noqa: E501
-        """XmlItem - a model defined in OpenAPI"""  # noqa: E501
+        """XmlItem - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            attribute_string (str): [optional]  # noqa: E501
+            attribute_number (float): [optional]  # noqa: E501
+            attribute_integer (int): [optional]  # noqa: E501
+            attribute_boolean (bool): [optional]  # noqa: E501
+            wrapped_array (list[int]): [optional]  # noqa: E501
+            name_string (str): [optional]  # noqa: E501
+            name_number (float): [optional]  # noqa: E501
+            name_integer (int): [optional]  # noqa: E501
+            name_boolean (bool): [optional]  # noqa: E501
+            name_array (list[int]): [optional]  # noqa: E501
+            name_wrapped_array (list[int]): [optional]  # noqa: E501
+            prefix_string (str): [optional]  # noqa: E501
+            prefix_number (float): [optional]  # noqa: E501
+            prefix_integer (int): [optional]  # noqa: E501
+            prefix_boolean (bool): [optional]  # noqa: E501
+            prefix_array (list[int]): [optional]  # noqa: E501
+            prefix_wrapped_array (list[int]): [optional]  # noqa: E501
+            namespace_string (str): [optional]  # noqa: E501
+            namespace_number (float): [optional]  # noqa: E501
+            namespace_integer (int): [optional]  # noqa: E501
+            namespace_boolean (bool): [optional]  # noqa: E501
+            namespace_array (list[int]): [optional]  # noqa: E501
+            namespace_wrapped_array (list[int]): [optional]  # noqa: E501
+            prefix_ns_string (str): [optional]  # noqa: E501
+            prefix_ns_number (float): [optional]  # noqa: E501
+            prefix_ns_integer (int): [optional]  # noqa: E501
+            prefix_ns_boolean (bool): [optional]  # noqa: E501
+            prefix_ns_array (list[int]): [optional]  # noqa: E501
+            prefix_ns_wrapped_array (list[int]): [optional]  # noqa: E501
+        """
 
         self._attribute_string = None
         self._attribute_number = None
@@ -129,63 +163,63 @@ class XmlItem(object):
         self.discriminator = None
 
         if attribute_string is not None:
-            self.attribute_string = attribute_string
+            self.attribute_string = attribute_string  # noqa: E501
         if attribute_number is not None:
-            self.attribute_number = attribute_number
+            self.attribute_number = attribute_number  # noqa: E501
         if attribute_integer is not None:
-            self.attribute_integer = attribute_integer
+            self.attribute_integer = attribute_integer  # noqa: E501
         if attribute_boolean is not None:
-            self.attribute_boolean = attribute_boolean
+            self.attribute_boolean = attribute_boolean  # noqa: E501
         if wrapped_array is not None:
-            self.wrapped_array = wrapped_array
+            self.wrapped_array = wrapped_array  # noqa: E501
         if name_string is not None:
-            self.name_string = name_string
+            self.name_string = name_string  # noqa: E501
         if name_number is not None:
-            self.name_number = name_number
+            self.name_number = name_number  # noqa: E501
         if name_integer is not None:
-            self.name_integer = name_integer
+            self.name_integer = name_integer  # noqa: E501
         if name_boolean is not None:
-            self.name_boolean = name_boolean
+            self.name_boolean = name_boolean  # noqa: E501
         if name_array is not None:
-            self.name_array = name_array
+            self.name_array = name_array  # noqa: E501
         if name_wrapped_array is not None:
-            self.name_wrapped_array = name_wrapped_array
+            self.name_wrapped_array = name_wrapped_array  # noqa: E501
         if prefix_string is not None:
-            self.prefix_string = prefix_string
+            self.prefix_string = prefix_string  # noqa: E501
         if prefix_number is not None:
-            self.prefix_number = prefix_number
+            self.prefix_number = prefix_number  # noqa: E501
         if prefix_integer is not None:
-            self.prefix_integer = prefix_integer
+            self.prefix_integer = prefix_integer  # noqa: E501
         if prefix_boolean is not None:
-            self.prefix_boolean = prefix_boolean
+            self.prefix_boolean = prefix_boolean  # noqa: E501
         if prefix_array is not None:
-            self.prefix_array = prefix_array
+            self.prefix_array = prefix_array  # noqa: E501
         if prefix_wrapped_array is not None:
-            self.prefix_wrapped_array = prefix_wrapped_array
+            self.prefix_wrapped_array = prefix_wrapped_array  # noqa: E501
         if namespace_string is not None:
-            self.namespace_string = namespace_string
+            self.namespace_string = namespace_string  # noqa: E501
         if namespace_number is not None:
-            self.namespace_number = namespace_number
+            self.namespace_number = namespace_number  # noqa: E501
         if namespace_integer is not None:
-            self.namespace_integer = namespace_integer
+            self.namespace_integer = namespace_integer  # noqa: E501
         if namespace_boolean is not None:
-            self.namespace_boolean = namespace_boolean
+            self.namespace_boolean = namespace_boolean  # noqa: E501
         if namespace_array is not None:
-            self.namespace_array = namespace_array
+            self.namespace_array = namespace_array  # noqa: E501
         if namespace_wrapped_array is not None:
-            self.namespace_wrapped_array = namespace_wrapped_array
+            self.namespace_wrapped_array = namespace_wrapped_array  # noqa: E501
         if prefix_ns_string is not None:
-            self.prefix_ns_string = prefix_ns_string
+            self.prefix_ns_string = prefix_ns_string  # noqa: E501
         if prefix_ns_number is not None:
-            self.prefix_ns_number = prefix_ns_number
+            self.prefix_ns_number = prefix_ns_number  # noqa: E501
         if prefix_ns_integer is not None:
-            self.prefix_ns_integer = prefix_ns_integer
+            self.prefix_ns_integer = prefix_ns_integer  # noqa: E501
         if prefix_ns_boolean is not None:
-            self.prefix_ns_boolean = prefix_ns_boolean
+            self.prefix_ns_boolean = prefix_ns_boolean  # noqa: E501
         if prefix_ns_array is not None:
-            self.prefix_ns_array = prefix_ns_array
+            self.prefix_ns_array = prefix_ns_array  # noqa: E501
         if prefix_ns_wrapped_array is not None:
-            self.prefix_ns_wrapped_array = prefix_ns_wrapped_array
+            self.prefix_ns_wrapped_array = prefix_ns_wrapped_array  # noqa: E501
 
     @property
     def attribute_string(self):
@@ -198,7 +232,9 @@ class XmlItem(object):
         return self._attribute_string
 
     @attribute_string.setter
-    def attribute_string(self, attribute_string):
+    def attribute_string(
+            self,
+            attribute_string):
         """Sets the attribute_string of this XmlItem.
 
 
@@ -206,7 +242,8 @@ class XmlItem(object):
         :type: str
         """
 
-        self._attribute_string = attribute_string
+        self._attribute_string = (
+            attribute_string)
 
     @property
     def attribute_number(self):
@@ -219,7 +256,9 @@ class XmlItem(object):
         return self._attribute_number
 
     @attribute_number.setter
-    def attribute_number(self, attribute_number):
+    def attribute_number(
+            self,
+            attribute_number):
         """Sets the attribute_number of this XmlItem.
 
 
@@ -227,7 +266,8 @@ class XmlItem(object):
         :type: float
         """
 
-        self._attribute_number = attribute_number
+        self._attribute_number = (
+            attribute_number)
 
     @property
     def attribute_integer(self):
@@ -240,7 +280,9 @@ class XmlItem(object):
         return self._attribute_integer
 
     @attribute_integer.setter
-    def attribute_integer(self, attribute_integer):
+    def attribute_integer(
+            self,
+            attribute_integer):
         """Sets the attribute_integer of this XmlItem.
 
 
@@ -248,7 +290,8 @@ class XmlItem(object):
         :type: int
         """
 
-        self._attribute_integer = attribute_integer
+        self._attribute_integer = (
+            attribute_integer)
 
     @property
     def attribute_boolean(self):
@@ -261,7 +304,9 @@ class XmlItem(object):
         return self._attribute_boolean
 
     @attribute_boolean.setter
-    def attribute_boolean(self, attribute_boolean):
+    def attribute_boolean(
+            self,
+            attribute_boolean):
         """Sets the attribute_boolean of this XmlItem.
 
 
@@ -269,7 +314,8 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._attribute_boolean = attribute_boolean
+        self._attribute_boolean = (
+            attribute_boolean)
 
     @property
     def wrapped_array(self):
@@ -282,7 +328,9 @@ class XmlItem(object):
         return self._wrapped_array
 
     @wrapped_array.setter
-    def wrapped_array(self, wrapped_array):
+    def wrapped_array(
+            self,
+            wrapped_array):
         """Sets the wrapped_array of this XmlItem.
 
 
@@ -290,7 +338,8 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._wrapped_array = wrapped_array
+        self._wrapped_array = (
+            wrapped_array)
 
     @property
     def name_string(self):
@@ -303,7 +352,9 @@ class XmlItem(object):
         return self._name_string
 
     @name_string.setter
-    def name_string(self, name_string):
+    def name_string(
+            self,
+            name_string):
         """Sets the name_string of this XmlItem.
 
 
@@ -311,7 +362,8 @@ class XmlItem(object):
         :type: str
         """
 
-        self._name_string = name_string
+        self._name_string = (
+            name_string)
 
     @property
     def name_number(self):
@@ -324,7 +376,9 @@ class XmlItem(object):
         return self._name_number
 
     @name_number.setter
-    def name_number(self, name_number):
+    def name_number(
+            self,
+            name_number):
         """Sets the name_number of this XmlItem.
 
 
@@ -332,7 +386,8 @@ class XmlItem(object):
         :type: float
         """
 
-        self._name_number = name_number
+        self._name_number = (
+            name_number)
 
     @property
     def name_integer(self):
@@ -345,7 +400,9 @@ class XmlItem(object):
         return self._name_integer
 
     @name_integer.setter
-    def name_integer(self, name_integer):
+    def name_integer(
+            self,
+            name_integer):
         """Sets the name_integer of this XmlItem.
 
 
@@ -353,7 +410,8 @@ class XmlItem(object):
         :type: int
         """
 
-        self._name_integer = name_integer
+        self._name_integer = (
+            name_integer)
 
     @property
     def name_boolean(self):
@@ -366,7 +424,9 @@ class XmlItem(object):
         return self._name_boolean
 
     @name_boolean.setter
-    def name_boolean(self, name_boolean):
+    def name_boolean(
+            self,
+            name_boolean):
         """Sets the name_boolean of this XmlItem.
 
 
@@ -374,7 +434,8 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._name_boolean = name_boolean
+        self._name_boolean = (
+            name_boolean)
 
     @property
     def name_array(self):
@@ -387,7 +448,9 @@ class XmlItem(object):
         return self._name_array
 
     @name_array.setter
-    def name_array(self, name_array):
+    def name_array(
+            self,
+            name_array):
         """Sets the name_array of this XmlItem.
 
 
@@ -395,7 +458,8 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._name_array = name_array
+        self._name_array = (
+            name_array)
 
     @property
     def name_wrapped_array(self):
@@ -408,7 +472,9 @@ class XmlItem(object):
         return self._name_wrapped_array
 
     @name_wrapped_array.setter
-    def name_wrapped_array(self, name_wrapped_array):
+    def name_wrapped_array(
+            self,
+            name_wrapped_array):
         """Sets the name_wrapped_array of this XmlItem.
 
 
@@ -416,7 +482,8 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._name_wrapped_array = name_wrapped_array
+        self._name_wrapped_array = (
+            name_wrapped_array)
 
     @property
     def prefix_string(self):
@@ -429,7 +496,9 @@ class XmlItem(object):
         return self._prefix_string
 
     @prefix_string.setter
-    def prefix_string(self, prefix_string):
+    def prefix_string(
+            self,
+            prefix_string):
         """Sets the prefix_string of this XmlItem.
 
 
@@ -437,7 +506,8 @@ class XmlItem(object):
         :type: str
         """
 
-        self._prefix_string = prefix_string
+        self._prefix_string = (
+            prefix_string)
 
     @property
     def prefix_number(self):
@@ -450,7 +520,9 @@ class XmlItem(object):
         return self._prefix_number
 
     @prefix_number.setter
-    def prefix_number(self, prefix_number):
+    def prefix_number(
+            self,
+            prefix_number):
         """Sets the prefix_number of this XmlItem.
 
 
@@ -458,7 +530,8 @@ class XmlItem(object):
         :type: float
         """
 
-        self._prefix_number = prefix_number
+        self._prefix_number = (
+            prefix_number)
 
     @property
     def prefix_integer(self):
@@ -471,7 +544,9 @@ class XmlItem(object):
         return self._prefix_integer
 
     @prefix_integer.setter
-    def prefix_integer(self, prefix_integer):
+    def prefix_integer(
+            self,
+            prefix_integer):
         """Sets the prefix_integer of this XmlItem.
 
 
@@ -479,7 +554,8 @@ class XmlItem(object):
         :type: int
         """
 
-        self._prefix_integer = prefix_integer
+        self._prefix_integer = (
+            prefix_integer)
 
     @property
     def prefix_boolean(self):
@@ -492,7 +568,9 @@ class XmlItem(object):
         return self._prefix_boolean
 
     @prefix_boolean.setter
-    def prefix_boolean(self, prefix_boolean):
+    def prefix_boolean(
+            self,
+            prefix_boolean):
         """Sets the prefix_boolean of this XmlItem.
 
 
@@ -500,7 +578,8 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._prefix_boolean = prefix_boolean
+        self._prefix_boolean = (
+            prefix_boolean)
 
     @property
     def prefix_array(self):
@@ -513,7 +592,9 @@ class XmlItem(object):
         return self._prefix_array
 
     @prefix_array.setter
-    def prefix_array(self, prefix_array):
+    def prefix_array(
+            self,
+            prefix_array):
         """Sets the prefix_array of this XmlItem.
 
 
@@ -521,7 +602,8 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._prefix_array = prefix_array
+        self._prefix_array = (
+            prefix_array)
 
     @property
     def prefix_wrapped_array(self):
@@ -534,7 +616,9 @@ class XmlItem(object):
         return self._prefix_wrapped_array
 
     @prefix_wrapped_array.setter
-    def prefix_wrapped_array(self, prefix_wrapped_array):
+    def prefix_wrapped_array(
+            self,
+            prefix_wrapped_array):
         """Sets the prefix_wrapped_array of this XmlItem.
 
 
@@ -542,7 +626,8 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._prefix_wrapped_array = prefix_wrapped_array
+        self._prefix_wrapped_array = (
+            prefix_wrapped_array)
 
     @property
     def namespace_string(self):
@@ -555,7 +640,9 @@ class XmlItem(object):
         return self._namespace_string
 
     @namespace_string.setter
-    def namespace_string(self, namespace_string):
+    def namespace_string(
+            self,
+            namespace_string):
         """Sets the namespace_string of this XmlItem.
 
 
@@ -563,7 +650,8 @@ class XmlItem(object):
         :type: str
         """
 
-        self._namespace_string = namespace_string
+        self._namespace_string = (
+            namespace_string)
 
     @property
     def namespace_number(self):
@@ -576,7 +664,9 @@ class XmlItem(object):
         return self._namespace_number
 
     @namespace_number.setter
-    def namespace_number(self, namespace_number):
+    def namespace_number(
+            self,
+            namespace_number):
         """Sets the namespace_number of this XmlItem.
 
 
@@ -584,7 +674,8 @@ class XmlItem(object):
         :type: float
         """
 
-        self._namespace_number = namespace_number
+        self._namespace_number = (
+            namespace_number)
 
     @property
     def namespace_integer(self):
@@ -597,7 +688,9 @@ class XmlItem(object):
         return self._namespace_integer
 
     @namespace_integer.setter
-    def namespace_integer(self, namespace_integer):
+    def namespace_integer(
+            self,
+            namespace_integer):
         """Sets the namespace_integer of this XmlItem.
 
 
@@ -605,7 +698,8 @@ class XmlItem(object):
         :type: int
         """
 
-        self._namespace_integer = namespace_integer
+        self._namespace_integer = (
+            namespace_integer)
 
     @property
     def namespace_boolean(self):
@@ -618,7 +712,9 @@ class XmlItem(object):
         return self._namespace_boolean
 
     @namespace_boolean.setter
-    def namespace_boolean(self, namespace_boolean):
+    def namespace_boolean(
+            self,
+            namespace_boolean):
         """Sets the namespace_boolean of this XmlItem.
 
 
@@ -626,7 +722,8 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._namespace_boolean = namespace_boolean
+        self._namespace_boolean = (
+            namespace_boolean)
 
     @property
     def namespace_array(self):
@@ -639,7 +736,9 @@ class XmlItem(object):
         return self._namespace_array
 
     @namespace_array.setter
-    def namespace_array(self, namespace_array):
+    def namespace_array(
+            self,
+            namespace_array):
         """Sets the namespace_array of this XmlItem.
 
 
@@ -647,7 +746,8 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._namespace_array = namespace_array
+        self._namespace_array = (
+            namespace_array)
 
     @property
     def namespace_wrapped_array(self):
@@ -660,7 +760,9 @@ class XmlItem(object):
         return self._namespace_wrapped_array
 
     @namespace_wrapped_array.setter
-    def namespace_wrapped_array(self, namespace_wrapped_array):
+    def namespace_wrapped_array(
+            self,
+            namespace_wrapped_array):
         """Sets the namespace_wrapped_array of this XmlItem.
 
 
@@ -668,7 +770,8 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._namespace_wrapped_array = namespace_wrapped_array
+        self._namespace_wrapped_array = (
+            namespace_wrapped_array)
 
     @property
     def prefix_ns_string(self):
@@ -681,7 +784,9 @@ class XmlItem(object):
         return self._prefix_ns_string
 
     @prefix_ns_string.setter
-    def prefix_ns_string(self, prefix_ns_string):
+    def prefix_ns_string(
+            self,
+            prefix_ns_string):
         """Sets the prefix_ns_string of this XmlItem.
 
 
@@ -689,7 +794,8 @@ class XmlItem(object):
         :type: str
         """
 
-        self._prefix_ns_string = prefix_ns_string
+        self._prefix_ns_string = (
+            prefix_ns_string)
 
     @property
     def prefix_ns_number(self):
@@ -702,7 +808,9 @@ class XmlItem(object):
         return self._prefix_ns_number
 
     @prefix_ns_number.setter
-    def prefix_ns_number(self, prefix_ns_number):
+    def prefix_ns_number(
+            self,
+            prefix_ns_number):
         """Sets the prefix_ns_number of this XmlItem.
 
 
@@ -710,7 +818,8 @@ class XmlItem(object):
         :type: float
         """
 
-        self._prefix_ns_number = prefix_ns_number
+        self._prefix_ns_number = (
+            prefix_ns_number)
 
     @property
     def prefix_ns_integer(self):
@@ -723,7 +832,9 @@ class XmlItem(object):
         return self._prefix_ns_integer
 
     @prefix_ns_integer.setter
-    def prefix_ns_integer(self, prefix_ns_integer):
+    def prefix_ns_integer(
+            self,
+            prefix_ns_integer):
         """Sets the prefix_ns_integer of this XmlItem.
 
 
@@ -731,7 +842,8 @@ class XmlItem(object):
         :type: int
         """
 
-        self._prefix_ns_integer = prefix_ns_integer
+        self._prefix_ns_integer = (
+            prefix_ns_integer)
 
     @property
     def prefix_ns_boolean(self):
@@ -744,7 +856,9 @@ class XmlItem(object):
         return self._prefix_ns_boolean
 
     @prefix_ns_boolean.setter
-    def prefix_ns_boolean(self, prefix_ns_boolean):
+    def prefix_ns_boolean(
+            self,
+            prefix_ns_boolean):
         """Sets the prefix_ns_boolean of this XmlItem.
 
 
@@ -752,7 +866,8 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._prefix_ns_boolean = prefix_ns_boolean
+        self._prefix_ns_boolean = (
+            prefix_ns_boolean)
 
     @property
     def prefix_ns_array(self):
@@ -765,7 +880,9 @@ class XmlItem(object):
         return self._prefix_ns_array
 
     @prefix_ns_array.setter
-    def prefix_ns_array(self, prefix_ns_array):
+    def prefix_ns_array(
+            self,
+            prefix_ns_array):
         """Sets the prefix_ns_array of this XmlItem.
 
 
@@ -773,7 +890,8 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._prefix_ns_array = prefix_ns_array
+        self._prefix_ns_array = (
+            prefix_ns_array)
 
     @property
     def prefix_ns_wrapped_array(self):
@@ -786,7 +904,9 @@ class XmlItem(object):
         return self._prefix_ns_wrapped_array
 
     @prefix_ns_wrapped_array.setter
-    def prefix_ns_wrapped_array(self, prefix_ns_wrapped_array):
+    def prefix_ns_wrapped_array(
+            self,
+            prefix_ns_wrapped_array):
         """Sets the prefix_ns_wrapped_array of this XmlItem.
 
 
@@ -794,7 +914,8 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._prefix_ns_wrapped_array = prefix_ns_wrapped_array
+        self._prefix_ns_wrapped_array = (
+            prefix_ns_wrapped_array)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

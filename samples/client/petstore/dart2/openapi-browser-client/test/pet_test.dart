@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 // tests for Pet
 void main() {
-  var instance = new Pet();
+  var instance = Pet();
 
   group('test Pet', () {
     // int id (default value: null)

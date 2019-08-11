@@ -28,10 +28,12 @@ import javax.validation.Valid;
  */
 
 public class FileSchemaTestClass   {
-  @JsonProperty("file")
+  public static final String JSON_PROPERTY_FILE = "file";
+  @JsonProperty(JSON_PROPERTY_FILE)
   private java.io.File file = null;
 
-  @JsonProperty("files")
+  public static final String JSON_PROPERTY_FILES = "files";
+  @JsonProperty(JSON_PROPERTY_FILES)
   private List<java.io.File> files = null;
 
   public FileSchemaTestClass file(java.io.File file) {

@@ -197,7 +197,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Add a new pet to the store
-     * 
      * @param body Pet object that needs to be added to the store
      
      */
@@ -223,6 +222,7 @@ export class PetService implements PetServiceInterface {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -250,7 +250,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Deletes a pet
-     * 
      * @param petId Pet id to delete
      * @param apiKey 
      
@@ -281,9 +280,6 @@ export class PetService implements PetServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -334,9 +330,6 @@ export class PetService implements PetServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -388,9 +381,6 @@ export class PetService implements PetServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -434,9 +424,6 @@ export class PetService implements PetServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -453,7 +440,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Update an existing pet
-     * 
      * @param body Pet object that needs to be added to the store
      
      */
@@ -479,6 +465,7 @@ export class PetService implements PetServiceInterface {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -506,7 +493,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Updates a pet in the store with form data
-     * 
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -578,7 +564,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * uploads an image
-     * 
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload

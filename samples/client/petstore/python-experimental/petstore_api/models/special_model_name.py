@@ -31,21 +31,27 @@ class SpecialModelName(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'special_property_name': 'int'
+        'special_property_name': 'int',
     }
 
     attribute_map = {
-        'special_property_name': '$special[property.name]'
+        'special_property_name': '$special[property.name]',  # noqa: E501
     }
 
     def __init__(self, special_property_name=None):  # noqa: E501
-        """SpecialModelName - a model defined in OpenAPI"""  # noqa: E501
+        """SpecialModelName - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            special_property_name (int): [optional]  # noqa: E501
+        """
 
         self._special_property_name = None
         self.discriminator = None
 
         if special_property_name is not None:
-            self.special_property_name = special_property_name
+            self.special_property_name = special_property_name  # noqa: E501
 
     @property
     def special_property_name(self):
@@ -58,7 +64,9 @@ class SpecialModelName(object):
         return self._special_property_name
 
     @special_property_name.setter
-    def special_property_name(self, special_property_name):
+    def special_property_name(
+            self,
+            special_property_name):
         """Sets the special_property_name of this SpecialModelName.
 
 
@@ -66,7 +74,8 @@ class SpecialModelName(object):
         :type: int
         """
 
-        self._special_property_name = special_property_name
+        self._special_property_name = (
+            special_property_name)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

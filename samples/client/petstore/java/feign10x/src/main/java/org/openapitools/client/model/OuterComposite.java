@@ -27,13 +27,16 @@ import java.math.BigDecimal;
  */
 
 public class OuterComposite {
-  @JsonProperty("my_number")
+  public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
+  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   private BigDecimal myNumber;
 
-  @JsonProperty("my_string")
+  public static final String JSON_PROPERTY_MY_STRING = "my_string";
+  @JsonProperty(JSON_PROPERTY_MY_STRING)
   private String myString;
 
-  @JsonProperty("my_boolean")
+  public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
+  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
