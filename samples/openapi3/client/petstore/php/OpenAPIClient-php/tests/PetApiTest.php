@@ -56,18 +56,22 @@ class PetApiTest extends TestCase
         $this->api = new Api\PetApi();
     }
 
-    public function testGetPetById()
+    public function testGetPetByIdReturnsPet()
     {
-        $petId = 10005;
+        // given
+        $this->api->addPet(self::$newPet);
 
-        $pet = $this->api->getPetById($petId);
-        $this->assertSame($pet->getId(), $petId);
-        $this->assertSame($pet->getName(), 'PHP Unit Test');
-        $this->assertSame($pet->getPhotoUrls()[0], 'http://test_php_unit_test.com');
-        $this->assertSame($pet->getCategory()->getId(), $petId);
-        $this->assertSame($pet->getCategory()->getName(), 'test php category');
-        $this->assertSame($pet->getTags()[0]->getId(), $petId);
-        $this->assertSame($pet->getTags()[0]->getName(), 'test php tag');
+        // when
+        $pet = $this->api->getPetById(self::$newPet->getId());
+
+        // then
+        $this->assertSame($pet->getId(), self::$newPet->getId());
+        $this->assertSame($pet->getName(), self::$newPet->getName());
+        $this->assertSame($pet->getPhotoUrls()[0], self::$newPet->getPhotoUrls()[0]);
+        $this->assertSame($pet->getCategory()->getId(), self::$newPet->getId());
+        $this->assertSame($pet->getCategory()->getName(), self::$newPet->getCategory()->getName());
+        $this->assertSame($pet->getTags()[0]->getId(), self::$newPet->getId());
+        $this->assertSame($pet->getTags()[0]->getName(), self::$newPet->getTags()[0]->getName());
     }
 
     /**
