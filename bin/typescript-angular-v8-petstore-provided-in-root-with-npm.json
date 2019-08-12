@@ -1,0 +1,6 @@
+{
+  "npmName": "@openapitools/typescript-angular-petstore",
+  "npmVersion": "1.0.0",
+  "npmRepository" : "https://skimdb.npmjs.com/registry",
+  "snapshot" : false
+}
