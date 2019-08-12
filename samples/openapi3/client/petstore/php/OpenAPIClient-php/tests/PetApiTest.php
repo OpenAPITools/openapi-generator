@@ -138,7 +138,7 @@ class PetApiTest extends TestCase
     public function testUpdatePetUpdatesName()
     {
         // given
-        $result = $this->api->addPet(self::$newPet);
+        $this->api->addPet(self::$newPet);
         $updatedPet = clone self::$newPet;
         $oldName = self::$newPet->getName();
         $newName = $oldName.'_new';
