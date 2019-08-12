@@ -36,15 +36,15 @@ import android.os.Parcel;
 public class ArrayTest implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
-  private List<String> arrayOfString = new ArrayList<String>();
+  private List<String> arrayOfString = null; 
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER)
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
+  private List<List<Long>> arrayArrayOfInteger = null; 
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null; 
 
   public ArrayTest() {
   }

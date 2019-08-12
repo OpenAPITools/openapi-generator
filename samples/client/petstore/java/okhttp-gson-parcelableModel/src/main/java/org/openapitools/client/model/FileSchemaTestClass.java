@@ -39,7 +39,7 @@ public class FileSchemaTestClass implements Parcelable {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<java.io.File> files = new ArrayList<java.io.File>();
+  private List<java.io.File> files = null; 
 
   public FileSchemaTestClass() {
   }

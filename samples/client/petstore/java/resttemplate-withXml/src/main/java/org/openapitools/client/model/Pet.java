@@ -62,7 +62,7 @@ public class Pet {
   // items.example= items.type=String
   @XmlElement(name = "photoUrls")
   @XmlElementWrapper(name = "photoUrl")
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<String>(); 
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @JsonProperty(JSON_PROPERTY_TAGS)
@@ -73,7 +73,7 @@ public class Pet {
   // items.example= items.type=Tag
   @XmlElement(name = "tags")
   @XmlElementWrapper(name = "tag")
-  private List<Tag> tags = new ArrayList<Tag>();
+  private List<Tag> tags = null; 
 
   /**
    * pet status in the store

@@ -46,11 +46,11 @@ public class Pet {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls = new ArrayList<>(); 
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @JsonProperty(JSON_PROPERTY_TAGS)
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags = null; 
 
   /**
    * pet status in the store

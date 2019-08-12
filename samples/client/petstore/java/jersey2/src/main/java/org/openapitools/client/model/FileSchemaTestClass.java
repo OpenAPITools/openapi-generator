@@ -34,7 +34,7 @@ public class FileSchemaTestClass {
 
   public static final String JSON_PROPERTY_FILES = "files";
   @JsonProperty(JSON_PROPERTY_FILES)
-  private List<java.io.File> files = new ArrayList<java.io.File>();
+  private List<java.io.File> files = null; 
 
   public FileSchemaTestClass file(java.io.File file) {
     this.file = file;
