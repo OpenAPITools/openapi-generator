@@ -52,7 +52,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
-    protected String ngVersion = "7.0.0";
+    protected String ngVersion = "8.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
@@ -209,8 +209,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("7.0.0")) {
-            // Angular v7 requires typescript ">=3.1.1 <3.2.0"
+        if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("tsVersion", ">=3.4.0 <3.6.0");
+        } else if (ngVersion.atLeast("7.0.0")) {
             additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
         } else if (ngVersion.atLeast("6.0.0")) {
             additionalProperties.put("tsVersion", ">=2.7.2 and <2.10.0");
@@ -222,7 +223,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the rxJS version compatible to the Angular version
-        if (ngVersion.atLeast("7.0.0")) {
+        if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.5.0");
+        } else if (ngVersion.atLeast("7.0.0")) {
             additionalProperties.put("rxjsVersion", "6.3.0");
         } else if (ngVersion.atLeast("6.0.0")) {
             additionalProperties.put("rxjsVersion", "6.1.0");
@@ -250,7 +253,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("useOldNgPackagr", !ngVersion.atLeast("5.0.0"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("7.0.0")) {
+        if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "5.4.0");
+            additionalProperties.put("tsickleVersion", "0.35.0");
+        } else if (ngVersion.atLeast("7.0.0")) {
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "5.1.0");
             additionalProperties.put("tsickleVersion", "0.34.0");
@@ -268,7 +274,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // set zone.js version
-        if (ngVersion.atLeast("5.0.0")) {
+        if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.9.1");
+        } else if (ngVersion.atLeast("5.0.0")) {
             // compatible versions to Angular 5+
             additionalProperties.put("zonejsVersion", "0.8.26");
         } else {
@@ -659,3 +667,4 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
 }
+
