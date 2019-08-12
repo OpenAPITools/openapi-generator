@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         /// <value>pet status in the store</value>
         [DataMember(Name="status", EmitDefaultValue=false)]
-        public StatusEnum? Status { get; set; }
+        public StatusEnum Status { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
