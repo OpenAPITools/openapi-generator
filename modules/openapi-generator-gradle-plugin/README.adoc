@@ -374,6 +374,18 @@ openApiGenerate {
 
 |===
 
+=== openApiGenerators
+
+.Options
+|===
+|Key |Data Type |Default |Description
+
+|include
+|String[]
+|None
+|A list of stability indexes to include (values: all,beta,stable,experimental,deprecated). Excludes deprecated by default.
+
+|===
 
 == Examples
 
