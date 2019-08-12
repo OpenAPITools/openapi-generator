@@ -46,7 +46,7 @@ public class XmlItem {
 
   public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
-  private List<Integer> wrappedArray = null; 
+  private List<Integer> wrappedArray = null;
 
   public static final String JSON_PROPERTY_NAME_STRING = "name_string";
   @JsonProperty(JSON_PROPERTY_NAME_STRING)
@@ -66,11 +66,11 @@ public class XmlItem {
 
   public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
-  private List<Integer> nameArray = null; 
+  private List<Integer> nameArray = null;
 
   public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
-  private List<Integer> nameWrappedArray = null; 
+  private List<Integer> nameWrappedArray = null;
 
   public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
   @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
@@ -90,11 +90,11 @@ public class XmlItem {
 
   public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
-  private List<Integer> prefixArray = null; 
+  private List<Integer> prefixArray = null;
 
   public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
-  private List<Integer> prefixWrappedArray = null; 
+  private List<Integer> prefixWrappedArray = null;
 
   public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
@@ -114,11 +114,11 @@ public class XmlItem {
 
   public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
-  private List<Integer> namespaceArray = null; 
+  private List<Integer> namespaceArray = null;
 
   public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
-  private List<Integer> namespaceWrappedArray = null; 
+  private List<Integer> namespaceWrappedArray = null;
 
   public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
@@ -138,11 +138,11 @@ public class XmlItem {
 
   public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
-  private List<Integer> prefixNsArray = null; 
+  private List<Integer> prefixNsArray = null;
 
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
-  private List<Integer> prefixNsWrappedArray = null; 
+  private List<Integer> prefixNsWrappedArray = null;
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;

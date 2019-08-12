@@ -64,7 +64,7 @@ public class TypeHolderDefault {
   // items.name=arrayItem items.baseName=arrayItem items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "arrayItem")
-  private List<Integer> arrayItem = new ArrayList<Integer>(); 
+  private List<Integer> arrayItem = new ArrayList<Integer>();
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;

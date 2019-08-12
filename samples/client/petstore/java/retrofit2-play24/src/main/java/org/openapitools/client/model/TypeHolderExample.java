@@ -49,7 +49,7 @@ public class TypeHolderExample {
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
-  private List<Integer> arrayItem = new ArrayList<>(); 
+  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample stringItem(String stringItem) {
     this.stringItem = stringItem;

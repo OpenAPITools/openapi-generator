@@ -49,11 +49,11 @@ public class Pet implements Parcelable {
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<String>(); 
+  private List<String> photoUrls = new ArrayList<String>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags = null; 
+  private List<Tag> tags = null;
 
   /**
    * pet status in the store

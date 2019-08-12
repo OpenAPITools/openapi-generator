@@ -37,7 +37,7 @@ public class FileSchemaTestClass {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<java.io.File> files = null; 
+  private List<java.io.File> files = null;
 
   public FileSchemaTestClass file(java.io.File file) {
     this.file = file;

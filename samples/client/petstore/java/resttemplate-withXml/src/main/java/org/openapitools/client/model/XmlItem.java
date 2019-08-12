@@ -67,7 +67,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(name = "wrappedArray")
   @XmlElementWrapper(name = "wrapped_array")
-  private List<Integer> wrappedArray = null; 
+  private List<Integer> wrappedArray = null;
 
   public static final String JSON_PROPERTY_NAME_STRING = "name_string";
   @JsonProperty(JSON_PROPERTY_NAME_STRING)
@@ -99,7 +99,7 @@ public class XmlItem {
   // items.name=nameArray items.baseName=nameArray items.xmlName=xml_name_array_item items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "xml_name_array_item")
-  private List<Integer> nameArray = null; 
+  private List<Integer> nameArray = null;
 
   public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
@@ -110,7 +110,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(name = "xml_name_wrapped_array_item")
   @XmlElementWrapper(name = "xml_name_wrapped_array")
-  private List<Integer> nameWrappedArray = null; 
+  private List<Integer> nameWrappedArray = null;
 
   public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
   @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
@@ -142,7 +142,7 @@ public class XmlItem {
   // items.name=prefixArray items.baseName=prefixArray items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "prefixArray")
-  private List<Integer> prefixArray = null; 
+  private List<Integer> prefixArray = null;
 
   public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
@@ -153,7 +153,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(name = "prefixWrappedArray")
   @XmlElementWrapper(name = "prefix_wrapped_array")
-  private List<Integer> prefixWrappedArray = null; 
+  private List<Integer> prefixWrappedArray = null;
 
   public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
@@ -185,7 +185,7 @@ public class XmlItem {
   // items.name=namespaceArray items.baseName=namespaceArray items.xmlName= items.xmlNamespace=http://e.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://e.com/schema", name = "namespaceArray")
-  private List<Integer> namespaceArray = null; 
+  private List<Integer> namespaceArray = null;
 
   public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
@@ -196,7 +196,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(namespace="http://g.com/schema", name = "namespaceWrappedArray")
   @XmlElementWrapper(namespace="http://f.com/schema", name = "namespace_wrapped_array")
-  private List<Integer> namespaceWrappedArray = null; 
+  private List<Integer> namespaceWrappedArray = null;
 
   public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
@@ -228,7 +228,7 @@ public class XmlItem {
   // items.name=prefixNsArray items.baseName=prefixNsArray items.xmlName= items.xmlNamespace=http://e.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://e.com/schema", name = "prefixNsArray")
-  private List<Integer> prefixNsArray = null; 
+  private List<Integer> prefixNsArray = null;
 
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
@@ -239,7 +239,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(namespace="http://g.com/schema", name = "prefixNsWrappedArray")
   @XmlElementWrapper(namespace="http://f.com/schema", name = "prefix_ns_wrapped_array")
-  private List<Integer> prefixNsWrappedArray = null; 
+  private List<Integer> prefixNsWrappedArray = null;
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;
