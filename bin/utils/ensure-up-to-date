@@ -61,7 +61,6 @@ declare -a scripts=(
 "./bin/meta-codegen.sh"
 # OTHERS
 "./bin/utils/export_docs_generators.sh"
-"./bin/utils/export_generators_docusaurus_index.sh"
 "./bin/utils/copy-to-website.sh"
 "./bin/utils/export_generators_readme.sh")
 
