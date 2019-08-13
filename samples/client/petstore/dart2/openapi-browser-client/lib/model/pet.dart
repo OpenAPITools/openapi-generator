@@ -2,17 +2,17 @@ part of openapi.api;
 
 class Pet {
   
-  int id = null;
+    int id = null;
   
-  Category category = null;
+    Category category = null;
   
-  String name = null;
+    String name = null;
   
-  List<String> photoUrls = [];
+    List<String> photoUrls = [];
   
-  List<Tag> tags = [];
+    List<Tag> tags = [];
   /* pet status in the store */
-  String status = null;
+    String status = null;
   //enum statusEnum {  available,  pending,  sold,  };{
   Pet();
 
@@ -23,36 +23,18 @@ class Pet {
 
   Pet.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    if (json['id'] == null) {
-      id = null;
-    } else {
-          id = json['id'];
-    }
-    if (json['category'] == null) {
-      category = null;
-    } else {
-      category = Category.fromJson(json['category']);
-    }
-    if (json['name'] == null) {
-      name = null;
-    } else {
-          name = json['name'];
-    }
-    if (json['photoUrls'] == null) {
-      photoUrls = null;
-    } else {
-      photoUrls = (json['photoUrls'] as List).cast<String>();
-    }
-    if (json['tags'] == null) {
-      tags = null;
-    } else {
-      tags = Tag.listFromJson(json['tags']);
-    }
-    if (json['status'] == null) {
-      status = null;
-    } else {
-          status = json['status'];
-    }
+    id = json['id'];
+    category = (json['category'] == null) ?
+      null :
+      Category.fromJson(json['category']);
+    name = json['name'];
+    photoUrls = (json['photoUrls'] == null) ?
+      null :
+      (json['photoUrls'] as List).cast<String>();
+    tags = (json['tags'] == null) ?
+      null :
+      Tag.listFromJson(json['tags']);
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
