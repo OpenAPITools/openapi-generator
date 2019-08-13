@@ -11,17 +11,17 @@
 package petstore
 
 import (
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 	"github.com/antihax/optional"
 	"os"
 )
 
 // Linger please
 var (
-	_ context.Context
+	_ _context.Context
 )
 
 type FakeApiService service
@@ -29,12 +29,12 @@ type FakeApiService service
 /*
 FakeApiService creates an XmlItem
 this route creates an XmlItem
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param xmlItem XmlItem Body
 */
-func (a *FakeApiService) CreateXmlItem(ctx context.Context, xmlItem XmlItem) (*http.Response, error) {
+func (a *FakeApiService) CreateXmlItem(ctx _context.Context, xmlItem XmlItem) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -45,8 +45,8 @@ func (a *FakeApiService) CreateXmlItem(ctx context.Context, xmlItem XmlItem) (*h
 	localVarPath := a.client.cfg.BasePath + "/fake/create_xml_item"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"}
@@ -77,7 +77,7 @@ func (a *FakeApiService) CreateXmlItem(ctx context.Context, xmlItem XmlItem) (*h
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -97,7 +97,7 @@ func (a *FakeApiService) CreateXmlItem(ctx context.Context, xmlItem XmlItem) (*h
 /*
 FakeApiService
 Test serialization of outer boolean types
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterBooleanSerializeOpts - Optional Parameters:
  * @param "Body" (optional.Bool) -  Input boolean as post body
 @return bool
@@ -107,9 +107,9 @@ type FakeOuterBooleanSerializeOpts struct {
 	Body optional.Bool
 }
 
-func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *http.Response, error) {
+func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -121,8 +121,8 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVar
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/boolean"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -156,7 +156,7 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVar
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -195,7 +195,7 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVar
 /*
 FakeApiService
 Test serialization of object with outer number type
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterCompositeSerializeOpts - Optional Parameters:
  * @param "Body" (optional.Interface of OuterComposite) -  Input composite as post body
 @return OuterComposite
@@ -205,9 +205,9 @@ type FakeOuterCompositeSerializeOpts struct {
 	Body optional.Interface
 }
 
-func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *http.Response, error) {
+func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -219,8 +219,8 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localV
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/composite"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -258,7 +258,7 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localV
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -297,7 +297,7 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localV
 /*
 FakeApiService
 Test serialization of outer number types
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterNumberSerializeOpts - Optional Parameters:
  * @param "Body" (optional.Float32) -  Input number as post body
 @return float32
@@ -307,9 +307,9 @@ type FakeOuterNumberSerializeOpts struct {
 	Body optional.Float32
 }
 
-func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarOptionals *FakeOuterNumberSerializeOpts) (float32, *http.Response, error) {
+func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVarOptionals *FakeOuterNumberSerializeOpts) (float32, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -321,8 +321,8 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarO
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/number"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -356,7 +356,7 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarO
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -395,7 +395,7 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarO
 /*
 FakeApiService
 Test serialization of outer string types
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterStringSerializeOpts - Optional Parameters:
  * @param "Body" (optional.String) -  Input string as post body
 @return string
@@ -405,9 +405,9 @@ type FakeOuterStringSerializeOpts struct {
 	Body optional.String
 }
 
-func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarOptionals *FakeOuterStringSerializeOpts) (string, *http.Response, error) {
+func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVarOptionals *FakeOuterStringSerializeOpts) (string, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -419,8 +419,8 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarO
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/string"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -454,7 +454,7 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarO
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -493,12 +493,12 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarO
 /*
 FakeApiService
 For this test, the body for this request much reference a schema named &#x60;File&#x60;.
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param url
 */
-func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, body FileSchemaTestClass) (*http.Response, error) {
+func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, url FileSchemaTestClass) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPut
+		localVarHttpMethod   = _nethttp.MethodPut
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -509,8 +509,8 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, body FileSc
 	localVarPath := a.client.cfg.BasePath + "/fake/body-with-file-schema"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"application/json"}
@@ -530,7 +530,7 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, body FileSc
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	localVarPostBody = &url
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -541,7 +541,7 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, body FileSc
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -560,13 +560,13 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, body FileSc
 
 /*
 FakeApiService
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param query
  * @param body
 */
-func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query string, body User) (*http.Response, error) {
+func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query string, body User) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPut
+		localVarHttpMethod   = _nethttp.MethodPut
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -577,8 +577,8 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query stri
 	localVarPath := a.client.cfg.BasePath + "/fake/body-with-query-params"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	localVarQueryParams.Add("query", parameterToString(query, ""))
 	// to determine the Content-Type header
@@ -610,7 +610,7 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query stri
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -630,13 +630,13 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query stri
 /*
 FakeApiService To test \"client\" model
 To test \&quot;client\&quot; model
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body client model
 @return Client
 */
-func (a *FakeApiService) TestClientModel(ctx context.Context, body Client) (Client, *http.Response, error) {
+func (a *FakeApiService) TestClientModel(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPatch
+		localVarHttpMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -648,8 +648,8 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, body Client) (Clie
 	localVarPath := a.client.cfg.BasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"application/json"}
@@ -680,7 +680,7 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, body Client) (Clie
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -719,7 +719,7 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, body Client) (Clie
 /*
 FakeApiService Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param number None
  * @param double None
  * @param patternWithoutDelimiter None
@@ -750,9 +750,9 @@ type TestEndpointParametersOpts struct {
 	Callback optional.String
 }
 
-func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals *TestEndpointParametersOpts) (*http.Response, error) {
+func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals *TestEndpointParametersOpts) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -763,8 +763,8 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 	localVarPath := a.client.cfg.BasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 	if number < 32.1 {
 		return nil, reportError("number must be greater than 32.1")
 	}
@@ -824,7 +824,7 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 		}
 	}
 	if localVarFile != nil {
-		fbs, _ := ioutil.ReadAll(localVarFile)
+		fbs, _ := _ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs
 		localVarFileName = localVarFile.Name()
 		localVarFile.Close()
@@ -855,7 +855,7 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -875,7 +875,7 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 /*
 FakeApiService To test enum parameters
 To test enum parameters
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *TestEnumParametersOpts - Optional Parameters:
  * @param "EnumHeaderStringArray" (optional.Interface of []string) -  Header parameter enum test (string array)
  * @param "EnumHeaderString" (optional.String) -  Header parameter enum test (string)
@@ -898,9 +898,9 @@ type TestEnumParametersOpts struct {
 	EnumFormString optional.String
 }
 
-func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptionals *TestEnumParametersOpts) (*http.Response, error) {
+func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOptionals *TestEnumParametersOpts) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodGet
+		localVarHttpMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -911,8 +911,8 @@ func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptiona
 	localVarPath := a.client.cfg.BasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	if localVarOptionals != nil && localVarOptionals.EnumQueryStringArray.IsSet() {
 		localVarQueryParams.Add("enum_query_string_array", parameterToString(localVarOptionals.EnumQueryStringArray.Value(), "csv"))
@@ -965,7 +965,7 @@ func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptiona
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -985,7 +985,7 @@ func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptiona
 /*
 FakeApiService Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param requiredStringGroup Required String in group parameters
  * @param requiredBooleanGroup Required Boolean in group parameters
  * @param requiredInt64Group Required Integer in group parameters
@@ -1001,9 +1001,9 @@ type TestGroupParametersOpts struct {
 	Int64Group optional.Int64
 }
 
-func (a *FakeApiService) TestGroupParameters(ctx context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*http.Response, error) {
+func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodDelete
+		localVarHttpMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1014,8 +1014,8 @@ func (a *FakeApiService) TestGroupParameters(ctx context.Context, requiredString
 	localVarPath := a.client.cfg.BasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	localVarQueryParams.Add("required_string_group", parameterToString(requiredStringGroup, ""))
 	localVarQueryParams.Add("required_int64_group", parameterToString(requiredInt64Group, ""))
@@ -1056,7 +1056,7 @@ func (a *FakeApiService) TestGroupParameters(ctx context.Context, requiredString
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -1075,12 +1075,12 @@ func (a *FakeApiService) TestGroupParameters(ctx context.Context, requiredString
 
 /*
 FakeApiService test inline additionalProperties
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param param request body
 */
-func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, param map[string]string) (*http.Response, error) {
+func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, param map[string]string) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1091,8 +1091,8 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, par
 	localVarPath := a.client.cfg.BasePath + "/fake/inline-additionalProperties"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"application/json"}
@@ -1123,7 +1123,7 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, par
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -1142,13 +1142,13 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, par
 
 /*
 FakeApiService test json serialization of form data
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param param field1
  * @param param2 field2
 */
-func (a *FakeApiService) TestJsonFormData(ctx context.Context, param string, param2 string) (*http.Response, error) {
+func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, param2 string) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodGet
+		localVarHttpMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1159,8 +1159,8 @@ func (a *FakeApiService) TestJsonFormData(ctx context.Context, param string, par
 	localVarPath := a.client.cfg.BasePath + "/fake/jsonFormData"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -1191,7 +1191,7 @@ func (a *FakeApiService) TestJsonFormData(ctx context.Context, param string, par
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err

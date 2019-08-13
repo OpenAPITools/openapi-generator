@@ -1031,7 +1031,7 @@ paths:
       description: 'For this test, the body for this request much reference a schema named `File`.'
       operationId: testBodyWithFileSchema
       parameters:
-        - name: body
+        - name: url 
           in: body
           required: true
           schema:
