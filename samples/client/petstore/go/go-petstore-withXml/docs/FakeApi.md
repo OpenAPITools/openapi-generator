@@ -223,7 +223,7 @@ No authorization required
 
 ## TestBodyWithFileSchema
 
-> TestBodyWithFileSchema(ctx, url)
+> TestBodyWithFileSchema(ctx, body)
 
 
 For this test, the body for this request much reference a schema named `File`.
@@ -234,7 +234,7 @@ For this test, the body for this request much reference a schema named `File`.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**url** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+**body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 

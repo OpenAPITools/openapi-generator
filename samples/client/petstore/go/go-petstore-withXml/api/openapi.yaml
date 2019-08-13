@@ -1099,7 +1099,7 @@ paths:
           description: Success
       tags:
       - fake
-      x-codegen-request-body-name: url
+      x-codegen-request-body-name: body
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       operationId: uploadFileWithRequiredFile

@@ -493,9 +493,9 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 FakeApiService
 For this test, the body for this request much reference a schema named &#x60;File&#x60;.
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param url
+ * @param body
 */
-func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, url FileSchemaTestClass) (*_nethttp.Response, error) {
+func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, body FileSchemaTestClass) (*_nethttp.Response, error) {
 	var (
 		localVarHttpMethod   = _nethttp.MethodPut
 		localVarPostBody     interface{}
@@ -529,7 +529,7 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, url FileSc
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &url
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
