@@ -54,7 +54,7 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
-final jaguarApiGen = JaguarApiGen();
+final jaguarApiGen = Openapi();
 var api_instance = jaguarApiGen.getPetApi();
 var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
