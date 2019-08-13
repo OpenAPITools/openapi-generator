@@ -28,6 +28,20 @@ const (
 	{{/allowableValues}}
 )
 
+// Get{{{classname}}} : get eum type by name
+func Get{{{classname}}}(name string) ({{{classname}}}, error) {
+	switch name {
+	{{#allowableValues}}
+	{{#enumVars}}
+	case "{{{value}}}":
+		return {{name}}, nil
+	{{/enumVars}}
+	{{/allowableValues}}
+	default:
+		return "", fmt.Errorf("unknown [%s] constant for {{{classname}}}", name)
+	}
+}
+
 {{/isEnum}}
 {{^isEnum}}
 {{#description}}// {{classname}} - {{{description}}}{{/description}}
@@ -36,7 +50,7 @@ type {{classname}} struct {
 	{{#description}}
 	// {{{description}}}
 	{{/description}}
-	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{#isContainer}}{{datatypeWithEnum}}{{/isContainer}}{{^isContainer}}{{#isNullable}}*{{/isNullable}}{{{dataType}}}{{/isContainer}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 	{{/vars}}
 }
 {{/isEnum}}

@@ -37,30 +37,52 @@ type {{nickname}}Response{{code}} struct {
 }
 
 {{/responses}}
+// {{nickname}}Headers : request headers
 type {{nickname}}Headers struct {
 	{{#headerParams}}
 	{{#description}}
 	// {{unescapedDescription}}
 	{{/description}}
-	{{#camelize}}{{paramName}}{{/camelize}} {{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#isHeaderParam}} header:"{{baseName}}"{{/isHeaderParam}} binding:"{{#required}}required{{/required}}{{#isEmail}},email{{/isEmail}}{{#isUuid}},uuid{{/isUuid}}{{#isEmail}},email{{/isEmail}}"`
+	{{#camelize}}{{paramName}}{{/camelize}} {{{dataType}}} {{>struct_tags}}
 	{{/headerParams}}
 }
 
-type {{nickname}}Params struct {
-	{{#allParams}}
-	{{^isHeaderParam}}
+// {{nickname}}QueryParams : query/GET request parameters
+type {{nickname}}QueryParams struct {
+	{{#queryParams}}
 	{{#description}}
 	// {{unescapedDescription}}
 	{{/description}}
-	{{#camelize}}{{paramName}}{{/camelize}} {{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#isPathParam}} uri:"{{baseName}}"{{/isPathParam}}{{#isFormParam}} form:"{{baseName}}"{{/isFormParam}}{{#isQueryParam}} form:"{{baseName}}"{{/isQueryParam}}{{#isHeaderParam}} header:"{{baseName}}"{{/isHeaderParam}} binding:"{{#required}}required{{/required}}{{#isEmail}},email{{/isEmail}}{{#isUuid}},uuid{{/isUuid}}{{#isEmail}},email{{/isEmail}}"`
-	{{/isHeaderParam}}
-	{{/allParams}}
+	{{#camelize}}{{paramName}}{{/camelize}} {{{dataType}}} {{>struct_tags}}
+	{{/queryParams}}
+}
+
+// {{nickname}}PathParams : in path request parameters
+type {{nickname}}PathParams struct {
+	{{#pathParams}}
+	{{#description}}
+	// {{unescapedDescription}}
+	{{/description}}
+	{{#camelize}}{{paramName}}{{/camelize}} {{{dataType}}} {{>struct_tags}}
+	{{/pathParams}}
+}
+
+// {{nickname}}FormParams : form/POST request parameters
+type {{nickname}}FormParams struct {
+	{{#formParams}}
+	{{#description}}
+	// {{unescapedDescription}}
+	{{/description}}
+	{{#camelize}}{{paramName}}{{/camelize}} {{{dataType}}} {{>struct_tags}}
+	{{/formParams}}
 }
 
 // {{nickname}}Request payload object
 type {{nickname}}Request struct {
-	Headers *{{nickname}}Headers	
-	Params *{{nickname}}Params
+	Headers *{{nickname}}Headers
+	QueryParams *{{nickname}}QueryParams
+	PathParams *{{nickname}}PathParams
+	FormParams *{{nickname}}FormParams
 }
 
 // Bind : gin bind
@@ -75,14 +97,30 @@ func (o *{{nickname}}Request) Bind (c *gin.Context) error {
 	}
 
 	{{/hasHeaderParams}}
-	{{#hasParams}}
-    o.Params = &{{nickname}}Params{}
-	err = c.ShouldBind(o.Params)
+	{{#hasQueryParams}}
+    o.QueryParams = &{{nickname}}QueryParams{}
+	err = c.ShouldBindQuery(o.QueryParams)
 	if err != nil {
 		return err
 	}
-	
-	{{/hasParams}}
+
+	{{/hasQueryParams}}
+	{{#hasPathParams}}
+    o.PathParams = &{{nickname}}PathParams{}
+	err = c.ShouldBindUri(o.PathParams)
+	if err != nil {
+		return err
+	}
+
+	{{/hasPathParams}}
+	{{#hasFormParams}}
+    o.FormParams = &{{nickname}}FormParams{}
+	err = c.ShouldBind(o.FormParams)
+	if err != nil {
+		return err
+	}
+
+	{{/hasFormParams}}
 	return err
 }
 

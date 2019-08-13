@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import io.swagger.util.Json;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -88,22 +89,140 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
         for (Map.Entry<String, Object> entry : result.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            List<Map<String, String>> imports = (List<Map<String, String>>) inner.get("imports");
+
             for (Map<String, Object> model : models) {
                 CodegenModel cm = (CodegenModel) model.get("model");
+
+                if (cm.isEnum) {
+                    imports.add(createMapping("import", "fmt"));
+                }
+
+                if (cm.hasVars) {
+                    setInheritProperties(cm.getVars());
+                    setInheritProperties(cm.getAllVars());
+                    setInheritProperties(cm.getRequiredVars());
+                    setInheritProperties(cm.getOptionalVars());
+                    setInheritProperties(cm.getReadOnlyVars());
+                    setInheritProperties(cm.getReadWriteVars());
+                    setInheritProperties(cm.getParentVars());
+                }
 
                 // merge the type properties into model
                 if (!cm.isAlias && cm.isEmptyVars() && cm.getImports().size() == 1 && cm.getInterfaces().size() == 1) {
                     CodegenModel im = ModelUtils.getModelByName(toModelName(cm.getInterfaces().get(0)), result);
-                    if (im != null) {
-                        cm.vendorExtensions.put("inheritInterface", im);
-                        LOGGER.info(String.format("append vendorExtensions.inheritInterface [%s] to [%s] model", im.name, cm.name));
-                        LOGGER.debug(Json.pretty(cm));
-                    }
+                    cm.vendorExtensions.put("inheritInterface", im);
+                    LOGGER.info(String.format("append vendorExtensions.inheritInterface [%s] to [%s] model", im.name, cm.name));
+                    LOGGER.debug(Json.pretty(cm));
+                    LOGGER.debug(Json.pretty(im));
                 }
             }
         }
 
         return result;
+    }
+
+    private void setInheritProperties(List<CodegenProperty> properties) {
+        Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
+
+        for(CodegenProperty prop : properties) {
+            if (prop.isPrimitiveType || prop.complexType.isEmpty() || prop.isEnum) {
+                continue;
+            }
+
+            Schema schema = schemas.get(prop.complexType);
+            CodegenModel cm = fromModel(prop.complexType, schema);
+
+            CodegenModel im = getNestedModel(cm);
+            if (im.isEnum) {
+                prop.openApiType = im.classname;
+                prop.complexType = im.classname;
+                prop.datatypeWithEnum = im.classname;
+                prop.baseType = im.classname;
+                prop.dataType = im.classname;
+
+                continue;
+            }
+
+            Schema s = schemas.get(im.name);
+            prop.isString = ModelUtils.isStringSchema(s);
+            prop.isNumeric = ModelUtils.isNumberSchema(s);
+            prop.isInteger = ModelUtils.isIntegerSchema(s);
+            prop.isLong = ModelUtils.isLongSchema(s);
+            prop.isNumber = ModelUtils.isNumberSchema(s);
+            prop.isFloat = ModelUtils.isFloatSchema(s);
+            prop.isDouble = ModelUtils.isDoubleSchema(s);
+            prop.isByteArray = ModelUtils.isByteArraySchema(s);
+            prop.isBinary = ModelUtils.isBinarySchema(s);
+            prop.isBoolean = ModelUtils.isBooleanSchema(s);
+            prop.isDate = ModelUtils.isDateSchema(s);
+            prop.isDateTime = ModelUtils.isDateTimeSchema(s);
+            prop.isUuid = ModelUtils.isUUIDSchema(s);
+            prop.isUri = ModelUtils.isURISchema(s);
+            prop.isEmail = ModelUtils.isEmailSchema(s);
+            prop.isFreeFormObject = ModelUtils.isFreeFormObject(s);
+            prop.dataType = im.dataType;
+        }
+    }
+
+    private void setExportParameterType(List<CodegenParameter> codegenParameters) {
+        Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
+
+        for (CodegenParameter param : codegenParameters) {
+            if (param.isPrimitiveType) {
+                continue;
+            }
+
+            String modelName = (String) param.vendorExtensions.get("x-exportParamName");
+            if (modelName == null) {
+                modelName = param.dataType;
+            }
+
+            Schema schema = schemas.get(modelName);
+            if (schema != null) {
+                CodegenModel cm = fromModel(modelName, schema);
+                if (cm != null) {
+                    CodegenModel im = getNestedModel(cm);
+                    Schema s = schemas.get(im.name);
+                    LOGGER.info(String.format("Set export parameter [%s] from model [%s]", param.paramName, im.name));
+
+                    param.dataType = (ModelUtils.isArraySchema(s) || im.isEnum) ? im.classname : im.dataType;
+                    param.isNullable = ModelUtils.isNullable(s);
+                    param.isString = ModelUtils.isStringSchema(s);
+                    param.isNumeric = ModelUtils.isNumberSchema(s);
+                    param.isInteger = ModelUtils.isIntegerSchema(s);
+                    param.isLong = ModelUtils.isLongSchema(s);
+                    param.isNumber = ModelUtils.isNumberSchema(s);
+                    param.isFloat = ModelUtils.isFloatSchema(s);
+                    param.isDouble = ModelUtils.isDoubleSchema(s);
+                    param.isByteArray = ModelUtils.isByteArraySchema(s);
+                    param.isBinary = ModelUtils.isBinarySchema(s);
+                    param.isBoolean = ModelUtils.isBooleanSchema(s);
+                    param.isDate = ModelUtils.isDateSchema(s);
+                    param.isDateTime = ModelUtils.isDateTimeSchema(s);
+                    param.isUuid = ModelUtils.isUUIDSchema(s);
+                    param.isUri = ModelUtils.isURISchema(s);
+                    param.isEmail = ModelUtils.isEmailSchema(s);
+                    param.isFreeFormObject = ModelUtils.isFreeFormObject(s);
+                }
+            }
+        }
+    }
+
+    private CodegenModel getNestedModel (CodegenModel cm) {
+        Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
+        Schema schema = schemas.get(cm.name);
+
+        if (schema != null) {
+            if (cm.getInterfaces() != null && cm.getInterfaces().size() == 1) {
+                CodegenModel im = fromModel(cm.getInterfaces().get(0), schema);
+                return getNestedModel(im);
+            }
+        } else {
+            LOGGER.warn("Schema {} not found", cm.name);
+        }
+
+        return cm;
     }
 
     @Override
@@ -116,6 +235,15 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
             if (op.path != null) {
                 op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");
             }
+
+            setExportParameterType(op.queryParams);
+            setExportParameterType(op.formParams);
+            setExportParameterType(op.headerParams);
+            setExportParameterType(op.bodyParams);
+            setExportParameterType(op.cookieParams);
+            setExportParameterType(op.optionalParams);
+            setExportParameterType(op.requiredParams);
+            setExportParameterType(op.pathParams);
         }
         return objs;
     }
