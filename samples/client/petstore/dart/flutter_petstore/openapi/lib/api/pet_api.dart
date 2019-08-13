@@ -160,7 +160,7 @@ class PetApi {
   /// Finds Pets by tags
   ///
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-  Future<List<Pet>> findPetsByTags(List<String> tags, { int maxCount }) async {
+  Future<List<Pet>> findPetsByTags(List<String> tags) async {
     Object postBody;
 
     // verify required params are set
@@ -176,9 +176,6 @@ class PetApi {
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
       queryParams.addAll(_convertParametersForCollectionFormat("csv", "tags", tags));
-    if(maxCount != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat("", "maxCount", maxCount));
-    }
 
     List<String> contentTypes = [];
 

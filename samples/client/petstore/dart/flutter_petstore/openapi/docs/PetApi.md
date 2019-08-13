@@ -151,7 +151,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByTags**
-> List<Pet> findPetsByTags(tags, maxCount)
+> List<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -165,10 +165,9 @@ import 'package:openapi/api.dart';
 
 var api_instance = PetApi();
 var tags = []; // List<String> | Tags to filter by
-var maxCount = 56; // int | Maximum number of items to return
 
 try { 
-    var result = api_instance.findPetsByTags(tags, maxCount);
+    var result = api_instance.findPetsByTags(tags);
     print(result);
 } catch (e) {
     print("Exception when calling PetApi->findPetsByTags: $e\n");
@@ -180,7 +179,6 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to []]
- **maxCount** | **int**| Maximum number of items to return | [optional] [default to null]
 
 ### Return type
 
