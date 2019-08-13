@@ -46,9 +46,9 @@ open class ApiClient(val baseUrl: String) {
             mediaType == JsonMediaType -> Serializer.moshi.adapter(T::class.java).toJson(content).toRequestBody(
                 mediaType.toMediaTypeOrNull()
             )
-            mediaType == XmlMediaType -> TODO("xml not currently supported.")
+            mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
-            else -> TODO("requestBody currently only supports JSON body and File body.")
+            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
         }
 
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
@@ -61,7 +61,7 @@ open class ApiClient(val baseUrl: String) {
         }
         return when(mediaType) {
             JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)
-            else ->  TODO("responseBody currently only supports JSON body.")
+            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
 
