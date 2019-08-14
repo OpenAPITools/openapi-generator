@@ -16,6 +16,7 @@ import (
 	_neturl "net/url"
 	"github.com/antihax/optional"
 	"os"
+	"reflect"
 )
 
 // Linger please
@@ -1180,6 +1181,89 @@ func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, pa
 	}
 	localVarFormParams.Add("param", parameterToString(param, ""))
 	localVarFormParams.Add("param2", parameterToString(param2, ""))
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarHttpResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
+}
+
+/*
+FakeApiService
+To test the collection format in query parameters
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param pipe
+ * @param ioutil
+ * @param http
+ * @param url
+ * @param context
+*/
+func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context, pipe []string, ioutil []string, http []string, url []string, context []string) (*_nethttp.Response, error) {
+	var (
+		localVarHttpMethod   = _nethttp.MethodPut
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake/test-query-paramters"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	localVarQueryParams.Add("pipe", parameterToString(pipe, "csv"))
+	localVarQueryParams.Add("ioutil", parameterToString(ioutil, "csv"))
+	localVarQueryParams.Add("http", parameterToString(http, "space"))
+	localVarQueryParams.Add("url", parameterToString(url, "csv"))
+	t:=context
+	if reflect.TypeOf(t).Kind() == reflect.Slice {
+		s := reflect.ValueOf(t)
+		for i := 0; i < s.Len(); i++ {
+			localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+		}
+	} else {
+		localVarQueryParams.Add("context", parameterToString(t, "multi"))
+	}
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
