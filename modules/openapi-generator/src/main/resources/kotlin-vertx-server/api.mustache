@@ -4,6 +4,7 @@ package {{package}}
 {{/imports}}
 import io.vertx.core.Vertx
 import io.vertx.core.json.JsonObject
+import io.vertx.core.json.JsonArray
 import com.github.wooyme.openapi.Response
 import io.vertx.ext.web.api.OperationRequest
 import io.vertx.kotlin.ext.web.api.contract.openapi3.OpenAPI3RouterFactory
@@ -14,13 +15,14 @@ import io.vertx.ext.web.sstore.LocalSessionStore
 import java.util.List
 import java.util.Map
 
+
 interface {{classname}}  {
     fun init(vertx:Vertx,config:JsonObject)
 {{#operations}}
     {{#operation}}
     /* {{operationId}}
      * {{summary}} */
-    suspend fun {{operationId}}({{#allParams}}{{paramName}}:{{{dataType}}}{{^isRequired}}?{{/isRequired}},{{/allParams}}context:OperationRequest):Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
+    suspend fun {{operationId}}({{#allParams}}{{paramName}}:{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}kotlin.collections.List<java.io.File>{{/isFile}}{{^isRequired}}?{{/isRequired}},{{/allParams}}context:OperationRequest):Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
     {{/operation}}
 {{/operations}}
     companion object {
@@ -29,6 +31,9 @@ interface {{classname}}  {
             val routerFactory = OpenAPI3RouterFactory.createAwait(vertx,path)
             routerFactory.addGlobalHandler(CookieHandler.create())
             routerFactory.addGlobalHandler(SessionHandler.create(LocalSessionStore.create(vertx)))
+            routerFactory.setExtraOperationContextPayloadMapper{
+                JsonObject().put("files",JsonArray(it.fileUploads().map { it.uploadedFileName() }))
+            }
             val opf = routerFactory::class.java.getDeclaredField("operations")
             opf.isAccessible = true
             val operations = opf.get(routerFactory) as Map<String, Any>

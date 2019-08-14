@@ -13,6 +13,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import io.vertx.kotlin.coroutines.dispatcher
 import io.vertx.core.json.Json
+import io.vertx.core.json.JsonArray
+import com.google.gson.reflect.TypeToken
 import com.google.gson.Gson
 {{#imports}}import {{import}}
 {{/imports}}
@@ -70,19 +72,31 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                     {{#isListContainer}}
                     val {{paramName}}Param = ApiHandlerUtils.searchJsonArrayInJson(params,"{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{baseName}}{{/isBodyParam}}")
                         {{#required}}
-                    if({{paramName}} == null){
+                    if({{paramName}}Param == null){
                          throw IllegalArgumentException("{{paramName}} is required")
                     }
                     val {{paramName}}:{{{dataType}}} = Gson().fromJson({{paramName}}Param.encode()
-                            , object : TypeToken<kotlin.List<{{{baseType}}}>>(){}.type)
+                            , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
                         {{/required}}
                         {{^required}}
                     val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
                             else Gson().fromJson({{paramName}}Param.encode(),
-                            , object : TypeToken<kotlin.List<{{{baseType}}}>>(){}.type)
+                            , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
                         {{/required}}
                     {{/isListContainer}}
                     {{^isListContainer}}
+                        {{#isFile}}
+                    val {{paramName}}Param = context.extra.getJsonArray("files")
+                            {{#required}}
+                    if ({{paramName}}Param == null) {
+                         throw IllegalArgumentException("{{paramName}} is required")
+                    }
+                    val {{paramName}} = {{paramName}}Param.map{ java.io.File(it as String) }
+                            {{/required}}
+                            {{^required}}
+                    val {{paramName}} = {{paramName}}Param?.map{ java.io.File(it as String) }
+                            {{/required}}
+                        {{/isFile}}
                         {{#isPrimitiveType}}
                             {{#isString}}
                     val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
