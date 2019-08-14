@@ -72,8 +72,8 @@ public class PetApi {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -86,8 +86,8 @@ public class PetApi {
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -120,8 +120,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -162,8 +162,8 @@ public class PetApi {
         uriVariables.put("petId", petId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/{petId}");
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
@@ -197,8 +197,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
@@ -254,8 +254,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -288,8 +288,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -345,8 +345,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -379,8 +379,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -430,8 +430,8 @@ public class PetApi {
         uriVariables.put("petId", petId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/{petId}");
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -465,8 +465,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -507,8 +507,8 @@ public class PetApi {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
@@ -521,8 +521,8 @@ public class PetApi {
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -555,8 +555,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
@@ -596,8 +596,8 @@ public class PetApi {
         uriVariables.put("petId", petId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/{petId}");
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -631,8 +631,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -678,8 +678,8 @@ public class PetApi {
         uriVariables.put("petId", petId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/{petId}/uploadImage");
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -713,8 +713,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -764,8 +764,8 @@ public class PetApi {
         uriVariables.put("petId", petId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/{petId}/uploadImageWithRequiredFile");
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -802,8 +802,8 @@ public class PetApi {
             }
         }
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();

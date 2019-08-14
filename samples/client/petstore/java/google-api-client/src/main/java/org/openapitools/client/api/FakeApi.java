@@ -78,8 +78,8 @@ public class FakeApi {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/create_xml_item");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(xmlItem);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -92,8 +92,8 @@ public class FakeApi {
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/create_xml_item");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = xmlItem == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -126,8 +126,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(xmlItem);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -164,8 +164,8 @@ public class FakeApi {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/boolean");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -175,8 +175,8 @@ public class FakeApi {
           
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/boolean");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -206,8 +206,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -244,8 +244,8 @@ public class FakeApi {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/composite");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -255,8 +255,8 @@ public class FakeApi {
           
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/composite");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -286,8 +286,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -324,8 +324,8 @@ public class FakeApi {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/number");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -335,8 +335,8 @@ public class FakeApi {
           
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/number");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -366,8 +366,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -404,8 +404,8 @@ public class FakeApi {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/string");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -415,8 +415,8 @@ public class FakeApi {
           
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/string");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -446,8 +446,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -482,8 +482,8 @@ public class FakeApi {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-file-schema");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
@@ -496,8 +496,8 @@ public class FakeApi {
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-file-schema");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -530,8 +530,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
@@ -580,8 +580,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
@@ -608,8 +608,8 @@ public class FakeApi {
                   }
               }
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -647,8 +647,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
@@ -691,8 +691,8 @@ public class FakeApi {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
@@ -705,8 +705,8 @@ public class FakeApi {
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -739,8 +739,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
@@ -804,8 +804,8 @@ public class FakeApi {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -845,8 +845,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -929,8 +929,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -958,8 +958,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -1050,8 +1050,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
@@ -1092,8 +1092,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
@@ -1128,8 +1128,8 @@ public class FakeApi {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/inline-additionalProperties");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(param);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -1142,8 +1142,8 @@ public class FakeApi {
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/inline-additionalProperties");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = param == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -1176,8 +1176,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(param);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -1217,8 +1217,8 @@ public class FakeApi {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/jsonFormData");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -1252,8 +1252,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -1359,8 +1359,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
@@ -1413,8 +1413,8 @@ public class FakeApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(null);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
