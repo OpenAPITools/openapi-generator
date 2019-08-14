@@ -10,15 +10,15 @@
 package petstore
 
 import (
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 )
 
 // Linger please
 var (
-	_ context.Context
+	_ _context.Context
 )
 
 type AnotherFakeApiService service
@@ -26,13 +26,13 @@ type AnotherFakeApiService service
 /*
 AnotherFakeApiService To test special tags
 To test special tags and operation ID starting with number
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body client model
 @return Client
 */
-func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, body Client) (Client, *http.Response, error) {
+func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPatch
+		localVarHttpMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -44,8 +44,8 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, body
 	localVarPath := a.client.cfg.BasePath + "/another-fake/dummy"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"application/json"}
@@ -76,7 +76,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, body
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err

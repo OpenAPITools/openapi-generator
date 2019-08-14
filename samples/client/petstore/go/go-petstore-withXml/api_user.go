@@ -11,17 +11,17 @@
 package petstore
 
 import (
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 	"fmt"
 	"strings"
 )
 
 // Linger please
 var (
-	_ context.Context
+	_ _context.Context
 )
 
 type UserApiService service
@@ -29,12 +29,12 @@ type UserApiService service
 /*
 UserApiService Create user
 This can only be done by the logged in user.
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body Created user object
 */
-func (a *UserApiService) CreateUser(ctx context.Context, body User) (*http.Response, error) {
+func (a *UserApiService) CreateUser(ctx _context.Context, body User) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -45,8 +45,8 @@ func (a *UserApiService) CreateUser(ctx context.Context, body User) (*http.Respo
 	localVarPath := a.client.cfg.BasePath + "/user"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -77,7 +77,7 @@ func (a *UserApiService) CreateUser(ctx context.Context, body User) (*http.Respo
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -96,12 +96,12 @@ func (a *UserApiService) CreateUser(ctx context.Context, body User) (*http.Respo
 
 /*
 UserApiService Creates list of users with given input array
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body List of user object
 */
-func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, body []User) (*http.Response, error) {
+func (a *UserApiService) CreateUsersWithArrayInput(ctx _context.Context, body []User) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -112,8 +112,8 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, body []U
 	localVarPath := a.client.cfg.BasePath + "/user/createWithArray"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -144,7 +144,7 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, body []U
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -163,12 +163,12 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, body []U
 
 /*
 UserApiService Creates list of users with given input array
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body List of user object
 */
-func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, body []User) (*http.Response, error) {
+func (a *UserApiService) CreateUsersWithListInput(ctx _context.Context, body []User) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -179,8 +179,8 @@ func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, body []Us
 	localVarPath := a.client.cfg.BasePath + "/user/createWithList"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -211,7 +211,7 @@ func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, body []Us
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -231,12 +231,12 @@ func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, body []Us
 /*
 UserApiService Delete user
 This can only be done by the logged in user.
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username The name that needs to be deleted
 */
-func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http.Response, error) {
+func (a *UserApiService) DeleteUser(ctx _context.Context, username string) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodDelete
+		localVarHttpMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -248,8 +248,8 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -278,7 +278,7 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -297,13 +297,13 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 
 /*
 UserApiService Get user by user name
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username The name that needs to be fetched. Use user1 for testing.
 @return User
 */
-func (a *UserApiService) GetUserByName(ctx context.Context, username string) (User, *http.Response, error) {
+func (a *UserApiService) GetUserByName(ctx _context.Context, username string) (User, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodGet
+		localVarHttpMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -316,8 +316,8 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -346,7 +346,7 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -384,14 +384,14 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 
 /*
 UserApiService Logs user into the system
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username The user name for login
  * @param password The password for login in clear text
 @return string
 */
-func (a *UserApiService) LoginUser(ctx context.Context, username string, password string) (string, *http.Response, error) {
+func (a *UserApiService) LoginUser(ctx _context.Context, username string, password string) (string, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodGet
+		localVarHttpMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -403,8 +403,8 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 	localVarPath := a.client.cfg.BasePath + "/user/login"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	localVarQueryParams.Add("username", parameterToString(username, ""))
 	localVarQueryParams.Add("password", parameterToString(password, ""))
@@ -435,7 +435,7 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -473,11 +473,11 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 
 /*
 UserApiService Logs out current logged in user session
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 */
-func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error) {
+func (a *UserApiService) LogoutUser(ctx _context.Context) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodGet
+		localVarHttpMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -488,8 +488,8 @@ func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error)
 	localVarPath := a.client.cfg.BasePath + "/user/logout"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -518,7 +518,7 @@ func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error)
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -538,13 +538,13 @@ func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error)
 /*
 UserApiService Updated user
 This can only be done by the logged in user.
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username name that need to be deleted
  * @param body Updated user object
 */
-func (a *UserApiService) UpdateUser(ctx context.Context, username string, body User) (*http.Response, error) {
+func (a *UserApiService) UpdateUser(ctx _context.Context, username string, body User) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPut
+		localVarHttpMethod   = _nethttp.MethodPut
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -556,8 +556,8 @@ func (a *UserApiService) UpdateUser(ctx context.Context, username string, body U
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -588,7 +588,7 @@ func (a *UserApiService) UpdateUser(ctx context.Context, username string, body U
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err

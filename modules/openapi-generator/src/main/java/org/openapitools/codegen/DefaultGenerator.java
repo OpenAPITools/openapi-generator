@@ -207,10 +207,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             config.vendorExtensions().putAll(openAPI.getExtensions());
         }
 
-        URL url = URLPathUtils.getServerURL(openAPI);
+        // TODO: Allow user to define _which_ servers object in the array to target.
+        // Configures contextPath/basePath according to api document's servers
+        URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
         contextPath = config.escapeText(url.getPath()).replaceAll("/$", ""); // for backward compatibility
         basePathWithoutHost = contextPath;
-        basePath = config.escapeText(URLPathUtils.getHost(openAPI)).replaceAll("/$", "");
+        basePath = config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())).replaceAll("/$", "");
     }
 
     private void configureOpenAPIInfo() {
@@ -548,7 +550,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 });
                 Map<String, Object> operation = processOperations(config, tag, ops, allModels);
-                URL url = URLPathUtils.getServerURL(openAPI);
+                URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
                 operation.put("basePath", basePath);
                 operation.put("basePathWithoutHost", config.encodePath(url.getPath()).replaceAll("/$", ""));
                 operation.put("contextPath", contextPath);
@@ -819,7 +821,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> apis = new HashMap<String, Object>();
         apis.put("apis", allOperations);
 
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
 
         bundle.put("openAPI", openAPI);
         bundle.put("basePath", basePath);
@@ -1191,7 +1193,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         for (String key : definitions.keySet()) {
             Schema schema = definitions.get(key);
             if (schema == null)
-                throw new RuntimeException("schema cannot be null in processMoels");
+                throw new RuntimeException("schema cannot be null in processModels");
             CodegenModel cm = config.fromModel(key, schema);
             Map<String, Object> mo = new HashMap<String, Object>();
             mo.put("model", cm);
