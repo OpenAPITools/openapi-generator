@@ -115,15 +115,6 @@ paths:
             type: string
           type: array
         style: form
-      - description: Maximum number of items to return
-        explode: true
-        in: query
-        name: maxCount
-        required: false
-        schema:
-          format: int32
-          type: integer
-        style: form
       responses:
         200:
           content:
