@@ -99,7 +99,9 @@ public class MapTest implements Parcelable {
 
   public MapTest() {
   }
+
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+    
     this.mapMapOfString = mapMapOfString;
     return this;
   }
@@ -118,15 +120,20 @@ public class MapTest implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
+
+
 
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
+
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+    
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
@@ -145,15 +152,20 @@ public class MapTest implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
+
+
 
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
+
   public MapTest directMap(Map<String, Boolean> directMap) {
+    
     this.directMap = directMap;
     return this;
   }
@@ -172,15 +184,20 @@ public class MapTest implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
+
+
 
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
+
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+    
     this.indirectMap = indirectMap;
     return this;
   }
@@ -199,9 +216,12 @@ public class MapTest implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
+
+
 
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;

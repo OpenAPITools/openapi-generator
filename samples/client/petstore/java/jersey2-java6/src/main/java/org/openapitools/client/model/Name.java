@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -27,22 +28,20 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
   private Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
-  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   private Integer snakeCase;
 
   public static final String JSON_PROPERTY_PROPERTY = "property";
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
   private String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
-  @JsonProperty(JSON_PROPERTY_123NUMBER)
   private Integer _123number;
 
+
   public Name name(Integer name) {
+    
     this.name = name;
     return this;
   }
@@ -52,13 +51,19 @@ public class Name {
    * @return name
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public Integer getName() {
     return name;
   }
 
+
+
   public void setName(Integer name) {
     this.name = name;
   }
+
 
    /**
    * Get snakeCase
@@ -66,11 +71,18 @@ public class Name {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Integer getSnakeCase() {
     return snakeCase;
   }
 
+
+
+
   public Name property(String property) {
+    
     this.property = property;
     return this;
   }
@@ -81,13 +93,19 @@ public class Name {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getProperty() {
     return property;
   }
 
+
+
   public void setProperty(String property) {
     this.property = property;
   }
+
 
    /**
    * Get _123number
@@ -95,9 +113,14 @@ public class Name {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_123NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Integer get123number() {
     return _123number;
   }
+
+
 
 
   @Override

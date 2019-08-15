@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -31,19 +32,17 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Tag")
 public class Tag {
-  public static final String JSON_PROPERTY_ID = "id";
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
-  public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
-  @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
+  public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+
   public Tag id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -54,15 +53,23 @@ public class Tag {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
+
   public Long getId() {
     return id;
   }
+
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public Tag name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -73,9 +80,15 @@ public class Tag {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "name")
+
   public String getName() {
     return name;
   }
+
+
 
   public void setName(String name) {
     this.name = name;

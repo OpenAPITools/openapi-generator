@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -68,10 +69,8 @@ public class EnumArrays {
     }
   }
 
-  public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
-  @JacksonXmlProperty(localName = "just_symbol")
   @XmlElement(name = "just_symbol")
+  public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   private JustSymbolEnum justSymbol;
 
   /**
@@ -109,15 +108,16 @@ public class EnumArrays {
     }
   }
 
-  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   // Is a container wrapped=false
   // items.name=arrayEnum items.baseName=arrayEnum items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayEnum")
+  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   private List<ArrayEnumEnum> arrayEnum = null;
 
+
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+    
     this.justSymbol = justSymbol;
     return this;
   }
@@ -128,15 +128,23 @@ public class EnumArrays {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "just_symbol")
+
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
+
+
 
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
+
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+    
     this.arrayEnum = arrayEnum;
     return this;
   }
@@ -155,9 +163,14 @@ public class EnumArrays {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
+
+
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;

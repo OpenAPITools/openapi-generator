@@ -35,7 +35,9 @@ public class Cat extends Animal {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
+
   public Cat declawed(Boolean declawed) {
+    
     this.declawed = declawed;
     return this;
   }
@@ -46,9 +48,12 @@ public class Cat extends Animal {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Boolean isDeclawed() {
     return declawed;
   }
+
+
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;

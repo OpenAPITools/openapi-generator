@@ -44,7 +44,9 @@ public class ArrayTest {
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
+
   public ArrayTest arrayOfString(List<String> arrayOfString) {
+    
     this.arrayOfString = arrayOfString;
     return this;
   }
@@ -63,15 +65,20 @@ public class ArrayTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
+
+
 
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
 
+
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+    
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -90,15 +97,20 @@ public class ArrayTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
+
+
 
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
+
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+    
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -117,9 +129,12 @@ public class ArrayTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
+
+
 
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
