@@ -970,4 +970,99 @@ if (param2 != null)
 
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
+  /**
+   * 
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
+   */
+  public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
+
+    testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+  }
+
+  /**
+   * 
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @return ApiResponse&lt;Void&gt;
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
+   */
+  public ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
+    Object localVarPostBody = new Object();
+    
+    // verify the required parameter 'pipe' is set
+    if (pipe == null) {
+      throw new ApiException(400, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // verify the required parameter 'ioutil' is set
+    if (ioutil == null) {
+      throw new ApiException(400, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // verify the required parameter 'http' is set
+    if (http == null) {
+      throw new ApiException(400, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // verify the required parameter 'url' is set
+    if (url == null) {
+      throw new ApiException(400, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // verify the required parameter 'context' is set
+    if (context == null) {
+      throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/test-query-paramters";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "pipe", pipe));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
+
+    
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+
+    return apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+  }
 }

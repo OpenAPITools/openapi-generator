@@ -394,4 +394,36 @@ public interface FakeApi {
   void testJsonFormData(
     @retrofit.http.Field("param") String param, @retrofit.http.Field("param2") String param2, Callback<Void> cb
   );
+  /**
+   * 
+   * Sync method
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @return Void
+   */
+  
+  @PUT("/fake/test-query-paramters")
+  Void testQueryParameterCollectionFormat(
+    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SPACEParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context
+  );
+
+  /**
+   * 
+   * Async method
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @param cb callback method
+   */
+  
+  @PUT("/fake/test-query-paramters")
+  void testQueryParameterCollectionFormat(
+    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SPACEParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context, Callback<Void> cb
+  );
 }

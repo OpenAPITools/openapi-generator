@@ -1586,3 +1586,144 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
+
+    def test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
+        """test_query_parameter_collection_format  # noqa: E501
+
+        To test the collection format in query parameters  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool: execute request asynchronously
+        :param list[str] pipe: (required)
+        :param list[str] ioutil: (required)
+        :param list[str] http: (required)
+        :param list[str] url: (required)
+        :param list[str] context: (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, **kwargs)  # noqa: E501
+
+    def test_query_parameter_collection_format_with_http_info(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
+        """test_query_parameter_collection_format  # noqa: E501
+
+        To test the collection format in query parameters  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool: execute request asynchronously
+        :param list[str] pipe: (required)
+        :param list[str] ioutil: (required)
+        :param list[str] http: (required)
+        :param list[str] url: (required)
+        :param list[str] context: (required)
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['pipe', 'ioutil', 'http', 'url', 'context']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_query_parameter_collection_format" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'pipe' is set
+        if ('pipe' not in local_var_params or
+                local_var_params['pipe'] is None):
+            raise ApiValueError("Missing the required parameter `pipe` when calling `test_query_parameter_collection_format`")  # noqa: E501
+        # verify the required parameter 'ioutil' is set
+        if ('ioutil' not in local_var_params or
+                local_var_params['ioutil'] is None):
+            raise ApiValueError("Missing the required parameter `ioutil` when calling `test_query_parameter_collection_format`")  # noqa: E501
+        # verify the required parameter 'http' is set
+        if ('http' not in local_var_params or
+                local_var_params['http'] is None):
+            raise ApiValueError("Missing the required parameter `http` when calling `test_query_parameter_collection_format`")  # noqa: E501
+        # verify the required parameter 'url' is set
+        if ('url' not in local_var_params or
+                local_var_params['url'] is None):
+            raise ApiValueError("Missing the required parameter `url` when calling `test_query_parameter_collection_format`")  # noqa: E501
+        # verify the required parameter 'context' is set
+        if ('context' not in local_var_params or
+                local_var_params['context'] is None):
+            raise ApiValueError("Missing the required parameter `context` when calling `test_query_parameter_collection_format`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'pipe' in local_var_params:
+            query_params.append(('pipe', local_var_params['pipe']))  # noqa: E501
+            collection_formats['pipe'] = 'multi'  # noqa: E501
+        if 'ioutil' in local_var_params:
+            query_params.append(('ioutil', local_var_params['ioutil']))  # noqa: E501
+            collection_formats['ioutil'] = 'csv'  # noqa: E501
+        if 'http' in local_var_params:
+            query_params.append(('http', local_var_params['http']))  # noqa: E501
+            collection_formats['http'] = 'space'  # noqa: E501
+        if 'url' in local_var_params:
+            query_params.append(('url', local_var_params['url']))  # noqa: E501
+            collection_formats['url'] = 'csv'  # noqa: E501
+        if 'context' in local_var_params:
+            query_params.append(('context', local_var_params['context']))  # noqa: E501
+            collection_formats['context'] = 'multi'  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/fake/test-query-paramters', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
