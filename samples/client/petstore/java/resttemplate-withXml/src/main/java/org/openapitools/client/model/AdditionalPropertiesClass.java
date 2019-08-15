@@ -41,7 +41,7 @@ public class AdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "inner")
-  private Map<String, String> mapString = new HashMap<String, String>();
+  private Map<String, String> mapString = null;
 
   public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
@@ -49,7 +49,7 @@ public class AdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=BigDecimal
   @XmlElement(name = "inner")
-  private Map<String, BigDecimal> mapNumber = new HashMap<String, BigDecimal>();
+  private Map<String, BigDecimal> mapNumber = null;
 
   public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
@@ -57,7 +57,7 @@ public class AdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "inner")
-  private Map<String, Integer> mapInteger = new HashMap<String, Integer>();
+  private Map<String, Integer> mapInteger = null;
 
   public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
@@ -65,7 +65,7 @@ public class AdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  private Map<String, Boolean> mapBoolean = new HashMap<String, Boolean>();
+  private Map<String, Boolean> mapBoolean = null;
 
   public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
@@ -73,7 +73,7 @@ public class AdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Integer&gt;
   @XmlElement(name = "inner")
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<String, List<Integer>>();
+  private Map<String, List<Integer>> mapArrayInteger = null;
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
@@ -81,7 +81,7 @@ public class AdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Object&gt;
   @XmlElement(name = "inner")
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<String, List<Object>>();
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
@@ -89,7 +89,7 @@ public class AdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, String&gt;
   @XmlElement(name = "inner")
-  private Map<String, Map<String, String>> mapMapString = new HashMap<String, Map<String, String>>();
+  private Map<String, Map<String, String>> mapMapString = null;
 
   public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
@@ -97,7 +97,7 @@ public class AdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, Object&gt;
   @XmlElement(name = "inner")
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<String, Map<String, Object>>();
+  private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
