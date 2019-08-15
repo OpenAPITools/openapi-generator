@@ -974,6 +974,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             processOperation(resourcePath, "delete", path.getDelete(), ops, path);
             processOperation(resourcePath, "patch", path.getPatch(), ops, path);
             processOperation(resourcePath, "options", path.getOptions(), ops, path);
+            processOperation(resourcePath, "trace", path.getTrace(), ops, path);
         }
         return ops;
     }
