@@ -117,7 +117,7 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", url.QueryEscape(fmt.Sprintf("%v", petId)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -365,7 +365,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", url.QueryEscape(fmt.Sprintf("%v", petId)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -538,7 +538,7 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", url.QueryEscape(fmt.Sprintf("%v", petId)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -621,7 +621,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}/uploadImage"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", url.QueryEscape(fmt.Sprintf("%v", petId)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -734,7 +734,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/{petId}/uploadImageWithRequiredFile"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", url.QueryEscape(fmt.Sprintf("%v", petId)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

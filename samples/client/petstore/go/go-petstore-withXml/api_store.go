@@ -43,7 +43,7 @@ func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_n
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", fmt.Sprintf("%v", orderId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", url.QueryEscape(fmt.Sprintf("%v", orderId)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -210,7 +210,7 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Ord
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", fmt.Sprintf("%v", orderId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", url.QueryEscape(fmt.Sprintf("%v", orderId)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
