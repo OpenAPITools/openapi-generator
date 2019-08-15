@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -52,11 +51,7 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
-import org.openapitools.codegen.templating.mustache.IndentedLambda;
-import org.openapitools.codegen.templating.mustache.LowercaseLambda;
-import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
-import org.openapitools.codegen.templating.mustache.UppercaseLambda;
+import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,11 +59,15 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class DefaultCodegen implements CodegenConfig {
@@ -276,6 +275,12 @@ public class DefaultCodegen implements CodegenConfig {
         for (CodegenModel cm : allModels.values()) {
             if (cm.getParent() != null) {
                 cm.setParentModel(allModels.get(cm.getParent()));
+
+                // mark as inherited
+                Predicate<CodegenProperty> selfProperties = cm.vars::contains;
+                cm.allVars.stream()
+                        .filter(selfProperties.negate())
+                        .forEach(p -> p.isInherited = true);
             }
             if (cm.getInterfaces() != null && !cm.getInterfaces().isEmpty()) {
                 cm.setInterfaceModels(new ArrayList<CodegenModel>(cm.getInterfaces().size()));
@@ -1798,7 +1803,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            // interfaces (schemas defined in allOf, anyOf, oneOf)
             List<Schema> interfaces = ModelUtils.getInterfaces(composed);
             if (!interfaces.isEmpty()) {
                 // m.interfaces is for backward compatibility
@@ -1806,39 +1810,47 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces = new ArrayList<String>();
 
                 for (Schema interfaceSchema : interfaces) {
+                    // child schema (properties owned by the schema itself)
                     if (StringUtils.isBlank(interfaceSchema.get$ref())) {
-                        continue;
-                    }
-                    Schema refSchema = null;
-                    String ref = ModelUtils.getSimpleRef(interfaceSchema.get$ref());
-                    if (allDefinitions != null) {
-                        refSchema = allDefinitions.get(ref);
-                    }
-                    final String modelName = toModelName(ref);
-                    m.interfaces.add(modelName);
-                    addImport(m, modelName);
-                    if (allDefinitions != null && refSchema != null) {
-                        if (allParents.contains(ref) && supportsMultipleInheritance) {
-                            // multiple inheritance
-                            addProperties(allProperties, allRequired, refSchema);
-                        } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
-                            // single inheritance
-                            addProperties(allProperties, allRequired, refSchema);
-                        } else {
-                            // composition
-                            addProperties(properties, required, refSchema);
-                            addProperties(allProperties, allRequired, refSchema);
-                        }
-                    }
+                        // component is the child schema
+                        addProperties(properties, required, interfaceSchema);
 
-                    if (composed.getAnyOf() != null) {
-                        m.anyOf.add(modelName);
-                    } else if (composed.getOneOf() != null) {
-                        m.oneOf.add(modelName);
-                    } else if (composed.getAllOf() != null) {
-                        m.allOf.add(modelName);
-                    } else {
-                        LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
+                        // includes child's properties (all, required) in allProperties, allRequired
+                        addProperties(allProperties, allRequired, interfaceSchema);
+                    }
+                    else {
+                        // interfaces (schemas defined in allOf, anyOf, oneOf)
+                        Schema refSchema = null;
+                        String ref = ModelUtils.getSimpleRef(interfaceSchema.get$ref());
+                        if (allDefinitions != null) {
+                            refSchema = allDefinitions.get(ref);
+                        }
+                        final String modelName = toModelName(ref);
+                        m.interfaces.add(modelName);
+                        addImport(m, modelName);
+                        if (allDefinitions != null && refSchema != null) {
+                            if (allParents.contains(ref) && supportsMultipleInheritance) {
+                                // multiple inheritance
+                                addProperties(allProperties, allRequired, refSchema);
+                            } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
+                                // single inheritance
+                                addProperties(allProperties, allRequired, refSchema);
+                            } else {
+                                // composition
+                                addProperties(properties, required, refSchema);
+                                addProperties(allProperties, allRequired, refSchema);
+                            }
+                        }
+
+                        if (composed.getAnyOf() != null) {
+                            m.anyOf.add(modelName);
+                        } else if (composed.getOneOf() != null) {
+                            m.oneOf.add(modelName);
+                        } else if (composed.getAllOf() != null) {
+                            m.allOf.add(modelName);
+                        } else {
+                            LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
+                        }
                     }
                 }
             }
@@ -1862,13 +1874,11 @@ public class DefaultCodegen implements CodegenConfig {
             // child schema (properties owned by the schema itself)
             for (Schema component : interfaces) {
                 if (component.get$ref() == null) {
-                    if (component != null) {
-                        // component is the child schema
-                        addProperties(properties, required, component);
+                    // component is the child schema
+                    addProperties(properties, required, component);
 
-                        // includes child's properties (all, required) in allProperties, allRequired
-                        addProperties(allProperties, allRequired, component);
-                    }
+                    // includes child's properties (all, required) in allProperties, allRequired
+                    addProperties(allProperties, allRequired, component);
                     break; // at most one child only
                 }
             }
@@ -1952,7 +1962,7 @@ public class DefaultCodegen implements CodegenConfig {
                     Set<String> parentSchemas = ((ComposedSchema) child).getAllOf().stream()
                             .filter(s -> s.get$ref() != null)
                             .map(s -> ModelUtils.getSimpleRef(s.get$ref()))
-                            .collect(Collectors.toSet());
+                            .collect(toSet());
                     if (parentSchemas.contains(schemaName)) {
                         discriminator.getMappedModels().add(new MappedModel(childName, toModelName(childName)));
                     }
@@ -3651,6 +3661,7 @@ public class DefaultCodegen implements CodegenConfig {
             // update "vars" without parent's properties (all, required)
             addVars(m, m.vars, properties, mandatory);
             m.allMandatory = m.mandatory = mandatory;
+            m.allVars.addAll(m.vars);
         } else {
             m.emptyVars = true;
             m.hasVars = false;
@@ -3662,7 +3673,17 @@ public class DefaultCodegen implements CodegenConfig {
                     : new TreeSet<String>(allRequired);
             // update "vars" with parent's properties (all, required)
             addVars(m, m.allVars, allProperties, allMandatory);
-            m.allMandatory = allMandatory;
+            m.allMandatory.addAll(allMandatory);
+
+            // sort allVars
+            Map<String, CodegenProperty> codeGenPropertyByName = m.allVars
+                    .stream()
+                    .collect(toMap(CodegenProperty::getBaseName, identity(), (a, b) -> a));
+
+            m.allVars = allProperties.keySet()
+                    .stream()
+                    .map(codeGenPropertyByName::get)
+                    .collect(toList());
         } else { // without parent, allVars and vars are the same
             m.allVars = m.vars;
             m.allMandatory = m.mandatory;
@@ -3727,21 +3748,24 @@ public class DefaultCodegen implements CodegenConfig {
                     addImport(m, innerCp.complexType);
                     innerCp = innerCp.items;
                 }
-                vars.add(cp);
 
-                // if required, add to the list "requiredVars"
-                if (Boolean.TRUE.equals(cp.required)) {
-                    m.requiredVars.add(cp);
-                } else { // else add to the list "optionalVars" for optional property
-                    m.optionalVars.add(cp);
-                }
+                if(! vars.contains(cp)) {
+                    vars.add(cp);
 
-                // if readonly, add to readOnlyVars (list of properties)
-                if (Boolean.TRUE.equals(cp.isReadOnly)) {
-                    m.readOnlyVars.add(cp);
-                } else { // else add to readWriteVars (list of properties)
-                    // duplicated properties will be removed by removeAllDuplicatedProperty later
-                    m.readWriteVars.add(cp);
+                    // if required, add to the list "requiredVars"
+                    if (Boolean.TRUE.equals(cp.required)) {
+                        m.requiredVars.add(cp);
+                    } else { // else add to the list "optionalVars" for optional property
+                        m.optionalVars.add(cp);
+                    }
+
+                    // if readonly, add to readOnlyVars (list of properties)
+                    if (Boolean.TRUE.equals(cp.isReadOnly)) {
+                        m.readOnlyVars.add(cp);
+                    } else { // else add to readWriteVars (list of properties)
+                        // duplicated properties will be removed by removeAllDuplicatedProperty later
+                        m.readWriteVars.add(cp);
+                    }
                 }
             }
         }
@@ -3795,7 +3819,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
         String result = Arrays.stream(name.split(nonNameElementPattern))
                 .map(StringUtils::capitalize)
-                .collect(Collectors.joining(""));
+                .collect(joining(""));
         if (result.length() > 0) {
             result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
         }

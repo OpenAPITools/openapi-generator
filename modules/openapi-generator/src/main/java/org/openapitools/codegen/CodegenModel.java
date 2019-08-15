@@ -18,10 +18,14 @@
 package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.collect.ImmutableList;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.*;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {
@@ -525,52 +529,33 @@ public class CodegenModel {
      * Remove duplicated properties in all variable list and update "hasMore"
      */
     public void removeAllDuplicatedProperty() {
+        List<List<CodegenProperty>> properties = ImmutableList.of(
+                vars,
+                optionalVars,
+                requiredVars,
+                parentVars,
+                allVars,
+                readOnlyVars,
+                readWriteVars
+        );
+
         // remove duplicated properties
-        vars = removeDuplicatedProperty(vars);
-        optionalVars = removeDuplicatedProperty(optionalVars);
-        requiredVars = removeDuplicatedProperty(requiredVars);
-        parentVars = removeDuplicatedProperty(parentVars);
-        allVars = removeDuplicatedProperty(allVars);
-        readOnlyVars = removeDuplicatedProperty(readOnlyVars);
-        readWriteVars = removeDuplicatedProperty(readWriteVars);
+        properties.forEach(props -> props = removeDuplicatedProperty(props));
 
         // update property list's "hasMore"
-        updatePropertyListHasMore(vars);
-        updatePropertyListHasMore(optionalVars);
-        updatePropertyListHasMore(requiredVars);
-        updatePropertyListHasMore(parentVars);
-        updatePropertyListHasMore(allVars);
-        updatePropertyListHasMore(readOnlyVars);
-        updatePropertyListHasMore(readWriteVars);
+        properties.forEach(this::updatePropertyListHasMore);
     }
 
-    private List<CodegenProperty> removeDuplicatedProperty(List<CodegenProperty> vars) {
-        // clone the list first
-        List<CodegenProperty> newList = new ArrayList<CodegenProperty>();
-        for (CodegenProperty cp : vars) {
-            newList.add(cp.clone());
-        }
-
-        Set<String> propertyNames = new TreeSet<String>();
-        Set<String> duplicatedNames = new TreeSet<String>();
-
-        ListIterator<CodegenProperty> iterator = newList.listIterator();
-        while (iterator.hasNext()) {
-            CodegenProperty element = iterator.next();
-
-            if (propertyNames.contains(element.baseName)) {
-                duplicatedNames.add(element.baseName);
-                iterator.remove();
-            } else {
-                propertyNames.add(element.baseName);
-            }
-        }
-
-        return newList;
+    static List<CodegenProperty> removeDuplicatedProperty(final List<CodegenProperty> vars) {
+        return vars.stream()
+                .collect(groupingBy(CodegenProperty::getBaseName, LinkedHashMap::new, toList()))
+                .values().stream()
+                .map(properties -> properties.get(0))
+                .collect(toList());
     }
 
     /**
-     * Clone the element and update "hasMore" in the list of codegen properties
+     * update "hasMore" in the list of codegen properties
      */
     private void updatePropertyListHasMore(List<CodegenProperty> vars) {
         if (vars != null) {

@@ -22,7 +22,6 @@ import com.samskivert.mustache.Template;
 import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -35,7 +34,6 @@ import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -556,18 +554,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
             writer.write(fragment.execute().replaceAll(from, to));
         }
-    }
-
-    // Can't figure out the logic in DefaultCodegen but optional vars are getting duplicated when there's
-    // inheritance involved. Also, isInherited doesn't seem to be getting set properly ¯\_(ツ)_/¯
-    @Override
-    public CodegenModel fromModel(String name, Schema schema) {
-        CodegenModel m = super.fromModel(name, schema);
-
-        m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
-        m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);
-
-        return m;
     }
 
     /**

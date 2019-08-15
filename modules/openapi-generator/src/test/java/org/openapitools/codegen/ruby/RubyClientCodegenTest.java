@@ -421,25 +421,25 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(child.getAllVars().size(), 7);
 
         CodegenProperty cp0 = child.getAllVars().get(0);
-        Assert.assertEquals(cp0.name, "_type");
+        Assert.assertEquals(cp0.name, "age");
 
         CodegenProperty cp1 = child.getAllVars().get(1);
-        Assert.assertEquals(cp1.name, "last_name");
+        Assert.assertEquals(cp1.name, "first_name");
 
         CodegenProperty cp2 = child.getAllVars().get(2);
-        Assert.assertEquals(cp2.name, "first_name");
+        Assert.assertEquals(cp2.name, "_type");
 
         CodegenProperty cp3 = child.getAllVars().get(3);
-        Assert.assertEquals(cp3.name, "duplicated_optional");
+        Assert.assertEquals(cp3.name, "last_name");
 
         CodegenProperty cp4 = child.getAllVars().get(4);
-        Assert.assertEquals(cp4.name, "duplicated_required");
+        Assert.assertEquals(cp4.name, "duplicated_optional");
 
         CodegenProperty cp5 = child.getAllVars().get(5);
-        Assert.assertEquals(cp5.name, "person_required");
+        Assert.assertEquals(cp5.name, "duplicated_required");
 
         CodegenProperty cp6 = child.getAllVars().get(6);
-        Assert.assertEquals(cp6.name, "age");
+        Assert.assertEquals(cp6.name, "person_required");
 
         // to test vars (without parent's properties)
         Assert.assertEquals(child.getVars().size(), 2);
@@ -472,9 +472,10 @@ public class RubyClientCodegenTest {
         CodegenModel adult = codegen.fromModel("Adult", schema);
         Assert.assertNotNull(adult);
 
-        // to test allVars (without parent's properties)
+        // to test allVars (with parent's properties)
         Assert.assertEquals(adult.getAllVars().size(), 8);
 
+        // inherited properties from Person
         CodegenProperty cp0 = adult.getAllVars().get(0);
         Assert.assertEquals(cp0.name, "_type");
 
@@ -493,11 +494,13 @@ public class RubyClientCodegenTest {
         CodegenProperty cp5 = adult.getAllVars().get(5);
         Assert.assertEquals(cp5.name, "person_required");
 
+        // self properties
         CodegenProperty cp6 = adult.getAllVars().get(6);
         Assert.assertEquals(cp6.name, "children");
 
         CodegenProperty cp7 = adult.getAllVars().get(7);
         Assert.assertEquals(cp7.name, "adult_required");
+
 
         // to test vars (without parent's properties)
         Assert.assertEquals(adult.getVars().size(), 4);
@@ -510,6 +513,9 @@ public class RubyClientCodegenTest {
 
         cp2 = adult.getVars().get(2);
         Assert.assertEquals(cp2.name, "children");
+
+        cp2 = adult.getVars().get(3);
+        Assert.assertEquals(cp2.name, "adult_required");
 
         // to test requiredVars
         Assert.assertEquals(adult.getRequiredVars().size(), 2);
