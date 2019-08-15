@@ -12,6 +12,10 @@ class {{classname}} {
   static const {{classname}} {{{name}}} = const {{classname}}._internal({{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
+
+  static {{classname}} fromJson(String value) {
+    return new {{classname}}TypeTransformer().decode(value);
+  }
 }
 
 class {{classname}}TypeTransformer {
