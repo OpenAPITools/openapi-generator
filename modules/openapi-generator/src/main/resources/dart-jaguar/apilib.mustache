@@ -19,7 +19,7 @@ import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 
 {{#jsonFormat}}
 final _jsonJaguarRepo = JsonRepo()
-{{#models}}{{#model}}..add({{classname}}Serializer())
+{{#models}}{{#model}}{{^isEnum}}..add({{classname}}Serializer()){{/isEnum}}
 {{/model}}{{/models}};
 final Map<String, CodecRepo> defaultConverters = {
     MimeTypes.json: _jsonJaguarRepo,
