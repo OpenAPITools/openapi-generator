@@ -4884,41 +4884,54 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenParameter.baseType);
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
-                if (ModelUtils.getAdditionalProperties(schema) != null) {// http body is map
-                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
-                } else if (codegenProperty != null) {
-                    String codegenModelName, codegenModelDescription;
 
-                    if (codegenModel != null) {
-                        codegenModelName = codegenModel.classname;
-                        codegenModelDescription = codegenModel.description;
-                    } else {
-                        LOGGER.warn("The following schema has undefined (null) baseType. " +
-                                "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
-                                "A correct 'consumes' for form parameters should be " +
-                                "'application/x-www-form-urlencoded' or 'multipart/form-data'");
-                        LOGGER.warn("schema: " + schema);
-                        LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
-                        codegenModelName = "UNKNOWN_BASE_TYPE";
-                        codegenModelDescription = "UNKNOWN_DESCRIPTION";
-                    }
-
-                    if (StringUtils.isEmpty(bodyParameterName)) {
-                        codegenParameter.baseName = codegenModelName;
-                    } else {
-                        codegenParameter.baseName = bodyParameterName;
-                    }
-
+                if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+                    List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
+                    imports.addAll(parts);
+                    String codegenModelName = codegenProperty.getComplexType();
+                    codegenParameter.baseName = codegenModelName;
                     codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                    codegenParameter.baseType = codegenModelName;
+                    codegenParameter.baseType = codegenParameter.baseName;
                     codegenParameter.dataType = getTypeDeclaration(codegenModelName);
-                    codegenParameter.description = codegenModelDescription;
-                    imports.add(codegenParameter.baseType);
+                    codegenParameter.description = codegenProperty.getDescription();
+                } else {
+                    if (ModelUtils.getAdditionalProperties(schema) != null) {// http body is map
+                        LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
+                    } else if (codegenProperty != null) {
+                        String codegenModelName, codegenModelDescription;
 
-                    if (codegenProperty.complexType != null) {
-                        imports.add(codegenProperty.complexType);
+                        if (codegenModel != null) {
+                            codegenModelName = codegenModel.classname;
+                            codegenModelDescription = codegenModel.description;
+                        } else {
+                            LOGGER.warn("The following schema has undefined (null) baseType. " +
+                                    "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
+                                    "A correct 'consumes' for form parameters should be " +
+                                    "'application/x-www-form-urlencoded' or 'multipart/form-data'");
+                            LOGGER.warn("schema: " + schema);
+                            LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
+                            codegenModelName = "UNKNOWN_BASE_TYPE";
+                            codegenModelDescription = "UNKNOWN_DESCRIPTION";
+                        }
+
+                        if (StringUtils.isEmpty(bodyParameterName)) {
+                            codegenParameter.baseName = codegenModelName;
+                        } else {
+                            codegenParameter.baseName = bodyParameterName;
+                        }
+
+                        codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                        codegenParameter.baseType = codegenModelName;
+                        codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                        codegenParameter.description = codegenModelDescription;
+                        imports.add(codegenParameter.baseType);
+
+                        if (codegenProperty.complexType != null) {
+                            imports.add(codegenProperty.complexType);
+                        }
                     }
                 }
+
                 setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
                 // set nullable
                 setParameterNullable(codegenParameter, codegenProperty);
