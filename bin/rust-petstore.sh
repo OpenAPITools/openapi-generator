@@ -36,12 +36,12 @@ for spec_path in \
   spec=$(basename "$spec_path" | sed 's/.yaml//' | sed 's/.json//' )
 
   for library in hyper reqwest; do
-    ags="generate --template-dir modules/openapi-generator/src/main/resources/rust
-                  --input-spec $spec_path
-                  --generator-name rust
-                  --output samples/client/petstore/rust/$library/$spec
-                  --additional-properties packageName=${spec}-${library}
-                  --library=$library $@"
-    java ${JAVA_OPTS} -jar ${executable} ${ags}
+    args="generate --template-dir modules/openapi-generator/src/main/resources/rust
+                   --input-spec $spec_path
+                   --generator-name rust
+                   --output samples/client/petstore/rust/$library/$spec
+                   --additional-properties packageName=${spec}-${library}
+                   --library=$library $@"
+    java ${JAVA_OPTS} -jar ${executable} ${args} || exit 1
   done
 done
