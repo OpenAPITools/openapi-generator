@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Var123List** | Pointer to **string** |  | [optional]
+**Var123List** | Pointer to **string** |  | [optional] 
 
 ## Methods
 

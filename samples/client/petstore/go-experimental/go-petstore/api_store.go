@@ -10,17 +10,17 @@
 package petstore
 
 import (
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 	"fmt"
 	"strings"
 )
 
 // Linger please
 var (
-	_ context.Context
+	_ _context.Context
 )
 
 type StoreApiService service
@@ -28,12 +28,12 @@ type StoreApiService service
 /*
 StoreApiService Delete purchase order by ID
 For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param orderId ID of the order that needs to be deleted
 */
-func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*http.Response, error) {
+func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodDelete
+		localVarHttpMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -42,11 +42,11 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*htt
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", fmt.Sprintf("%v", orderId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", orderId)), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -95,12 +95,12 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*htt
 /*
 StoreApiService Returns pet inventories by status
 Returns a map of status codes to quantities
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 @return map[string]int32
 */
-func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *http.Response, error) {
+func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodGet
+		localVarHttpMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -112,8 +112,8 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 	localVarPath := a.client.cfg.BasePath + "/store/inventory"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -193,13 +193,13 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 /*
 StoreApiService Find purchase order by ID
 For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param orderId ID of pet that needs to be fetched
 @return Order
 */
-func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Order, *http.Response, error) {
+func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Order, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodGet
+		localVarHttpMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -209,11 +209,11 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", fmt.Sprintf("%v", orderId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", orderId)), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 	if orderId < 1 {
 		return localVarReturnValue, nil, reportError("orderId must be greater than 1")
 	}
@@ -286,13 +286,13 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 
 /*
 StoreApiService Place an order for a pet
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body order placed for purchasing the pet
 @return Order
 */
-func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order, *http.Response, error) {
+func (a *StoreApiService) PlaceOrder(ctx _context.Context, body Order) (Order, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = http.MethodPost
+		localVarHttpMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -304,8 +304,8 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order, *h
 	localVarPath := a.client.cfg.BasePath + "/store/order"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}

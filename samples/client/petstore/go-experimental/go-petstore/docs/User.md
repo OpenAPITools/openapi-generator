@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **int64** |  | [optional]
-**Username** | Pointer to **string** |  | [optional]
-**FirstName** | Pointer to **string** |  | [optional]
-**LastName** | Pointer to **string** |  | [optional]
-**Email** | Pointer to **string** |  | [optional]
-**Password** | Pointer to **string** |  | [optional]
-**Phone** | Pointer to **string** |  | [optional]
-**UserStatus** | Pointer to **int32** | User Status | [optional]
+**Id** | Pointer to **int64** |  | [optional] 
+**Username** | Pointer to **string** |  | [optional] 
+**FirstName** | Pointer to **string** |  | [optional] 
+**LastName** | Pointer to **string** |  | [optional] 
+**Email** | Pointer to **string** |  | [optional] 
+**Password** | Pointer to **string** |  | [optional] 
+**Phone** | Pointer to **string** |  | [optional] 
+**UserStatus** | Pointer to **int32** | User Status | [optional] 
 
 ## Methods
 
