@@ -160,7 +160,8 @@ class SlimRouter
             $callback = function ($request, $response, $arguments) use ($operation) {
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
                 throw new Exception($message);
-                return $response->withStatus(501)->write($message);
+                $response->getBody()->write($message);
+                return $response->withStatus(501);
             };
             $middlewares = [];
 

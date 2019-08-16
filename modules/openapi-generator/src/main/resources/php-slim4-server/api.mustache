@@ -120,7 +120,8 @@ abstract class {{classname}}
         $message = "How about implementing {{nickname}} as a {{httpMethod}} method in {{apiPackage}}\{{userClassname}} class?";
         throw new Exception($message);
 
-        return $response->write($message)->withStatus(501);
+        $response->getBody()->write($message);
+        return $response->withStatus(501);
     }
     {{/operation}}
     {{/operations}}
