@@ -77,7 +77,7 @@ func (a *PetApiService) AddPet(ctx _context.Context, body Pet) (*_nethttp.Respon
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -153,7 +153,7 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -222,7 +222,7 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -310,7 +310,7 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -410,7 +410,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -496,7 +496,7 @@ func (a *PetApiService) UpdatePet(ctx _context.Context, body Pet) (*_nethttp.Res
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -577,7 +577,7 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 		return localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarHttpResponse, err
@@ -657,7 +657,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 		}
 	}
 	if localVarFile != nil {
-		fbs, _ := ioutil.ReadAll(localVarFile)
+		fbs, _ := _ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs
 		localVarFileName = localVarFile.Name()
 		localVarFile.Close()
@@ -672,7 +672,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
@@ -763,7 +763,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 	localVarFormFileName = "requiredFile"
 	localVarFile := requiredFile
 	if localVarFile != nil {
-		fbs, _ := ioutil.ReadAll(localVarFile)
+		fbs, _ := _ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs
 		localVarFileName = localVarFile.Name()
 		localVarFile.Close()
@@ -778,7 +778,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
