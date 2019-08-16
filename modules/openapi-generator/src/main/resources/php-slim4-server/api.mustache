@@ -49,16 +49,16 @@ abstract class {{classname}}
 {
 
     /**
-     * @var ContainerInterface Slim app container instance
+     * @var ContainerInterface|null Slim app container instance
      */
     protected $container;
 
     /**
      * Route Controller constructor receives container
      *
-     * @param ContainerInterface $container Slim app container instance
+     * @param ContainerInterface|null $container Slim app container instance
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container = null)
     {
         $this->container = $container;
     }

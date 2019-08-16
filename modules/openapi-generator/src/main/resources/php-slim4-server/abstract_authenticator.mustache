@@ -49,7 +49,7 @@ abstract class {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}
 {
 
     /**
-     * @var ContainerInterface Slim app container instance
+     * @var ContainerInterface|null Slim app container instance
      */
     protected $container;
 
@@ -72,10 +72,10 @@ abstract class {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}
     /**
      * Authenticator constructor
      *
-     * @param ContainerInterface $container     Slim app container instance
-     * @param string[]|null      $requiredScope List of required scopes
+     * @param ContainerInterface|null $container     Slim app container instance
+     * @param string[]|null           $requiredScope List of required scopes
      */
-    public function __construct(ContainerInterface $container, $requiredScope = null)
+    public function __construct(ContainerInterface $container = null, $requiredScope = null)
     {
         $this->container = $container;
         $this->requiredScope = $requiredScope;
