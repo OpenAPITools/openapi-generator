@@ -32,7 +32,7 @@
  */
 namespace {{invokerPackage}};
 
-use Slim\App;
+use Slim\Factory\AppFactory;
 use Slim\Interfaces\RouteInterface;
 use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
@@ -130,12 +130,15 @@ class SlimRouter
      *
      * @param ContainerInterface|array $settings Either a ContainerInterface or an associative array of app settings
      *
-     * @throws InvalidArgumentException When no container is provided that implements ContainerInterface
      * @throws Exception When implementation class doesn't exists
      */
     public function __construct($settings = [])
     {
-        $this->slimApp = new App($settings);
+        if ($settings instanceof ContainerInterface) {
+            // Set container to create App with on AppFactory
+            AppFactory::setContainer($settings);
+        }
+        $this->slimApp = AppFactory::create();
 
         // middlewares requires Psr\Container\ContainerInterface
         $container = $this->slimApp->getContainer();
