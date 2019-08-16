@@ -159,6 +159,13 @@ class SlimRouter
         };
         {{/hasAuthMethods}}
 
+        $userOptions = null;
+        if ($settings instanceof ContainerInterface && $settings->has('tokenAuthenticationOptions')) {
+            $userOptions = $settings->get('tokenAuthenticationOptions');
+        } elseif (is_array($settings) && isset($settings['tokenAuthenticationOptions'])) {
+            $userOptions = $settings['tokenAuthenticationOptions'];
+        }
+
         foreach ($this->operations as $operation) {
             $callback = function ($request, $response, $arguments) use ($operation) {
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
@@ -188,7 +195,7 @@ class SlimRouter
                             'parameter' => null,
                             'cookie' => null,
                             'argument' => null,
-                        ]));
+                        ], $userOptions));
                         break;
                     case 'apiKey':
                         $authenticatorClassname = "\\{$authPackage}\\ApiKeyAuthenticator";
@@ -203,7 +210,7 @@ class SlimRouter
                             'parameter' => $authMethod['isKeyInQuery'] ? $authMethod['keyParamName'] : null,
                             'cookie' => $authMethod['isKeyInCookie'] ? $authMethod['keyParamName'] : null,
                             'argument' => null,
-                        ]));
+                        ], $userOptions));
                         break;
                     case 'oauth2':
                         $authenticatorClassname = "\\{$authPackage}\\OAuthAuthenticator";
@@ -218,7 +225,7 @@ class SlimRouter
                             'parameter' => null,
                             'cookie' => null,
                             'argument' => null,
-                        ]));
+                        ], $userOptions));
                         break;
                     default:
                         throw new Exception('Unknown authorization schema type');
@@ -238,17 +245,18 @@ class SlimRouter
     /**
      * Merges user defined options with dynamic params
      *
-     * @param array $options Params which need to merge into user options
+     * @param array $staticOptions Required static options
+     * @param array $userOptions   User options
      *
      * @return array Merged array
      */
-    private function getTokenAuthenticationOptions(array $options)
+    private function getTokenAuthenticationOptions(array $staticOptions, array $userOptions = null)
     {
-        if (is_array($this->slimApp->getContainer()['tokenAuthenticationOptions']) === false) {
-            return $options;
+        if (is_array($userOptions) === false) {
+            return $staticOptions;
         }
 
-        return array_merge($this->slimApp->getContainer()['tokenAuthenticationOptions'], $options);
+        return array_merge($userOptions, $staticOptions);
     }
 
     /**
