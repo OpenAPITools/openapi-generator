@@ -23,7 +23,7 @@ const (
 	{{#enumVars}}
 	{{^-first}}
 	{{/-first}}
-	{{{classname}}}_{{name}} {{{classname}}} = "{{{value}}}"
+	{{{classname.toUpperCase}}}_{{name}} {{{classname}}} = "{{{value}}}"
 	{{/enumVars}}
 	{{/allowableValues}}
 ){{/isEnum}}{{^isEnum}}{{#description}}
