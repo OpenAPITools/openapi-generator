@@ -244,7 +244,7 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.QueryEscape(fmt.Sprintf("%v", username)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -312,7 +312,7 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.QueryEscape(fmt.Sprintf("%v", username)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -552,7 +552,7 @@ func (a *UserApiService) UpdateUser(ctx context.Context, username string, body U
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.QueryEscape(fmt.Sprintf("%v", username)), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

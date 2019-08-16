@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**JustNumber** | Pointer to **float32** |  | [optional]
+**JustNumber** | Pointer to **float32** |  | [optional] 
 
 ## Methods
 
