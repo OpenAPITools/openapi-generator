@@ -36,7 +36,9 @@ public class ArrayOfArrayOfNumberOnly {
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
+
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+    
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -55,9 +57,12 @@ public class ArrayOfArrayOfNumberOnly {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
+
+
 
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;

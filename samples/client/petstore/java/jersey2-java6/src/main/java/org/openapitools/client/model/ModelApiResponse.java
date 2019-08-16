@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -26,18 +27,17 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
-  @JsonProperty(JSON_PROPERTY_CODE)
   private Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
-  @JsonProperty(JSON_PROPERTY_TYPE)
   private String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
-  @JsonProperty(JSON_PROPERTY_MESSAGE)
   private String message;
 
+
   public ModelApiResponse code(Integer code) {
+    
     this.code = code;
     return this;
   }
@@ -48,15 +48,22 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Integer getCode() {
     return code;
   }
+
+
 
   public void setCode(Integer code) {
     this.code = code;
   }
 
+
   public ModelApiResponse type(String type) {
+    
     this.type = type;
     return this;
   }
@@ -67,15 +74,22 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getType() {
     return type;
   }
+
+
 
   public void setType(String type) {
     this.type = type;
   }
 
+
   public ModelApiResponse message(String message) {
+    
     this.message = message;
     return this;
   }
@@ -86,9 +100,14 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getMessage() {
     return message;
   }
+
+
 
   public void setMessage(String message) {
     this.message = message;

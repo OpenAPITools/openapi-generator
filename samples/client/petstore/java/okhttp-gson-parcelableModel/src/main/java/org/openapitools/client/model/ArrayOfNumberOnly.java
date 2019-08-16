@@ -40,7 +40,9 @@ public class ArrayOfNumberOnly implements Parcelable {
 
   public ArrayOfNumberOnly() {
   }
+
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
+    
     this.arrayNumber = arrayNumber;
     return this;
   }
@@ -59,9 +61,12 @@ public class ArrayOfNumberOnly implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
+
+
 
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

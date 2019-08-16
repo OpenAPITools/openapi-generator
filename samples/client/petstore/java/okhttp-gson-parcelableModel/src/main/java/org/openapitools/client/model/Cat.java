@@ -40,7 +40,9 @@ public class Cat extends Animal implements Parcelable {
   public Cat() {
     super();
   }
+
   public Cat declawed(Boolean declawed) {
+    
     this.declawed = declawed;
     return this;
   }
@@ -51,9 +53,12 @@ public class Cat extends Animal implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Boolean getDeclawed() {
     return declawed;
   }
+
+
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;

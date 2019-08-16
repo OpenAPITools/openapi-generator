@@ -29,7 +29,7 @@ import javax.validation.Valid;
 public class InlineResponseDefault   {
   public static final String JSON_PROPERTY_STRING = "string";
   @JsonProperty(JSON_PROPERTY_STRING)
-  private Foo string = null;
+  private Foo string;
 
   public InlineResponseDefault string(Foo string) {
     this.string = string;
