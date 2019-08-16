@@ -201,4 +201,14 @@ class FakeApiTest extends TestCase
     public function testTestJsonFormData()
     {
     }
+
+    /**
+     * Test case for testQueryParameterCollectionFormat
+     *
+     * .
+     *
+     */
+    public function testTestQueryParameterCollectionFormat()
+    {
+    }
 }

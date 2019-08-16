@@ -730,4 +730,80 @@ public class FakeApi {
       throw new ApiException(e);
     }
   }
+  /**
+   * 
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
+    // verify the required parameter 'pipe' is set
+    if (pipe == null) {
+      throw new ApiException(400, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
+    }
+    // verify the required parameter 'ioutil' is set
+    if (ioutil == null) {
+      throw new ApiException(400, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
+    }
+    // verify the required parameter 'http' is set
+    if (http == null) {
+      throw new ApiException(400, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
+    }
+    // verify the required parameter 'url' is set
+    if (url == null) {
+      throw new ApiException(400, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
+    }
+    // verify the required parameter 'context' is set
+    if (context == null) {
+      throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/fake/test-query-paramters";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "pipe", pipe));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "ioutil", ioutil));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("space", "http", http));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "url", url));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "context", context));
+
+    if (!localVarQueryParams.isEmpty()) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.noBody());
+      if (memberVarReadTimeout != null) {
+        localVarRequestBuilder.timeout(memberVarReadTimeout);
+      }
+      if (memberVarInterceptor != null) {
+        memberVarInterceptor.accept(localVarRequestBuilder);
+      }
+
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (localVarResponse.statusCode()/ 100 != 2) {
+        throw new ApiException(localVarResponse.statusCode(),
+            "testQueryParameterCollectionFormat call received non-success response",
+            localVarResponse.headers(),
+            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+      }
+
+    } catch (IOException | InterruptedException e) {
+      throw new ApiException(e);
+    }
+  }
 }

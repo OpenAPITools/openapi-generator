@@ -211,6 +211,17 @@ class SlimRouter
             ],
         ],
         [
+            'httpMethod' => 'PUT',
+            'basePathWithoutHost' => '/v2',
+            'path' => '/fake/test-query-paramters',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'testQueryParameterCollectionFormat',
+            'authMethods' => [
+            ],
+        ],
+        [
             'httpMethod' => 'PATCH',
             'basePathWithoutHost' => '/v2',
             'path' => '/fake_classname_test',
