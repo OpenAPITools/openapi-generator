@@ -60,10 +60,10 @@ public class PhpSlim4ServerCodegenTest {
     public Object[][] modelFileFolderProvider() {
         return new Object[][] {
             // {modelPackage, invokerPackage, expected}
-            {"Model", "Invoker", "generated-code/slim/lib/Model".replace('/', File.separatorChar)},
-            {"Petstore", "Petstore", "generated-code/slim/lib".replace('/', File.separatorChar)},
-            {"Package\\SubPackage\\Model", "Package\\SubPackage", "generated-code/slim/lib/Model".replace('/', File.separatorChar)},
-            {"Websupport\\InvoiceValidation\\Model", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Model".replace('/', File.separatorChar)},
+            {"Model", "Invoker", "generated-code/slim4/lib/Model".replace('/', File.separatorChar)},
+            {"Petstore", "Petstore", "generated-code/slim4/lib".replace('/', File.separatorChar)},
+            {"Package\\SubPackage\\Model", "Package\\SubPackage", "generated-code/slim4/lib/Model".replace('/', File.separatorChar)},
+            {"Websupport\\InvoiceValidation\\Model", "Websupport\\InvoiceValidation", "generated-code/slim4/lib/Model".replace('/', File.separatorChar)},
         };
     }
 
@@ -80,10 +80,10 @@ public class PhpSlim4ServerCodegenTest {
     public Object[][] apiFileFolderProvider() {
         return new Object[][] {
                 // {apiPackage, invokerPackage, expected}
-                {"Api", "Invoker", "generated-code/slim/lib/Api".replace('/', File.separatorChar)},
-                {"Petstore", "Petstore", "generated-code/slim/lib".replace('/', File.separatorChar)},
-                {"Package\\SubPackage\\Api", "Package\\SubPackage", "generated-code/slim/lib/Api".replace('/', File.separatorChar)},
-                {"Websupport\\InvoiceValidation\\Api", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Api".replace('/', File.separatorChar)},
+                {"Api", "Invoker", "generated-code/slim4/lib/Api".replace('/', File.separatorChar)},
+                {"Petstore", "Petstore", "generated-code/slim4/lib".replace('/', File.separatorChar)},
+                {"Package\\SubPackage\\Api", "Package\\SubPackage", "generated-code/slim4/lib/Api".replace('/', File.separatorChar)},
+                {"Websupport\\InvoiceValidation\\Api", "Websupport\\InvoiceValidation", "generated-code/slim4/lib/Api".replace('/', File.separatorChar)},
         };
     }
 }

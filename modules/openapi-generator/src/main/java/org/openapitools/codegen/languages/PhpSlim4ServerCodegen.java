@@ -32,54 +32,23 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
+public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlim4ServerCodegen.class);
 
-    public static final String USER_CLASSNAME_KEY = "userClassname";
+    public static final String PSR7_IMPLEMENTATION = "psr7Implementation";
 
-    protected String groupId = "org.openapitools";
-    protected String artifactId = "openapi-server";
-    protected String authDirName = "Auth";
-    protected String authPackage = "";
+    protected String psr7Implementation = "slim-psr7";
+    protected List<Map<String, String>> composerPackages = new ArrayList<Map<String, String>>();
+    protected List<Map<String, String>> composerDevPackages = new ArrayList<Map<String, String>>();
 
     public PhpSlim4ServerCodegen() {
         super();
 
-        // clear import mapping (from default generator) as slim does not use it
-        // at the moment
-        importMapping.clear();
-
-        variableNamingConvention = "camelCase";
-        artifactVersion = "1.0.0";
-        setInvokerPackage("OpenAPIServer");
-        apiPackage = invokerPackage + "\\" + apiDirName;
-        modelPackage = invokerPackage + "\\" + modelDirName;
-        authPackage = invokerPackage + "\\" + authDirName;
-        outputFolder = "generated-code" + File.separator + "slim";
-
-        modelTestTemplateFiles.put("model_test.mustache", ".php");
-        // no doc files
-        modelDocTemplateFiles.clear();
-        apiDocTemplateFiles.clear();
-
+        outputFolder = "generated-code" + File.separator + "slim4";
         embeddedTemplateDir = templateDir = "php-slim4-server";
 
-        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-
         // override cliOptions from AbstractPhpCodegen
-        for (CliOption co : cliOptions) {
-            if (co.getOpt().equals(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION)) {
-                co.setDescription("naming convention of variable name, e.g. camelCase.");
-                co.setDefault("camelCase");
-                break;
-            }
-        }
-    }
-
-    @Override
-    public CodegenType getTag() {
-        return CodegenType.SERVER;
+        updateOption(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION, "camelCase");
     }
 
     @Override
@@ -93,162 +62,47 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public String apiFileFolder() {
-        if (apiPackage.startsWith(invokerPackage + "\\")) {
-            // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(apiPackage, invokerPackage + "\\"), srcBasePath));
-        }
-        return (outputFolder + File.separator + toSrcPath(apiPackage, srcBasePath));
-    }
-
-    @Override
-    public String modelFileFolder() {
-        if (modelPackage.startsWith(invokerPackage + "\\")) {
-            // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(modelPackage, invokerPackage + "\\"), srcBasePath));
-        }
-        return (outputFolder + File.separator + toSrcPath(modelPackage, srcBasePath));
-    }
-
-    @Override
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            // Update the invokerPackage for the default authPackage
-            authPackage = invokerPackage + "\\" + authDirName;
+        if (additionalProperties.containsKey(PSR7_IMPLEMENTATION)) {
+            this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
         }
 
-        // make auth src path available in mustache template
-        additionalProperties.put("authPackage", authPackage);
-        additionalProperties.put("authSrcPath", "./" + toSrcPath(authPackage, srcBasePath));
+        additionalProperties.put(PSR7_IMPLEMENTATION, getPsr7Implementation());
 
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
-        supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
-        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
-        supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
-    }
+        // init Composer dependencies
+        addComposerPackage("php", "^7.1");
+        addComposerPackage("slim/slim", "^4.0");
+        addComposerPackage("dyorg/slim-token-authentication", "dev-slim4");
 
-    @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        addUserClassnameToOperations(operations);
-        escapeMediaType(operationList);
-        return objs;
-    }
-
-    @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
-        List<HashMap<String, Object>> apiList = (List<HashMap<String, Object>>) apiInfo.get("apis");
-        for (HashMap<String, Object> api : apiList) {
-            HashMap<String, Object> operations = (HashMap<String, Object>) api.get("operations");
-            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-
-            // Sort operations to avoid static routes shadowing
-            // ref: https://github.com/nikic/FastRoute/blob/master/src/DataGenerator/RegexBasedAbstract.php#L92-L101
-            Collections.sort(operationList, new Comparator<CodegenOperation>() {
-                @Override
-                public int compare(CodegenOperation one, CodegenOperation another) {
-                    if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
-                    if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
-                    return 0;
-                }
-            });
-        }
-        return objs;
-    }
-
-    @Override
-    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
-        List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
-        if (Boolean.FALSE.equals(codegenSecurities.isEmpty())) {
-            supportingFiles.add(new SupportingFile("abstract_authenticator.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("Authenticator") + ".php"));
-        }
-        return codegenSecurities;
-    }
-
-    @Override
-    public String toApiName(String name) {
-        if (name.length() == 0) {
-            return toAbstractName("DefaultApi");
-        }
-        return toAbstractName(camelize(name) + "Api");
-    }
-
-    @Override
-    public String toApiTestFilename(String name) {
-        if (name.length() == 0) {
-            return "DefaultApiTest";
-        }
-        return camelize(name) + "ApiTest";
-    }
-
-    /**
-     * Strips out abstract prefix and suffix from classname and puts it in "userClassname" property of operations object.
-     *
-     * @param operations codegen object with operations
-     */
-    private void addUserClassnameToOperations(Map<String, Object> operations) {
-        String classname = (String) operations.get("classname");
-        classname = classname.replaceAll("^" + abstractNamePrefix, "");
-        classname = classname.replaceAll(abstractNameSuffix + "$", "");
-        operations.put(USER_CLASSNAME_KEY, classname);
-    }
-
-    @Override
-    public String encodePath(String input) {
-        if (input == null) {
-            return input;
+        // add PSR-7 implementation to Composer dependencies
+        switch (getPsr7Implementation()) {
+            case "slim-psr7":
+                addComposerPackage("slim/psr7", "^0.4.0");
+                break;
+            case "nyholm-psr7":
+                addComposerPackage("nyholm/psr7", "^1.1.0");
+                addComposerPackage("nyholm/psr7-server", "^0.3.0");
+                break;
+            case "guzzle-psr7":
+                addComposerPackage("guzzlehttp/psr7", "^1.6.1");
+                addComposerPackage("http-interop/http-factory-guzzle", "^1.0.0");
+                break;
+            case "zend-diactoros":
+                addComposerPackage("zendframework/zend-diactoros", "^2.1.3");
+                break;
+            default:
+                addComposerPackage("slim/psr7", "^0.4.0");
+                LOGGER.warn("\"" + getPsr7Implementation() + "\" is invalid \"psr7Implementation\" codegen option. Default \"slim-psr7\" used instead.");
         }
 
-        // from DefaultCodegen.java
-        // remove \t, \n, \r
-        // replace \ with \\
-        // replace " with \"
-        // outter unescape to retain the original multi-byte characters
-        // finally escalate characters avoiding code injection
-        input = super.escapeUnsafeCharacters(
-                StringEscapeUtils.unescapeJava(
-                        StringEscapeUtils.escapeJava(input)
-                                .replace("\\/", "/"))
-                        .replaceAll("[\\t\\n\\r]", " ")
-                        .replace("\\", "\\\\"));
-                        // .replace("\"", "\\\""));
+        // init Composer dev dependencies
+        addComposerPackage("phpunit/phpunit", "^6.0 || ^7.0", true);
+        addComposerPackage("overtrue/phplint", "^1.0", true);
+        addComposerPackage("squizlabs/php_codesniffer", "^3.0", true);
 
-        // from AbstractPhpCodegen.java
-        // Trim the string to avoid leading and trailing spaces.
-        input = input.trim();
-        try {
-
-            input = URLEncoder.encode(input, "UTF-8")
-                    .replaceAll("\\+", "%20")
-                    .replaceAll("\\%2F", "/")
-                    .replaceAll("\\%7B", "{") // keep { part of complex placeholders
-                    .replaceAll("\\%7D", "}") // } part
-                    .replaceAll("\\%5B", "[") // [ part
-                    .replaceAll("\\%5D", "]") // ] part
-                    .replaceAll("\\%3A", ":") // : part
-                    .replaceAll("\\%2B", "+") // + part
-                    .replaceAll("\\%5C\\%5Cd", "\\\\d"); // \d part
-        } catch (UnsupportedEncodingException e) {
-            // continue
-            LOGGER.error(e.getMessage(), e);
-        }
-        return input;
-    }
-
-    @Override
-    public CodegenOperation fromOperation(String path,
-                                          String httpMethod,
-                                          Operation operation,
-                                          List<Server> servers) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-        op.path = encodePath(path);
-        return op;
+        additionalProperties.put("composerPackages", composerPackages);
+        additionalProperties.put("composerDevPackages", composerDevPackages);
     }
 }
