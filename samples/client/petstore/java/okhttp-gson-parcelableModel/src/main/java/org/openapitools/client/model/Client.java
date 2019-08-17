@@ -37,7 +37,9 @@ public class Client implements Parcelable {
 
   public Client() {
   }
+
   public Client client(String client) {
+    
     this.client = client;
     return this;
   }
@@ -48,9 +50,12 @@ public class Client implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getClient() {
     return client;
   }
+
+
 
   public void setClient(String client) {
     this.client = client;

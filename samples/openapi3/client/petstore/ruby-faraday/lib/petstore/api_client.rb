@@ -49,7 +49,7 @@ module Petstore
       ssl_options = {
         :ca_file => @config.ssl_ca_file,
         :verify => @config.ssl_verify,
-        :verify => @config.ssl_verify_mode,
+        :verify_mode => @config.ssl_verify_mode,
         :client_cert => @config.ssl_client_cert,
         :client_key => @config.ssl_client_key
       }

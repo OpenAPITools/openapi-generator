@@ -12,10 +12,10 @@ extern crate serde_urlencoded;
 {{#apiUsesMultipart}}
 extern crate multipart;
 {{/apiUsesMultipart}}
-
 {{#apiUsesUuid}}
-use uuid;
+extern crate uuid;
 {{/apiUsesUuid}}
+
 use hyper;
 use hyper::header::{Headers, ContentType};
 use hyper::Uri;

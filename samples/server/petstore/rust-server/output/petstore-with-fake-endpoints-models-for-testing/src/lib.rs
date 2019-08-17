@@ -1,27 +1,37 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
 
-extern crate serde_xml_rs;
-extern crate futures;
-extern crate chrono;
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
 extern crate log;
-extern crate mime;
+#[macro_use]
+extern crate serde_derive;
 
-// Logically this should be in the client and server modules, but rust doesn't allow `macro_use` from a module.
 #[cfg(any(feature = "client", feature = "server"))]
 #[macro_use]
 extern crate hyper;
-
-extern crate swagger;
-
+#[cfg(any(feature = "client", feature = "server"))]
 #[macro_use]
 extern crate url;
+
+// Crates for conversion support
+#[cfg(feature = "conversion")]
+#[macro_use]
+extern crate frunk_derives;
+#[cfg(feature = "conversion")]
+#[macro_use]
+extern crate frunk_enum_derive;
+#[cfg(feature = "conversion")]
+extern crate frunk_core;
+
+extern crate mime;
+extern crate serde;
+extern crate serde_json;
+extern crate serde_xml_rs;
+extern crate futures;
+extern crate chrono;
+extern crate swagger;
+extern crate uuid;
 
 use futures::Stream;
 use std::io::Error;
@@ -29,12 +39,13 @@ use std::io::Error;
 #[allow(unused_imports)]
 use std::collections::HashMap;
 
-pub use futures::Future;
-
 #[cfg(any(feature = "client", feature = "server"))]
 mod mimetypes;
 
+#[deprecated(note = "Import swagger-rs directly")]
 pub use swagger::{ApiError, ContextWrapper};
+#[deprecated(note = "Import futures directly")]
+pub use futures::Future;
 
 pub const BASE_PATH: &'static str = "/v2";
 pub const API_VERSION: &'static str = "1.0.0";

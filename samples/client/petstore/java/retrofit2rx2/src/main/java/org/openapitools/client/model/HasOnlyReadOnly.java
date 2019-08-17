@@ -37,15 +37,20 @@ public class HasOnlyReadOnly {
   @SerializedName(SERIALIZED_NAME_FOO)
   private String foo;
 
+
    /**
    * Get bar
    * @return bar
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getBar() {
     return bar;
   }
+
+
+
 
    /**
    * Get foo
@@ -53,9 +58,12 @@ public class HasOnlyReadOnly {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getFoo() {
     return foo;
   }
+
+
 
 
   @Override

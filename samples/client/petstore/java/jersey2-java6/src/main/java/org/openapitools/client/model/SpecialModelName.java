@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -26,10 +27,11 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   private Long $specialPropertyName;
 
+
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+    
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -40,9 +42,14 @@ public class SpecialModelName {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
+
+
 
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;

@@ -45,9 +45,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   public static final String SERIALIZED_NAME_MAP = "map";
   @SerializedName(SERIALIZED_NAME_MAP)
-  private Map<String, Animal> map = new HashMap<String, Animal>();
+  private Map<String, Animal> map = null;
+
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+    
     this.uuid = uuid;
     return this;
   }
@@ -58,15 +60,20 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public UUID getUuid() {
     return uuid;
   }
+
+
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
+
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(DateTime dateTime) {
+    
     this.dateTime = dateTime;
     return this;
   }
@@ -77,15 +84,20 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public DateTime getDateTime() {
     return dateTime;
   }
+
+
 
   public void setDateTime(DateTime dateTime) {
     this.dateTime = dateTime;
   }
 
+
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+    
     this.map = map;
     return this;
   }
@@ -104,9 +116,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Animal> getMap() {
     return map;
   }
+
+
 
   public void setMap(Map<String, Animal> map) {
     this.map = map;

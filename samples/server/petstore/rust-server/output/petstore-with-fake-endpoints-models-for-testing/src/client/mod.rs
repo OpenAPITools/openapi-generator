@@ -8,6 +8,7 @@ extern crate chrono;
 extern crate url;
 extern crate serde_urlencoded;
 extern crate multipart;
+extern crate uuid;
 
 use hyper;
 use hyper::header::{Headers, ContentType};

@@ -51,13 +51,13 @@ public class AdditionalPropertiesClass   {
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   @JsonProperty("anytype_1")
-  private Object anytype1 = null;
+  private Object anytype1;
 
   @JsonProperty("anytype_2")
-  private Object anytype2 = null;
+  private Object anytype2;
 
   @JsonProperty("anytype_3")
-  private Object anytype3 = null;
+  private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;

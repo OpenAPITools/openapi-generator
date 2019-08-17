@@ -170,6 +170,16 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+    @PUT
+    @Path("/test-query-paramters")
+    @ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success", response = Void.class)
+    })
+    public Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull    List<String> pipe,@QueryParam("ioutil") @NotNull    List<String> ioutil,@QueryParam("http") @NotNull    List<String> http,@QueryParam("url") @NotNull    List<String> url,@QueryParam("context") @NotNull    List<String> context) {
+        return Response.ok().entity("magic!").build();
+    }
+
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
