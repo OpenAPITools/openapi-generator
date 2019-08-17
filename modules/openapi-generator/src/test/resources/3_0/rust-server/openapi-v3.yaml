@@ -101,6 +101,28 @@ paths:
       responses:
         '200':
           description: 'OK'
+  /responses_with_headers:
+    get:
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            'application/json':
+              schema:
+                type: String
+          headers:
+            Success-Info:
+              schema:
+                type: String
+        '412':
+          description: Precondition Failed
+          headers:
+            Further-Info:
+              schema:
+                type: String
+            Failure-Info:
+              schema:
+                type: String
 components:
   schemas:
     UuidObject:
