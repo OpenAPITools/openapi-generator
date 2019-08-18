@@ -82,41 +82,30 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
             this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
         }
 
-        additionalProperties.put(PSR7_IMPLEMENTATION, getPsr7Implementation());
+        // reset implementation flags
+        additionalProperties.put("isSlimPsr7", Boolean.FALSE);
+        additionalProperties.put("isNyholmPsr7", Boolean.FALSE);
+        additionalProperties.put("isGuzzlePsr7", Boolean.FALSE);
+        additionalProperties.put("isZendDiactoros", Boolean.FALSE);
 
-        // init Composer dependencies
-        addComposerPackage("php", "^7.1");
-        addComposerPackage("slim/slim", "^4.0");
-        addComposerPackage("dyorg/slim-token-authentication", "dev-slim4");
-
-        // add PSR-7 implementation to Composer dependencies
+        // set specific PSR-7 implementation flag
         switch (getPsr7Implementation()) {
             case "slim-psr7":
-                addComposerPackage("slim/psr7", "^0.4.0");
+                additionalProperties.put("isSlimPsr7", Boolean.TRUE);
                 break;
             case "nyholm-psr7":
-                addComposerPackage("nyholm/psr7", "^1.1.0");
-                addComposerPackage("nyholm/psr7-server", "^0.3.0");
+                additionalProperties.put("isNyholmPsr7", Boolean.TRUE);
                 break;
             case "guzzle-psr7":
-                addComposerPackage("guzzlehttp/psr7", "^1.6.1");
-                addComposerPackage("http-interop/http-factory-guzzle", "^1.0.0");
+                additionalProperties.put("isGuzzlePsr7", Boolean.TRUE);
                 break;
             case "zend-diactoros":
-                addComposerPackage("zendframework/zend-diactoros", "^2.1.3");
+                additionalProperties.put("isZendDiactoros", Boolean.TRUE);
                 break;
             default:
-                addComposerPackage("slim/psr7", "^0.4.0");
                 LOGGER.warn("\"" + getPsr7Implementation() + "\" is invalid \"psr7Implementation\" codegen option. Default \"slim-psr7\" used instead.");
+                additionalProperties.put("isSlimPsr7", Boolean.TRUE);
         }
-
-        // init Composer dev dependencies
-        addComposerPackage("phpunit/phpunit", "^6.0 || ^7.0", true);
-        addComposerPackage("overtrue/phplint", "^1.0", true);
-        addComposerPackage("squizlabs/php_codesniffer", "^3.0", true);
-
-        additionalProperties.put("composerPackages", composerPackages);
-        additionalProperties.put("composerDevPackages", composerDevPackages);
     }
 
     /**
@@ -146,38 +135,5 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
      */
     public String getPsr7Implementation() {
         return this.psr7Implementation;
-    }
-
-    /**
-     * Add new package to the `composer.json`.
-     *
-     * @param packageName    Package vendor and name
-     * @param packageVersion Package version e.g. ^1.0.0, default "*"
-     * @param isDev          Add packages to `require-dev`
-     */
-    protected void addComposerPackage(String packageName,
-                                      String packageVersion,
-                                      Boolean isDev) {
-        Map<String, String> composerPackage = new HashMap<String, String>();
-        composerPackage.put("vendorName", packageName);
-        composerPackage.put("vendorVersion", "*");
-        if (packageVersion != null) {
-            composerPackage.put("vendorVersion", packageVersion);
-        }
-        if (Boolean.TRUE.equals(isDev)) {
-            composerDevPackages.add(composerPackage);
-        } else {
-            composerPackages.add(composerPackage);
-        }
-    }
-
-    /**
-     * Add new package to the `composer.json`.
-     *
-     * @param packageName    Package vendor and name
-     * @param packageVersion Package version e.g. ^1.0.0, default "*"
-     */
-    protected void addComposerPackage(String packageName, String packageVersion) {
-        addComposerPackage(packageName, packageVersion, false);
     }
 }
