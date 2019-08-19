@@ -121,8 +121,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         // From https://doc.rust-lang.org/grammar.html#keywords
                         "abstract", "alignof", "as", "become", "box", "break", "const",

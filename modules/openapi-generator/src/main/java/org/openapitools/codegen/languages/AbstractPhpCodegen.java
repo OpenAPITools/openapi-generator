@@ -79,7 +79,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         apiPackage = invokerPackage + "\\" + apiDirName;
         modelPackage = invokerPackage + "\\" + modelDirName;
 
-        // TODO Are those case sensitive or insensitive
         super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         // local variables used in api methods (endpoints)

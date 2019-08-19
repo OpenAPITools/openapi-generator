@@ -90,7 +90,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         addSwitch(OPTIONAL_EXTERNAL_LIB, OPTIONAL_EXTERNAL_LIB_DESC, this.isAddExternalLibs);
         addOption(HELPERS_PACKAGE_NAME, HELPERS_PACKAGE_NAME_DESC, this.helpersPackage);
 
-        // TODO @Fjolnir-Dvorak
+        // TODO Why is reservedWords set to an empty HashSet? Do reservedWords which were registered
+        // previously need to be deleteable?
 //        reservedWords = new HashSet<>();
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));

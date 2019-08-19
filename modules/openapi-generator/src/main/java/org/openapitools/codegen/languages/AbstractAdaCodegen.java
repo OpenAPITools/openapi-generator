@@ -66,7 +66,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        // TODO Are those case sensitive or insensitive
         super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         "abort",

@@ -311,7 +311,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     private void addExtraReservedWords() {
-        // TODO Are those case sensitive or insensitive
         super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "BASE_PATH",

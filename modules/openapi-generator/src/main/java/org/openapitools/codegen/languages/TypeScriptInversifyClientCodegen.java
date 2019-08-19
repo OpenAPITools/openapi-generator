@@ -62,8 +62,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         apiPackage = "api";
         modelPackage = "model";
 
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(Collections.singletonList("map"));
+        super.registerReservedWordsCaseSensitive(Collections.singletonList("map"));
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));

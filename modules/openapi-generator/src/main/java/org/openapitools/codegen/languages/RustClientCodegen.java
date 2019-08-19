@@ -84,8 +84,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         embeddedTemplateDir = templateDir = "rust";
 
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "abstract", "alignof", "as", "become", "box",
                         "break", "const", "continue", "crate", "do",

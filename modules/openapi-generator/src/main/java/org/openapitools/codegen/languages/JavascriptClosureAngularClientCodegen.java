@@ -61,8 +61,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         hideGenerationTimestamp = Boolean.TRUE;
 
         supportsInheritance = false;
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(Arrays.asList("abstract",
+        super.registerReservedWordsCaseSensitive(Arrays.asList("abstract",
             "continue", "for", "new", "switch", "assert", "default", "if",
             "package", "synchronized", "do", "goto", "private",
             "this", "break", "double", "implements", "protected", "throw",

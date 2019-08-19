@@ -123,10 +123,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         hideGenerationTimestamp = Boolean.TRUE;
 
         // reference: http://www.w3schools.com/js/js_reserved.asp
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
-                        "abstract", "arguments", "boolean", "break", "byte",
+                        "abstract", "arguments", "Boolean", "boolean", "break", "byte",
                         "case", "catch", "char", "class", "const",
                         "continue", "debugger", "default", "delete", "do",
                         "double", "else", "enum", "eval", "export",

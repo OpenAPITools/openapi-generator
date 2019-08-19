@@ -119,7 +119,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        // TODO Are those case sensitive or insensitive
         super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         // local variables used in api methods (endpoints)

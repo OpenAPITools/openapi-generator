@@ -261,7 +261,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void addExtraReservedWords() {
-        super.registerReservedWordsCaseInsensitive(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "BASE_PATH", "BaseAPI", "RequiredError",
                         "COLLECTION_FORMATS", "FetchAPI", "ConfigurationParameters",
