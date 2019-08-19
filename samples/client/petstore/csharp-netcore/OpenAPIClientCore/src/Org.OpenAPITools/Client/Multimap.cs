@@ -83,10 +83,10 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        ///  Copies the items of the Multimap to an array,
+        ///  Copies items of the Multimap to an array,
         ///     starting at a particular array index.
         /// </summary>
-        /// <param name="array">The array that is the destination of the elements copied
+        /// <param name="array">The array that is the destination of the items copied
         ///     from Multimap. The array must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
