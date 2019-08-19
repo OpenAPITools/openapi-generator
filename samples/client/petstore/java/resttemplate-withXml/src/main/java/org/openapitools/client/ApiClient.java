@@ -34,6 +34,7 @@ import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -544,6 +545,16 @@ public class ApiClient {
     }
 
     /**
+     * Expand path template with variables
+     * @param pathTemplate path template with placeholders
+     * @param variables variables to replace
+     * @return path with placeholders replaced by variables
+     */
+    public String expandPath(String pathTemplate, Map<String, Object> variables) {
+        return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
+    }
+
+    /**
      * Invoke API by sending HTTP request with the given options.
      *
      * @param <T> the return type to use
@@ -639,6 +650,7 @@ public class ApiClient {
         messageConverters.add(new MappingJackson2HttpMessageConverter());
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
+        xmlMapper.registerModule(new JsonNullableModule());
         messageConverters.add(new MappingJackson2XmlHttpMessageConverter(xmlMapper));
 
         RestTemplate restTemplate = new RestTemplate(messageConverters);
@@ -651,6 +663,7 @@ public class ApiClient {
                 module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
                 module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
                 mapper.registerModule(module);
+                mapper.registerModule(new JsonNullableModule());
             }
         }
         // This allows us to read the response more than once - Necessary for debugging.

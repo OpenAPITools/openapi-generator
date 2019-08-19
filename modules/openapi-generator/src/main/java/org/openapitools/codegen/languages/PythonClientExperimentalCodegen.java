@@ -18,6 +18,9 @@ package org.openapitools.codegen.languages;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +42,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         apiTemplateFiles.put("python-experimental/api.mustache", ".py");
         modelDocTemplateFiles.put("python-experimental/model_doc.mustache", ".md");
         modelTemplateFiles.put("python-experimental/model.mustache", ".py");
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.EXPERIMENTAL)
+                .build();
     }
 
     /**

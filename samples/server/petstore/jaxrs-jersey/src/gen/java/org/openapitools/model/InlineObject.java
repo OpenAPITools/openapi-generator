@@ -26,10 +26,12 @@ import javax.validation.Valid;
  */
 
 public class InlineObject   {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @JsonProperty(JSON_PROPERTY_STATUS)
   private String status;
 
   public InlineObject name(String name) {

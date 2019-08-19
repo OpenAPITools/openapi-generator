@@ -359,7 +359,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         } else if (ModelUtils.isStringSchema(p)) {
             return "utility::conversions::to_string_t(\"\")";
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            return "new Object()";
         }
+        
         return "nullptr";
     }
 

@@ -15,6 +15,6 @@ title: Generators List
 
 EOF
 
-java -jar $executable list | sed -e 's/\([A-Z]*\) generators:/* \1 generators:/g' -e 's/- \([a-z0-9\-]*\)/- [\1]\(generators\/\1.md\)/g' >> docs/generators.md
+java -jar $executable list --docsite --include all >> docs/generators.md
 
 echo "Wrote $(pwd)/docs/generators.md"

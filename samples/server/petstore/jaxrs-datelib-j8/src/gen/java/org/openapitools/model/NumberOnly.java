@@ -28,7 +28,8 @@ import javax.validation.Valid;
  */
 
 public class NumberOnly  implements Serializable {
-  @JsonProperty("JustNumber")
+  public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
+  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {

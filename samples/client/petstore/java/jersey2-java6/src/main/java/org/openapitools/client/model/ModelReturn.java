@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -26,10 +27,12 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Model for testing reserved words")
 
 public class ModelReturn {
-  @JsonProperty("return")
+  public static final String JSON_PROPERTY_RETURN = "return";
   private Integer _return;
 
+
   public ModelReturn _return(Integer _return) {
+    
     this._return = _return;
     return this;
   }
@@ -40,9 +43,14 @@ public class ModelReturn {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Integer getReturn() {
     return _return;
   }
+
+
 
   public void setReturn(Integer _return) {
     this._return = _return;

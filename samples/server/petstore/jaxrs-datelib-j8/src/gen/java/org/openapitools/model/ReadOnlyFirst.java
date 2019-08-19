@@ -27,10 +27,12 @@ import javax.validation.Valid;
  */
 
 public class ReadOnlyFirst  implements Serializable {
-  @JsonProperty("bar")
+  public static final String JSON_PROPERTY_BAR = "bar";
+  @JsonProperty(JSON_PROPERTY_BAR)
   private String bar;
 
-  @JsonProperty("baz")
+  public static final String JSON_PROPERTY_BAZ = "baz";
+  @JsonProperty(JSON_PROPERTY_BAZ)
   private String baz;
 
   public ReadOnlyFirst bar(String bar) {

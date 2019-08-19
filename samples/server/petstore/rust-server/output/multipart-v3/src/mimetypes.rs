@@ -9,8 +9,9 @@ pub mod responses {
 
 pub mod requests {
     use hyper::mime::*;
-   /// Create Mime objects for the request content types for MultipartRequestPost
+
     lazy_static! {
+        /// Create Mime objects for the request content types for MultipartRequestPost
         pub static ref MULTIPART_REQUEST_POST: Mime = "multipart/form-data".parse().unwrap();
     }
 

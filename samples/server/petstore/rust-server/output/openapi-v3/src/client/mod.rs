@@ -6,6 +6,7 @@ extern crate openssl;
 extern crate mime;
 extern crate chrono;
 extern crate url;
+extern crate uuid;
 
 use hyper;
 use hyper::header::{Headers, ContentType};

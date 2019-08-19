@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -34,34 +35,32 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "TypeHolderDefault")
 public class TypeHolderDefault {
-  @JsonProperty("string_item")
-  @JacksonXmlProperty(localName = "string_item")
   @XmlElement(name = "string_item")
+  public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem = "what";
 
-  @JsonProperty("number_item")
-  @JacksonXmlProperty(localName = "number_item")
   @XmlElement(name = "number_item")
+  public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
   private BigDecimal numberItem;
 
-  @JsonProperty("integer_item")
-  @JacksonXmlProperty(localName = "integer_item")
   @XmlElement(name = "integer_item")
+  public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
-  @JacksonXmlProperty(localName = "bool_item")
   @XmlElement(name = "bool_item")
+  public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
   private Boolean boolItem = true;
 
-  @JsonProperty("array_item")
   // Is a container wrapped=false
   // items.name=arrayItem items.baseName=arrayItem items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "arrayItem")
+  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+
   public TypeHolderDefault stringItem(String stringItem) {
+    
     this.stringItem = stringItem;
     return this;
   }
@@ -71,15 +70,23 @@ public class TypeHolderDefault {
    * @return stringItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "string_item")
+
   public String getStringItem() {
     return stringItem;
   }
+
+
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
+
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
+    
     this.numberItem = numberItem;
     return this;
   }
@@ -89,15 +96,23 @@ public class TypeHolderDefault {
    * @return numberItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "number_item")
+
   public BigDecimal getNumberItem() {
     return numberItem;
   }
+
+
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
+
   public TypeHolderDefault integerItem(Integer integerItem) {
+    
     this.integerItem = integerItem;
     return this;
   }
@@ -107,15 +122,23 @@ public class TypeHolderDefault {
    * @return integerItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "integer_item")
+
   public Integer getIntegerItem() {
     return integerItem;
   }
+
+
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
+
   public TypeHolderDefault boolItem(Boolean boolItem) {
+    
     this.boolItem = boolItem;
     return this;
   }
@@ -125,15 +148,23 @@ public class TypeHolderDefault {
    * @return boolItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "bool_item")
+
   public Boolean getBoolItem() {
     return boolItem;
   }
+
+
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
+
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
+    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -148,9 +179,14 @@ public class TypeHolderDefault {
    * @return arrayItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
+
+
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;

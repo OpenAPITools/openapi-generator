@@ -243,6 +243,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
         {{#joda}}
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -286,6 +291,7 @@
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <jackson-version>{{^threetenbp}}2.9.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}</jackson-version>
         <jackson-databind>{{^threetenbp}}2.9.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}</jackson-databind>
+        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         <junit-version>4.12</junit-version>
     </properties>
 </project>
