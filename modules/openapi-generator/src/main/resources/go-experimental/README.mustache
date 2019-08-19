@@ -61,7 +61,7 @@ Class | Method | HTTP request | Description
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), "{{keyParamName}}", sw.APIKey{
+auth := context.WithValue(context.Background(), sw.ContextAPIKeys, sw.APIKey{
     Key: "APIKEY",
     Prefix: "Bearer", // Omit if not necessary.
 })
