@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="item">Key value pair</param>
         /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
-        /// <returns>true if the Multimap contains the element; otherwise, false.</returns>
+        /// <returns>true if the Multimap contains the item; otherwise, false.</returns>
         public bool Contains(KeyValuePair<T, IList<TValue>> item)
         {
             throw new NotImplementedException();
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Client
         /// Removes item with the specified key from the Multimap.
         /// </summary>
         /// <param name="key">The key to locate in the Multimap.</param>
-        /// <returns>true if the element is successfully removed; otherwise, false.</returns>
+        /// <returns>true if the item is successfully removed; otherwise, false.</returns>
         public bool Remove(T key)
         {
             IList<TValue> list;
