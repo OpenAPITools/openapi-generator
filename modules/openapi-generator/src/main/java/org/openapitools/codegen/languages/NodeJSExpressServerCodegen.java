@@ -62,7 +62,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         outputFolder = "generated-code/nodejs-express-server";
         embeddedTemplateDir = templateDir = "nodejs-express-server";
 
-        setReservedWordsLowerCase(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "break", "case", "class", "catch", "const", "continue", "debugger",
                         "default", "delete", "do", "else", "export", "extends", "finally",
