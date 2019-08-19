@@ -107,6 +107,19 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
+    public static void applyServerVariablesKvpList(List<String> values, CodegenConfigurator configurator) {
+        for(String value : values) {
+            applyServerVariablesKvp(value, configurator);
+        }
+    }
+
+    public static void applyServerVariablesKvp(String values, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(values);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addServerVariable(entry.getKey(), entry.getValue());
+        }
+    }
+
     public static void applyLanguageSpecificPrimitivesCsvList(List<String> languageSpecificPrimitives, CodegenConfigurator configurator) {
         for(String propString : languageSpecificPrimitives) {
             applyLanguageSpecificPrimitivesCsv(propString, configurator);

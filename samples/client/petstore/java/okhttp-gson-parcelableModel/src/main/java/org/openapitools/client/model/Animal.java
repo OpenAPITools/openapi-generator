@@ -43,7 +43,9 @@ public class Animal implements Parcelable {
   public Animal() {
     this.className = this.getClass().getSimpleName();
   }
+
   public Animal className(String className) {
+    
     this.className = className;
     return this;
   }
@@ -52,17 +54,21 @@ public class Animal implements Parcelable {
    * Get className
    * @return className
   **/
-
   @ApiModelProperty(required = true, value = "")
+
   public String getClassName() {
     return className;
   }
+
+
 
   public void setClassName(String className) {
     this.className = className;
   }
 
+
   public Animal color(String color) {
+    
     this.color = color;
     return this;
   }
@@ -71,11 +77,14 @@ public class Animal implements Parcelable {
    * Get color
    * @return color
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getColor() {
     return color;
   }
+
+
 
   public void setColor(String color) {
     this.color = color;

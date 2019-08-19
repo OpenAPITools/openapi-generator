@@ -90,13 +90,13 @@ class User {
   }
 
   static List<User> listFromJson(List<dynamic> json) {
-    return json == null ? new List<User>() : json.map((value) => new User.fromJson(value)).toList();
+    return json == null ? List<User>() : json.map((value) => User.fromJson(value)).toList();
   }
 
   static Map<String, User> mapFromJson(Map<String, dynamic> json) {
-    var map = new Map<String, User>();
+    var map = Map<String, User>();
     if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = new User.fromJson(value));
+      json.forEach((String key, dynamic value) => map[key] = User.fromJson(value));
     }
     return map;
   }

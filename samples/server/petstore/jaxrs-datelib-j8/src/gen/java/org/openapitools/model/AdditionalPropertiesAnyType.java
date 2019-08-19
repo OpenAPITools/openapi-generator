@@ -29,7 +29,8 @@ import javax.validation.Valid;
  */
 
 public class AdditionalPropertiesAnyType extends HashMap<String, Object> implements Serializable {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
   public AdditionalPropertiesAnyType name(String name) {

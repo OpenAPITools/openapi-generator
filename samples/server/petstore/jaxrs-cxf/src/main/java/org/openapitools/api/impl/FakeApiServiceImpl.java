@@ -148,5 +148,11 @@ public class FakeApiServiceImpl implements FakeApi {
         
     }
     
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) {
+        // TODO: Implement...
+        
+        
+    }
+    
 }
 

@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -30,20 +31,20 @@ import org.openapitools.client.model.Tag;
  */
 
 public class Pet {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
-  @JsonProperty("category")
-  private Category category = null;
+  public static final String JSON_PROPERTY_CATEGORY = "category";
+  private Category category;
 
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
-  @JsonProperty("photoUrls")
+  public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   private List<String> photoUrls = new ArrayList<>();
 
-  @JsonProperty("tags")
-  private List<Tag> tags = new ArrayList<>();
+  public static final String JSON_PROPERTY_TAGS = "tags";
+  private List<Tag> tags = null;
 
   /**
    * pet status in the store
@@ -82,10 +83,12 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
+
   public Pet id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -94,17 +97,24 @@ public class Pet {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Long getId() {
     return id;
   }
+
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public Pet category(Category category) {
+    
     this.category = category;
     return this;
   }
@@ -113,17 +123,24 @@ public class Pet {
    * Get category
    * @return category
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Category getCategory() {
     return category;
   }
+
+
 
   public void setCategory(Category category) {
     this.category = category;
   }
 
+
   public Pet name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -132,17 +149,23 @@ public class Pet {
    * Get name
    * @return name
   **/
-
   @ApiModelProperty(example = "doggie", required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public String getName() {
     return name;
   }
+
+
 
   public void setName(String name) {
     this.name = name;
   }
 
+
   public Pet photoUrls(List<String> photoUrls) {
+    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -156,17 +179,23 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
+
+
 
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
+
   public Pet tags(List<Tag> tags) {
+    
     this.tags = tags;
     return this;
   }
@@ -183,17 +212,24 @@ public class Pet {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public List<Tag> getTags() {
     return tags;
   }
+
+
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
+
   public Pet status(StatusEnum status) {
+    
     this.status = status;
     return this;
   }
@@ -202,11 +238,16 @@ public class Pet {
    * pet status in the store
    * @return status
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "pet status in the store")
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public StatusEnum getStatus() {
     return status;
   }
+
+
 
   public void setStatus(StatusEnum status) {
     this.status = status;

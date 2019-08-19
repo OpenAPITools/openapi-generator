@@ -40,7 +40,9 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> implem
   public AdditionalPropertiesInteger() {
     super();
   }
+
   public AdditionalPropertiesInteger name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -49,11 +51,14 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> implem
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getName() {
     return name;
   }
+
+
 
   public void setName(String name) {
     this.name = name;

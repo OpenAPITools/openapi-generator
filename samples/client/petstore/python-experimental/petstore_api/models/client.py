@@ -31,21 +31,27 @@ class Client(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'client': 'str'
+        'client': 'str',
     }
 
     attribute_map = {
-        'client': 'client'
+        'client': 'client',  # noqa: E501
     }
 
     def __init__(self, client=None):  # noqa: E501
-        """Client - a model defined in OpenAPI"""  # noqa: E501
+        """Client - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            client (str): [optional]  # noqa: E501
+        """
 
         self._client = None
         self.discriminator = None
 
         if client is not None:
-            self.client = client
+            self.client = client  # noqa: E501
 
     @property
     def client(self):
@@ -58,7 +64,9 @@ class Client(object):
         return self._client
 
     @client.setter
-    def client(self, client):
+    def client(
+            self,
+            client):
         """Sets the client of this Client.
 
 
@@ -66,7 +74,8 @@ class Client(object):
         :type: str
         """
 
-        self._client = client
+        self._client = (
+            client)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -82,6 +82,7 @@ export class {{classname}} {
 {{/useHttpClient}}
     }
 
+{{#hasSomeFormParams}}
     /**
      * @param consumes string[] mime-types
      * @return true: consumes contains 'multipart/form-data', false: otherwise
@@ -95,6 +96,7 @@ export class {{classname}} {
         }
         return false;
     }
+{{/hasSomeFormParams}}
 
 {{^useHttpClient}}
 {{! Before HttpClient implementation or method overloading we relied on 2 functions, 1 to return the straight body as json
@@ -129,8 +131,12 @@ export class {{classname}} {
 
 {{#operation}}
     /**
+{{#summary}}
      * {{summary}}
+{{/summary}}
+{{#notes}}
      * {{notes}}
+{{/notes}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}{{#useHttpClient}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.{{/useHttpClient}}
@@ -256,12 +262,25 @@ export class {{classname}} {
 {{/useHttpClient}}
         }
 
+{{#bodyParam}}
+{{- duplicated below, don't forget to change}}
         // to determine the Content-Type header
         const consumes: string[] = [
             {{#consumes}}
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/consumes}}
         ];
+{{/bodyParam}}
+{{#hasFormParams}}
+{{^bodyParam}}
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            {{#consumes}}
+            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            {{/consumes}}
+        ];
+{{/bodyParam}}
+{{/hasFormParams}}
 {{#bodyParam}}
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {

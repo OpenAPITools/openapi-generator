@@ -41,7 +41,7 @@ public class Pet implements Parcelable {
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
-  private Category category = null;
+  private Category category;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -53,7 +53,7 @@ public class Pet implements Parcelable {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags = new ArrayList<Tag>();
+  private List<Tag> tags = null;
 
   /**
    * pet status in the store
@@ -110,7 +110,9 @@ public class Pet implements Parcelable {
 
   public Pet() {
   }
+
   public Pet id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -119,17 +121,22 @@ public class Pet implements Parcelable {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Long getId() {
     return id;
   }
+
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public Pet category(Category category) {
+    
     this.category = category;
     return this;
   }
@@ -138,17 +145,22 @@ public class Pet implements Parcelable {
    * Get category
    * @return category
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Category getCategory() {
     return category;
   }
+
+
 
   public void setCategory(Category category) {
     this.category = category;
   }
 
+
   public Pet name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -157,17 +169,21 @@ public class Pet implements Parcelable {
    * Get name
    * @return name
   **/
-
   @ApiModelProperty(example = "doggie", required = true, value = "")
+
   public String getName() {
     return name;
   }
+
+
 
   public void setName(String name) {
     this.name = name;
   }
 
+
   public Pet photoUrls(List<String> photoUrls) {
+    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -181,17 +197,21 @@ public class Pet implements Parcelable {
    * Get photoUrls
    * @return photoUrls
   **/
-
   @ApiModelProperty(required = true, value = "")
+
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
+
+
 
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
+
   public Pet tags(List<Tag> tags) {
+    
     this.tags = tags;
     return this;
   }
@@ -208,17 +228,22 @@ public class Pet implements Parcelable {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<Tag> getTags() {
     return tags;
   }
+
+
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
+
   public Pet status(StatusEnum status) {
+    
     this.status = status;
     return this;
   }
@@ -227,11 +252,14 @@ public class Pet implements Parcelable {
    * pet status in the store
    * @return status
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "pet status in the store")
+
   public StatusEnum getStatus() {
     return status;
   }
+
+
 
   public void setStatus(StatusEnum status) {
     this.status = status;

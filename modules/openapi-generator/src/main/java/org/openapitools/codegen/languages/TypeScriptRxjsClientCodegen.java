@@ -42,10 +42,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     public TypeScriptRxjsClientCodegen() {
         super();
 
-        // clear import mapping (from default generator) as TS does not use it
-        // at the moment
-        importMapping.clear();
-
         outputFolder = "generated-code/typescript-rxjs";
         embeddedTemplateDir = templateDir = "typescript-rxjs";
 
@@ -54,6 +50,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         this.modelPackage = "models";
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
+
+        languageSpecificPrimitives.add("Blob");
+        typeMapping.put("file", "Blob");
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -91,6 +90,11 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
+    }
+
+    @Override
+    public boolean isDataTypeFile(final String dataType) {
+        return dataType != null && dataType.equals("Blob");
     }
 
     @Override
@@ -160,6 +164,33 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             }
         }
         return result;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        parameter.dataType = applyLocalTypeMapping(parameter.dataType);
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+        if (isLanguagePrimitive(openAPIType)) {
+            return openAPIType;
+        }
+        applyLocalTypeMapping(openAPIType);
+        return openAPIType;
+    }
+
+    private String applyLocalTypeMapping(String type) {
+        if (typeMapping.containsKey(type)) {
+            type = typeMapping.get(type);
+        }
+        return type;
+    }
+
+    private boolean isLanguagePrimitive(String type) {
+        return languageSpecificPrimitives.contains(type);
     }
 
     private void addNpmPackageGeneration() {
@@ -290,10 +321,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         this.reservedWords.add("ModelPropertyNaming");
         this.reservedWords.add("RequestArgs");
         this.reservedWords.add("RequestOpts");
+        this.reservedWords.add("ResponseArgs");
         this.reservedWords.add("exists");
-        this.reservedWords.add("RequestContext");
-        this.reservedWords.add("ResponseContext");
         this.reservedWords.add("Middleware");
+        this.reservedWords.add("AjaxRequest");
         this.reservedWords.add("AjaxResponse");
     }
 
@@ -310,6 +341,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.hasProduces = o.hasProduces;
             this.hasParams = o.hasParams;
             this.hasOptionalParams = o.hasOptionalParams;
+            this.hasRequiredParams = o.hasRequiredParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
@@ -318,6 +350,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.isMultipart = o.isMultipart;
             this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;
+            this.isResponseFile = o.isResponseFile;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
             this.isRestfulShow = o.isRestfulShow;
@@ -325,6 +358,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.isRestfulUpdate = o.isRestfulUpdate;
             this.isRestfulDestroy = o.isRestfulDestroy;
             this.isRestful = o.isRestful;
+            this.isDeprecated = o.isDeprecated;
+            this.isCallbackRequest = o.isCallbackRequest;
             this.path = o.path;
             this.operationId = o.operationId;
             this.returnType = o.returnType;
@@ -339,6 +374,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.discriminator = o.discriminator;
             this.consumes = o.consumes;
             this.produces = o.produces;
+            this.prioritizedContentTypes = o.prioritizedContentTypes;
+            this.servers = o.servers;
             this.bodyParam = o.bodyParam;
             this.allParams = o.allParams;
             this.bodyParams = o.bodyParams;
@@ -346,18 +383,23 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.queryParams = o.queryParams;
             this.headerParams = o.headerParams;
             this.formParams = o.formParams;
+            this.cookieParams = o.cookieParams;
             this.requiredParams = o.requiredParams;
             this.optionalParams = o.optionalParams;
             this.authMethods = o.authMethods;
             this.tags = o.tags;
             this.responses = o.responses;
+            this.callbacks = o.callbacks;
             this.imports = o.imports;
             this.examples = o.examples;
+            this.requestBodyExamples = o.requestBodyExamples;
             this.externalDocs = o.externalDocs;
             this.vendorExtensions = o.vendorExtensions;
             this.nickname = o.nickname;
+            this.operationIdOriginal = o.operationIdOriginal;
             this.operationIdLowerCase = o.operationIdLowerCase;
             this.operationIdCamelCase = o.operationIdCamelCase;
+            this.operationIdSnakeCase = o.operationIdSnakeCase;
 
             // new fields
             this.hasHttpHeaders = o.getHasHeaderParams() || o.getHasBodyParam() || o.hasAuthMethods;

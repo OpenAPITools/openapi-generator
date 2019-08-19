@@ -705,6 +705,8 @@ public class ApiClient {
         response = invocationBuilder.method("PATCH", entity);
       } else if ("HEAD".equals(method)) {
         response = invocationBuilder.head();
+      } else if ("TRACE".equals(method)) {
+        response = invocationBuilder.trace();
       } else {
         throw new ApiException(500, "unknown method type " + method);
       }

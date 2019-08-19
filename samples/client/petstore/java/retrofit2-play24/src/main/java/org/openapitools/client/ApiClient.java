@@ -8,6 +8,8 @@ import java.util.*;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import play.libs.Json;
 import play.libs.ws.WSClient;
@@ -68,10 +70,14 @@ public class ApiClient {
             auth.applyToParams(extraQueryParams, extraHeaders);
         }
 
+        ObjectMapper mapper = Json.mapper();
+        JsonNullableModule jnm = new JsonNullableModule();
+        mapper.registerModule(jnm);
+
         return new Retrofit.Builder()
                        .baseUrl(basePath)
                        .addConverterFactory(ScalarsConverterFactory.create())
-                       .addConverterFactory(JacksonConverterFactory.create(Json.mapper()))
+                       .addConverterFactory(JacksonConverterFactory.create(mapper))
                        .callFactory(new Play24CallFactory(wsClient, extraHeaders, extraQueryParams))
                        .addCallAdapterFactory(new Play24CallAdapterFactory())
                        .build()

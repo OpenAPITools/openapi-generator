@@ -7,9 +7,9 @@ import { QueryEncoder } from '@angular/http';
 
 {{#useHttpClient}}
 /**
-* Custom HttpParameterCodec
-* Workaround for https://github.com/angular/angular/issues/18261
-*/
+ * Custom HttpParameterCodec
+ * Workaround for https://github.com/angular/angular/issues/18261
+ */
 export class CustomHttpParameterCodec implements HttpParameterCodec {
     encodeKey(k: string): string {
         return encodeURIComponent(k);
@@ -27,10 +27,10 @@ export class CustomHttpParameterCodec implements HttpParameterCodec {
 {{/useHttpClient}}
 {{^useHttpClient}}
 /**
-* Custom QueryEncoder
-* Fix plus sign (+) not encoding, so sent as blank space
-* See: https://github.com/angular/angular/issues/11058#issuecomment-247367318
-*/
+ * Custom QueryEncoder
+ * Fix plus sign (+) not encoding, so sent as blank space
+ * See: https://github.com/angular/angular/issues/11058#issuecomment-247367318
+ */
 export class CustomQueryEncoderHelper extends QueryEncoder {
     encodeKey(k: string): string {
         k = super.encodeKey(k);

@@ -31,23 +31,33 @@ class EnumTest(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'enum_string': 'str',
         'enum_string_required': 'str',
+        'enum_string': 'str',
         'enum_integer': 'int',
         'enum_number': 'float',
-        'outer_enum': 'OuterEnum'
+        'outer_enum': 'OuterEnum',
     }
 
     attribute_map = {
-        'enum_string': 'enum_string',
-        'enum_string_required': 'enum_string_required',
-        'enum_integer': 'enum_integer',
-        'enum_number': 'enum_number',
-        'outer_enum': 'outerEnum'
+        'enum_string_required': 'enum_string_required',  # noqa: E501
+        'enum_string': 'enum_string',  # noqa: E501
+        'enum_integer': 'enum_integer',  # noqa: E501
+        'enum_number': 'enum_number',  # noqa: E501
+        'outer_enum': 'outerEnum',  # noqa: E501
     }
 
-    def __init__(self, enum_string=None, enum_string_required=None, enum_integer=None, enum_number=None, outer_enum=None):  # noqa: E501
-        """EnumTest - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, enum_string_required, enum_string=None, enum_integer=None, enum_number=None, outer_enum=None):  # noqa: E501
+        """EnumTest - a model defined in OpenAPI
+
+        Args:
+            enum_string_required (str):
+
+        Keyword Args:  # noqa: E501
+            enum_string (str): [optional]  # noqa: E501
+            enum_integer (int): [optional]  # noqa: E501
+            enum_number (float): [optional]  # noqa: E501
+            outer_enum (OuterEnum): [optional]  # noqa: E501
+        """
 
         self._enum_string = None
         self._enum_string_required = None
@@ -57,14 +67,14 @@ class EnumTest(object):
         self.discriminator = None
 
         if enum_string is not None:
-            self.enum_string = enum_string
+            self.enum_string = enum_string  # noqa: E501
         self.enum_string_required = enum_string_required
         if enum_integer is not None:
-            self.enum_integer = enum_integer
+            self.enum_integer = enum_integer  # noqa: E501
         if enum_number is not None:
-            self.enum_number = enum_number
+            self.enum_number = enum_number  # noqa: E501
         if outer_enum is not None:
-            self.outer_enum = outer_enum
+            self.outer_enum = outer_enum  # noqa: E501
 
     @property
     def enum_string(self):
@@ -77,7 +87,9 @@ class EnumTest(object):
         return self._enum_string
 
     @enum_string.setter
-    def enum_string(self, enum_string):
+    def enum_string(
+            self,
+            enum_string):
         """Sets the enum_string of this EnumTest.
 
 
@@ -91,7 +103,8 @@ class EnumTest(object):
                 .format(enum_string, allowed_values)
             )
 
-        self._enum_string = enum_string
+        self._enum_string = (
+            enum_string)
 
     @property
     def enum_string_required(self):
@@ -104,7 +117,9 @@ class EnumTest(object):
         return self._enum_string_required
 
     @enum_string_required.setter
-    def enum_string_required(self, enum_string_required):
+    def enum_string_required(
+            self,
+            enum_string_required):
         """Sets the enum_string_required of this EnumTest.
 
 
@@ -120,7 +135,8 @@ class EnumTest(object):
                 .format(enum_string_required, allowed_values)
             )
 
-        self._enum_string_required = enum_string_required
+        self._enum_string_required = (
+            enum_string_required)
 
     @property
     def enum_integer(self):
@@ -133,7 +149,9 @@ class EnumTest(object):
         return self._enum_integer
 
     @enum_integer.setter
-    def enum_integer(self, enum_integer):
+    def enum_integer(
+            self,
+            enum_integer):
         """Sets the enum_integer of this EnumTest.
 
 
@@ -147,7 +165,8 @@ class EnumTest(object):
                 .format(enum_integer, allowed_values)
             )
 
-        self._enum_integer = enum_integer
+        self._enum_integer = (
+            enum_integer)
 
     @property
     def enum_number(self):
@@ -160,7 +179,9 @@ class EnumTest(object):
         return self._enum_number
 
     @enum_number.setter
-    def enum_number(self, enum_number):
+    def enum_number(
+            self,
+            enum_number):
         """Sets the enum_number of this EnumTest.
 
 
@@ -174,7 +195,8 @@ class EnumTest(object):
                 .format(enum_number, allowed_values)
             )
 
-        self._enum_number = enum_number
+        self._enum_number = (
+            enum_number)
 
     @property
     def outer_enum(self):
@@ -187,7 +209,9 @@ class EnumTest(object):
         return self._outer_enum
 
     @outer_enum.setter
-    def outer_enum(self, outer_enum):
+    def outer_enum(
+            self,
+            outer_enum):
         """Sets the outer_enum of this EnumTest.
 
 
@@ -195,7 +219,8 @@ class EnumTest(object):
         :type: OuterEnum
         """
 
-        self._outer_enum = outer_enum
+        self._outer_enum = (
+            outer_enum)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

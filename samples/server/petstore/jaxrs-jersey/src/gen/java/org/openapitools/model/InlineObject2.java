@@ -60,7 +60,8 @@ public class InlineObject2   {
     }
   }
 
-  @JsonProperty("enum_form_string_array")
+  public static final String JSON_PROPERTY_ENUM_FORM_STRING_ARRAY = "enum_form_string_array";
+  @JsonProperty(JSON_PROPERTY_ENUM_FORM_STRING_ARRAY)
   private List<EnumFormStringArrayEnum> enumFormStringArray = null;
 
   /**
@@ -96,7 +97,8 @@ public class InlineObject2   {
     }
   }
 
-  @JsonProperty("enum_form_string")
+  public static final String JSON_PROPERTY_ENUM_FORM_STRING = "enum_form_string";
+  @JsonProperty(JSON_PROPERTY_ENUM_FORM_STRING)
   private EnumFormStringEnum enumFormString = EnumFormStringEnum._EFG;
 
   public InlineObject2 enumFormStringArray(List<EnumFormStringArrayEnum> enumFormStringArray) {

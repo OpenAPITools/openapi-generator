@@ -23,7 +23,7 @@ export interface ConfigurationParameters {
     username?: string; // parameter for basic security
     password?: string; // parameter for basic security
     apiKey?: string | ((name: string) => string); // parameter for apiKey security
-    accessToken?: string | ((name: string, scopes?: string[]) => string); // parameter for oauth2 security
+    accessToken?: string | ((name?: string, scopes?: string[]) => string); // parameter for oauth2 security
 }
 
 export class Configuration {
@@ -108,6 +108,7 @@ export class BaseAPI {
             method: requestOpts.method,
             headers: requestOpts.headers,
             body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
+            responseType: requestOpts.responseType || 'json'
         };
     }
 
@@ -160,6 +161,7 @@ export interface RequestOpts {
     headers?: HttpHeaders;
     query?: HttpQuery;
     body?: HttpBody;
+    responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
 }
 
 export const encodeURI = (value: any) => encodeURIComponent(String(value))

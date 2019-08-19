@@ -30,7 +30,8 @@ import javax.validation.Valid;
  */
 
 public class AdditionalPropertiesArray extends HashMap<String, List> implements Serializable {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
   public AdditionalPropertiesArray name(String name) {

@@ -28,7 +28,8 @@ import javax.validation.Valid;
 @ApiModel(description = "Model for testing reserved words")
 
 public class ModelReturn  implements Serializable {
-  @JsonProperty("return")
+  public static final String JSON_PROPERTY_RETURN = "return";
+  @JsonProperty(JSON_PROPERTY_RETURN)
   private Integer _return;
 
   public ModelReturn _return(Integer _return) {
