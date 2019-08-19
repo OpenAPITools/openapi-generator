@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -33,12 +34,13 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Dog")
 public class Dog extends Animal {
-  @JsonProperty("breed")
-  @JacksonXmlProperty(localName = "breed")
   @XmlElement(name = "breed")
+  public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
+
   public Dog breed(String breed) {
+    
     this.breed = breed;
     return this;
   }
@@ -47,11 +49,17 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "breed")
+
   public String getBreed() {
     return breed;
   }
+
+
 
   public void setBreed(String breed) {
     this.breed = breed;

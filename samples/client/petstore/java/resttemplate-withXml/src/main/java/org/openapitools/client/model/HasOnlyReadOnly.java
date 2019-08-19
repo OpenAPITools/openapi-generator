@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -31,35 +32,47 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "HasOnlyReadOnly")
 public class HasOnlyReadOnly {
-  @JsonProperty("bar")
-  @JacksonXmlProperty(localName = "bar")
   @XmlElement(name = "bar")
+  public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;
 
-  @JsonProperty("foo")
-  @JacksonXmlProperty(localName = "foo")
   @XmlElement(name = "foo")
+  public static final String JSON_PROPERTY_FOO = "foo";
   private String foo;
+
 
    /**
    * Get bar
    * @return bar
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "bar")
+
   public String getBar() {
     return bar;
   }
+
+
+
 
    /**
    * Get foo
    * @return foo
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "foo")
+
   public String getFoo() {
     return foo;
   }
+
+
 
 
   @Override

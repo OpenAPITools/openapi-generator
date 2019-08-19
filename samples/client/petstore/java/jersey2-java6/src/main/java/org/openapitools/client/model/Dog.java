@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -27,10 +28,12 @@ import org.openapitools.client.model.DogAllOf;
  */
 
 public class Dog extends Animal {
-  @JsonProperty("breed")
+  public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
+
   public Dog breed(String breed) {
+    
     this.breed = breed;
     return this;
   }
@@ -39,11 +42,16 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getBreed() {
     return breed;
   }
+
+
 
   public void setBreed(String breed) {
     this.breed = breed;

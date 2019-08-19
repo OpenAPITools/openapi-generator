@@ -561,4 +561,71 @@ if (param2 != null) localVarFormParams.put("param2", param2);
 
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
+    /**
+     * 
+     * To test the collection format in query parameters
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = null;
+        
+        // verify the required parameter 'pipe' is set
+        if (pipe == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat"));
+            return;
+        }
+        
+        // verify the required parameter 'ioutil' is set
+        if (ioutil == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat"));
+            return;
+        }
+        
+        // verify the required parameter 'http' is set
+        if (http == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat"));
+            return;
+        }
+        
+        // verify the required parameter 'url' is set
+        if (url == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat"));
+            return;
+        }
+        
+        // verify the required parameter 'context' is set
+        if (context == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/test-query-paramters";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+        localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "pipe", pipe));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = {  };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+    }
 }

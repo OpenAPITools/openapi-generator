@@ -132,13 +132,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("URI", "String");
         typeMapping.put("ByteArray", "String");
 
-        cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based"));
+        cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based (for Dart 1.x only)"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
         cliOptions.add(new CliOption(PUB_VERSION, "Version in generated pubspec"));
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "source folder for generated code"));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "support dart2").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "Support Dart 2.x").defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override

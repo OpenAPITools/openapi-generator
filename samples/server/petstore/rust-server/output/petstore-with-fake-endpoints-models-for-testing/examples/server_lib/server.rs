@@ -6,9 +6,9 @@ use futures::{self, Future};
 use chrono;
 use std::collections::HashMap;
 use std::marker::PhantomData;
-
 use swagger;
 use swagger::{Has, XSpanIdString};
+use uuid;
 
 use petstore_with_fake_endpoints_models_for_testing::{Api, ApiError,
                       TestSpecialTagsResponse,

@@ -232,3 +232,7 @@ samples/client/petstore/elm/index.html
 # C
 samples/client/petstore/c/build
 samples/client/petstore/c/*.so
+
+# Ruby
+samples/openapi3/client/petstore/ruby/Gemfile.lock
+samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock

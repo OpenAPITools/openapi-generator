@@ -61,7 +61,7 @@ public class CodegenModel {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -118,6 +118,7 @@ public class CodegenModel {
                 .append("hasMoreModels", hasMoreModels)
                 .append("hasEnums", hasEnums)
                 .append("isEnum", isEnum)
+                .append("isNullable", isEnum)
                 .append("hasRequired", hasRequired)
                 .append("hasOptional", hasOptional)
                 .append("isArrayModel", isArrayModel)
@@ -138,86 +139,86 @@ public class CodegenModel {
         CodegenModel that = (CodegenModel) o;
 
         return Objects.equals(parent, that.parent) &&
-            Objects.equals(parentSchema, that.parentSchema) &&
-            Objects.equals(interfaces, that.interfaces) &&
-            Objects.equals(allParents, that.allParents) &&
-            Objects.equals(parentModel, that.parentModel) &&
-            Objects.equals(interfaceModels, that.interfaceModels) &&
-            Objects.equals(name, that.name) &&
-            Objects.equals(classname, that.classname) &&
-            Objects.equals(title, that.title) &&
-            Objects.equals(description, that.description) &&
-            Objects.equals(classVarName, that.classVarName) &&
-            Objects.equals(modelJson, that.modelJson) &&
-            Objects.equals(dataType, that.dataType) &&
-            Objects.equals(xmlPrefix, that.xmlPrefix) &&
-            Objects.equals(xmlNamespace, that.xmlNamespace) &&
-            Objects.equals(xmlName, that.xmlName) &&
-            Objects.equals(classFilename, that.classFilename) &&
-            Objects.equals(unescapedDescription, that.unescapedDescription) &&
-            Objects.equals(discriminator, that.discriminator) &&
-            Objects.equals(defaultValue, that.defaultValue) &&
-            Objects.equals(vars, that.vars) &&
-            Objects.equals(requiredVars, that.requiredVars) &&
-            Objects.equals(optionalVars, that.optionalVars) &&
-            Objects.equals(allVars, that.allVars) &&
-            Objects.equals(allowableValues, that.allowableValues) &&
-            Objects.equals(mandatory, that.mandatory) &&
-            Objects.equals(allMandatory, that.allMandatory) &&
-            Objects.equals(imports, that.imports) &&
-            Objects.equals(hasVars, that.hasVars) &&
-            Objects.equals(emptyVars, that.emptyVars) &&
-            Objects.equals(hasMoreModels, that.hasMoreModels) &&
-            Objects.equals(hasEnums, that.hasEnums) &&
-            Objects.equals(isEnum, that.isEnum) &&
-            Objects.equals(externalDocumentation, that.externalDocumentation) &&
-            Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly) &&
-            Objects.equals(hasChildren, that.hasChildren) &&
-            Objects.equals(parentVars, that.parentVars) &&
-            Objects.equals(vendorExtensions, that.vendorExtensions);
+                Objects.equals(parentSchema, that.parentSchema) &&
+                Objects.equals(interfaces, that.interfaces) &&
+                Objects.equals(allParents, that.allParents) &&
+                Objects.equals(parentModel, that.parentModel) &&
+                Objects.equals(interfaceModels, that.interfaceModels) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(classname, that.classname) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(classVarName, that.classVarName) &&
+                Objects.equals(modelJson, that.modelJson) &&
+                Objects.equals(dataType, that.dataType) &&
+                Objects.equals(xmlPrefix, that.xmlPrefix) &&
+                Objects.equals(xmlNamespace, that.xmlNamespace) &&
+                Objects.equals(xmlName, that.xmlName) &&
+                Objects.equals(classFilename, that.classFilename) &&
+                Objects.equals(unescapedDescription, that.unescapedDescription) &&
+                Objects.equals(discriminator, that.discriminator) &&
+                Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(vars, that.vars) &&
+                Objects.equals(requiredVars, that.requiredVars) &&
+                Objects.equals(optionalVars, that.optionalVars) &&
+                Objects.equals(allVars, that.allVars) &&
+                Objects.equals(allowableValues, that.allowableValues) &&
+                Objects.equals(mandatory, that.mandatory) &&
+                Objects.equals(allMandatory, that.allMandatory) &&
+                Objects.equals(imports, that.imports) &&
+                Objects.equals(hasVars, that.hasVars) &&
+                Objects.equals(emptyVars, that.emptyVars) &&
+                Objects.equals(hasMoreModels, that.hasMoreModels) &&
+                Objects.equals(hasEnums, that.hasEnums) &&
+                Objects.equals(isEnum, that.isEnum) &&
+                Objects.equals(externalDocumentation, that.externalDocumentation) &&
+                Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly) &&
+                Objects.equals(hasChildren, that.hasChildren) &&
+                Objects.equals(parentVars, that.parentVars) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-            parent,
-            parentSchema,
-            interfaces,
-            allParents,
-            parentModel,
-            interfaceModels,
-            name,
-            classname,
-            title,
-            description,
-            classVarName,
-            modelJson,
-            dataType,
-            xmlPrefix,
-            xmlNamespace,
-            xmlName,
-            classFilename,
-            unescapedDescription,
-            discriminator,
-            defaultValue,
-            vars,
-            requiredVars,
-            optionalVars,
-            allVars,
-            allowableValues,
-            mandatory,
-            allMandatory,
-            imports,
-            hasVars,
-            emptyVars,
-            hasMoreModels,
-            hasEnums,
-            isEnum,
-            externalDocumentation,
-            vendorExtensions,
-            hasOnlyReadOnly,
-            hasChildren,
-            parentVars);
+                parent,
+                parentSchema,
+                interfaces,
+                allParents,
+                parentModel,
+                interfaceModels,
+                name,
+                classname,
+                title,
+                description,
+                classVarName,
+                modelJson,
+                dataType,
+                xmlPrefix,
+                xmlNamespace,
+                xmlName,
+                classFilename,
+                unescapedDescription,
+                discriminator,
+                defaultValue,
+                vars,
+                requiredVars,
+                optionalVars,
+                allVars,
+                allowableValues,
+                mandatory,
+                allMandatory,
+                imports,
+                hasVars,
+                emptyVars,
+                hasMoreModels,
+                hasEnums,
+                isEnum,
+                externalDocumentation,
+                vendorExtensions,
+                hasOnlyReadOnly,
+                hasChildren,
+                parentVars);
     }
 
     public String getParent() {

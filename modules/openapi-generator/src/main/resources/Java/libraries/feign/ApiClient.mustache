@@ -12,6 +12,7 @@ import org.threeten.bp.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
@@ -177,6 +178,8 @@ public class ApiClient {
     module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
     objectMapper.registerModule(module);
     {{/threetenbp}}
+    JsonNullableModule jnm = new JsonNullableModule();
+    objectMapper.registerModule(jnm);
     return objectMapper;
   }
 

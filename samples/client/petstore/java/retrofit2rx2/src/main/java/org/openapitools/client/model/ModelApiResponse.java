@@ -41,7 +41,9 @@ public class ModelApiResponse {
   @SerializedName(SERIALIZED_NAME_MESSAGE)
   private String message;
 
+
   public ModelApiResponse code(Integer code) {
+    
     this.code = code;
     return this;
   }
@@ -50,17 +52,22 @@ public class ModelApiResponse {
    * Get code
    * @return code
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer getCode() {
     return code;
   }
+
+
 
   public void setCode(Integer code) {
     this.code = code;
   }
 
+
   public ModelApiResponse type(String type) {
+    
     this.type = type;
     return this;
   }
@@ -69,17 +76,22 @@ public class ModelApiResponse {
    * Get type
    * @return type
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getType() {
     return type;
   }
+
+
 
   public void setType(String type) {
     this.type = type;
   }
 
+
   public ModelApiResponse message(String message) {
+    
     this.message = message;
     return this;
   }
@@ -88,11 +100,14 @@ public class ModelApiResponse {
    * Get message
    * @return message
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getMessage() {
     return message;
   }
+
+
 
   public void setMessage(String message) {
     this.message = message;

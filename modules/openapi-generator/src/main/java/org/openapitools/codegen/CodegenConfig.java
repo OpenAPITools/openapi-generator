@@ -44,6 +44,8 @@ public interface CodegenConfig {
 
     Map<String, Object> additionalProperties();
 
+    Map<String, String> serverVariableOverrides();
+
     Map<String, Object> vendorExtensions();
 
     String testPackage();

@@ -149,6 +149,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (CollectionType.LIST.value.equals(collectionType)) {
             typeMapping.put("array", "kotlin.collections.List");
             typeMapping.put("list", "kotlin.collections.List");
+            additionalProperties.put("isList", true);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));

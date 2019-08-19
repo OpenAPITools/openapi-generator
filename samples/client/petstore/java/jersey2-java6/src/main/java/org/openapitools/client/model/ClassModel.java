@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -26,10 +27,12 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Model for testing model with \"_class\" property")
 
 public class ClassModel {
-  @JsonProperty("_class")
+  public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   private String propertyClass;
 
+
   public ClassModel propertyClass(String propertyClass) {
+    
     this.propertyClass = propertyClass;
     return this;
   }
@@ -38,11 +41,16 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getPropertyClass() {
     return propertyClass;
   }
+
+
 
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

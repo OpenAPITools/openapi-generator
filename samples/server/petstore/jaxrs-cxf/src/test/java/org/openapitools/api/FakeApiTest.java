@@ -313,4 +313,22 @@ public class FakeApiTest {
         
     }
     
+    /**
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTest() {
+        List<String> pipe = null;
+        List<String> ioutil = null;
+        List<String> http = null;
+        List<String> url = null;
+        List<String> context = null;
+        //api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+        
+        // TODO: test validations
+        
+        
+    }
+    
 }

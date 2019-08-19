@@ -29,7 +29,8 @@ import javax.validation.Valid;
  */
 
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
   public AdditionalPropertiesNumber name(String name) {

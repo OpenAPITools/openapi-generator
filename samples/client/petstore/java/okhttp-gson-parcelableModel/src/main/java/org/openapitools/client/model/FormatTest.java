@@ -90,7 +90,9 @@ public class FormatTest implements Parcelable {
 
   public FormatTest() {
   }
+
   public FormatTest integer(Integer integer) {
+    
     this.integer = integer;
     return this;
   }
@@ -101,17 +103,22 @@ public class FormatTest implements Parcelable {
    * maximum: 100
    * @return integer
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer getInteger() {
     return integer;
   }
+
+
 
   public void setInteger(Integer integer) {
     this.integer = integer;
   }
 
+
   public FormatTest int32(Integer int32) {
+    
     this.int32 = int32;
     return this;
   }
@@ -122,17 +129,22 @@ public class FormatTest implements Parcelable {
    * maximum: 200
    * @return int32
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer getInt32() {
     return int32;
   }
+
+
 
   public void setInt32(Integer int32) {
     this.int32 = int32;
   }
 
+
   public FormatTest int64(Long int64) {
+    
     this.int64 = int64;
     return this;
   }
@@ -141,17 +153,22 @@ public class FormatTest implements Parcelable {
    * Get int64
    * @return int64
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Long getInt64() {
     return int64;
   }
+
+
 
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
 
+
   public FormatTest number(BigDecimal number) {
+    
     this.number = number;
     return this;
   }
@@ -162,17 +179,21 @@ public class FormatTest implements Parcelable {
    * maximum: 543.2
    * @return number
   **/
-
   @ApiModelProperty(required = true, value = "")
+
   public BigDecimal getNumber() {
     return number;
   }
+
+
 
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
 
+
   public FormatTest _float(Float _float) {
+    
     this._float = _float;
     return this;
   }
@@ -183,17 +204,22 @@ public class FormatTest implements Parcelable {
    * maximum: 987.6
    * @return _float
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Float getFloat() {
     return _float;
   }
+
+
 
   public void setFloat(Float _float) {
     this._float = _float;
   }
 
+
   public FormatTest _double(Double _double) {
+    
     this._double = _double;
     return this;
   }
@@ -204,17 +230,22 @@ public class FormatTest implements Parcelable {
    * maximum: 123.4
    * @return _double
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Double getDouble() {
     return _double;
   }
+
+
 
   public void setDouble(Double _double) {
     this._double = _double;
   }
 
+
   public FormatTest string(String string) {
+    
     this.string = string;
     return this;
   }
@@ -223,17 +254,22 @@ public class FormatTest implements Parcelable {
    * Get string
    * @return string
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getString() {
     return string;
   }
+
+
 
   public void setString(String string) {
     this.string = string;
   }
 
+
   public FormatTest _byte(byte[] _byte) {
+    
     this._byte = _byte;
     return this;
   }
@@ -242,17 +278,21 @@ public class FormatTest implements Parcelable {
    * Get _byte
    * @return _byte
   **/
-
   @ApiModelProperty(required = true, value = "")
+
   public byte[] getByte() {
     return _byte;
   }
+
+
 
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
 
+
   public FormatTest binary(File binary) {
+    
     this.binary = binary;
     return this;
   }
@@ -261,17 +301,22 @@ public class FormatTest implements Parcelable {
    * Get binary
    * @return binary
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public File getBinary() {
     return binary;
   }
+
+
 
   public void setBinary(File binary) {
     this.binary = binary;
   }
 
+
   public FormatTest date(LocalDate date) {
+    
     this.date = date;
     return this;
   }
@@ -280,17 +325,21 @@ public class FormatTest implements Parcelable {
    * Get date
    * @return date
   **/
-
   @ApiModelProperty(required = true, value = "")
+
   public LocalDate getDate() {
     return date;
   }
+
+
 
   public void setDate(LocalDate date) {
     this.date = date;
   }
 
+
   public FormatTest dateTime(OffsetDateTime dateTime) {
+    
     this.dateTime = dateTime;
     return this;
   }
@@ -299,17 +348,22 @@ public class FormatTest implements Parcelable {
    * Get dateTime
    * @return dateTime
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
+
+
 
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
+
   public FormatTest uuid(UUID uuid) {
+    
     this.uuid = uuid;
     return this;
   }
@@ -318,17 +372,22 @@ public class FormatTest implements Parcelable {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+
   public UUID getUuid() {
     return uuid;
   }
+
+
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
+
   public FormatTest password(String password) {
+    
     this.password = password;
     return this;
   }
@@ -337,11 +396,13 @@ public class FormatTest implements Parcelable {
    * Get password
    * @return password
   **/
-
   @ApiModelProperty(required = true, value = "")
+
   public String getPassword() {
     return password;
   }
+
+
 
   public void setPassword(String password) {
     this.password = password;

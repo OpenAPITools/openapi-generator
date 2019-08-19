@@ -35,7 +35,9 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+
   public AdditionalPropertiesObject name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -44,11 +46,14 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable 
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getName() {
     return name;
   }
+
+
 
   public void setName(String name) {
     this.name = name;
