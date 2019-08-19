@@ -18,51 +18,38 @@
 
 namespace test_namespace {
 
-PFXPetApi::PFXPetApi() : basePath("/v2"),
-    host("petstore.swagger.io"),
-    timeout(0){
-
+PFXPetApi::PFXPetApi(const QString& basePath, const int timeOut) :
+    _basePath(basePath),
+    _timeOut(timeOut) {
 }
 
 PFXPetApi::~PFXPetApi() {
-
-}
-
-PFXPetApi::PFXPetApi(const QString& host, const QString& basePath, const int tout) {
-    this->host = host;
-    this->basePath = basePath;
-    this->timeout = tout;
 }
 
 void PFXPetApi::setBasePath(const QString& basePath){
-    this->basePath = basePath;
+    _basePath = basePath;
 }
 
-void PFXPetApi::setHost(const QString& host){
-    this->host = host;
-}
-
-void PFXPetApi::setApiTimeOutMs(const int tout){
-    timeout = tout;
+void PFXPetApi::setTimeOut(const int timeOut){
+    _timeOut = timeOut;
 }
 
 void PFXPetApi::setWorkingDirectory(const QString& path){
-    workingDirectory = path;
+    _workingDirectory = path;
 }
 
 void PFXPetApi::addHeaders(const QString& key, const QString& value){
     defaultHeaders.insert(key, value);
 }
 
-
 void
 PFXPetApi::addPet(const PFXPet& body) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/pet");
+    fullPath.append(_basePath).append("/pet");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
     
     
@@ -108,14 +95,14 @@ PFXPetApi::addPetCallback(PFXHttpRequestWorker * worker) {
 void
 PFXPetApi::deletePet(const qint64& pet_id, const QString& api_key) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
+    fullPath.append(_basePath).append("/pet/{petId}");
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "DELETE");
     
 
@@ -161,7 +148,7 @@ PFXPetApi::deletePetCallback(PFXHttpRequestWorker * worker) {
 void
 PFXPetApi::findPetsByStatus(const QList<QString>& status) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/pet/findByStatus");
+    fullPath.append(_basePath).append("/pet/findByStatus");
     
     if (status.size() > 0) {
       if (QString("csv").indexOf("multi") == 0) {
@@ -204,8 +191,8 @@ PFXPetApi::findPetsByStatus(const QList<QString>& status) {
     }
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
     
 
@@ -258,7 +245,7 @@ PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker * worker) {
 void
 PFXPetApi::findPetsByTags(const QList<QString>& tags) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/pet/findByTags");
+    fullPath.append(_basePath).append("/pet/findByTags");
     
     if (tags.size() > 0) {
       if (QString("csv").indexOf("multi") == 0) {
@@ -301,8 +288,8 @@ PFXPetApi::findPetsByTags(const QList<QString>& tags) {
     }
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
     
 
@@ -355,14 +342,14 @@ PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker * worker) {
 void
 PFXPetApi::getPetById(const qint64& pet_id) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
+    fullPath.append(_basePath).append("/pet/{petId}");
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
     
 
@@ -406,11 +393,11 @@ PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker * worker) {
 void
 PFXPetApi::updatePet(const PFXPet& body) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/pet");
+    fullPath.append(_basePath).append("/pet");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "PUT");
     
     
@@ -456,14 +443,14 @@ PFXPetApi::updatePetCallback(PFXHttpRequestWorker * worker) {
 void
 PFXPetApi::updatePetWithForm(const qint64& pet_id, const QString& name, const QString& status) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
+    fullPath.append(_basePath).append("/pet/{petId}");
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
     
     input.add_var("name", ::test_namespace::toStringValue(name));
@@ -508,14 +495,14 @@ PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker * worker) {
 void
 PFXPetApi::uploadFile(const qint64& pet_id, const QString& additional_metadata, const PFXHttpFileElement& file) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
+    fullPath.append(_basePath).append("/pet/{petId}/uploadImage");
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
     
     input.add_var("additionalMetadata", ::test_namespace::toStringValue(additional_metadata));

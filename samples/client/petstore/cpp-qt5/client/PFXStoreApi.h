@@ -27,13 +27,11 @@ class PFXStoreApi: public QObject {
     Q_OBJECT
 
 public:
-    PFXStoreApi();
-    PFXStoreApi(const QString& host, const QString& basePath, const int toutMs = 0);
+    PFXStoreApi(const QString& basePath = "http://petstore.swagger.io/v2", const int timeOut = 0);
     ~PFXStoreApi();
 
     void setBasePath(const QString& basePath);
-    void setHost(const QString& host);
-    void setApiTimeOutMs(const int tout);
+    void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString& path);
     void addHeaders(const QString& key, const QString& value);
 
@@ -43,10 +41,9 @@ public:
     void placeOrder(const PFXOrder& body);
     
 private:
-    QString basePath;
-    QString host;
-    QString workingDirectory;
-    int timeout;
+    QString _basePath;
+    int _timeOut;
+    QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
     void deleteOrderCallback (PFXHttpRequestWorker * worker);
     void getInventoryCallback (PFXHttpRequestWorker * worker);
