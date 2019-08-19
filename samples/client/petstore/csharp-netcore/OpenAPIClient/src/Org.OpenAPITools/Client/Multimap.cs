@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        ///  Copies items of the Multimap to an array,
+        ///  Copy items of the Multimap to an array,
         ///     starting at a particular array index.
         /// </summary>
         /// <param name="array">The array that is the destination of the items copied
@@ -225,7 +225,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        ///  Copies the items of the Multimap to an System.Array,
+        ///  Copy the items of the Multimap to an System.Array,
         ///     starting at a particular System.Array index.
         /// </summary>
         /// <param name="array">The one-dimensional System.Array that is the destination of the items copied
