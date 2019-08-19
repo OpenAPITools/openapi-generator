@@ -16,8 +16,7 @@
  * A User who is purchasing from the pet store
  */
 
-#ifndef OAIUser_H
-#define OAIUser_H
+#pragma once
 
 #include <QJsonObject>
 
@@ -118,4 +117,3 @@ private:
 
 Q_DECLARE_METATYPE(OpenAPI::OAIUser)
 
-#endif // OAIUser_H

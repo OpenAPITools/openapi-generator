@@ -10,8 +10,7 @@
  * Do not edit the class manually.
  */
 
-#ifndef OAI_ENUM_H
-#define OAI_ENUM_H
+#pragma once
 
 #include <QString>
 #include <QJsonValue>
@@ -63,5 +62,3 @@ private :
 }
 
 Q_DECLARE_METATYPE(OpenAPI::OAIEnum)
-
-#endif // OAI_ENUM_H

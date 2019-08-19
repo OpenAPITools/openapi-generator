@@ -1,6 +1,5 @@
 {{>licenseInfo}}
-#ifndef {{prefix}}_OBJECT_H
-#define {{prefix}}_OBJECT_H
+#pragma once
 
 #include <QJsonObject>
 #include <QJsonDocument>
@@ -58,5 +57,3 @@ private :
 {{/cppNamespaceDeclarations}}
 
 Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}Object)
-
-#endif // {{prefix}}_OBJECT_H

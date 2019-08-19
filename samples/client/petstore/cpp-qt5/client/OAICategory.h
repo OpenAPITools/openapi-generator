@@ -16,8 +16,7 @@
  * A category for a pet
  */
 
-#ifndef OAICategory_H
-#define OAICategory_H
+#pragma once
 
 #include <QJsonObject>
 
@@ -70,4 +69,3 @@ private:
 
 Q_DECLARE_METATYPE(OpenAPI::OAICategory)
 
-#endif // OAICategory_H

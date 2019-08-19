@@ -16,8 +16,7 @@
  * Describes the result of uploading an image resource
  */
 
-#ifndef OAIApiResponse_H
-#define OAIApiResponse_H
+#pragma once
 
 #include <QJsonObject>
 
@@ -78,4 +77,3 @@ private:
 
 Q_DECLARE_METATYPE(OpenAPI::OAIApiResponse)
 
-#endif // OAIApiResponse_H

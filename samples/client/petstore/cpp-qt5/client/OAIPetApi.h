@@ -10,8 +10,7 @@
  * Do not edit the class manually.
  */
 
-#ifndef OAI_OAIPetApi_H
-#define OAI_OAIPetApi_H
+#pragma once
 
 #include "OAIHttpRequest.h"
 
@@ -97,4 +96,3 @@ signals:
 };
 
 }
-#endif

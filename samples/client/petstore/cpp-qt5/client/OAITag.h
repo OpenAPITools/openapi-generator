@@ -16,8 +16,7 @@
  * A tag for a pet
  */
 
-#ifndef OAITag_H
-#define OAITag_H
+#pragma once
 
 #include <QJsonObject>
 
@@ -70,4 +69,3 @@ private:
 
 Q_DECLARE_METATYPE(OpenAPI::OAITag)
 
-#endif // OAITag_H

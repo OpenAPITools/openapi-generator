@@ -1,6 +1,5 @@
 {{>licenseInfo}}
-#ifndef {{prefix}}_ENUM_H
-#define {{prefix}}_ENUM_H
+#pragma once
 
 #include <QString>
 #include <QJsonValue>
@@ -56,5 +55,3 @@ private :
 {{/cppNamespaceDeclarations}}
 
 Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}Enum)
-
-#endif // {{prefix}}_ENUM_H

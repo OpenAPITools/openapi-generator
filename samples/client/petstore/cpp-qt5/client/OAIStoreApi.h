@@ -10,8 +10,7 @@
  * Do not edit the class manually.
  */
 
-#ifndef OAI_OAIStoreApi_H
-#define OAI_OAIStoreApi_H
+#pragma once
 
 #include "OAIHttpRequest.h"
 
@@ -72,4 +71,3 @@ signals:
 };
 
 }
-#endif

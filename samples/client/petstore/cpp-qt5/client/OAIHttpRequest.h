@@ -16,8 +16,7 @@
  *
  **/
 
-#ifndef OAI_HTTPREQUESTWORKER_H
-#define OAI_HTTPREQUESTWORKER_H
+#pragma once
 
 #include <QObject>
 #include <QString>
@@ -88,5 +87,3 @@ private slots:
 };
 
 }
-
-#endif // OAI_HTTPREQUESTWORKER_H

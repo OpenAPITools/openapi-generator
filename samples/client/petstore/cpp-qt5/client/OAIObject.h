@@ -10,8 +10,7 @@
  * Do not edit the class manually.
  */
 
-#ifndef OAI_OBJECT_H
-#define OAI_OBJECT_H
+#pragma once
 
 #include <QJsonObject>
 #include <QJsonDocument>
@@ -65,5 +64,3 @@ private :
 }
 
 Q_DECLARE_METATYPE(OpenAPI::OAIObject)
-
-#endif // OAI_OBJECT_H

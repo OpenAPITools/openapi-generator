@@ -10,8 +10,7 @@
  * Do not edit the class manually.
  */
 
-#ifndef OAI_HELPERS_H
-#define OAI_HELPERS_H
+#pragma once
 
 #include <QJsonObject>
 #include <QJsonValue>
@@ -159,5 +158,3 @@ namespace OpenAPI {
     }
 
 }
-
-#endif // OAI_HELPERS_H

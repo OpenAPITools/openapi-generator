@@ -5,8 +5,7 @@
  * {{description}}
  */
 
-#ifndef {{classname}}_H
-#define {{classname}}_H
+#pragma once
 
 #include <QJsonObject>
 
@@ -76,6 +75,5 @@ private:
 
 Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{classname}})
 
-#endif // {{classname}}_H
 {{/model}}
 {{/models}}

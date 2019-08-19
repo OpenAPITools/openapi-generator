@@ -16,8 +16,7 @@
  * A pet for sale in the pet store
  */
 
-#ifndef OAIPet_H
-#define OAIPet_H
+#pragma once
 
 #include <QJsonObject>
 
@@ -105,4 +104,3 @@ private:
 
 Q_DECLARE_METATYPE(OpenAPI::OAIPet)
 
-#endif // OAIPet_H

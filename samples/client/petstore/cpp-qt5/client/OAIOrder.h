@@ -16,8 +16,7 @@
  * An order for a pets from the pet store
  */
 
-#ifndef OAIOrder_H
-#define OAIOrder_H
+#pragma once
 
 #include <QJsonObject>
 
@@ -103,4 +102,3 @@ private:
 
 Q_DECLARE_METATYPE(OpenAPI::OAIOrder)
 
-#endif // OAIOrder_H
