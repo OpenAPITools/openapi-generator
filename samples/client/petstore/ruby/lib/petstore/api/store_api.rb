@@ -43,7 +43,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.delete_order"
       end
       # resource path
-      local_var_path = '/store/order/{order_id}'.sub('{' + 'order_id' + '}', CGI.escape(order_id.to_s).gsub('%2F', '/'))
+      local_var_path = '/store/order/{order_id}'.sub('{' + 'order_id' + '}', CGI.escape(order_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -167,7 +167,7 @@ module Petstore
       end
 
       # resource path
-      local_var_path = '/store/order/{order_id}'.sub('{' + 'order_id' + '}', CGI.escape(order_id.to_s).gsub('%2F', '/'))
+      local_var_path = '/store/order/{order_id}'.sub('{' + 'order_id' + '}', CGI.escape(order_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
