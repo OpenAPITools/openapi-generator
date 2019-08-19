@@ -33,6 +33,20 @@ import java.util.Objects;
 public class WorkflowSettings {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowSettings.class);
+    public static final String DEFAULT_INPUT_SPEC = null;
+    public static final String DEFAULT_OUTPUT_DIR = ".";
+    public static final boolean DEFAULT_VERBOSE = false;
+    public static final boolean DEFAULT_SKIP_OVERWRITE = false;
+    public static final boolean DEFAULT_REMOVE_OPERATION_ID_PREFIX = false;
+    public static final boolean DEFAULT_LOG_TO_STDERR = false;
+    public static final boolean DEFAULT_VALIDATE_SPEC = true;
+    public static final boolean DEFAULT_ENABLE_POST_PROCESS_FILE = false;
+    public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
+    public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
+    public static final String DEFAULT_TEMPLATE_DIR = null;
+    public static final String DEFAULT_TEMPLATING_ENGINE_NAME = null;
+    public static final String DEFAULT_IGNORE_FILE_OVERRIDE = null;
+    public static final ImmutableMap<String, String> DEFAULT_SYSTEM_PROPERTIES = ImmutableMap.copyOf(new HashMap<>());
 
     private String inputSpec;
     private String outputDir;
@@ -51,20 +65,77 @@ public class WorkflowSettings {
 
     private WorkflowSettings(Builder builder) {
         this();
-        inputSpec = builder.inputSpec;
-        outputDir = builder.outputDir;
-        verbose = builder.verbose;
-        skipOverwrite = builder.skipOverwrite;
-        removeOperationIdPrefix = builder.removeOperationIdPrefix;
-        logToStderr = builder.logToStderr;
-        validateSpec = builder.validateSpec;
-        enablePostProcessFile = builder.enablePostProcessFile;
-        enableMinimalUpdate = builder.enableMinimalUpdate;
-        strictSpecBehavior = builder.strictSpecBehavior;
-        templateDir = builder.templateDir;
-        templatingEngineName = builder.templatingEngineName;
-        ignoreFileOverride = builder.ignoreFileOverride;
-        systemProperties = ImmutableMap.copyOf(builder.systemProperties);
+        if (builder.inputSpec == null) {
+            this.inputSpec = DEFAULT_INPUT_SPEC;
+        } else {
+            this.inputSpec = builder.inputSpec;
+        }
+        if (builder.outputDir == null) {
+            this.outputDir = DEFAULT_OUTPUT_DIR;
+        } else {
+            this.outputDir = builder.outputDir;
+        }
+        if (builder.verbose == null) {
+            this.verbose = DEFAULT_VERBOSE;
+        } else {
+            this.verbose = builder.verbose;
+        }
+        if (builder.skipOverwrite == null) {
+            this.skipOverwrite = DEFAULT_SKIP_OVERWRITE;
+        } else {
+            this.skipOverwrite = builder.skipOverwrite;
+        }
+        if (builder.removeOperationIdPrefix == null) {
+            this.removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
+        } else {
+            this.removeOperationIdPrefix = builder.removeOperationIdPrefix;
+        }
+        if (builder.logToStderr == null) {
+            this.logToStderr = DEFAULT_LOG_TO_STDERR;
+        } else {
+            this.logToStderr = builder.logToStderr;
+        }
+        if (builder.validateSpec == null) {
+            this.validateSpec = DEFAULT_VALIDATE_SPEC;
+        } else {
+            this.validateSpec = builder.validateSpec;
+        }
+        if (builder.enablePostProcessFile == null) {
+            this.enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
+        } else {
+            this.enablePostProcessFile = builder.enablePostProcessFile;
+        }
+        if (builder.enableMinimalUpdate == null) {
+            this.enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
+        } else {
+            this.enableMinimalUpdate = builder.enableMinimalUpdate;
+        }
+        if (builder.strictSpecBehavior == null) {
+            this.strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
+        } else {
+            this.strictSpecBehavior = builder.strictSpecBehavior;
+        }
+        if (builder.templateDir == null) {
+            this.templateDir = DEFAULT_TEMPLATE_DIR;
+        } else {
+            this.templateDir = builder.templateDir;
+        }
+        if (builder.templatingEngineName == null) {
+            this.templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
+        } else {
+            this.templatingEngineName = builder.templatingEngineName;
+        }
+        if (builder.ignoreFileOverride == null) {
+            this.ignoreFileOverride = DEFAULT_IGNORE_FILE_OVERRIDE;
+        } else {
+            this.ignoreFileOverride = builder.ignoreFileOverride;
+        }
+        if (builder.systemProperties == null) {
+            this.systemProperties = DEFAULT_SYSTEM_PROPERTIES;
+        } else {
+            this.systemProperties = ImmutableMap.copyOf(builder.systemProperties);
+        }
+
     }
 
     /**
@@ -251,14 +322,14 @@ public class WorkflowSettings {
     public static final class Builder {
         private String inputSpec;
         private String outputDir;
-        private boolean verbose;
-        private boolean skipOverwrite;
-        private boolean removeOperationIdPrefix;
-        private boolean logToStderr;
-        private boolean validateSpec;
-        private boolean enablePostProcessFile;
-        private boolean enableMinimalUpdate;
-        private boolean strictSpecBehavior;
+        private Boolean verbose;
+        private Boolean skipOverwrite;
+        private Boolean removeOperationIdPrefix;
+        private Boolean logToStderr;
+        private Boolean validateSpec;
+        private Boolean enablePostProcessFile;
+        private Boolean enableMinimalUpdate;
+        private Boolean strictSpecBehavior;
         private String templateDir;
         private String templatingEngineName;
         private String ignoreFileOverride;
@@ -270,9 +341,19 @@ public class WorkflowSettings {
         }
 
         private void setDefaults(){
-            validateSpec = true;
-            strictSpecBehavior = true;
-            outputDir = ".";
+            this.inputSpec = WorkflowSettings.DEFAULT_INPUT_SPEC;
+            this.outputDir = WorkflowSettings.DEFAULT_OUTPUT_DIR;
+            this.verbose = WorkflowSettings.DEFAULT_VERBOSE;
+            this.skipOverwrite = WorkflowSettings.DEFAULT_SKIP_OVERWRITE;
+            this.removeOperationIdPrefix = WorkflowSettings.DEFAULT_REMOVE_OPERATION_ID_PREFIX;
+            this.logToStderr = WorkflowSettings.DEFAULT_LOG_TO_STDERR;
+            this.validateSpec = WorkflowSettings.DEFAULT_VALIDATE_SPEC;
+            this.enablePostProcessFile = WorkflowSettings.DEFAULT_ENABLE_POST_PROCESS_FILE;
+            this.enableMinimalUpdate = WorkflowSettings.DEFAULT_ENABLE_MINIMAL_UPDATE;
+            this.strictSpecBehavior = WorkflowSettings.DEFAULT_STRICT_SPEC_BEHAVIOR;
+            this.templateDir = WorkflowSettings.DEFAULT_TEMPLATE_DIR;
+            this.templatingEngineName = WorkflowSettings.DEFAULT_TEMPLATING_ENGINE_NAME;
+            this.ignoreFileOverride = WorkflowSettings.DEFAULT_IGNORE_FILE_OVERRIDE;
         }
 
         /**
