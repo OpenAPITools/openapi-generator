@@ -3,9 +3,12 @@ package {{packageName}}
 
 {{#operations}}
 import (
-	"fmt"
+	{{#imports}}
+	"{{import}}"
+	{{/imports}}
 	"net/http"
 	"regexp"
+
 	"github.com/gin-gonic/gin"
 )
 

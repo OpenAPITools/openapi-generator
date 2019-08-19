@@ -66,6 +66,9 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
         additionalProperties.put("camelize",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(camelize(fragment.execute(), false)));
 
+        additionalProperties.put("base64encode",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(Base64.getEncoder().encodeToString(fragment.execute().getBytes())));
+
         modelPackage = apiPath;
         apiPackage = apiPath;
 
@@ -76,7 +79,6 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
          */
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
-        supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
     }
@@ -228,6 +230,10 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+        // remove unused imports to avoid error
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        imports.remove(createMapping("import", "github.com/antihax/optional"));
+        imports.remove(createMapping("import", "strings"));
 
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");

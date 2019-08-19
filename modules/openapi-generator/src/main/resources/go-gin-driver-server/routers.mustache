@@ -1,11 +1,15 @@
 {{>partial_header}}
 package {{packageName}}
 
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
 import (
 	"net/http"
 
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"encoding/base64"
 )
 
 // Logger interface
@@ -20,10 +24,11 @@ type Logger interface {
 
 // Configuration of the server
 type Configuration struct {
-	Port     int
-	TLS      bool
-	CertFile string
-	KeyFile  string
+	Port       int
+	TLS        bool
+	ServeReDoc bool
+	CertFile   string
+	KeyFile    string
 }
 
 // Server object
@@ -37,6 +42,10 @@ type Server struct {
 func (o *Server) Run() {
 	addr := fmt.Sprintf(":%d", o.cnf.Port)
 	router := NewRouter(&o.hndsc)
+
+	if o.cnf.ServeReDoc {
+		router = withReDoc(router)
+	}
 
 	o.log.Info(fmt.Sprintf("Server started [%s]", addr))
 
@@ -58,15 +67,9 @@ func NewServer(handlersCmd HandlerCommands, config *Configuration, logger Logger
 
 // HandlerCommands mapping
 type HandlerCommands struct {
-	{{#apiInfo}}
-	{{#apis}}
-	{{#operations}}
 	{{#operation}}
 	{{operationId}} Command
 	{{/operation}}
-	{{/operations}}
-	{{/apis}}
-	{{/apiInfo}}
 }
 
 // Route is the information for every URI.
@@ -93,9 +96,6 @@ func NewRouter(h *HandlerCommands) *gin.Engine {
 			"{{{basePathWithoutHost}}}/",
 			Index,
 		},
-		{{#apiInfo}}
-		{{#apis}}
-		{{#operations}}
 		{{#operation}}
 		{
 			"{{operationId}}",
@@ -104,9 +104,6 @@ func NewRouter(h *HandlerCommands) *gin.Engine {
 			New{{operationId}}Handler(h.{{operationId}}),
 		},
 		{{/operation}}
-		{{/operations}}
-		{{/apis}}
-		{{/apiInfo}}
 	}
 
 	router := gin.Default()
@@ -130,3 +127,28 @@ func NewRouter(h *HandlerCommands) *gin.Engine {
 func Index(c *gin.Context) {
 	c.String(http.StatusOK, "Hello World!")
 }
+
+func withReDoc(router *gin.Engine) *gin.Engine {
+	router.GET("{{{basePathWithoutHost}}}/doc/api_spec.yaml", func(c *gin.Context) {
+		p, err := base64.StdEncoding.DecodeString(ReDocAPISpec)
+		if err != nil {
+			panic(err)
+		}
+
+		c.Data(http.StatusOK, "text/x-yaml",p)
+	})
+
+	router.GET("{{{basePathWithoutHost}}}/doc", func(c *gin.Context) {
+		p, err := base64.StdEncoding.DecodeString(ReDocHTML)
+		if err != nil {
+			panic(err)
+		}
+
+		c.Data(http.StatusOK, "text/html; charset=utf-8", p)
+	})
+
+	return router
+}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
