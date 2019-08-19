@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class SpecialModelName {
-  public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
+  public static final String JSON_PROPERTY_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   private Long $specialPropertyName;
 
 
@@ -43,7 +43,7 @@ public class SpecialModelName {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(JSON_PROPERTY_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long get$SpecialPropertyName() {

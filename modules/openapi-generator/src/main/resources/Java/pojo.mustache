@@ -41,11 +41,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{/isXmlAttribute}}
   {{/withXml}}
   {{#gson}}
-  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
-  @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
+  public static final String SERIALIZED_NAME_{{vendorExtensions.x-java-const-name}} = "{{baseName}}";
+  @SerializedName(SERIALIZED_NAME_{{vendorExtensions.x-java-const-name}})
   {{/gson}}
   {{#jackson}}
-  public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
+  public static final String JSON_PROPERTY_{{vendorExtensions.x-java-const-name}} = "{{baseName}}";
   {{/jackson}}
   {{#vendorExtensions.isJacksonOptionalNullable}}
   {{#isContainer}}
@@ -197,7 +197,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
 
   {{^isReadOnly}}
   {{#vendorExtensions.isJacksonOptionalNullable}}
-  @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
+  @JsonProperty(JSON_PROPERTY_{{vendorExtensions.x-java-const-name}})
   public void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
     this.{{name}} = {{name}};
   }

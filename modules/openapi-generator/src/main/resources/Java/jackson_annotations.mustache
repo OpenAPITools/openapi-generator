@@ -4,7 +4,7 @@
  * If the field is required, always include it, even if it is null.
  * Else use custom behaviour, IOW use whatever is defined on the object mapper
  }}
-  @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
+  @JsonProperty(JSON_PROPERTY_{{vendorExtensions.x-java-const-name}})
   @JsonInclude({{#isMapContainer}}{{#items.isNullable}}content = JsonInclude.Include.ALWAYS, {{/items.isNullable}}{{/isMapContainer}}value = JsonInclude.Include.{{#required}}ALWAYS{{/required}}{{^required}}USE_DEFAULTS{{/required}})
   {{#withXml}}
     {{^isContainer}}
