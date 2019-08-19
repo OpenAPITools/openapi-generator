@@ -75,6 +75,7 @@ The following generators are available:
     - [csharp-nancyfx](generators/csharp-nancyfx.md)
     - [erlang-server](generators/erlang-server.md)
     - [fsharp-giraffe-server](generators/fsharp-giraffe-server.md)
+    - [go-gin-driver](generators/go-gin-driver.md)
     - [go-gin-server](generators/go-gin-server.md)
     - [go-server](generators/go-server.md)
     - [graphql-nodejs-express-server](generators/graphql-nodejs-express-server.md)
