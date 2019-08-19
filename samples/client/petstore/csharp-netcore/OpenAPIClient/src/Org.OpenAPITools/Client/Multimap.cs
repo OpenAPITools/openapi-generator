@@ -71,21 +71,44 @@ namespace Org.OpenAPITools.Client
             _dictionary.Clear();
         }
 
+        /// <summary>
+        /// Determines whether Multimap contains the specified item.
+        /// </summary>
+        /// <param name="item">Key value pair</param>
+        /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
+        /// <returns>true if the Multimap contains the element; otherwise, false.</returns>
         public bool Contains(KeyValuePair<T, IList<TValue>> item)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        ///  Copies the items of the Multimap to an array,
+        ///     starting at a particular array index.
+        /// </summary>
+        /// <param name="array">The array that is the destination of the elements copied
+        ///     from Multimap. The array must have zero-based indexing.</param>
+        /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+        /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
         public void CopyTo(KeyValuePair<T, IList<TValue>>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Removes the specified item from the Multimap.
+        /// </summary>
+        /// <param name="item">Key value pair</param>
+        /// <returns>true if the item is successfully removed; otherwise, false.</returns>
+        /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
         public bool Remove(KeyValuePair<T, IList<TValue>> item)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets the number of items contained in the Multimap.
+        /// </summary>
         public int Count
         {
             get
@@ -94,6 +117,9 @@ namespace Org.OpenAPITools.Client
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the Multimap is read-only.
+        /// </summary>
         public bool IsReadOnly
         {
             get
@@ -102,6 +128,12 @@ namespace Org.OpenAPITools.Client
             }
         }
 
+        /// <summary>
+        /// Adds an item with the provided key and value to the Multimap.
+        /// </summary>
+        /// <param name="key">The object to use as the key of the item to add.</param>
+        /// <param name="value">The object to use as the value of the item to add.</param>
+        /// <exception cref="InvalidOperationException">Thrown when couldn't add the value to Multimap.</exception>
         public void Add(T key, IList<TValue> value)
         {
             if (value != null && value.Count > 0)
@@ -120,22 +152,47 @@ namespace Org.OpenAPITools.Client
             }
         }
 
+        /// <summary>
+        /// Determines whether the Multimap contains an item with the specified key.
+        /// </summary>
+        /// <param name="key">The key to locate in the Multimap.</param>
+        /// <returns>true if the Multimap contains an item with
+        ///     the key; otherwise, false.</returns>
         public bool ContainsKey(T key)
         {
             return _dictionary.ContainsKey(key);
         }
 
+        /// <summary>
+        /// Removes item with the specified key from the Multimap.
+        /// </summary>
+        /// <param name="key">The key to locate in the Multimap.</param>
+        /// <returns>true if the element is successfully removed; otherwise, false.</returns>
         public bool Remove(T key)
         {
             IList<TValue> list;
             return TryRemove(key, out list);
         }
 
+        /// <summary>
+        /// Gets the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key whose value to get.</param>
+        /// <param name="value">When this method returns, the value associated with the specified key, if the
+        ///     key is found; otherwise, the default value for the type of the value parameter.
+        ///     This parameter is passed uninitialized.</param>
+        /// <returns> true if the object that implements Multimap contains
+        ///     an item with the specified key; otherwise, false.</returns>
         public bool TryGetValue(T key, out IList<TValue> value)
         {
             return _dictionary.TryGetValue(key, out value);
         }
 
+        /// <summary>
+        /// Gets or sets the item with the specified key.
+        /// </summary>
+        /// <param name="key">The key of the item to get or set.</param>
+        /// <returns>The value of the specified key.</returns>
         public IList<TValue> this[T key]
         {
             get
@@ -145,6 +202,9 @@ namespace Org.OpenAPITools.Client
             set { _dictionary[key] = value; }
         }
 
+        /// <summary>
+        /// Gets a System.Collections.Generic.ICollection containing the keys of the Multimap.
+        /// </summary>
         public ICollection<T> Keys
         {
             get
@@ -153,6 +213,9 @@ namespace Org.OpenAPITools.Client
             }
         }
 
+        /// <summary>
+        /// Gets a System.Collections.Generic.ICollection containing the values of the Multimap.
+        /// </summary>
         public ICollection<IList<TValue>> Values
         {
             get
@@ -161,11 +224,24 @@ namespace Org.OpenAPITools.Client
             }
         }
 
+        /// <summary>
+        ///  Copies the items of the Multimap to an System.Array,
+        ///     starting at a particular System.Array index.
+        /// </summary>
+        /// <param name="array">The one-dimensional System.Array that is the destination of the items copied
+        ///     from Multimap. The System.Array must have zero-based indexing.</param>
+        /// <param name="index">The zero-based index in array at which copying begins.</param>
         public void CopyTo(Array array, int index)
         {
             ((ICollection) _dictionary).CopyTo(array, index);
         }
 
+        /// <summary>
+        /// Adds an item with the provided key and value to the Multimap.
+        /// </summary>
+        /// <param name="key">The object to use as the key of the item to add.</param>
+        /// <param name="value">The object to use as the value of the item to add.</param>
+        /// <exception cref="InvalidOperationException">Thrown when couldn't add value to Multimap.</exception>
         public void Add(T key, TValue value)
         {
             if (value != null)
