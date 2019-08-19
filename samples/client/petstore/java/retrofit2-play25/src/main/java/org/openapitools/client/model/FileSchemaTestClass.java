@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -30,13 +31,15 @@ import javax.validation.Valid;
  */
 
 public class FileSchemaTestClass {
-  @JsonProperty("file")
-  private java.io.File file = null;
+  public static final String JSON_PROPERTY_FILE = "file";
+  private java.io.File file;
 
-  @JsonProperty("files")
-  private List<java.io.File> files = new ArrayList<>();
+  public static final String JSON_PROPERTY_FILES = "files";
+  private List<java.io.File> files = null;
+
 
   public FileSchemaTestClass file(java.io.File file) {
+    
     this.file = file;
     return this;
   }
@@ -45,17 +48,25 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public java.io.File getFile() {
     return file;
   }
+
+
 
   public void setFile(java.io.File file) {
     this.file = file;
   }
 
+
   public FileSchemaTestClass files(List<java.io.File> files) {
+    
     this.files = files;
     return this;
   }
@@ -72,11 +83,17 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   **/
+  @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public List<java.io.File> getFiles() {
     return files;
   }
+
+
 
   public void setFiles(List<java.io.File> files) {
     this.files = files;

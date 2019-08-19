@@ -7,4 +7,5 @@ public class CodegenServerVariable {
     public String defaultValue;
     public String description;
     public List<String> enumValues;
+    public String value;
 }

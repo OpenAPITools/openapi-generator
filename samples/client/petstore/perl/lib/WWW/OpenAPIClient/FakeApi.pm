@@ -1169,4 +1169,129 @@ sub test_json_form_data {
     return;
 }
 
+#
+# test_query_parameter_collection_format
+#
+# 
+# 
+# @param ARRAY[string] $pipe  (required)
+# @param ARRAY[string] $ioutil  (required)
+# @param ARRAY[string] $http  (required)
+# @param ARRAY[string] $url  (required)
+# @param ARRAY[string] $context  (required)
+{
+    my $params = {
+    'pipe' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    'ioutil' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    'http' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    'url' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    'context' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_query_parameter_collection_format' } = { 
+        summary => '',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_query_parameter_collection_format {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'pipe' is set
+    unless (exists $args{'pipe'}) {
+      croak("Missing the required parameter 'pipe' when calling test_query_parameter_collection_format");
+    }
+
+    # verify the required parameter 'ioutil' is set
+    unless (exists $args{'ioutil'}) {
+      croak("Missing the required parameter 'ioutil' when calling test_query_parameter_collection_format");
+    }
+
+    # verify the required parameter 'http' is set
+    unless (exists $args{'http'}) {
+      croak("Missing the required parameter 'http' when calling test_query_parameter_collection_format");
+    }
+
+    # verify the required parameter 'url' is set
+    unless (exists $args{'url'}) {
+      croak("Missing the required parameter 'url' when calling test_query_parameter_collection_format");
+    }
+
+    # verify the required parameter 'context' is set
+    unless (exists $args{'context'}) {
+      croak("Missing the required parameter 'context' when calling test_query_parameter_collection_format");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/test-query-paramters';
+
+    my $_method = 'PUT';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    # query params
+    if ( exists $args{'pipe'}) {
+        $query_params->{'pipe'} = $self->{api_client}->to_query_value($args{'pipe'});
+    }
+
+    # query params
+    if ( exists $args{'ioutil'}) {
+        $query_params->{'ioutil'} = $self->{api_client}->to_query_value($args{'ioutil'});
+    }
+
+    # query params
+    if ( exists $args{'http'}) {
+        $query_params->{'http'} = $self->{api_client}->to_query_value($args{'http'});
+    }
+
+    # query params
+    if ( exists $args{'url'}) {
+        $query_params->{'url'} = $self->{api_client}->to_query_value($args{'url'});
+    }
+
+    # query params
+    if ( exists $args{'context'}) {
+        $query_params->{'context'} = $self->{api_client}->to_query_value($args{'context'});
+    }
+
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
 1;

@@ -32,12 +32,12 @@ class Animal(object):
     """
     openapi_types = {
         'class_name': 'str',
-        'color': 'str'
+        'color': 'str',
     }
 
     attribute_map = {
-        'class_name': 'className',
-        'color': 'color'
+        'class_name': 'className',  # noqa: E501
+        'color': 'color',  # noqa: E501
     }
 
     discriminator_value_class_map = {
@@ -45,8 +45,15 @@ class Animal(object):
         'Cat': 'Cat'
     }
 
-    def __init__(self, class_name=None, color='red'):  # noqa: E501
-        """Animal - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, class_name, color=None):  # noqa: E501
+        """Animal - a model defined in OpenAPI
+
+        Args:
+            class_name (str):
+
+        Keyword Args:  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+        """
 
         self._class_name = None
         self._color = None
@@ -54,7 +61,7 @@ class Animal(object):
 
         self.class_name = class_name
         if color is not None:
-            self.color = color
+            self.color = color  # noqa: E501
 
     @property
     def class_name(self):
@@ -67,7 +74,9 @@ class Animal(object):
         return self._class_name
 
     @class_name.setter
-    def class_name(self, class_name):
+    def class_name(
+            self,
+            class_name):
         """Sets the class_name of this Animal.
 
 
@@ -77,7 +86,8 @@ class Animal(object):
         if class_name is None:
             raise ValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
 
-        self._class_name = class_name
+        self._class_name = (
+            class_name)
 
     @property
     def color(self):
@@ -90,7 +100,9 @@ class Animal(object):
         return self._color
 
     @color.setter
-    def color(self, color):
+    def color(
+            self,
+            color):
         """Sets the color of this Animal.
 
 
@@ -98,7 +110,8 @@ class Animal(object):
         :type: str
         """
 
-        self._color = color
+        self._color = (
+            color)
 
     def get_real_child_model(self, data):
         """Returns the real base class specified by the discriminator"""

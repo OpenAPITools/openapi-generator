@@ -6,12 +6,13 @@ use futures::{self, Future};
 use chrono;
 use std::collections::HashMap;
 use std::marker::PhantomData;
-
 use swagger;
 use swagger::{Has, XSpanIdString};
+use uuid;
 
 use openapi_v3::{Api, ApiError,
                       RequiredOctetStreamPutResponse,
+                      UuidGetResponse,
                       XmlExtraPostResponse,
                       XmlOtherPostResponse,
                       XmlOtherPutResponse,
@@ -37,6 +38,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn required_octet_stream_put(&self, body: swagger::ByteArray, context: &C) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
         let context = context.clone();
         println!("required_octet_stream_put({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+
+    fn uuid_get(&self, context: &C) -> Box<Future<Item=UuidGetResponse, Error=ApiError>> {
+        let context = context.clone();
+        println!("uuid_get() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

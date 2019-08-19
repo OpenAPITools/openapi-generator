@@ -647,5 +647,70 @@ export default class FakeApi {
       );
     }
 
+    /**
+     * Callback function to receive the result of the testQueryParameterCollectionFormat operation.
+     * @callback module:api/FakeApi~testQueryParameterCollectionFormatCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * To test the collection format in query parameters
+     * @param {Array.<String>} pipe 
+     * @param {Array.<String>} ioutil 
+     * @param {Array.<String>} http 
+     * @param {Array.<String>} url 
+     * @param {Array.<String>} context 
+     * @param {module:api/FakeApi~testQueryParameterCollectionFormatCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, callback) {
+      let postBody = null;
+      // verify the required parameter 'pipe' is set
+      if (pipe === undefined || pipe === null) {
+        throw new Error("Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
+      }
+      // verify the required parameter 'ioutil' is set
+      if (ioutil === undefined || ioutil === null) {
+        throw new Error("Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
+      }
+      // verify the required parameter 'http' is set
+      if (http === undefined || http === null) {
+        throw new Error("Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
+      }
+      // verify the required parameter 'url' is set
+      if (url === undefined || url === null) {
+        throw new Error("Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
+      }
+      // verify the required parameter 'context' is set
+      if (context === undefined || context === null) {
+        throw new Error("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'pipe': this.apiClient.buildCollectionParam(pipe, 'csv'),
+        'ioutil': this.apiClient.buildCollectionParam(ioutil, 'csv'),
+        'http': this.apiClient.buildCollectionParam(http, 'space'),
+        'url': this.apiClient.buildCollectionParam(url, 'csv'),
+        'context': this.apiClient.buildCollectionParam(context, 'multi')
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/test-query-paramters', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
 
 }

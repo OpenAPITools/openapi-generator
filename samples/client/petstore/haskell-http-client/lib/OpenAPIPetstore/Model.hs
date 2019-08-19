@@ -93,6 +93,9 @@ newtype Byte = Byte { unByte :: ByteArray } deriving (P.Eq, P.Show)
 -- ** Callback
 newtype Callback = Callback { unCallback :: Text } deriving (P.Eq, P.Show)
 
+-- ** Context
+newtype Context = Context { unContext :: [Text] } deriving (P.Eq, P.Show)
+
 -- ** EnumFormString
 newtype EnumFormString = EnumFormString { unEnumFormString :: E'EnumFormString } deriving (P.Eq, P.Show)
 
@@ -120,6 +123,9 @@ newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: 
 -- ** File2
 newtype File2 = File2 { unFile2 :: FilePath } deriving (P.Eq, P.Show)
 
+-- ** Http
+newtype Http = Http { unHttp :: [Text] } deriving (P.Eq, P.Show)
+
 -- ** Int32
 newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
 
@@ -128,6 +134,9 @@ newtype Int64 = Int64 { unInt64 :: Integer } deriving (P.Eq, P.Show)
 
 -- ** Int64Group
 newtype Int64Group = Int64Group { unInt64Group :: Integer } deriving (P.Eq, P.Show)
+
+-- ** Ioutil
+newtype Ioutil = Ioutil { unIoutil :: [Text] } deriving (P.Eq, P.Show)
 
 -- ** Name2
 newtype Name2 = Name2 { unName2 :: Text } deriving (P.Eq, P.Show)
@@ -180,6 +189,9 @@ newtype PatternWithoutDelimiter = PatternWithoutDelimiter { unPatternWithoutDeli
 -- ** PetId
 newtype PetId = PetId { unPetId :: Integer } deriving (P.Eq, P.Show)
 
+-- ** Pipe
+newtype Pipe = Pipe { unPipe :: [Text] } deriving (P.Eq, P.Show)
+
 -- ** Query
 newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
 
@@ -206,6 +218,9 @@ newtype StringGroup = StringGroup { unStringGroup :: Int } deriving (P.Eq, P.Sho
 
 -- ** Tags
 newtype Tags = Tags { unTags :: [Text] } deriving (P.Eq, P.Show)
+
+-- ** Url
+newtype Url = Url { unUrl :: [Text] } deriving (P.Eq, P.Show)
 
 -- ** Username
 newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)

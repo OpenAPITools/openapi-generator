@@ -5,11 +5,11 @@ extern crate native_tls;
 extern crate hyper_tls;
 extern crate openssl;
 extern crate mime;
-extern crate uuid;
 extern crate chrono;
 extern crate percent_encoding;
 extern crate url;
-
+extern crate uuid;
+extern crate multipart;
 
 use std::sync::Arc;
 use std::marker::PhantomData;
@@ -19,7 +19,9 @@ use hyper::{Request, Response, Error, StatusCode};
 use hyper::header::{Headers, ContentType};
 use self::url::form_urlencoded;
 use mimetypes;
-
+use self::multipart::server::Multipart;
+use self::multipart::server::save::SaveResult;
+use std::fs;
 use serde_json;
 use serde_xml_rs;
 
@@ -81,7 +83,7 @@ mod paths {
     extern crate regex;
 
     lazy_static! {
-        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
+        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/v2/another-fake/dummy$",
             r"^/v2/fake$",
             r"^/v2/fake/body-with-query-params$",
@@ -211,12 +213,6 @@ where
 
             // TestSpecialTags - PATCH /another-fake/dummy
             &hyper::Method::Patch if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -224,12 +220,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Client> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -237,7 +230,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -245,8 +237,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.test_special_tags(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -285,25 +275,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
             &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -311,26 +291,19 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::OuterBoolean> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-
                                         Err(_) => None,
                                     }
-
                                 } else {
                                     None
                                 };
-
-
                                 Box::new(api_impl.fake_outer_boolean_serialize(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -369,25 +342,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // FakeOuterCompositeSerialize - POST /fake/outer/composite
             &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -395,26 +358,19 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::OuterComposite> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-
                                         Err(_) => None,
                                     }
-
                                 } else {
                                     None
                                 };
-
-
                                 Box::new(api_impl.fake_outer_composite_serialize(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -453,25 +409,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // FakeOuterNumberSerialize - POST /fake/outer/number
             &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_NUMBER) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -479,26 +425,19 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::OuterNumber> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-
                                         Err(_) => None,
                                     }
-
                                 } else {
                                     None
                                 };
-
-
                                 Box::new(api_impl.fake_outer_number_serialize(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -537,25 +476,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // FakeOuterStringSerialize - POST /fake/outer/string
             &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_STRING) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -563,26 +492,19 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::OuterString> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-
                                         Err(_) => None,
                                     }
-
                                 } else {
                                     None
                                 };
-
-
                                 Box::new(api_impl.fake_outer_string_serialize(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -621,28 +543,18 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
             &hyper::Method::Put if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => {
-
-
-
-
-
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_query = query_params.iter().filter(|e| e.0 == "query").map(|e| e.1.to_owned())
-
                     .nth(0);
                 let param_query = match param_query {
                     Some(param_query) => match param_query.parse::<String>() {
@@ -651,8 +563,6 @@ where
                     },
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required query parameter query"))),
                 };
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -660,12 +570,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::User> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -673,7 +580,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -681,8 +587,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.test_body_with_query_params(param_query, param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -713,25 +617,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // TestClientModel - PATCH /fake
             &hyper::Method::Patch if path.matched(paths::ID_FAKE) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -739,12 +633,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Client> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -752,7 +643,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -760,8 +650,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.test_client_model(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -800,16 +688,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // TestEndpointParameters - POST /fake
             &hyper::Method::Post if path.matched(paths::ID_FAKE) => {
@@ -822,16 +706,8 @@ where
                     };
 
                 }
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 // Form parameters
                                 let param_integer = Some(56);
                                 let param_int32 = Some(56);
@@ -847,7 +723,6 @@ where
                                 let param_date_time = None;
                                 let param_password = Some("password_example".to_string());
                                 let param_callback = Some("callback_example".to_string());
-
                                 Box::new(api_impl.test_endpoint_parameters(param_number, param_double, param_pattern_without_delimiter, param_byte, param_integer, param_int32, param_int64, param_float, param_string, param_binary, param_date, param_date_time, param_password, param_callback, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -881,27 +756,17 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // TestEnumParameters - GET /fake
             &hyper::Method::Get if path.matched(paths::ID_FAKE) => {
-
-
-
                 // Header parameters
                 header! { (RequestEnumHeaderStringArray, "enum_header_string_array") => (String)* }
                 let param_enum_header_string_array = headers.get::<RequestEnumHeaderStringArray>().map(|header| header.0.clone());
                 header! { (RequestEnumHeaderString, "enum_header_string") => [String] }
                 let param_enum_header_string = headers.get::<RequestEnumHeaderString>().map(|header| header.0.clone());
-
-
-
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_enum_query_string_array = query_params.iter().filter(|e| e.0 == "enum_query_string_array").map(|e| e.1.to_owned())
@@ -913,29 +778,21 @@ where
                     None
                 };
                 let param_enum_query_string = query_params.iter().filter(|e| e.0 == "enum_query_string").map(|e| e.1.to_owned())
-
                     .nth(0);
 
                 let param_enum_query_string = param_enum_query_string.and_then(|param_enum_query_string| param_enum_query_string.parse::<>().ok());
                 let param_enum_query_integer = query_params.iter().filter(|e| e.0 == "enum_query_integer").map(|e| e.1.to_owned())
-
                     .nth(0);
 
                 let param_enum_query_integer = param_enum_query_integer.and_then(|param_enum_query_integer| param_enum_query_integer.parse::<>().ok());
                 let param_enum_query_double = query_params.iter().filter(|e| e.0 == "enum_query_double").map(|e| e.1.to_owned())
-
                     .nth(0);
 
                 let param_enum_query_double = param_enum_query_double.and_then(|param_enum_query_double| param_enum_query_double.parse::<>().ok());
-
-
-
                 Box::new({
                         {{
-
                                 // Form parameters
                                 let param_enum_form_string = Some("enum_form_string_example".to_string());
-
                                 Box::new(api_impl.test_enum_parameters(param_enum_header_string_array.as_ref(), param_enum_header_string, param_enum_query_string_array.as_ref(), param_enum_query_string, param_enum_query_integer, param_enum_query_double, param_enum_form_string, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -969,22 +826,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
             &hyper::Method::Post if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -992,12 +839,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_param: Option<HashMap<String, String>> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -1005,7 +849,6 @@ where
                                         Ok(param_param) => param_param,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter param - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -1013,8 +856,6 @@ where
                                     Some(param_param) => param_param,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter param"))),
                                 };
-
-
                                 Box::new(api_impl.test_inline_additional_properties(param_param, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1045,33 +886,20 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter param: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // TestJsonFormData - GET /fake/jsonFormData
             &hyper::Method::Get if path.matched(paths::ID_FAKE_JSONFORMDATA) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 // Form parameters
                                 let param_param = "param_example".to_string();
                                 let param_param2 = "param2_example".to_string();
-
                                 Box::new(api_impl.test_json_form_data(param_param, param_param2, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1098,13 +926,9 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // TestClassname - PATCH /fake_classname_test
             &hyper::Method::Patch if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => {
@@ -1117,12 +941,6 @@ where
                     };
 
                 }
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1130,12 +948,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Client> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -1143,7 +958,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -1151,8 +965,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.test_classname(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1191,16 +1003,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // AddPet - POST /pet
             &hyper::Method::Post if path.matched(paths::ID_PET) => {
@@ -1231,12 +1039,6 @@ where
                         }
                     }
                 }
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1244,11 +1046,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Pet> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -1256,7 +1056,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -1264,8 +1063,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.add_pet(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1296,16 +1093,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // DeletePet - DELETE /pet/{petId}
             &hyper::Method::Delete if path.matched(paths::ID_PET_PETID) => {
@@ -1336,8 +1129,6 @@ where
                         }
                     }
                 }
-
-
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -1346,7 +1137,6 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
@@ -1354,18 +1144,11 @@ where
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
                 };
-
                 // Header parameters
                 header! { (RequestApiKey, "api_key") => [String] }
                 let param_api_key = headers.get::<RequestApiKey>().map(|header| header.0.clone());
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.delete_pet(param_pet_id, param_api_key, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1392,13 +1175,9 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // FindPetsByStatus - GET /pet/findByStatus
             &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYSTATUS) => {
@@ -1429,22 +1208,13 @@ where
                         }
                     }
                 }
-
-
-
-
-
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_status = query_params.iter().filter(|e| e.0 == "status").map(|e| e.1.to_owned())
                     .filter_map(|param_status| param_status.parse::<String>().ok())
                     .collect::<Vec<_>>();
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.find_pets_by_status(param_status.as_ref(), &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1486,13 +1256,9 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // FindPetsByTags - GET /pet/findByTags
             &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYTAGS) => {
@@ -1523,22 +1289,13 @@ where
                         }
                     }
                 }
-
-
-
-
-
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_tags = query_params.iter().filter(|e| e.0 == "tags").map(|e| e.1.to_owned())
                     .filter_map(|param_tags| param_tags.parse::<String>().ok())
                     .collect::<Vec<_>>();
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.find_pets_by_tags(param_tags.as_ref(), &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1580,13 +1337,9 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // GetPetById - GET /pet/{petId}
             &hyper::Method::Get if path.matched(paths::ID_PET_PETID) => {
@@ -1599,8 +1352,6 @@ where
                     };
 
                 }
-
-
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -1609,7 +1360,6 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
@@ -1617,14 +1367,8 @@ where
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
                 };
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.get_pet_by_id(param_pet_id, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1673,13 +1417,9 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // UpdatePet - PUT /pet
             &hyper::Method::Put if path.matched(paths::ID_PET) => {
@@ -1710,12 +1450,6 @@ where
                         }
                     }
                 }
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1723,11 +1457,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Pet> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -1735,7 +1467,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -1743,8 +1474,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.update_pet(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1789,16 +1518,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // UpdatePetWithForm - POST /pet/{petId}
             &hyper::Method::Post if path.matched(paths::ID_PET_PETID) => {
@@ -1829,8 +1554,6 @@ where
                         }
                     }
                 }
-
-
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -1839,7 +1562,6 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
@@ -1847,18 +1569,11 @@ where
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
                 };
-
-
-
-
-
                 Box::new({
                         {{
-
                                 // Form parameters
                                 let param_name = Some("name_example".to_string());
                                 let param_status = Some("status_example".to_string());
-
                                 Box::new(api_impl.update_pet_with_form(param_pet_id, param_name, param_status, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1885,13 +1600,9 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // UploadFile - POST /pet/{petId}/uploadImage
             &hyper::Method::Post if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => {
@@ -1922,8 +1633,10 @@ where
                         }
                     }
                 }
-
-
+                let boundary = match multipart_boundary(&headers) {
+                    Some(boundary) => boundary.to_string(),
+                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
+                };
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -1932,7 +1645,6 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID_UPLOADIMAGE in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID_UPLOADIMAGE.as_str())
                     );
-
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
@@ -1940,18 +1652,48 @@ where
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
                 };
+                // Form Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                Box::new(body.concat2()
+                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                        match result {
+                            Ok(body) => {
+                                // Read Form Parameters from body
+                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
+                                    SaveResult::Full(entries) => {
+                                        entries
+                                    },
+                                    _ => {
+                                        return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Unable to process all message parts"))))
+                                    },
+                                };
+                
+                                
+                                let file_additional_metadata = entries.files.remove("additional_metadata");
+                                let param_additional_metadata = match file_additional_metadata {
+                                   Some(file) => {
+                                        let path = &file[0].path;
+                                        let additional_metadata_str = fs::read_to_string(path).unwrap();
+                                        let additional_metadata_model: String = serde_json::from_str(&additional_metadata_str).expect("Impossible to fail to serialise");
+                                        Some(additional_metadata_model)
+                                    }
+                                    None => None,
+                                };
+                                
 
-
-
-
-
-                Box::new({
-                        {{
-
-                                // Form parameters
-                                let param_additional_metadata = Some("additional_metadata_example".to_string());
-                                let param_file = Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")));
-
+                                
+                                let file_file = entries.files.remove("file");
+                                let param_file = match file_file {
+                                   Some(file) => {
+                                        let path = &file[0].path;
+                                        let file_str = fs::read_to_string(path).unwrap();
+                                        let file_model: swagger::ByteArray = serde_json::from_str(&file_str).expect("Impossible to fail to serialise");
+                                        Some(file_model)
+                                    }
+                                    None => None,
+                                };
+                                
                                 Box::new(api_impl.upload_file(param_pet_id, param_additional_metadata, param_file, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -1986,18 +1728,16 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-                        }}
-                }) as Box<Future<Item=Response, Error=Error>>
-
-
+                                as Box<Future<Item=Response, Error=Error>>
+                            },
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
+                        }
+                    })
+                )
             },
-
 
             // DeleteOrder - DELETE /store/order/{order_id}
             &hyper::Method::Delete if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
-
-
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -2006,7 +1746,6 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE STORE_ORDER_ORDER_ID in set but failed match against \"{}\"", path, paths::REGEX_STORE_ORDER_ORDER_ID.as_str())
                     );
-
                 let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
                     Ok(param_order_id) => match param_order_id.parse::<String>() {
                         Ok(param_order_id) => param_order_id,
@@ -2014,14 +1753,8 @@ where
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"]))))
                 };
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.delete_order(param_order_id, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2055,13 +1788,9 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // GetInventory - GET /store/inventory
             &hyper::Method::Get if path.matched(paths::ID_STORE_INVENTORY) => {
@@ -2074,16 +1803,8 @@ where
                     };
 
                 }
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.get_inventory(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2118,18 +1839,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // GetOrderById - GET /store/order/{order_id}
             &hyper::Method::Get if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
-
-
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -2138,7 +1853,6 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE STORE_ORDER_ORDER_ID in set but failed match against \"{}\"", path, paths::REGEX_STORE_ORDER_ORDER_ID.as_str())
                     );
-
                 let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
                     Ok(param_order_id) => match param_order_id.parse::<i64>() {
                         Ok(param_order_id) => param_order_id,
@@ -2146,14 +1860,8 @@ where
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"]))))
                 };
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.get_order_by_id(param_order_id, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2202,22 +1910,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // PlaceOrder - POST /store/order
             &hyper::Method::Post if path.matched(paths::ID_STORE_ORDER) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2225,12 +1923,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Order> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -2238,7 +1933,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -2246,8 +1940,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.place_order(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2293,25 +1985,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // CreateUser - POST /user
             &hyper::Method::Post if path.matched(paths::ID_USER) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2319,12 +2001,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::User> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -2332,7 +2011,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -2340,8 +2018,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.create_user(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2372,25 +2048,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // CreateUsersWithArrayInput - POST /user/createWithArray
             &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHARRAY) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2398,12 +2064,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<Vec<models::User>> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -2411,7 +2074,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -2419,8 +2081,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.create_users_with_array_input(param_body.as_ref(), &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2451,25 +2111,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // CreateUsersWithListInput - POST /user/createWithList
             &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHLIST) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2477,12 +2127,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<Vec<models::User>> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -2490,7 +2137,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -2498,8 +2144,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.create_users_with_list_input(param_body.as_ref(), &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2530,21 +2174,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // DeleteUser - DELETE /user/{username}
             &hyper::Method::Delete if path.matched(paths::ID_USER_USERNAME) => {
-
-
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -2553,7 +2191,6 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
                     );
-
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
@@ -2561,14 +2198,8 @@ where
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"]))))
                 };
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.delete_user(param_username, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2602,18 +2233,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // GetUserByName - GET /user/{username}
             &hyper::Method::Get if path.matched(paths::ID_USER_USERNAME) => {
-
-
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -2622,7 +2247,6 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
                     );
-
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
@@ -2630,14 +2254,8 @@ where
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"]))))
                 };
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.get_user_by_name(param_username, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2686,25 +2304,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // LoginUser - GET /user/login
             &hyper::Method::Get if path.matched(paths::ID_USER_LOGIN) => {
-
-
-
-
-
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_username = query_params.iter().filter(|e| e.0 == "username").map(|e| e.1.to_owned())
-
                     .nth(0);
                 let param_username = match param_username {
                     Some(param_username) => match param_username.parse::<String>() {
@@ -2714,7 +2322,6 @@ where
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required query parameter username"))),
                 };
                 let param_password = query_params.iter().filter(|e| e.0 == "password").map(|e| e.1.to_owned())
-
                     .nth(0);
                 let param_password = match param_password {
                     Some(param_password) => match param_password.parse::<String>() {
@@ -2723,12 +2330,8 @@ where
                     },
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required query parameter password"))),
                 };
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.login_user(param_username, param_password, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2779,26 +2382,14 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // LogoutUser - GET /user/logout
             &hyper::Method::Get if path.matched(paths::ID_USER_LOGOUT) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.logout_user(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2825,18 +2416,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // UpdateUser - PUT /user/{username}
             &hyper::Method::Put if path.matched(paths::ID_USER_USERNAME) => {
-
-
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -2845,7 +2430,6 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
                     );
-
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
@@ -2853,10 +2437,6 @@ where
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"]))))
                 };
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2864,12 +2444,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::User> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -2877,7 +2454,6 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -2885,8 +2461,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.update_user(param_username, param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -2924,16 +2498,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
         }
@@ -2948,6 +2518,18 @@ impl<T, C> Clone for Service<T, C>
             marker: self.marker.clone(),
         }
     }
+}
+
+/// Utility function to get the multipart boundary marker (if any) from the Headers.
+fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
+    headers.get::<ContentType>().and_then(|content_type| {
+        let ContentType(ref mime) = *content_type;
+        if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
+            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str())
+        } else {
+            None
+        }
+    })
 }
 
 /// Request parser for `Api`.

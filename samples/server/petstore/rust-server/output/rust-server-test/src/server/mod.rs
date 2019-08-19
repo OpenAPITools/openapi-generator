@@ -5,11 +5,9 @@ extern crate native_tls;
 extern crate hyper_tls;
 extern crate openssl;
 extern crate mime;
-extern crate uuid;
 extern crate chrono;
 extern crate percent_encoding;
 extern crate url;
-
 
 use std::sync::Arc;
 use std::marker::PhantomData;
@@ -19,9 +17,7 @@ use hyper::{Request, Response, Error, StatusCode};
 use hyper::header::{Headers, ContentType};
 use self::url::form_urlencoded;
 use mimetypes;
-
 use serde_json;
-
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
@@ -54,7 +50,7 @@ mod paths {
     extern crate regex;
 
     lazy_static! {
-        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
+        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/dummy$",
             r"^/file_response$",
             r"^/html$",
@@ -132,16 +128,8 @@ where
 
             // DummyGet - GET /dummy
             &hyper::Method::Get if path.matched(paths::ID_DUMMY) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.dummy_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -168,22 +156,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // DummyPut - PUT /dummy
             &hyper::Method::Put if path.matched(paths::ID_DUMMY) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -191,12 +169,9 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_nested_response: Option<models::InlineObject> = if !body.is_empty() {
-
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -204,7 +179,6 @@ where
                                         Ok(param_nested_response) => param_nested_response,
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter nested_response - doesn't match schema: {}", e)))),
                                     }
-
                                 } else {
                                     None
                                 };
@@ -212,8 +186,6 @@ where
                                     Some(param_nested_response) => param_nested_response,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter nested_response"))),
                                 };
-
-
                                 Box::new(api_impl.dummy_put(param_nested_response, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -244,29 +216,17 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter nested_response: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // FileResponseGet - GET /file_response
             &hyper::Method::Get if path.matched(paths::ID_FILE_RESPONSE) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.file_response_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -301,22 +261,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             // HtmlPost - POST /html
             &hyper::Method::Post if path.matched(paths::ID_HTML) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -325,9 +275,7 @@ where
                         match result {
                             Ok(body) => {
                                 let param_body: Option<String> = if !body.is_empty() {
-
                                     Some(String::from_utf8(body.to_vec()).unwrap())
-
                                 } else {
                                     None
                                 };
@@ -335,8 +283,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.html_post(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -371,29 +317,17 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // RawJsonGet - GET /raw_json
             &hyper::Method::Get if path.matched(paths::ID_RAW_JSON) => {
-
-
-
-
-
-
-
                 Box::new({
                         {{
-
                                 Box::new(api_impl.raw_json_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -428,13 +362,9 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-
-
             },
-
 
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
         }
@@ -450,6 +380,7 @@ impl<T, C> Clone for Service<T, C>
         }
     }
 }
+
 
 /// Request parser for `Api`.
 pub struct ApiRequestParser;

@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -27,10 +28,12 @@ import java.math.BigDecimal;
  */
 
 public class NumberOnly {
-  @JsonProperty("JustNumber")
+  public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   private BigDecimal justNumber;
 
+
   public NumberOnly justNumber(BigDecimal justNumber) {
+    
     this.justNumber = justNumber;
     return this;
   }
@@ -39,10 +42,16 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public BigDecimal getJustNumber() {
     return justNumber;
   }
+
+
 
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;

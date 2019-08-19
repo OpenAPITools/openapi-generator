@@ -4,9 +4,21 @@ import com.squareup.moshi.Json
 * {{{description}}}
 * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
-enum class {{classname}}(val value: {{dataType}}){
+enum class {{classname}}(val value: {{{dataType}}}){
+
 {{#allowableValues}}{{#enumVars}}
     @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{#isListContainer}}
+    {{#isList}}
+    {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/isList}}
+    {{^isList}}
+    {{&name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/isList}}
+    {{/isListContainer}}
+    {{^isListContainer}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/isListContainer}}
+
 {{/enumVars}}{{/allowableValues}}
 }
