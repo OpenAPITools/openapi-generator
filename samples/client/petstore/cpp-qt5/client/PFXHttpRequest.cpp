@@ -19,6 +19,7 @@
 #include <QFileInfo>
 #include <QBuffer>
 #include <QtGlobal>
+#include <QTimer>
 
 #include "PFXHttpRequest.h"
 
@@ -56,23 +57,15 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 
 
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr)
+    : QObject(parent), manager(nullptr), _timeOut(0)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
-    timeout = 0;
-    timer = new QTimer();
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();    
     connect(manager, &QNetworkAccessManager::finished, this, &PFXHttpRequestWorker::on_manager_finished);
 }
 
 PFXHttpRequestWorker::~PFXHttpRequestWorker() {
-    if(timer != nullptr){
-        if(timer->isActive()){
-            timer->stop();
-        }
-        timer->deleteLater();
-    }
     for (const auto & item: multiPartFields) {
         if(item != nullptr) {
             delete item;
@@ -106,8 +99,8 @@ QByteArray *PFXHttpRequestWorker::getMultiPartField(const QString &fieldname){
     return nullptr;
 }
 
-void PFXHttpRequestWorker::setTimeOut(int tout){
-    timeout = tout;
+void PFXHttpRequestWorker::setTimeOut(int timeOut){
+    _timeOut = _timeOut;
 }
 
 void PFXHttpRequestWorker::setWorkingDirectory(const QString &path){
@@ -367,11 +360,8 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if(timeout > 0){
-        timer->setSingleShot(true);
-        timer->setInterval(timeout);
-        connect(timer, &QTimer::timeout, this, [=](){ on_manager_timeout(reply); });
-        timer->start();
+    if(_timeOut > 0){
+        QTimer::singleShot(_timeOut, [=](){ on_manager_timeout(reply); });
     }
 }
 
