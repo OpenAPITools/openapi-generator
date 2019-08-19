@@ -986,7 +986,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             model.imports.add("ApiModel");
         }
 
-        // add java constancct name
+        // store java constant property name in vendor extension, remove dollar sign from the constant name
         property.vendorExtensions.put("x-java-const-name", CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase.replaceAll("\\$", "")));
     }
 
