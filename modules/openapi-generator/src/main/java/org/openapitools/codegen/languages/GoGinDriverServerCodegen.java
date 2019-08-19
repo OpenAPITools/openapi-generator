@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import org.openapitools.codegen.utils.ModelUtils;
@@ -67,7 +68,7 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
                 (Mustache.Lambda) (fragment, writer) -> writer.write(camelize(fragment.execute(), false)));
 
         additionalProperties.put("base64encode",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(Base64.getEncoder().encodeToString(fragment.execute().getBytes())));
+                (Mustache.Lambda) (fragment, writer) -> writer.write(Base64.getEncoder().encodeToString(fragment.execute().getBytes(StandardCharsets.UTF_8))));
 
         modelPackage = apiPath;
         apiPackage = apiPath;
@@ -115,7 +116,7 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
                 if (!cm.isAlias && cm.isEmptyVars() && cm.getImports().size() == 1 && cm.getInterfaces().size() == 1) {
                     CodegenModel im = ModelUtils.getModelByName(toModelName(cm.getInterfaces().get(0)), result);
                     cm.vendorExtensions.put("inheritInterface", im);
-                    LOGGER.info(String.format("append vendorExtensions.inheritInterface [%s] to [%s] model", im.name, cm.name));
+                    LOGGER.info(String.format(Locale.ROOT, "append vendorExtensions.inheritInterface [%s] to [%s] model", im.name, cm.name));
                     LOGGER.debug(Json.pretty(cm));
                     LOGGER.debug(Json.pretty(im));
                 }
@@ -190,7 +191,7 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
                 if (cm != null) {
                     CodegenModel im = getNestedModel(cm);
                     Schema s = schemas.get(im.name);
-                    LOGGER.info(String.format("Set export parameter [%s] from model [%s]", param.paramName, im.name));
+                    LOGGER.info(String.format(Locale.ROOT, "Set export parameter [%s] from model [%s]", param.paramName, im.name));
 
                     param.dataType = (ModelUtils.isArraySchema(s) || im.isEnum) ? im.classname : im.dataType;
                     param.isNullable = ModelUtils.isNullable(s);
