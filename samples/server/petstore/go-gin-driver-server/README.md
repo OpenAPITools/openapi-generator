@@ -1,8 +1,6 @@
-# Go API Server for {{packageName}}
+# Go API Server for petstoreserver
 
-{{#appDescription}}
-{{{appDescription}}}    
-{{/appDescription}}
+This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.    
 
 # Example
 ```
@@ -12,20 +10,31 @@ func main() {
 
     ni := func(data interface{}) interface{} { return nil }
     hs := sw.HandlerCommands{
-         {{#apiInfo}}
-         {{#apis}}
-         {{#operations}}
-         {{#operation}}
-         {{operationId}}: ni,
-         {{/operation}}
-         {{/operations}}
-         {{/apis}}
-         {{/apiInfo}}
+         AddPet: ni,
+         DeletePet: ni,
+         FindPetsByStatus: ni,
+         FindPetsByTags: ni,
+         GetPetById: ni,
+         UpdatePet: ni,
+         UpdatePetWithForm: ni,
+         UploadFile: ni,
+         DeleteOrder: ni,
+         GetInventory: ni,
+         GetOrderById: ni,
+         PlaceOrder: ni,
+         CreateUser: ni,
+         CreateUsersWithArrayInput: ni,
+         CreateUsersWithListInput: ni,
+         DeleteUser: ni,
+         GetUserByName: ni,
+         LoginUser: ni,
+         LogoutUser: ni,
+         UpdateUser: ni,
     }
 
     s := NewServer(
          hs,
-         &Configuration{Port: {{serverPort}}},
+         &Configuration{Port: 8080},
          l,
     )
     s.Run()
@@ -42,13 +51,7 @@ To see how to make this your own, look here:
 
 [README](https://openapi-generator.tech)
 
-- API version: {{appVersion}}  
-{{^hideGenerationTimestamp}}
-- Build date: {{generatedDate}}  
-{{/hideGenerationTimestamp}}
-{{#infoUrl}}
-For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})  
-{{/infoUrl}}
+- API version: 1.0.0  
 
 ### Running the server
 To run the server, follow these simple steps:

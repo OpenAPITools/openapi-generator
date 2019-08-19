@@ -21,12 +21,20 @@ func main() {
 
 //     ni := func(data *gin.Context) interface{} { return nil }
 //     hs := sw.HandlerCommands{
-// 		{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{operationId}}: ni,{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+ 		{{#apiInfo}}
+        {{#apis}}
+        {{#operations}}
+        {{#operation}}
+//      {{operationId}}: ni,
+        {{/operation}}
+        {{/operations}}
+        {{/apis}}
+        {{/apiInfo}}
 //     }
 
 //     s := sw.NewServer(
 // 		hs,
-// 		&sw.Configuration{Port: {{serverPort}}},
+// 		&sw.Configuration{Port: {{serverPort}}, ServeReDoc: true},
 // 		l,
 //     )
 //     s.Run()

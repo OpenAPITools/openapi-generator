@@ -1,8 +1,6 @@
 {{>partial_header}}
 package {{packageName}}
 
-{{#apiInfo}}
-{{#apis}}
 const ReDocHTML string = `{{#base64encode}}<!DOCTYPE html>
 <html>
     <head>
@@ -29,5 +27,3 @@ const ReDocHTML string = `{{#base64encode}}<!DOCTYPE html>
 </html>{{/base64encode}}`
 
 const ReDocAPISpec string = `{{#base64encode}}{{{openapi-yaml}}}{{/base64encode}}`
-{{/apis}}
-{{/apiInfo}}

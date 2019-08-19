@@ -80,6 +80,7 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
+        supportingFiles.add(new SupportingFile("redoc.mustache", apiPath, "redoc.go"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
     }
 
@@ -134,6 +135,9 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
 
             Schema schema = schemas.get(prop.complexType);
             CodegenModel cm = fromModel(prop.complexType, schema);
+            if (cm == null) {
+                continue;
+            }
 
             CodegenModel im = getNestedModel(cm);
             if (im.isEnum) {

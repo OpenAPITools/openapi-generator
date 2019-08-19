@@ -7,36 +7,22 @@ import (
 	"{{import}}"
 	{{/imports}}
 	"net/http"
-	"regexp"
 
 	"github.com/gin-gonic/gin"
 )
-
-var (
-	jsonCheck = regexp.MustCompile(`(?i:(?:application|text)/(?:vnd\.[^;]+\+)?json)`)
-	xmlCheck  = regexp.MustCompile(`(?i:(?:application|text)/xml)`)
-)
-
-// Command passed to handler type
-type Command func(*gin.Context) interface{}
-
-// render response based on content type
-func render(c *gin.Context, contentType string, code int, response interface{}) {
-	switch {
-	case jsonCheck.MatchString(contentType):
-		c.JSON(code, response)
-	case xmlCheck.MatchString(contentType):
-		c.XML(code, response)
-	default:
-		c.String(http.StatusNotImplemented, "content type not implemented", response)
-	}
-}
 
 {{#operation}}
 {{#responses}}
 // {{nickname}}Response{{code}} controller response type
 type {{nickname}}Response{{code}} struct {
-	{{#isModel}}{{{dataType}}}{{/isModel}}{{^isModel}}Payload {{{dataType}}}{{/isModel}}
+	{{#isModel}}
+	{{{dataType}}}
+	{{/isModel}}
+	{{^isModel}}
+	{{#dataType}}
+	Payload {{{dataType}}}
+	{{/dataType}}
+	{{/isModel}}
 }
 
 {{/responses}}
@@ -135,7 +121,7 @@ func New{{nickname}}Handler(cmd Command) gin.HandlerFunc {
 		switch resp.(type) {
 		{{#responses}}
 		case {{nickname}}Response{{code}}:
-			render(c, "{{#produces}}{{mediaType}}{{/produces}}", {{code}}, resp)
+			render(c, {{code}}, resp)
 		{{/responses}}
 		default:
 			err := fmt.Sprintf("{{nickname}}() command response type mismatch. [%T] != ENUM[{{#responses}}{{nickname}}Response{{code}}, {{/responses}}]")
@@ -143,5 +129,6 @@ func New{{nickname}}Handler(cmd Command) gin.HandlerFunc {
 		}
 	}
 }
+
 {{/operation}}
 {{/operations}}
