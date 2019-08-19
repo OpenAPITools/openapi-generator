@@ -18,49 +18,36 @@
 
 namespace OpenAPI {
 
-OAIStoreApi::OAIStoreApi() : basePath("/v2"),
-    host("petstore.swagger.io"),
-    timeout(0){
-
+OAIStoreApi::OAIStoreApi(const QString& basePath, const int timeOut) :
+    _basePath(basePath),
+    _timeOut(timeOut) {
 }
 
 OAIStoreApi::~OAIStoreApi() {
-
-}
-
-OAIStoreApi::OAIStoreApi(const QString& host, const QString& basePath, const int tout) {
-    this->host = host;
-    this->basePath = basePath;
-    this->timeout = tout;
 }
 
 void OAIStoreApi::setBasePath(const QString& basePath){
-    this->basePath = basePath;
+    _basePath = basePath;
 }
 
-void OAIStoreApi::setHost(const QString& host){
-    this->host = host;
-}
-
-void OAIStoreApi::setApiTimeOutMs(const int tout){
-    timeout = tout;
+void OAIStoreApi::setTimeOut(const int timeOut){
+    _timeOut = timeOut;
 }
 
 void OAIStoreApi::addHeaders(const QString& key, const QString& value){
     defaultHeaders.insert(key, value);
 }
 
-
 void
 OAIStoreApi::deleteOrder(const QString& order_id) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
+    fullPath.append(_basePath).append("/store/order/{orderId}");
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
+    worker->setTimeOut(_timeOut);
     OAIHttpRequestInput input(fullPath, "DELETE");
 
 
@@ -102,10 +89,10 @@ OAIStoreApi::deleteOrderCallback(OAIHttpRequestWorker * worker) {
 void
 OAIStoreApi::getInventory() {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/store/inventory");
+    fullPath.append(_basePath).append("/store/inventory");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
+    worker->setTimeOut(_timeOut);
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -157,13 +144,13 @@ OAIStoreApi::getInventoryCallback(OAIHttpRequestWorker * worker) {
 void
 OAIStoreApi::getOrderById(const qint64& order_id) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
+    fullPath.append(_basePath).append("/store/order/{orderId}");
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
+    worker->setTimeOut(_timeOut);
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -206,10 +193,10 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
 void
 OAIStoreApi::placeOrder(const OAIOrder& body) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/store/order");
+    fullPath.append(_basePath).append("/store/order");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
-    worker->setTimeOut(timeout);
+    worker->setTimeOut(_timeOut);
     OAIHttpRequestInput input(fullPath, "POST");
 
     

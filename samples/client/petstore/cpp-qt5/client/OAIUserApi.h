@@ -27,13 +27,11 @@ class OAIUserApi: public QObject {
     Q_OBJECT
 
 public:
-    OAIUserApi();
-    OAIUserApi(const QString& host, const QString& basePath, const int toutMs = 0);
+    OAIUserApi(const QString& basePath = "http://petstore.swagger.io/v2", const int timeOut = 0);
     ~OAIUserApi();
 
     void setBasePath(const QString& basePath);
-    void setHost(const QString& host);
-    void setApiTimeOutMs(const int tout);
+    void setTimeOut(const int timeOut);
     void addHeaders(const QString& key, const QString& value);
 
     void createUser(const OAIUser& body);
@@ -46,9 +44,8 @@ public:
     void updateUser(const QString& username, const OAIUser& body);
     
 private:
-    QString basePath;
-    QString host;
-    int timeout;
+    QString _basePath;
+    int _timeOut;
     QMap<QString, QString> defaultHeaders;
     void createUserCallback (OAIHttpRequestWorker * worker);
     void createUsersWithArrayInputCallback (OAIHttpRequestWorker * worker);

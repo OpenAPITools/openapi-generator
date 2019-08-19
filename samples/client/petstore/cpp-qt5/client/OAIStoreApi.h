@@ -27,13 +27,11 @@ class OAIStoreApi: public QObject {
     Q_OBJECT
 
 public:
-    OAIStoreApi();
-    OAIStoreApi(const QString& host, const QString& basePath, const int toutMs = 0);
+    OAIStoreApi(const QString& basePath = "http://petstore.swagger.io/v2", const int timeOut = 0);
     ~OAIStoreApi();
 
     void setBasePath(const QString& basePath);
-    void setHost(const QString& host);
-    void setApiTimeOutMs(const int tout);
+    void setTimeOut(const int timeOut);
     void addHeaders(const QString& key, const QString& value);
 
     void deleteOrder(const QString& order_id);
@@ -42,9 +40,8 @@ public:
     void placeOrder(const OAIOrder& body);
     
 private:
-    QString basePath;
-    QString host;
-    int timeout;
+    QString _basePath;
+    int _timeOut;
     QMap<QString, QString> defaultHeaders;
     void deleteOrderCallback (OAIHttpRequestWorker * worker);
     void getInventoryCallback (OAIHttpRequestWorker * worker);

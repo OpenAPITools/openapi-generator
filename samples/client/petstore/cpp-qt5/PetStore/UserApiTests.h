@@ -7,7 +7,6 @@ using namespace OpenAPI;
 class UserApiTests: public QObject {
     Q_OBJECT
 
-    OAIUserApi* getApi();
     OAIUser createRandomUser();
 
 private slots:
