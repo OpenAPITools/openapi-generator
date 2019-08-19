@@ -16,7 +16,7 @@
 #include <QFileInfo>
 #include <QBuffer>
 #include <QtGlobal>
-
+#include <QTimer>
 
 namespace OpenAPI {
 
@@ -51,30 +51,22 @@ void OAIHttpRequestInput::add_file(QString variable_name, QString local_filename
 
 
 OAIHttpRequestWorker::OAIHttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr)
+    : QObject(parent), manager(nullptr), _timeOut(0)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
-    timeout = 0;
-    timer = new QTimer();
     manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, &OAIHttpRequestWorker::on_manager_finished);
 }
 
 OAIHttpRequestWorker::~OAIHttpRequestWorker() {
-    if(timer != nullptr){
-        if(timer->isActive()){
-            timer->stop();
-        }
-        timer->deleteLater();
-    }
 }
 
 QMap<QByteArray, QByteArray> OAIHttpRequestWorker::getResponseHeaders() const {
     return headers;
 }
 
-void OAIHttpRequestWorker::setTimeOut(int tout){
-    timeout = tout;
+void OAIHttpRequestWorker::setTimeOut(int timeOut){
+    _timeOut = timeOut;
 }
 
 QString OAIHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
@@ -322,11 +314,8 @@ void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if(timeout > 0){
-        timer->setSingleShot(true);
-        timer->setInterval(timeout);
-        connect(timer, &QTimer::timeout, this, [=](){ on_manager_timeout(reply); });
-        timer->start();
+    if(_timeOut > 0){
+        QTimer::singleShot(_timeOut, [&](){ on_manager_timeout(reply); });
     }
 }
 

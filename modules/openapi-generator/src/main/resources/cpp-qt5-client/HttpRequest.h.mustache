@@ -10,12 +10,9 @@
 
 #include <QObject>
 #include <QString>
-#include <QTimer>
 #include <QMap>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-
-
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -61,7 +58,6 @@ public:
     QByteArray response;
     QNetworkReply::NetworkError error_type;
     QString error_str;
-    QTimer *timer;
     explicit {{prefix}}HttpRequestWorker(QObject *parent = nullptr);
     virtual ~{{prefix}}HttpRequestWorker();
 
@@ -76,7 +72,7 @@ signals:
 private:
     QNetworkAccessManager *manager;
     QMap<QByteArray, QByteArray> headers;
-    int timeout;
+    int _timeOut;
     void on_manager_timeout(QNetworkReply *reply);
 private slots:
     void on_manager_finished(QNetworkReply *reply);

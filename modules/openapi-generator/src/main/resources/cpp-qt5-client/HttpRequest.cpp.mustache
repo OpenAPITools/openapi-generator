@@ -5,7 +5,7 @@
 #include <QFileInfo>
 #include <QBuffer>
 #include <QtGlobal>
-
+#include <QTimer>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -42,30 +42,22 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 
 
 {{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr)
+    : QObject(parent), manager(nullptr), _timeOut(0)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
-    timeout = 0;
-    timer = new QTimer();
     manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, &{{prefix}}HttpRequestWorker::on_manager_finished);
 }
 
 {{prefix}}HttpRequestWorker::~{{prefix}}HttpRequestWorker() {
-    if(timer != nullptr){
-        if(timer->isActive()){
-            timer->stop();
-        }
-        timer->deleteLater();
-    }
 }
 
 QMap<QByteArray, QByteArray> {{prefix}}HttpRequestWorker::getResponseHeaders() const {
     return headers;
 }
 
-void {{prefix}}HttpRequestWorker::setTimeOut(int tout){
-    timeout = tout;
+void {{prefix}}HttpRequestWorker::setTimeOut(int timeOut){
+    _timeOut = timeOut;
 }
 
 QString {{prefix}}HttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
@@ -313,11 +305,8 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if(timeout > 0){
-        timer->setSingleShot(true);
-        timer->setInterval(timeout);
-        connect(timer, &QTimer::timeout, this, [=](){ on_manager_timeout(reply); });
-        timer->start();
+    if(_timeOut > 0){
+        QTimer::singleShot(_timeOut, [&](){ on_manager_timeout(reply); });
     }
 }
 

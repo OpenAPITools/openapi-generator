@@ -21,12 +21,9 @@
 
 #include <QObject>
 #include <QString>
-#include <QTimer>
 #include <QMap>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-
-
 
 namespace OpenAPI {
 
@@ -70,7 +67,6 @@ public:
     QByteArray response;
     QNetworkReply::NetworkError error_type;
     QString error_str;
-    QTimer *timer;
     explicit OAIHttpRequestWorker(QObject *parent = nullptr);
     virtual ~OAIHttpRequestWorker();
 
@@ -85,7 +81,7 @@ signals:
 private:
     QNetworkAccessManager *manager;
     QMap<QByteArray, QByteArray> headers;
-    int timeout;
+    int _timeOut;
     void on_manager_timeout(QNetworkReply *reply);
 private slots:
     void on_manager_finished(QNetworkReply *reply);
