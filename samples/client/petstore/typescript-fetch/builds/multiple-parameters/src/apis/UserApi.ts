@@ -19,40 +19,34 @@ import {
     UserToJSON,
 } from '../models';
 
-/**
- * The Requests namespace contains generated request parameter interface declarations.
- */
-export namespace Requests {
-    export interface CreateUser {
-        body: User;
-    }
+export interface CreateUserRequest {
+    body: User;
+}
 
-    export interface CreateUsersWithArrayInput {
-        body: Array<User>;
-    }
+export interface CreateUsersWithArrayInputRequest {
+    body: Array<User>;
+}
 
-    export interface CreateUsersWithListInput {
-        body: Array<User>;
-    }
+export interface CreateUsersWithListInputRequest {
+    body: Array<User>;
+}
 
-    export interface DeleteUser {
-        username: string;
-    }
+export interface DeleteUserRequest {
+    username: string;
+}
 
-    export interface GetUserByName {
-        username: string;
-    }
+export interface GetUserByNameRequest {
+    username: string;
+}
 
-    export interface LoginUser {
-        username: string;
-        password: string;
-    }
+export interface LoginUserRequest {
+    username: string;
+    password: string;
+}
 
-    export interface UpdateUser {
-        username: string;
-        body: User;
-    }
-
+export interface UpdateUserRequest {
+    username: string;
+    body: User;
 }
 
 /**
@@ -64,7 +58,7 @@ export class UserApi extends runtime.BaseAPI {
      * This can only be done by the logged in user.
      * Create user
      */
-    async createUserRaw(requestParameters: Requests.CreateUser): Promise<runtime.ApiResponse<void>> {
+    async createUserRaw(requestParameters: CreateUserRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUser.');
         }
@@ -97,7 +91,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Creates list of users with given input array
      */
-    async createUsersWithArrayInputRaw(requestParameters: Requests.CreateUsersWithArrayInput): Promise<runtime.ApiResponse<void>> {
+    async createUsersWithArrayInputRaw(requestParameters: CreateUsersWithArrayInputRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithArrayInput.');
         }
@@ -129,7 +123,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Creates list of users with given input array
      */
-    async createUsersWithListInputRaw(requestParameters: Requests.CreateUsersWithListInput): Promise<runtime.ApiResponse<void>> {
+    async createUsersWithListInputRaw(requestParameters: CreateUsersWithListInputRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithListInput.');
         }
@@ -162,7 +156,7 @@ export class UserApi extends runtime.BaseAPI {
      * This can only be done by the logged in user.
      * Delete user
      */
-    async deleteUserRaw(requestParameters: Requests.DeleteUser): Promise<runtime.ApiResponse<void>> {
+    async deleteUserRaw(requestParameters: DeleteUserRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling deleteUser.');
         }
@@ -192,7 +186,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get user by user name
      */
-    async getUserByNameRaw(requestParameters: Requests.GetUserByName): Promise<runtime.ApiResponse<User>> {
+    async getUserByNameRaw(requestParameters: GetUserByNameRequest): Promise<runtime.ApiResponse<User>> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling getUserByName.');
         }
@@ -222,7 +216,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Logs user into the system
      */
-    async loginUserRaw(requestParameters: Requests.LoginUser): Promise<runtime.ApiResponse<string>> {
+    async loginUserRaw(requestParameters: LoginUserRequest): Promise<runtime.ApiResponse<string>> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling loginUser.');
         }
@@ -290,7 +284,7 @@ export class UserApi extends runtime.BaseAPI {
      * This can only be done by the logged in user.
      * Updated user
      */
-    async updateUserRaw(requestParameters: Requests.UpdateUser): Promise<runtime.ApiResponse<void>> {
+    async updateUserRaw(requestParameters: UpdateUserRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling updateUser.');
         }
