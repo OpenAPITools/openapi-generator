@@ -33,9 +33,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
+    public static final String NAMESPACE_PARAMETER_INTERFACES = "namespaceParameterInterfaces";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
+    private boolean namespaceParameterInterfaces = false;
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
 
@@ -59,6 +61,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
+        this.cliOptions.add(new CliOption(NAMESPACE_PARAMETER_INTERFACES, "Setting this property to true will generate parameter interface declarations within a dedicated namespace to avoid name conflicts.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -93,6 +96,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
         }
         writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
+
+        if (additionalProperties.containsKey(NAMESPACE_PARAMETER_INTERFACES)) {
+            this.setNamespaceParameterInterfaces(convertPropertyToBoolean(NAMESPACE_PARAMETER_INTERFACES));
+        }
+        writePropertyBack(NAMESPACE_PARAMETER_INTERFACES, getNamespaceParameterInterfaces());
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
@@ -208,6 +216,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.addOperationModelImportInfomation(operations);
         this.updateOperationParameterEnumInformation(operations);
         this.addOperationObjectResponseInformation(operations);
+        this.addOperationNamespaceParameterInterfacesInformation(operations);
         return operations;
     }
 
@@ -254,6 +263,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
+    private void addOperationNamespaceParameterInterfacesInformation(Map<String, Object> operations) {
+        if (getNamespaceParameterInterfaces()) {
+            operations.put("namespaceParameterInterfaces", true);
+            operations.put("paramIfaceIndent", "    ");
+            operations.put("paramIfaceSuffix", "");
+            operations.put("paramIfaceNsPrefix", "Requests.");
+        } else {
+            operations.put("namespaceParameterInterfaces", false);
+            operations.put("paramIfaceIndent", "");
+            operations.put("paramIfaceSuffix", "Request");
+            operations.put("paramIfaceNsPrefix", "");
+        }
+    }
+
     private void addExtraReservedWords() {
         this.reservedWords.add("BASE_PATH");
         this.reservedWords.add("BaseAPI");
@@ -288,5 +311,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
         this.useSingleRequestParameter = useSingleRequestParameter;
+    }
+
+    private boolean getNamespaceParameterInterfaces() {
+        return namespaceParameterInterfaces;
+    }
+
+    private void setNamespaceParameterInterfaces(boolean namespaceParameterInterfaces) {
+        this.namespaceParameterInterfaces = namespaceParameterInterfaces;
     }
 }

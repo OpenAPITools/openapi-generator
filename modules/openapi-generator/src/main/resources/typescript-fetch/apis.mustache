@@ -13,23 +13,28 @@ import {
 {{/imports.0}}
 
 {{#operations}}
+{{#namespaceParameterInterfaces}}
 /**
  * The Requests namespace contains generated request parameter interface declarations.
  */
 export namespace Requests {
-    {{#operation}}
-    {{#allParams.0}}
-    export interface {{operationIdCamelCase}} {
-        {{#allParams}}
-        {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
-        {{/allParams}}
-    }
 
-    {{/allParams.0}}
-    {{/operation}}
+{{/namespaceParameterInterfaces}}
+{{#operation}}
+{{#allParams.0}}
+{{paramIfaceIndent}}export interface {{operationIdCamelCase}}{{paramIfaceSuffix}} {
+{{#allParams}}
+{{paramIfaceIndent}}    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+{{/allParams}}
+{{paramIfaceIndent}}}
+
+{{/allParams.0}}
+{{/operation}}
+{{#namespaceParameterInterfaces}}
 }
-{{/operations}}
 
+{{/namespaceParameterInterfaces}}
+{{/operations}}
 {{#operations}}
 /**
  * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
@@ -45,7 +50,7 @@ export class {{classname}} extends runtime.BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    async {{nickname}}Raw({{#allParams.0}}requestParameters: Requests.{{operationIdCamelCase}}{{/allParams.0}}): Promise<runtime.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
+    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{paramIfaceNsPrefix}}{{operationIdCamelCase}}{{paramIfaceSuffix}}{{/allParams.0}}): Promise<runtime.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
         {{#allParams}}
         {{#required}}
         if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
@@ -255,7 +260,7 @@ export class {{classname}} extends runtime.BaseAPI {
     }
     {{/useSingleRequestParameter}}
     {{#useSingleRequestParameter}}
-    async {{nickname}}({{#allParams.0}}requestParameters: Requests.{{operationIdCamelCase}}{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    async {{nickname}}({{#allParams.0}}requestParameters: {{paramIfaceNsPrefix}}{{operationIdCamelCase}}{{paramIfaceSuffix}}{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
         const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
         return await response.value();
