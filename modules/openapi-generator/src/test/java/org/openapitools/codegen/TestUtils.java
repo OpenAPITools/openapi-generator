@@ -69,7 +69,7 @@ public class TestUtils {
             Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" +
                     generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
         }
-        assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not fould in the list of generated files");
+        assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not found in the list of generated files");
     }
 
     public static void ensureDoesNotContainsFile(Map<String, String> generatedFiles, File root, String filename) {
@@ -79,6 +79,6 @@ public class TestUtils {
             Assert.fail("File '" + absoluteFilename + "' exists in file in list:\n" +
                     generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
         }
-        assertFalse(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was fould in the list of generated files");
+        assertFalse(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was found in the list of generated files");
     }
 }
