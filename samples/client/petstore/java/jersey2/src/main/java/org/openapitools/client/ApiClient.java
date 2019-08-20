@@ -705,6 +705,8 @@ public class ApiClient {
         response = invocationBuilder.method("PATCH", entity);
       } else if ("HEAD".equals(method)) {
         response = invocationBuilder.head();
+      } else if ("OPTIONS".equals(method)) {
+        response = invocationBuilder.options();
       } else if ("TRACE".equals(method)) {
         response = invocationBuilder.trace();
       } else {

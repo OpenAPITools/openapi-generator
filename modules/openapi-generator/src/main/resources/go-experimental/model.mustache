@@ -23,7 +23,7 @@ const (
 	{{#enumVars}}
 	{{^-first}}
 	{{/-first}}
-	{{{classname.toUpperCase}}}_{{name}} {{{classname}}} = "{{{value}}}"
+	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = "{{{value}}}"
 	{{/enumVars}}
 	{{/allowableValues}}
 ){{/isEnum}}{{^isEnum}}{{#description}}
@@ -36,7 +36,7 @@ type {{classname}} struct {
 	// {{{description}}}
 {{/description}}
 	{{name}} *{{{dataType}}} `json:"{{baseName}},omitempty"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
-{{#isNullable}}    isExplicitNull{{name}} bool `json:"-"{{#withXml}} xml:"-"{{/withXml}}`{{/isNullable}}
+{{#isNullable}}	isExplicitNull{{name}} bool `json:"-"{{#withXml}} xml:"-"{{/withXml}}`{{/isNullable}}
 {{/vars}}
 }
 {{/isEnum}}
