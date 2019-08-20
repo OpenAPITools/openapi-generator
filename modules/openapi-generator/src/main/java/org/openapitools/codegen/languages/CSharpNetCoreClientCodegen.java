@@ -65,7 +65,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String modelDocPath = "docs/";
 
     // Defines TargetFrameworkVersion in csproj files
-    protected String targetFramework = defaultFramework.dotNetFrameworkVersion;
+    protected String targetFramework = defaultFramework.name;
 
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
@@ -481,7 +481,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         strategy.configureAdditionalProperties(additionalProperties);
 
         setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
-        setTargetFramework(strategy.dotNetFrameworkVersion);
+        setTargetFramework(strategy.name);
 
         if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
             LOGGER.warn("If using built-in templates-RestSharp only supports netstandard 2.0 or later.");
