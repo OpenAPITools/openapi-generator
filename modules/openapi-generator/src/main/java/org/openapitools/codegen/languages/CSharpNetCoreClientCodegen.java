@@ -78,6 +78,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
+    protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+
     public CSharpNetCoreClientCodegen() {
         super();
 
@@ -205,6 +207,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.VALIDATABLE,
                 CodegenConstants.VALIDATABLE_DESC,
                 this.validatable);
+
+        addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
+                CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
+                this.caseInsensitiveResponseHeaders);
 
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
@@ -638,6 +644,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setValidatable(boolean validatable) {
         this.validatable = validatable;
+    }
+
+    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
+        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
     @Override

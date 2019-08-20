@@ -26,3 +26,4 @@ sidebar_label: csharp-netcore
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
 |validatable|Generates self-validatable models.| |true|
+|caseInsensitiveResponseHeaders|Make API response's headers case-insensitive| |false|
