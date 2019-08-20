@@ -130,7 +130,7 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
         Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
 
         for(CodegenProperty prop : properties) {
-            if (prop.isPrimitiveType || prop.complexType.isEmpty() || prop.isEnum) {
+            if (prop.isPrimitiveType || (prop.complexType == null) || prop.complexType.isEmpty() || prop.isEnum) {
                 continue;
             }
 
