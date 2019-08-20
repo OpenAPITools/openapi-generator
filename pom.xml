@@ -844,6 +844,18 @@
             </modules>
         </profile>
         <profile>
+            <id>typescript-fetch-client-builds-namespace-parameter-interfaces</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-fetch/builds/namespace-parameter-interfaces</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-angularjs-client</id>
             <activation>
                 <property>
