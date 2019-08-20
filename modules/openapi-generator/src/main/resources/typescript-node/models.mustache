@@ -1,6 +1,6 @@
 {{#models}}
 {{#model}}
-export * from './{{{ classFilename }}}';
+export * from '{{{ classFilename }}}';
 {{/model}}
 {{/models}}
 
@@ -8,7 +8,7 @@ import localVarRequest = require('request');
 
 {{#models}}
 {{#model}}
-import { {{classname}} } from './{{{ classFilename }}}';
+import { {{classname}} } from '{{{ classFilename }}}';
 {{/model}}
 {{/models}}
 
@@ -34,6 +34,9 @@ let enumsMap: {[index: string]: any} = {
                     {{/isEnum}}
                 {{/vars}}
             {{/hasEnums}}
+            {{#isEnum}}
+        "{{classname}}": {{classname}},
+            {{/isEnum}}
         {{/model}}
     {{/models}}
 }
@@ -41,7 +44,9 @@ let enumsMap: {[index: string]: any} = {
 let typeMap: {[index: string]: any} = {
     {{#models}}
         {{#model}}
+            {{^isEnum}}
     "{{classname}}": {{classname}},
+            {{/isEnum}}
         {{/model}}
     {{/models}}
 }
@@ -161,7 +166,7 @@ export interface Authentication {
     /**
     * Apply authentication settings to header and query params.
     */
-    applyToRequest(requestOptions: localVarRequest.Options): void;
+    applyToRequest(requestOptions: localVarRequest.Options): Promise<void> | void;
 }
 
 export class HttpBasicAuth implements Authentication {

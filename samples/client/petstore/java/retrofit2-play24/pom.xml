@@ -191,6 +191,12 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>converter-gson</artifactId>
@@ -253,6 +259,11 @@
                 <artifactId>play-java-ws_2.11</artifactId>
                 <version>${play-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.openapitools</groupId>
+                <artifactId>jackson-databind-nullable</artifactId>
+                <version>${jackson-databind-nullable-version}</version>
+            </dependency>
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -267,10 +278,11 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.3</gson-fire-version>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <jackson-databind-version>2.8.11.3</jackson-databind-version>
+        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <jackson-databind-version>2.9.9</jackson-databind-version>
         <jackson-version>2.6.6</jackson-version>
         <play-version>2.4.11</play-version>
+        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         <retrofit-version>2.5.0</retrofit-version>
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.12</junit-version>

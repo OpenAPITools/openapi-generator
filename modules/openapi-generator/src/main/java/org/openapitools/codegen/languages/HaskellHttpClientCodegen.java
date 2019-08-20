@@ -227,6 +227,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // lib
         typeMapping.put("string", "Text");
         typeMapping.put("UUID", "Text");
+        typeMapping.put("URI", "Text");
         typeMapping.put("any", "A.Value");
         typeMapping.put("set", "Set.Set");
         // newtype
@@ -1064,13 +1065,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             case "tsv":
                 return "TabSeparated";
             case "ssv":
+            case "space":
                 return "SpaceSeparated";
             case "pipes":
                 return "PipeSeparated";
             case "multi":
                 return "MultiParamArray";
             default:
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException(collectionFormat + " (collection format) not supported");
         }
     }
 

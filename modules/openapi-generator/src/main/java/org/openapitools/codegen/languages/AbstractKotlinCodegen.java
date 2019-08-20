@@ -44,6 +44,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String apiSuffix = "Api";
 
     protected String sourceFolder = "src/main/kotlin";
+    protected String testFolder = "src/test/kotlin";
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -166,14 +167,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("ByteArray", "kotlin.ByteArray");
         typeMapping.put("number", "java.math.BigDecimal");
         typeMapping.put("date-time", "java.time.LocalDateTime");
-        typeMapping.put("date", "java.time.LocalDateTime");
+        typeMapping.put("date", "java.time.LocalDate");
         typeMapping.put("file", "java.io.File");
         typeMapping.put("array", "kotlin.Array");
         typeMapping.put("list", "kotlin.collections.List");
         typeMapping.put("map", "kotlin.collections.Map");
         typeMapping.put("object", "kotlin.Any");
         typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
-        typeMapping.put("Date", "java.time.LocalDateTime");
+        typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
         instantiationTypes.put("array", "kotlin.arrayOf");
@@ -183,6 +184,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
+        importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
         importMapping.put("Date", "java.util.Date");
         importMapping.put("Timestamp", "java.sql.Timestamp");
@@ -208,12 +210,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        return (outputFolder + File.separator + apiDocPath).replace('/', File.separatorChar);
     }
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return (outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return (outputFolder + File.separator + testFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar) ;
     }
 
     @Override
@@ -410,6 +417,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         this.sourceFolder = sourceFolder;
     }
 
+    public void setTestFolder(String testFolder) {
+        this.testFolder = testFolder;
+    }
+
     public Boolean getParcelizeModels() {
         return parcelizeModels;
     }
@@ -601,6 +612,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema items = arr.getItems();
         String nestedType = getTypeDeclaration(items);
+        additionalProperties.put("nestedType", nestedType);
         // TODO: We may want to differentiate here between generics and primitive arrays.
         instantiationType.append("<").append(nestedType).append(">");
         return instantiationType.toString();
@@ -822,6 +834,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isURISchema(p)) {
+            if (p.getDefault() != null) {
+                return "URI.create('" + p.getDefault() + "')";
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {

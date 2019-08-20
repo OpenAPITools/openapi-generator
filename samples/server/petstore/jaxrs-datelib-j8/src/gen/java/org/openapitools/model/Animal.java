@@ -34,10 +34,12 @@ import javax.validation.Valid;
 })
 
 public class Animal  implements Serializable {
-  @JsonProperty("className")
+  public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   private String className;
 
-  @JsonProperty("color")
+  public static final String JSON_PROPERTY_COLOR = "color";
+  @JsonProperty(JSON_PROPERTY_COLOR)
   private String color = "red";
 
   public Animal className(String className) {

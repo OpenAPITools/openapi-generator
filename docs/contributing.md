@@ -35,6 +35,8 @@ Please file the pull request against the correct branch, e.g. `master` for non-b
 
 All the code generators can be found in [modules/openapi-generator/src/main/java/org/openapitools/codegen/languages](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages)
 
+If you want to add a new generator, follow the [new-generator](https://openapi-generator.tech/docs/new-generator) guide. 
+
 ### Templates
 
 All the templates ([mustache](https://mustache.github.io/)) can be found in [modules/openapi-generator/src/main/resources](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources).

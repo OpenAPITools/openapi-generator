@@ -165,10 +165,11 @@ API.Client.PetApi.prototype.findPetsByStatus = function(status, opt_extraHttpReq
  * Finds Pets by tags
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * @param {!Array<!string>} tags Tags to filter by
+ * @param {!number=} opt_maxCount Maximum number of items to return
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise<!Array<!API.Client.Pet>>}
  */
-API.Client.PetApi.prototype.findPetsByTags = function(tags, opt_extraHttpRequestParams) {
+API.Client.PetApi.prototype.findPetsByTags = function(tags, opt_maxCount, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/pet/findByTags';
 
@@ -183,6 +184,10 @@ API.Client.PetApi.prototype.findPetsByTags = function(tags, opt_extraHttpRequest
   }
   if (tags !== undefined) {
     queryParameters['tags'] = tags;
+  }
+
+  if (opt_maxCount !== undefined) {
+    queryParameters['maxCount'] = opt_maxCount;
   }
 
   /** @type {!Object} */

@@ -76,8 +76,8 @@ public class FakeClassnameTags123Api {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake_classname_test");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
@@ -90,8 +90,8 @@ public class FakeClassnameTags123Api {
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake_classname_test");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -124,8 +124,8 @@ public class FakeClassnameTags123Api {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();

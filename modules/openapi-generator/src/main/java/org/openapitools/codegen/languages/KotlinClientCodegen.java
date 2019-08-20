@@ -131,6 +131,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
             importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
+            defaultIncludes.add("org.threeten.bp.LocalDate");
             defaultIncludes.add("org.threeten.bp.LocalDateTime");
         } else if (DateLibrary.STRING.value.equals(dateLibrary)) {
             typeMapping.put("date-time", "kotlin.String");
@@ -148,6 +149,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (CollectionType.LIST.value.equals(collectionType)) {
             typeMapping.put("array", "kotlin.collections.List");
             typeMapping.put("list", "kotlin.collections.List");
+            additionalProperties.put("isList", true);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -166,5 +168,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
     }
 }

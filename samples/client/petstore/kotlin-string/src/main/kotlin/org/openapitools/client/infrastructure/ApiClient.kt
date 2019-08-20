@@ -1,17 +1,15 @@
 package org.openapitools.client.infrastructure
 
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.ToJson
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.MediaType
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.FormBody
-import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.ResponseBody
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import java.io.File
-import java.util.UUID
 
 open class ApiClient(val baseUrl: String) {
     companion object {
@@ -23,7 +21,7 @@ open class ApiClient(val baseUrl: String) {
         protected const val XmlMediaType = "application/xml"
 
         @JvmStatic
-        val client by lazy {
+        val client: OkHttpClient by lazy {
             builder.build()
         }
 
@@ -33,24 +31,24 @@ open class ApiClient(val baseUrl: String) {
 
     protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
         when {
-            content is File -> RequestBody.create(
-                MediaType.parse(mediaType), content
+            content is File -> content.asRequestBody(
+                mediaType.toMediaTypeOrNull()
             )
             mediaType == FormDataMediaType || mediaType == FormUrlEncMediaType -> {
-                var builder = FormBody.Builder()
-                // content's type *must* be Map<String, Any>
-                @Suppress("UNCHECKED_CAST")
-                (content as Map<String,String>).forEach { key, value ->
-                    builder = builder.add(key, value)
-                }
-                builder.build()
+                FormBody.Builder().apply {
+                    // content's type *must* be Map<String, Any>
+                    @Suppress("UNCHECKED_CAST")
+                    (content as Map<String,String>).forEach { (key, value) ->
+                        add(key, value)
+                    }
+                }.build()
             }
-            mediaType == JsonMediaType -> RequestBody.create(
-                MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+            mediaType == JsonMediaType -> Serializer.moshi.adapter(T::class.java).toJson(content).toRequestBody(
+                mediaType.toMediaTypeOrNull()
             )
-            mediaType == XmlMediaType -> TODO("xml not currently supported.")
+            mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
-            else -> TODO("requestBody currently only supports JSON body and File body.")
+            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
         }
 
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
@@ -58,42 +56,34 @@ open class ApiClient(val baseUrl: String) {
             return null
         }
         val bodyContent = body.string()
-        if (bodyContent.length == 0) {
+        if (bodyContent.isEmpty()) {
             return null
         }
         return when(mediaType) {
-            JsonMediaType -> Moshi.Builder().add(object {
-                    @ToJson
-                    fun toJson(uuid: UUID) = uuid.toString()
-                    @FromJson
-                    fun fromJson(s: String) = UUID.fromString(s)
-                })
-                .add(ByteArrayAdapter())
-                .build().adapter(T::class.java).fromJson(bodyContent)
-            else ->  TODO("responseBody currently only supports JSON body.")
+            JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)
+            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
 
     protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
-        val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
+        val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
-        var urlBuilder = httpUrl.newBuilder()
-                .addPathSegments(requestConfig.path.trimStart('/'))
-
-        requestConfig.query.forEach { query ->
-            query.value.forEach { queryValue ->
-                urlBuilder = urlBuilder.addQueryParameter(query.key, queryValue)
-            }
-        }
-
-        val url = urlBuilder.build()
+        val url = httpUrl.newBuilder()
+            .addPathSegments(requestConfig.path.trimStart('/'))
+            .apply {
+                requestConfig.query.forEach { query ->
+                    query.value.forEach { queryValue ->
+                        addQueryParameter(query.key, queryValue)
+                    }
+                }
+            }.build()
 
         // take content-type/accept from spec or set to default (application/json) if not defined
         if (requestConfig.headers[ContentType].isNullOrEmpty()) {
-            requestConfig.headers.put(ContentType, JsonMediaType)
+            requestConfig.headers[ContentType] = JsonMediaType
         }
         if (requestConfig.headers[Accept].isNullOrEmpty()) {
-            requestConfig.headers.put(Accept, JsonMediaType)
+            requestConfig.headers[Accept] = JsonMediaType
         }
         val headers = requestConfig.headers
 
@@ -108,7 +98,7 @@ open class ApiClient(val baseUrl: String) {
         // TODO: support multiple contentType options here.
         val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
 
-        var request : Request.Builder =  when (requestConfig.method) {
+        val request = when (requestConfig.method) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete()
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
@@ -116,40 +106,39 @@ open class ApiClient(val baseUrl: String) {
             RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(body, contentType))
             RequestMethod.POST -> Request.Builder().url(url).post(requestBody(body, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
-        }
+        }.apply {
+            headers.forEach { header -> addHeader(header.key, header.value) }
+        }.build()
 
-        headers.forEach { header -> request = request.addHeader(header.key, header.value) }
-
-        val realRequest = request.build()
-        val response = client.newCall(realRequest).execute()
+        val response = client.newCall(request).execute()
         val accept = response.header(ContentType)?.substringBefore(";")?.toLowerCase()
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         when {
             response.isRedirect -> return Redirection(
-                    response.code(),
-                    response.headers().toMultimap()
+                    response.code,
+                    response.headers.toMultimap()
             )
             response.isInformational -> return Informational(
-                    response.message(),
-                    response.code(),
-                    response.headers().toMultimap()
+                    response.message,
+                    response.code,
+                    response.headers.toMultimap()
             )
             response.isSuccessful -> return Success(
-                    responseBody(response.body(), accept),
-                    response.code(),
-                    response.headers().toMultimap()
+                    responseBody(response.body, accept),
+                    response.code,
+                    response.headers.toMultimap()
             )
             response.isClientError -> return ClientError(
-                    response.body()?.string(),
-                    response.code(),
-                    response.headers().toMultimap()
+                    response.body?.string(),
+                    response.code,
+                    response.headers.toMultimap()
             )
             else -> return ServerError(
                     null,
-                    response.body()?.string(),
-                    response.code(),
-                    response.headers().toMultimap()
+                    response.body?.string(),
+                    response.code,
+                    response.headers.toMultimap()
             )
         }
     }

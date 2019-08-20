@@ -98,8 +98,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._Return != null)
-                    hashCode = hashCode * 59 + this._Return.GetHashCode();
+                hashCode = hashCode * 59 + this._Return.GetHashCode();
                 return hashCode;
             }
         }

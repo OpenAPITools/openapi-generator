@@ -12,7 +12,9 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>4.0.0</version>
+                <!-- RELEASE_VERSION -->
+                <version>4.1.1-SNAPSHOT</version>
+                <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
                         <goals>
@@ -46,10 +48,17 @@
                 <configuration>
                         <source>1.7</source>
                         <target>1.7</target>
+                        <proc>none</proc>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
     <dependencies>
          <!-- dependencies are needed for the client being generated -->
          
@@ -79,6 +88,13 @@
             <version>${jersey-version}</version>
         </dependency>
 
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
         <!-- JSON processing: jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
@@ -104,7 +120,12 @@
           <groupId>com.fasterxml.jackson.jaxrs</groupId>
           <artifactId>jackson-jaxrs-json-provider</artifactId>
           <version>${jackson-version}</version>
-        </dependency>
+      </dependency>
+      <dependency>
+          <groupId>org.openapitools</groupId>
+          <artifactId>jackson-databind-nullable</artifactId>
+          <version>${jackson-databind-nullable-version}</version>
+      </dependency>
 
         <!-- Joda time: if you use it -->
         <dependency>
@@ -130,6 +151,7 @@
         <swagger-annotations-version>1.5.8</swagger-annotations-version>
         <jersey-version>2.27</jersey-version>
         <jackson-version>2.8.9</jackson-version>
+        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         <jodatime-version>2.7</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.8.1</junit-version>

@@ -36,14 +36,14 @@ fileprivate final class DematerializeSink<Element: EventConvertible, O: Observer
     }
 }
 
-final fileprivate class Dematerialize<Element: EventConvertible>: Producer<Element.ElementType>  {
+final private class Dematerialize<Element: EventConvertible>: Producer<Element.ElementType> {
     private let _source: Observable<Element>
-    
+
     init(source: Observable<Element>) {
         _source = source
     }
-    
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element.ElementType {
+
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element.ElementType {
         let sink = DematerializeSink<Element, O>(observer: observer, cancel: cancel)
         let subscription = _source.subscribe(sink)
         return (sink: sink, subscription: subscription)

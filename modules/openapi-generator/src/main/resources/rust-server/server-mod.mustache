@@ -5,12 +5,16 @@ extern crate native_tls;
 extern crate hyper_tls;
 extern crate openssl;
 extern crate mime;
-{{^apiUsesUuid}}extern crate uuid;{{/apiUsesUuid}}
 extern crate chrono;
 extern crate percent_encoding;
 extern crate url;
+{{#apiUsesUuid}}
+extern crate uuid;
+{{/apiUsesUuid}}
+{{#apiUsesMultipart}}
+extern crate multipart;
+{{/apiUsesMultipart}}
 
-{{#apiUsesUuid}}use uuid;{{/apiUsesUuid}}
 use std::sync::Arc;
 use std::marker::PhantomData;
 use futures::{Future, future, Stream, stream};
@@ -19,9 +23,15 @@ use hyper::{Request, Response, Error, StatusCode};
 use hyper::header::{Headers, ContentType};
 use self::url::form_urlencoded;
 use mimetypes;
-
+{{#apiUsesMultipart}}
+use self::multipart::server::Multipart;
+use self::multipart::server::save::SaveResult;
+use std::fs;
+{{/apiUsesMultipart}}
 use serde_json;
-{{#usesXml}}use serde_xml_rs;{{/usesXml}}
+{{#usesXml}}
+use serde_xml_rs;
+{{/usesXml}}
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
@@ -50,7 +60,7 @@ mod paths {
     extern crate regex;
 
     lazy_static! {
-        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
+        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
 {{#pathSet}}
             r"^{{{basePathWithoutHost}}}{{{pathRegEx}}}"{{^-last}},{{/-last}}
 {{/pathSet}}
@@ -165,8 +175,14 @@ where
                     {{/authMethods}}
                 }
 {{/hasAuthMethods}}
-
-{{#vendorExtensions}}{{#hasPathParams}}
+{{#vendorExtensions}}
+  {{#consumesMultipart}} 
+                let boundary = match multipart_boundary(&headers) {
+                    Some(boundary) => boundary.to_string(),
+                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
+                };
+  {{/consumesMultipart}}
+  {{#hasPathParams}}
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -175,7 +191,8 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE {{{PATH_ID}}} in set but failed match against \"{}\"", path, paths::REGEX_{{{PATH_ID}}}.as_str())
                     );
-{{/hasPathParams}}{{/vendorExtensions}}
+  {{/hasPathParams}}
+{{/vendorExtensions}}
 {{#pathParams}}
                 let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{baseName}}}"].as_bytes()).decode_utf8() {
                     Ok(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
@@ -185,36 +202,39 @@ where
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{baseName}}}"]))))
                 };
 {{/pathParams}}
-{{#headerParams}}{{#-first}}
+{{#headerParams}}
+  {{#-first}}
                 // Header parameters
-{{/-first}}
+  {{/-first}}
                 header! { (Request{{vendorExtensions.typeName}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
-{{#required}}
+  {{#required}}
                 let param_{{{paramName}}} = match headers.get::<Request{{vendorExtensions.typeName}}>() {
                     Some(param_{{{paramName}}}) => param_{{{paramName}}}.0.clone(),
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing or invalid required header {{{baseName}}}"))),
                 };
-{{/required}}
-{{^required}}
+  {{/required}}
+  {{^required}}
                 let param_{{{paramName}}} = headers.get::<Request{{vendorExtensions.typeName}}>().map(|header| header.0.clone());
-{{/required}}{{/headerParams}}
-
-{{#queryParams}}{{#-first}}
+  {{/required}}
+{{/headerParams}}
+{{#queryParams}}
+  {{#-first}}
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-{{/-first}}
+  {{/-first}}
                 let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.to_owned())
-{{#isListContainer}}
+  {{#isListContainer}}
                     .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse::<{{{baseType}}}>().ok())
                     .collect::<Vec<_>>();
-{{^required}}
+  {{^required}}
                 let param_{{{paramName}}} = if !param_{{{paramName}}}.is_empty() {
                     Some(param_{{{paramName}}})
                 } else {
                     None
                 };
-{{/required}}
-{{/isListContainer}}{{^isListContainer}}
+  {{/required}}
+{{/isListContainer}}
+{{^isListContainer}}
                     .nth(0);
 {{#required}}
                 let param_{{{paramName}}} = match param_{{{paramName}}} {
@@ -229,8 +249,10 @@ where
 {{/required}}
 {{/isListContainer}}
 {{/queryParams}}
-
-{{#bodyParams}}{{#-first}}
+{{#vendorExtensions}}
+  {{^consumesMultipart}}
+    {{#bodyParams}}
+      {{#-first}}
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -238,53 +260,147 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-{{#vendorExtensions}}{{^consumesPlainText}}
+        {{#vendorExtensions}}
+          {{^consumesPlainText}}
                                 let mut unused_elements = Vec::new();
-{{/consumesPlainText}}
+          {{/consumesPlainText}}
                                 let param_{{{paramName}}}: Option<{{{dataType}}}> = if !body.is_empty() {
-{{#consumesXml}}
+          {{#consumesXml}}
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-{{/consumesXml}}{{#consumesJson}}
+          {{/consumesXml}}
+          {{#consumesJson}}
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-{{/consumesJson}}{{^consumesPlainText}}
+          {{/consumesJson}}
+          {{^consumesPlainText}}
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
-{{#required}}
+            {{#required}}
                                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {}", e)))),
-{{/required}}{{^required}}
+            {{/required}}
+            {{^required}}
                                         Err(_) => None,
-{{/required}}
+            {{/required}}
                                     }
-{{/consumesPlainText}}{{#consumesPlainText}}
-{{#isByteArray}}
+          {{/consumesPlainText}}
+          {{#consumesPlainText}}
+            {{#isByteArray}}
                                     Some(swagger::ByteArray(body.to_vec()))
-{{/isByteArray}}
-{{#isString}}
+            {{/isByteArray}}
+            {{#isString}}
                                     Some(String::from_utf8(body.to_vec()).unwrap())
-{{/isString}}
-{{/consumesPlainText}}{{/vendorExtensions}}
+            {{/isString}}
+          {{/consumesPlainText}}
+        {{/vendorExtensions}}
                                 } else {
                                     None
                                 };
-{{#required}}
+        {{#required}}
                                 let param_{{{paramName}}} = match param_{{{paramName}}} {
                                     Some(param_{{{paramName}}}) => param_{{{paramName}}},
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter {{{baseName}}}"))),
                                 };
-{{/required}}
-{{/-first}}{{/bodyParams}}
-{{^bodyParams}}{{#vendorExtensions}}
+        {{/required}}
+      {{/-first}}
+    {{/bodyParams}}
+  {{/consumesMultipart}}
+  {{#consumesMultipart}}
+    {{^bodyParams}}
+      {{#vendorExtensions}}
+                // Form Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                Box::new(body.concat2()
+                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                        match result {
+                            Ok(body) => {
+                                // Read Form Parameters from body
+                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
+                                    SaveResult::Full(entries) => {
+                                        entries
+                                    },
+                                    _ => {
+                                        return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Unable to process all message parts"))))
+                                    },
+                                };
+                {{#formParams}}{{#-first}}{{/-first}}
+                                {{#isByteArray}}
+                                let file_{{{paramName}}} = entries.files.remove("{{{paramName}}}");
+                                {{#required}}
+                                let param_{{{paramName}}} = match file_{{{paramName}}} {
+                                    Some(file) => {
+                                        let path = &file[0].path;
+                                        let {{{paramName}}}_str = fs::read_to_string(path).unwrap();
+                                        swagger::ByteArray({{{paramName}}}_str.as_bytes().to_vec())
+                                    }
+                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter {{{paramName}}}")))),
+                                };
+                                {{/required}}
+                                {{^required}}
+                                let param_{{{paramName}}} = match file_{{{paramName}}} {
+                                    Some(file) => {
+                                        let path = &file[0].path;
+                                        let {{{paramName}}}_str = fs::read_to_string(path).unwrap();
+                                        Some(swagger::ByteArray({{{paramName}}}_str.as_bytes().to_vec()))
+                                    }
+                                    None => None,
+                                };
+                                {{/required}}
+                                {{/isByteArray}}
+                                {{^isByteArray}}{{#jsonSchema}}
+                                let file_{{{paramName}}} = entries.files.remove("{{{paramName}}}");
+                                {{#required}}
+                                let param_{{{paramName}}} = match file_{{{paramName}}} {
+                                    Some(file) => {
+                                        let path = &file[0].path;
+                                        let {{{paramName}}}_str = fs::read_to_string(path).expect("Reading saved String should never fail");
+                                        let {{{paramName}}}_model: {{{dataType}}} = match serde_json::from_str(&{{{paramName}}}_str) {
+                                            Ok(model) => model,
+                                            Err(e) => {
+                                                return Box::new(future::ok(
+                                                    Response::new()
+                                                    .with_status(StatusCode::BadRequest)
+                                                    .with_body(format!("{{{paramName}}} data does not match API definition: {}", e))))
+                                            }
+                                        };
+                                        {{{paramName}}}_model
+                                    }
+                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter {{{paramName}}}")))),
+                                };
+                                {{/required}}
+                                {{^required}}
+                                let param_{{{paramName}}} = match file_{{{paramName}}} {
+                                   Some(file) => {
+                                        let path = &file[0].path;
+                                        let {{{paramName}}}_str = fs::read_to_string(path).unwrap();
+                                        let {{{paramName}}}_model: {{{dataType}}} = serde_json::from_str(&{{{paramName}}}_str).expect("Impossible to fail to serialise");
+                                        Some({{{paramName}}}_model)
+                                    }
+                                    None => None,
+                                };
+                                {{/required}}
+                                {{/jsonSchema}}{{/isByteArray}}
+        {{/formParams}}
+      {{/vendorExtensions}}
+    {{/bodyParams}}
+  {{/consumesMultipart}}
+  {{^consumesMultipart}}
+    {{^bodyParams}}
+      {{#vendorExtensions}}
                 Box::new({
                         {{
-{{#formParams}}{{#-first}}
+        {{#formParams}}
+          {{#-first}}
                                 // Form parameters
-{{/-first}}
+          {{/-first}}
                                 let param_{{{paramName}}} = {{^isContainer}}{{#vendorExtensions}}{{{example}}};{{/vendorExtensions}}{{/isContainer}}{{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}{{#isMapContainer}}None;{{/isMapContainer}}
-{{/formParams}}
-{{/vendorExtensions}}{{/bodyParams}}
+        {{/formParams}}
+      {{/vendorExtensions}}
+    {{/bodyParams}}
+  {{/consumesMultipart}}
+{{/vendorExtensions}}
                                 Box::new(api_impl.{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}param_{{{paramName}}}{{#isListContainer}}.as_ref(){{/isListContainer}}, {{/allParams}}&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -356,19 +472,36 @@ where
                                         future::ok(response)
                                     }
                                 ))
-{{^bodyParams}}{{#vendorExtensions}}
+{{#vendorExtensions}}
+  {{^consumesMultipart}}
+    {{^bodyParams}}
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-{{/vendorExtensions}}{{/bodyParams}}
-{{#bodyParams}}{{#-first}}
+    {{/bodyParams}}
+  {{/consumesMultipart}}
+{{/vendorExtensions}}
+{{#bodyParams}}
+  {{#-first}}
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter {{{baseName}}}: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-{{/-first}}{{/bodyParams}}
+  {{/-first}}
+{{/bodyParams}}
+{{#vendorExtensions}}
+  {{#consumesMultipart}}
+    {{^bodyParams}}
+                                as Box<Future<Item=Response, Error=Error>>
+                            },
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
+                        }
+                    })
+                )
+    {{/bodyParams}}
+  {{/consumesMultipart}}
+{{/vendorExtensions}}
             },
-
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
         }
@@ -384,6 +517,20 @@ impl<T, C> Clone for Service<T, C>
         }
     }
 }
+
+{{#apiUsesMultipart}}
+/// Utility function to get the multipart boundary marker (if any) from the Headers.
+fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
+    headers.get::<ContentType>().and_then(|content_type| {
+        let ContentType(ref mime) = *content_type;
+        if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
+            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str())
+        } else {
+            None
+        }
+    })
+}
+{{/apiUsesMultipart}}
 
 /// Request parser for `Api`.
 pub struct ApiRequestParser;

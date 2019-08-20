@@ -7,19 +7,11 @@
 
 import Foundation
 
-
 /** This is a subclass defived from the SampleBase class. */
 
 public struct SampleSubClass: Codable {
 
-    public var subClassStringProp: String?
-    public var subClassIntegerProp: Int?
-
-    public init(subClassStringProp: String?, subClassIntegerProp: Int?) {
-        self.subClassStringProp = subClassStringProp
-        self.subClassIntegerProp = subClassIntegerProp
+    public init() {
     }
 
-
 }
-

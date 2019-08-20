@@ -356,6 +356,35 @@ public class FakeApi {
             delegate.testJsonFormData(param, param2, fut);
         }));
     }
+    /**
+     * 
+     * To test the collection format in query parameters
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, resultHandler);
+    }
+
+    /**
+     * 
+     * To test the collection format in query parameters
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxTestQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, fut);
+        }));
+    }
 
     public static FakeApi newInstance(org.openapitools.client.api.FakeApi arg) {
         return arg != null ? new FakeApi(arg) : null;

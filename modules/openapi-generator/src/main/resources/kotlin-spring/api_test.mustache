@@ -1,0 +1,37 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import org.junit.jupiter.api.Test
+
+{{#reactive}}
+import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.test.runBlockingTest
+{{/reactive}}
+import org.springframework.http.ResponseEntity
+
+class {{classname}}Test {
+
+    {{#serviceInterface}}private val service: {{classname}}Service = {{classname}}ServiceImpl(){{/serviceInterface}}
+    private val api: {{classname}}Controller = {{classname}}Controller({{#serviceInterface}}service{{/serviceInterface}})
+
+    {{#operations}}{{#operation}}
+    /**
+    * {{summary}}
+    *
+    * {{notes}}
+    *
+    * @throws ApiException
+    *          if the Api call fails
+    */
+    @Test
+    fun {{operationId}}Test() {{#reactive}}= runBlockingTest {{/reactive}}{
+        {{#allParams}}
+        val {{paramName}}:{{{dataType}}}? = null
+        {{/allParams}}
+        val response: ResponseEntity<{{>returnTypes}}> = api.{{operationId}}({{#allParams}}{{paramName}}!!{{#hasMore}}, {{/hasMore}}{{/allParams}})
+
+        // TODO: test validations
+    }
+    {{/operation}}{{/operations}}
+}

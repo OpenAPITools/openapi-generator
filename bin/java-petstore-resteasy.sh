@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java -c bin/java-petstore-resteasy.json -o samples/client/petstore/java/resteasy -DhideGenerationTimestamp=true $@"
+ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java -c bin/java-petstore-resteasy.json -o samples/client/petstore/java/resteasy --additional-properties hideGenerationTimestamp=true $@"
 
 echo "Removing files and folders under samples/client/petstore/java/resteasy/src/main"
 rm -rf samples/client/petstore/java/resteasy/src/main

@@ -10,16 +10,15 @@
 package petstore
 
 import (
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
-	"strings"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 )
 
 // Linger please
 var (
-	_ context.Context
+	_ _context.Context
 )
 
 type FakeClassnameTags123ApiService service
@@ -27,13 +26,13 @@ type FakeClassnameTags123ApiService service
 /*
 FakeClassnameTags123ApiService To test class name in snake case
 To test class name in snake case
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body client model
 @return Client
 */
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body Client) (Client, *http.Response, error) {
+func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Patch")
+		localVarHttpMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -45,8 +44,8 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 	localVarPath := a.client.cfg.BasePath + "/fake_classname_test"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"application/json"}
@@ -89,7 +88,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err

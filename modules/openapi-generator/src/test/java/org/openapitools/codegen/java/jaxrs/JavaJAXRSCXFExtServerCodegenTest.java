@@ -133,11 +133,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
             return useMultipartFeature;
         }
 
-        // AbstractJavaCodegen.USE_NULL_FOR_UNKNOWN_ENUM_VALUE
-        public boolean isUseNullForUnknownEnumValue() {
-            return useNullForUnknownEnumValue;
-        }
-
         // SpringFeatures.USE_SPRING_ANNOTATION_CONFIG
         public boolean isUseSpringAnnotationConfig() {
             return useSpringAnnotationConfig;
@@ -253,7 +248,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(AbstractJavaCodegen.JAVA8_MODE, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_ASYNC, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_JAVA6, "false");
-        additionalProperties.put(AbstractJavaCodegen.USE_NULL_FOR_UNKNOWN_ENUM_VALUE, "true");
         additionalProperties.put(AbstractJavaCodegen.WITH_XML, "true");
         // Options processed by AbstractJavaJAXRSServerCodegen
         additionalProperties.put(CodegenConstants.IMPL_FOLDER, "myimpl");
@@ -328,7 +322,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(testerCodegen.isFullJavaUtil(), true);
         assertEquals(testerCodegen.isJava8Mode(), true);
         assertEquals(testerCodegen.isSupportAsync(), true);
-        assertEquals(testerCodegen.isUseNullForUnknownEnumValue(), true);
         assertEquals(testerCodegen.isWithXml(), true);
         // Options processed by AbstractJavaJAXRSServerCodegen
         assertEquals(testerCodegen.getImplFolder(), "myimpl");
@@ -369,11 +362,9 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
                 .getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -448,13 +439,11 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
                 .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
-        opts.getProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
+        codegen.additionalProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -494,14 +483,12 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
                 .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
-        opts.getProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
-        opts.getProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -587,7 +574,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertNull(additionalProperties.get(AbstractJavaCodegen.JAVA8_MODE));
         assertNull(additionalProperties.get(AbstractJavaCodegen.SUPPORT_ASYNC));
         assertEquals(additionalProperties.get(AbstractJavaCodegen.SUPPORT_JAVA6), Boolean.FALSE);
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.USE_NULL_FOR_UNKNOWN_ENUM_VALUE), false);
         assertEquals(additionalProperties.get(AbstractJavaCodegen.WITH_XML), false);
         // Options processed by AbstractJavaJAXRSServerCodegen
         assertNull(additionalProperties.get(CodegenConstants.IMPL_FOLDER));

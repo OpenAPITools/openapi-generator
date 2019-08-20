@@ -705,6 +705,10 @@ public class ApiClient {
         response = invocationBuilder.method("PATCH", entity);
       } else if ("HEAD".equals(method)) {
         response = invocationBuilder.head();
+      } else if ("OPTIONS".equals(method)) {
+        response = invocationBuilder.options();
+      } else if ("TRACE".equals(method)) {
+        response = invocationBuilder.trace();
       } else {
         throw new ApiException(500, "unknown method type " + method);
       }
@@ -784,6 +788,8 @@ public class ApiClient {
    * Update query and header parameters based on authentication settings.
    *
    * @param authNames The authentications to apply
+   * @param queryParams List of query parameters
+   * @param headerParams Map of header parameters
    */
   protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams) {
     for (String authName : authNames) {

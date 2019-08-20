@@ -46,8 +46,8 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var api_instance = PetApi();
+var body = Pet(); // Pet | Pet object that needs to be added to the store
 
 try {
     api_instance.addPet(body);

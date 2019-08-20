@@ -38,6 +38,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     protected boolean withGoCodegenComment = false;
     protected boolean withXml = false;
+    protected boolean enumClassPrefix = false;
 
     protected String packageName = "openapi";
 
@@ -98,6 +99,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
@@ -360,10 +362,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 iterator.remove();
         }
 
-        // this will only import "fmt" if there are items in pathParams
+        // this will only import "fmt" and "strings" if there are items in pathParams
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
                 imports.add(createMapping("import", "fmt"));
+                imports.add(createMapping("import", "strings"));
                 break; //just need to import once
             }
         }
@@ -385,6 +388,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
+                }
+
+                // import "reflect" package if the parameter is collectionFormat=multi
+                if (param.isCollectionFormatMulti) {
+                    imports.add(createMapping("import", "reflect"));
                 }
 
                 // import "optionals" package if the parameter is optional
@@ -609,6 +617,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setWithXml(boolean withXml) {
         this.withXml = withXml;
+    }
+
+    public void setEnumClassPrefix(boolean enumClassPrefix) {
+        this.enumClassPrefix = enumClassPrefix;
     }
 
     @Override

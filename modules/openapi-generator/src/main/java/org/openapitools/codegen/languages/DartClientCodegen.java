@@ -49,6 +49,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String sourceFolder = "";
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
+    protected String apiTestPath = "test" + File.separator;
+    protected String modelTestPath = "test" + File.separator;
 
     public DartClientCodegen() {
         super();
@@ -65,6 +67,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelPackage = "lib.model";
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
+        modelTestTemplateFiles.put("model_test.mustache", ".dart");
+        apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -110,15 +115,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("File", "MultipartFile");
         typeMapping.put("binary", "MultipartFile");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
         typeMapping.put("ByteArray", "String");
 
-        cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based"));
+        cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based (for Dart 1.x only)"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
         cliOptions.add(new CliOption(PUB_VERSION, "Version in generated pubspec"));
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "source folder for generated code"));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "support dart2").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "Support Dart 2.x").defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -214,6 +220,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
     }
 
     @Override
@@ -229,6 +236,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + apiTestPath.replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separator + modelTestPath.replace('/', File.separatorChar);
     }
 
     @Override
@@ -293,6 +310,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiFilename(String name) {
         return underscore(toApiName(name));
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "_test";
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelFilename(name) + "_test";
     }
 
     @Override

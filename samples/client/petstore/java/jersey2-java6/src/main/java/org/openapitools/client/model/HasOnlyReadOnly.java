@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -25,29 +26,43 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class HasOnlyReadOnly {
-  @JsonProperty("bar")
+  public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;
 
-  @JsonProperty("foo")
+  public static final String JSON_PROPERTY_FOO = "foo";
   private String foo;
+
 
    /**
    * Get bar
    * @return bar
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getBar() {
     return bar;
   }
+
+
+
 
    /**
    * Get foo
    * @return foo
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getFoo() {
     return foo;
   }
+
+
 
 
   @Override

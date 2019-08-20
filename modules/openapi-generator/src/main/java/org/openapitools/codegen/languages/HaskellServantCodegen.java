@@ -173,6 +173,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "Double");
         typeMapping.put("any", "Value");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "Text");
         typeMapping.put("ByteArray", "Text");
         typeMapping.put("object", "Value");
 
@@ -410,6 +411,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
+        
+        // Properly handle root-only routes (#3256)
+        if (path.contentEquals("/")) {
+            return new ArrayList<>();
+        }
 
         // Cut off the leading slash, if it is present.
         if (path.startsWith("/")) {
@@ -543,6 +549,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 return "(QueryList 'CommaSeparated (" + type + "))";
             case "tsv":
                 return "(QueryList 'TabSeparated (" + type + "))";
+            case "space":
             case "ssv":
                 return "(QueryList 'SpaceSeparated (" + type + "))";
             case "pipes":
@@ -550,7 +557,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             case "multi":
                 return "(QueryList 'MultiParamArray (" + type + "))";
             default:
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException(collectionFormat + " (collection format) not supported");
         }
     }
 

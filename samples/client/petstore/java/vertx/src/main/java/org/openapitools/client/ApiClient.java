@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.file.AsyncFile;
@@ -75,6 +76,8 @@ public class ApiClient {
         this.objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.setDateFormat(dateFormat);
+        JsonNullableModule jnm = new JsonNullableModule();
+        this.objectMapper.registerModule(jnm);
 
         // Setup authentications (key: authentication name, value: authentication).
         this.authentications = new HashMap<>();

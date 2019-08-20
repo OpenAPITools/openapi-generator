@@ -1,0 +1,25 @@
+package {{packageName}}.infrastructure
+
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+{{^threetenbp}}
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+{{/threetenbp}}
+{{#threetenbp}}
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
+{{/threetenbp}}
+
+class LocalDateAdapter {
+    @ToJson
+    fun toJson(value: LocalDate): String {
+        return DateTimeFormatter.ISO_LOCAL_DATE.format(value)
+    }
+
+    @FromJson
+    fun fromJson(value: String): LocalDate {
+        return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE)
+    }
+
+}

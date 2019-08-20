@@ -22,7 +22,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class AnonymousObservableSink<O: ObserverType> : Sink<O>, ObserverType {
+final private class AnonymousObservableSink<O: ObserverType> : Sink<O>, ObserverType {
     typealias E = O.E
     typealias Parent = AnonymousObservable<E>
 
@@ -61,7 +61,7 @@ final fileprivate class AnonymousObservableSink<O: ObserverType> : Sink<O>, Obse
     }
 }
 
-final fileprivate class AnonymousObservable<Element> : Producer<Element> {
+final private class AnonymousObservable<Element> : Producer<Element> {
     typealias SubscribeHandler = (AnyObserver<Element>) -> Disposable
 
     let _subscribeHandler: SubscribeHandler
@@ -70,7 +70,7 @@ final fileprivate class AnonymousObservable<Element> : Producer<Element> {
         _subscribeHandler = subscribeHandler
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = AnonymousObservableSink(observer: observer, cancel: cancel)
         let subscription = sink.run(self)
         return (sink: sink, subscription: subscription)

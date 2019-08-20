@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -31,12 +32,13 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "CatAllOf")
 public class CatAllOf {
-  @JsonProperty("declawed")
-  @JacksonXmlProperty(localName = "declawed")
   @XmlElement(name = "declawed")
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
   private Boolean declawed;
 
+
   public CatAllOf declawed(Boolean declawed) {
+    
     this.declawed = declawed;
     return this;
   }
@@ -45,10 +47,17 @@ public class CatAllOf {
    * Get declawed
    * @return declawed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "declawed")
+
   public Boolean getDeclawed() {
     return declawed;
   }
+
+
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;

@@ -1,0 +1,129 @@
+{{>partial_header}}
+package {{packageName}}
+{{#models}}
+{{#imports}}
+{{#-first}}
+import (
+{{/-first}}
+	"{{import}}"
+{{#-last}}
+)
+{{/-last}}
+{{/imports}}
+{{#model}}
+{{#isEnum}}
+{{#description}}
+// {{{classname}}} : {{{description}}}
+{{/description}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+
+// List of {{{name}}}
+const (
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{^-first}}
+	{{/-first}}
+	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = "{{{value}}}"
+	{{/enumVars}}
+	{{/allowableValues}}
+){{/isEnum}}{{^isEnum}}{{#description}}
+// {{{description}}}{{/description}}
+type {{classname}} struct {
+{{#vars}}
+{{^-first}}
+{{/-first}}
+{{#description}}
+	// {{{description}}}
+{{/description}}
+	{{name}} *{{{dataType}}} `json:"{{baseName}},omitempty"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+{{#isNullable}}	isExplicitNull{{name}} bool `json:"-"{{#withXml}} xml:"-"{{/withXml}}`{{/isNullable}}
+{{/vars}}
+}
+{{/isEnum}}
+
+{{^isEnum}}
+{{#vars}}
+// Get{{name}} returns the {{name}} field if non-nil, zero value otherwise.
+func (o *{{classname}}) Get{{name}}() {{dataType}} {
+	if o == nil || o.{{name}} == nil {
+		var ret {{dataType}}
+		return ret
+	}
+	return *o.{{name}}
+}
+
+// Get{{name}}Ok returns a tuple with the {{name}} field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool) {
+	if o == nil || o.{{name}} == nil {
+		var ret {{dataType}}
+		return ret, false
+	}
+	return *o.{{name}}, true
+}
+
+// Has{{name}} returns a boolean if a field has been set.
+func (o *{{classname}}) Has{{name}}() bool {
+	if o != nil && o.{{name}} != nil {
+		return true
+	}
+
+	return false
+}
+
+// Set{{name}} gets a reference to the given {{dataType}} and assigns it to the {{name}} field.
+func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
+	o.{{name}} = &v
+}
+
+{{#isNullable}}
+// Set{{name}}ExplicitNull (un)sets {{name}} to be considered as explicit "null" value
+// when serializing to JSON (pass true as argument to set this, false to unset)
+// The {{name}} value is set to nil even if false is passed
+func (o *{{classname}}) Set{{name}}ExplicitNull(b bool) {
+	o.{{name}} = nil
+	o.isExplicitNull{{name}} = b
+}
+{{/isNullable}}
+{{/vars}}
+
+func (o {{classname}}) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	{{#vars}}
+	{{#required}}
+	{{! if argument is required and not nullable, it can't be nil}}
+	{{^isNullable}}
+	if o.{{name}} == nil {
+		return nil, errors.New("{{name}} is required and not nullable, but was not set on {{classname}}")
+	}{{/isNullable}}
+	{{! if argument is required and nullable, it *must* have isExplicitNull<name> set to true when it's nil}}
+	{{#isNullable}}
+	if o.{{name}} == nil && !o.isExplicitNull{{name}} {
+		return nil, errors.New("{{name}} is required and nullable, but it wasn't set to be explicit null")
+	}
+	{{/isNullable}}
+	{{/required}}
+	{{! if argument is nullable, only serialize it if it is nil *and* was explicitly set to nil}}
+	{{#isNullable}}
+	if o.{{name}} == nil {
+		if o.isExplicitNull{{name}} {
+			toSerialize["{{baseName}}"] = o.{{name}}
+		}
+	} else {
+		toSerialize["{{baseName}}"] = o.{{name}}
+	}
+	{{/isNullable}}
+	{{! if argument is not nullable, don't set it if it is nil}}
+	{{^isNullable}}
+	if o.{{name}} != nil {
+		toSerialize["{{baseName}}"] = o.{{name}}
+	}
+	{{/isNullable}}
+	{{/vars}}
+	return json.Marshal(toSerialize)
+}
+
+{{/isEnum}}
+
+{{/model}}
+{{/models}}

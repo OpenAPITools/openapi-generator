@@ -13,7 +13,7 @@
  */
 
 
-import * as url from 'url';
+import * as globalImportUrl from 'url';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { Configuration } from '../../../configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../../../base';
@@ -39,7 +39,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             }
             const localVarPath = `/store/order/{orderId}`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
@@ -49,13 +49,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
 
-                localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: url.format(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -67,7 +68,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          */
         getInventory(options: any = {}): RequestArgs {
             const localVarPath = `/store/inventory`;
-            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
@@ -85,13 +86,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             }
 
 
-                localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: url.format(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -109,7 +111,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             }
             const localVarPath = `/store/order/{orderId}`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
@@ -119,13 +121,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
 
-                localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: url.format(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -142,7 +145,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
                 throw new RequiredError('body','Required parameter body was null or undefined when calling placeOrder.');
             }
             const localVarPath = `/store/order`;
-            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
@@ -152,7 +155,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
 
-                localVarHeaderParameter['Content-Type'] = 'application/json';
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
@@ -162,7 +166,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: url.format(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -182,7 +186,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder(orderId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+        deleteOrder(orderId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
             const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).deleteOrder(orderId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};

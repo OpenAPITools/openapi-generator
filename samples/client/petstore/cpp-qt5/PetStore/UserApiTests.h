@@ -1,27 +1,14 @@
-#ifndef USERAPITESTS_H
-#define USERAPITESTS_H
-#include <QtTest/QtTest>
-#include <QTimer>
+#pragma once
 
 #include "../client/OAIUserApi.h"
 
 using namespace OpenAPI;
 
 class UserApiTests: public QObject {
-Q_OBJECT
-public:
-    UserApiTests();
-    virtual ~UserApiTests();
+    Q_OBJECT
 
-    static void runTests();
-
-private:
     OAIUserApi* getApi();
     OAIUser createRandomUser();
-
-signals:
-    void quit();
-    bool success();
 
 private slots:
     void createUserTest();
@@ -33,5 +20,3 @@ private slots:
     void logoutUserTest();
     void updateUserTest();
 };
-
-#endif // USERAPITESTS_H
