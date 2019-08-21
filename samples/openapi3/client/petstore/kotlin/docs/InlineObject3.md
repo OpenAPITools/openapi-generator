@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **patternWithoutDelimiter** | **kotlin.String** | None | 
 **byte** | **kotlin.ByteArray** | None | 
 **binary** | [**java.io.File**](java.io.File.md) | None |  [optional]
-**date** | [**java.time.LocalDateTime**](java.time.LocalDateTime.md) | None |  [optional]
+**date** | [**java.time.LocalDate**](java.time.LocalDate.md) | None |  [optional]
 **dateTime** | [**java.time.LocalDateTime**](java.time.LocalDateTime.md) | None |  [optional]
 **password** | **kotlin.String** | None |  [optional]
 **callback** | **kotlin.String** | None |  [optional]

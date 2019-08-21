@@ -15,14 +15,11 @@ package org.openapitools.client.models
 import com.squareup.moshi.Json
 /**
  * 
- * @param file 
- * @param files 
+ * @param breed 
  */
-data class FileSchemaTestClass (
-    @Json(name = "file")
-    val file: java.io.File? = null,
-    @Json(name = "files")
-    val files: kotlin.Array<java.io.File>? = null
+data class DogAllOf (
+    @Json(name = "breed")
+    val breed: kotlin.String? = null
 ) {
 
 }

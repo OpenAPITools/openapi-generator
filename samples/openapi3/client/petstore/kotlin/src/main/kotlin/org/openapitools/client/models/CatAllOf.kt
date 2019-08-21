@@ -15,14 +15,11 @@ package org.openapitools.client.models
 import com.squareup.moshi.Json
 /**
  * 
- * @param file 
- * @param files 
+ * @param declawed 
  */
-data class FileSchemaTestClass (
-    @Json(name = "file")
-    val file: java.io.File? = null,
-    @Json(name = "files")
-    val files: kotlin.Array<java.io.File>? = null
+data class CatAllOf (
+    @Json(name = "declawed")
+    val declawed: kotlin.Boolean? = null
 ) {
 
 }
