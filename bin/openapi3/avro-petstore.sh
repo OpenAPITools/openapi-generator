@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g avro  -o samples/avro/petstore $@"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g avro  -o samples/openapi3/schema/petstore/avro $@"
 
 java $JAVA_OPTS -jar $executable $ags
