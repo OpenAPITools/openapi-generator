@@ -652,7 +652,7 @@ public class ApiClient {
     } else if ("PUT".equals(method)) {
       response = invocationBuilder.put(entity);
     } else if ("DELETE".equals(method)) {
-      response = invocationBuilder.delete();
+      response = invocationBuilder.method("DELETE", entity);
     } else if ("PATCH".equals(method)) {
       response = invocationBuilder.method("PATCH", entity);
     } else if ("HEAD".equals(method)) {
