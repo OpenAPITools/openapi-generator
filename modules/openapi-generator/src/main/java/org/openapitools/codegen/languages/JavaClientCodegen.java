@@ -24,6 +24,7 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -583,6 +584,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonProperty");
                 model.imports.add("JsonValue");
+                model.imports.add("JsonInclude");
             }
             if (additionalProperties.containsKey("gson")) {
                 model.imports.add("SerializedName");
@@ -620,6 +622,39 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
         }
+        return objs;
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        objs = super.postProcessModels(objs);
+        if (additionalProperties.containsKey("jackson") && !JERSEY1.equals(getLibrary())) {
+            List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+            List<Object> models = (List<Object>) objs.get("models");
+            for (Object _mo : models) {
+                Map<String, Object> mo = (Map<String, Object>) _mo;
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                boolean addImports = false;
+                for (CodegenProperty var : cm.vars) {
+                    boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+                    // only add JsonNullable and related imports to optional and nullable values
+                    addImports |= isOptionalNullable;
+                    var.getVendorExtensions().put("isJacksonOptionalNullable", isOptionalNullable);
+                }
+                if (addImports) {
+                    cm.imports.add("JsonNullable");
+                    Map<String, String> itemJsonNullable = new HashMap<String, String>();
+                    itemJsonNullable.put("import", "org.openapitools.jackson.nullable.JsonNullable");
+                    imports.add(itemJsonNullable);
+
+                    cm.imports.add("NoSuchElementException");
+                    Map<String, String> itemExc = new HashMap<String, String>();
+                    itemExc.put("import", "java.util.NoSuchElementException");
+                    imports.add(itemExc);
+                }
+            }
+        }
+
         return objs;
     }
 

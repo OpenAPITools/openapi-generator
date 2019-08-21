@@ -19,6 +19,7 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
@@ -64,7 +66,20 @@ public class InlineModelResolver {
 
         for (String pathname : paths.keySet()) {
             PathItem path = paths.get(pathname);
+            List<Operation> operations = new ArrayList<>(path.readOperations());
+
+            // Include callback operation as well
             for (Operation operation : path.readOperations()) {
+                Map<String, Callback> callbacks = operation.getCallbacks();
+                if (callbacks != null) {
+                    operations.addAll(callbacks.values().stream()
+                            .flatMap(callback -> callback.values().stream())
+                            .flatMap(pathItem -> pathItem.readOperations().stream())
+                            .collect(Collectors.toList()));
+                }
+            }
+
+            for (Operation operation : operations) {
                 flattenRequestBody(openAPI, pathname, operation);
                 flattenParameters(openAPI, pathname, operation);
                 flattenResponses(openAPI, pathname, operation);
@@ -407,9 +422,19 @@ public class InlineModelResolver {
         }
     }
 
+    /**
+     * Generates a unique model name. Non-alphanumeric characters will be replaced
+     * with underscores
+     *
+     * @param title String title field in the schema if present
+     * @param key String model name
+     */
     private String resolveModelName(String title, String key) {
         if (title == null) {
-            return uniqueName(key);
+            // for auto-generated schema name, replace non-alphanumeric characters with underscore
+            // to avoid bugs with schema look up with inline schema created on the fly
+            // e.g. io.schema.User_name => io_schema_User_name
+            return uniqueName(key).replaceAll("[^A-Za-z0-9]", "_");
         } else {
             return uniqueName(title);
         }

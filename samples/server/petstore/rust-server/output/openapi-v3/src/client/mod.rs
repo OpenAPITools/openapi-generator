@@ -6,8 +6,7 @@ extern crate openssl;
 extern crate mime;
 extern crate chrono;
 extern crate url;
-
-
+extern crate uuid;
 
 use hyper;
 use hyper::header::{Headers, ContentType};
@@ -26,9 +25,7 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
-
 use mimetypes;
-
 use serde_json;
 use serde_xml_rs;
 
@@ -41,6 +38,7 @@ use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
 use {Api,
      RequiredOctetStreamPutResponse,
+     UuidGetResponse,
      XmlExtraPostResponse,
      XmlOtherPostResponse,
      XmlOtherPutResponse,
@@ -273,17 +271,13 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
         // Body parameter
         let body = param_body.0;
-
         request.set_body(body);
 
-
         request.headers_mut().set(ContentType(mimetypes::requests::REQUIRED_OCTET_STREAM_PUT.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -295,6 +289,80 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             RequiredOctetStreamPutResponse::OK
                         )
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
+    fn uuid_get(&self, context: &C) -> Box<Future<Item=UuidGetResponse, Error=ApiError>> {
+        let mut uri = format!(
+            "{}/uuid",
+            self.base_path
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+
+                                                 serde_json::from_str::<uuid::Uuid>(body)
+                                                     .map_err(|e| e.into())
+                                             )
+
+                                 )
+                        .map(move |body| {
+                            UuidGetResponse::DuplicateResponseLongText(body)
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -347,14 +415,13 @@ impl<F, C> Api<C> for Client<F> where
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_EXTRA_POST.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -427,14 +494,13 @@ if let Some(body) = body {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_OTHER_POST.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -507,14 +573,13 @@ if let Some(body) = body {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_OTHER_PUT.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -587,14 +652,13 @@ if let Some(body) = body {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_POST.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -667,14 +731,13 @@ if let Some(body) = body {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_PUT.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {

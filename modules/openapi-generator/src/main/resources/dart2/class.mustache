@@ -36,7 +36,7 @@ class {{classname}} {
       {{name}} = {{complexType}}.mapFromJson(json['{{baseName}}']);
       {{/isMapContainer}}
       {{^isMapContainer}}
-      {{name}} = new {{complexType}}.fromJson(json['{{baseName}}']);
+      {{name}} = {{complexType}}.fromJson(json['{{baseName}}']);
       {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
@@ -49,7 +49,12 @@ class {{classname}} {
           {{name}} = (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
         {{/isMapContainer}}
         {{^isMapContainer}}
+	{{#isDouble}}
+          {{name}} = json['{{baseName}}'].toDouble();
+	{{/isDouble}}
+	{{^isDouble}}
           {{name}} = json['{{baseName}}'];
+	{{/isDouble}}
         {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
@@ -81,13 +86,13 @@ class {{classname}} {
   }
 
   static List<{{classname}}> listFromJson(List<dynamic> json) {
-    return json == null ? new List<{{classname}}>() : json.map((value) => new {{classname}}.fromJson(value)).toList();
+    return json == null ? List<{{classname}}>() : json.map((value) => {{classname}}.fromJson(value)).toList();
   }
 
   static Map<String, {{classname}}> mapFromJson(Map<String, dynamic> json) {
-    var map = new Map<String, {{classname}}>();
+    var map = Map<String, {{classname}}>();
     if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = new {{classname}}.fromJson(value));
+      json.forEach((String key, dynamic value) => map[key] = {{classname}}.fromJson(value));
     }
     return map;
   }

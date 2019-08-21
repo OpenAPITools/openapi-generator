@@ -30,7 +30,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 body = petstore_api.User() # User | Created user object
 
@@ -45,7 +45,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object |
 
 ### Return type
 
@@ -81,7 +81,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 body = [petstore_api.User()] # list[User] | List of user object
 
@@ -96,7 +96,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](User.md)| List of user object | 
+ **body** | [**list[User]**](User.md)| List of user object |
 
 ### Return type
 
@@ -132,7 +132,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 body = [petstore_api.User()] # list[User] | List of user object
 
@@ -147,7 +147,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](User.md)| List of user object | 
+ **body** | [**list[User]**](User.md)| List of user object |
 
 ### Return type
 
@@ -185,7 +185,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The name that needs to be deleted
 
@@ -200,7 +200,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The name that needs to be deleted | 
+ **username** | **str**| The name that needs to be deleted |
 
 ### Return type
 
@@ -237,7 +237,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
 
@@ -253,7 +253,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **str**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
@@ -291,7 +291,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The user name for login
 password = 'password_example' # str | The password for login in clear text
@@ -308,8 +308,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The user name for login | 
- **password** | **str**| The password for login in clear text | 
+ **username** | **str**| The user name for login |
+ **password** | **str**| The password for login in clear text |
 
 ### Return type
 
@@ -346,7 +346,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 
 try:
@@ -395,7 +395,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | name that need to be deleted
 body = petstore_api.User() # User | Updated user object
@@ -411,8 +411,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **username** | **str**| name that need to be deleted |
+ **body** | [**User**](User.md)| Updated user object |
 
 ### Return type
 

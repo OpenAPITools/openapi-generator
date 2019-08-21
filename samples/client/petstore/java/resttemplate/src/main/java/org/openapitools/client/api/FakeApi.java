@@ -13,6 +13,7 @@ import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -69,7 +70,7 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'xmlItem' when calling createXmlItem");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/create_xml_item").build().toUriString();
+        String path = apiClient.expandPath("/fake/create_xml_item", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -98,7 +99,7 @@ public class FakeApi {
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws RestClientException {
         Object postBody = body;
         
-        String path = UriComponentsBuilder.fromPath("/fake/outer/boolean").build().toUriString();
+        String path = apiClient.expandPath("/fake/outer/boolean", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -127,7 +128,7 @@ public class FakeApi {
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws RestClientException {
         Object postBody = body;
         
-        String path = UriComponentsBuilder.fromPath("/fake/outer/composite").build().toUriString();
+        String path = apiClient.expandPath("/fake/outer/composite", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -156,7 +157,7 @@ public class FakeApi {
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws RestClientException {
         Object postBody = body;
         
-        String path = UriComponentsBuilder.fromPath("/fake/outer/number").build().toUriString();
+        String path = apiClient.expandPath("/fake/outer/number", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -185,7 +186,7 @@ public class FakeApi {
     public String fakeOuterStringSerialize(String body) throws RestClientException {
         Object postBody = body;
         
-        String path = UriComponentsBuilder.fromPath("/fake/outer/string").build().toUriString();
+        String path = apiClient.expandPath("/fake/outer/string", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -218,7 +219,7 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/body-with-file-schema").build().toUriString();
+        String path = apiClient.expandPath("/fake/body-with-file-schema", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -257,7 +258,7 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/body-with-query-params").build().toUriString();
+        String path = apiClient.expandPath("/fake/body-with-query-params", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -293,7 +294,7 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClientModel");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        String path = apiClient.expandPath("/fake", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -357,7 +358,7 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '_byte' when calling testEndpointParameters");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        String path = apiClient.expandPath("/fake", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -422,7 +423,7 @@ public class FakeApi {
     public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
         Object postBody = null;
         
-        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        String path = apiClient.expandPath("/fake", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -485,7 +486,7 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        String path = apiClient.expandPath("/fake", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -526,7 +527,7 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/inline-additionalProperties").build().toUriString();
+        String path = apiClient.expandPath("/fake/inline-additionalProperties", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -565,7 +566,7 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param2' when calling testJsonFormData");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/jsonFormData").build().toUriString();
+        String path = apiClient.expandPath("/fake/jsonFormData", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -587,5 +588,66 @@ public class FakeApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
+     * 
+     * To test the collection format in query parameters
+     * <p><b>200</b> - Success
+     * @param pipe The pipe parameter
+     * @param ioutil The ioutil parameter
+     * @param http The http parameter
+     * @param url The url parameter
+     * @param context The context parameter
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws RestClientException {
+        Object postBody = null;
+        
+        // verify the required parameter 'pipe' is set
+        if (pipe == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
+        }
+        
+        // verify the required parameter 'ioutil' is set
+        if (ioutil == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
+        }
+        
+        // verify the required parameter 'http' is set
+        if (http == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
+        }
+        
+        // verify the required parameter 'url' is set
+        if (url == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
+        }
+        
+        // verify the required parameter 'context' is set
+        if (context == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
+        }
+        
+        String path = apiClient.expandPath("/fake/test-query-paramters", Collections.<String, Object>emptyMap());
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "pipe", pipe));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "ioutil", ioutil));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("space".toUpperCase(Locale.ROOT)), "http", http));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "url", url));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
+        apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
 }

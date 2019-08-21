@@ -24,7 +24,7 @@ public class Pet   {
   private Long id;
 
   @JsonProperty("category")
-  private Category category = null;
+  private Category category;
 
   @JsonProperty("name")
   private String name;

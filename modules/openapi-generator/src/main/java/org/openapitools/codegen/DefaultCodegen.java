@@ -97,6 +97,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String embeddedTemplateDir;
     protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
@@ -240,13 +241,10 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey("lambda")) {
-            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
-                    "You'll likely need to use a custom template, " +
-                    "see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/templating.md. ");
-            additionalProperties.put("_lambda", lambdas);
-        } else {
-            additionalProperties.put("lambda", lambdas);
+            LOGGER.error("A property called 'lambda' already exists in additionalProperties");
+            throw new RuntimeException("A property called 'lambda' already exists in additionalProperties");
         }
+        additionalProperties.put("lambda", lambdas);
     }
 
     // override with any special post-processing for all models
@@ -506,12 +504,12 @@ public class DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
     }
 
-    //override with any special handling of the entire swagger spec
+    //override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
     }
 
-    // override with any special handling of the entire swagger spec
+    // override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void processOpenAPI(OpenAPI openAPI) {
     }
@@ -723,6 +721,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public Map<String, Object> additionalProperties() {
         return additionalProperties;
+    }
+
+    public Map<String, String> serverVariableOverrides() {
+        return serverVariables;
     }
 
     public Map<String, Object> vendorExtensions() {
@@ -1825,6 +1827,7 @@ public class DefaultCodegen implements CodegenConfig {
                         } else {
                             // composition
                             addProperties(properties, required, refSchema);
+                            addProperties(allProperties, allRequired, refSchema);
                         }
                     }
 
@@ -1870,6 +1873,9 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            if(composed.getRequired() != null) {
+                required.addAll(composed.getRequired());
+            }
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
             // end of code block for composed schema
@@ -1973,6 +1979,10 @@ public class DefaultCodegen implements CodegenConfig {
 
             for (Schema component : composedSchema.getAllOf()) {
                 addProperties(properties, required, component);
+            }
+
+            if(schema.getRequired() != null) {
+                required.addAll(schema.getRequired());
             }
 
             if (composedSchema.getOneOf() != null) {
@@ -4017,6 +4027,19 @@ public class DefaultCodegen implements CodegenConfig {
      * @return sanitized string
      */
     public String sanitizeName(String name, String removeCharRegEx) {
+        return sanitizeName(name, removeCharRegEx, new ArrayList<String>());
+    }
+
+    /**
+     * Sanitize name (parameter, property, method, etc)
+     *
+     * @param name            string to be sanitize
+     * @param removeCharRegEx a regex containing all char that will be removed
+     * @param exceptionList a list of matches which should not be sanitized (i.e expections)
+     * @return sanitized string
+     */
+    @SuppressWarnings("static-method")
+    public String sanitizeName(String name, String removeCharRegEx, ArrayList<String> exceptionList) {
         // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
         // character with _ or empty character. Below aims to spell out different cases we've
         // encountered so far and hopefully make it easier for others to add more special
@@ -4034,27 +4057,27 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // input[] => input
-        name = name.replaceAll("\\[\\]", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = this.sanitizeValue(name, "\\[\\]", "", exceptionList);
 
         // input[a][b] => input_a_b
-        name = name.replaceAll("\\[", "_");
-        name = name.replaceAll("\\]", "");
+        name = this.sanitizeValue(name, "\\[", "_", exceptionList);
+        name = this.sanitizeValue(name, "\\]", "", exceptionList);
 
         // input(a)(b) => input_a_b
-        name = name.replaceAll("\\(", "_");
-        name = name.replaceAll("\\)", "");
+        name = this.sanitizeValue(name, "\\(", "_", exceptionList);
+        name = this.sanitizeValue(name, "\\)", "", exceptionList);
 
         // input.name => input_name
-        name = name.replaceAll("\\.", "_");
+        name = this.sanitizeValue(name, "\\.", "_", exceptionList);
 
         // input-name => input_name
-        name = name.replaceAll("-", "_");
+        name = this.sanitizeValue(name, "-", "_", exceptionList);
 
         // a|b => a_b
-        name = name.replace("|", "_");
+        name = this.sanitizeValue(name, "\\|", "_", exceptionList);
 
         // input name and age => input_name_and_age
-        name = name.replaceAll(" ", "_");
+        name = this.sanitizeValue(name, " ", "_", exceptionList);
 
         // /api/films/get => _api_films_get
         // \api\films\get => _api_films_get
@@ -4070,6 +4093,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return name;
+    }
+
+    private String sanitizeValue(String value, String replaceMatch, String replaceValue, ArrayList<String> exceptionList) {
+        if (exceptionList.size() == 0 || !exceptionList.contains(replaceMatch)) {
+            return value.replaceAll(replaceMatch, replaceValue);
+        }
+        return value;
     }
 
     /**
@@ -4854,41 +4884,54 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenParameter.baseType);
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
-                if (ModelUtils.getAdditionalProperties(schema) != null) {// http body is map
-                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
-                } else if (codegenProperty != null) {
-                    String codegenModelName, codegenModelDescription;
 
-                    if (codegenModel != null) {
-                        codegenModelName = codegenModel.classname;
-                        codegenModelDescription = codegenModel.description;
-                    } else {
-                        LOGGER.warn("The following schema has undefined (null) baseType. " +
-                                "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
-                                "A correct 'consumes' for form parameters should be " +
-                                "'application/x-www-form-urlencoded' or 'multipart/form-data'");
-                        LOGGER.warn("schema: " + schema);
-                        LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
-                        codegenModelName = "UNKNOWN_BASE_TYPE";
-                        codegenModelDescription = "UNKNOWN_DESCRIPTION";
-                    }
-
-                    if (StringUtils.isEmpty(bodyParameterName)) {
-                        codegenParameter.baseName = codegenModelName;
-                    } else {
-                        codegenParameter.baseName = bodyParameterName;
-                    }
-
+                if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+                    List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
+                    imports.addAll(parts);
+                    String codegenModelName = codegenProperty.getComplexType();
+                    codegenParameter.baseName = codegenModelName;
                     codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                    codegenParameter.baseType = codegenModelName;
+                    codegenParameter.baseType = codegenParameter.baseName;
                     codegenParameter.dataType = getTypeDeclaration(codegenModelName);
-                    codegenParameter.description = codegenModelDescription;
-                    imports.add(codegenParameter.baseType);
+                    codegenParameter.description = codegenProperty.getDescription();
+                } else {
+                    if (ModelUtils.getAdditionalProperties(schema) != null) {// http body is map
+                        LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
+                    } else if (codegenProperty != null) {
+                        String codegenModelName, codegenModelDescription;
 
-                    if (codegenProperty.complexType != null) {
-                        imports.add(codegenProperty.complexType);
+                        if (codegenModel != null) {
+                            codegenModelName = codegenModel.classname;
+                            codegenModelDescription = codegenModel.description;
+                        } else {
+                            LOGGER.warn("The following schema has undefined (null) baseType. " +
+                                    "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
+                                    "A correct 'consumes' for form parameters should be " +
+                                    "'application/x-www-form-urlencoded' or 'multipart/form-data'");
+                            LOGGER.warn("schema: " + schema);
+                            LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
+                            codegenModelName = "UNKNOWN_BASE_TYPE";
+                            codegenModelDescription = "UNKNOWN_DESCRIPTION";
+                        }
+
+                        if (StringUtils.isEmpty(bodyParameterName)) {
+                            codegenParameter.baseName = codegenModelName;
+                        } else {
+                            codegenParameter.baseName = bodyParameterName;
+                        }
+
+                        codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                        codegenParameter.baseType = codegenModelName;
+                        codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                        codegenParameter.description = codegenModelDescription;
+                        imports.add(codegenParameter.baseType);
+
+                        if (codegenProperty.complexType != null) {
+                            imports.add(codegenProperty.complexType);
+                        }
                     }
                 }
+
                 setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
                 // set nullable
                 setParameterNullable(codegenParameter, codegenProperty);
@@ -4908,6 +4951,15 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.dataType = codegenProperty.dataType;
                 codegenParameter.description = codegenProperty.description;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.minimum = codegenProperty.minimum;
+                codegenParameter.maximum = codegenProperty.maximum;
+                codegenParameter.exclusiveMinimum = codegenProperty.exclusiveMinimum;
+                codegenParameter.exclusiveMaximum = codegenProperty.exclusiveMaximum;
+                codegenParameter.minLength = codegenProperty.minLength;
+                codegenParameter.maxLength = codegenProperty.maxLength;
+                codegenParameter.pattern = codegenProperty.pattern;
+
+
 
                 if (codegenProperty.complexType != null) {
                     imports.add(codegenProperty.complexType);
@@ -5020,14 +5072,34 @@ public class DefaultCodegen implements CodegenConfig {
         if (variables == null) {
             return Collections.emptyList();
         }
+
+        Map<String, String> variableOverrides = serverVariableOverrides();
+
         List<CodegenServerVariable> codegenServerVariables = new LinkedList<>();
         for (Entry<String, ServerVariable> variableEntry : variables.entrySet()) {
             CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
             ServerVariable variable = variableEntry.getValue();
+            List<String> enums = variable.getEnum();
+
             codegenServerVariable.defaultValue = variable.getDefault();
             codegenServerVariable.description = escapeText(variable.getDescription());
-            codegenServerVariable.enumValues = variable.getEnum();
+            codegenServerVariable.enumValues = enums;
             codegenServerVariable.name = variableEntry.getKey();
+
+            // Sets the override value for a server variable pattern.
+            // NOTE: OpenAPI Specification doesn't prevent multiple server URLs with variables. If multiple objects have the same
+            //       variables pattern, user overrides will apply to _all_ of these patterns. We may want to consider indexed overrides.
+            if (variableOverrides != null && !variableOverrides.isEmpty()) {
+                String value = variableOverrides.getOrDefault(variableEntry.getKey(), variable.getDefault());
+                codegenServerVariable.value = value;
+
+                if (enums != null && !enums.isEmpty() && !enums.contains(value)) {
+                    LOGGER.warn("Variable override of '{}' is not listed in the enum of allowed values ({}).", value, StringUtils.join(enums, ","));
+                }
+            } else {
+                codegenServerVariable.value = variable.getDefault();
+            }
+
             codegenServerVariables.add(codegenServerVariable);
         }
         return codegenServerVariables;

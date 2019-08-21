@@ -41,6 +41,7 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
@@ -657,6 +658,10 @@ public class ApiClient {
       response = invocationBuilder.header("X-HTTP-Method-Override", "PATCH").post(entity);
     } else if ("HEAD".equals(method)) {
       response = invocationBuilder.head();
+    } else if ("OPTIONS".equals(method)) {
+      response = invocationBuilder.options();
+    } else if ("TRACE".equals(method)) {
+      response = invocationBuilder.trace();
     } else {
       throw new ApiException(500, "unknown method type " + method);
     }
