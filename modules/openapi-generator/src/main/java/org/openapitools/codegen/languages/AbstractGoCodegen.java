@@ -38,6 +38,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     protected boolean withGoCodegenComment = false;
     protected boolean withXml = false;
+    protected boolean enumClassPrefix = false;
 
     protected String packageName = "openapi";
 
@@ -616,6 +617,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setWithXml(boolean withXml) {
         this.withXml = withXml;
+    }
+
+    public void setEnumClassPrefix(boolean enumClassPrefix) {
+        this.enumClassPrefix = enumClassPrefix;
     }
 
     @Override
