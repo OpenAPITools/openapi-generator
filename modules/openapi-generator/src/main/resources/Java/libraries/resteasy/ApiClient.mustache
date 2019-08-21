@@ -663,7 +663,7 @@ public class ApiClient {
     } else if ("DELETE".equals(method)) {
       response = invocationBuilder.delete();
     } else if ("PATCH".equals(method)) {
-      response = invocationBuilder.header("X-HTTP-Method-Override", "PATCH").post(entity);
+      response = invocationBuilder.method("PATCH", entity);
     } else if ("HEAD".equals(method)) {
       response = invocationBuilder.head();
     } else if ("OPTIONS".equals(method)) {
