@@ -54,19 +54,12 @@ Class | Method | HTTP request | Description
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
 {{#authMethods}}
 
-## {{{name}}}
+### {{{name}}}
 
-{{#isApiKey}}- **Type**: API key
-
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKeys, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
+{{#isApiKey}}
+- **Type**: API key
+- **API key parameter name**: {{{keyParamName}}}
+- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 
 {{/isApiKey}}
 {{#isBasic}}- **Type**: HTTP basic authentication
