@@ -4,7 +4,7 @@ name: default
 steps:
 # test Dart 1.x petstore client
 - name: dart1x-test
-  image: google/dart:1.24
+  image: google/dart
   commands:
   - (cd samples/client/petstore/dart-jaguar/openapi && pub get && pub run build_runner build --delete-conflicting-outputs)
   - (cd samples/client/petstore/dart-jaguar/flutter_petstore/openapi && pub get && pub run build_runner build --delete-conflicting-outputs)
