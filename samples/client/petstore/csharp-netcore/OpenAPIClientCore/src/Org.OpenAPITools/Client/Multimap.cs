@@ -30,6 +30,26 @@ namespace Org.OpenAPITools.Client
 
         #endregion Private Fields
 
+        #region Constructors
+
+        /// <summary>
+        /// Empty Constructor.
+        /// </summary>
+        public Multimap()
+        {
+            _dictionary = new ConcurrentDictionary<T, IList<TValue>>();
+        }
+
+        /// <summary>
+        /// Constructor with comparer.
+        /// </summary>
+        /// <param name="comparer"></param>
+        public Multimap(IEqualityComparer<T> comparer) {
+            _dictionary = new ConcurrentDictionary<T, IList<TValue>>(comparer);
+        }
+
+        #endregion Constructors
+
         #region Enumerators
 
         /// <summary>
