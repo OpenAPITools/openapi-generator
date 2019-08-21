@@ -204,6 +204,7 @@ namespace {{packageName}}.Client
             {{^netStandard}}RestClient.Timeout = Configuration.Timeout;{{/netStandard}}
             // set user agent
             RestClient.UserAgent = Configuration.UserAgent;
+
             InterceptRequest(request);
             {{#netStandard}}
             var response = RestClient.Execute(request).Result;
