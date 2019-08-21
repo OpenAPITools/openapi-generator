@@ -704,7 +704,7 @@ public class ApiClient {
       }
     }
 
-    Entity<?> entity = serialize(body, formParams, contentType);
+    Entity<?> entity = (body == null) ? Entity.json("") : serialize(body, formParams, contentType);
 
     Response response = null;
 
