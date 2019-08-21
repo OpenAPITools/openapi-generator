@@ -188,7 +188,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -1386,7 +1386,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
         <swagger-parser-version>2.0.13-OpenAPITools.org-2</swagger-parser-version>
-        <swagger-core-version>2.0.7</swagger-core-version>
+        <swagger-core-version>2.0.8</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
