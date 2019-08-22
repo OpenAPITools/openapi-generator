@@ -106,6 +106,10 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
                 LOGGER.warn("\"" + getPsr7Implementation() + "\" is invalid \"psr7Implementation\" codegen option. Default \"slim-psr7\" used instead.");
                 additionalProperties.put("isSlimPsr7", Boolean.TRUE);
         }
+
+        // Slim 4 doesn't parse JSON body anymore we need to add suggested middleware
+        // ref: https://www.slimframework.com/docs/v4/objects/request.html#the-request-body
+        supportingFiles.add(new SupportingFile("json_body_parser_middleware.mustache", toSrcPath(invokerPackage + "\\Middleware", srcBasePath), "JsonBodyParserMiddleware.php"));
     }
 
     /**

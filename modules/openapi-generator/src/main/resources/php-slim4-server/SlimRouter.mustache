@@ -39,6 +39,7 @@ use InvalidArgumentException;
 use Dyorg\TokenAuthentication;
 use Dyorg\TokenAuthentication\TokenSearch;
 use Psr\Http\Message\ServerRequestInterface;
+use {{invokerPackage}}\Middleware\JsonBodyParserMiddleware;
 use Exception;
 
 /**
@@ -173,7 +174,7 @@ class SlimRouter
                 $response->getBody()->write($message);
                 return $response->withStatus(501);
             };
-            $middlewares = [];
+            $middlewares = [new JsonBodyParserMiddleware()];
 
             if (class_exists("\\{$operation['apiPackage']}\\{$operation['userClassname']}")) {
                 $callback = "\\{$operation['apiPackage']}\\{$operation['userClassname']}:{$operation['operationId']}";
