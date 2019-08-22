@@ -1,8 +1,12 @@
 package org.openapitools.codegen;
 
-import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.fail;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
 
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -66,7 +70,7 @@ public class TestUtils {
         File file = new File(root, filename);
         String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
         if (!generatedFiles.containsKey(absoluteFilename)) {
-            Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" +
+            fail("Could not find '" + absoluteFilename + "' file in list:\n" +
                     generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
         }
         assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not found in the list of generated files");
@@ -76,9 +80,28 @@ public class TestUtils {
         File file = new File(root, filename);
         String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
         if (generatedFiles.containsKey(absoluteFilename)) {
-            Assert.fail("File '" + absoluteFilename + "' exists in file in list:\n" +
+            fail("File '" + absoluteFilename + "' exists in file in list:\n" +
                     generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
         }
         assertFalse(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was found in the list of generated files");
+    }
+
+    public static void validateJavaSourceFiles(Map<String, String> fileMap) {
+        fileMap.forEach( (fileName, fileContents) -> {
+                if (fileName.endsWith(".java")) {
+                    assertValidJavaSourceCode(fileContents, fileName);
+                }
+            }
+        );
+    }
+
+    public static void assertValidJavaSourceCode(String javaSourceCode, String filename) {
+        try {
+            CompilationUnit compilation = StaticJavaParser.parse(javaSourceCode);
+            assertTrue(compilation.getTypes().size() > 0, "File: " + filename);
+        }
+        catch (ParseProblemException ex) {
+            fail("Java parse problem: " + filename, ex);
+        }
     }
 }
