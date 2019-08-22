@@ -32,6 +32,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String AVRO = "avro-schema";
+    protected String packageName = "model";
 
     public AvroSchemaCodegen() {
         super();
@@ -44,6 +45,8 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".avsc");
         apiPackage = "api";
         modelPackage = "model";
+        importMapping.clear();
+        embeddedTemplateDir = templateDir = AVRO;
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
@@ -70,9 +73,18 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("UUID", "string");
         typeMapping.put("BigDecimal", "string");
 
-        importMapping.clear();
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, CodegenConstants.PACKAGE_NAME_DESC));
+    }
 
-        embeddedTemplateDir = templateDir = AVRO;
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
+        }
+
+        additionalProperties.put("packageName", packageName);
+
     }
 
     @Override
