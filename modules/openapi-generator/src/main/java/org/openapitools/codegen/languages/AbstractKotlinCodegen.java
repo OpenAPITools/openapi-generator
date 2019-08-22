@@ -51,6 +51,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected boolean parcelizeModels = false;
 
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
+    protected CodegenConstants.SERIALIZATION_ENGINE_TYPE serializationEngine = CodegenConstants.SERIALIZATION_ENGINE_TYPE.moshi;
 
     public AbstractKotlinCodegen() {
         super();
@@ -205,6 +206,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
+
+        CliOption serializationEngineOpt = new CliOption(CodegenConstants.SERIALIZATION_ENGINE, CodegenConstants.SERIALIZATION_ENGINE_DESC);
+        cliOptions.add(serializationEngineOpt.defaultValue(serializationEngine.name()));
+
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
     }
 
@@ -244,6 +249,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return this.enumPropertyNaming;
     }
 
+    public CodegenConstants.SERIALIZATION_ENGINE_TYPE getSerializationEngine() {
+        return this.serializationEngine;
+    }
+
     /**
      * Sets the naming convention for Kotlin enum properties
      *
@@ -255,6 +264,23 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         } catch (IllegalArgumentException ex) {
             StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
             for (CodegenConstants.ENUM_PROPERTY_NAMING_TYPE t : CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.values()) {
+                sb.append("\n  ").append(t.name());
+            }
+            throw new RuntimeException(sb.toString());
+        }
+    }
+
+    /**
+     * Sets the serialization engine for Kotlin
+     *
+     * @param enumSerializationEngine The string representation of the serialization engine as defined by {@link CodegenConstants.SERIALIZATION_ENGINE_TYPE}
+     */
+    public void setSerializationEngine(final String enumSerializationEngine) {
+        try {
+            this.serializationEngine = CodegenConstants.SERIALIZATION_ENGINE_TYPE.valueOf(enumSerializationEngine);
+        } catch (IllegalArgumentException ex) {
+            StringBuilder sb = new StringBuilder(enumSerializationEngine + " is an invalid enum property naming option. Please choose from:");
+            for (CodegenConstants.SERIALIZATION_ENGINE_TYPE t : CodegenConstants.SERIALIZATION_ENGINE_TYPE.values()) {
                 sb.append("\n  ").append(t.name());
             }
             throw new RuntimeException(sb.toString());
@@ -328,6 +354,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_ENGINE)) {
+            setSerializationEngine((String) additionalProperties.get(CodegenConstants.SERIALIZATION_ENGINE));
+            additionalProperties.put(this.serializationEngine.name(), true);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
