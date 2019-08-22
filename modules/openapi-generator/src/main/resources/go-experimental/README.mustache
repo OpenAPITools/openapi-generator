@@ -61,6 +61,8 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: {{{keyParamName}}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: {{keyParamName}} and passed in as the auth context for each request.
+
 {{/isApiKey}}
 {{#isBasic}}- **Type**: HTTP basic authentication
 
