@@ -264,11 +264,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void addOperationNamespaceParameterInterfacesInformation(Map<String, Object> operations) {
-        if (getNamespaceParameterInterfaces()) {
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+        if (!operationList.isEmpty() && getNamespaceParameterInterfaces()) {
             operations.put("namespaceParameterInterfaces", true);
             operations.put("paramIfaceIndent", "    ");
             operations.put("paramIfaceSuffix", "");
-            operations.put("paramIfaceNsPrefix", "Requests.");
+            operations.put("paramIfaceNsPrefix", operationList.get(0).baseName + "Requests.");
         } else {
             operations.put("namespaceParameterInterfaces", false);
             operations.put("paramIfaceIndent", "");

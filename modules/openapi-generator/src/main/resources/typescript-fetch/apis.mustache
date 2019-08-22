@@ -14,11 +14,13 @@ import {
 
 {{#operations}}
 {{#namespaceParameterInterfaces}}
+{{#operation.0}}
 /**
- * The Requests namespace contains generated request parameter interface declarations.
+ * Generated request parameter interface declarations (in namespace to avoid collisions).
  */
-export namespace Requests {
+export namespace {{baseName}}Requests {
 
+{{/operation.0}}
 {{/namespaceParameterInterfaces}}
 {{#operation}}
 {{#allParams.0}}
@@ -31,8 +33,10 @@ export namespace Requests {
 {{/allParams.0}}
 {{/operation}}
 {{#namespaceParameterInterfaces}}
+{{#operation.0}}
 }
 
+{{/operation.0}}
 {{/namespaceParameterInterfaces}}
 {{/operations}}
 {{#operations}}

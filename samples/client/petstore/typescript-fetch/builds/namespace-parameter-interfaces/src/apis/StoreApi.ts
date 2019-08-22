@@ -20,9 +20,9 @@ import {
 } from '../models';
 
 /**
- * The Requests namespace contains generated request parameter interface declarations.
+ * Generated request parameter interface declarations (in namespace to avoid collisions).
  */
-export namespace Requests {
+export namespace StoreRequests {
 
     export interface DeleteOrder {
         orderId: string;
@@ -47,7 +47,7 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    async deleteOrderRaw(requestParameters: Requests.DeleteOrder): Promise<runtime.ApiResponse<void>> {
+    async deleteOrderRaw(requestParameters: StoreRequests.DeleteOrder): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
         }
@@ -70,7 +70,7 @@ export class StoreApi extends runtime.BaseAPI {
     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     * Delete purchase order by ID
     */
-    async deleteOrder(requestParameters: Requests.DeleteOrder): Promise<void> {
+    async deleteOrder(requestParameters: StoreRequests.DeleteOrder): Promise<void> {
         await this.deleteOrderRaw(requestParameters);
     }
 
@@ -110,7 +110,7 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    async getOrderByIdRaw(requestParameters: Requests.GetOrderById): Promise<runtime.ApiResponse<Order>> {
+    async getOrderByIdRaw(requestParameters: StoreRequests.GetOrderById): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
         }
@@ -133,7 +133,7 @@ export class StoreApi extends runtime.BaseAPI {
     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
     * Find purchase order by ID
     */
-    async getOrderById(requestParameters: Requests.GetOrderById): Promise<Order> {
+    async getOrderById(requestParameters: StoreRequests.GetOrderById): Promise<Order> {
         const response = await this.getOrderByIdRaw(requestParameters);
         return await response.value();
     }
@@ -141,7 +141,7 @@ export class StoreApi extends runtime.BaseAPI {
     /**
      * Place an order for a pet
      */
-    async placeOrderRaw(requestParameters: Requests.PlaceOrder): Promise<runtime.ApiResponse<Order>> {
+    async placeOrderRaw(requestParameters: StoreRequests.PlaceOrder): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
         }
@@ -166,7 +166,7 @@ export class StoreApi extends runtime.BaseAPI {
    /**
     * Place an order for a pet
     */
-    async placeOrder(requestParameters: Requests.PlaceOrder): Promise<Order> {
+    async placeOrder(requestParameters: StoreRequests.PlaceOrder): Promise<Order> {
         const response = await this.placeOrderRaw(requestParameters);
         return await response.value();
     }
