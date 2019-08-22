@@ -13,16 +13,31 @@ import {
 {{/imports.0}}
 
 {{#operations}}
+{{#namespaceParameterInterfaces}}
+{{#operation.0}}
+/**
+ * Generated request parameter interface declarations (in namespace to avoid collisions).
+ */
+export namespace {{baseName}}Requests {
+
+{{/operation.0}}
+{{/namespaceParameterInterfaces}}
 {{#operation}}
 {{#allParams.0}}
-export interface {{operationIdCamelCase}}Request {
-    {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
-    {{/allParams}}
-}
+{{paramIfaceIndent}}export interface {{operationIdCamelCase}}{{paramIfaceSuffix}} {
+{{#allParams}}
+{{paramIfaceIndent}}    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+{{/allParams}}
+{{paramIfaceIndent}}}
 
 {{/allParams.0}}
 {{/operation}}
+{{#namespaceParameterInterfaces}}
+{{#operation.0}}
+}
+
+{{/operation.0}}
+{{/namespaceParameterInterfaces}}
 {{/operations}}
 {{#operations}}
 /**
@@ -39,7 +54,7 @@ export class {{classname}} extends runtime.BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
+    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{paramIfaceNsPrefix}}{{operationIdCamelCase}}{{paramIfaceSuffix}}{{/allParams.0}}): Promise<runtime.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
         {{#allParams}}
         {{#required}}
         if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
@@ -249,7 +264,7 @@ export class {{classname}} extends runtime.BaseAPI {
     }
     {{/useSingleRequestParameter}}
     {{#useSingleRequestParameter}}
-    async {{nickname}}({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    async {{nickname}}({{#allParams.0}}requestParameters: {{paramIfaceNsPrefix}}{{operationIdCamelCase}}{{paramIfaceSuffix}}{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
         const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
         return await response.value();
