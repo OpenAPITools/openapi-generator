@@ -15,10 +15,17 @@ open class ApiClient(val baseUrl: String) {
     companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
+        protected const val Authorization = "Authorization"
         protected const val JsonMediaType = "application/json"
         protected const val FormDataMediaType = "multipart/form-data"
         protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
         protected const val XmlMediaType = "application/xml"
+
+        val apiKey: MutableMap<String, String> = mutableMapOf()
+        val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
+        var username: String? = null
+        var password: String? = null
+        var accessToken: String? = null
 
         @JvmStatic
         val client: OkHttpClient by lazy {
@@ -65,8 +72,24 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
+    protected fun updateAuthParams(requestConfig: RequestConfig) {
+        if (requestConfig.headers["api_key"].isNullOrEmpty()) {
+            if (apiKeyPrefix["api_key"] != null) {
+                requestConfig.headers["api_key"] = apiKeyPrefix["api_key"] + " " + apiKey["api_key"]
+            } else {
+                requestConfig.headers["api_key"] = apiKey["api_key"]
+            }
+        }
+        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+            requestConfig.headers[Authorization] = "Bearer " + accessToken
+        }
+    }
+
     protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
+
+        // take authMethod from operation
+        updateAuthParams(requestConfig)
 
         val url = httpUrl.newBuilder()
             .addPathSegments(requestConfig.path.trimStart('/'))
