@@ -17,24 +17,36 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public class AvroCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final String AVRO = "avro";
+public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final String AVRO = "avro-schema";
+    protected String packageName = "model";
 
-    public AvroCodegen() {
-        outputFolder = "generated-code/avro";
+    public AvroSchemaCodegen() {
+        super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
+        outputFolder = "generated-code/avro-schema";
         modelTemplateFiles.put("model.mustache", ".avsc");
         apiPackage = "api";
         modelPackage = "model";
-
+        importMapping.clear();
+        embeddedTemplateDir = templateDir = AVRO;
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
@@ -61,18 +73,18 @@ public class AvroCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("UUID", "string");
         typeMapping.put("BigDecimal", "string");
 
-        importMapping.clear();
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, CodegenConstants.PACKAGE_NAME_DESC));
+    }
 
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue("src"));
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME, "name of the license the project uses (Default: using info.license.name)"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
+        }
 
-        embeddedTemplateDir = AVRO;
-        templateDir = AVRO;
+        additionalProperties.put("packageName", packageName);
+
     }
 
     @Override
@@ -82,17 +94,17 @@ public class AvroCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getName() {
-        return "avro";
+        return "avro-schema";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Avro model.";
+        return "Generates a Avro model (beta).";
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" ;
+        return outputFolder + File.separator;
     }
 
     @Override
@@ -104,8 +116,20 @@ public class AvroCodegen extends DefaultCodegen implements CodegenConfig {
     protected void setNonArrayMapProperty(CodegenProperty property, String type) {
         super.setNonArrayMapProperty(property, type);
         if (property.isModel) {
-            property.dataType = camelize(modelNamePrefix + property.dataType + modelNameSuffix );
+            property.dataType = camelize(modelNamePrefix + property.dataType + modelNameSuffix);
         }
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // do nothing as it's a schema conversion
+        return input;
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // do nothing as it's a schema conversion
+        return input;
     }
 
 }

@@ -756,6 +756,7 @@ Here is a list of template creators:
  * Configuration
    * Apache2: @stkrwork
  * Schema
+   * Avro: @sgadouar 
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
    * MySQL: @ybelenko
 
