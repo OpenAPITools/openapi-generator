@@ -5,4 +5,4 @@
 ./bin/typescript-fetch-petstore-interfaces.sh
 ./bin/typescript-fetch-petstore.sh
 ./bin/typescript-fetch-petstore-multiple-parameters.sh
-./bin/typescript-fetch-petstore-namespace-parameter-interfaces.sh
+./bin/typescript-fetch-petstore-prefix-parameter-interfaces.sh

@@ -33,11 +33,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
-    public static final String NAMESPACE_PARAMETER_INTERFACES = "namespaceParameterInterfaces";
+    public static final String PREFIX_PARAMETER_INTERFACES = "prefixParameterInterfaces";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
-    private boolean namespaceParameterInterfaces = false;
+    private boolean prefixParameterInterfaces = false;
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
 
@@ -61,7 +61,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
-        this.cliOptions.add(new CliOption(NAMESPACE_PARAMETER_INTERFACES, "Setting this property to true will generate parameter interface declarations within a dedicated namespace to avoid name conflicts.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(PREFIX_PARAMETER_INTERFACES, "Setting this property to true will generate parameter interface declarations prefixed with API class name to avoid name conflicts.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -97,10 +97,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
-        if (additionalProperties.containsKey(NAMESPACE_PARAMETER_INTERFACES)) {
-            this.setNamespaceParameterInterfaces(convertPropertyToBoolean(NAMESPACE_PARAMETER_INTERFACES));
+        if (additionalProperties.containsKey(PREFIX_PARAMETER_INTERFACES)) {
+            this.setPrefixParameterInterfaces(convertPropertyToBoolean(PREFIX_PARAMETER_INTERFACES));
         }
-        writePropertyBack(NAMESPACE_PARAMETER_INTERFACES, getNamespaceParameterInterfaces());
+        writePropertyBack(PREFIX_PARAMETER_INTERFACES, getPrefixParameterInterfaces());
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
@@ -216,7 +216,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.addOperationModelImportInfomation(operations);
         this.updateOperationParameterEnumInformation(operations);
         this.addOperationObjectResponseInformation(operations);
-        this.addOperationNamespaceParameterInterfacesInformation(operations);
+        this.addOperationPrefixParameterInterfacesInformation(operations);
         return operations;
     }
 
@@ -263,20 +263,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    private void addOperationNamespaceParameterInterfacesInformation(Map<String, Object> operations) {
+    private void addOperationPrefixParameterInterfacesInformation(Map<String, Object> operations) {
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
-        if (!operationList.isEmpty() && getNamespaceParameterInterfaces()) {
-            operations.put("namespaceParameterInterfaces", true);
-            operations.put("paramIfaceIndent", "    ");
-            operations.put("paramIfaceSuffix", "");
-            operations.put("paramIfaceNsPrefix", operationList.get(0).baseName + "Requests.");
-        } else {
-            operations.put("namespaceParameterInterfaces", false);
-            operations.put("paramIfaceIndent", "");
-            operations.put("paramIfaceSuffix", "Request");
-            operations.put("paramIfaceNsPrefix", "");
-        }
+        operations.put("prefixParameterInterfaces", getPrefixParameterInterfaces());
     }
 
     private void addExtraReservedWords() {
@@ -315,11 +304,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.useSingleRequestParameter = useSingleRequestParameter;
     }
 
-    private boolean getNamespaceParameterInterfaces() {
-        return namespaceParameterInterfaces;
+    private boolean getPrefixParameterInterfaces() {
+        return prefixParameterInterfaces;
     }
 
-    private void setNamespaceParameterInterfaces(boolean namespaceParameterInterfaces) {
-        this.namespaceParameterInterfaces = namespaceParameterInterfaces;
+    private void setPrefixParameterInterfaces(boolean prefixParameterInterfaces) {
+        this.prefixParameterInterfaces = prefixParameterInterfaces;
     }
 }
