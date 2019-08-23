@@ -22,7 +22,7 @@ data class EnumArrays (
     @Json(name = "just_symbol")
     val justSymbol: EnumArrays.JustSymbol? = null,
     @Json(name = "array_enum")
-    val arrayEnum: EnumArrays.ArrayEnum? = null
+    val arrayEnum: kotlin.Array<EnumArrays.ArrayEnum>? = null
 ) {
 
     /**
@@ -43,7 +43,7 @@ data class EnumArrays (
     * 
     * Values: fish,crab
     */
-    enum class ArrayEnum(val value: kotlin.Array&lt;kotlin.String&gt;){
+    enum class ArrayEnum(val value: kotlin.String){
     
         @Json(name = "fish")
         fish("fish"),

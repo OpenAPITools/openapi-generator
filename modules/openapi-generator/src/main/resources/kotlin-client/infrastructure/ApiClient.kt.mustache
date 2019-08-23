@@ -82,20 +82,22 @@ open class ApiClient(val baseUrl: String) {
         {{#isKeyInQuery}}
         if (requestConfig.query["{{keyParamName}}"].isNullOrEmpty()) {
         {{/isKeyInQuery}}
-            if (apiKeyPrefix["{{keyParamName}}"] != null) {
-                {{#isKeyInHeader}}
-                requestConfig.headers["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"] + " " + apiKey["{{keyParamName}}"]
-                {{/isKeyInHeader}}
-                {{#isKeyInQuery}}
-                requestConfig.query["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"] + " " + apiKey["{{keyParamName}}"]
-                {{/isKeyInQuery}}
-            } else {
-                {{#isKeyInHeader}}
-                requestConfig.headers["{{keyParamName}}"] = apiKey["{{keyParamName}}"]
-                {{/isKeyInHeader}}
-                {{#isKeyInQuery}}
-                requestConfig.query["{{keyParamName}}"] = apiKey["{{keyParamName}}"]
-                {{/isKeyInQuery}}
+            if (apiKey["{{keyParamName}}"] != null) {
+                if (apiKeyPrefix["{{keyParamName}}"] != null) {
+                    {{#isKeyInHeader}}
+                    requestConfig.headers["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!
+                    {{/isKeyInHeader}}
+                    {{#isKeyInQuery}}
+                    requestConfig.query["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!
+                    {{/isKeyInQuery}}
+                } else {
+                    {{#isKeyInHeader}}
+                    requestConfig.headers["{{keyParamName}}"] = apiKey["{{keyParamName}}"]!!
+                    {{/isKeyInHeader}}
+                    {{#isKeyInQuery}}
+                    requestConfig.query["{{keyParamName}}"] = apiKey["{{keyParamName}}"]!!
+                    {{/isKeyInQuery}}
+                }
             }
         }
         {{/isApiKey}}
