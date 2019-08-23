@@ -3,5 +3,5 @@
   "npmVersion": "1.0.0",
   "npmRepository" : "https://skimdb.npmjs.com/registry",
   "snapshot" : false,
-  "namespaceParameterInterfaces": true
+  "prefixParameterInterfaces": true
 }

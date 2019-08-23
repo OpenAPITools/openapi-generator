@@ -844,7 +844,7 @@
             </modules>
         </profile>
         <profile>
-            <id>typescript-fetch-client-builds-namespace-parameter-interfaces</id>
+            <id>typescript-fetch-client-builds-prefix-parameter-interfaces</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -852,7 +852,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/typescript-fetch/builds/namespace-parameter-interfaces</module>
+                <module>samples/client/petstore/typescript-fetch/builds/prefix-parameter-interfaces</module>
             </modules>
         </profile>
         <profile>

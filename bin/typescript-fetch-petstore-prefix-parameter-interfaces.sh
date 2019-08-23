@@ -22,11 +22,13 @@ executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]
 then
-  mvn clean package
+  mvn -B clean package
 fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g typescript-fetch -o samples/client/petstore/typescript-fetch/builds/namespace-parameter-interfaces --additional-properties namespaceParameterInterfaces=true $@"
+ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-fetch -c bin/typescript-fetch-petstore-prefix-parameter-interfaces.json -o samples/client/petstore/typescript-fetch/builds/prefix-parameter-interfaces $@"
 
 java $JAVA_OPTS -jar $executable $ags
+
+cp CI/samples.ci/client/petstore/typescript-fetch/builds/prefix-parameter-interfaces/pom.xml samples/client/petstore/typescript-fetch/builds/prefix-parameter-interfaces/pom.xml
