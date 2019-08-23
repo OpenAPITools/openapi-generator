@@ -101,13 +101,14 @@ abstract class {{classname}}
         {{#hasQueryParams}}
         $queryParams = $request->getQueryParams();
         {{#queryParams}}
-        ${{paramName}} = $request->getQueryParam('{{baseName}}');
+        ${{paramName}} = (key_exists('{{baseName}}', $queryParams)) ? $queryParams['{{baseName}}'] : null;
         {{/queryParams}}
         {{/hasQueryParams}}
         {{#hasFormParams}}
+        $body = $request->getParsedBody();
         {{#formParams}}
         {{^isFile}}
-        ${{paramName}} = $request->getParsedBodyParam('{{baseName}}');
+        ${{paramName}} = (isset($body['{{baseName}}'])) ? $body['{{baseName}}'] : null;
         {{/isFile}}
         {{#isFile}}
         ${{paramName}} = (key_exists('{{baseName}}', $request->getUploadedFiles())) ? $request->getUploadedFiles()['{{baseName}}'] : null;
