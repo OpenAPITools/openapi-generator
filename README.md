@@ -569,6 +569,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Klarna](https://www.klarna.com/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [Myworkout](https://myworkout.com)
+- [Paxos](https://www.paxos.com)
 - [Prometheus/Alertmanager](https://github.com/prometheus/alertmanager)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
@@ -755,6 +756,7 @@ Here is a list of template creators:
  * Configuration
    * Apache2: @stkrwork
  * Schema
+   * Avro: @sgadouar 
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
    * MySQL: @ybelenko
 
