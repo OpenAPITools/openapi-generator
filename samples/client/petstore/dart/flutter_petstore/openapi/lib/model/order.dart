@@ -34,30 +34,24 @@ class Order {
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
-    if (id != null)
-      json['id'] = id;
-    if (petId != null)
-      json['petId'] = petId;
-    if (quantity != null)
-      json['quantity'] = quantity;
-    if (shipDate != null)
-      json['shipDate'] = shipDate == null ? null : shipDate.toUtc().toIso8601String();
-    if (status != null)
-      json['status'] = status;
-    if (complete != null)
-      json['complete'] = complete;
-    return json;
+    return {
+      'id': id,
+      'petId': petId,
+      'quantity': quantity,
+      'shipDate': shipDate == null ? '' : shipDate.toUtc().toIso8601String(),
+      'status': status,
+      'complete': complete
+    };
   }
 
   static List<Order> listFromJson(List<dynamic> json) {
-    return json == null ? List<Order>() : json.map((value) => Order.fromJson(value)).toList();
+    return json == null ? new List<Order>() : json.map((value) => new Order.fromJson(value)).toList();
   }
 
-  static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
-    var map = Map<String, Order>();
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = Order.fromJson(value));
+  static Map<String, Order> mapFromJson(Map<String, Map<String, dynamic>> json) {
+    var map = new Map<String, Order>();
+    if (json != null && json.length > 0) {
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new Order.fromJson(value));
     }
     return map;
   }

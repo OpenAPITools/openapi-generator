@@ -19,22 +19,20 @@ class Tag {
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
-    if (id != null)
-      json['id'] = id;
-    if (name != null)
-      json['name'] = name;
-    return json;
+    return {
+      'id': id,
+      'name': name
+    };
   }
 
   static List<Tag> listFromJson(List<dynamic> json) {
-    return json == null ? List<Tag>() : json.map((value) => Tag.fromJson(value)).toList();
+    return json == null ? new List<Tag>() : json.map((value) => new Tag.fromJson(value)).toList();
   }
 
-  static Map<String, Tag> mapFromJson(Map<String, dynamic> json) {
-    var map = Map<String, Tag>();
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = Tag.fromJson(value));
+  static Map<String, Tag> mapFromJson(Map<String, Map<String, dynamic>> json) {
+    var map = new Map<String, Tag>();
+    if (json != null && json.length > 0) {
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new Tag.fromJson(value));
     }
     return map;
   }

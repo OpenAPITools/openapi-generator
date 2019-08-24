@@ -158,6 +158,14 @@ public interface FakeApi {
     ResponseEntity<Void> testJsonFormData(@ApiParam(value = "field1", required=true) @RequestParam(value="param", required=true)  String param,@ApiParam(value = "field2", required=true) @RequestParam(value="param2", required=true)  String param2);
 
 
+    @ApiOperation(value = "", nickname = "testQueryParameterCollectionFormat", notes = "To test the collection format in query parameters", tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success") })
+    @RequestMapping(value = "/fake/test-query-paramters",
+        method = RequestMethod.PUT)
+    ResponseEntity<Void> testQueryParameterCollectionFormat(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context);
+
+
     @ApiOperation(value = "uploads an image (required)", nickname = "uploadFileWithRequiredFile", notes = "", response = ModelApiResponse.class, authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),

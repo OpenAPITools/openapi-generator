@@ -125,6 +125,7 @@ The following generators are available:
 
 
 ## SCHEMA generators
+* [avro-schema (beta)](generators/avro-schema)  
 * [mysql-schema](generators/mysql-schema)  
 
 

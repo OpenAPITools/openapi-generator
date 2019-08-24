@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -30,10 +31,11 @@ import javax.validation.Valid;
 
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
-  @JsonProperty(JSON_PROPERTY_RETURN)
   private Integer _return;
 
+
   public ModelReturn _return(Integer _return) {
+    
     this._return = _return;
     return this;
   }
@@ -44,9 +46,14 @@ public class ModelReturn {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Integer getReturn() {
     return _return;
   }
+
+
 
   public void setReturn(Integer _return) {
     this._return = _return;

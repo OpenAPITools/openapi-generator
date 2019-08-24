@@ -133,7 +133,12 @@
           <groupId>com.fasterxml.jackson.jaxrs</groupId>
           <artifactId>jackson-jaxrs-json-provider</artifactId>
           <version>${jackson-version}</version>
-        </dependency>
+      </dependency>
+      <dependency>
+          <groupId>org.openapitools</groupId>
+          <artifactId>jackson-databind-nullable</artifactId>
+          <version>${jackson-databind-nullable-version}</version>
+      </dependency>
 
         <!-- Joda time: if you use it -->
         <dependency>

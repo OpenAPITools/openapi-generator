@@ -22,24 +22,21 @@ class ApiResponse {
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
-    if (code != null)
-      json['code'] = code;
-    if (type != null)
-      json['type'] = type;
-    if (message != null)
-      json['message'] = message;
-    return json;
+    return {
+      'code': code,
+      'type': type,
+      'message': message
+    };
   }
 
   static List<ApiResponse> listFromJson(List<dynamic> json) {
-    return json == null ? List<ApiResponse>() : json.map((value) => ApiResponse.fromJson(value)).toList();
+    return json == null ? new List<ApiResponse>() : json.map((value) => new ApiResponse.fromJson(value)).toList();
   }
 
-  static Map<String, ApiResponse> mapFromJson(Map<String, dynamic> json) {
-    var map = Map<String, ApiResponse>();
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = ApiResponse.fromJson(value));
+  static Map<String, ApiResponse> mapFromJson(Map<String, Map<String, dynamic>> json) {
+    var map = new Map<String, ApiResponse>();
+    if (json != null && json.length > 0) {
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new ApiResponse.fromJson(value));
     }
     return map;
   }

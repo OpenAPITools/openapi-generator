@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -27,14 +28,14 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
-  @JsonProperty(JSON_PROPERTY_NAME)
   private Integer name;
 
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   private String propertyClass;
 
+
   public Model200Response name(Integer name) {
+    
     this.name = name;
     return this;
   }
@@ -45,15 +46,22 @@ public class Model200Response {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Integer getName() {
     return name;
   }
+
+
 
   public void setName(Integer name) {
     this.name = name;
   }
 
+
   public Model200Response propertyClass(String propertyClass) {
+    
     this.propertyClass = propertyClass;
     return this;
   }
@@ -64,9 +72,14 @@ public class Model200Response {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getPropertyClass() {
     return propertyClass;
   }
+
+
 
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

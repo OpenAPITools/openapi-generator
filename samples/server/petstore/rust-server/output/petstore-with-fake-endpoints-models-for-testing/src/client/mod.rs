@@ -8,6 +8,7 @@ extern crate chrono;
 extern crate url;
 extern crate serde_urlencoded;
 extern crate multipart;
+extern crate uuid;
 
 use hyper;
 use hyper::header::{Headers, ContentType};
@@ -878,13 +879,18 @@ impl<F, C> Api<C> for Client<F> where
         request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
-            if let AuthData::Basic(ref basic_header) = *auth_data {
-                request.headers_mut().set(hyper::header::Authorization(
-                    basic_header.clone(),
-                ))
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Basic(ref basic_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        basic_header.clone(),
+                    ))
+                },
+                _ => {}
             }
-        }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -974,6 +980,7 @@ impl<F, C> Api<C> for Client<F> where
         request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
         // Header parameters
         header! { (RequestEnumHeaderStringArray, "enum_header_string_array") => (String)* }
         param_enum_header_string_array.map(|header| request.headers_mut().set(RequestEnumHeaderStringArray(header.clone())));
@@ -1271,6 +1278,18 @@ impl<F, C> Api<C> for Client<F> where
         request.headers_mut().set(ContentType(mimetypes::requests::ADD_PET.clone()));
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1332,6 +1351,19 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
+
         // Header parameters
         header! { (RequestApiKey, "api_key") => [String] }
         param_api_key.map(|header| request.headers_mut().set(RequestApiKey(header)));
@@ -1397,6 +1429,18 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1482,6 +1526,18 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1566,12 +1622,19 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-        header! { (ApiKey, "api_key") => [String] }
-        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
-            if let AuthData::ApiKey(ref api_key) = *auth_data {
-                request.headers_mut().set(ApiKey(api_key.to_string()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::ApiKey(ref api_key) => {
+                    header! { (ApiKey, "api_key") => [String] }
+                    request.headers_mut().set(
+                        ApiKey(api_key.to_string())
+                    )
+                },
+                _ => {}
             }
-        }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1669,6 +1732,18 @@ impl<F, C> Api<C> for Client<F> where
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET.clone()));
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1756,6 +1831,18 @@ impl<F, C> Api<C> for Client<F> where
         request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1866,6 +1953,18 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2010,12 +2109,19 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-        header! { (ApiKey, "api_key") => [String] }
-        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
-            if let AuthData::ApiKey(ref api_key) = *auth_data {
-                request.headers_mut().set(ApiKey(api_key.to_string()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::ApiKey(ref api_key) => {
+                    header! { (ApiKey, "api_key") => [String] }
+                    request.headers_mut().set(
+                        ApiKey(api_key.to_string())
+                    )
+                },
+                _ => {}
             }
-        }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {

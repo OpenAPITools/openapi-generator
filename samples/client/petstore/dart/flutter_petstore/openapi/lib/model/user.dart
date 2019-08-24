@@ -37,34 +37,26 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
-    if (id != null)
-      json['id'] = id;
-    if (username != null)
-      json['username'] = username;
-    if (firstName != null)
-      json['firstName'] = firstName;
-    if (lastName != null)
-      json['lastName'] = lastName;
-    if (email != null)
-      json['email'] = email;
-    if (password != null)
-      json['password'] = password;
-    if (phone != null)
-      json['phone'] = phone;
-    if (userStatus != null)
-      json['userStatus'] = userStatus;
-    return json;
+    return {
+      'id': id,
+      'username': username,
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'password': password,
+      'phone': phone,
+      'userStatus': userStatus
+    };
   }
 
   static List<User> listFromJson(List<dynamic> json) {
-    return json == null ? List<User>() : json.map((value) => User.fromJson(value)).toList();
+    return json == null ? new List<User>() : json.map((value) => new User.fromJson(value)).toList();
   }
 
-  static Map<String, User> mapFromJson(Map<String, dynamic> json) {
-    var map = Map<String, User>();
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = User.fromJson(value));
+  static Map<String, User> mapFromJson(Map<String, Map<String, dynamic>> json) {
+    var map = new Map<String, User>();
+    if (json != null && json.length > 0) {
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new User.fromJson(value));
     }
     return map;
   }

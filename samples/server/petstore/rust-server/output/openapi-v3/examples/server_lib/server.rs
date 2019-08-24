@@ -6,9 +6,9 @@ use futures::{self, Future};
 use chrono;
 use std::collections::HashMap;
 use std::marker::PhantomData;
-
 use swagger;
 use swagger::{Has, XSpanIdString};
+use uuid;
 
 use openapi_v3::{Api, ApiError,
                       RequiredOctetStreamPutResponse,

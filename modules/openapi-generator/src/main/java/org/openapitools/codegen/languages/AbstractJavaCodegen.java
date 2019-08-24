@@ -417,6 +417,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
         importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
+        importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
+        importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
         importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
         importMapping.put("TypeAdapter", "com.google.gson.TypeAdapter");
         importMapping.put("JsonAdapter", "com.google.gson.annotations.JsonAdapter");
@@ -800,7 +802,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return null;
+        } else if (ModelUtils.isObjectSchema(p)) {
+            if (p.getDefault() != null) {
+                return super.toDefaultValue(p);
+            }
+            return null;
         }
+
         return super.toDefaultValue(p);
     }
 
