@@ -74,10 +74,12 @@ open class ApiClient(val baseUrl: String) {
 
     protected fun updateAuthParams(requestConfig: RequestConfig) {
         if (requestConfig.headers["api_key"].isNullOrEmpty()) {
-            if (apiKeyPrefix["api_key"] != null) {
-                requestConfig.headers["api_key"] = apiKeyPrefix["api_key"] + " " + apiKey["api_key"]
-            } else {
-                requestConfig.headers["api_key"] = apiKey["api_key"]
+            if (apiKey["api_key"] != null) {
+                if (apiKeyPrefix["api_key"] != null) {
+                    requestConfig.headers["api_key"] = apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!
+                } else {
+                    requestConfig.headers["api_key"] = apiKey["api_key"]!!
+                }
             }
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
