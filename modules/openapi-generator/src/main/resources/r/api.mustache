@@ -295,7 +295,7 @@
       {{#returnExceptionOnFailure}}
         errorMsg <- toString(content(resp))
         if(errorMsg == ""){
-          errorMsg <- "Api resource exception encountered."
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
         }
         {{#useDefaultExceptionHandling}}
         stop(errorMsg)
