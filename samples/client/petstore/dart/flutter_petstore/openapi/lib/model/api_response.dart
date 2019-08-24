@@ -2,11 +2,11 @@ part of openapi.api;
 
 class ApiResponse {
   
-  int code = null;
+    int code = null;
   
-  String type = null;
+    String type = null;
   
-  String message = null;
+    String message = null;
   ApiResponse();
 
   @override
@@ -16,21 +16,9 @@ class ApiResponse {
 
   ApiResponse.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    if (json['code'] == null) {
-      code = null;
-    } else {
-      code = json['code'];
-    }
-    if (json['type'] == null) {
-      type = null;
-    } else {
-      type = json['type'];
-    }
-    if (json['message'] == null) {
-      message = null;
-    } else {
-      message = json['message'];
-    }
+    code = json['code'];
+    type = json['type'];
+    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
