@@ -20,14 +20,18 @@ import com.squareup.moshi.Json
 */
 enum class EnumClass(val value: kotlin.String){
 
+
     @Json(name = "_abc")
     abc("_abc"),
+
 
     @Json(name = "-efg")
     minusEfg("-efg"),
 
+
     @Json(name = "(xyz)")
     leftParenthesisXyzRightParenthesis("(xyz)");
+
 
 }
 

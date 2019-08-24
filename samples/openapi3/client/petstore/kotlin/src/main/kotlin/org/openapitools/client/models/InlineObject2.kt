@@ -21,7 +21,7 @@ import com.squareup.moshi.Json
 data class InlineObject2 (
     /* Form parameter enum test (string array) */
     @Json(name = "enum_form_string_array")
-    val enumFormStringArray: InlineObject2.EnumFormStringArray? = null,
+    val enumFormStringArray: kotlin.Array<InlineObject2.EnumFormStringArray>? = null,
     /* Form parameter enum test (string) */
     @Json(name = "enum_form_string")
     val enumFormString: InlineObject2.EnumFormString? = null
@@ -31,7 +31,7 @@ data class InlineObject2 (
     * Form parameter enum test (string array)
     * Values: greaterThan,dollar
     */
-    enum class EnumFormStringArray(val value: kotlin.Array&lt;kotlin.String&gt;){
+    enum class EnumFormStringArray(val value: kotlin.String){
     
         @Json(name = ">")
         greaterThan(">"),
