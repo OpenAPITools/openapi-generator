@@ -111,7 +111,12 @@ abstract class {{classname}}
         ${{paramName}} = (isset($body['{{baseName}}'])) ? $body['{{baseName}}'] : null;
         {{/isFile}}
         {{#isFile}}
+        {{#isMultipart}}
         ${{paramName}} = (key_exists('{{baseName}}', $request->getUploadedFiles())) ? $request->getUploadedFiles()['{{baseName}}'] : null;
+        {{/isMultipart}}
+        {{^isMultipart}}
+        ${{paramName}} = (isset($body['{{baseName}}'])) ? $body['{{baseName}}'] : null;
+        {{/isMultipart}}
         {{/isFile}}
         {{/formParams}}
         {{/hasFormParams}}
