@@ -2659,11 +2659,13 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
-            if (getContentType(requestBody) != null &&
-                    (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                            getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart"))) {
+            String contentType = getContentType(requestBody);
+            if (contentType != null &&
+                    (contentType.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                            contentType.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
+                op.isMultipart = contentType.toLowerCase(Locale.ROOT).startsWith("multipart");
                 for (CodegenParameter cp : formParams) {
                     postProcessParameter(cp);
                 }
@@ -4463,8 +4465,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         for (String consume : consumesInfo) {
             if (consume != null &&
-                    consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                    consume.toLowerCase(Locale.ROOT).startsWith("multipart")) {
+                (consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                consume.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
                 return true;
             }
         }
