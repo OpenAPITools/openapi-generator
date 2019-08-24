@@ -305,7 +305,7 @@
         {{/useRlangExceptionHandling}}
       {{/returnExceptionOnFailure}}
       {{^returnExceptionOnFailure}}
-        ApiResponse$new("API resource error", resp)
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       {{/returnExceptionOnFailure}}
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
       {{#returnExceptionOnFailure}}
