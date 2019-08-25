@@ -16,6 +16,7 @@ steps:
   - ./mvnw clean install
   - ./mvnw --quiet verify -Psamples.droneio
   # generate test scripts
+  - ls -al
   - ./bin/tests/run-all-test
   # test all generators with fake petstore spec (2.0, 3.0)
   - ./bin/utils/test-fake-petstore-for-all.sh
