@@ -440,7 +440,7 @@ public class ApiClient {
 
         updateParamsForAuth(authNames, queryParams, headerParams);
 
-        if (accepts != null) {
+        if (accepts != null && accepts.length > 0) {
             headerParams.add(HttpHeaders.ACCEPT, selectHeaderAccept(accepts));
         }
 
@@ -575,7 +575,7 @@ public class ApiClient {
                             return;
                         } else {
                             try {
-                                resultContent = Json.mapper.readValue(httpResponse.bodyAsString(), returnType);
+                                resultContent = this.objectMapper.readValue(httpResponse.bodyAsString(), returnType);
                                 result = Future.succeededFuture(resultContent);
                             } catch (Exception e) {
                                 result =  ApiException.fail(new DecodeException("Failed to decode:" + e.getMessage(), e));
