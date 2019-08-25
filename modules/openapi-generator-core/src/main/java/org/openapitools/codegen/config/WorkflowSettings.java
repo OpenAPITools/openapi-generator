@@ -33,7 +33,6 @@ import java.util.Objects;
 public class WorkflowSettings {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowSettings.class);
-    public static final String DEFAULT_INPUT_SPEC = null;
     public static final String DEFAULT_OUTPUT_DIR = ".";
     public static final boolean DEFAULT_VERBOSE = false;
     public static final boolean DEFAULT_SKIP_OVERWRITE = false;
@@ -43,99 +42,39 @@ public class WorkflowSettings {
     public static final boolean DEFAULT_ENABLE_POST_PROCESS_FILE = false;
     public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
     public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
-    public static final String DEFAULT_TEMPLATE_DIR = null;
-    public static final String DEFAULT_TEMPLATING_ENGINE_NAME = null;
-    public static final String DEFAULT_IGNORE_FILE_OVERRIDE = null;
-    public static final ImmutableMap<String, String> DEFAULT_SYSTEM_PROPERTIES = ImmutableMap.copyOf(new HashMap<>());
+    public static final String DEFAULT_TEMPLATING_ENGINE_NAME = "mustache";
+    public static final ImmutableMap<String, String> DEFAULT_SYSTEM_PROPERTIES = ImmutableMap.of();
 
     private String inputSpec;
-    private String outputDir;
-    private boolean verbose;
-    private boolean skipOverwrite;
-    private boolean removeOperationIdPrefix;
-    private boolean logToStderr;
-    private boolean validateSpec;
-    private boolean enablePostProcessFile;
-    private boolean enableMinimalUpdate;
-    private boolean strictSpecBehavior;
+    private String outputDir = DEFAULT_OUTPUT_DIR;
+    private boolean verbose = DEFAULT_VERBOSE;
+    private boolean skipOverwrite = DEFAULT_SKIP_OVERWRITE;
+    private boolean removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
+    private boolean logToStderr = DEFAULT_LOG_TO_STDERR;
+    private boolean validateSpec = DEFAULT_VALIDATE_SPEC;
+    private boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
+    private boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
+    private boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
     private String templateDir;
-    private String templatingEngineName;
+    private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
     private String ignoreFileOverride;
-    private ImmutableMap<String, String> systemProperties;
+    private ImmutableMap<String, String> systemProperties = DEFAULT_SYSTEM_PROPERTIES;
 
     private WorkflowSettings(Builder builder) {
-        this();
-        if (builder.inputSpec == null) {
-            this.inputSpec = DEFAULT_INPUT_SPEC;
-        } else {
-            this.inputSpec = builder.inputSpec;
-        }
-        if (builder.outputDir == null) {
-            this.outputDir = DEFAULT_OUTPUT_DIR;
-        } else {
-            this.outputDir = builder.outputDir;
-        }
-        if (builder.verbose == null) {
-            this.verbose = DEFAULT_VERBOSE;
-        } else {
-            this.verbose = builder.verbose;
-        }
-        if (builder.skipOverwrite == null) {
-            this.skipOverwrite = DEFAULT_SKIP_OVERWRITE;
-        } else {
-            this.skipOverwrite = builder.skipOverwrite;
-        }
-        if (builder.removeOperationIdPrefix == null) {
-            this.removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
-        } else {
-            this.removeOperationIdPrefix = builder.removeOperationIdPrefix;
-        }
-        if (builder.logToStderr == null) {
-            this.logToStderr = DEFAULT_LOG_TO_STDERR;
-        } else {
-            this.logToStderr = builder.logToStderr;
-        }
-        if (builder.validateSpec == null) {
-            this.validateSpec = DEFAULT_VALIDATE_SPEC;
-        } else {
-            this.validateSpec = builder.validateSpec;
-        }
-        if (builder.enablePostProcessFile == null) {
-            this.enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
-        } else {
-            this.enablePostProcessFile = builder.enablePostProcessFile;
-        }
-        if (builder.enableMinimalUpdate == null) {
-            this.enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
-        } else {
-            this.enableMinimalUpdate = builder.enableMinimalUpdate;
-        }
-        if (builder.strictSpecBehavior == null) {
-            this.strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
-        } else {
-            this.strictSpecBehavior = builder.strictSpecBehavior;
-        }
-        if (builder.templateDir == null) {
-            this.templateDir = DEFAULT_TEMPLATE_DIR;
-        } else {
-            this.templateDir = builder.templateDir;
-        }
-        if (builder.templatingEngineName == null) {
-            this.templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
-        } else {
-            this.templatingEngineName = builder.templatingEngineName;
-        }
-        if (builder.ignoreFileOverride == null) {
-            this.ignoreFileOverride = DEFAULT_IGNORE_FILE_OVERRIDE;
-        } else {
-            this.ignoreFileOverride = builder.ignoreFileOverride;
-        }
-        if (builder.systemProperties == null) {
-            this.systemProperties = DEFAULT_SYSTEM_PROPERTIES;
-        } else {
-            this.systemProperties = ImmutableMap.copyOf(builder.systemProperties);
-        }
-
+        this.inputSpec = builder.inputSpec;
+        this.outputDir = builder.outputDir;
+        this.verbose = builder.verbose;
+        this.skipOverwrite = builder.skipOverwrite;
+        this.removeOperationIdPrefix = builder.removeOperationIdPrefix;
+        this.logToStderr = builder.logToStderr;
+        this.validateSpec = builder.validateSpec;
+        this.enablePostProcessFile = builder.enablePostProcessFile;
+        this.enableMinimalUpdate = builder.enableMinimalUpdate;
+        this.strictSpecBehavior = builder.strictSpecBehavior;
+        this.templateDir = builder.templateDir;
+        this.templatingEngineName = builder.templatingEngineName;
+        this.ignoreFileOverride = builder.ignoreFileOverride;
+        this.systemProperties = ImmutableMap.copyOf(builder.systemProperties);
     }
 
     /**
@@ -143,7 +82,7 @@ public class WorkflowSettings {
      */
     @SuppressWarnings("unused")
     public WorkflowSettings() {
-        systemProperties = ImmutableMap.of();
+
     }
 
     public static Builder newBuilder() {
@@ -321,40 +260,23 @@ public class WorkflowSettings {
     @SuppressWarnings("unused")
     public static final class Builder {
         private String inputSpec;
-        private String outputDir;
-        private Boolean verbose;
-        private Boolean skipOverwrite;
-        private Boolean removeOperationIdPrefix;
-        private Boolean logToStderr;
-        private Boolean validateSpec;
-        private Boolean enablePostProcessFile;
-        private Boolean enableMinimalUpdate;
-        private Boolean strictSpecBehavior;
+        private String outputDir = DEFAULT_OUTPUT_DIR;
+        private Boolean verbose = DEFAULT_VERBOSE;
+        private Boolean skipOverwrite = DEFAULT_SKIP_OVERWRITE;
+        private Boolean removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
+        private Boolean logToStderr = DEFAULT_LOG_TO_STDERR;
+        private Boolean validateSpec = DEFAULT_VALIDATE_SPEC;
+        private Boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
+        private Boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
+        private Boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
         private String templateDir;
-        private String templatingEngineName;
+        private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
         private String ignoreFileOverride;
-        private Map<String, String> systemProperties;
+        private Map<String, String> systemProperties = new HashMap<>();;
 
         private Builder() {
-            setDefaults();
-            systemProperties = new HashMap<>();
         }
 
-        private void setDefaults(){
-            this.inputSpec = WorkflowSettings.DEFAULT_INPUT_SPEC;
-            this.outputDir = WorkflowSettings.DEFAULT_OUTPUT_DIR;
-            this.verbose = WorkflowSettings.DEFAULT_VERBOSE;
-            this.skipOverwrite = WorkflowSettings.DEFAULT_SKIP_OVERWRITE;
-            this.removeOperationIdPrefix = WorkflowSettings.DEFAULT_REMOVE_OPERATION_ID_PREFIX;
-            this.logToStderr = WorkflowSettings.DEFAULT_LOG_TO_STDERR;
-            this.validateSpec = WorkflowSettings.DEFAULT_VALIDATE_SPEC;
-            this.enablePostProcessFile = WorkflowSettings.DEFAULT_ENABLE_POST_PROCESS_FILE;
-            this.enableMinimalUpdate = WorkflowSettings.DEFAULT_ENABLE_MINIMAL_UPDATE;
-            this.strictSpecBehavior = WorkflowSettings.DEFAULT_STRICT_SPEC_BEHAVIOR;
-            this.templateDir = WorkflowSettings.DEFAULT_TEMPLATE_DIR;
-            this.templatingEngineName = WorkflowSettings.DEFAULT_TEMPLATING_ENGINE_NAME;
-            this.ignoreFileOverride = WorkflowSettings.DEFAULT_IGNORE_FILE_OVERRIDE;
-        }
 
         /**
          * Sets the {@code inputSpec} and returns a reference to this Builder so that the methods can be chained together.
@@ -363,7 +285,9 @@ public class WorkflowSettings {
          * @return a reference to this Builder
          */
         public Builder withInputSpec(String inputSpec) {
-            this.inputSpec = inputSpec;
+            if (inputSpec != null) {
+                this.inputSpec = inputSpec;
+            }
             return this;
         }
 
@@ -374,7 +298,11 @@ public class WorkflowSettings {
          * @return a reference to this Builder
          */
         public Builder withOutputDir(String outputDir) {
-            this.outputDir = Paths.get(outputDir).toAbsolutePath().toString();;
+            if (outputDir != null ) {
+                this.outputDir = Paths.get(outputDir).toAbsolutePath().toString();
+            } else {
+                this.outputDir = DEFAULT_OUTPUT_DIR;
+            }
             return this;
         }
 
@@ -384,8 +312,8 @@ public class WorkflowSettings {
          * @param verbose the {@code verbose} to set
          * @return a reference to this Builder
          */
-        public Builder withVerbose(boolean verbose) {
-            this.verbose = verbose;
+        public Builder withVerbose(Boolean verbose) {
+            this.verbose = verbose != null ? verbose : Boolean.valueOf(DEFAULT_VERBOSE);
             return this;
         }
 
@@ -395,8 +323,8 @@ public class WorkflowSettings {
          * @param skipOverwrite the {@code skipOverwrite} to set
          * @return a reference to this Builder
          */
-        public Builder withSkipOverwrite(boolean skipOverwrite) {
-            this.skipOverwrite = skipOverwrite;
+        public Builder withSkipOverwrite(Boolean skipOverwrite) {
+            this.skipOverwrite = skipOverwrite != null ? skipOverwrite : Boolean.valueOf(DEFAULT_SKIP_OVERWRITE);
             return this;
         }
 
@@ -406,8 +334,8 @@ public class WorkflowSettings {
          * @param removeOperationIdPrefix the {@code removeOperationIdPrefix} to set
          * @return a reference to this Builder
          */
-        public Builder withRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
-            this.removeOperationIdPrefix = removeOperationIdPrefix;
+        public Builder withRemoveOperationIdPrefix(Boolean removeOperationIdPrefix) {
+            this.removeOperationIdPrefix = removeOperationIdPrefix != null ? removeOperationIdPrefix : Boolean.valueOf(DEFAULT_REMOVE_OPERATION_ID_PREFIX);
             return this;
         }
 
@@ -417,8 +345,8 @@ public class WorkflowSettings {
          * @param logToStderr the {@code logToStderr} to set
          * @return a reference to this Builder
          */
-        public Builder withLogToStderr(boolean logToStderr) {
-            this.logToStderr = logToStderr;
+        public Builder withLogToStderr(Boolean logToStderr) {
+            this.logToStderr = logToStderr != null ? logToStderr : Boolean.valueOf(DEFAULT_LOG_TO_STDERR);
             return this;
         }
 
@@ -428,8 +356,8 @@ public class WorkflowSettings {
          * @param validateSpec the {@code validateSpec} to set
          * @return a reference to this Builder
          */
-        public Builder withValidateSpec(boolean validateSpec) {
-            this.validateSpec = validateSpec;
+        public Builder withValidateSpec(Boolean validateSpec) {
+            this.validateSpec = validateSpec != null ? validateSpec : Boolean.valueOf(DEFAULT_VALIDATE_SPEC);
             return this;
         }
 
@@ -439,8 +367,8 @@ public class WorkflowSettings {
          * @param enablePostProcessFile the {@code enablePostProcessFile} to set
          * @return a reference to this Builder
          */
-        public Builder withEnablePostProcessFile(boolean enablePostProcessFile) {
-            this.enablePostProcessFile = enablePostProcessFile;
+        public Builder withEnablePostProcessFile(Boolean enablePostProcessFile) {
+            this.enablePostProcessFile = enablePostProcessFile != null ? enablePostProcessFile : Boolean.valueOf(DEFAULT_ENABLE_POST_PROCESS_FILE);
             return this;
         }
 
@@ -450,8 +378,8 @@ public class WorkflowSettings {
          * @param enableMinimalUpdate the {@code enableMinimalUpdate} to set
          * @return a reference to this Builder
          */
-        public Builder withEnableMinimalUpdate(boolean enableMinimalUpdate) {
-            this.enableMinimalUpdate = enableMinimalUpdate;
+        public Builder withEnableMinimalUpdate(Boolean enableMinimalUpdate) {
+            this.enableMinimalUpdate = enableMinimalUpdate != null ? enableMinimalUpdate : Boolean.valueOf(DEFAULT_ENABLE_MINIMAL_UPDATE);
             return this;
         }
 
@@ -461,8 +389,8 @@ public class WorkflowSettings {
          * @param strictSpecBehavior the {@code strictSpecBehavior} to set
          * @return a reference to this Builder
          */
-        public Builder withStrictSpecBehavior(boolean strictSpecBehavior) {
-            this.strictSpecBehavior = strictSpecBehavior;
+        public Builder withStrictSpecBehavior(Boolean strictSpecBehavior) {
+            this.strictSpecBehavior = strictSpecBehavior != null ? strictSpecBehavior : Boolean.valueOf(DEFAULT_STRICT_SPEC_BEHAVIOR);
             return this;
         }
 
@@ -473,9 +401,7 @@ public class WorkflowSettings {
          * @return a reference to this Builder
          */
         public Builder withTemplateDir(String templateDir) {
-            if (templateDir == null) {
-                this.templateDir = null;
-            } else {
+            if (templateDir != null) {
                 File f = new File(templateDir);
 
                 // check to see if the folder exists
@@ -497,7 +423,7 @@ public class WorkflowSettings {
          * @return a reference to this Builder
          */
         public Builder withTemplatingEngineName(String templatingEngineName) {
-            this.templatingEngineName = templatingEngineName;
+            this.templatingEngineName = templatingEngineName != null ? templatingEngineName : DEFAULT_TEMPLATING_ENGINE_NAME;
             return this;
         }
 
@@ -519,7 +445,9 @@ public class WorkflowSettings {
          * @return a reference to this Builder
          */
         public Builder withSystemProperties(Map<String, String> systemProperties) {
-            this.systemProperties = systemProperties;
+            if (systemProperties != null) {
+                this.systemProperties = systemProperties;
+            }
             return this;
         }
 
