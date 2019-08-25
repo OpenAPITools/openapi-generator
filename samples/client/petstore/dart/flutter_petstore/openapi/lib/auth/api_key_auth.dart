@@ -4,10 +4,8 @@ class ApiKeyAuth implements Authentication {
 
   final String location;
   final String paramName;
-  String _apiKey;
+  String apiKey;
   String apiKeyPrefix;
-
-  set apiKey(String key) => _apiKey = key;
 
   ApiKeyAuth(this.location, this.paramName);
 
@@ -15,13 +13,13 @@ class ApiKeyAuth implements Authentication {
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
     String value;
     if (apiKeyPrefix != null) {
-      value = '$apiKeyPrefix $_apiKey';
+      value = '$apiKeyPrefix $apiKey';
     } else {
-      value = _apiKey;
+      value = apiKey;
     }
 
     if (location == 'query' && value != null) {
-      queryParams.add(QueryParam(paramName, value));
+      queryParams.add(new QueryParam(paramName, value));
     } else if (location == 'header' && value != null) {
       headerParams[paramName] = value;
     }

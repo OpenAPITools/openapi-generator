@@ -8,7 +8,7 @@ extern crate mime;
 extern crate chrono;
 extern crate percent_encoding;
 extern crate url;
-{{^apiUsesUuid}}
+{{#apiUsesUuid}}
 extern crate uuid;
 {{/apiUsesUuid}}
 {{#apiUsesMultipart}}
@@ -32,9 +32,6 @@ use serde_json;
 {{#usesXml}}
 use serde_xml_rs;
 {{/usesXml}}
-{{#apiUsesUuid}}
-use uuid;
-{{/apiUsesUuid}}
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};

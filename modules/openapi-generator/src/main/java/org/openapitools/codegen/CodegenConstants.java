@@ -308,4 +308,7 @@ public class CodegenConstants {
 
     public static final String EXCEPTION_ON_FAILURE = "returnExceptionOnFailure";
     public static final String EXCEPTION_ON_FAILURE_DESC = "Throw an exception on non success response codes";
+
+    public static final String ENUM_CLASS_PREFIX = "enumClassPrefix";
+    public static final String ENUM_CLASS_PREFIX_DESC = "Prefix enum with class name";
 }

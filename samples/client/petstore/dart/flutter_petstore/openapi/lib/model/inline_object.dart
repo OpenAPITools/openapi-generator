@@ -2,9 +2,9 @@ part of openapi.api;
 
 class InlineObject {
   /* Updated name of the pet */
-  String name = null;
+    String name = null;
   /* Updated status of the pet */
-  String status = null;
+    String status = null;
   InlineObject();
 
   @override
@@ -14,16 +14,8 @@ class InlineObject {
 
   InlineObject.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    if (json['name'] == null) {
-      name = null;
-    } else {
-          name = json['name'];
-    }
-    if (json['status'] == null) {
-      status = null;
-    } else {
-          status = json['status'];
-    }
+    name = json['name'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
