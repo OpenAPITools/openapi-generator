@@ -11,7 +11,7 @@ steps:
   - (cd samples/client/petstore/dart2/openapi && pub get && pub run test)
 # test Java 11 HTTP client
 - name: java11-test
-  image: hirokimatsumoto/alpine-openjdk-11	
+  image: openjdk:11.0
   commands:
   - ./mvnw clean install
   - ./mvnw --quiet verify -Psamples.droneio
