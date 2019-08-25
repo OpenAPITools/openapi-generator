@@ -2,18 +2,18 @@ part of openapi.api;
 
 class Order {
   
-    int id = null;
+  int id = null;
   
-    int petId = null;
+  int petId = null;
   
-    int quantity = null;
+  int quantity = null;
   
-    DateTime shipDate = null;
+  DateTime shipDate = null;
   /* Order Status */
-    String status = null;
+  String status = null;
   //enum statusEnum {  placed,  approved,  delivered,  };{
   
-    bool complete = false;
+  bool complete = false;
   Order();
 
   @override

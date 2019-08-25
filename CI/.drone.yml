@@ -11,10 +11,18 @@ steps:
   - (cd samples/client/petstore/dart2/openapi && pub get && pub run test)
 # test Java 11 HTTP client
 - name: java11-test
-  image: hirokimatsumoto/alpine-openjdk-11	
+  image: openjdk:11.0
   commands:
   - ./mvnw clean install
   - ./mvnw --quiet verify -Psamples.droneio
+  # test all generators with fake petstore spec (2.0, 3.0)
+  - /bin/bash bin/utils/test-fake-petstore-for-all.sh
+  # generate test scripts
+  - /bin/bash bin/tests/run-all-test
+  # generate all petstore samples (client, servers, doc)
+  - /bin/bash bin/run-all-petstore
+  # generate all petstore samples (openapi3)
+  - /bin/bash bin/openapi3/run-all-petstore
 # test ocaml petstore client
 - name: ocaml-test
   image: ocaml/opam2:4.07
