@@ -19,9 +19,9 @@ if [ "$NODE_INDEX" = "1" ]; then
   # generate all petstore samples (openapi3)
   ./bin/openapi3/run-all-petstore
   # generate test scripts
-  ./bin/tests/run-all-test
+  #./bin/tests/run-all-test
   # test all generators with fake petstore spec (2.0, 3.0)
-  ./bin/utils/test-fake-petstore-for-all.sh
+  #./bin/utils/test-fake-petstore-for-all.sh
 elif [ "$NODE_INDEX" = "2" ]; then
   # run ensure-up-to-date sample script on SNAPSHOT version only
   project_version=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
@@ -30,10 +30,10 @@ elif [ "$NODE_INDEX" = "2" ]; then
     java -version
 
     # install elm-format for formatting elm code
-    npm install -g elm-format
+    #npm install -g elm-format
 
     # symlink elm-format
-    sudo ln -s /opt/circleci/.nvm/versions/node/v12.1.0/bin/elm-format /usr/local/bin/elm-format
+    #sudo ln -s /opt/circleci/.nvm/versions/node/v12.1.0/bin/elm-format /usr/local/bin/elm-format
 
     ./bin/utils/ensure-up-to-date
   fi
