@@ -48,11 +48,7 @@ public class WorkflowSettingsTest {
         assertTrue(settings.isStrictSpecBehavior());
     }
 
-    @Test
-    public void defaultValuesCanBeChanged(){
-        WorkflowSettings defaults = WorkflowSettings.newBuilder()
-                .build();
-
+    private void assertOnChangesToDefaults(WorkflowSettings defaults) {
         WorkflowSettings settings = WorkflowSettings.newBuilder()
                 .withOutputDir("output")
                 .withVerbose(true)
@@ -91,5 +87,17 @@ public class WorkflowSettingsTest {
 
         assertNotEquals(defaults.isStrictSpecBehavior(), settings.isStrictSpecBehavior());
         assertFalse(settings.isStrictSpecBehavior());
+    }
+
+    @Test
+    public void defaultValuesCanBeChangedClassConstructor(){
+        WorkflowSettings defaults = new WorkflowSettings();
+        assertOnChangesToDefaults(defaults);
+    }
+
+    @Test
+    public void defaultValuesCanBeChangedBuilder(){
+        WorkflowSettings defaults = WorkflowSettings.newBuilder().build();
+        assertOnChangesToDefaults(defaults);
     }
 }
