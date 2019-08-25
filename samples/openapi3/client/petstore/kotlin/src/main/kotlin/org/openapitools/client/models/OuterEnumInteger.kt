@@ -20,14 +20,18 @@ import com.squareup.moshi.Json
 */
 enum class OuterEnumInteger(val value: kotlin.Int){
 
+
     @Json(name = "0")
     _0(0),
+
 
     @Json(name = "1")
     _1(1),
 
+
     @Json(name = "2")
     _2(2);
+
 
 }
 

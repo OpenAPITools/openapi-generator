@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
 <a name="fakeHealthGet"></a>
@@ -668,5 +669,59 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+<a name="testQueryParameterCollectionFormat"></a>
+# **testQueryParameterCollectionFormat**
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+val pipe : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+val ioutil : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+val http : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+val url : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+val context : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+try {
+    apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#testQueryParameterCollectionFormat")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#testQueryParameterCollectionFormat")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+ **ioutil** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+ **http** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+ **url** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+ **context** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 

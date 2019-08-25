@@ -627,6 +627,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-07-08 - [OpenAPI Generator にコントリビュートしたら社名が載った話。(CAM) - CAM TECH BLOG](https://tech.cam-inc.co.jp/entry/2019/07/08/140000) by [CAM, Inc.](https://www.cam-inc.co.jp/)
 - 2019-07-14 - [OpenAPI GeneratorでPythonのクライアントライブラリを作成した](https://qiita.com/yuji38kwmt/items/dfb929316a1335a161c0) by [yuji38kwmt](https://qiita.com/yuji38kwmt)
 - 2019-07-19 - [Developer Experience (DX) for Open-Source Projects: How to Engage Developers and Build a Growing Developer Community](https://speakerdeck.com/wing328/developer-experience-dx-for-open-source-projects-english-japanese) by [William Cheng](https://twitter.com/wing328), [中野暁人](https://github.com/ackintosh) at [Open Source Summit Japan 2019](https://events.linuxfoundation.org/events/open-source-summit-japan-2019/)
+- 2019-08-14 - [Our OpenAPI journey with Standardizing SDKs](https://bitmovin.com/our-openapi-journey-with-standardizing-sdks/) by [Sebastian Burgstaller](https://bitmovin.com/author/sburgstaller/) at [Bitmovin](https://www.bitmovin.com)
+- 2019-08-24 - [SwaggerドキュメントからOpenAPI Generatorを使ってモックサーバー作成](https://qiita.com/masayoshi0222/items/4845e4c715d04587c104) by [坂本正義](https://qiita.com/masayoshi0222)
 
 ## [6 - About Us](#table-of-contents)
 

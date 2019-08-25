@@ -286,7 +286,7 @@ namespace Org.OpenAPITools.Client
         #region Private Members
 
         /**
-         * Helper method to encapsulate generator differences between dictioary types.
+         * Helper method to encapsulate generator differences between dictionary types.
          */
         private bool TryRemove(T key, out IList<TValue> value)
         {
@@ -295,7 +295,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /**
-         * Helper method to encapsulate generator differences between dictioary types.
+         * Helper method to encapsulate generator differences between dictionary types.
          */
         private bool TryAdd(T key, IList<TValue> value)
         {

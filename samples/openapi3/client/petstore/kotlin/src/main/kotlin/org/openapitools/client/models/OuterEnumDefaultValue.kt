@@ -20,14 +20,18 @@ import com.squareup.moshi.Json
 */
 enum class OuterEnumDefaultValue(val value: kotlin.String){
 
+
     @Json(name = "placed")
     placed("placed"),
+
 
     @Json(name = "approved")
     approved("approved"),
 
+
     @Json(name = "delivered")
     delivered("delivered");
+
 
 }
 

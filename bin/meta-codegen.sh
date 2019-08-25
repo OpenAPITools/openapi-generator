@@ -22,7 +22,7 @@ executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]
 then
-  mvn -B clean package
+  ./mvnw -B clean package
 fi
 
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
@@ -30,7 +30,7 @@ ags="meta -n myClientCodegen -t DOCUMENTATION -p com.my.company.codegen -o sampl
 
 java $JAVA_OPTS -jar $executable $ags
 
-mvn clean package -f samples/meta-codegen/pom.xml
+./mvnw clean package -f samples/meta-codegen/pom.xml
 
 ags2="generate -g myClientCodegen -i modules/openapi-generator/src/test/resources/2_0/petstore.json -o samples/meta-codegen/usage $@"
 

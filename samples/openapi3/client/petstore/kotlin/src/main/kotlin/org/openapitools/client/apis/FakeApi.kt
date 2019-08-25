@@ -54,8 +54,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as HealthCheckResult
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -85,8 +85,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as kotlin.Boolean
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -116,8 +116,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as OuterComposite
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -147,8 +147,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as java.math.BigDecimal
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -178,8 +178,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as kotlin.String
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -208,8 +208,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -239,8 +239,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -270,8 +270,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as Client
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -313,8 +313,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -350,8 +350,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -385,8 +385,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -415,8 +415,8 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -446,8 +446,42 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+        }
+    }
+
+    /**
+    * 
+    * To test the collection format in query parameters
+    * @param pipe  
+    * @param ioutil  
+    * @param http  
+    * @param url  
+    * @param context  
+    * @return void
+    */
+    fun testQueryParameterCollectionFormat(pipe: kotlin.Array<kotlin.String>, ioutil: kotlin.Array<kotlin.String>, http: kotlin.Array<kotlin.String>, url: kotlin.Array<kotlin.String>, context: kotlin.Array<kotlin.String>) : Unit {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mapOf("pipe" to toMultiValue(pipe.toList(), "multi"), "ioutil" to toMultiValue(ioutil.toList(), "csv"), "http" to toMultiValue(http.toList(), "space"), "url" to toMultiValue(url.toList(), "csv"), "context" to toMultiValue(context.toList(), "multi"))
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        val localVariableConfig = RequestConfig(
+            RequestMethod.PUT,
+            "/fake/test-query-paramters",
+            query = localVariableQuery,
+            headers = localVariableHeaders
+        )
+        val response = request<Any?>(
+            localVariableConfig,
+            localVariableBody
+        )
+
+        return when (response.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
