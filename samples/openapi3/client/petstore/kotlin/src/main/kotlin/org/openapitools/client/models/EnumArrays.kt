@@ -20,38 +20,39 @@ import com.squareup.moshi.Json
  */
 data class EnumArrays (
     @Json(name = "just_symbol")
+    
     val justSymbol: EnumArrays.JustSymbol? = null,
     @Json(name = "array_enum")
+    
     val arrayEnum: kotlin.Array<EnumArrays.ArrayEnum>? = null
-) {
+)
 
+{
     /**
     * 
     * Values: greaterThanEqual,dollar
     */
     enum class JustSymbol(val value: kotlin.String){
     
-        @Json(name = ">=")
-        greaterThanEqual(">="),
+        @Json(name = ">=") greaterThanEqual(">="),
     
-        @Json(name = "$")
-        dollar("$");
+        @Json(name = "$") dollar("$");
     
     }
+}
 
+{
     /**
     * 
     * Values: fish,crab
     */
     enum class ArrayEnum(val value: kotlin.String){
     
-        @Json(name = "fish")
-        fish("fish"),
+        @Json(name = "fish") fish("fish"),
     
-        @Json(name = "crab")
-        crab("crab");
+        @Json(name = "crab") crab("crab");
     
     }
-
 }
+
 

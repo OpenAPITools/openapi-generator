@@ -20,10 +20,11 @@ import com.squareup.moshi.Json
  */
 data class ReadOnlyFirst (
     @Json(name = "bar")
+    
     val bar: kotlin.String? = null,
     @Json(name = "baz")
+    
     val baz: kotlin.String? = null
-) {
+)
 
-}
 

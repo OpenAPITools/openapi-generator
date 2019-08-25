@@ -33,47 +33,60 @@ import com.squareup.moshi.Json
 data class InlineObject3 (
     /* None */
     @Json(name = "number")
+    
     val number: java.math.BigDecimal,
     /* None */
     @Json(name = "double")
+    
     val double: kotlin.Double,
     /* None */
     @Json(name = "pattern_without_delimiter")
+    
     val patternWithoutDelimiter: kotlin.String,
     /* None */
     @Json(name = "byte")
+    
     val byte: kotlin.ByteArray,
     /* None */
     @Json(name = "integer")
+    
     val integer: kotlin.Int? = null,
     /* None */
     @Json(name = "int32")
+    
     val int32: kotlin.Int? = null,
     /* None */
     @Json(name = "int64")
+    
     val int64: kotlin.Long? = null,
     /* None */
     @Json(name = "float")
+    
     val float: kotlin.Float? = null,
     /* None */
     @Json(name = "string")
+    
     val string: kotlin.String? = null,
     /* None */
     @Json(name = "binary")
+    
     val binary: java.io.File? = null,
     /* None */
     @Json(name = "date")
+    
     val date: java.time.LocalDate? = null,
     /* None */
     @Json(name = "dateTime")
+    
     val dateTime: java.time.LocalDateTime? = null,
     /* None */
     @Json(name = "password")
+    
     val password: kotlin.String? = null,
     /* None */
     @Json(name = "callback")
+    
     val callback: kotlin.String? = null
-) {
+)
 
-}
 

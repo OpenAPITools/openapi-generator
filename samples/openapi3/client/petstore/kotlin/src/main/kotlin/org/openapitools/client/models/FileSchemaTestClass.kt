@@ -20,10 +20,11 @@ import com.squareup.moshi.Json
  */
 data class FileSchemaTestClass (
     @Json(name = "file")
+    
     val file: java.io.File? = null,
     @Json(name = "files")
+    
     val files: kotlin.Array<java.io.File>? = null
-) {
+)
 
-}
 

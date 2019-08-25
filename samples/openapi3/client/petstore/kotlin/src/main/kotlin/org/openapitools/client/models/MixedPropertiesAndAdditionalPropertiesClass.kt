@@ -22,12 +22,14 @@ import com.squareup.moshi.Json
  */
 data class MixedPropertiesAndAdditionalPropertiesClass (
     @Json(name = "uuid")
+    
     val uuid: java.util.UUID? = null,
     @Json(name = "dateTime")
+    
     val dateTime: java.time.LocalDateTime? = null,
     @Json(name = "map")
+    
     val map: kotlin.collections.Map<kotlin.String, Animal>? = null
-) {
+)
 
-}
 

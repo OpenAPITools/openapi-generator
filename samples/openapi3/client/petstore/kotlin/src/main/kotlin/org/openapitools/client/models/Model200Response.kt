@@ -20,10 +20,11 @@ import com.squareup.moshi.Json
  */
 data class Model200Response (
     @Json(name = "name")
+    
     val name: kotlin.Int? = null,
     @Json(name = "class")
+    
     val propertyClass: kotlin.String? = null
-) {
+)
 
-}
 

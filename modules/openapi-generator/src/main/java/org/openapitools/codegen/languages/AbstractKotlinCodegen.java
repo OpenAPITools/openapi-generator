@@ -360,6 +360,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             setSerializationEngine((String) additionalProperties.get(CodegenConstants.SERIALIZATION_ENGINE));
             additionalProperties.put(this.serializationEngine.name(), true);
         }
+        else {
+            additionalProperties.put(this.serializationEngine.name(), true);
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));

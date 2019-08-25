@@ -20,10 +20,11 @@ import com.squareup.moshi.Json
  */
 data class Animal (
     @Json(name = "className")
+    
     val className: kotlin.String,
     @Json(name = "color")
+    
     val color: kotlin.String? = null
-) {
+)
 
-}
 

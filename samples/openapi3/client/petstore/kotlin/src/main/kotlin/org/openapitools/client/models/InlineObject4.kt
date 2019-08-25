@@ -21,11 +21,12 @@ import com.squareup.moshi.Json
 data class InlineObject4 (
     /* field1 */
     @Json(name = "param")
+    
     val param: kotlin.String,
     /* field2 */
     @Json(name = "param2")
+    
     val param2: kotlin.String
-) {
+)
 
-}
 

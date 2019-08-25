@@ -21,11 +21,12 @@ import com.squareup.moshi.Json
 data class InlineObject5 (
     /* file to upload */
     @Json(name = "requiredFile")
+    
     val requiredFile: java.io.File,
     /* Additional data to pass to server */
     @Json(name = "additionalMetadata")
+    
     val additionalMetadata: kotlin.String? = null
-) {
+)
 
-}
 
