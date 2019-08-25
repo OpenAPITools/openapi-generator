@@ -19,9 +19,9 @@ steps:
   - ls -al
   - ls -l ./bin/tests
   - ls -l ./bin/utils/
-  - ./bin/utils/test-fake-petstore-for-all.sh
+  - /bin/bash bin/utils/test-fake-petstore-for-all.sh
   # generate test scripts
-  - ./bin/tests/run-all-test
+  - /bin/bash bin/tests/run-all-test
 # test ocaml petstore client
 - name: ocaml-test
   image: ocaml/opam2:4.07
