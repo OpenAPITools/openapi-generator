@@ -21,6 +21,26 @@ namespace {{packageName}}.Client
 
         #endregion Private Fields
 
+        #region Constructors
+
+        /// <summary>
+        /// Empty Constructor.
+        /// </summary>
+        public Multimap()
+        {
+            _dictionary = new {{^net35}}Concurrent{{/net35}}Dictionary<T, IList<TValue>>();
+        }
+
+        /// <summary>
+        /// Constructor with comparer.
+        /// </summary>
+        /// <param name="comparer"></param>
+        public Multimap(IEqualityComparer<T> comparer) {
+            _dictionary = new {{^net35}}Concurrent{{/net35}}Dictionary<T, IList<TValue>>(comparer);
+        }
+
+        #endregion Constructors
+
         #region Enumerators
 
         /// <summary>
@@ -257,7 +277,7 @@ namespace {{packageName}}.Client
         #region Private Members
 
         /**
-         * Helper method to encapsulate generator differences between dictioary types.
+         * Helper method to encapsulate generator differences between dictionary types.
          */
         private bool TryRemove(T key, out IList<TValue> value)
         {
@@ -279,7 +299,7 @@ namespace {{packageName}}.Client
         }
 
         /**
-         * Helper method to encapsulate generator differences between dictioary types.
+         * Helper method to encapsulate generator differences between dictionary types.
          */
         private bool TryAdd(T key, IList<TValue> value)
         {

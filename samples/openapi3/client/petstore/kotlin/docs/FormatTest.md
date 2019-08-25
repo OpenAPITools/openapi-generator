@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **string** | **kotlin.String** |  |  [optional]
 **byte** | **kotlin.ByteArray** |  | 
 **binary** | [**java.io.File**](java.io.File.md) |  |  [optional]
-**date** | [**java.time.LocalDateTime**](java.time.LocalDateTime.md) |  | 
+**date** | [**java.time.LocalDate**](java.time.LocalDate.md) |  | 
 **dateTime** | [**java.time.LocalDateTime**](java.time.LocalDateTime.md) |  |  [optional]
 **uuid** | [**java.util.UUID**](java.util.UUID.md) |  |  [optional]
 **password** | **kotlin.String** |  | 

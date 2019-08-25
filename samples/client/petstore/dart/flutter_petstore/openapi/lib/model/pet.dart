@@ -2,17 +2,17 @@ part of openapi.api;
 
 class Pet {
   
-  int id = null;
+    int id = null;
   
-  Category category = null;
+    Category category = null;
   
-  String name = null;
+    String name = null;
   
-  List<String> photoUrls = [];
+    List<String> photoUrls = [];
   
-  List<Tag> tags = [];
+    List<Tag> tags = [];
   /* pet status in the store */
-  String status = null;
+    String status = null;
   //enum statusEnum {  available,  pending,  sold,  };{
   Pet();
 
@@ -23,63 +23,39 @@ class Pet {
 
   Pet.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    if (json['id'] == null) {
-      id = null;
-    } else {
-          id = json['id'];
-    }
-    if (json['category'] == null) {
-      category = null;
-    } else {
-      category = Category.fromJson(json['category']);
-    }
-    if (json['name'] == null) {
-      name = null;
-    } else {
-          name = json['name'];
-    }
-    if (json['photoUrls'] == null) {
-      photoUrls = null;
-    } else {
-      photoUrls = (json['photoUrls'] as List).cast<String>();
-    }
-    if (json['tags'] == null) {
-      tags = null;
-    } else {
-      tags = Tag.listFromJson(json['tags']);
-    }
-    if (json['status'] == null) {
-      status = null;
-    } else {
-          status = json['status'];
-    }
+    id = json['id'];
+    category = (json['category'] == null) ?
+      null :
+      Category.fromJson(json['category']);
+    name = json['name'];
+    photoUrls = (json['photoUrls'] == null) ?
+      null :
+      (json['photoUrls'] as List).cast<String>();
+    tags = (json['tags'] == null) ?
+      null :
+      Tag.listFromJson(json['tags']);
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
-    if (id != null)
-      json['id'] = id;
-    if (category != null)
-      json['category'] = category;
-    if (name != null)
-      json['name'] = name;
-    if (photoUrls != null)
-      json['photoUrls'] = photoUrls;
-    if (tags != null)
-      json['tags'] = tags;
-    if (status != null)
-      json['status'] = status;
-    return json;
+    return {
+      'id': id,
+      'category': category,
+      'name': name,
+      'photoUrls': photoUrls,
+      'tags': tags,
+      'status': status
+    };
   }
 
   static List<Pet> listFromJson(List<dynamic> json) {
-    return json == null ? List<Pet>() : json.map((value) => Pet.fromJson(value)).toList();
+    return json == null ? new List<Pet>() : json.map((value) => new Pet.fromJson(value)).toList();
   }
 
-  static Map<String, Pet> mapFromJson(Map<String, dynamic> json) {
-    var map = Map<String, Pet>();
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = Pet.fromJson(value));
+  static Map<String, Pet> mapFromJson(Map<String, Map<String, dynamic>> json) {
+    var map = new Map<String, Pet>();
+    if (json != null && json.length > 0) {
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new Pet.fromJson(value));
     }
     return map;
   }

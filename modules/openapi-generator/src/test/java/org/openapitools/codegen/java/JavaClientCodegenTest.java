@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.java;
 
+import static org.openapitools.codegen.TestUtils.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -318,6 +319,8 @@ public class JavaClientCodegenTest {
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/StringUtil.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/test/java/xyz/abcdef/api/DefaultApiTest.java");
 
+        validateJavaSourceFiles(generatedFiles);
+
         String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
         String defaultApiConent = generatedFiles.get(defaultApiFilename);
         assertTrue(defaultApiConent.contains("public class DefaultApi"));
@@ -326,6 +329,44 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(templateBasedFile.getTemplateData().get("classname"), "DefaultApi");
 
         output.deleteOnExit();
+    }
+
+    @Test
+    public void testJdkHttpClient() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 23);
+        validateJavaSourceFiles(generatedFiles);
+
+        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
+        String defaultApiContent = generatedFiles.get(defaultApiFilename);
+        assertTrue(defaultApiContent.contains("public class DefaultApi"));
+        assertTrue(defaultApiContent.contains("import java.net.http.HttpClient;"));
+        assertTrue(defaultApiContent.contains("import java.net.http.HttpRequest;"));
+        assertTrue(defaultApiContent.contains("import java.net.http.HttpResponse;"));
+
+        String apiClientFilename = new File(output, "src/main/java/xyz/abcdef/ApiClient.java").getAbsolutePath().replace("\\", "/");
+        String apiClientContent = generatedFiles.get(apiClientFilename);
+        assertTrue(apiClientContent.contains("public class ApiClient"));
+        assertTrue(apiClientContent.contains("import java.net.http.HttpClient;"));
+        assertTrue(apiClientContent.contains("import java.net.http.HttpRequest;"));
     }
 
     @Test
