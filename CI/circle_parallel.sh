@@ -15,9 +15,9 @@ if [ "$NODE_INDEX" = "1" ]; then
   mvn --quiet javadoc:javadoc -Psamples.circleci
 
   # generate all petstore samples (client, servers, doc)
-  ./bin/run-all-petstore
+  #./bin/run-all-petstore
   # generate all petstore samples (openapi3)
-  ./bin/openapi3/run-all-petstore
+  #./bin/openapi3/run-all-petstore
   # generate test scripts
   #./bin/tests/run-all-test
   # test all generators with fake petstore spec (2.0, 3.0)
