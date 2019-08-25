@@ -41,7 +41,7 @@ public class WorkflowSettings {
     public static final boolean DEFAULT_VALIDATE_SPEC = true;
     public static final boolean DEFAULT_ENABLE_POST_PROCESS_FILE = false;
     public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
-    public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
+    public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = false;
     public static final String DEFAULT_TEMPLATING_ENGINE_NAME = "mustache";
     public static final ImmutableMap<String, String> DEFAULT_SYSTEM_PROPERTIES = ImmutableMap.of();
 
