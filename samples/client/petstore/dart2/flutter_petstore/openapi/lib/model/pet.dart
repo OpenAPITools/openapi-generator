@@ -2,17 +2,17 @@ part of openapi.api;
 
 class Pet {
   
-    int id = null;
+  int id = null;
   
-    Category category = null;
+  Category category = null;
   
-    String name = null;
+  String name = null;
   
-    List<String> photoUrls = [];
+  List<String> photoUrls = [];
   
-    List<Tag> tags = [];
+  List<Tag> tags = [];
   /* pet status in the store */
-    String status = null;
+  String status = null;
   //enum statusEnum {  available,  pending,  sold,  };{
   Pet();
 
