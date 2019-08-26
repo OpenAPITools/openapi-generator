@@ -74,6 +74,7 @@ public class CodegenConfiguratorTest {
                 .setAuth("test-auth")
                 .setGitRepoId("git")
                 .setGitUserId("user")
+                .setGitHost("test.com")
                 .setGroupId("group")
                 .setHttpUserAgent("agent")
                 .setModelNamePrefix("model-prefix")
@@ -108,6 +109,7 @@ public class CodegenConfiguratorTest {
         want(props, CodegenConstants.TEMPLATE_DIR, templateDir);
         want(props, CodegenConstants.GIT_REPO_ID, "git");
         want(props, CodegenConstants.GIT_USER_ID, "user");
+        want(props, CodegenConstants.GIT_HOST, "test.com");
         want(props, CodegenConstants.GROUP_ID, "group");
         want(props, CodegenConstants.ARTIFACT_ID, "test-artifactId");
         want(props, CodegenConstants.ARTIFACT_VERSION, "test-artifactVersion");

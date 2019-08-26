@@ -111,7 +111,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
     protected Boolean allowUnicodeIdentifiers = false;
-    protected String gitUserId, gitRepoId, releaseNote;
+    protected String gitHost, gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
     // How to encode special characters like $
@@ -3899,6 +3899,24 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String getLibrary() {
         return library;
+    }
+
+    /**
+     * Set Git host.
+     *
+     * @param gitHost Git host
+     */
+    public void setGitHost(String gitHost) {
+        this.gitHost = gitHost;
+    }
+
+    /**
+     * Git host.
+     *
+     * @return Git host
+     */
+    public String getGitHost() {
+        return gitHost;
     }
 
     /**
