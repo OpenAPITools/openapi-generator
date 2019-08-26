@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**SourceURI** | Pointer to **string** | Test capitalization | [optional]
+**SourceURI** | Pointer to **string** | Test capitalization | [optional] 
 
 ## Methods
 
