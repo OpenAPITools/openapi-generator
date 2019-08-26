@@ -45,6 +45,10 @@
           "required" : true
         },
         "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
           "400" : {
             "description" : "Invalid ID supplied",
             "content" : { }
@@ -61,6 +65,7 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       },
@@ -85,6 +90,10 @@
           "required" : true
         },
         "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
           "405" : {
             "description" : "Invalid input",
             "content" : { }
@@ -93,6 +102,7 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
@@ -114,8 +124,8 @@
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ "available", "pending", "sold" ],
-              "default" : "available"
+              "default" : "available",
+              "enum" : [ "available", "pending", "sold" ]
             }
           }
         } ],
@@ -317,6 +327,10 @@
           }
         } ],
         "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
           "400" : {
             "description" : "Invalid pet value",
             "content" : { }
@@ -446,6 +460,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       }
@@ -545,6 +560,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       }
@@ -574,6 +590,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       }
@@ -603,6 +620,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       }
@@ -759,6 +777,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       },
@@ -821,6 +840,7 @@
         "security" : [ {
           "api_key_query" : [ ]
         } ],
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
@@ -841,8 +861,8 @@
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ ">", "$" ],
-              "default" : "$"
+              "default" : "$",
+              "enum" : [ ">", "$" ]
             }
           }
         }, {
@@ -851,8 +871,8 @@
           "description" : "Header parameter enum test (string)",
           "schema" : {
             "type" : "string",
-            "enum" : [ "_abc", "-efg", "(xyz)" ],
-            "default" : "-efg"
+            "default" : "-efg",
+            "enum" : [ "_abc", "-efg", "(xyz)" ]
           }
         }, {
           "name" : "enum_query_string_array",
@@ -864,8 +884,8 @@
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ ">", "$" ],
-              "default" : "$"
+              "default" : "$",
+              "enum" : [ ">", "$" ]
             }
           }
         }, {
@@ -874,8 +894,8 @@
           "description" : "Query parameter enum test (string)",
           "schema" : {
             "type" : "string",
-            "enum" : [ "_abc", "-efg", "(xyz)" ],
-            "default" : "-efg"
+            "default" : "-efg",
+            "enum" : [ "_abc", "-efg", "(xyz)" ]
           }
         }, {
           "name" : "enum_query_integer",
@@ -906,15 +926,15 @@
                     "description" : "Form parameter enum test (string array)",
                     "items" : {
                       "type" : "string",
-                      "enum" : [ ">", "$" ],
-                      "default" : "$"
+                      "default" : "$",
+                      "enum" : [ ">", "$" ]
                     }
                   },
                   "enum_form_string" : {
                     "type" : "string",
                     "description" : "Form parameter enum test (string)",
-                    "enum" : [ "_abc", "-efg", "(xyz)" ],
-                    "default" : "-efg"
+                    "default" : "-efg",
+                    "enum" : [ "_abc", "-efg", "(xyz)" ]
                   }
                 }
               }
@@ -949,7 +969,8 @@
                     "maximum" : 100,
                     "minimum" : 10,
                     "type" : "integer",
-                    "description" : "None"
+                    "description" : "None",
+                    "format" : "int32"
                   },
                   "int32" : {
                     "maximum" : 200,
@@ -1045,6 +1066,68 @@
         "x-contentType" : "application/x-www-form-urlencoded",
         "x-accepts" : "application/json"
       },
+      "delete" : {
+        "tags" : [ "fake" ],
+        "summary" : "Fake endpoint to test group parameters (optional)",
+        "description" : "Fake endpoint to test group parameters (optional)",
+        "operationId" : "testGroupParameters",
+        "parameters" : [ {
+          "name" : "required_string_group",
+          "in" : "query",
+          "description" : "Required String in group parameters",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "required_boolean_group",
+          "in" : "header",
+          "description" : "Required Boolean in group parameters",
+          "required" : true,
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "required_int64_group",
+          "in" : "query",
+          "description" : "Required Integer in group parameters",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "string_group",
+          "in" : "query",
+          "description" : "String in group parameters",
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "boolean_group",
+          "in" : "header",
+          "description" : "Boolean in group parameters",
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "int64_group",
+          "in" : "query",
+          "description" : "Integer in group parameters",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Someting wrong",
+            "content" : { }
+          }
+        },
+        "x-group-parameters" : true,
+        "x-accepts" : "application/json"
+      },
       "patch" : {
         "tags" : [ "fake" ],
         "summary" : "To test \"client\" model",
@@ -1073,6 +1156,7 @@
             }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
@@ -1105,6 +1189,7 @@
             }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "*/*"
       }
@@ -1137,6 +1222,7 @@
             }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "*/*"
       }
@@ -1169,6 +1255,7 @@
             }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "*/*"
       }
@@ -1201,6 +1288,7 @@
             }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "*/*"
       }
@@ -1265,6 +1353,7 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "param",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
@@ -1297,7 +1386,61 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake/create_xml_item" : {
+      "post" : {
+        "tags" : [ "fake" ],
+        "summary" : "creates an XmlItem",
+        "description" : "this route creates an XmlItem",
+        "operationId" : "createXmlItem",
+        "requestBody" : {
+          "description" : "XmlItem Body",
+          "content" : {
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/XmlItem"
+              }
+            },
+            "application/xml; charset=utf-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/XmlItem"
+              }
+            },
+            "application/xml; charset=utf-16" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/XmlItem"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/XmlItem"
+              }
+            },
+            "text/xml; charset=utf-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/XmlItem"
+              }
+            },
+            "text/xml; charset=utf-16" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/XmlItem"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          }
+        },
+        "x-codegen-request-body-name" : "XmlItem",
+        "x-contentType" : "application/xml",
         "x-accepts" : "application/json"
       }
     },
@@ -1305,8 +1448,8 @@
       "patch" : {
         "tags" : [ "$another-fake?" ],
         "summary" : "To test special tags",
-        "description" : "To test special tags",
-        "operationId" : "test_special_tags",
+        "description" : "To test special tags and operation ID starting with number",
+        "operationId" : "123_test_@#$%_special_tags",
         "requestBody" : {
           "description" : "client model",
           "content" : {
@@ -1330,6 +1473,7 @@
             }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
@@ -1355,7 +1499,80 @@
             "content" : { }
           }
         },
+        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake/test-query-paramters" : {
+      "put" : {
+        "tags" : [ "fake" ],
+        "description" : "To test the collection format in query parameters",
+        "operationId" : "testQueryParameterCollectionFormat",
+        "parameters" : [ {
+          "name" : "pipe",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }, {
+          "name" : "ioutil",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }, {
+          "name" : "http",
+          "in" : "query",
+          "required" : true,
+          "style" : "spaceDelimited",
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }, {
+          "name" : "url",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }, {
+          "name" : "context",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : { }
+          }
+        },
         "x-accepts" : "application/json"
       }
     },
@@ -1378,13 +1595,13 @@
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "required" : [ "file" ],
+                "required" : [ "requiredFile" ],
                 "properties" : {
                   "additionalMetadata" : {
                     "type" : "string",
                     "description" : "Additional data to pass to server"
                   },
-                  "file" : {
+                  "requiredFile" : {
                     "type" : "string",
                     "description" : "file to upload",
                     "format" : "binary"
@@ -1417,7 +1634,49 @@
   },
   "components" : {
     "schemas" : {
+      "Order" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "petId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "quantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "shipDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Order Status",
+            "enum" : [ "placed", "approved", "delivered" ]
+          },
+          "complete" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        },
+        "example" : {
+          "petId" : 6,
+          "quantity" : 1,
+          "id" : 0,
+          "shipDate" : "2000-01-23T04:56:07.000+00:00",
+          "complete" : false,
+          "status" : "placed"
+        },
+        "xml" : {
+          "name" : "Order"
+        }
+      },
       "Category" : {
+        "required" : [ "name" ],
         "type" : "object",
         "properties" : {
           "id" : {
@@ -1425,11 +1684,12 @@
             "format" : "int64"
           },
           "name" : {
-            "type" : "string"
+            "type" : "string",
+            "default" : "default-name"
           }
         },
         "example" : {
-          "name" : "name",
+          "name" : "default-name",
           "id" : 6
         },
         "xml" : {
@@ -1482,61 +1742,86 @@
           "name" : "User"
         }
       },
-      "OuterNumber" : {
-        "type" : "number"
-      },
-      "ArrayOfNumberOnly" : {
+      "Tag" : {
         "type" : "object",
         "properties" : {
-          "ArrayNumber" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "example" : {
+          "name" : "name",
+          "id" : 1
+        },
+        "xml" : {
+          "name" : "Tag"
+        }
+      },
+      "Pet" : {
+        "required" : [ "name", "photoUrls" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64",
+            "x-is-unique" : true
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/Category"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "doggie"
+          },
+          "photoUrls" : {
             "type" : "array",
+            "xml" : {
+              "name" : "photoUrl",
+              "wrapped" : true
+            },
             "items" : {
-              "type" : "number"
+              "type" : "string"
             }
-          }
-        }
-      },
-      "Capitalization" : {
-        "type" : "object",
-        "properties" : {
-          "smallCamel" : {
-            "type" : "string"
           },
-          "CapitalCamel" : {
-            "type" : "string"
-          },
-          "small_Snake" : {
-            "type" : "string"
-          },
-          "Capital_Snake" : {
-            "type" : "string"
-          },
-          "SCA_ETH_Flow_Points" : {
-            "type" : "string"
-          },
-          "ATT_NAME" : {
-            "type" : "string",
-            "description" : "Name of the pet\n"
-          }
-        }
-      },
-      "MixedPropertiesAndAdditionalPropertiesClass" : {
-        "type" : "object",
-        "properties" : {
-          "uuid" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "dateTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "map" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "$ref" : "#/components/schemas/Animal"
+          "tags" : {
+            "type" : "array",
+            "xml" : {
+              "name" : "tag",
+              "wrapped" : true
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/Tag"
             }
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "pet status in the store",
+            "enum" : [ "available", "pending", "sold" ]
           }
+        },
+        "example" : {
+          "photoUrls" : [ "photoUrls", "photoUrls" ],
+          "name" : "doggie",
+          "id" : 0,
+          "category" : {
+            "name" : "default-name",
+            "id" : 6
+          },
+          "tags" : [ {
+            "name" : "name",
+            "id" : 1
+          }, {
+            "name" : "name",
+            "id" : 1
+          } ],
+          "status" : "available"
+        },
+        "xml" : {
+          "name" : "Pet"
         }
       },
       "ApiResponse" : {
@@ -1557,6 +1842,31 @@
           "code" : 0,
           "type" : "type",
           "message" : "message"
+        }
+      },
+      "$special[model.name]" : {
+        "type" : "object",
+        "properties" : {
+          "$special[property.name]" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "xml" : {
+          "name" : "$special[model.name]"
+        }
+      },
+      "Return" : {
+        "type" : "object",
+        "properties" : {
+          "return" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "description" : "Model for testing reserved words",
+        "xml" : {
+          "name" : "Return"
         }
       },
       "Name" : {
@@ -1585,30 +1895,6 @@
           "name" : "Name"
         }
       },
-      "EnumClass" : {
-        "type" : "string",
-        "enum" : [ "_abc", "-efg", "(xyz)" ],
-        "default" : "-efg"
-      },
-      "List" : {
-        "type" : "object",
-        "properties" : {
-          "123-list" : {
-            "type" : "string"
-          }
-        },
-        "example" : {
-          "123-list" : "123-list"
-        }
-      },
-      "NumberOnly" : {
-        "type" : "object",
-        "properties" : {
-          "JustNumber" : {
-            "type" : "number"
-          }
-        }
-      },
       "200_response" : {
         "type" : "object",
         "properties" : {
@@ -1625,220 +1911,49 @@
           "name" : "Name"
         }
       },
-      "Client" : {
+      "ClassModel" : {
         "type" : "object",
         "properties" : {
-          "client" : {
+          "_class" : {
             "type" : "string"
           }
         },
-        "example" : {
-          "client" : "client"
-        }
+        "description" : "Model for testing model with \"_class\" property"
       },
       "Dog" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Animal"
         }, {
-          "type" : "object",
-          "properties" : {
-            "breed" : {
-              "type" : "string"
-            }
-          }
+          "$ref" : "#/components/schemas/Dog_allOf"
         } ]
       },
-      "Enum_Test" : {
-        "required" : [ "enum_string_required" ],
+      "Cat" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Animal"
+        }, {
+          "$ref" : "#/components/schemas/Cat_allOf"
+        } ]
+      },
+      "Animal" : {
+        "required" : [ "className" ],
         "type" : "object",
         "properties" : {
-          "enum_string" : {
-            "type" : "string",
-            "enum" : [ "UPPER", "lower", "" ]
-          },
-          "enum_string_required" : {
-            "type" : "string",
-            "enum" : [ "UPPER", "lower", "" ]
-          },
-          "enum_integer" : {
-            "type" : "integer",
-            "format" : "int32",
-            "enum" : [ 1, -1 ]
-          },
-          "enum_number" : {
-            "type" : "number",
-            "format" : "double",
-            "enum" : [ 1.1, -1.2 ]
-          },
-          "outerEnum" : {
-            "$ref" : "#/components/schemas/OuterEnum"
-          }
-        }
-      },
-      "Order" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "petId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "quantity" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "shipDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "status" : {
-            "type" : "string",
-            "description" : "Order Status",
-            "enum" : [ "placed", "approved", "delivered" ]
-          },
-          "complete" : {
-            "type" : "boolean",
-            "default" : false
-          }
-        },
-        "example" : {
-          "petId" : 6,
-          "quantity" : 1,
-          "id" : 0,
-          "shipDate" : "2000-01-23T04:56:07.000+00:00",
-          "complete" : false,
-          "status" : "placed"
-        },
-        "xml" : {
-          "name" : "Order"
-        }
-      },
-      "AdditionalPropertiesClass" : {
-        "type" : "object",
-        "properties" : {
-          "map_property" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "string"
-            }
-          },
-          "map_of_map_property" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "type" : "string"
-              }
-            }
-          }
-        }
-      },
-      "$special[model.name]" : {
-        "type" : "object",
-        "properties" : {
-          "$special[property.name]" : {
-            "type" : "integer",
-            "format" : "int64"
-          }
-        },
-        "xml" : {
-          "name" : "$special[model.name]"
-        }
-      },
-      "Return" : {
-        "type" : "object",
-        "properties" : {
-          "return" : {
-            "type" : "integer",
-            "format" : "int32"
-          }
-        },
-        "description" : "Model for testing reserved words",
-        "xml" : {
-          "name" : "Return"
-        }
-      },
-      "ReadOnlyFirst" : {
-        "type" : "object",
-        "properties" : {
-          "bar" : {
-            "type" : "string",
-            "readOnly" : true
-          },
-          "baz" : {
-            "type" : "string"
-          }
-        }
-      },
-      "ArrayOfArrayOfNumberOnly" : {
-        "type" : "object",
-        "properties" : {
-          "ArrayArrayNumber" : {
-            "type" : "array",
-            "items" : {
-              "type" : "array",
-              "items" : {
-                "type" : "number"
-              }
-            }
-          }
-        }
-      },
-      "OuterEnum" : {
-        "type" : "string",
-        "enum" : [ "placed", "approved", "delivered" ]
-      },
-      "ArrayTest" : {
-        "type" : "object",
-        "properties" : {
-          "array_of_string" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "array_array_of_integer" : {
-            "type" : "array",
-            "items" : {
-              "type" : "array",
-              "items" : {
-                "type" : "integer",
-                "format" : "int64"
-              }
-            }
-          },
-          "array_array_of_model" : {
-            "type" : "array",
-            "items" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/ReadOnlyFirst"
-              }
-            }
-          }
-        }
-      },
-      "OuterComposite" : {
-        "type" : "object",
-        "properties" : {
-          "my_number" : {
-            "type" : "number"
-          },
-          "my_string" : {
+          "className" : {
             "type" : "string"
           },
-          "my_boolean" : {
-            "type" : "boolean",
-            "x-codegen-body-parameter-name" : "boolean_post_body"
+          "color" : {
+            "type" : "string",
+            "default" : "red"
           }
         },
-        "example" : {
-          "my_string" : "my_string",
-          "my_number" : 0.80082819046101150206595775671303272247314453125,
-          "my_boolean" : true
+        "discriminator" : {
+          "propertyName" : "className"
+        }
+      },
+      "AnimalFarm" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Animal"
         }
       },
       "format_test" : {
@@ -1900,7 +2015,8 @@
           },
           "uuid" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "example" : "72f98069-206d-4f12-9f12-3d1e525a8e84"
           },
           "password" : {
             "maxLength" : 64,
@@ -1910,95 +2026,288 @@
           }
         }
       },
-      "EnumArrays" : {
+      "EnumClass" : {
+        "type" : "string",
+        "default" : "-efg",
+        "enum" : [ "_abc", "-efg", "(xyz)" ]
+      },
+      "Enum_Test" : {
+        "required" : [ "enum_string_required" ],
         "type" : "object",
         "properties" : {
-          "just_symbol" : {
+          "enum_string" : {
             "type" : "string",
-            "enum" : [ ">=", "$" ]
+            "enum" : [ "UPPER", "lower", "" ]
           },
-          "array_enum" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "enum" : [ "fish", "crab" ]
-            }
+          "enum_string_required" : {
+            "type" : "string",
+            "enum" : [ "UPPER", "lower", "" ]
+          },
+          "enum_integer" : {
+            "type" : "integer",
+            "format" : "int32",
+            "enum" : [ 1, -1 ]
+          },
+          "enum_number" : {
+            "type" : "number",
+            "format" : "double",
+            "enum" : [ 1.1, -1.2 ]
+          },
+          "outerEnum" : {
+            "$ref" : "#/components/schemas/OuterEnum"
           }
         }
       },
-      "OuterString" : {
-        "type" : "string"
-      },
-      "ClassModel" : {
+      "AdditionalPropertiesClass" : {
         "type" : "object",
         "properties" : {
-          "_class" : {
+          "map_string" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
+          "map_number" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "number"
+            }
+          },
+          "map_integer" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "integer"
+            }
+          },
+          "map_boolean" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "boolean"
+            }
+          },
+          "map_array_integer" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "array",
+              "items" : {
+                "type" : "integer"
+              }
+            }
+          },
+          "map_array_anytype" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : { }
+              }
+            }
+          },
+          "map_map_string" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "string"
+              }
+            }
+          },
+          "map_map_anytype" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "object",
+                "properties" : { }
+              }
+            }
+          },
+          "anytype_1" : {
+            "type" : "object",
+            "properties" : { }
+          },
+          "anytype_2" : {
+            "type" : "object"
+          },
+          "anytype_3" : {
+            "type" : "object",
+            "properties" : { }
+          }
+        }
+      },
+      "AdditionalPropertiesString" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
             "type" : "string"
           }
         },
-        "description" : "Model for testing model with \"_class\" property"
-      },
-      "OuterBoolean" : {
-        "type" : "boolean",
-        "x-codegen-body-parameter-name" : "boolean_post_body"
-      },
-      "FileSchemaTestClass" : {
-        "type" : "object",
-        "properties" : {
-          "file" : {
-            "$ref" : "#/components/schemas/File"
-          },
-          "files" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/File"
-            }
-          }
-        },
-        "example" : {
-          "file" : {
-            "sourceURI" : "sourceURI"
-          },
-          "files" : [ {
-            "sourceURI" : "sourceURI"
-          }, {
-            "sourceURI" : "sourceURI"
-          } ]
+        "additionalProperties" : {
+          "type" : "string"
         }
       },
-      "Animal" : {
-        "required" : [ "className" ],
+      "AdditionalPropertiesInteger" : {
         "type" : "object",
         "properties" : {
-          "className" : {
+          "name" : {
             "type" : "string"
-          },
-          "color" : {
-            "type" : "string",
-            "default" : "red"
           }
         },
-        "discriminator" : {
-          "propertyName" : "className"
+        "additionalProperties" : {
+          "type" : "integer"
         }
       },
-      "StringBooleanMap" : {
+      "AdditionalPropertiesNumber" : {
         "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : {
+          "type" : "number"
+        }
+      },
+      "AdditionalPropertiesBoolean" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          }
+        },
         "additionalProperties" : {
           "type" : "boolean"
         }
       },
-      "Cat" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/Animal"
-        }, {
+      "AdditionalPropertiesArray" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : { }
+          }
+        }
+      },
+      "AdditionalPropertiesObject" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : {
           "type" : "object",
-          "properties" : {
-            "declawed" : {
-              "type" : "boolean"
+          "additionalProperties" : {
+            "type" : "object",
+            "properties" : { }
+          }
+        }
+      },
+      "AdditionalPropertiesAnyType" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : {
+          "type" : "object",
+          "properties" : { }
+        }
+      },
+      "MixedPropertiesAndAdditionalPropertiesClass" : {
+        "type" : "object",
+        "properties" : {
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "map" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Animal"
             }
           }
-        } ]
+        }
+      },
+      "List" : {
+        "type" : "object",
+        "properties" : {
+          "123-list" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Client" : {
+        "type" : "object",
+        "properties" : {
+          "client" : {
+            "type" : "string"
+          }
+        },
+        "example" : {
+          "client" : "client"
+        }
+      },
+      "ReadOnlyFirst" : {
+        "type" : "object",
+        "properties" : {
+          "bar" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "baz" : {
+            "type" : "string"
+          }
+        }
+      },
+      "hasOnlyReadOnly" : {
+        "type" : "object",
+        "properties" : {
+          "bar" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "foo" : {
+            "type" : "string",
+            "readOnly" : true
+          }
+        }
+      },
+      "Capitalization" : {
+        "type" : "object",
+        "properties" : {
+          "smallCamel" : {
+            "type" : "string"
+          },
+          "CapitalCamel" : {
+            "type" : "string"
+          },
+          "small_Snake" : {
+            "type" : "string"
+          },
+          "Capital_Snake" : {
+            "type" : "string"
+          },
+          "SCA_ETH_Flow_Points" : {
+            "type" : "string"
+          },
+          "ATT_NAME" : {
+            "type" : "string",
+            "description" : "Name of the pet\n"
+          }
+        }
       },
       "MapTest" : {
         "type" : "object",
@@ -2026,33 +2335,154 @@
             }
           },
           "indirect_map" : {
-            "$ref" : "#/components/schemas/StringBooleanMap"
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "boolean"
+            }
           }
         }
       },
-      "Tag" : {
+      "ArrayTest" : {
         "type" : "object",
         "properties" : {
-          "id" : {
-            "type" : "integer",
-            "format" : "int64"
+          "array_of_string" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
           },
-          "name" : {
+          "array_array_of_integer" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "type" : "integer",
+                "format" : "int64"
+              }
+            }
+          },
+          "array_array_of_model" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/ReadOnlyFirst"
+              }
+            }
+          }
+        }
+      },
+      "NumberOnly" : {
+        "type" : "object",
+        "properties" : {
+          "JustNumber" : {
+            "type" : "number"
+          }
+        }
+      },
+      "ArrayOfNumberOnly" : {
+        "type" : "object",
+        "properties" : {
+          "ArrayNumber" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          }
+        }
+      },
+      "ArrayOfArrayOfNumberOnly" : {
+        "type" : "object",
+        "properties" : {
+          "ArrayArrayNumber" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "type" : "number"
+              }
+            }
+          }
+        }
+      },
+      "EnumArrays" : {
+        "type" : "object",
+        "properties" : {
+          "just_symbol" : {
+            "type" : "string",
+            "enum" : [ ">=", "$" ]
+          },
+          "array_enum" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "enum" : [ "fish", "crab" ]
+            }
+          }
+        }
+      },
+      "OuterEnum" : {
+        "type" : "string",
+        "enum" : [ "placed", "approved", "delivered" ]
+      },
+      "OuterComposite" : {
+        "type" : "object",
+        "properties" : {
+          "my_number" : {
+            "type" : "number"
+          },
+          "my_string" : {
             "type" : "string"
+          },
+          "my_boolean" : {
+            "type" : "boolean",
+            "x-codegen-body-parameter-name" : "boolean_post_body"
           }
         },
         "example" : {
-          "name" : "name",
-          "id" : 1
-        },
-        "xml" : {
-          "name" : "Tag"
+          "my_string" : "my_string",
+          "my_number" : 0.8008281904610115,
+          "my_boolean" : true
         }
       },
-      "AnimalFarm" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/Animal"
+      "OuterNumber" : {
+        "type" : "number"
+      },
+      "OuterString" : {
+        "type" : "string"
+      },
+      "OuterBoolean" : {
+        "type" : "boolean",
+        "x-codegen-body-parameter-name" : "boolean_post_body"
+      },
+      "StringBooleanMap" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "type" : "boolean"
+        }
+      },
+      "FileSchemaTestClass" : {
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "$ref" : "#/components/schemas/File"
+          },
+          "files" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/File"
+            }
+          }
+        },
+        "example" : {
+          "file" : {
+            "sourceURI" : "sourceURI"
+          },
+          "files" : [ {
+            "sourceURI" : "sourceURI"
+          }, {
+            "sourceURI" : "sourceURI"
+          } ]
         }
       },
       "File" : {
@@ -2063,83 +2493,330 @@
             "description" : "Test capitalization"
           }
         },
+        "description" : "Must be named `File` for test.",
         "example" : {
           "sourceURI" : "sourceURI"
         }
       },
-      "Pet" : {
-        "required" : [ "name", "photoUrls" ],
+      "TypeHolderDefault" : {
+        "required" : [ "array_item", "bool_item", "integer_item", "number_item", "string_item" ],
         "type" : "object",
         "properties" : {
-          "id" : {
-            "type" : "integer",
-            "format" : "int64",
-            "x-is-unique" : true
-          },
-          "category" : {
-            "$ref" : "#/components/schemas/Category"
-          },
-          "name" : {
+          "string_item" : {
             "type" : "string",
-            "example" : "doggie"
+            "default" : "what"
           },
-          "photoUrls" : {
+          "number_item" : {
+            "type" : "number"
+          },
+          "integer_item" : {
+            "type" : "integer"
+          },
+          "bool_item" : {
+            "type" : "boolean",
+            "default" : true
+          },
+          "array_item" : {
             "type" : "array",
-            "xml" : {
-              "name" : "photoUrl",
-              "wrapped" : true
-            },
             "items" : {
-              "type" : "string"
+              "type" : "integer"
             }
-          },
-          "tags" : {
-            "type" : "array",
-            "xml" : {
-              "name" : "tag",
-              "wrapped" : true
-            },
-            "items" : {
-              "$ref" : "#/components/schemas/Tag"
-            }
-          },
-          "status" : {
-            "type" : "string",
-            "description" : "pet status in the store",
-            "enum" : [ "available", "pending", "sold" ]
           }
-        },
-        "example" : {
-          "photoUrls" : [ "photoUrls", "photoUrls" ],
-          "name" : "doggie",
-          "id" : 0,
-          "category" : {
-            "name" : "name",
-            "id" : 6
-          },
-          "tags" : [ {
-            "name" : "name",
-            "id" : 1
-          }, {
-            "name" : "name",
-            "id" : 1
-          } ],
-          "status" : "available"
-        },
-        "xml" : {
-          "name" : "Pet"
         }
       },
-      "hasOnlyReadOnly" : {
+      "TypeHolderExample" : {
+        "required" : [ "array_item", "bool_item", "integer_item", "number_item", "string_item" ],
         "type" : "object",
         "properties" : {
-          "bar" : {
+          "string_item" : {
             "type" : "string",
-            "readOnly" : true
+            "example" : "what"
           },
-          "foo" : {
+          "number_item" : {
+            "type" : "number",
+            "example" : 1.234
+          },
+          "integer_item" : {
+            "type" : "integer",
+            "example" : -2
+          },
+          "bool_item" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "array_item" : {
+            "type" : "array",
+            "example" : [ 0, 1, 2, 3 ],
+            "items" : {
+              "type" : "integer"
+            }
+          }
+        }
+      },
+      "XmlItem" : {
+        "type" : "object",
+        "properties" : {
+          "attribute_string" : {
             "type" : "string",
-            "readOnly" : true
+            "example" : "string",
+            "xml" : {
+              "attribute" : true
+            }
+          },
+          "attribute_number" : {
+            "type" : "number",
+            "example" : 1.234,
+            "xml" : {
+              "attribute" : true
+            }
+          },
+          "attribute_integer" : {
+            "type" : "integer",
+            "example" : -2,
+            "xml" : {
+              "attribute" : true
+            }
+          },
+          "attribute_boolean" : {
+            "type" : "boolean",
+            "example" : true,
+            "xml" : {
+              "attribute" : true
+            }
+          },
+          "wrapped_array" : {
+            "type" : "array",
+            "xml" : {
+              "wrapped" : true
+            },
+            "items" : {
+              "type" : "integer"
+            }
+          },
+          "name_string" : {
+            "type" : "string",
+            "example" : "string",
+            "xml" : {
+              "name" : "xml_name_string"
+            }
+          },
+          "name_number" : {
+            "type" : "number",
+            "example" : 1.234,
+            "xml" : {
+              "name" : "xml_name_number"
+            }
+          },
+          "name_integer" : {
+            "type" : "integer",
+            "example" : -2,
+            "xml" : {
+              "name" : "xml_name_integer"
+            }
+          },
+          "name_boolean" : {
+            "type" : "boolean",
+            "example" : true,
+            "xml" : {
+              "name" : "xml_name_boolean"
+            }
+          },
+          "name_array" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "xml" : {
+                "name" : "xml_name_array_item"
+              }
+            }
+          },
+          "name_wrapped_array" : {
+            "type" : "array",
+            "xml" : {
+              "name" : "xml_name_wrapped_array",
+              "wrapped" : true
+            },
+            "items" : {
+              "type" : "integer",
+              "xml" : {
+                "name" : "xml_name_wrapped_array_item"
+              }
+            }
+          },
+          "prefix_string" : {
+            "type" : "string",
+            "example" : "string",
+            "xml" : {
+              "prefix" : "ab"
+            }
+          },
+          "prefix_number" : {
+            "type" : "number",
+            "example" : 1.234,
+            "xml" : {
+              "prefix" : "cd"
+            }
+          },
+          "prefix_integer" : {
+            "type" : "integer",
+            "example" : -2,
+            "xml" : {
+              "prefix" : "ef"
+            }
+          },
+          "prefix_boolean" : {
+            "type" : "boolean",
+            "example" : true,
+            "xml" : {
+              "prefix" : "gh"
+            }
+          },
+          "prefix_array" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "xml" : {
+                "prefix" : "ij"
+              }
+            }
+          },
+          "prefix_wrapped_array" : {
+            "type" : "array",
+            "xml" : {
+              "prefix" : "kl",
+              "wrapped" : true
+            },
+            "items" : {
+              "type" : "integer",
+              "xml" : {
+                "prefix" : "mn"
+              }
+            }
+          },
+          "namespace_string" : {
+            "type" : "string",
+            "example" : "string",
+            "xml" : {
+              "namespace" : "http://a.com/schema"
+            }
+          },
+          "namespace_number" : {
+            "type" : "number",
+            "example" : 1.234,
+            "xml" : {
+              "namespace" : "http://b.com/schema"
+            }
+          },
+          "namespace_integer" : {
+            "type" : "integer",
+            "example" : -2,
+            "xml" : {
+              "namespace" : "http://c.com/schema"
+            }
+          },
+          "namespace_boolean" : {
+            "type" : "boolean",
+            "example" : true,
+            "xml" : {
+              "namespace" : "http://d.com/schema"
+            }
+          },
+          "namespace_array" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "xml" : {
+                "namespace" : "http://e.com/schema"
+              }
+            }
+          },
+          "namespace_wrapped_array" : {
+            "type" : "array",
+            "xml" : {
+              "namespace" : "http://f.com/schema",
+              "wrapped" : true
+            },
+            "items" : {
+              "type" : "integer",
+              "xml" : {
+                "namespace" : "http://g.com/schema"
+              }
+            }
+          },
+          "prefix_ns_string" : {
+            "type" : "string",
+            "example" : "string",
+            "xml" : {
+              "namespace" : "http://a.com/schema",
+              "prefix" : "a"
+            }
+          },
+          "prefix_ns_number" : {
+            "type" : "number",
+            "example" : 1.234,
+            "xml" : {
+              "namespace" : "http://b.com/schema",
+              "prefix" : "b"
+            }
+          },
+          "prefix_ns_integer" : {
+            "type" : "integer",
+            "example" : -2,
+            "xml" : {
+              "namespace" : "http://c.com/schema",
+              "prefix" : "c"
+            }
+          },
+          "prefix_ns_boolean" : {
+            "type" : "boolean",
+            "example" : true,
+            "xml" : {
+              "namespace" : "http://d.com/schema",
+              "prefix" : "d"
+            }
+          },
+          "prefix_ns_array" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "xml" : {
+                "namespace" : "http://e.com/schema",
+                "prefix" : "e"
+              }
+            }
+          },
+          "prefix_ns_wrapped_array" : {
+            "type" : "array",
+            "xml" : {
+              "namespace" : "http://f.com/schema",
+              "prefix" : "f",
+              "wrapped" : true
+            },
+            "items" : {
+              "type" : "integer",
+              "xml" : {
+                "namespace" : "http://g.com/schema",
+                "prefix" : "g"
+              }
+            }
+          }
+        },
+        "xml" : {
+          "namespace" : "http://a.com/schema",
+          "prefix" : "pre"
+        }
+      },
+      "Dog_allOf" : {
+        "properties" : {
+          "breed" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Cat_allOf" : {
+        "properties" : {
+          "declawed" : {
+            "type" : "boolean"
           }
         }
       }
@@ -2157,10 +2834,6 @@
           }
         }
       },
-      "http_basic_test" : {
-        "type" : "http",
-        "scheme" : "basic"
-      },
       "api_key" : {
         "type" : "apiKey",
         "name" : "api_key",
@@ -2170,6 +2843,10 @@
         "type" : "apiKey",
         "name" : "api_key_query",
         "in" : "query"
+      },
+      "http_basic_test" : {
+        "type" : "http",
+        "scheme" : "basic"
       }
     }
   }

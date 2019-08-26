@@ -16,13 +16,13 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Pet   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("category")
-  private Category category = null;
+  private Category category;
 
   @JsonProperty("name")
-  private String name = null;
+  private String name;
 
   @JsonProperty("photoUrls")
   private List<String> photoUrls = new ArrayList<>();
@@ -53,18 +53,18 @@ public class Pet   {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String text) {
+    public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public Pet id(Long id) {
     this.id = id;
