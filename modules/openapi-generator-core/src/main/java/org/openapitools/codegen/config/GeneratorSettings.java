@@ -421,13 +421,27 @@ public final class GeneratorSettings implements Serializable {
         builder.artifactId = copy.getArtifactId();
         builder.artifactVersion = copy.getArtifactVersion();
         builder.library = copy.getLibrary();
-        builder.instantiationTypes = new HashMap<>(copy.getInstantiationTypes());
-        builder.typeMappings = new HashMap<>(copy.getTypeMappings());
-        builder.additionalProperties = new HashMap<>(copy.getAdditionalProperties());
-        builder.importMappings = new HashMap<>(copy.getImportMappings());
-        builder.languageSpecificPrimitives = new HashSet<>(copy.getLanguageSpecificPrimitives());
-        builder.reservedWordMappings = new HashMap<>(copy.getReservedWordMappings());
-        builder.serverVariables = new HashMap<>(copy.getServerVariables());
+        if (copy.getInstantiationTypes() != null) {
+            builder.instantiationTypes.putAll(copy.getInstantiationTypes());
+        }
+        if (copy.getTypeMappings() != null) {
+            builder.typeMappings.putAll(copy.getTypeMappings());
+        }
+        if (copy.getAdditionalProperties() != null) {
+            builder.additionalProperties.putAll(copy.getAdditionalProperties());
+        }
+        if (copy.getImportMappings() != null) {
+            builder.importMappings.putAll(copy.getImportMappings());
+        }
+        if (copy.getLanguageSpecificPrimitives() != null) {
+            builder.languageSpecificPrimitives.addAll(copy.getLanguageSpecificPrimitives());
+        }
+        if (copy.getReservedWordMappings() != null) {
+            builder.reservedWordMappings.putAll(copy.getReservedWordMappings());
+        }
+        if (copy.getServerVariables() != null) {
+            builder.serverVariables.putAll(copy.getServerVariables());
+        }
         builder.gitUserId = copy.getGitUserId();
         builder.gitRepoId = copy.getGitRepoId();
         builder.releaseNote = copy.getReleaseNote();

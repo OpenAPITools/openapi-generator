@@ -2,21 +2,21 @@ part of openapi.api;
 
 class User {
   
-    int id = null;
+  int id = null;
   
-    String username = null;
+  String username = null;
   
-    String firstName = null;
+  String firstName = null;
   
-    String lastName = null;
+  String lastName = null;
   
-    String email = null;
+  String email = null;
   
-    String password = null;
+  String password = null;
   
-    String phone = null;
+  String phone = null;
   /* User Status */
-    int userStatus = null;
+  int userStatus = null;
   User();
 
   @override
