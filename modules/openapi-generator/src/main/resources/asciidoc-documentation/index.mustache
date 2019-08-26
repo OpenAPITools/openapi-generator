@@ -1,0 +1,79 @@
+= {{{appName}}} 
+{{infoEmail}}
+{{#version}}{{{version}}}{{/version}}
+:toc: left
+:numbered:
+:toclevels: 3
+:source-highlighter: highlightjs
+
+[abstract]
+.Abstract
+{{{appDescription}}}
+
+== Endpoints
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+
+[.{{baseName}}]
+=== {{baseName}}
+
+{{#operation}}
+
+[.{{nickname}}]
+==== {{nickname}}
+    
+`{{httpMethod}} {{path}}`
+
+{{{summary}}}
+
+{{#notes}}
+===== Description 
+
+{{{notes}}}
+{{/notes}}
+
+{{> params}}
+
+===== Return Type
+
+{{#hasReference}}
+{{^returnSimpleType}}{{returnContainer}}[{{/returnSimpleType}}<<{{returnBaseType}}>>{{^returnSimpleType}}]{{/returnSimpleType}}
+{{/hasReference}}
+
+{{^hasReference}}
+{{#returnType}}<<{{returnType}}>>{{/returnType}}
+{{^returnType}}-{{/returnType}}
+{{/hasReference}}
+
+{{#hasProduces}}
+===== Content Type
+
+{{#produces}}
+* {{{mediaType}}}
+{{/produces}}
+{{/hasProduces}}
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+{{#responses}}
+
+| {{code}}
+| {{message}}
+| {{#dataType}} <<{{dataType}}>>{{/dataType}}
+
+{{/responses}}
+|===         
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+{{> model}}
