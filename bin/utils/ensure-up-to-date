@@ -62,6 +62,7 @@ declare -a scripts=(
 "./bin/dart-flutter-petstore.sh"
 "./bin/dart-petstore.sh"
 "./bin/dart2-petstore.sh"
+"./bin/java-play-framework-petstore-server-all.sh"
 #"./bin/elm-petstore-all.sh"
 "./bin/meta-codegen.sh"
 # OTHERS
