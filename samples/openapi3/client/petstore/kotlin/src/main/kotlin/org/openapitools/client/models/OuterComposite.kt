@@ -21,13 +21,10 @@ import com.squareup.moshi.Json
  */
 data class OuterComposite (
     @Json(name = "my_number")
-    
     val myNumber: java.math.BigDecimal? = null,
     @Json(name = "my_string")
-    
     val myString: kotlin.String? = null,
     @Json(name = "my_boolean")
-    
     val myBoolean: kotlin.Boolean? = null
 )
 

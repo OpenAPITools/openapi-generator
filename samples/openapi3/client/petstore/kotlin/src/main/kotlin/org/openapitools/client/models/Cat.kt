@@ -21,13 +21,10 @@ import com.squareup.moshi.Json
  */
 data class Cat (
     @Json(name = "className")
-    
     val className: kotlin.String,
     @Json(name = "declawed")
-    
     val declawed: kotlin.Boolean? = null,
     @Json(name = "color")
-    
     val color: kotlin.String? = null
 )
 

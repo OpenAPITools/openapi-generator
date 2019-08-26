@@ -19,7 +19,6 @@ import com.squareup.moshi.Json
  */
 data class CatAllOf (
     @Json(name = "declawed")
-    
     val declawed: kotlin.Boolean? = null
 )
 

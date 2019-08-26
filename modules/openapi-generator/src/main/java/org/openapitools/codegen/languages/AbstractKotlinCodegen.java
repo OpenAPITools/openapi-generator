@@ -51,7 +51,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected boolean parcelizeModels = false;
 
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
-    protected CodegenConstants.SERIALIZATION_ENGINE_TYPE serializationEngine = CodegenConstants.SERIALIZATION_ENGINE_TYPE.moshi;
+    protected CodegenConstants.SERIALIZATION_LIBRARY_TYPE serializationLibrary = CodegenConstants.SERIALIZATION_LIBRARY_TYPE.moshi;
 
     public AbstractKotlinCodegen() {
         super();
@@ -207,8 +207,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
 
-        CliOption serializationEngineOpt = new CliOption(CodegenConstants.SERIALIZATION_ENGINE, CodegenConstants.SERIALIZATION_ENGINE_DESC);
-        cliOptions.add(serializationEngineOpt.defaultValue(serializationEngine.name()));
+        CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, CodegenConstants.SERIALIZATION_LIBRARY_DESC);
+        cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
 
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
     }
@@ -249,8 +249,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return this.enumPropertyNaming;
     }
 
-    public CodegenConstants.SERIALIZATION_ENGINE_TYPE getSerializationEngine() {
-        return this.serializationEngine;
+    public CodegenConstants.SERIALIZATION_LIBRARY_TYPE getSerializationLibrary() {
+        return this.serializationLibrary;
     }
 
     /**
@@ -273,14 +273,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     /**
      * Sets the serialization engine for Kotlin
      *
-     * @param enumSerializationEngine The string representation of the serialization engine as defined by {@link CodegenConstants.SERIALIZATION_ENGINE_TYPE}
+     * @param enumSerializationLibrary The string representation of the serialization library as defined by {@link CodegenConstants.SERIALIZATION_LIBRARY_TYPE}
      */
-    public void setSerializationEngine(final String enumSerializationEngine) {
+    public void setSerializationLibrary(final String enumSerializationLibrary) {
         try {
-            this.serializationEngine = CodegenConstants.SERIALIZATION_ENGINE_TYPE.valueOf(enumSerializationEngine);
+            this.serializationLibrary = CodegenConstants.SERIALIZATION_LIBRARY_TYPE.valueOf(enumSerializationLibrary);
         } catch (IllegalArgumentException ex) {
-            StringBuilder sb = new StringBuilder(enumSerializationEngine + " is an invalid enum property naming option. Please choose from:");
-            for (CodegenConstants.SERIALIZATION_ENGINE_TYPE t : CodegenConstants.SERIALIZATION_ENGINE_TYPE.values()) {
+            StringBuilder sb = new StringBuilder(enumSerializationLibrary + " is an invalid enum property naming option. Please choose from:");
+            for (CodegenConstants.SERIALIZATION_LIBRARY_TYPE t : CodegenConstants.SERIALIZATION_LIBRARY_TYPE.values()) {
                 sb.append("\n  ").append(t.name());
             }
             throw new RuntimeException(sb.toString());
@@ -356,12 +356,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_ENGINE)) {
-            setSerializationEngine((String) additionalProperties.get(CodegenConstants.SERIALIZATION_ENGINE));
-            additionalProperties.put(this.serializationEngine.name(), true);
+        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
+            setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
+            additionalProperties.put(this.serializationLibrary.name(), true);
         }
         else {
-            additionalProperties.put(this.serializationEngine.name(), true);
+            additionalProperties.put(this.serializationLibrary.name(), true);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {

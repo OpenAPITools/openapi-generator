@@ -20,10 +20,8 @@ import com.squareup.moshi.Json
  */
 data class Category (
     @Json(name = "name")
-    
     val name: kotlin.String,
     @Json(name = "id")
-    
     val id: kotlin.Long? = null
 )
 

@@ -21,11 +21,9 @@ import com.squareup.moshi.Json
 data class InlineObject (
     /* Updated name of the pet */
     @Json(name = "name")
-    
     val name: kotlin.String? = null,
     /* Updated status of the pet */
     @Json(name = "status")
-    
     val status: kotlin.String? = null
 )
 

@@ -24,23 +24,17 @@ import com.squareup.moshi.Json
  */
 data class Capitalization (
     @Json(name = "smallCamel")
-    
     val smallCamel: kotlin.String? = null,
     @Json(name = "CapitalCamel")
-    
     val capitalCamel: kotlin.String? = null,
     @Json(name = "small_Snake")
-    
     val smallSnake: kotlin.String? = null,
     @Json(name = "Capital_Snake")
-    
     val capitalSnake: kotlin.String? = null,
     @Json(name = "SCA_ETH_Flow_Points")
-    
     val scAETHFlowPoints: kotlin.String? = null,
     /* Name of the pet  */
     @Json(name = "ATT_NAME")
-    
     val ATT_NAME: kotlin.String? = null
 )
 

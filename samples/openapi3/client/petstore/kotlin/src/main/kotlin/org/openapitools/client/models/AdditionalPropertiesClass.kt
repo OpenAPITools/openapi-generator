@@ -20,10 +20,8 @@ import com.squareup.moshi.Json
  */
 data class AdditionalPropertiesClass (
     @Json(name = "map_property")
-    
     val mapProperty: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
     @Json(name = "map_of_map_property")
-    
     val mapOfMapProperty: kotlin.collections.Map<kotlin.String, kotlin.collections.Map<kotlin.String, kotlin.String>>? = null
 )
 

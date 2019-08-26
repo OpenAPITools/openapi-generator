@@ -19,7 +19,6 @@ import com.squareup.moshi.Json
  */
 data class NumberOnly (
     @Json(name = "JustNumber")
-    
     val justNumber: java.math.BigDecimal? = null
 )
 

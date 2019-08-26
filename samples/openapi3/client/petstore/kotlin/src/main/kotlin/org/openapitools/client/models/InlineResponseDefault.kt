@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
  */
 data class InlineResponseDefault (
     @Json(name = "string")
-    
     val string: Foo? = null
 )
 

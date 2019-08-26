@@ -20,10 +20,8 @@ import com.squareup.moshi.Json
  */
 data class EnumArrays (
     @Json(name = "just_symbol")
-    
     val justSymbol: EnumArrays.JustSymbol? = null,
     @Json(name = "array_enum")
-    
     val arrayEnum: kotlin.Array<EnumArrays.ArrayEnum>? = null
 )
 

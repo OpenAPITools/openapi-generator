@@ -22,13 +22,10 @@ import com.squareup.moshi.Json
  */
 data class ArrayTest (
     @Json(name = "array_of_string")
-    
     val arrayOfString: kotlin.Array<kotlin.String>? = null,
     @Json(name = "array_array_of_integer")
-    
     val arrayArrayOfInteger: kotlin.Array<kotlin.Array<kotlin.Long>>? = null,
     @Json(name = "array_array_of_model")
-    
     val arrayArrayOfModel: kotlin.Array<kotlin.Array<ReadOnlyFirst>>? = null
 )
 

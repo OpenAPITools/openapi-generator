@@ -30,28 +30,20 @@ import com.squareup.moshi.Json
  */
 data class EnumTest (
     @Json(name = "enum_string_required")
-    
     val enumStringRequired: EnumTest.EnumStringRequired,
     @Json(name = "enum_string")
-    
     val enumString: EnumTest.EnumString? = null,
     @Json(name = "enum_integer")
-    
     val enumInteger: EnumTest.EnumInteger? = null,
     @Json(name = "enum_number")
-    
     val enumNumber: EnumTest.EnumNumber? = null,
     @Json(name = "outerEnum")
-    
     val outerEnum: OuterEnum? = null,
     @Json(name = "outerEnumInteger")
-    
     val outerEnumInteger: OuterEnumInteger? = null,
     @Json(name = "outerEnumDefaultValue")
-    
     val outerEnumDefaultValue: OuterEnumDefaultValue? = null,
     @Json(name = "outerEnumIntegerDefaultValue")
-    
     val outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue? = null
 )
 

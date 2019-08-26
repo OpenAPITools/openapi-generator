@@ -24,23 +24,17 @@ import com.squareup.moshi.Json
  */
 data class Order (
     @Json(name = "id")
-    
     val id: kotlin.Long? = null,
     @Json(name = "petId")
-    
     val petId: kotlin.Long? = null,
     @Json(name = "quantity")
-    
     val quantity: kotlin.Int? = null,
     @Json(name = "shipDate")
-    
     val shipDate: java.time.LocalDateTime? = null,
     /* Order Status */
     @Json(name = "status")
-    
     val status: Order.Status? = null,
     @Json(name = "complete")
-    
     val complete: kotlin.Boolean? = null
 )
 

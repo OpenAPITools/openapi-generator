@@ -19,7 +19,6 @@ import com.squareup.moshi.Json
  */
 data class ArrayOfArrayOfNumberOnly (
     @Json(name = "ArrayArrayNumber")
-    
     val arrayArrayNumber: kotlin.Array<kotlin.Array<java.math.BigDecimal>>? = null
 )
 

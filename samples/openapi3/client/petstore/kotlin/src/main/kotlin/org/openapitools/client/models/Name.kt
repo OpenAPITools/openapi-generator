@@ -22,16 +22,12 @@ import com.squareup.moshi.Json
  */
 data class Name (
     @Json(name = "name")
-    
     val name: kotlin.Int,
     @Json(name = "snake_case")
-    
     val snakeCase: kotlin.Int? = null,
     @Json(name = "property")
-    
     val property: kotlin.String? = null,
     @Json(name = "123Number")
-    
     val `123number`: kotlin.Int? = null
 )
 

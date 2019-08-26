@@ -22,16 +22,12 @@ import com.squareup.moshi.Json
  */
 data class MapTest (
     @Json(name = "map_map_of_string")
-    
     val mapMapOfString: kotlin.collections.Map<kotlin.String, kotlin.collections.Map<kotlin.String, kotlin.String>>? = null,
     @Json(name = "map_of_enum_string")
-    
     val mapOfEnumString: MapTest.MapOfEnumString? = null,
     @Json(name = "direct_map")
-    
     val directMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null,
     @Json(name = "indirect_map")
-    
     val indirectMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null
 )
 
