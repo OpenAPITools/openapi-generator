@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Bar** | Pointer to **string** |  | [optional]
-**Baz** | Pointer to **string** |  | [optional]
+**Bar** | Pointer to **string** |  | [optional] 
+**Baz** | Pointer to **string** |  | [optional] 
 
 ## Methods
 

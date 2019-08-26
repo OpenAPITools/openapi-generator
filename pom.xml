@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.1.1-SNAPSHOT</version>
+    <version>4.1.1</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -1036,7 +1036,7 @@
             <modules>
                 <!-- clients -->
                 <module>samples/client/petstore/c</module>
-                <module>samples/client/petstore/cpp-qt5</module>
+                <!-- <module>samples/client/petstore/cpp-qt5</module> -->
                 <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust-reqwest</module>

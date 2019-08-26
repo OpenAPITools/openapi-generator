@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ArrayArrayNumber** | Pointer to [**[][]float32**](array.md) |  | [optional]
+**ArrayArrayNumber** | Pointer to [**[][]float32**](array.md) |  | [optional] 
 
 ## Methods
 
