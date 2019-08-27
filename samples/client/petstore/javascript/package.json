@@ -11,7 +11,7 @@
     "fs": false
   },
   "dependencies": {
-    "superagent": "3.7.0"
+    "superagent": "5.1.0"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",

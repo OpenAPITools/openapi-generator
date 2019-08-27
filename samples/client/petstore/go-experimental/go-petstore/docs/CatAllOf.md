@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Declawed** | Pointer to **bool** |  | [optional]
+**Declawed** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 

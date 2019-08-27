@@ -30,8 +30,8 @@ This can only be done by the logged in user.
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var body = new User(); // User | Created user object
+var api_instance = UserApi();
+var body = User(); // User | Created user object
 
 try { 
     api_instance.createUser(body);
@@ -70,8 +70,8 @@ Creates list of users with given input array
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var body = [new List&lt;User&gt;()]; // List<User> | List of user object
+var api_instance = UserApi();
+var body = [List&lt;User&gt;()]; // List<User> | List of user object
 
 try { 
     api_instance.createUsersWithArrayInput(body);
@@ -84,7 +84,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -110,8 +110,8 @@ Creates list of users with given input array
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var body = [new List&lt;User&gt;()]; // List<User> | List of user object
+var api_instance = UserApi();
+var body = [List&lt;User&gt;()]; // List<User> | List of user object
 
 try { 
     api_instance.createUsersWithListInput(body);
@@ -124,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -152,7 +152,7 @@ This can only be done by the logged in user.
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
+var api_instance = UserApi();
 var username = username_example; // String | The name that needs to be deleted
 
 try { 
@@ -192,7 +192,7 @@ Get user by user name
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
+var api_instance = UserApi();
 var username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
 
 try { 
@@ -233,7 +233,7 @@ Logs user into the system
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
+var api_instance = UserApi();
 var username = username_example; // String | The user name for login
 var password = password_example; // String | The password for login in clear text
 
@@ -276,7 +276,7 @@ Logs out current logged in user session
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
+var api_instance = UserApi();
 
 try { 
     api_instance.logoutUser();
@@ -314,9 +314,9 @@ This can only be done by the logged in user.
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
+var api_instance = UserApi();
 var username = username_example; // String | name that need to be deleted
-var body = new User(); // User | Updated user object
+var body = User(); // User | Updated user object
 
 try { 
     api_instance.updateUser(username, body);

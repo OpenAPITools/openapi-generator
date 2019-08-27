@@ -15,7 +15,7 @@ class UserApi {
 
     // verify required params are set
     if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+     throw ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -33,7 +33,7 @@ class UserApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -50,7 +50,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -64,7 +64,7 @@ class UserApi {
 
     // verify required params are set
     if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+     throw ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -82,7 +82,7 @@ class UserApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -99,7 +99,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -113,7 +113,7 @@ class UserApi {
 
     // verify required params are set
     if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+     throw ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -131,7 +131,7 @@ class UserApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -148,7 +148,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -162,7 +162,7 @@ class UserApi {
 
     // verify required params are set
     if(username == null) {
-     throw new ApiException(400, "Missing required param: username");
+     throw ApiException(400, "Missing required param: username");
     }
 
     // create path and map variables
@@ -180,7 +180,7 @@ class UserApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -197,7 +197,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -211,7 +211,7 @@ class UserApi {
 
     // verify required params are set
     if(username == null) {
-     throw new ApiException(400, "Missing required param: username");
+     throw ApiException(400, "Missing required param: username");
     }
 
     // create path and map variables
@@ -229,7 +229,7 @@ class UserApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -246,7 +246,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
     } else {
@@ -261,10 +261,10 @@ class UserApi {
 
     // verify required params are set
     if(username == null) {
-     throw new ApiException(400, "Missing required param: username");
+     throw ApiException(400, "Missing required param: username");
     }
     if(password == null) {
-     throw new ApiException(400, "Missing required param: password");
+     throw ApiException(400, "Missing required param: password");
     }
 
     // create path and map variables
@@ -284,7 +284,7 @@ class UserApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -301,7 +301,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
     } else {
@@ -331,7 +331,7 @@ class UserApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -348,7 +348,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -362,10 +362,10 @@ class UserApi {
 
     // verify required params are set
     if(username == null) {
-     throw new ApiException(400, "Missing required param: username");
+     throw ApiException(400, "Missing required param: username");
     }
     if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+     throw ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -383,7 +383,7 @@ class UserApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -400,7 +400,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;

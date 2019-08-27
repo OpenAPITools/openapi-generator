@@ -1,0 +1,47 @@
+openapi: 3.0.1
+info:
+  description: API under test
+  title: Multipart OpenAPI V3 Rust Server Test
+  version: 1.0.7
+servers:
+- url: /
+paths:
+  /multipart_request:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/multipart_request'
+        required: true
+      responses:
+        201:
+          description: OK
+components:
+  schemas:
+    multipart_request:
+      properties:
+        string_field:
+          type: string
+        optional_string_field:
+          type: string
+        object_field:
+          $ref: '#/components/schemas/multipart_request_object_field'
+        binary_field:
+          format: byte
+          type: string
+      required:
+      - binary_field
+      - string_field
+      type: object
+    multipart_request_object_field:
+      properties:
+        field_a:
+          type: string
+        field_b:
+          items:
+            type: string
+          type: array
+      required:
+      - field_a
+

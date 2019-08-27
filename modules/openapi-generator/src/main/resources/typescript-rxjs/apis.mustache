@@ -171,8 +171,11 @@ export class {{classname}} extends BaseAPI {
             {{#hasFormParams}}
             body: formData,
             {{/hasFormParams}}
+{{#isResponseFile}}
+            responseType: 'blob'
+{{/isResponseFile}}
         });
-    }
+    };
 
     {{/operation}}
 }

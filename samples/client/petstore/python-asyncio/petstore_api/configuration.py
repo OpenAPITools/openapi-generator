@@ -66,6 +66,9 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.api_key_prefix = api_key_prefix
         """dict to store API prefix (e.g. Bearer)
         """
+        self.refresh_api_key_hook = None
+        """function hook to refresh API key if expired
+        """
         self.username = username
         """Username for HTTP basic authentication
         """
@@ -223,11 +226,15 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         :param identifier: The identifier of apiKey.
         :return: The token for api key authentication.
         """
-        if (self.api_key.get(identifier) and
-                self.api_key_prefix.get(identifier)):
-            return self.api_key_prefix[identifier] + ' ' + self.api_key[identifier]  # noqa: E501
-        elif self.api_key.get(identifier):
-            return self.api_key[identifier]
+        if self.refresh_api_key_hook is not None:
+            self.refresh_api_key_hook(self)
+        key = self.api_key.get(identifier)
+        if key:
+            prefix = self.api_key_prefix.get(identifier)
+            if prefix:
+                return "%s %s" % (prefix, key)
+            else:
+                return key
 
     def get_basic_auth_token(self):
         """Gets HTTP basic authentication header (string).

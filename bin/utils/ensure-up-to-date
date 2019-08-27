@@ -12,8 +12,9 @@ sleep 5
 # LIST OF SCRIPTS:
 declare -a scripts=(
 # SAMPLES
-"./bin/openapi3/ruby-client-petstore.sh"
 "./bin/ruby-client-petstore.sh"
+"./bin/openapi3/ruby-client-petstore.sh"
+"./bin/openapi3/ruby-client-faraday-petstore.sh"
 "./bin/java-petstore-all.sh"
 "./bin/java-jaxrs-petstore-server-all.sh"
 "./bin/java-msf4j-petstore-server.sh"
@@ -57,11 +58,15 @@ declare -a scripts=(
 "./bin/groovy-petstore.sh"
 "./bin/apex-petstore.sh"
 "./bin/perl-petstore-all.sh"
+"./bin/dart-jaguar-petstore.sh"
+"./bin/dart-flutter-petstore.sh"
+"./bin/dart-petstore.sh"
+"./bin/dart2-petstore.sh"
+"./bin/java-play-framework-petstore-server-all.sh"
 #"./bin/elm-petstore-all.sh"
 "./bin/meta-codegen.sh"
 # OTHERS
 "./bin/utils/export_docs_generators.sh"
-"./bin/utils/export_generators_docusaurus_index.sh"
 "./bin/utils/copy-to-website.sh"
 "./bin/utils/export_generators_readme.sh")
 

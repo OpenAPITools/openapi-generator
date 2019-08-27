@@ -133,6 +133,7 @@ Class | Method | HTTP request | Description
 *AbstractFakeApi* | **testGroupParameters** | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *AbstractFakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *AbstractFakeApi* | **testJsonFormData** | **GET** /fake/jsonFormData | test json serialization of form data
+*AbstractFakeApi* | **testQueryParameterCollectionFormat** | **PUT** /fake/test-query-paramters | 
 *AbstractFakeClassnameTags123Api* | **testClassname** | **PATCH** /fake_classname_test | To test class name in snake case
 *AbstractPetApi* | **addPet** | **POST** /pet | Add a new pet to the store
 *AbstractPetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status

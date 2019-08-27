@@ -42,7 +42,7 @@ artifactid=openapi-generator-cli
 ver=${OPENAPI_GENERATOR_VERSION:-$(latest.tag $ghrepo)}
 
 jar=${artifactid}-${ver}.jar
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR=${OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR:-"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"}
 
 if [ ! -f ${DIR}/${jar} ]; then
   repo="central::default::https://repo1.maven.org/maven2/"

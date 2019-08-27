@@ -26,3 +26,6 @@ SOURCES += main.cpp \
 HEADERS += PetApiTests.h \
            StoreApiTests.h \
            UserApiTests.h
+
+# Disable optimisation for better valgrind report
+QMAKE_CXXFLAGS_DEBUG += -O0

@@ -67,6 +67,7 @@ public class CodegenConfigurator {
     private Map<String, String> importMappings = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Map<String, String> reservedWordMappings = new HashMap<>();
+    private Map<String, String> serverVariables = new HashMap<>();
     private String auth;
 
     public CodegenConfigurator() {
@@ -90,12 +91,19 @@ public class CodegenConfigurator {
                 DynamicSettings settings = mapper.readValue(new File(configFile), DynamicSettings.class);
                 CodegenConfigurator configurator = new CodegenConfigurator();
                 configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(settings.getGeneratorSettings());
+                configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(settings.getWorkflowSettings());
                 return configurator;
             } catch (IOException ex) {
                 LOGGER.error("Unable to deserialize config file: " + configFile, ex);
             }
         }
         return null;
+    }
+
+    public CodegenConfigurator addServerVariable(String key, String value) {
+        this.serverVariables.put(key, value);
+        generatorSettingsBuilder.withServerVariable(key, value);
+        return this;
     }
 
     public CodegenConfigurator addAdditionalProperty(String key, Object value) {
@@ -143,6 +151,18 @@ public class CodegenConfigurator {
     public CodegenConfigurator setAdditionalProperties(Map<String, Object> additionalProperties) {
         this.additionalProperties = additionalProperties;
         generatorSettingsBuilder.withAdditionalProperties(additionalProperties);
+        return this;
+    }
+
+    public CodegenConfigurator setServerVariables(Map<String, String> serverVariables) {
+        this.serverVariables = serverVariables;
+        generatorSettingsBuilder.withServerVariables(serverVariables);
+        return this;
+    }
+
+    public CodegenConfigurator setReservedWordsMappings(Map<String, String> reservedWordMappings) {
+        this.reservedWordMappings = reservedWordMappings;
+        generatorSettingsBuilder.withReservedWordMappings(reservedWordMappings);
         return this;
     }
 
@@ -247,6 +267,7 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setLanguageSpecificPrimitives(
             Set<String> languageSpecificPrimitives) {
+        this.languageSpecificPrimitives = languageSpecificPrimitives;
         generatorSettingsBuilder.withLanguageSpecificPrimitives(languageSpecificPrimitives);
         return this;
     }
@@ -293,12 +314,6 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
         workflowSettingsBuilder.withRemoveOperationIdPrefix(removeOperationIdPrefix);
-        return this;
-    }
-
-    public CodegenConfigurator setReservedWordsMappings(Map<String, String> reservedWordMappings) {
-        this.reservedWordMappings = reservedWordMappings;
-        generatorSettingsBuilder.withReservedWordMappings(reservedWordMappings);
         return this;
     }
 
@@ -458,6 +473,13 @@ public class CodegenConfigurator {
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
+
+        Map<String, String> serverVariables = generatorSettings.getServerVariables();
+        if (!serverVariables.isEmpty()) {
+            // This is currently experimental due to vagueness in the specification
+            LOGGER.warn("user-defined server variable support is experimental.");
+            config.serverVariableOverrides().putAll(serverVariables);
+        }
 
         // any other additional properties?
         String templateDir = workflowSettings.getTemplateDir();

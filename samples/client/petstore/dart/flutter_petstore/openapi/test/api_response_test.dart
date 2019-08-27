@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 // tests for ApiResponse
 void main() {
-  var instance = new ApiResponse();
+  var instance = ApiResponse();
 
   group('test ApiResponse', () {
     // int code (default value: null)

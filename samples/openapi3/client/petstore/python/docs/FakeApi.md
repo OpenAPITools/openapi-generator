@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 
 
 # **fake_health_get**
@@ -762,6 +763,66 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_query_parameter_collection_format**
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = petstore_api.FakeApi()
+pipe = ['pipe_example'] # list[str] | 
+ioutil = ['ioutil_example'] # list[str] | 
+http = ['http_example'] # list[str] | 
+url = ['url_example'] # list[str] | 
+context = ['context_example'] # list[str] | 
+
+try:
+    api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+except ApiException as e:
+    print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**list[str]**](str.md)|  | 
+ **ioutil** | [**list[str]**](str.md)|  | 
+ **http** | [**list[str]**](str.md)|  | 
+ **url** | [**list[str]**](str.md)|  | 
+ **context** | [**list[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

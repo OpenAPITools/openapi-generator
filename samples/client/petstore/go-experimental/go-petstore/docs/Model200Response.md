@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **int32** |  | [optional]
-**Class** | Pointer to **string** |  | [optional]
+**Name** | Pointer to **int32** |  | [optional] 
+**Class** | Pointer to **string** |  | [optional] 
 
 ## Methods
 

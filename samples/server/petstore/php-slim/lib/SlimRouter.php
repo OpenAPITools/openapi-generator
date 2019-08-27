@@ -160,6 +160,7 @@ class SlimRouter
                 [
                     'type' => 'http',
                     'isBasic' => true,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => false,
                 ],
@@ -210,6 +211,17 @@ class SlimRouter
             ],
         ],
         [
+            'httpMethod' => 'PUT',
+            'basePathWithoutHost' => '/v2',
+            'path' => '/fake/test-query-paramters',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'testQueryParameterCollectionFormat',
+            'authMethods' => [
+            ],
+        ],
+        [
             'httpMethod' => 'PATCH',
             'basePathWithoutHost' => '/v2',
             'path' => '/fake_classname_test',
@@ -222,6 +234,7 @@ class SlimRouter
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => true,
                     'isOAuth' => false,
                     'keyParamName' => 'api_key_query',
@@ -244,6 +257,7 @@ class SlimRouter
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => true,
                     'scopes' => [
@@ -266,6 +280,7 @@ class SlimRouter
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => true,
                     'scopes' => [
@@ -288,6 +303,7 @@ class SlimRouter
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => true,
                     'scopes' => [
@@ -310,6 +326,7 @@ class SlimRouter
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => true,
                     'scopes' => [
@@ -332,6 +349,7 @@ class SlimRouter
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => true,
                     'scopes' => [
@@ -354,6 +372,7 @@ class SlimRouter
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => true,
                     'isOAuth' => false,
                     'keyParamName' => 'api_key',
@@ -376,6 +395,7 @@ class SlimRouter
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => true,
                     'scopes' => [
@@ -398,6 +418,7 @@ class SlimRouter
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => true,
                     'scopes' => [
@@ -420,6 +441,7 @@ class SlimRouter
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => true,
                     'scopes' => [
@@ -442,6 +464,7 @@ class SlimRouter
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => true,
                     'isOAuth' => false,
                     'keyParamName' => 'api_key',
@@ -625,7 +648,7 @@ class SlimRouter
 
                         $middlewares[] = new TokenAuthentication($this->getTokenAuthenticationOptions([
                             'authenticator' => $basicAuthenticator,
-                            'regex' => '/Basic\s+(.*)$/i',
+                            'regex' => $authMethod['isBearer'] ? '/Bearer\s+(.*)$/i' : '/Basic\s+(.*)$/i',
                             'header' => 'Authorization',
                             'parameter' => null,
                             'cookie' => null,
