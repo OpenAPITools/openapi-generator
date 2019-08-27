@@ -17,27 +17,21 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<Map<String, Integer>> getInventory() throws Exception {
+    public Map<String, Integer> getInventory() throws Exception {
         //Do your magic!!!
-        return CompletableFuture.supplyAsync(() -> {
-           return new HashMap<String, Integer>();
-        });
+        return new HashMap<String, Integer>();
     }
 
     @Override
-    public CompletionStage<Order> getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
+    public Order getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
         //Do your magic!!!
-        return CompletableFuture.supplyAsync(() -> {
-           return new Order();
-        });
+        return new Order();
     }
 
     @Override
-    public CompletionStage<Order> placeOrder(Order order) throws Exception {
+    public Order placeOrder(Order body) throws Exception {
         //Do your magic!!!
-        return CompletableFuture.supplyAsync(() -> {
-           return new Order();
-        });
+        return new Order();
     }
 
 }

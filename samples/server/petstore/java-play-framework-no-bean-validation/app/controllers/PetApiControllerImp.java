@@ -12,7 +12,7 @@ import java.io.FileInputStream;
 
 public class PetApiControllerImp implements PetApiControllerImpInterface {
     @Override
-    public void addPet(Pet pet) throws Exception {
+    public void addPet(Pet body) throws Exception {
         //Do your magic!!!
     }
 
@@ -40,7 +40,7 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     }
 
     @Override
-    public void updatePet(Pet pet) throws Exception {
+    public void updatePet(Pet body) throws Exception {
         //Do your magic!!!
     }
 
