@@ -5020,11 +5020,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void generateJSONSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if (openAPI != null) {
-            try {
-                objs.put("openapi-json", Json.pretty().writeValueAsString(openAPI).replace("\r\n", "\n"));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
+            objs.put("openapi-json", SerializerUtils.toJsonString(openAPI));
         }
     }
 
