@@ -30,7 +30,7 @@ public class SerializerUtils {
     }
 
     public static String toJsonString(OpenAPI openAPI) {
-        if(openAPI == null) {
+        if (openAPI == null) {
             return null;
         }
         
