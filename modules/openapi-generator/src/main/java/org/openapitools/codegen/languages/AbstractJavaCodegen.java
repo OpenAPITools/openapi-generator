@@ -718,7 +718,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isArraySchema(p)) {
-            final ArraySchema ap = (ArraySchema) p;
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.ArrayList<%s>()";
@@ -726,13 +725,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 pattern = "new ArrayList<%s>()";
             }
 
-            if (ap.getItems() == null) {
-                LOGGER.error("`{}` (array property) does not have a proper inner type defined. Default to type:string", ap.getName());
-                Schema inner = new StringSchema().description("TODO default missing array inner type to string");
-                ap.setItems(inner);
+            Schema<?> items;
+            if (p instanceof ArraySchema && ((ArraySchema) p).getItems() != null) {
+                items = ((ArraySchema) p).getItems();
+            } else {
+                LOGGER.error("`{}` (array property) does not have a proper inner type defined. Default to type:string", p.getName());
+                items = new StringSchema().description("TODO default missing array inner type to string");
             }
 
-            String typeDeclaration = getTypeDeclaration(ap.getItems());
+            String typeDeclaration = getTypeDeclaration(items);
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
