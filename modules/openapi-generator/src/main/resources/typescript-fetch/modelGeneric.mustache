@@ -9,6 +9,14 @@ import {
 } from './';
 
 {{/hasImports}}
+{{#discriminator}}
+import {
+{{#discriminator.mappedModels}}
+     {{modelName}}FromJSON
+{{/discriminator.mappedModels}}
+} from './';
+
+{{/discriminator}}
 /**
  * {{{description}}}
  * @export
@@ -28,9 +36,20 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{/vars}}
 }
 
-export function {{classname}}FromJSON(json: any): {{classname}} {
+export function {{classname}}FromJSON(json: any, ignoreDiscriminator?: boolean): {{classname}} {
     {{#hasVars}}
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if (!ignoreDiscriminator) {
+{{#discriminator.mappedModels}}
+        if (json['{{discriminator.propertyName}}'] === '{{modelName}}') {
+            return {{modelName}}FromJSON(json, true);
+        }
+{{/discriminator.mappedModels}}
+    }
     return {
+        {{#parent}}...{{{parent}}}FromJSON(json, ignoreDiscriminator),{{/parent}}
         {{#additionalPropertiesType}}
             ...json,
         {{/additionalPropertiesType}}
@@ -79,7 +98,11 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
     if (value === undefined) {
         return undefined;
     }
+    if (value == null) {
+        return null;
+    }
     return {
+        {{#parent}}...{{{parent}}}ToJSON(value),{{/parent}}
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}
