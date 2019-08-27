@@ -108,7 +108,7 @@ export class BaseAPI {
             method: requestOpts.method,
             headers: requestOpts.headers,
             body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
-            responseType: requestOpts.responseType || 'json',
+            responseType: requestOpts.responseType || 'json',
         };
     }
 
