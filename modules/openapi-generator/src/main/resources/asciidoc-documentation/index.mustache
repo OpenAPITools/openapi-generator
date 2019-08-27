@@ -5,10 +5,13 @@
 :numbered:
 :toclevels: 3
 :source-highlighter: highlightjs
+:keywords: openapi, rest, {{appName}} 
 
 [abstract]
 .Abstract
 {{{appDescription}}}
+
+{{#includemarkup}}stubs/empty.adoc{{/includemarkup}}
 
 == Endpoints
 
@@ -29,6 +32,9 @@
 {{{summary}}}
 
 {{#notes}}
+
+{{#includemarkup}}{{baseName}}/{{nickname}}/operation-spec.adoc{{/includemarkup}}
+
 ===== Description 
 
 {{{notes}}}
@@ -70,6 +76,11 @@
 
 {{/responses}}
 |===         
+
+===== Samples
+
+{{#includemarkup}}{{baseName}}/{{nickname}}/http-request.adoc{{/includemarkup}}
+{{#includemarkup}}{{baseName}}/{{nickname}}/http-response.adoc{{/includemarkup}}
 
 {{/operation}}
 {{/operations}}
