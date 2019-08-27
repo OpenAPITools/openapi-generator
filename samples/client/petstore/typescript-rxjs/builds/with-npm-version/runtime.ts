@@ -76,7 +76,7 @@ export class BaseAPI {
         const next = this.clone<T>();
         next.middleware = next.middleware.concat(middlewares);
         return next;
-    }
+    };
 
     withPreMiddleware = <T extends BaseAPI>(preMiddlewares: Array<Middleware['pre']>) =>
         this.withMiddleware<T>(preMiddlewares.map((pre) => ({ pre })));
@@ -84,7 +84,7 @@ export class BaseAPI {
     withPostMiddleware = <T extends BaseAPI>(postMiddlewares: Array<Middleware['post']>) =>
         this.withMiddleware<T>(postMiddlewares.map((post) => ({ post })));
 
-    protected request = <T>(requestOpts: RequestOpts): Observable<T> => 
+    protected request = <T>(requestOpts: RequestOpts): Observable<T> =>
         this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
             map((res) => {
                 if (res.status >= 200 && res.status < 300) {
@@ -102,17 +102,17 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + queryString(requestOpts.query);
         }
-        
+
         return {
             url,
             method: requestOpts.method,
             headers: requestOpts.headers,
             body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
-            responseType: requestOpts.responseType || 'json'
+            responseType: requestOpts.responseType || 'json',
         };
     }
 
-    private rxjsRequest = (params: RequestArgs): Observable<AjaxResponse> => 
+    private rxjsRequest = (params: RequestArgs): Observable<AjaxResponse> =>
         of(params).pipe(
             map((request) => {
                 this.middleware.filter((item) => item.pre).forEach((mw) => (request = mw.pre!(request)));
@@ -133,7 +133,7 @@ export class BaseAPI {
      * and then shallow cloning data members.
      */
     private clone = <T extends BaseAPI>(): T => 
-        Object.assign(Object.create(Object.getPrototypeOf(this)), this)
+        Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 }
 
 // export for not being a breaking change
@@ -149,7 +149,7 @@ export const COLLECTION_FORMATS = {
 };
 
 export type Json = any;
-export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
 export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> };
 export type HttpBody = Json | FormData;
@@ -164,7 +164,7 @@ export interface RequestOpts {
     responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
 }
 
-export const encodeURI = (value: any) => encodeURIComponent(String(value))
+export const encodeURI = (value: any) => encodeURIComponent(String(value));
 
 const queryString = (params: HttpQuery): string => Object.keys(params)
     .map((key) => {
@@ -182,7 +182,7 @@ export const throwIfRequired = (params: {[key: string]: any}, key: string, nickn
     if (!params || params[key] === null || params[key] === undefined) {
         throw new RequiredError(`Required parameter ${key} was null or undefined when calling ${nickname}.`);
     }
-}
+};
 
 // alias for easier importing
 export interface RequestArgs extends AjaxRequest {}
