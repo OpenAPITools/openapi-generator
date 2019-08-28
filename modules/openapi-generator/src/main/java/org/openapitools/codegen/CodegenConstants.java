@@ -202,9 +202,9 @@ public class CodegenConstants {
     public static final String ENUM_PROPERTY_NAMING = "enumPropertyNaming";
     public static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'";
 
+    // Allow different language generators to offer an option of serialization library. Each language specific
+    // Codegen constants should define a description and provide proper input validation for the value of serializationLibrary
     public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
-    public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson'";
-    public static enum SERIALIZATION_LIBRARY_TYPE {moshi, gson}
 
     public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
     public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names.";
