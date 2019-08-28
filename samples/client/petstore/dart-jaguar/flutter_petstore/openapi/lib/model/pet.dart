@@ -25,7 +25,7 @@ class Pet {
   final List<Tag> tags;
    /* pet status in the store */
   @Alias('status', isNullable: false,
-             processor:  const StringFieldProcessor(),
+          
   )
   final String status;
   //enum statusEnum {  available,  pending,  sold,  };

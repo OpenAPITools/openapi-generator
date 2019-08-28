@@ -18,7 +18,7 @@ class Order {
   final DateTime shipDate;
    /* Order Status */
   @Alias('status', isNullable: false,
-             processor:  const StringFieldProcessor(),
+          
   )
   final String status;
   //enum statusEnum {  placed,  approved,  delivered,  };
