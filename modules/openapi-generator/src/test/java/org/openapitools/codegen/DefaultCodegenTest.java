@@ -932,4 +932,25 @@ public class DefaultCodegenTest {
         assertTrue(lambdas.get("indented_16") instanceof IndentedLambda, "Expecting IndentedLambda class");
     }
 
+    @Test
+    public void testTypeWithAdditionalPropertiesAsRequestBody() {
+        OpenAPI openAPI =
+            TestUtils.parseSpec("src/test/resources/3_0/typeWithAdditionalPropertiesAsRequestBody.json");
+        
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        
+        String path = "/samplefunction";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation codegenOperation = codegen.fromOperation("/samplefunction", "post", operation, null);
+        
+        Assert.assertEquals(codegenOperation.bodyParam.baseType, "SampleSchema",
+            "Model name must be used for baseType even if model has additionalProperties (MapSchema)");
+
+        Assert.assertEquals(codegenOperation.bodyParam.dataType, "SampleSchema",
+            "Model name must be used for dataType even if model has additionalProperties (MapSchema)");
+
+        Assert.assertTrue(codegenOperation.imports.contains("SampleSchema"),
+            "Model must be added to imports even if model has additionalProperties (MapSchema)");
+    }
 }

@@ -1,0 +1,65 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "Type with additionalProperties as requestBody parameter",
+		"description": "Test JSON of having a type with additional properties in request body parameter",
+		"license": {
+			"name": "Apache-2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+		}
+	},
+	"servers": [
+		{
+			"url": ""
+		}
+	],
+	"tags": [
+		{
+			"name": "MyClass"
+		}
+	],
+	"paths": {
+		"/samplefunction": {
+			"post": {
+				"tags": [
+					"SampleResource"
+				],
+				"summary": "Sample function",
+				"operationId": "sampleFunction",
+				"parameters": [],
+				"requestBody": {
+					"description": "Request body with a schema that has additionalProperties",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SampleSchema"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"description": "Sample response"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"SampleSchema": {
+				"type": "object",
+				"properties": {
+					"prop1": {
+						"type": "string"
+					},
+					"prop2": {
+						"type": "string"
+					}
+				},
+				"additionalProperties": true
+			}
+		}
+	}
+}
