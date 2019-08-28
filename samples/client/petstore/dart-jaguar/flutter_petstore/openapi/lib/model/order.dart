@@ -5,22 +5,24 @@ part 'order.jser.dart';
 
 class Order {
   
-  @Alias('id', isNullable: false)
+  @Alias('id', isNullable: false,  )
   final int id;
   
-  @Alias('petId', isNullable: false)
+  @Alias('petId', isNullable: false,  )
   final int petId;
   
-  @Alias('quantity', isNullable: false)
+  @Alias('quantity', isNullable: false,  )
   final int quantity;
   
-  @Alias('shipDate', isNullable: false)
+  @Alias('shipDate', isNullable: false,  )
   final DateTime shipDate;
    /* Order Status */
-  @Alias('status', isNullable: false)
+  @Alias('status', isNullable: false,
+             processor:  const StringFieldProcessor(),
+  )
   final String status;
   //enum statusEnum {  placed,  approved,  delivered,  };
-  @Alias('complete', isNullable: false)
+  @Alias('complete', isNullable: false,  )
   final bool complete;
   
 
