@@ -312,7 +312,7 @@ public class AbstractJavaCodegenTest {
 
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new ArrayList<String>()");
+        Assert.assertNull(defaultValue);
     }
 
     @Test
@@ -321,7 +321,7 @@ public class AbstractJavaCodegenTest {
 
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(defaultValue, "List<String>");
+        Assert.assertEquals(defaultValue, "Object");
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

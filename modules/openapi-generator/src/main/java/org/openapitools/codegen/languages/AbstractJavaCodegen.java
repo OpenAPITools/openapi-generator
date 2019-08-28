@@ -686,7 +686,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            Schema<?> items = getSchemaItems(p);
+            Schema<?> items = getSchemaItems((ArraySchema) p);
             return getSchemaType(p) + "<" + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -719,7 +719,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 pattern = "new ArrayList<%s>()";
             }
 
-            Schema<?> items = getSchemaItems(p);
+            Schema<?> items = getSchemaItems((ArraySchema) p);
 
             String typeDeclaration = getTypeDeclaration(items);
             Object java8obj = additionalProperties.get("java8");
