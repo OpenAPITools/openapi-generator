@@ -28,6 +28,9 @@ import javax.validation.Valid;
 /**
  * SpecialModelName
  */
+@JsonPropertyOrder({
+  SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
+})
 
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";

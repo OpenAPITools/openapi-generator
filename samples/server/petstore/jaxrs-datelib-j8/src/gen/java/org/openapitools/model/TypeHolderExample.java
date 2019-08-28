@@ -29,6 +29,13 @@ import javax.validation.Valid;
 /**
  * TypeHolderExample
  */
+@JsonPropertyOrder({
+  TypeHolderExample.JSON_PROPERTY_STRING_ITEM,
+  TypeHolderExample.JSON_PROPERTY_NUMBER_ITEM,
+  TypeHolderExample.JSON_PROPERTY_INTEGER_ITEM,
+  TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
+  TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
+})
 
 public class TypeHolderExample  implements Serializable {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";

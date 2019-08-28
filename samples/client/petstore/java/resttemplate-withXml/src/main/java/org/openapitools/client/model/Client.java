@@ -28,6 +28,9 @@ import javax.xml.bind.annotation.*;
 /**
  * Client
  */
+@JsonPropertyOrder({
+  Client.JSON_PROPERTY_CLIENT
+})
 
 @XmlRootElement(name = "Client")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -28,6 +28,10 @@ import javax.validation.Valid;
 /**
  * EnumArrays
  */
+@JsonPropertyOrder({
+  EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
+  EnumArrays.JSON_PROPERTY_ARRAY_ENUM
+})
 
 public class EnumArrays   {
   /**

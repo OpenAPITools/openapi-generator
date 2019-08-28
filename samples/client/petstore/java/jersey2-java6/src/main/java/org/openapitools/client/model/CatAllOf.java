@@ -25,6 +25,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * CatAllOf
  */
+@JsonPropertyOrder({
+  CatAllOf.JSON_PROPERTY_DECLAWED
+})
 
 public class CatAllOf {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";

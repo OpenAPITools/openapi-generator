@@ -25,13 +25,13 @@ import javax.validation.Valid;
 /**
  * Model for testing model name same as property name
  */
+@ApiModel(description = "Model for testing model name same as property name")
 @JsonPropertyOrder({
   Name.JSON_PROPERTY_NAME,
   Name.JSON_PROPERTY_SNAKE_CASE,
   Name.JSON_PROPERTY_PROPERTY,
-  Name.JSON_PROPERTY_123NUMBER,
+  Name.JSON_PROPERTY_123NUMBER
 })
-@ApiModel(description = "Model for testing model name same as property name")
 
 public class Name   {
   public static final String JSON_PROPERTY_NAME = "name";

@@ -32,6 +32,14 @@ import javax.xml.bind.annotation.*;
 /**
  * Pet
  */
+@JsonPropertyOrder({
+  Pet.JSON_PROPERTY_ID,
+  Pet.JSON_PROPERTY_CATEGORY,
+  Pet.JSON_PROPERTY_NAME,
+  Pet.JSON_PROPERTY_PHOTO_URLS,
+  Pet.JSON_PROPERTY_TAGS,
+  Pet.JSON_PROPERTY_STATUS
+})
 
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)

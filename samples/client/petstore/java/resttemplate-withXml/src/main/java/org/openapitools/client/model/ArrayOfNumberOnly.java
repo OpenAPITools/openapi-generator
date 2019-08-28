@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.*;
 /**
  * ArrayOfNumberOnly
  */
+@JsonPropertyOrder({
+  ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
+})
 
 @XmlRootElement(name = "ArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)

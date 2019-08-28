@@ -25,6 +25,10 @@ import javax.validation.Valid;
 /**
  * InlineObject
  */
+@JsonPropertyOrder({
+  InlineObject.JSON_PROPERTY_NAME,
+  InlineObject.JSON_PROPERTY_STATUS
+})
 
 public class InlineObject   {
   public static final String JSON_PROPERTY_NAME = "name";

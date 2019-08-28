@@ -25,6 +25,10 @@ import javax.validation.Valid;
 /**
  * HasOnlyReadOnly
  */
+@JsonPropertyOrder({
+  HasOnlyReadOnly.JSON_PROPERTY_BAR,
+  HasOnlyReadOnly.JSON_PROPERTY_FOO
+})
 
 public class HasOnlyReadOnly   {
   public static final String JSON_PROPERTY_BAR = "bar";

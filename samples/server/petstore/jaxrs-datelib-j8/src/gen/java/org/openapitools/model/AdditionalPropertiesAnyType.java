@@ -28,6 +28,9 @@ import javax.validation.Valid;
 /**
  * AdditionalPropertiesAnyType
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesAnyType.JSON_PROPERTY_NAME
+})
 
 public class AdditionalPropertiesAnyType extends HashMap<String, Object> implements Serializable {
   public static final String JSON_PROPERTY_NAME = "name";

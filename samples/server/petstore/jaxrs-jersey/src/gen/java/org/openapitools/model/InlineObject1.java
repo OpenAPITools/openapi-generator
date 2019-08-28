@@ -26,6 +26,10 @@ import javax.validation.Valid;
 /**
  * InlineObject1
  */
+@JsonPropertyOrder({
+  InlineObject1.JSON_PROPERTY_ADDITIONAL_METADATA,
+  InlineObject1.JSON_PROPERTY_FILE
+})
 
 public class InlineObject1   {
   public static final String JSON_PROPERTY_ADDITIONAL_METADATA = "additionalMetadata";

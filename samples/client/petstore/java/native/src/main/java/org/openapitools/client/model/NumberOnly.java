@@ -27,6 +27,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * NumberOnly
  */
+@JsonPropertyOrder({
+  NumberOnly.JSON_PROPERTY_JUST_NUMBER
+})
 
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";

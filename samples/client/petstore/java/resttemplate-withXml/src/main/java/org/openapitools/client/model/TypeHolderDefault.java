@@ -31,6 +31,13 @@ import javax.xml.bind.annotation.*;
 /**
  * TypeHolderDefault
  */
+@JsonPropertyOrder({
+  TypeHolderDefault.JSON_PROPERTY_STRING_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_NUMBER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_INTEGER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
+})
 
 @XmlRootElement(name = "TypeHolderDefault")
 @XmlAccessorType(XmlAccessType.FIELD)

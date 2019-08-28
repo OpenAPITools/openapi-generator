@@ -25,10 +25,10 @@ import javax.validation.Valid;
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
-@JsonPropertyOrder({
-  HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE,
-})
 @ApiModel(description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
+@JsonPropertyOrder({
+  HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
+})
 
 public class HealthCheckResult   {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";

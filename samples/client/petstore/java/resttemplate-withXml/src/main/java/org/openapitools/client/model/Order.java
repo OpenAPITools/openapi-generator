@@ -29,6 +29,14 @@ import javax.xml.bind.annotation.*;
 /**
  * Order
  */
+@JsonPropertyOrder({
+  Order.JSON_PROPERTY_ID,
+  Order.JSON_PROPERTY_PET_ID,
+  Order.JSON_PROPERTY_QUANTITY,
+  Order.JSON_PROPERTY_SHIP_DATE,
+  Order.JSON_PROPERTY_STATUS,
+  Order.JSON_PROPERTY_COMPLETE
+})
 
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)

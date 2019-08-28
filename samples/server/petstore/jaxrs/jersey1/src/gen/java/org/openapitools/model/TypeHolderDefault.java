@@ -28,6 +28,13 @@ import javax.validation.Valid;
 /**
  * TypeHolderDefault
  */
+@JsonPropertyOrder({
+  TypeHolderDefault.JSON_PROPERTY_STRING_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_NUMBER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_INTEGER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
+})
 
 public class TypeHolderDefault   {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";

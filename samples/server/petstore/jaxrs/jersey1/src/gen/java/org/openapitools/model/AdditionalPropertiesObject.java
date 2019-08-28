@@ -27,6 +27,9 @@ import javax.validation.Valid;
 /**
  * AdditionalPropertiesObject
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesObject.JSON_PROPERTY_NAME
+})
 
 public class AdditionalPropertiesObject extends HashMap<String, Map>  {
   public static final String JSON_PROPERTY_NAME = "name";

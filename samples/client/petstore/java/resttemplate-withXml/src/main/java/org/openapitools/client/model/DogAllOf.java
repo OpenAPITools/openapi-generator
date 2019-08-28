@@ -28,6 +28,9 @@ import javax.xml.bind.annotation.*;
 /**
  * DogAllOf
  */
+@JsonPropertyOrder({
+  DogAllOf.JSON_PROPERTY_BREED
+})
 
 @XmlRootElement(name = "DogAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)

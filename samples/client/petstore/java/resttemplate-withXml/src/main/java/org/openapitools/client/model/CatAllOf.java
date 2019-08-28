@@ -28,6 +28,9 @@ import javax.xml.bind.annotation.*;
 /**
  * CatAllOf
  */
+@JsonPropertyOrder({
+  CatAllOf.JSON_PROPERTY_DECLAWED
+})
 
 @XmlRootElement(name = "CatAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)

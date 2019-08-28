@@ -27,6 +27,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * FileSchemaTestClass
  */
+@JsonPropertyOrder({
+  FileSchemaTestClass.JSON_PROPERTY_FILE,
+  FileSchemaTestClass.JSON_PROPERTY_FILES
+})
 
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";

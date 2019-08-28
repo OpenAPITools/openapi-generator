@@ -34,6 +34,11 @@ import javax.xml.bind.annotation.*;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
+@JsonPropertyOrder({
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_UUID,
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
+})
 
 @XmlRootElement(name = "MixedPropertiesAndAdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -27,6 +27,10 @@ import javax.validation.Valid;
 /**
  * Animal
  */
+@JsonPropertyOrder({
+  Animal.JSON_PROPERTY_CLASS_NAME,
+  Animal.JSON_PROPERTY_COLOR
+})
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),

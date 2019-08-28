@@ -28,6 +28,9 @@ import javax.xml.bind.annotation.*;
 /**
  * SpecialModelName
  */
+@JsonPropertyOrder({
+  SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
+})
 
 @XmlRootElement(name = "$special[model.name]")
 @XmlAccessorType(XmlAccessType.FIELD)

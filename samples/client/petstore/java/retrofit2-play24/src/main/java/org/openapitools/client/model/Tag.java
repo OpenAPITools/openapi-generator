@@ -28,6 +28,10 @@ import javax.validation.Valid;
 /**
  * Tag
  */
+@JsonPropertyOrder({
+  Tag.JSON_PROPERTY_ID,
+  Tag.JSON_PROPERTY_NAME
+})
 
 public class Tag {
   public static final String JSON_PROPERTY_ID = "id";

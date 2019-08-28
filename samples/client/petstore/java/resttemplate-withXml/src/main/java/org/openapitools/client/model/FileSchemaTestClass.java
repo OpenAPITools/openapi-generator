@@ -30,6 +30,10 @@ import javax.xml.bind.annotation.*;
 /**
  * FileSchemaTestClass
  */
+@JsonPropertyOrder({
+  FileSchemaTestClass.JSON_PROPERTY_FILE,
+  FileSchemaTestClass.JSON_PROPERTY_FILES
+})
 
 @XmlRootElement(name = "FileSchemaTestClass")
 @XmlAccessorType(XmlAccessType.FIELD)

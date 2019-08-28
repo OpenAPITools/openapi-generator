@@ -30,6 +30,10 @@ import javax.xml.bind.annotation.*;
 /**
  * EnumArrays
  */
+@JsonPropertyOrder({
+  EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
+  EnumArrays.JSON_PROPERTY_ARRAY_ENUM
+})
 
 @XmlRootElement(name = "EnumArrays")
 @XmlAccessorType(XmlAccessType.FIELD)

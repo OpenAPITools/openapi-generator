@@ -25,6 +25,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * DogAllOf
  */
+@JsonPropertyOrder({
+  DogAllOf.JSON_PROPERTY_BREED
+})
 
 public class DogAllOf {
   public static final String JSON_PROPERTY_BREED = "breed";

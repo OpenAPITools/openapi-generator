@@ -25,6 +25,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * ReadOnlyFirst
  */
+@JsonPropertyOrder({
+  ReadOnlyFirst.JSON_PROPERTY_BAR,
+  ReadOnlyFirst.JSON_PROPERTY_BAZ
+})
 
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";

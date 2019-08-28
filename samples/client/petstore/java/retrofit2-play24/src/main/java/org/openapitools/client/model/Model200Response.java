@@ -28,11 +28,11 @@ import javax.validation.Valid;
 /**
  * Model for testing model name starting with number
  */
+@ApiModel(description = "Model for testing model name starting with number")
 @JsonPropertyOrder({
   Model200Response.JSON_PROPERTY_NAME,
-  Model200Response.JSON_PROPERTY_PROPERTY_CLASS,
+  Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
-@ApiModel(description = "Model for testing model name starting with number")
 
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";

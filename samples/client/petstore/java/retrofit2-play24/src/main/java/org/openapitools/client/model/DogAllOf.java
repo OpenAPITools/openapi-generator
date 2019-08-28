@@ -28,6 +28,9 @@ import javax.validation.Valid;
 /**
  * DogAllOf
  */
+@JsonPropertyOrder({
+  DogAllOf.JSON_PROPERTY_BREED
+})
 
 public class DogAllOf {
   public static final String JSON_PROPERTY_BREED = "breed";

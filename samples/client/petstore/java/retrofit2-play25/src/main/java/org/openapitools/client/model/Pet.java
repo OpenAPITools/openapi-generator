@@ -32,6 +32,14 @@ import javax.validation.Valid;
 /**
  * Pet
  */
+@JsonPropertyOrder({
+  Pet.JSON_PROPERTY_ID,
+  Pet.JSON_PROPERTY_CATEGORY,
+  Pet.JSON_PROPERTY_NAME,
+  Pet.JSON_PROPERTY_PHOTO_URLS,
+  Pet.JSON_PROPERTY_TAGS,
+  Pet.JSON_PROPERTY_STATUS
+})
 
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";

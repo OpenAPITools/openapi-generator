@@ -28,11 +28,11 @@ import javax.xml.bind.annotation.*;
 /**
  * Model for testing model name starting with number
  */
+@ApiModel(description = "Model for testing model name starting with number")
 @JsonPropertyOrder({
   Model200Response.JSON_PROPERTY_NAME,
-  Model200Response.JSON_PROPERTY_PROPERTY_CLASS,
+  Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
-@ApiModel(description = "Model for testing model name starting with number")
 
 @XmlRootElement(name = "Name")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -29,6 +29,11 @@ import javax.xml.bind.annotation.*;
 /**
  * OuterComposite
  */
+@JsonPropertyOrder({
+  OuterComposite.JSON_PROPERTY_MY_NUMBER,
+  OuterComposite.JSON_PROPERTY_MY_STRING,
+  OuterComposite.JSON_PROPERTY_MY_BOOLEAN
+})
 
 @XmlRootElement(name = "OuterComposite")
 @XmlAccessorType(XmlAccessType.FIELD)

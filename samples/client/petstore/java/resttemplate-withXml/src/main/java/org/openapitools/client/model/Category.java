@@ -28,6 +28,10 @@ import javax.xml.bind.annotation.*;
 /**
  * Category
  */
+@JsonPropertyOrder({
+  Category.JSON_PROPERTY_ID,
+  Category.JSON_PROPERTY_NAME
+})
 
 @XmlRootElement(name = "Category")
 @XmlAccessorType(XmlAccessType.FIELD)

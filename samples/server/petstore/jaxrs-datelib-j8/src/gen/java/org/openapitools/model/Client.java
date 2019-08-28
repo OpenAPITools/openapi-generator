@@ -26,6 +26,9 @@ import javax.validation.Valid;
 /**
  * Client
  */
+@JsonPropertyOrder({
+  Client.JSON_PROPERTY_CLIENT
+})
 
 public class Client  implements Serializable {
   public static final String JSON_PROPERTY_CLIENT = "client";

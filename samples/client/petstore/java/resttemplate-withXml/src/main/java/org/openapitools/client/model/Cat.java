@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.*;
 /**
  * Cat
  */
+@JsonPropertyOrder({
+  Cat.JSON_PROPERTY_DECLAWED
+})
 
 @XmlRootElement(name = "Cat")
 @XmlAccessorType(XmlAccessType.FIELD)

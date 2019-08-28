@@ -28,6 +28,9 @@ import javax.validation.Valid;
 /**
  * Client
  */
+@JsonPropertyOrder({
+  Client.JSON_PROPERTY_CLIENT
+})
 
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";

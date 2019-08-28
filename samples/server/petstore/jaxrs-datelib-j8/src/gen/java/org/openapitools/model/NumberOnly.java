@@ -27,6 +27,9 @@ import javax.validation.Valid;
 /**
  * NumberOnly
  */
+@JsonPropertyOrder({
+  NumberOnly.JSON_PROPERTY_JUST_NUMBER
+})
 
 public class NumberOnly  implements Serializable {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";

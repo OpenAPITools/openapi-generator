@@ -25,6 +25,9 @@ import javax.validation.Valid;
 /**
  * Foo
  */
+@JsonPropertyOrder({
+  Foo.JSON_PROPERTY_BAR
+})
 
 public class Foo   {
   public static final String JSON_PROPERTY_BAR = "bar";

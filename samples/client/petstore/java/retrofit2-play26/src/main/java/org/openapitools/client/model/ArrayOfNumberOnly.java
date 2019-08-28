@@ -31,6 +31,9 @@ import javax.validation.Valid;
 /**
  * ArrayOfNumberOnly
  */
+@JsonPropertyOrder({
+  ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
+})
 
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";

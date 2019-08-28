@@ -28,6 +28,10 @@ import javax.validation.Valid;
 /**
  * InlineObject2
  */
+@JsonPropertyOrder({
+  InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING_ARRAY,
+  InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING
+})
 
 public class InlineObject2   {
   /**

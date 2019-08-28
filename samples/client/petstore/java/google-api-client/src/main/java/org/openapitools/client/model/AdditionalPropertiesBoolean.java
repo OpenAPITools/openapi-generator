@@ -28,6 +28,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * AdditionalPropertiesBoolean
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesBoolean.JSON_PROPERTY_NAME
+})
 
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   public static final String JSON_PROPERTY_NAME = "name";

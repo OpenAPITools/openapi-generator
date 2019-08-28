@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.*;
 /**
  * Dog
  */
+@JsonPropertyOrder({
+  Dog.JSON_PROPERTY_BREED
+})
 
 @XmlRootElement(name = "Dog")
 @XmlAccessorType(XmlAccessType.FIELD)

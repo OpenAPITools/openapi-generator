@@ -30,6 +30,9 @@ import javax.validation.Valid;
 /**
  * Cat
  */
+@JsonPropertyOrder({
+  Cat.JSON_PROPERTY_DECLAWED
+})
 
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";

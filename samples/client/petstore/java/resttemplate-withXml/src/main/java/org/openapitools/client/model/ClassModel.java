@@ -28,10 +28,10 @@ import javax.xml.bind.annotation.*;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@JsonPropertyOrder({
-  ClassModel.JSON_PROPERTY_PROPERTY_CLASS,
-})
 @ApiModel(description = "Model for testing model with \"_class\" property")
+@JsonPropertyOrder({
+  ClassModel.JSON_PROPERTY_PROPERTY_CLASS
+})
 
 @XmlRootElement(name = "ClassModel")
 @XmlAccessorType(XmlAccessType.FIELD)

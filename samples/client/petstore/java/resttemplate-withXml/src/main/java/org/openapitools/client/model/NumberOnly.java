@@ -29,6 +29,9 @@ import javax.xml.bind.annotation.*;
 /**
  * NumberOnly
  */
+@JsonPropertyOrder({
+  NumberOnly.JSON_PROPERTY_JUST_NUMBER
+})
 
 @XmlRootElement(name = "NumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)

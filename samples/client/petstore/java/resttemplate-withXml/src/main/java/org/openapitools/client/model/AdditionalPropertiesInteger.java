@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.*;
 /**
  * AdditionalPropertiesInteger
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesInteger.JSON_PROPERTY_NAME
+})
 
 @XmlRootElement(name = "AdditionalPropertiesInteger")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -25,10 +25,10 @@ import javax.validation.Valid;
 /**
  * Model for testing reserved words
  */
-@JsonPropertyOrder({
-  ModelReturn.JSON_PROPERTY_RETURN,
-})
 @ApiModel(description = "Model for testing reserved words")
+@JsonPropertyOrder({
+  ModelReturn.JSON_PROPERTY_RETURN
+})
 
 public class ModelReturn   {
   public static final String JSON_PROPERTY_RETURN = "return";

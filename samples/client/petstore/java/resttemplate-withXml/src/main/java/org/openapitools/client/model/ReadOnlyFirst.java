@@ -28,6 +28,10 @@ import javax.xml.bind.annotation.*;
 /**
  * ReadOnlyFirst
  */
+@JsonPropertyOrder({
+  ReadOnlyFirst.JSON_PROPERTY_BAR,
+  ReadOnlyFirst.JSON_PROPERTY_BAZ
+})
 
 @XmlRootElement(name = "ReadOnlyFirst")
 @XmlAccessorType(XmlAccessType.FIELD)

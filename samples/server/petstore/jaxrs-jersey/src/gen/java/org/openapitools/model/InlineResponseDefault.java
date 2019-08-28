@@ -26,6 +26,9 @@ import javax.validation.Valid;
 /**
  * InlineResponseDefault
  */
+@JsonPropertyOrder({
+  InlineResponseDefault.JSON_PROPERTY_STRING
+})
 
 public class InlineResponseDefault   {
   public static final String JSON_PROPERTY_STRING = "string";

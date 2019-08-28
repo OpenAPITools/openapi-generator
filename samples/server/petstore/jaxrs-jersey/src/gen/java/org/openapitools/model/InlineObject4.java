@@ -25,6 +25,10 @@ import javax.validation.Valid;
 /**
  * InlineObject4
  */
+@JsonPropertyOrder({
+  InlineObject4.JSON_PROPERTY_PARAM,
+  InlineObject4.JSON_PROPERTY_PARAM2
+})
 
 public class InlineObject4   {
   public static final String JSON_PROPERTY_PARAM = "param";

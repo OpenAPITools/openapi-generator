@@ -25,6 +25,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * Client
  */
+@JsonPropertyOrder({
+  Client.JSON_PROPERTY_CLIENT
+})
 
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";

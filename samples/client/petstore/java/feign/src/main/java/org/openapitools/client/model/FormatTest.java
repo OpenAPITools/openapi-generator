@@ -31,6 +31,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * FormatTest
  */
+@JsonPropertyOrder({
+  FormatTest.JSON_PROPERTY_INTEGER,
+  FormatTest.JSON_PROPERTY_INT32,
+  FormatTest.JSON_PROPERTY_INT64,
+  FormatTest.JSON_PROPERTY_NUMBER,
+  FormatTest.JSON_PROPERTY_FLOAT,
+  FormatTest.JSON_PROPERTY_DOUBLE,
+  FormatTest.JSON_PROPERTY_STRING,
+  FormatTest.JSON_PROPERTY_BYTE,
+  FormatTest.JSON_PROPERTY_BINARY,
+  FormatTest.JSON_PROPERTY_DATE,
+  FormatTest.JSON_PROPERTY_DATE_TIME,
+  FormatTest.JSON_PROPERTY_UUID,
+  FormatTest.JSON_PROPERTY_PASSWORD
+})
 
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";

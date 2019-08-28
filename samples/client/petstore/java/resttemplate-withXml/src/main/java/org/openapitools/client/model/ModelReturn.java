@@ -28,10 +28,10 @@ import javax.xml.bind.annotation.*;
 /**
  * Model for testing reserved words
  */
-@JsonPropertyOrder({
-  ModelReturn.JSON_PROPERTY_RETURN,
-})
 @ApiModel(description = "Model for testing reserved words")
+@JsonPropertyOrder({
+  ModelReturn.JSON_PROPERTY_RETURN
+})
 
 @XmlRootElement(name = "Return")
 @XmlAccessorType(XmlAccessType.FIELD)

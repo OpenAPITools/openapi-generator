@@ -28,6 +28,10 @@ import javax.xml.bind.annotation.*;
 /**
  * Tag
  */
+@JsonPropertyOrder({
+  Tag.JSON_PROPERTY_ID,
+  Tag.JSON_PROPERTY_NAME
+})
 
 @XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)

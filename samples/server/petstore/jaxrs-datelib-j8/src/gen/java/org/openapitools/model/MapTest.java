@@ -30,6 +30,12 @@ import javax.validation.Valid;
 /**
  * MapTest
  */
+@JsonPropertyOrder({
+  MapTest.JSON_PROPERTY_MAP_MAP_OF_STRING,
+  MapTest.JSON_PROPERTY_MAP_OF_ENUM_STRING,
+  MapTest.JSON_PROPERTY_DIRECT_MAP,
+  MapTest.JSON_PROPERTY_INDIRECT_MAP
+})
 
 public class MapTest  implements Serializable {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";

@@ -28,6 +28,9 @@ import javax.validation.Valid;
 /**
  * Dog
  */
+@JsonPropertyOrder({
+  Dog.JSON_PROPERTY_BREED
+})
 
 public class Dog extends Animal implements Serializable {
   public static final String JSON_PROPERTY_BREED = "breed";

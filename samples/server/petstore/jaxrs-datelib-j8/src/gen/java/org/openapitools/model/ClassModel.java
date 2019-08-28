@@ -26,10 +26,10 @@ import javax.validation.Valid;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@JsonPropertyOrder({
-  ClassModel.JSON_PROPERTY_PROPERTY_CLASS,
-})
 @ApiModel(description = "Model for testing model with \"_class\" property")
+@JsonPropertyOrder({
+  ClassModel.JSON_PROPERTY_PROPERTY_CLASS
+})
 
 public class ClassModel  implements Serializable {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";

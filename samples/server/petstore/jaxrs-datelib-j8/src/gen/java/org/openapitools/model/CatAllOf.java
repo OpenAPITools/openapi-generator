@@ -26,6 +26,9 @@ import javax.validation.Valid;
 /**
  * CatAllOf
  */
+@JsonPropertyOrder({
+  CatAllOf.JSON_PROPERTY_DECLAWED
+})
 
 public class CatAllOf  implements Serializable {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
