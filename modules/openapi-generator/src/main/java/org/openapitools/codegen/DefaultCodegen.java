@@ -1246,8 +1246,7 @@ public class DefaultCodegen implements CodegenConfig {
             String inner = getSchemaType(additionalProperties);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            String inner = getSchemaType(arraySchema.getItems());
+            String inner = getSchemaType(getSchemaItems(schema));
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;
@@ -1460,6 +1459,17 @@ public class DefaultCodegen implements CodegenConfig {
 
         return getSingleSchemaType(schema);
 
+    }
+
+    protected Schema<?> getSchemaItems(Schema schema) {
+        Schema<?> items;
+        if (schema instanceof ArraySchema && ((ArraySchema) schema).getItems() != null) {
+            items = ((ArraySchema) schema).getItems();
+        } else {
+            LOGGER.error("Undefined array inner type for `{}`. Default to String.", schema.getName());
+            items = new StringSchema().description("TODO default missing array inner type to string");
+        }
+        return items;
     }
 
     /**
@@ -2180,10 +2190,8 @@ public class DefaultCodegen implements CodegenConfig {
             property.isFreeFormObject = true;
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
-            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ((ArraySchema) p).getItems());
-            if (innerSchema == null) {
-                LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
-                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
+            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getSchemaItems(p));
+            if (p instanceof ArraySchema && ((ArraySchema) p).getItems() == null) {
                 ((ArraySchema) p).setItems(innerSchema);
             }
         } else if (ModelUtils.isMapSchema(p)) {
@@ -2262,10 +2270,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (itemName == null) {
                 itemName = property.name;
             }
-            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ((ArraySchema) p).getItems());
-            if (innerSchema == null) {
-                LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
-                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
+            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getSchemaItems(p));
+            if (p instanceof ArraySchema && ((ArraySchema) p).getItems() == null) {
                 ((ArraySchema) p).setItems(innerSchema);
             }
             CodegenProperty cp = fromProperty(itemName, innerSchema);
@@ -2583,8 +2589,7 @@ public class DefaultCodegen implements CodegenConfig {
                     CodegenProperty cm = fromProperty("response", responseSchema);
 
                     if (ModelUtils.isArraySchema(responseSchema)) {
-                        ArraySchema as = (ArraySchema) responseSchema;
-                        CodegenProperty innerProperty = fromProperty("response", as.getItems());
+                        CodegenProperty innerProperty = fromProperty("response", getSchemaItems(responseSchema));
                         op.returnBaseType = innerProperty.baseType;
                     } else if (ModelUtils.isMapSchema(responseSchema)) {
                         CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema));
@@ -2853,8 +2858,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty cp = fromProperty("response", responseSchema);
 
             if (ModelUtils.isArraySchema(responseSchema)) {
-                ArraySchema as = (ArraySchema) responseSchema;
-                CodegenProperty innerProperty = fromProperty("response", as.getItems());
+                CodegenProperty innerProperty = fromProperty("response", getSchemaItems(responseSchema));
                 CodegenProperty innerCp = innerProperty;
                 while (innerCp != null) {
                     r.baseType = innerCp.baseType;
@@ -3061,12 +3065,9 @@ public class DefaultCodegen implements CodegenConfig {
             // TDOO revise collectionFormat
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
-                final ArraySchema arraySchema = (ArraySchema) parameterSchema;
-                Schema inner = arraySchema.getItems();
-                if (inner == null) {
-                    LOGGER.warn("warning! No inner type supplied for array parameter \"" + parameter.getName() + "\", using String");
-                    inner = new StringSchema().description("//TODO automatically added by openapi-generator due to missing iner type definition in the spec");
-                    arraySchema.setItems(inner);
+                Schema inner = getSchemaItems(parameterSchema);
+                if (parameterSchema instanceof ArraySchema && ((ArraySchema) parameterSchema).getItems() == null) {
+                    ((ArraySchema) parameterSchema).setItems(inner);
                 }
 
                 collectionFormat = getCollectionFormat(parameter);
@@ -4597,12 +4598,9 @@ public class DefaultCodegen implements CodegenConfig {
                 Schema s = entry.getValue();
                 // array of schema
                 if (ModelUtils.isArraySchema(s)) {
-                    final ArraySchema arraySchema = (ArraySchema) s;
-                    Schema inner = arraySchema.getItems();
-                    if (inner == null) {
-                        LOGGER.error("No inner type supplied for array parameter `{}`. Default to type:string", s.getName());
-                        inner = new StringSchema().description("//TODO automatically added by openapi-generator due to missing inner type definition in the spec");
-                        arraySchema.setItems(inner);
+                    Schema inner = getSchemaItems(s);
+                    if (s instanceof ArraySchema && ((ArraySchema) s).getItems() == null) {
+                        ((ArraySchema) s).setItems(inner);
                     }
 
                     codegenParameter = fromFormProperty(entry.getKey(), inner, imports);
@@ -4614,7 +4612,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.isContainer = true;
                     codegenParameter.isListContainer = true;
                     codegenParameter.description = escapeText(s.getDescription());
-                    codegenParameter.dataType = getTypeDeclaration(arraySchema);
+                    codegenParameter.dataType = getTypeDeclaration(s);
                     if (codegenParameter.baseType != null && codegenParameter.enumName != null) {
                         codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
                     } else {
@@ -4797,14 +4795,12 @@ public class DefaultCodegen implements CodegenConfig {
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
         } else if (ModelUtils.isArraySchema(schema)) {
-            final ArraySchema arraySchema = (ArraySchema) schema;
-            Schema inner = arraySchema.getItems();
-            if (inner == null) {
-                LOGGER.error("No inner type supplied for array parameter `{}`. Default to type:string", schema.getName());
-                inner = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                arraySchema.setItems(inner);
+            Schema inner = getSchemaItems(schema);
+            if (schema instanceof ArraySchema && ((ArraySchema) schema).getItems() == null) {
+                ((ArraySchema) schema).setItems(inner);
             }
-            CodegenProperty codegenProperty = fromProperty("property", arraySchema);
+
+            CodegenProperty codegenProperty = fromProperty("property", schema);
             imports.add(codegenProperty.baseType);
             CodegenProperty innerCp = codegenProperty;
             CodegenProperty mostInnerItem = innerCp;
@@ -4830,7 +4826,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-            codegenParameter.dataType = getTypeDeclaration(arraySchema);
+            codegenParameter.dataType = getTypeDeclaration(schema);
             codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isListContainer = Boolean.TRUE;

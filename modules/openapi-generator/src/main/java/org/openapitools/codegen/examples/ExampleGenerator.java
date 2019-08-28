@@ -79,13 +79,13 @@ public class ExampleGenerator {
         }
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
-            ArraySchema as = (ArraySchema) responseSchema;
-            if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
+            Schema<?> items = (responseSchema instanceof ArraySchema) ? ((ArraySchema) responseSchema).getItems() : null;
+            if (items != null && StringUtils.isEmpty(items.get$ref())) { // arary of primtive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<String>(producesInfo), as.getItems());
-            } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
+                        new ArrayList<String>(producesInfo), items);
+            } else if (items != null && !StringUtils.isEmpty(items.get$ref())) { // array of model
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<String>(producesInfo), ModelUtils.getSimpleRef(as.getItems().get$ref()));
+                        new ArrayList<String>(producesInfo), ModelUtils.getSimpleRef(items.get$ref()));
             } else {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
@@ -229,9 +229,9 @@ public class ExampleGenerator {
             }
             return Boolean.TRUE;
         } else if (ModelUtils.isArraySchema(property)) {
-            Schema innerType = ((ArraySchema) property).getItems();
+            Schema<?> innerType = (property instanceof ArraySchema) ? ((ArraySchema) property).getItems() : null;
             if (innerType != null) {
-                int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
+                int arrayLength = null == property.getMaxItems() ? 2 : property.getMaxItems();
                 // avoid memory issues by limiting to max. 5 items
                 arrayLength = Math.min(arrayLength, 5);
                 Object[] objectProperties = new Object[arrayLength];
