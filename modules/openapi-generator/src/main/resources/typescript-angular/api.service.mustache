@@ -342,7 +342,7 @@ export class {{classname}} {
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined) {
-            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}useForm ? JSON.stringify({{paramName}}) : <any>{{paramName}}{{/isModel}}){{#useHttpClient}} as any || formParams{{/useHttpClient}};
+            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}useForm ? new Blob([JSON.stringify({{paramName}})], {type: 'application/json'}) : <any>{{paramName}}{{/isModel}}){{#useHttpClient}} as any || formParams{{/useHttpClient}};
         }
         {{/isListContainer}}
 {{/formParams}}
