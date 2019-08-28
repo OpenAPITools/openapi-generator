@@ -207,6 +207,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String ignoreFileOverride;
 
     /**
+     * Sets custom User-Agent header value
+     */
+    @Parameter(name = "httpUserAgent", property = "openapi.generator.maven.plugin.httpUserAgent", required = false)
+    private String httpUserAgent;
+
+    /**
      * To remove operationId prefix (e.g. user_getName => getName)
      */
     @Parameter(name = "removeOperationIdPrefix", property = "openapi.generator.maven.plugin.removeOperationIdPrefix", required = false)
@@ -460,6 +466,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(ignoreFileOverride)) {
                 configurator.setIgnoreFileOverride(ignoreFileOverride);
+            }
+
+            if (isNotEmpty(httpUserAgent)) {
+                configurator.setHttpUserAgent(httpUserAgent);
             }
 
             if (skipValidateSpec != null) {
