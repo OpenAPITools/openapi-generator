@@ -21,10 +21,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Model for testing reserved words
  */
+@JsonPropertyOrder({
+  ModelReturn.JSON_PROPERTY_RETURN,
+})
 @ApiModel(description = "Model for testing reserved words")
 
 public class ModelReturn {

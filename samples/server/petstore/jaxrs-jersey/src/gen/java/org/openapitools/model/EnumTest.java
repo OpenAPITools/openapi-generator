@@ -23,6 +23,7 @@ import org.openapitools.model.OuterEnum;
 import org.openapitools.model.OuterEnumDefaultValue;
 import org.openapitools.model.OuterEnumInteger;
 import org.openapitools.model.OuterEnumIntegerDefaultValue;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 

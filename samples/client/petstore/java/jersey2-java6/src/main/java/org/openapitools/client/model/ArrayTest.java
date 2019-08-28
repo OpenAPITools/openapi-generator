@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * ArrayTest
