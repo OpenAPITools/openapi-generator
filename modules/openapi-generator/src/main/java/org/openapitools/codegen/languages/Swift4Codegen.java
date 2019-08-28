@@ -124,8 +124,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
                         "NSError", "NSDictionary"
-                        )
-                );
+                )
+        );
 
         reservedWords = new HashSet<>(
                 Arrays.asList(
@@ -847,18 +847,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        // The default template code has the following logic for
-        // assigning a type as Swift Optional:
-        //
-        // {{^unwrapRequired}}?{{/unwrapRequired}}
-        // {{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}
-        //
-        // which means:
-        //
-        // boolean isSwiftOptional = !unwrapRequired || (unwrapRequired && !property.required);
-        //
-        // We can drop the check for unwrapRequired in (unwrapRequired && !property.required)
-        // due to short-circuit evaluation of the || operator.
         boolean isSwiftScalarType = property.isInteger || property.isLong || property.isFloat
                 || property.isDouble || property.isBoolean;
         if ((!property.required || property.isNullable) && isSwiftScalarType) {

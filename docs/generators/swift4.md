@@ -13,7 +13,6 @@ sidebar_label: swift4
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |projectName|Project name in Xcode| |null|
 |responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift are available.| |null|
-|unwrapRequired|Treat 'required' properties in response as non-optional (which would crash the app if api returns null as opposed to required option specified in json schema| |null|
 |objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
 |podSource|Source information used for Podspec| |null|
 |podVersion|Version used for Podspec| |null|
