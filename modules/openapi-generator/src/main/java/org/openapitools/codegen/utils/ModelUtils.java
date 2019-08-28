@@ -896,6 +896,8 @@ public class ModelUtils {
     public static String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         List<Schema> interfaces = getInterfaces(composedSchema);
 
+        List<String> refedParentNames = new ArrayList<>();
+
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
                 // get the actual schema
@@ -911,11 +913,19 @@ public class ModelUtils {
                     } else {
                         LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
                         // not a parent since discriminator.propertyName is not set
+                        refedParentNames.add(parentName);
                     }
                 } else {
                     // not a ref, doing nothing
                 }
             }
+        }
+
+        // parent name only makes sense when there is a single obvious parent
+        if (refedParentNames.size() == 1) {
+            LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
+                    "and will be removed in a future release. Generating model for {}", composedSchema.getName());
+            return refedParentNames.get(0);
         }
 
         return null;
