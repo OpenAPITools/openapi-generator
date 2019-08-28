@@ -38,7 +38,7 @@ public class Pet  implements Serializable {
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
   @JsonProperty(JSON_PROPERTY_CATEGORY)
-  private Category category = null;
+  private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)

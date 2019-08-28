@@ -8,7 +8,6 @@ extern crate mime;
 extern crate chrono;
 extern crate percent_encoding;
 extern crate url;
-extern crate uuid;
 extern crate multipart;
 
 use std::sync::Arc;

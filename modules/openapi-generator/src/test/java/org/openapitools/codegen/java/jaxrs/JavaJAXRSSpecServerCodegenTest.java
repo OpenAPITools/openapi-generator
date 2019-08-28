@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+
 /**
  * Unit-Test for {@link org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen}.
  *
@@ -204,6 +206,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
+        validateJavaSourceFiles(generatedFiles);
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/openapi/openapi.yaml");
 
         output.deleteOnExit();
@@ -228,6 +231,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
+        validateJavaSourceFiles(generatedFiles);
         TestUtils.ensureDoesNotContainsFile(generatedFiles, output, "src/main/openapi/openapi.yaml");
 
         output.deleteOnExit();
@@ -252,6 +256,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
+        validateJavaSourceFiles(generatedFiles);
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/resources/META-INF/openapi.yaml");
 
         output.deleteOnExit();
@@ -276,6 +281,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
+        validateJavaSourceFiles(generatedFiles);
         TestUtils.ensureContainsFile(generatedFiles, output, "openapi.yml");
 
         output.deleteOnExit();

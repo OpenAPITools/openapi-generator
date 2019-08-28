@@ -2659,11 +2659,13 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
-            if (getContentType(requestBody) != null &&
-                    (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                            getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data"))) {
+            String contentType = getContentType(requestBody);
+            if (contentType != null &&
+                    (contentType.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                            contentType.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
+                op.isMultipart = contentType.toLowerCase(Locale.ROOT).startsWith("multipart");
                 for (CodegenParameter cp : formParams) {
                     postProcessParameter(cp);
                 }
@@ -4463,8 +4465,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         for (String consume : consumesInfo) {
             if (consume != null &&
-                    consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                    consume.toLowerCase(Locale.ROOT).startsWith("multipart/form-data")) {
+                (consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                consume.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
                 return true;
             }
         }
@@ -4907,7 +4909,7 @@ public class DefaultCodegen implements CodegenConfig {
                             LOGGER.warn("The following schema has undefined (null) baseType. " +
                                     "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
                                     "A correct 'consumes' for form parameters should be " +
-                                    "'application/x-www-form-urlencoded' or 'multipart/form-data'");
+                                    "'application/x-www-form-urlencoded' or 'multipart/?'");
                             LOGGER.warn("schema: " + schema);
                             LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
                             codegenModelName = "UNKNOWN_BASE_TYPE";
@@ -5018,11 +5020,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void generateJSONSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if (openAPI != null) {
-            try {
-                objs.put("openapi-json", Json.pretty().writeValueAsString(openAPI).replace("\r\n", "\n"));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
+            objs.put("openapi-json", SerializerUtils.toJsonString(openAPI));
         }
     }
 

@@ -52,7 +52,9 @@ public class TypeHolderExample {
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+
   public TypeHolderExample stringItem(String stringItem) {
+    
     this.stringItem = stringItem;
     return this;
   }
@@ -62,15 +64,20 @@ public class TypeHolderExample {
    * @return stringItem
   **/
   @ApiModelProperty(example = "what", required = true, value = "")
+
   public String getStringItem() {
     return stringItem;
   }
+
+
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
+
   public TypeHolderExample numberItem(BigDecimal numberItem) {
+    
     this.numberItem = numberItem;
     return this;
   }
@@ -80,15 +87,20 @@ public class TypeHolderExample {
    * @return numberItem
   **/
   @ApiModelProperty(example = "1.234", required = true, value = "")
+
   public BigDecimal getNumberItem() {
     return numberItem;
   }
+
+
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
+
   public TypeHolderExample integerItem(Integer integerItem) {
+    
     this.integerItem = integerItem;
     return this;
   }
@@ -98,15 +110,20 @@ public class TypeHolderExample {
    * @return integerItem
   **/
   @ApiModelProperty(example = "-2", required = true, value = "")
+
   public Integer getIntegerItem() {
     return integerItem;
   }
+
+
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
+
   public TypeHolderExample boolItem(Boolean boolItem) {
+    
     this.boolItem = boolItem;
     return this;
   }
@@ -116,15 +133,20 @@ public class TypeHolderExample {
    * @return boolItem
   **/
   @ApiModelProperty(example = "true", required = true, value = "")
+
   public Boolean isBoolItem() {
     return boolItem;
   }
+
+
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
+
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
+    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -139,9 +161,12 @@ public class TypeHolderExample {
    * @return arrayItem
   **/
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
+
+
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;

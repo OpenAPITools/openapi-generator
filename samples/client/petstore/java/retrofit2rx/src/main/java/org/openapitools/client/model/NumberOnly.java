@@ -34,7 +34,9 @@ public class NumberOnly {
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
   private BigDecimal justNumber;
 
+
   public NumberOnly justNumber(BigDecimal justNumber) {
+    
     this.justNumber = justNumber;
     return this;
   }
@@ -45,9 +47,12 @@ public class NumberOnly {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public BigDecimal getJustNumber() {
     return justNumber;
   }
+
+
 
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;

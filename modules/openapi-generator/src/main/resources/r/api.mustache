@@ -291,6 +291,22 @@
         {{! Returning the ApiResponse object with NULL object when the endpoint doesn't return anything}}
         ApiResponse$new(NULL, resp)
         {{/returnType}}
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+      {{#returnExceptionOnFailure}}
+        errorMsg <- toString(content(resp))
+        if(errorMsg == ""){
+          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        }
+        {{#useDefaultExceptionHandling}}
+        stop(errorMsg)
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        {{/useRlangExceptionHandling}}
+      {{/returnExceptionOnFailure}}
+      {{^returnExceptionOnFailure}}
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+      {{/returnExceptionOnFailure}}
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
       {{#returnExceptionOnFailure}}
         errorMsg <- toString(content(resp))

@@ -15,9 +15,11 @@ import { exists, mapValues } from '../runtime';
 import {
     Category,
     CategoryFromJSON,
+    CategoryFromJSONTyped,
     CategoryToJSON,
     Tag,
     TagFromJSON,
+    TagFromJSONTyped,
     TagToJSON,
 } from './';
 
@@ -66,7 +68,15 @@ export interface Pet {
 }
 
 export function PetFromJSON(json: any): Pet {
+    return PetFromJSONTyped(json, false);
+}
+
+export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
     return {
+        
         'id': !exists(json, 'id') ? undefined : json['id'],
         'category': !exists(json, 'category') ? undefined : CategoryFromJSON(json['category']),
         'name': json['name'],
@@ -80,7 +90,11 @@ export function PetToJSON(value?: Pet): any {
     if (value === undefined) {
         return undefined;
     }
+    if (value === null) {
+        return null;
+    }
     return {
+        
         'id': value.id,
         'category': CategoryToJSON(value.category),
         'name': value.name,
