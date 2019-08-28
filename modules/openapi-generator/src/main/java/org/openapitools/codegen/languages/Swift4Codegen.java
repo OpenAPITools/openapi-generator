@@ -41,7 +41,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
-    public static final String UNWRAP_REQUIRED = "unwrapRequired";
     public static final String OBJC_COMPATIBLE = "objcCompatible";
     public static final String POD_SOURCE = "podSource";
     public static final String POD_AUTHORS = "podAuthors";
@@ -209,10 +208,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 "Optionally use libraries to manage response.  Currently "
                         + StringUtils.join(RESPONSE_LIBRARIES, ", ")
                         + " are available."));
-        cliOptions.add(new CliOption(UNWRAP_REQUIRED,
-                "Treat 'required' properties in response as non-optional "
-                        + "(which would crash the app if api returns null as opposed "
-                        + "to required option specified in json schema"));
         cliOptions.add(new CliOption(OBJC_COMPATIBLE,
                 "Add additional properties and methods for Objective-C "
                         + "compatibility (default: false)"));
@@ -329,13 +324,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put(PROJECT_NAME, projectName);
         }
         sourceFolder = projectName + File.separator + sourceFolder;
-
-        // Setup unwrapRequired option, which makes all the
-        // properties with "required" non-optional
-        if (additionalProperties.containsKey(UNWRAP_REQUIRED)) {
-            setUnwrapRequired(convertPropertyToBooleanAndWriteBack(UNWRAP_REQUIRED));
-        }
-        additionalProperties.put(UNWRAP_REQUIRED, unwrapRequired);
 
         // Setup objcCompatible option, which adds additional properties
         // and methods for Objective-C compatibility
@@ -712,10 +700,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         this.projectName = projectName;
     }
 
-    public void setUnwrapRequired(boolean unwrapRequired) {
-        this.unwrapRequired = unwrapRequired;
-    }
-
     public void setObjcCompatible(boolean objcCompatible) {
         this.objcCompatible = objcCompatible;
     }
@@ -875,10 +859,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         //
         // We can drop the check for unwrapRequired in (unwrapRequired && !property.required)
         // due to short-circuit evaluation of the || operator.
-        boolean isSwiftOptional = !unwrapRequired || !property.required;
         boolean isSwiftScalarType = property.isInteger || property.isLong || property.isFloat
                 || property.isDouble || property.isBoolean;
-        if (isSwiftOptional && isSwiftScalarType) {
+        if ((!property.required || property.isNullable) && isSwiftScalarType) {
             // Optional scalar types like Int?, Int64?, Float?, Double?, and Bool?
             // do not translate to Objective-C. So we want to flag those
             // properties in case we want to put special code in the templates

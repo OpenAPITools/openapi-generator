@@ -11,7 +11,7 @@ import Foundation
 
 public struct Name: Codable {
 
-    public var name: Int?
+    public var name: Int
     public var snakeCase: Int?
     public var property: String?
     public var _123number: Int?

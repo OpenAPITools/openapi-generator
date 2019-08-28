@@ -59,7 +59,6 @@ public class Swift4OptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(Swift4Codegen.PROJECT_NAME, PROJECT_NAME_VALUE)
                 .put(Swift4Codegen.RESPONSE_AS, RESPONSE_AS_VALUE)
-                .put(Swift4Codegen.UNWRAP_REQUIRED, UNWRAP_REQUIRED_VALUE)
                 .put(Swift4Codegen.OBJC_COMPATIBLE, OBJC_COMPATIBLE_VALUE)
                 .put(Swift4Codegen.LENIENT_TYPE_CAST, LENIENT_TYPE_CAST_VALUE)
                 .put(Swift4Codegen.POD_SOURCE, POD_SOURCE_VALUE)
