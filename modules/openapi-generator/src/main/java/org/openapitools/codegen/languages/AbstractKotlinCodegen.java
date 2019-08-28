@@ -273,7 +273,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     /**
      * Sets the serialization engine for Kotlin
      *
-     * @param enumSerializationLibrary The string representation of the serialization library as defined by {@link CodegenConstants.SERIALIZATION_LIBRARY_TYPE}
+     * @param enumSerializationLibrary The string representation of the serialization library as defined by {@link org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY_TYPE}
      */
     public void setSerializationLibrary(final String enumSerializationLibrary) {
         try {
