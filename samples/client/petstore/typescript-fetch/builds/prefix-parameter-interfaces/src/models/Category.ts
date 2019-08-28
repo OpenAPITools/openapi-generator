@@ -33,7 +33,15 @@ export interface Category {
 }
 
 export function CategoryFromJSON(json: any): Category {
+    return CategoryFromJSONTyped(json, false);
+}
+
+export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): Category {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
     return {
+        
         'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
     };
@@ -43,7 +51,11 @@ export function CategoryToJSON(value?: Category): any {
     if (value === undefined) {
         return undefined;
     }
+    if (value === null) {
+        return null;
+    }
     return {
+        
         'id': value.id,
         'name': value.name,
     };

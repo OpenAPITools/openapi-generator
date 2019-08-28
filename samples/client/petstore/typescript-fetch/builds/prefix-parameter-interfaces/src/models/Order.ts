@@ -57,7 +57,15 @@ export interface Order {
 }
 
 export function OrderFromJSON(json: any): Order {
+    return OrderFromJSONTyped(json, false);
+}
+
+export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
     return {
+        
         'id': !exists(json, 'id') ? undefined : json['id'],
         'petId': !exists(json, 'petId') ? undefined : json['petId'],
         'quantity': !exists(json, 'quantity') ? undefined : json['quantity'],
@@ -71,7 +79,11 @@ export function OrderToJSON(value?: Order): any {
     if (value === undefined) {
         return undefined;
     }
+    if (value === null) {
+        return null;
+    }
     return {
+        
         'id': value.id,
         'petId': value.petId,
         'quantity': value.quantity,
