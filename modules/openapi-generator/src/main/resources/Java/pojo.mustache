@@ -1,6 +1,13 @@
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
+{{#jackson}}
+@JsonPropertyOrder({
+{{#vars}}
+  {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}},
+{{/vars}}
+})
+{{/jackson}}
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcelableModel}}implements Parcelable {{#serializableModel}}, Serializable {{/serializableModel}}{{/parcelableModel}}{{^parcelableModel}}{{#serializableModel}}implements Serializable {{/serializableModel}}{{/parcelableModel}}{
