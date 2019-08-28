@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**SpecialPropertyName** | Pointer to **int64** |  | [optional]
+**SpecialPropertyName** | Pointer to **int64** |  | [optional] 
 
 ## Methods
 

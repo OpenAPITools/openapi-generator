@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Return** | Pointer to **int32** |  | [optional]
+**Return** | Pointer to **int32** |  | [optional] 
 
 ## Methods
 

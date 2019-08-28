@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ArrayOfString** | Pointer to **[]string** |  | [optional]
-**ArrayArrayOfInteger** | Pointer to [**[][]int64**](array.md) |  | [optional]
-**ArrayArrayOfModel** | Pointer to [**[][]ReadOnlyFirst**](array.md) |  | [optional]
+**ArrayOfString** | Pointer to **[]string** |  | [optional] 
+**ArrayArrayOfInteger** | Pointer to [**[][]int64**](array.md) |  | [optional] 
+**ArrayArrayOfModel** | Pointer to [**[][]ReadOnlyFirst**](array.md) |  | [optional] 
 
 ## Methods
 
