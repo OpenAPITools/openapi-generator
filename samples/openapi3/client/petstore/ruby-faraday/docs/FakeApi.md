@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 
 
 
@@ -682,5 +683,58 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
+
+
+## test_query_parameter_collection_format
+
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+
+```ruby
+# load the gem
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+pipe = ['pipe_example'] # Array<String> | 
+ioutil = ['ioutil_example'] # Array<String> | 
+http = ['http_example'] # Array<String> | 
+url = ['url_example'] # Array<String> | 
+context = ['context_example'] # Array<String> | 
+
+begin
+  api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->test_query_parameter_collection_format: #{e}"
+end
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**Array&lt;String&gt;**](String.md)|  | 
+ **ioutil** | [**Array&lt;String&gt;**](String.md)|  | 
+ **http** | [**Array&lt;String&gt;**](String.md)|  | 
+ **url** | [**Array&lt;String&gt;**](String.md)|  | 
+ **context** | [**Array&lt;String&gt;**](String.md)|  | 
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 

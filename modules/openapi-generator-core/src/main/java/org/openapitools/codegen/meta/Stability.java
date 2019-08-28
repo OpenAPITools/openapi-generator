@@ -50,4 +50,14 @@ public enum Stability {
      * @return The descriptive value of this enum.
      */
     public String value() { return description; }
+
+    public static Stability forDescription(String description) {
+        for (Stability value: values()) {
+            if (value.description.equals(description)) {
+                return value;
+            }
+        }
+
+        throw new IllegalArgumentException("description not found in the available values.");
+    }
 }

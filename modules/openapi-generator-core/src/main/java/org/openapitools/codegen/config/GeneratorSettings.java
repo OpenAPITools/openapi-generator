@@ -52,6 +52,7 @@ public final class GeneratorSettings implements Serializable {
     private ImmutableMap<String, String> importMappings;
     private ImmutableSet<String> languageSpecificPrimitives;
     private ImmutableMap<String, String> reservedWordMappings;
+    private ImmutableMap<String, String> serverVariables;
 
     private String gitUserId;
     private String gitRepoId;
@@ -245,6 +246,17 @@ public final class GeneratorSettings implements Serializable {
         return reservedWordMappings;
     }
 
+
+    /**
+     * Gets server variable. Values defined here will be attempted to be replaced within a templated server object.
+     *
+     * @return the server variables
+     */
+    public Map<String, String> getServerVariables() {
+        return serverVariables;
+    }
+
+
     /**
      * Gets git user id. e.g. <strong>openapitools</strong>.
      * <p>
@@ -311,6 +323,7 @@ public final class GeneratorSettings implements Serializable {
         importMappings = ImmutableMap.copyOf(builder.importMappings);
         languageSpecificPrimitives = ImmutableSet.copyOf(builder.languageSpecificPrimitives);
         reservedWordMappings = ImmutableMap.copyOf(builder.reservedWordMappings);
+        serverVariables = ImmutableMap.copyOf(builder.serverVariables);
         gitUserId = builder.gitUserId;
         gitRepoId = builder.gitRepoId;
         releaseNote = builder.releaseNote;
@@ -373,6 +386,7 @@ public final class GeneratorSettings implements Serializable {
         importMappings = ImmutableMap.of();
         languageSpecificPrimitives = ImmutableSet.of();
         reservedWordMappings = ImmutableMap.of();
+        serverVariables = ImmutableMap.of();
     }
 
     private void setDefaults() {
@@ -394,12 +408,6 @@ public final class GeneratorSettings implements Serializable {
         return new Builder();
     }
 
-    /**
-     * New builder builder.
-     *
-     * @param copy the copy
-     * @return the builder
-     */
     public static Builder newBuilder(GeneratorSettings copy) {
         Builder builder = new Builder();
         builder.generatorName = copy.getGeneratorName();
@@ -413,12 +421,27 @@ public final class GeneratorSettings implements Serializable {
         builder.artifactId = copy.getArtifactId();
         builder.artifactVersion = copy.getArtifactVersion();
         builder.library = copy.getLibrary();
-        builder.instantiationTypes = new HashMap<>(copy.getInstantiationTypes());
-        builder.typeMappings = new HashMap<>(copy.getTypeMappings());
-        builder.additionalProperties = new HashMap<>(copy.getAdditionalProperties());
-        builder.importMappings = new HashMap<>(copy.getImportMappings());
-        builder.languageSpecificPrimitives = new HashSet<>(copy.getLanguageSpecificPrimitives());
-        builder.reservedWordMappings = new HashMap<>(copy.getReservedWordMappings());
+        if (copy.getInstantiationTypes() != null) {
+            builder.instantiationTypes.putAll(copy.getInstantiationTypes());
+        }
+        if (copy.getTypeMappings() != null) {
+            builder.typeMappings.putAll(copy.getTypeMappings());
+        }
+        if (copy.getAdditionalProperties() != null) {
+            builder.additionalProperties.putAll(copy.getAdditionalProperties());
+        }
+        if (copy.getImportMappings() != null) {
+            builder.importMappings.putAll(copy.getImportMappings());
+        }
+        if (copy.getLanguageSpecificPrimitives() != null) {
+            builder.languageSpecificPrimitives.addAll(copy.getLanguageSpecificPrimitives());
+        }
+        if (copy.getReservedWordMappings() != null) {
+            builder.reservedWordMappings.putAll(copy.getReservedWordMappings());
+        }
+        if (copy.getServerVariables() != null) {
+            builder.serverVariables.putAll(copy.getServerVariables());
+        }
         builder.gitUserId = copy.getGitUserId();
         builder.gitRepoId = copy.getGitRepoId();
         builder.releaseNote = copy.getReleaseNote();
@@ -449,6 +472,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> importMappings;
         private Set<String> languageSpecificPrimitives;
         private Map<String, String> reservedWordMappings;
+        private Map<String, String> serverVariables;
         private String gitUserId;
         private String gitRepoId;
         private String releaseNote;
@@ -464,6 +488,7 @@ public final class GeneratorSettings implements Serializable {
             importMappings = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             reservedWordMappings = new HashMap<>();
+            serverVariables = new HashMap<>();
 
             gitUserId = DEFAULT_GIT_USER_ID;
             gitRepoId = DEFAULT_GIT_REPO_ID;
@@ -618,6 +643,17 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code serverVariables} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param serverVariables the {@code serverVariables} to set
+         * @return a reference to this Builder
+         */
+        public Builder withServerVariables(Map<String, String> serverVariables) {
+            this.serverVariables = serverVariables;
+            return this;
+        }
+
+        /**
          * Sets the {@code typeMappings} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param typeMappings the {@code typeMappings} to set
@@ -728,6 +764,22 @@ public final class GeneratorSettings implements Serializable {
                 this.reservedWordMappings = new HashMap<>();
             }
             this.reservedWordMappings.put(key, value);
+            return this;
+        }
+
+
+        /**
+         * Sets a single {@code serverVariables} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for some server variable
+         * @param value The value of some server variable to be replaced in a templated server object.
+         * @return a reference to this Builder
+         */
+        public Builder withServerVariable(String key, String value) {
+            if (this.serverVariables == null) {
+                this.serverVariables = new HashMap<>();
+            }
+            this.serverVariables.put(key, value);
             return this;
         }
 

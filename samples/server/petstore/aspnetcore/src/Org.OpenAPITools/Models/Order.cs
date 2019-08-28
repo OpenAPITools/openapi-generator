@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         /// <value>Order Status</value>
         [DataMember(Name="status", EmitDefaultValue=false)]
-        public StatusEnum? Status { get; set; }
+        public StatusEnum Status { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete

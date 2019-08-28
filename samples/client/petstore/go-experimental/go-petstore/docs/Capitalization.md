@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**SmallCamel** | Pointer to **string** |  | [optional]
-**CapitalCamel** | Pointer to **string** |  | [optional]
-**SmallSnake** | Pointer to **string** |  | [optional]
-**CapitalSnake** | Pointer to **string** |  | [optional]
-**SCAETHFlowPoints** | Pointer to **string** |  | [optional]
-**ATT_NAME** | Pointer to **string** | Name of the pet  | [optional]
+**SmallCamel** | Pointer to **string** |  | [optional] 
+**CapitalCamel** | Pointer to **string** |  | [optional] 
+**SmallSnake** | Pointer to **string** |  | [optional] 
+**CapitalSnake** | Pointer to **string** |  | [optional] 
+**SCAETHFlowPoints** | Pointer to **string** |  | [optional] 
+**ATT_NAME** | Pointer to **string** | Name of the pet  | [optional] 
 
 ## Methods
 

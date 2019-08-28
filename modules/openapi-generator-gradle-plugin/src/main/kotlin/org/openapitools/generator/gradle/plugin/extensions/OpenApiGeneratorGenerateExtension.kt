@@ -121,6 +121,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val additionalProperties = project.objects.property<Map<String, String>>()
 
     /**
+     * Sets server variable for server URL template substitution, in the format of name=value,name=value.
+     */
+    val serverVariables = project.objects.property<Map<String, String>>()
+
+    /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
      */
     val languageSpecificPrimitives = project.objects.listProperty<String>()

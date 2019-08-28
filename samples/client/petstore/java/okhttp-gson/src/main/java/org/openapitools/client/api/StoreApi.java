@@ -68,7 +68,7 @@ public class StoreApi {
      </table>
      */
     public okhttp3.Call deleteOrderCall(String orderId, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = new Object();
+        Object localVarPostBody = null;
 
         // create path and map variables
         String localVarPath = "/store/order/{order_id}"
@@ -176,7 +176,7 @@ public class StoreApi {
      </table>
      */
     public okhttp3.Call getInventoryCall(final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = new Object();
+        Object localVarPostBody = null;
 
         // create path and map variables
         String localVarPath = "/store/inventory";
@@ -279,7 +279,7 @@ public class StoreApi {
      </table>
      */
     public okhttp3.Call getOrderByIdCall(Long orderId, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = new Object();
+        Object localVarPostBody = null;
 
         // create path and map variables
         String localVarPath = "/store/order/{order_id}"

@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -31,55 +32,41 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "User")
 public class User {
-  public static final String JSON_PROPERTY_ID = "id";
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
-  public static final String JSON_PROPERTY_USERNAME = "username";
-  @JsonProperty(JSON_PROPERTY_USERNAME)
-  @JacksonXmlProperty(localName = "username")
   @XmlElement(name = "username")
+  public static final String JSON_PROPERTY_USERNAME = "username";
   private String username;
 
-  public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
-  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
-  @JacksonXmlProperty(localName = "firstName")
   @XmlElement(name = "firstName")
+  public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
   private String firstName;
 
-  public static final String JSON_PROPERTY_LAST_NAME = "lastName";
-  @JsonProperty(JSON_PROPERTY_LAST_NAME)
-  @JacksonXmlProperty(localName = "lastName")
   @XmlElement(name = "lastName")
+  public static final String JSON_PROPERTY_LAST_NAME = "lastName";
   private String lastName;
 
-  public static final String JSON_PROPERTY_EMAIL = "email";
-  @JsonProperty(JSON_PROPERTY_EMAIL)
-  @JacksonXmlProperty(localName = "email")
   @XmlElement(name = "email")
+  public static final String JSON_PROPERTY_EMAIL = "email";
   private String email;
 
-  public static final String JSON_PROPERTY_PASSWORD = "password";
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
-  @JacksonXmlProperty(localName = "password")
   @XmlElement(name = "password")
+  public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
 
-  public static final String JSON_PROPERTY_PHONE = "phone";
-  @JsonProperty(JSON_PROPERTY_PHONE)
-  @JacksonXmlProperty(localName = "phone")
   @XmlElement(name = "phone")
+  public static final String JSON_PROPERTY_PHONE = "phone";
   private String phone;
 
-  public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
-  @JsonProperty(JSON_PROPERTY_USER_STATUS)
-  @JacksonXmlProperty(localName = "userStatus")
   @XmlElement(name = "userStatus")
+  public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private Integer userStatus;
 
+
   public User id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -90,15 +77,23 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
+
   public Long getId() {
     return id;
   }
+
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public User username(String username) {
+    
     this.username = username;
     return this;
   }
@@ -109,15 +104,23 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "username")
+
   public String getUsername() {
     return username;
   }
+
+
 
   public void setUsername(String username) {
     this.username = username;
   }
 
+
   public User firstName(String firstName) {
+    
     this.firstName = firstName;
     return this;
   }
@@ -128,15 +131,23 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "firstName")
+
   public String getFirstName() {
     return firstName;
   }
+
+
 
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
+
   public User lastName(String lastName) {
+    
     this.lastName = lastName;
     return this;
   }
@@ -147,15 +158,23 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "lastName")
+
   public String getLastName() {
     return lastName;
   }
+
+
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
 
+
   public User email(String email) {
+    
     this.email = email;
     return this;
   }
@@ -166,15 +185,23 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_EMAIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "email")
+
   public String getEmail() {
     return email;
   }
+
+
 
   public void setEmail(String email) {
     this.email = email;
   }
 
+
   public User password(String password) {
+    
     this.password = password;
     return this;
   }
@@ -185,15 +212,23 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "password")
+
   public String getPassword() {
     return password;
   }
+
+
 
   public void setPassword(String password) {
     this.password = password;
   }
 
+
   public User phone(String phone) {
+    
     this.phone = phone;
     return this;
   }
@@ -204,15 +239,23 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PHONE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "phone")
+
   public String getPhone() {
     return phone;
   }
+
+
 
   public void setPhone(String phone) {
     this.phone = phone;
   }
 
+
   public User userStatus(Integer userStatus) {
+    
     this.userStatus = userStatus;
     return this;
   }
@@ -223,9 +266,15 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "User Status")
+  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "userStatus")
+
   public Integer getUserStatus() {
     return userStatus;
   }
+
+
 
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
