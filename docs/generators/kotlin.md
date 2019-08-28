@@ -14,7 +14,7 @@ sidebar_label: kotlin
 |artifactId|Generated artifact id (name of jar).| |kotlin-client|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |dateLibrary|Option. Date library to use|<dl><dt>**string**</dt><dd>String</dd><dt>**java8**</dt><dd>Java 8 native JSR310</dd><dt>**threetenbp**</dt><dd>Threetenbp</dd><dl>|java8|
 |collectionType|Option. Collection type to use|<dl><dt>**array**</dt><dd>kotlin.Array</dd><dt>**list**</dt><dd>kotlin.collections.List</dd><dl>|array|
-|serializationLibrary|Option. JSON serialization library to use|<dl><dt>**moshi**</dt><dd>https://github.com/square/moshi</dd><dt>**gson**</dt><dd>https://github.com/google/gson</dd><dl>|moshi|
