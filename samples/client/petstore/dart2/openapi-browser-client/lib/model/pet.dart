@@ -65,5 +65,16 @@ class Pet {
     }
     return map;
   }
+
+  // maps a json object with a list of Pet-objects as value to a dart map
+  static Map<String, List<Pet>> mapListFromJson(Map<String, dynamic> json) {
+    var map = Map<String, List<Pet>>();
+     if (json != null && json.isNotEmpty) {
+       json.forEach((String key, dynamic value) {
+         map[key] = Pet.listFromJson(value);
+       });
+     }
+     return map;
+  }
 }
 

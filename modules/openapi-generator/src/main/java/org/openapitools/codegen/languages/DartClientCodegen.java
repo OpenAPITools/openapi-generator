@@ -62,7 +62,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
-        embeddedTemplateDir = templateDir = "dart";
+        embeddedTemplateDir = templateDir = "dart2";
         apiPackage = "lib.api";
         modelPackage = "lib.model";
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
@@ -124,7 +124,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "Support Dart 2.x").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "Support Dart 2.x (Dart 1.x support has been deprecated)").defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -139,7 +139,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart (1.x or 2.x) client library.";
+        return "Generates a Dart (1.x (deprecated) or 2.x) client library.";
     }
 
     @Override
