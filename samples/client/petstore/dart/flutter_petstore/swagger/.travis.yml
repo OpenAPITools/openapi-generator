@@ -3,7 +3,7 @@
 language: dart
 dart:
 # Install a specific stable release
-- "2.2.0"
+- "1.24.3"
 install:
 - pub get
 
