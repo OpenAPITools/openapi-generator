@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
 data class List (
     @Json(name = "123-list")
     val `123minusList`: kotlin.String? = null
-) {
+)
 
-}
 

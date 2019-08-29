@@ -23,7 +23,6 @@ data class Category (
     val name: kotlin.String,
     @Json(name = "id")
     val id: kotlin.Long? = null
-) {
+)
 
-}
 

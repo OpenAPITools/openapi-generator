@@ -26,7 +26,6 @@ data class ApiResponse (
     val type: kotlin.String? = null,
     @Json(name = "message")
     val message: kotlin.String? = null
-) {
+)
 
-}
 

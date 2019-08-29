@@ -23,7 +23,6 @@ data class ReadOnlyFirst (
     val bar: kotlin.String? = null,
     @Json(name = "baz")
     val baz: kotlin.String? = null
-) {
+)
 
-}
 

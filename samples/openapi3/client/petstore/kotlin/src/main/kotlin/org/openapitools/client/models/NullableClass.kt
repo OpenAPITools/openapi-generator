@@ -53,7 +53,6 @@ data class NullableClass (
     val objectAndItemsNullableProp: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null,
     @Json(name = "object_items_nullable")
     val objectItemsNullable: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
-) {
+)
 
-}
 
