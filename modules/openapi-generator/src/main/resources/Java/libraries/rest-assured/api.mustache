@@ -2,7 +2,12 @@
 
 package {{package}};
 
+{{#gson}}
 import com.google.gson.reflect.TypeToken;
+{{/gson}}
+{{#jackson}}
+import com.fasterxml.jackson.databind.type.TypeFactory;
+{{/jackson}}
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -24,8 +29,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 {{/fullJavaUtil}}
+{{#gson}}
 import {{invokerPackage}}.JSON;
-
+{{/gson}}
 import static io.restassured.http.Method.*;
 
 @Api(value = "{{{baseName}}}")
@@ -139,8 +145,11 @@ public class {{classname}} {
          * @return {{returnType}}
          */
         public {{{returnType}}} executeAs(Function<Response, Response> handler) {
-            Type type = new TypeToken<{{{returnType}}}>(){}.getType();
-            return execute(handler).as(type);
+            {{#gson}}Type type = new TypeToken<{{{returnType}}}>(){}.getType();
+            {{/gson}}{{#jackson}}{{#isListContainer}}Type type = TypeFactory.defaultInstance().constructCollectionLikeType(java.util.ArrayList.class, {{{returnBaseType}}}.class);
+            {{/isListContainer}}{{#isMapContainer}}Type type = TypeFactory.defaultInstance().constructMapLikeType(java.util.LinkedHashMap.class, String.class, {{{returnBaseType}}}.class);
+            {{/isMapContainer}}{{^isListContainer}}{{^isMapContainer}}Type type = {{{returnType}}}.class;
+            {{/isMapContainer}}{{/isListContainer}}{{/jackson}}return execute(handler).as(type);
         }
         {{/returnType}}
         {{#bodyParams}}

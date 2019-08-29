@@ -78,7 +78,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String RETROFIT_2 = "retrofit2";
     public static final String VERTX = "vertx";
 
-    public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
 
@@ -100,7 +99,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean caseInsensitiveResponseHeaders = false;
     protected String authFolder;
     protected String serializationLibrary = null;
-
 
     public JavaClientCodegen() {
         super();
@@ -145,7 +143,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.8.x");
         supportedLibraries.put(VERTX, "HTTP client: VertX client 3.x. JSON processing: Jackson 2.8.x");
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.8.x");
-        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x. Only for Java8");
+        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.8.x. Only for Java8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
@@ -155,7 +153,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(libraryOption);
         setLibrary(OKHTTP_GSON);
 
-        CliOption serializationLibrary = new CliOption(SERIALIZATION_LIBRARY, "Serialization library, default depends from the library");
+        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library, default depends from the library");
         Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_GSON, "Use Gson as serialization library");
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
@@ -295,8 +293,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     "BeanValidationException.java"));
         }
 
-        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY)) {
-            setSerializationLibrary(additionalProperties.get(SERIALIZATION_LIBRARY).toString());
+        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
+            setSerializationLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
         }
 
         //TODO: add doc to retrofit1 and feign
@@ -372,12 +370,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
 
         } else if (REST_ASSURED.equals(getLibrary())) {
-            forceSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
+            if(getSerializationLibrary() == null) {
+                LOGGER.info("No serializationLibrary configured, using '"+SERIALIZATION_LIBRARY_GSON+"' as fallback");
+                setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
+            }
+            if(SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
+                supportingFiles.add(new SupportingFile("JacksonObjectMapper.mustache", invokerFolder, "JacksonObjectMapper.java"));
+            } else if (SERIALIZATION_LIBRARY_GSON.equals(getSerializationLibrary())) {
+                supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+                supportingFiles.add(new SupportingFile("GsonObjectMapper.mustache", invokerFolder, "GsonObjectMapper.java"));
+            }
             additionalProperties.put("convert", new CaseFormatLambda(LOWER_CAMEL, UPPER_UNDERSCORE));
             apiTemplateFiles.put("api.mustache", ".java");
             supportingFiles.add(new SupportingFile("ResponseSpecBuilders.mustache", invokerFolder, "ResponseSpecBuilders.java"));
-            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
-            supportingFiles.add(new SupportingFile("GsonObjectMapper.mustache", invokerFolder, "GsonObjectMapper.java"));
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
