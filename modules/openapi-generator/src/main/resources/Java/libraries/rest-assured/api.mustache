@@ -5,9 +5,6 @@ package {{package}};
 {{#gson}}
 import com.google.gson.reflect.TypeToken;
 {{/gson}}
-{{#jackson}}
-import com.fasterxml.jackson.databind.type.TypeFactory;
-{{/jackson}}
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -20,6 +17,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+{{#jackson}}
+import io.restassured.common.mapper.TypeRef;
+{{/jackson}}
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.swagger.annotations.*;
@@ -146,10 +146,8 @@ public class {{classname}} {
          */
         public {{{returnType}}} executeAs(Function<Response, Response> handler) {
             {{#gson}}Type type = new TypeToken<{{{returnType}}}>(){}.getType();
-            {{/gson}}{{#jackson}}{{#isListContainer}}Type type = TypeFactory.defaultInstance().constructCollectionLikeType(java.util.ArrayList.class, {{{returnBaseType}}}.class);
-            {{/isListContainer}}{{#isMapContainer}}Type type = TypeFactory.defaultInstance().constructMapLikeType(java.util.LinkedHashMap.class, String.class, {{{returnBaseType}}}.class);
-            {{/isMapContainer}}{{^isListContainer}}{{^isMapContainer}}Type type = {{{returnType}}}.class;
-            {{/isMapContainer}}{{/isListContainer}}{{/jackson}}return execute(handler).as(type);
+            {{/gson}}{{#jackson}}TypeRef<{{{returnType}}}> type = new TypeRef<{{{returnType}}}>(){};
+            {{/jackson}}return execute(handler).as(type);
         }
         {{/returnType}}
         {{#bodyParams}}
