@@ -202,7 +202,10 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             // dart 2.x
             LOGGER.info("Dart version: 2.x");
-            embeddedTemplateDir = templateDir = "dart2";
+            // check to not overwrite a custom templateDir
+            if (templateDir == null) {
+                embeddedTemplateDir = templateDir = "dart2";
+            }
         }
 
         final String libFolder = sourceFolder + File.separator + "lib";
