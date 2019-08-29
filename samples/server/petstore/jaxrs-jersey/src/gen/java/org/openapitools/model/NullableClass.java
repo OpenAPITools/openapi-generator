@@ -24,12 +24,27 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * NullableClass
  */
+@JsonPropertyOrder({
+  NullableClass.JSON_PROPERTY_INTEGER_PROP,
+  NullableClass.JSON_PROPERTY_NUMBER_PROP,
+  NullableClass.JSON_PROPERTY_BOOLEAN_PROP,
+  NullableClass.JSON_PROPERTY_STRING_PROP,
+  NullableClass.JSON_PROPERTY_DATE_PROP,
+  NullableClass.JSON_PROPERTY_DATETIME_PROP,
+  NullableClass.JSON_PROPERTY_ARRAY_NULLABLE_PROP,
+  NullableClass.JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP,
+  NullableClass.JSON_PROPERTY_ARRAY_ITEMS_NULLABLE,
+  NullableClass.JSON_PROPERTY_OBJECT_NULLABLE_PROP,
+  NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
+  NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
+})
 
 public class NullableClass extends HashMap<String, Object>  {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";

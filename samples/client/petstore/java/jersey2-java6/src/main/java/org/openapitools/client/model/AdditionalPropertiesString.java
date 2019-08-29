@@ -22,10 +22,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * AdditionalPropertiesString
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesString.JSON_PROPERTY_NAME
+})
 
 public class AdditionalPropertiesString extends HashMap<String, String> {
   public static final String JSON_PROPERTY_NAME = "name";

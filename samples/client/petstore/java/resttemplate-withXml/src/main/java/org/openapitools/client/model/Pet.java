@@ -25,12 +25,21 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Pet
  */
+@JsonPropertyOrder({
+  Pet.JSON_PROPERTY_ID,
+  Pet.JSON_PROPERTY_CATEGORY,
+  Pet.JSON_PROPERTY_NAME,
+  Pet.JSON_PROPERTY_PHOTO_URLS,
+  Pet.JSON_PROPERTY_TAGS,
+  Pet.JSON_PROPERTY_STATUS
+})
 
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
