@@ -24,11 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Pet
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;

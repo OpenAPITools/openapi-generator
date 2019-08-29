@@ -21,11 +21,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Client
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   private String client;

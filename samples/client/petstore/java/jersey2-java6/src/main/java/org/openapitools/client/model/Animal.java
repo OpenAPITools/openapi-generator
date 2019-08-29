@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Animal
@@ -33,6 +34,7 @@ import io.swagger.annotations.ApiModelProperty;
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
 })
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;

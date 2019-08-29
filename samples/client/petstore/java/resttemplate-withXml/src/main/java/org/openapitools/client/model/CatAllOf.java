@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "CatAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "CatAllOf")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CatAllOf {
   @XmlElement(name = "declawed")
   public static final String JSON_PROPERTY_DECLAWED = "declawed";

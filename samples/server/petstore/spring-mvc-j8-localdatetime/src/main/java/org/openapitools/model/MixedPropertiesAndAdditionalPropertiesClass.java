@@ -14,11 +14,13 @@ import org.openapitools.model.Animal;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
   private UUID uuid;

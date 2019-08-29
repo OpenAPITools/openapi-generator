@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -32,6 +33,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "OuterComposite")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "OuterComposite")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OuterComposite {
   @XmlElement(name = "my_number")
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";

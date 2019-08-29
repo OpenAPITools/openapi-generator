@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -29,6 +30,7 @@ import javax.validation.Valid;
  */
 @ApiModel(description = "Model for testing model name same as property name")
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;

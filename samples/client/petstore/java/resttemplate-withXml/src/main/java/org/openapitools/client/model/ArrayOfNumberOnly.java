@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "ArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayOfNumberOnly")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrayOfNumberOnly {
   // Is a container wrapped=false
   // items.name=arrayNumber items.baseName=arrayNumber items.xmlName= items.xmlNamespace=

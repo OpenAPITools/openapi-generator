@@ -51,6 +51,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String WITH_XML = "withXml";
     public static final String SUPPORT_JAVA6 = "supportJava6";
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
+    public static final String DISABLE_ADDITIONAL_FIELDS_ANNOTATION = "disableAdditionalFieldsAnnotation";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
 
     protected String dateLibrary = "threetenbp";
@@ -84,6 +85,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String modelDocPath = "docs/";
     protected boolean supportJava6 = false;
     protected boolean disableHtmlEscaping = false;
+    protected boolean disableAdditionalFieldsAnnotation = false;
     protected String booleanGetterPrefix = "get";
     protected String parentGroupId = "";
     protected String parentArtifactId = "";
@@ -181,6 +183,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(java8Mode);
 
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)", disableHtmlEscaping));
+        cliOptions.add(CliOption.newBoolean(DISABLE_ADDITIONAL_FIELDS_ANNOTATION, "Disables the @JsonIgnoreProperties(ignoreUnknown = true) annotation.", disableAdditionalFieldsAnnotation));
         cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix").defaultValue(this.getBooleanGetterPrefix()));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
@@ -213,6 +216,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setDisableHtmlEscaping(Boolean.valueOf(additionalProperties.get(DISABLE_HTML_ESCAPING).toString()));
         }
         additionalProperties.put(DISABLE_HTML_ESCAPING, disableHtmlEscaping);
+
+        if (additionalProperties.containsKey(DISABLE_ADDITIONAL_FIELDS_ANNOTATION)) {
+            this.setDisableAdditionalFieldsAnnotation(Boolean.valueOf(additionalProperties.get(DISABLE_ADDITIONAL_FIELDS_ANNOTATION).toString()));
+        }
+        additionalProperties.put(DISABLE_ADDITIONAL_FIELDS_ANNOTATION, disableAdditionalFieldsAnnotation);
 
         if (additionalProperties.containsKey(BOOLEAN_GETTER_PREFIX)) {
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
@@ -1386,6 +1394,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setDisableHtmlEscaping(boolean disabled) {
         this.disableHtmlEscaping = disabled;
+    }
+
+    public void setDisableAdditionalFieldsAnnotation(boolean disabled) {
+        this.disableAdditionalFieldsAnnotation = disabled;
     }
 
     public String getBooleanGetterPrefix() {

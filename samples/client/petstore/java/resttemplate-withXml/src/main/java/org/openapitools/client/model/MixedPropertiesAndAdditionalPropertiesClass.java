@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -37,6 +38,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "MixedPropertiesAndAdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "MixedPropertiesAndAdditionalPropertiesClass")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MixedPropertiesAndAdditionalPropertiesClass {
   @XmlElement(name = "uuid")
   public static final String JSON_PROPERTY_UUID = "uuid";

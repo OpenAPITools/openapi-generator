@@ -12,11 +12,13 @@ import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * AdditionalPropertiesClass
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
   @Valid

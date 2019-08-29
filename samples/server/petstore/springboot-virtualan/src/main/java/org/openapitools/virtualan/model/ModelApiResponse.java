@@ -8,11 +8,13 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * ModelApiResponse
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ModelApiResponse   {
   @JsonProperty("code")
   private Integer code;

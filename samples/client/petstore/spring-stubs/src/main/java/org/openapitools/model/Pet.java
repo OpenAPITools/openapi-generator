@@ -13,12 +13,14 @@ import org.openapitools.model.Tag;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * A pet for sale in the pet store
  */
 @ApiModel(description = "A pet for sale in the pet store")
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pet   {
   @JsonProperty("id")
   private Long id;

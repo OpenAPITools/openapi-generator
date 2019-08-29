@@ -8,11 +8,13 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * SpecialModelName
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
   private Long $specialPropertyName;

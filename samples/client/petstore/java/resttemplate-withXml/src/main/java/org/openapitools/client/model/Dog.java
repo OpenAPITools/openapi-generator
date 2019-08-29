@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.DogAllOf;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "Dog")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Dog")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Dog extends Animal {
   @XmlElement(name = "breed")
   public static final String JSON_PROPERTY_BREED = "breed";

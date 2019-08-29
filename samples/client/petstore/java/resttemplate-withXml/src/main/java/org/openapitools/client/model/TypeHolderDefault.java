@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "TypeHolderDefault")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "TypeHolderDefault")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TypeHolderDefault {
   @XmlElement(name = "string_item")
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";

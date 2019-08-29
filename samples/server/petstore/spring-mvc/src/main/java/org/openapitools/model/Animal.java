@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Animal
@@ -21,6 +22,7 @@ import javax.validation.constraints.*;
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
 })
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Animal   {
   @JsonProperty("className")
   private String className;

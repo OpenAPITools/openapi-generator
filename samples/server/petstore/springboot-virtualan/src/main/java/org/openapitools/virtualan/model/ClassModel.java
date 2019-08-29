@@ -8,12 +8,14 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
 @ApiModel(description = "Model for testing model with \"_class\" property")
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ClassModel   {
   @JsonProperty("_class")
   private String propertyClass;

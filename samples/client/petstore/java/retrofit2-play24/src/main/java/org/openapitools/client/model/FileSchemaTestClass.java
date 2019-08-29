@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -30,6 +31,7 @@ import javax.validation.Valid;
  * FileSchemaTestClass
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   private java.io.File file;

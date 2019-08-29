@@ -15,6 +15,9 @@ import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}
 {{#jackson}}
+{{^disableAdditionalFieldsAnnotation}}
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+{{/disableAdditionalFieldsAnnotation}}
 {{#withXml}}
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;

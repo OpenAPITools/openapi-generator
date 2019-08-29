@@ -10,11 +10,13 @@ import org.openapitools.virtualan.model.OuterEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * EnumTest
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EnumTest   {
   /**
    * Gets or Sets enumString

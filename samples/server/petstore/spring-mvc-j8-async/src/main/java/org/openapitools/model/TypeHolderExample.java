@@ -11,11 +11,13 @@ import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * TypeHolderExample
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TypeHolderExample   {
   @JsonProperty("string_item")
   private String stringItem;

@@ -13,11 +13,13 @@ import org.threeten.bp.OffsetDateTime;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * FormatTest
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FormatTest   {
   @JsonProperty("integer")
   private Integer integer;

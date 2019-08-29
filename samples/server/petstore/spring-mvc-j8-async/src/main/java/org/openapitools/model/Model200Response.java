@@ -8,12 +8,14 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Model200Response   {
   @JsonProperty("name")
   private Integer name;
