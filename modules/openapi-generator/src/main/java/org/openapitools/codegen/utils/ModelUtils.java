@@ -359,14 +359,7 @@ public class ModelUtils {
     }
 
     public static boolean isArraySchema(Schema schema) {
-        if (schema instanceof ArraySchema) {
-            return true;
-        }
-        // assume it's an array if maxItems, minItems is set
-        if (schema != null && (schema.getMaxItems() != null || schema.getMinItems() != null)) {
-            return true;
-        }
-        return false;
+        return (schema instanceof ArraySchema);
     }
 
     public static boolean isStringSchema(Schema schema) {
