@@ -61,5 +61,16 @@ class Order {
     }
     return map;
   }
+
+  // maps a json object with a list of Order-objects as value to a dart map
+  static Map<String, List<Order>> mapListFromJson(Map<String, dynamic> json) {
+    var map = Map<String, List<Order>>();
+     if (json != null && json.isNotEmpty) {
+       json.forEach((String key, dynamic value) {
+         map[key] = Order.listFromJson(value);
+       });
+     }
+     return map;
+  }
 }
 
