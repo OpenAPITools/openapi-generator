@@ -26,7 +26,6 @@ data class Cat (
     val declawed: kotlin.Boolean? = null,
     @Json(name = "color")
     val color: kotlin.String? = null
-) {
+)
 
-}
 

@@ -17,4 +17,4 @@ sidebar_label: dart
 |pubDescription|Description in generated pubspec| |null|
 |useEnumExtension|Allow the 'x-enum-values' extension for enums| |null|
 |sourceFolder|Source folder for generated code| |null|
-|supportDart2|Support Dart 2.x| |true|
+|supportDart2|Support Dart 2.x (Dart 1.x support has been deprecated)| |true|

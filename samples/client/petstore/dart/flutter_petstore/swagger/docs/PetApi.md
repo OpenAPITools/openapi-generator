@@ -28,10 +28,10 @@ Add a new pet to the store
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
+//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = PetApi();
-var body = Pet(); // Pet | Pet object that needs to be added to the store
+var api_instance = new PetApi();
+var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
     api_instance.addPet(body);
@@ -70,9 +70,9 @@ Deletes a pet
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
+//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = PetApi();
+var api_instance = new PetApi();
 var petId = 789; // int | Pet id to delete
 var apiKey = apiKey_example; // String | 
 
@@ -116,9 +116,9 @@ Multiple status values can be provided with comma separated strings
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
+//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = PetApi();
+var api_instance = new PetApi();
 var status = []; // List<String> | Status values that need to be considered for filter
 
 try { 
@@ -161,9 +161,9 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
+//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = PetApi();
+var api_instance = new PetApi();
 var tags = []; // List<String> | Tags to filter by
 
 try { 
@@ -206,11 +206,11 @@ Returns a single pet
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure API key authorization: api_key
-//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
+//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
+//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
 
-var api_instance = PetApi();
+var api_instance = new PetApi();
 var petId = 789; // int | ID of pet to return
 
 try { 
@@ -251,10 +251,10 @@ Update an existing pet
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
+//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = PetApi();
-var body = Pet(); // Pet | Pet object that needs to be added to the store
+var api_instance = new PetApi();
+var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
     api_instance.updatePet(body);
@@ -293,9 +293,9 @@ Updates a pet in the store with form data
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
+//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = PetApi();
+var api_instance = new PetApi();
 var petId = 789; // int | ID of pet that needs to be updated
 var name = name_example; // String | Updated name of the pet
 var status = status_example; // String | Updated status of the pet
@@ -339,9 +339,9 @@ uploads an image
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
+//openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = PetApi();
+var api_instance = new PetApi();
 var petId = 789; // int | ID of pet to update
 var additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
 var file = BINARY_DATA_HERE; // MultipartFile | file to upload

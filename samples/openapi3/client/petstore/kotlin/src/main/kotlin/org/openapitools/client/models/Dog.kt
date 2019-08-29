@@ -26,7 +26,6 @@ data class Dog (
     val breed: kotlin.String? = null,
     @Json(name = "color")
     val color: kotlin.String? = null
-) {
+)
 
-}
 

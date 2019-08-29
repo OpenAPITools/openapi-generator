@@ -20,12 +20,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * AdditionalPropertiesObject
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesObject.JSON_PROPERTY_NAME
+})
 
 public class AdditionalPropertiesObject extends HashMap<String, Map>  {
   public static final String JSON_PROPERTY_NAME = "name";

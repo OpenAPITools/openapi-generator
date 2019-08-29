@@ -25,7 +25,6 @@ data class InlineObject4 (
     /* field2 */
     @Json(name = "param2")
     val param2: kotlin.String
-) {
+)
 
-}
 

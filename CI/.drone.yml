@@ -2,6 +2,11 @@ kind: pipeline
 name: default
 
 steps:
+# test haskell client
+- name: haskell-client-test
+  image: haskell:8.6.5
+  commands:
+  - (cd samples/client/petstore/haskell-http-client/ && stack --install-ghc --no-haddock-deps haddock --fast && stack test --fast)
 # test Dart 2.x petstore client
 - name: dart2x-test
   image: google/dart

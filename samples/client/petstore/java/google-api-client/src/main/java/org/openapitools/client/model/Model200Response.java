@@ -21,11 +21,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
+@JsonPropertyOrder({
+  Model200Response.JSON_PROPERTY_NAME,
+  Model200Response.JSON_PROPERTY_PROPERTY_CLASS
+})
 
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";

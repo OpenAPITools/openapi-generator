@@ -73,7 +73,6 @@ data class InlineObject3 (
     /* None */
     @Json(name = "callback")
     val callback: kotlin.String? = null
-) {
+)
 
-}
 
