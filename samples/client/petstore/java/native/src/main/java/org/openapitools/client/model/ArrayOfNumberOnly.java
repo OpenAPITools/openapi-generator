@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -30,10 +31,11 @@ import java.util.List;
 
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
-  private List<BigDecimal> arrayNumber = new ArrayList<>();
+  private List<BigDecimal> arrayNumber = null;
+
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
+    
     this.arrayNumber = arrayNumber;
     return this;
   }
@@ -52,9 +54,14 @@ public class ArrayOfNumberOnly {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
+
+
 
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

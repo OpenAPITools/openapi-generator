@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Integer** | Pointer to **int32** |  | [optional]
-**Int32** | Pointer to **int32** |  | [optional]
-**Int64** | Pointer to **int64** |  | [optional]
+**Integer** | Pointer to **int32** |  | [optional] 
+**Int32** | Pointer to **int32** |  | [optional] 
+**Int64** | Pointer to **int64** |  | [optional] 
 **Number** | Pointer to **float32** |  | 
-**Float** | Pointer to **float32** |  | [optional]
-**Double** | Pointer to **float64** |  | [optional]
-**String** | Pointer to **string** |  | [optional]
+**Float** | Pointer to **float32** |  | [optional] 
+**Double** | Pointer to **float64** |  | [optional] 
+**String** | Pointer to **string** |  | [optional] 
 **Byte** | Pointer to **string** |  | 
-**Binary** | Pointer to [***os.File**](*os.File.md) |  | [optional]
+**Binary** | Pointer to [***os.File**](*os.File.md) |  | [optional] 
 **Date** | Pointer to **string** |  | 
-**DateTime** | Pointer to [**time.Time**](time.Time.md) |  | [optional]
-**Uuid** | Pointer to **string** |  | [optional]
+**DateTime** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
+**Uuid** | Pointer to **string** |  | [optional] 
 **Password** | Pointer to **string** |  | 
 
 ## Methods

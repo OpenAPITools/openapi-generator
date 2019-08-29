@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
 
@@ -695,5 +696,60 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
+
+
+## testQueryParameterCollectionFormat
+
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+
+```javascript
+var OpenApiPetstore = require('open_api_petstore');
+
+var apiInstance = new OpenApiPetstore.FakeApi();
+var pipe = ["null"]; // [String] | 
+var ioutil = ["null"]; // [String] | 
+var http = ["null"]; // [String] | 
+var url = ["null"]; // [String] | 
+var context = ["null"]; // [String] | 
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, callback);
+```
+
+### Parameters
+
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**[String]**](String.md)|  | 
+ **ioutil** | [**[String]**](String.md)|  | 
+ **http** | [**[String]**](String.md)|  | 
+ **url** | [**[String]**](String.md)|  | 
+ **context** | [**[String]**](String.md)|  | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 

@@ -16,51 +16,63 @@ class {{classname}} {
   {{classname}}.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
   {{#vars}}
-    if (json['{{baseName}}'] == null) {
-      {{name}} = null;
-    } else {
   {{#isDateTime}}
-      {{name}} = DateTime.parse(json['{{baseName}}']);
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      DateTime.parse(json['{{baseName}}']);
   {{/isDateTime}}
   {{#isDate}}
-      {{name}} = DateTime.parse(json['{{baseName}}']);
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      DateTime.parse(json['{{baseName}}']);
   {{/isDate}}
   {{^isDateTime}}
   {{^isDate}}
     {{#complexType}}
       {{#isListContainer}}
-      {{name}} = {{complexType}}.listFromJson(json['{{baseName}}']);
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      {{complexType}}.listFromJson(json['{{baseName}}']);
       {{/isListContainer}}
       {{^isListContainer}}
       {{#isMapContainer}}
-      {{name}} = {{complexType}}.mapFromJson(json['{{baseName}}']);
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      {{complexType}}.mapFromJson(json['{{baseName}}']);
       {{/isMapContainer}}
       {{^isMapContainer}}
-      {{name}} = {{complexType}}.fromJson(json['{{baseName}}']);
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      {{complexType}}.fromJson(json['{{baseName}}']);
       {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
     {{^complexType}}
       {{#isListContainer}}
-      {{name}} = (json['{{baseName}}'] as List).cast<{{items.datatype}}>();
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      (json['{{baseName}}'] as List).cast<{{items.datatype}}>();
       {{/isListContainer}}
       {{^isListContainer}}
         {{#isMapContainer}}
-          {{name}} = (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
         {{/isMapContainer}}
         {{^isMapContainer}}
-	{{#isDouble}}
-          {{name}} = json['{{baseName}}'].toDouble();
-	{{/isDouble}}
-	{{^isDouble}}
-          {{name}} = json['{{baseName}}'];
-	{{/isDouble}}
+          {{#isDouble}}
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      json['{{baseName}}'].toDouble();
+          {{/isDouble}}
+          {{^isDouble}}
+    {{name}} = json['{{baseName}}'];
+          {{/isDouble}}
         {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
   {{/isDate}}
   {{/isDateTime}}
-    }
   {{/vars}}
   }
 

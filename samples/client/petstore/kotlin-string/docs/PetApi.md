@@ -51,7 +51,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -97,7 +99,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -144,7 +148,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -191,7 +197,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -238,7 +246,10 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+
+Configure api_key:
+    ApiClient.apiKey["api_key"] = ""
+    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
@@ -282,7 +293,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -330,7 +343,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -379,7 +394,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 

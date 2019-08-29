@@ -612,6 +612,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema items = arr.getItems();
         String nestedType = getTypeDeclaration(items);
+        additionalProperties.put("nestedType", nestedType);
         // TODO: We may want to differentiate here between generics and primitive arrays.
         instantiationType.append("<").append(nestedType).append(">");
         return instantiationType.toString();

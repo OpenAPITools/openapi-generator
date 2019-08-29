@@ -206,4 +206,19 @@ describe 'FakeApi' do
     end
   end
 
+  # unit tests for test_query_parameter_collection_format
+  # To test the collection format in query parameters
+  # @param pipe 
+  # @param ioutil 
+  # @param http 
+  # @param url 
+  # @param context 
+  # @param [Hash] opts the optional parameters
+  # @return [nil]
+  describe 'test_query_parameter_collection_format test' do
+    it 'should work' do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
 end

@@ -15,7 +15,7 @@ class PetApi {
 
     // verify required params are set
     if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+     throw ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -33,7 +33,7 @@ class PetApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -50,7 +50,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -64,7 +64,7 @@ class PetApi {
 
     // verify required params are set
     if(petId == null) {
-     throw new ApiException(400, "Missing required param: petId");
+     throw ApiException(400, "Missing required param: petId");
     }
 
     // create path and map variables
@@ -83,7 +83,7 @@ class PetApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -100,7 +100,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -114,7 +114,7 @@ class PetApi {
 
     // verify required params are set
     if(status == null) {
-     throw new ApiException(400, "Missing required param: status");
+     throw ApiException(400, "Missing required param: status");
     }
 
     // create path and map variables
@@ -133,7 +133,7 @@ class PetApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -150,7 +150,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
@@ -165,7 +165,7 @@ class PetApi {
 
     // verify required params are set
     if(tags == null) {
-     throw new ApiException(400, "Missing required param: tags");
+     throw ApiException(400, "Missing required param: tags");
     }
 
     // create path and map variables
@@ -184,7 +184,7 @@ class PetApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -201,7 +201,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
@@ -216,7 +216,7 @@ class PetApi {
 
     // verify required params are set
     if(petId == null) {
-     throw new ApiException(400, "Missing required param: petId");
+     throw ApiException(400, "Missing required param: petId");
     }
 
     // create path and map variables
@@ -234,7 +234,7 @@ class PetApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -251,7 +251,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
     } else {
@@ -266,7 +266,7 @@ class PetApi {
 
     // verify required params are set
     if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+     throw ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -284,7 +284,7 @@ class PetApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -301,7 +301,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -315,7 +315,7 @@ class PetApi {
 
     // verify required params are set
     if(petId == null) {
-     throw new ApiException(400, "Missing required param: petId");
+     throw ApiException(400, "Missing required param: petId");
     }
 
     // create path and map variables
@@ -333,7 +333,7 @@ class PetApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if (name != null) {
         hasFields = true;
         mp.fields['name'] = parameterToString(name);
@@ -362,7 +362,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -376,7 +376,7 @@ class PetApi {
 
     // verify required params are set
     if(petId == null) {
-     throw new ApiException(400, "Missing required param: petId");
+     throw ApiException(400, "Missing required param: petId");
     }
 
     // create path and map variables
@@ -394,7 +394,7 @@ class PetApi {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {
         hasFields = true;
         mp.fields['additionalMetadata'] = parameterToString(additionalMetadata);
@@ -422,7 +422,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
     } else {

@@ -1,28 +1,14 @@
-#ifndef PETAPITESTS_H
-#define PETAPITESTS_H
-
-#include <QtTest/QtTest>
-#include <QTimer>
+#pragma once
 
 #include "../client/OAIPetApi.h"
 
 using namespace OpenAPI;
 
 class PetApiTests: public QObject {
-Q_OBJECT
-public:
-    PetApiTests();
-    virtual ~PetApiTests();
+    Q_OBJECT
 
-    static void runTests();
-
-private:
     OAIPetApi* getApi();
     OAIPet createRandomPet();
-
-signals:
-    void quit();
-    bool success();
 
 private slots:
     void findPetsByStatusTest();
@@ -30,5 +16,3 @@ private slots:
     void updatePetTest();
     void updatePetWithFormTest();
 };
-
-#endif // PETAPITESTS_H

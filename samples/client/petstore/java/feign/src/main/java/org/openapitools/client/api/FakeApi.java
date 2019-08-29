@@ -353,4 +353,70 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
   })
   void testJsonFormData(@Param("param") String param, @Param("param2") String param2);
+
+  /**
+   * 
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   */
+  @RequestLine("PUT /fake/test-query-paramters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}")
+  @Headers({
+    "Accept: application/json",
+  })
+  void testQueryParameterCollectionFormat(@Param("pipe") List<String> pipe, @Param("ioutil") List<String> ioutil, @Param("http") List<String> http, @Param("url") List<String> url, @Param("context") List<String> context);
+
+  /**
+   * 
+   * To test the collection format in query parameters
+   * Note, this is equivalent to the other <code>testQueryParameterCollectionFormat</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestQueryParameterCollectionFormatQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>pipe -  (required)</li>
+   *   <li>ioutil -  (required)</li>
+   *   <li>http -  (required)</li>
+   *   <li>url -  (required)</li>
+   *   <li>context -  (required)</li>
+   *   </ul>
+   */
+  @RequestLine("PUT /fake/test-query-paramters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}")
+  @Headers({
+  "Accept: application/json",
+  })
+  void testQueryParameterCollectionFormat(@QueryMap(encoded=true) Map<String, Object> queryParams);
+
+  /**
+   * A convenience class for generating query parameters for the
+   * <code>testQueryParameterCollectionFormat</code> method in a fluent style.
+   */
+  public static class TestQueryParameterCollectionFormatQueryParams extends HashMap<String, Object> {
+    public TestQueryParameterCollectionFormatQueryParams pipe(final List<String> value) {
+      put("pipe", EncodingUtils.encodeCollection(value, "csv"));
+      return this;
+    }
+    public TestQueryParameterCollectionFormatQueryParams ioutil(final List<String> value) {
+      put("ioutil", EncodingUtils.encodeCollection(value, "csv"));
+      return this;
+    }
+    public TestQueryParameterCollectionFormatQueryParams http(final List<String> value) {
+      put("http", EncodingUtils.encodeCollection(value, "space"));
+      return this;
+    }
+    public TestQueryParameterCollectionFormatQueryParams url(final List<String> value) {
+      put("url", EncodingUtils.encodeCollection(value, "csv"));
+      return this;
+    }
+    public TestQueryParameterCollectionFormatQueryParams context(final List<String> value) {
+      put("context", EncodingUtils.encodeCollection(value, "multi"));
+      return this;
+    }
+  }
 }

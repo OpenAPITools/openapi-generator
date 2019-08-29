@@ -35,7 +35,7 @@ class HttpClient implements IHttpClient {
         return !(body instanceof FormData) ? JSON.stringify(body) : body;
     }
 
-    private addJsonHeaders(headers: Headers) {
+    private addJsonHeaders(headers?: Headers) {
         return Object.assign({}, {
             "Accept": "application/json",
             "Content-Type": "application/json"

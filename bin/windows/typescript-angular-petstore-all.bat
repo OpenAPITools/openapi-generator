@@ -11,4 +11,4 @@ call .\bin\windows\typescript-angular-v7-provided-in-root.bat
 call .\bin\windows\typescript-angular-v7-provided-in-root-with-npm.bat
 call .\bin\windows\typescript-angular-v7-not-provided-in-root.bat
 call .\bin\windows\typescript-angular-v7-not-provided-in-root-with-npm.bat
-
+call .\bin\windows\typescript-angular-v8-provided-in-root-with-npm.bat

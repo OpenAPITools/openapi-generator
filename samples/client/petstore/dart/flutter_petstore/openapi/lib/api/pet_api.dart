@@ -10,12 +10,12 @@ class PetApi {
   /// Add a new pet to the store
   ///
   /// 
-  Future addPet(Pet pet) async {
-    Object postBody = pet;
+  Future addPet(Pet body) async {
+    Object postBody = body;
 
     // verify required params are set
-    if(pet == null) {
-     throw ApiException(400, "Missing required param: pet");
+    if(body == null) {
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -28,12 +28,12 @@ class PetApi {
 
     List<String> contentTypes = ["application/json","application/xml"];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -50,7 +50,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -60,11 +60,11 @@ class PetApi {
   ///
   /// 
   Future deletePet(int petId, { String apiKey }) async {
-    Object postBody;
+    Object postBody = null;
 
     // verify required params are set
     if(petId == null) {
-     throw ApiException(400, "Missing required param: petId");
+     throw new ApiException(400, "Missing required param: petId");
     }
 
     // create path and map variables
@@ -78,12 +78,12 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -100,7 +100,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -110,11 +110,11 @@ class PetApi {
   ///
   /// Multiple status values can be provided with comma separated strings
   Future<List<Pet>> findPetsByStatus(List<String> status) async {
-    Object postBody;
+    Object postBody = null;
 
     // verify required params are set
     if(status == null) {
-     throw ApiException(400, "Missing required param: status");
+     throw new ApiException(400, "Missing required param: status");
     }
 
     // create path and map variables
@@ -128,12 +128,12 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -150,7 +150,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
@@ -160,12 +160,12 @@ class PetApi {
   /// Finds Pets by tags
   ///
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-  Future<List<Pet>> findPetsByTags(List<String> tags, { int maxCount }) async {
-    Object postBody;
+  Future<List<Pet>> findPetsByTags(List<String> tags) async {
+    Object postBody = null;
 
     // verify required params are set
     if(tags == null) {
-     throw ApiException(400, "Missing required param: tags");
+     throw new ApiException(400, "Missing required param: tags");
     }
 
     // create path and map variables
@@ -176,18 +176,15 @@ class PetApi {
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
       queryParams.addAll(_convertParametersForCollectionFormat("csv", "tags", tags));
-    if(maxCount != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat("", "maxCount", maxCount));
-    }
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -204,7 +201,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
@@ -215,11 +212,11 @@ class PetApi {
   ///
   /// Returns a single pet
   Future<Pet> getPetById(int petId) async {
-    Object postBody;
+    Object postBody = null;
 
     // verify required params are set
     if(petId == null) {
-     throw ApiException(400, "Missing required param: petId");
+     throw new ApiException(400, "Missing required param: petId");
     }
 
     // create path and map variables
@@ -232,12 +229,12 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = ["api_key"];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -254,7 +251,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
     } else {
@@ -264,12 +261,12 @@ class PetApi {
   /// Update an existing pet
   ///
   /// 
-  Future updatePet(Pet pet) async {
-    Object postBody = pet;
+  Future updatePet(Pet body) async {
+    Object postBody = body;
 
     // verify required params are set
-    if(pet == null) {
-     throw ApiException(400, "Missing required param: pet");
+    if(body == null) {
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -282,12 +279,12 @@ class PetApi {
 
     List<String> contentTypes = ["application/json","application/xml"];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -304,7 +301,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -314,11 +311,11 @@ class PetApi {
   ///
   /// 
   Future updatePetWithForm(int petId, { String name, String status }) async {
-    Object postBody;
+    Object postBody = null;
 
     // verify required params are set
     if(petId == null) {
-     throw ApiException(400, "Missing required param: petId");
+     throw new ApiException(400, "Missing required param: petId");
     }
 
     // create path and map variables
@@ -331,12 +328,12 @@ class PetApi {
 
     List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if (name != null) {
         hasFields = true;
         mp.fields['name'] = parameterToString(name);
@@ -365,7 +362,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -375,11 +372,11 @@ class PetApi {
   ///
   /// 
   Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
-    Object postBody;
+    Object postBody = null;
 
     // verify required params are set
     if(petId == null) {
-     throw ApiException(400, "Missing required param: petId");
+     throw new ApiException(400, "Missing required param: petId");
     }
 
     // create path and map variables
@@ -392,12 +389,12 @@ class PetApi {
 
     List<String> contentTypes = ["multipart/form-data"];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if (additionalMetadata != null) {
         hasFields = true;
         mp.fields['additionalMetadata'] = parameterToString(additionalMetadata);
@@ -425,7 +422,7 @@ class PetApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
     } else {

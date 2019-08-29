@@ -38,4 +38,8 @@ for spec_path in modules/openapi-generator/src/test/resources/*/rust-server/* ; 
 		 $@"
 
   java $JAVA_OPTS -jar $executable $args
+
+  if [ $? -ne 0 ]; then
+    exit $?
+  fi
 done

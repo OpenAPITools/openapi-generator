@@ -22,6 +22,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 
 
 # **create_xml_item**
@@ -663,6 +664,59 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_query_parameter_collection_format**
+> test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context)
+
+
+
+To test the collection format in query parameters
+
+### Example 
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $pipe = [("null")]; # ARRAY[string] | 
+my $ioutil = [("null")]; # ARRAY[string] | 
+my $http = [("null")]; # ARRAY[string] | 
+my $url = [("null")]; # ARRAY[string] | 
+my $context = [("null")]; # ARRAY[string] | 
+
+eval { 
+    $api_instance->test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_query_parameter_collection_format: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**ARRAY[string]**](string.md)|  | 
+ **ioutil** | [**ARRAY[string]**](string.md)|  | 
+ **http** | [**ARRAY[string]**](string.md)|  | 
+ **url** | [**ARRAY[string]**](string.md)|  | 
+ **context** | [**ARRAY[string]**](string.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

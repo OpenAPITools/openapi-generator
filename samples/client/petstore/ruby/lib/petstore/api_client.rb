@@ -127,6 +127,34 @@ module Petstore
       request
     end
 
+    # Builds the HTTP request body
+    #
+    # @param [Hash] header_params Header parameters
+    # @param [Hash] form_params Query parameters
+    # @param [Object] body HTTP body (JSON/XML)
+    # @return [String] HTTP body data in the form of string
+    def build_request_body(header_params, form_params, body)
+      # http form
+      if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
+          header_params['Content-Type'] == 'multipart/form-data'
+        data = {}
+        form_params.each do |key, value|
+          case value
+          when ::File, ::Array, nil
+            # let typhoeus handle File, Array and nil parameters
+            data[key] = value
+          else
+            data[key] = value.to_s
+          end
+        end
+      elsif body
+        data = body.is_a?(String) ? body : body.to_json
+      else
+        data = nil
+      end
+      data
+    end
+
     # Check if the given MIME is a JSON MIME.
     # JSON MIME examples:
     #   application/json
@@ -262,34 +290,6 @@ module Petstore
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
       @config.base_url + path
-    end
-
-    # Builds the HTTP request body
-    #
-    # @param [Hash] header_params Header parameters
-    # @param [Hash] form_params Query parameters
-    # @param [Object] body HTTP body (JSON/XML)
-    # @return [String] HTTP body data in the form of string
-    def build_request_body(header_params, form_params, body)
-      # http form
-      if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
-          header_params['Content-Type'] == 'multipart/form-data'
-        data = {}
-        form_params.each do |key, value|
-          case value
-          when ::File, ::Array, nil
-            # let typhoeus handle File, Array and nil parameters
-            data[key] = value
-          else
-            data[key] = value.to_s
-          end
-        end
-      elsif body
-        data = body.is_a?(String) ? body : body.to_json
-      else
-        data = nil
-      end
-      data
     end
 
     # Update hearder and query params based on authentication settings.
