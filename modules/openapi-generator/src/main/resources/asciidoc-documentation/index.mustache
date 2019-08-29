@@ -6,12 +6,14 @@
 :toclevels: 3
 :source-highlighter: highlightjs
 :keywords: openapi, rest, {{appName}} 
+:specDir: {{specDir}}
+:snippetDir: {{snippetDir}}
 
 [abstract]
 .Abstract
 {{{appDescription}}}
 
-{{#includemarkup}}stubs/empty.adoc{{/includemarkup}}
+{{#specinclude}}stubs/empty.adoc{{/specinclude}}
 
 == Endpoints
 
@@ -33,7 +35,7 @@
 
 {{#notes}}
 
-{{#includemarkup}}{{baseName}}/{{nickname}}/operation-spec.adoc{{/includemarkup}}
+{{#specinclude}}{{baseName}}/{{nickname}}/operation-spec.adoc{{/specinclude}}
 
 ===== Description 
 
@@ -72,15 +74,15 @@
 
 | {{code}}
 | {{message}}
-| {{#dataType}} <<{{dataType}}>>{{/dataType}}
+| {{^simpleType}}{{dataType}}[<<{{baseType}}>>]{{/simpleType}} {{#simpleType}}<<{{dataType}}>>{{/simpleType}}
 
 {{/responses}}
 |===         
 
 ===== Samples
 
-{{#includemarkup}}{{baseName}}/{{nickname}}/http-request.adoc{{/includemarkup}}
-{{#includemarkup}}{{baseName}}/{{nickname}}/http-response.adoc{{/includemarkup}}
+{{#snippetinclude}}{{baseName}}/{{nickname}}/{{httpMethod}}/http-request.adoc{{/snippetinclude}}
+{{#snippetinclude}}{{baseName}}/{{nickname}}/{{httpMethod}}/http-response.adoc{{/snippetinclude}}
 
 {{/operation}}
 {{/operations}}

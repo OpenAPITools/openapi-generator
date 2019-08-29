@@ -16,10 +16,10 @@
 
 {{#vars}}
 | {{name}} 
-| {{^required}}X{{/required}} 
+| {{#required}}X{{/required}} 
 | {{dataType}} {{#isContainer}} of <<{{complexType}}>>{{/isContainer}} 
 | {{description}}
-| {{{dataFormat}}} {{#isEnum}}Enum: {{#_enum}}{{this}},{{/_enum}}{{/isEnum}}
+| {{{dataFormat}}} {{#isEnum}}Enum: _ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}} _
 
 {{/vars}}
 |===
