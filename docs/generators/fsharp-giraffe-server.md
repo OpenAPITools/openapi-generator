@@ -15,7 +15,7 @@ sidebar_label: fsharp-giraffe-server
 |packageName|F# module name (convention: Title.Case).| |OpenAPI|
 |packageVersion|F# package version.| |1.0.0|
 |packageGuid|The GUID that will be associated with the C# project| |null|
-|sourceFolder|source folder for generated code| |OpenAPI\src|
+|sourceFolder|source folder for generated code| |OpenAPI/src|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
