@@ -47,7 +47,7 @@ public class {{classname}}Test {
     public void {{operationId}}{{code}}Test() throws Exception {
     {{#allParams}}
     {{^isFile}}
-        {{{dataType}}} {{paramName}} = {{#isString}}"{{/isString}}{{{example}}}{{#isString}}"{{/isString}};
+        {{{dataType}}} {{paramName}} = {{{example}}};
     {{/isFile}}
     {{#isFile}}
         org.springframework.web.multipart.MultipartFile {{paramName}} = null;
