@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
 data class DogAllOf (
     @Json(name = "breed")
     val breed: kotlin.String? = null
-) {
+)
 
-}
 

@@ -23,7 +23,6 @@ data class Model200Response (
     val name: kotlin.Int? = null,
     @Json(name = "class")
     val propertyClass: kotlin.String? = null
-) {
+)
 
-}
 

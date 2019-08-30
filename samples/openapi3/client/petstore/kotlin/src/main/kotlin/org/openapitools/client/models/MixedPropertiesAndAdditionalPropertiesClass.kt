@@ -27,7 +27,6 @@ data class MixedPropertiesAndAdditionalPropertiesClass (
     val dateTime: java.time.LocalDateTime? = null,
     @Json(name = "map")
     val map: kotlin.collections.Map<kotlin.String, Animal>? = null
-) {
+)
 
-}
 

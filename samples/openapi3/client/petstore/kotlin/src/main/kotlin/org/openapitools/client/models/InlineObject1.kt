@@ -25,7 +25,6 @@ data class InlineObject1 (
     /* file to upload */
     @Json(name = "file")
     val file: java.io.File? = null
-) {
+)
 
-}
 

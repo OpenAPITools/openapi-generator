@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
 data class HealthCheckResult (
     @Json(name = "NullableMessage")
     val nullableMessage: kotlin.String? = null
-) {
+)
 
-}
 

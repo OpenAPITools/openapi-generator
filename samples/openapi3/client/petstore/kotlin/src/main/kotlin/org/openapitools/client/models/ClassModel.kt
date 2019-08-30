@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
 data class ClassModel (
     @Json(name = "_class")
     val propertyClass: kotlin.String? = null
-) {
+)
 
-}
 

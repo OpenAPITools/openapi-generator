@@ -24,12 +24,20 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * TypeHolderExample
  */
+@JsonPropertyOrder({
+  TypeHolderExample.JSON_PROPERTY_STRING_ITEM,
+  TypeHolderExample.JSON_PROPERTY_NUMBER_ITEM,
+  TypeHolderExample.JSON_PROPERTY_INTEGER_ITEM,
+  TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
+  TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
+})
 
 @XmlRootElement(name = "TypeHolderExample")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -17,9 +17,6 @@ import java.io.File;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.CompletableFuture;
-
 import javax.validation.constraints.*;
 import play.Configuration;
 
@@ -41,25 +38,23 @@ public class PetApiController extends Controller {
 
 
     @ApiAction
-    public CompletionStage<Result> addPet() throws Exception {
-        JsonNode nodepet = request().body().asJson();
-        Pet pet;
-        if (nodepet != null) {
-            pet = mapper.readValue(nodepet.toString(), Pet.class);
+    public Result addPet() throws Exception {
+        JsonNode nodebody = request().body().asJson();
+        Pet body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(pet);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'Pet' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.addPet(pet)
-            return ok();
-        });
+        imp.addPet(body);
+        return ok();
     }
 
     @ApiAction
-    public CompletionStage<Result> deletePet(Long petId) throws Exception {
+    public Result deletePet(Long petId) throws Exception {
         String valueapiKey = request().getHeader("api_key");
         String apiKey;
         if (valueapiKey != null) {
@@ -67,14 +62,12 @@ public class PetApiController extends Controller {
         } else {
             apiKey = null;
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.deletePet(petId, apiKey)
-            return ok();
-        });
+        imp.deletePet(petId, apiKey);
+        return ok();
     }
 
     @ApiAction
-    public CompletionStage<Result> findPetsByStatus() throws Exception {
+    public Result findPetsByStatus() throws Exception {
         String[] statusArray = request().queryString().get("status");
         if (statusArray == null) {
             throw new IllegalArgumentException("'status' parameter is required");
@@ -87,22 +80,18 @@ public class PetApiController extends Controller {
                 status.add(curParam);
             }
         }
-        CompletionStage<List<Pet>> stage = imp.findPetsByStatus(status).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                for (Pet curItem : obj) {
-                    OpenAPIUtils.validate(curItem);
-                }
+        List<Pet> obj = imp.findPetsByStatus(status);
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            for (Pet curItem : obj) {
+                OpenAPIUtils.validate(curItem);
             }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        }
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
     }
 
     @ApiAction
-    public CompletionStage<Result> findPetsByTags() throws Exception {
+    public Result findPetsByTags() throws Exception {
         String[] tagsArray = request().queryString().get("tags");
         if (tagsArray == null) {
             throw new IllegalArgumentException("'tags' parameter is required");
@@ -115,93 +104,77 @@ public class PetApiController extends Controller {
                 tags.add(curParam);
             }
         }
-        CompletionStage<List<Pet>> stage = imp.findPetsByTags(tags).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                for (Pet curItem : obj) {
-                    OpenAPIUtils.validate(curItem);
-                }
+        List<Pet> obj = imp.findPetsByTags(tags);
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            for (Pet curItem : obj) {
+                OpenAPIUtils.validate(curItem);
             }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        }
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
     }
 
     @ApiAction
-    public CompletionStage<Result> getPetById(Long petId) throws Exception {
-        CompletionStage<Pet> stage = imp.getPetById(petId).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+    public Result getPetById(Long petId) throws Exception {
+        Pet obj = imp.getPetById(petId);
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+        }
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
     }
 
     @ApiAction
-    public CompletionStage<Result> updatePet() throws Exception {
-        JsonNode nodepet = request().body().asJson();
-        Pet pet;
-        if (nodepet != null) {
-            pet = mapper.readValue(nodepet.toString(), Pet.class);
+    public Result updatePet() throws Exception {
+        JsonNode nodebody = request().body().asJson();
+        Pet body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(pet);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'Pet' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.updatePet(pet)
-            return ok();
-        });
+        imp.updatePet(body);
+        return ok();
     }
 
     @ApiAction
-    public CompletionStage<Result> updatePetWithForm(Long petId) throws Exception {
+    public Result updatePetWithForm(Long petId) throws Exception {
         String valuename = (request().body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
         String name;
         if (valuename != null) {
             name = valuename;
         } else {
-            name = "null";
+            name = null;
         }
         String valuestatus = (request().body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
         String status;
         if (valuestatus != null) {
             status = valuestatus;
         } else {
-            status = "null";
+            status = null;
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.updatePetWithForm(petId, name, status)
-            return ok();
-        });
+        imp.updatePetWithForm(petId, name, status);
+        return ok();
     }
 
     @ApiAction
-    public CompletionStage<Result> uploadFile(Long petId) throws Exception {
+    public Result uploadFile(Long petId) throws Exception {
         String valueadditionalMetadata = (request().body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
         String additionalMetadata;
         if (valueadditionalMetadata != null) {
             additionalMetadata = valueadditionalMetadata;
         } else {
-            additionalMetadata = "null";
+            additionalMetadata = null;
         }
         Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
-        CompletionStage<ModelApiResponse> stage = imp.uploadFile(petId, additionalMetadata, file).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        ModelApiResponse obj = imp.uploadFile(petId, additionalMetadata, file);
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+        }
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
     }
 }

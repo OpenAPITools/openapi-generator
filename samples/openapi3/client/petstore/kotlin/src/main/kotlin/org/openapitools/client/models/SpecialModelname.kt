@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
 data class SpecialModelname (
     @Json(name = "$special[property.name]")
     val dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: kotlin.Long? = null
-) {
+)
 
-}
 
