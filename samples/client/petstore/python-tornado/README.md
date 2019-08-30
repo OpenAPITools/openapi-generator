@@ -14,7 +14,7 @@ Python 2.7 and 3.4+
 ## Installation & Usage
 ### pip install
 
-If the python package is hosted on a repository, you can install directly using:
+If the python package is hosted on Github, you can install directly from Github
 
 ```sh
 pip install git+https://github.com/GIT_USER_ID/GIT_REPO_ID.git
