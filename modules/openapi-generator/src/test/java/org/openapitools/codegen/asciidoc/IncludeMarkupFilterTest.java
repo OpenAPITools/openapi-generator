@@ -26,7 +26,7 @@ public class IncludeMarkupFilterTest extends LambdaTest {
         final Map<String, Object> ctx = context("specinclude", generator.new IncludeMarkupLambda("DOES_NOT_EXIST"));
  
         final String result = execute("{{#specinclude}}not.an.existing.file.adoc{{/specinclude}}", ctx);
-        Assert.assertTrue(result.contains("// markup not included, not found"), "unexpected filtered " + result);
+        Assert.assertTrue(result.contains("// markup not found, no include ::not.an.existing.file.adoc[]"), "unexpected filtered " + result);
     }
 
     @Test

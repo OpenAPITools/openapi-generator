@@ -62,7 +62,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 		        out.write("\ninclude::" + relativeFileName + "[]\n");	
 	        } else {
 		        LOGGER.debug(++notFoundCount + ". file not found, skip include for: " + relativeFileName);
-		        out.write("\n// markup not included, not found: include::" + relativeFileName + "[]\n");	
+		        out.write("\n// markup not found, no include ::" + relativeFileName + "[]\n");	
 	        }	        
 	    }
 	}

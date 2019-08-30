@@ -20,8 +20,8 @@ import org.testng.annotations.Test;
 
 import io.swagger.v3.oas.models.OpenAPI;
 
-public class AsciidocGeneratorTest {
-	
+/** check against ping.yaml spec. */
+public class AsciidocGeneratorTest {	
  
 	@Test
     public void testSpecSchema() throws Exception {
@@ -42,8 +42,8 @@ public class AsciidocGeneratorTest {
                 .setGeneratorName("asciidoc")
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
                 .setOutputDir(output.getAbsolutePath())
-                .addAdditionalProperty("snippetDir", "MY-SNIPPET-DIR")
-                .addAdditionalProperty("specDir", "MY-SPEC-DIR");
+                .addAdditionalProperty(AsciidocDocumentationCodegen.SNIPPET_DIR, "MY-SNIPPET-DIR")
+                .addAdditionalProperty(AsciidocDocumentationCodegen.SPEC_DIR, "MY-SPEC-DIR");
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         MockDefaultGenerator generator = new MockDefaultGenerator();
@@ -91,8 +91,8 @@ public class AsciidocGeneratorTest {
                 .setGeneratorName("asciidoc")
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
                 .setOutputDir(output.getAbsolutePath())
-                .addAdditionalProperty("specDir", "SPEC-DIR")
-        		.addAdditionalProperty("snippetDir", "MY/SNIPPET/DIR");
+                .addAdditionalProperty(AsciidocDocumentationCodegen.SPEC_DIR, "SPEC-DIR")
+        		.addAdditionalProperty(AsciidocDocumentationCodegen.SNIPPET_DIR, "MY/SNIPPET/DIR");
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();

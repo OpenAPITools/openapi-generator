@@ -8,12 +8,15 @@
 :keywords: openapi, rest, {{appName}} 
 :specDir: {{specDir}}
 :snippetDir: {{snippetDir}}
+:generator-template: v1 2018-08-30
+:info-url: {{infoUrl}}
+:app-name: {{appName}}
 
 [abstract]
 .Abstract
 {{{appDescription}}}
 
-{{#specinclude}}stubs/empty.adoc{{/specinclude}}
+{{#specinclude}}intro.adoc{{/specinclude}}
 
 == Endpoints
 
@@ -33,14 +36,12 @@
 
 {{{summary}}}
 
-{{#notes}}
-
-{{#specinclude}}{{baseName}}/{{nickname}}/operation-spec.adoc{{/specinclude}}
-
 ===== Description 
 
 {{{notes}}}
-{{/notes}}
+
+{{#specinclude}}{{path}}/{{httpMethod}}/spec.adoc{{/specinclude}}
+
 
 {{> params}}
 
@@ -81,8 +82,14 @@
 
 ===== Samples
 
-{{#snippetinclude}}{{baseName}}/{{nickname}}/{{httpMethod}}/http-request.adoc{{/snippetinclude}}
-{{#snippetinclude}}{{baseName}}/{{nickname}}/{{httpMethod}}/http-response.adoc{{/snippetinclude}}
+{{#snippetinclude}}{{path}}/{{httpMethod}}/http-request.adoc{{/snippetinclude}}
+{{#snippetinclude}}{{path}}/{{httpMethod}}/http-response.adoc{{/snippetinclude}}
+
+ifdef::internal-generation[]
+===== Implementation
+{{#specinclude}}{{path}}/{{httpMethod}}/implementation.adoc{{/specinclude}}
+
+endif::internal-generation[]
 
 {{/operation}}
 {{/operations}}
