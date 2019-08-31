@@ -28,9 +28,9 @@ export interface PetServiceInterface {
     /**
     * Add a new pet to the store
     * 
-    * @param body Pet object that needs to be added to the store
+    * @param pet Pet object that needs to be added to the store
     */
-    addPet(body: Pet, extraHttpRequestParams?: any): Observable<{}>;
+    addPet(pet: Pet, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
     * Deletes a pet
@@ -64,9 +64,9 @@ export interface PetServiceInterface {
     /**
     * Update an existing pet
     * 
-    * @param body Pet object that needs to be added to the store
+    * @param pet Pet object that needs to be added to the store
     */
-    updatePet(body: Pet, extraHttpRequestParams?: any): Observable<{}>;
+    updatePet(pet: Pet, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
     * Updates a pet in the store with form data
