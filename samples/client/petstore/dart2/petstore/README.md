@@ -2,7 +2,7 @@
 
 `pub get`
 
-## To run tests in a single file (eg. pet_test.test):
+## To run tests in a single file:
 
 `pub run test test/pet_test.dart`
 
