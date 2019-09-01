@@ -1,0 +1,9 @@
+{{#imports}}import "{{import}}"
+{{/imports}}{{#models}}{{#model}}{{#vars}}{{#isEnum}}
+type {{enumName}}* {.pure.} = enum{{#allowableValues}}{{#enumVars}}
+  {{name}}{{/enumVars}}{{/allowableValues}}
+{{/isEnum}}{{/vars}}
+type {{{classname}}}* = ref object
+  ## {{{description}}}{{#vars}}
+  {{{name}}}: {{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#description}} ## {{{description}}}{{/description}}{{/vars}}
+{{/model}}{{/models}}
