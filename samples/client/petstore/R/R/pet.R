@@ -84,7 +84,7 @@ Pet <- R6::R6Class(
       }
       if (!is.null(self$`tags`)) {
         PetObject[['tags']] <-
-          sapply(self$`tags`, function(x) x$toJSON())
+          lapply(self$`tags`, function(x) x$toJSON())
       }
       if (!is.null(self$`status`)) {
         PetObject[['status']] <-
@@ -151,7 +151,7 @@ Pet <- R6::R6Class(
         '"tags":
         [%s]
 ',
-        paste(unlist(lapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA))), collapse=",")
+        paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )},
         if (!is.null(self$`status`)) {
         sprintf(
