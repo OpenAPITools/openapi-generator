@@ -96,10 +96,10 @@ export class StoreService {
     /**
      * 
      * @summary Place an order for a pet
-     * @param order order placed for purchasing the pet
+     * @param body order placed for purchasing the pet
      */
-    public placeOrder(order: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
-        return this.placeOrderWithHttpInfo(order, extraHttpRequestParams)
+    public placeOrder(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
+        return this.placeOrderWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -221,12 +221,12 @@ export class StoreService {
 
     /**
      * Place an order for a pet
-     * @param order order placed for purchasing the pet
+     * @param body order placed for purchasing the pet
      
      */
-    public placeOrderWithHttpInfo(order: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
-        if (order === null || order === undefined) {
-            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
+    public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -244,7 +244,6 @@ export class StoreService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
@@ -254,7 +253,7 @@ export class StoreService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: order == null ? '' : JSON.stringify(order), // https://github.com/angular/angular/issues/10612
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037

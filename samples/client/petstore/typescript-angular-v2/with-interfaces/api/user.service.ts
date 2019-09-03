@@ -50,10 +50,10 @@ export class UserService implements UserServiceInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Create user
-     * @param user Created user object
+     * @param body Created user object
      */
-    public createUser(user: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
-        return this.createUserWithHttpInfo(user, extraHttpRequestParams)
+    public createUser(body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
+        return this.createUserWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -66,10 +66,10 @@ export class UserService implements UserServiceInterface {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      */
-    public createUsersWithArrayInput(user: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
-        return this.createUsersWithArrayInputWithHttpInfo(user, extraHttpRequestParams)
+    public createUsersWithArrayInput(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
+        return this.createUsersWithArrayInputWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -82,10 +82,10 @@ export class UserService implements UserServiceInterface {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      */
-    public createUsersWithListInput(user: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
-        return this.createUsersWithListInputWithHttpInfo(user, extraHttpRequestParams)
+    public createUsersWithListInput(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
+        return this.createUsersWithListInputWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -163,10 +163,10 @@ export class UserService implements UserServiceInterface {
      * This can only be done by the logged in user.
      * @summary Updated user
      * @param username name that need to be deleted
-     * @param user Updated user object
+     * @param body Updated user object
      */
-    public updateUser(username: string, user: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
-        return this.updateUserWithHttpInfo(username, user, extraHttpRequestParams)
+    public updateUser(username: string, body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
+        return this.updateUserWithHttpInfo(username, body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -180,17 +180,16 @@ export class UserService implements UserServiceInterface {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param user Created user object
+     * @param body Created user object
      
      */
-    public createUserWithHttpInfo(user: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
-        if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling createUser.');
+    public createUserWithHttpInfo(body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling createUser.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // authentication (auth_cookie) required
         // to determine the Accept header
         const httpHeaderAccepts: string[] = [
         ];
@@ -202,7 +201,6 @@ export class UserService implements UserServiceInterface {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
@@ -212,7 +210,7 @@ export class UserService implements UserServiceInterface {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: user == null ? '' : JSON.stringify(user), // https://github.com/angular/angular/issues/10612
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -225,17 +223,16 @@ export class UserService implements UserServiceInterface {
 
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      
      */
-    public createUsersWithArrayInputWithHttpInfo(user: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
-        if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
+    public createUsersWithArrayInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // authentication (auth_cookie) required
         // to determine the Accept header
         const httpHeaderAccepts: string[] = [
         ];
@@ -247,7 +244,6 @@ export class UserService implements UserServiceInterface {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
@@ -257,7 +253,7 @@ export class UserService implements UserServiceInterface {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: user == null ? '' : JSON.stringify(user), // https://github.com/angular/angular/issues/10612
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -270,17 +266,16 @@ export class UserService implements UserServiceInterface {
 
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      
      */
-    public createUsersWithListInputWithHttpInfo(user: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
-        if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
+    public createUsersWithListInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // authentication (auth_cookie) required
         // to determine the Accept header
         const httpHeaderAccepts: string[] = [
         ];
@@ -292,7 +287,6 @@ export class UserService implements UserServiceInterface {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
@@ -302,7 +296,7 @@ export class UserService implements UserServiceInterface {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: user == null ? '' : JSON.stringify(user), // https://github.com/angular/angular/issues/10612
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -326,7 +320,6 @@ export class UserService implements UserServiceInterface {
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // authentication (auth_cookie) required
         // to determine the Accept header
         const httpHeaderAccepts: string[] = [
         ];
@@ -442,7 +435,6 @@ export class UserService implements UserServiceInterface {
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // authentication (auth_cookie) required
         // to determine the Accept header
         const httpHeaderAccepts: string[] = [
         ];
@@ -469,20 +461,19 @@ export class UserService implements UserServiceInterface {
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted
-     * @param user Updated user object
+     * @param body Updated user object
      
      */
-    public updateUserWithHttpInfo(username: string, user: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public updateUserWithHttpInfo(username: string, body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
-        if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling updateUser.');
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling updateUser.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // authentication (auth_cookie) required
         // to determine the Accept header
         const httpHeaderAccepts: string[] = [
         ];
@@ -494,7 +485,6 @@ export class UserService implements UserServiceInterface {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
@@ -504,7 +494,7 @@ export class UserService implements UserServiceInterface {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Put,
             headers: headers,
-            body: user == null ? '' : JSON.stringify(user), // https://github.com/angular/angular/issues/10612
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
