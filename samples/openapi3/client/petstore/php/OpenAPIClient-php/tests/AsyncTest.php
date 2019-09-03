@@ -11,7 +11,7 @@ class AsyncTest extends TestCase
     /** @var PetApi */
     private $api;
 
-    /** @var  int */
+    /** @var int */
     private $petId;
 
     public function setUp()
@@ -19,21 +19,22 @@ class AsyncTest extends TestCase
         $this->api = new Api\PetApi();
 
         $this->petId = 10005;
-        $pet = new Model\Pet;
+        $pet = new Model\Pet();
         $pet->setId($this->petId);
-        $pet->setName("PHP Unit Test");
-        $pet->setPhotoUrls(array("http://test_php_unit_test.com"));
+        $pet->setName('PHP Unit Test');
+        $pet->setPhotoUrls(array('http://test_php_unit_test.com'));
         // new tag
-        $tag= new Model\Tag;
+        $tag = new Model\Tag();
         $tag->setId($this->petId); // use the same id as pet
-        $tag->setName("test php tag");
+        $tag->setName('test php tag');
         // new category
-        $category = new Model\Category;
+        $category = new Model\Category();
         $category->setId($this->petId); // use the same id as pet
-        $category->setName("test php category");
+        $category->setName('test php category');
 
         $pet->setTags(array($tag));
         $pet->setCategory($category);
+        $pet->setStatus('pending');
 
         $pet_api = new Api\PetApi();
         // add a new pet (model)

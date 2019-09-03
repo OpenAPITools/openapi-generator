@@ -76,6 +76,25 @@ class MapTest implements ModelInterface, ArrayAccess
     ];
 
     /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static $openAPINullables = [
+        'map_map_of_string' => false,
+        'map_of_enum_string' => false,
+        'direct_map' => false,
+        'indirect_map' => false
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization
      *
      * @return array
@@ -93,6 +112,60 @@ class MapTest implements ModelInterface, ArrayAccess
     public static function openAPIFormats()
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of property to nullable mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPINullables()
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return array
+     */
+    public function getOpenAPINullablesSetToNull()
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    public function setOpenAPINullablesSetToNull($nullablesSetToNull)
+    {
+        $this->openAPINullablesSetToNull=$nullablesSetToNull;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        if (isset(self::$openAPINullables[$property])) {
+            return self::$openAPINullables[$property];
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        if (in_array($property, $this->getOpenAPINullablesSetToNull())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -207,10 +280,21 @@ class MapTest implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['map_map_of_string'] = isset($data['map_map_of_string']) ? $data['map_map_of_string'] : null;
-        $this->container['map_of_enum_string'] = isset($data['map_of_enum_string']) ? $data['map_of_enum_string'] : null;
-        $this->container['direct_map'] = isset($data['direct_map']) ? $data['direct_map'] : null;
-        $this->container['indirect_map'] = isset($data['indirect_map']) ? $data['indirect_map'] : null;
+        $this->setIfExists('map_map_of_string', $data, null);
+        $this->setIfExists('map_of_enum_string', $data, null);
+        $this->setIfExists('direct_map', $data, null);
+        $this->setIfExists('indirect_map', $data, null);
+    }
+
+    public function setIfExists(string $variableName, $fields, $defaultValue)
+    {
+        if (is_array($fields) && array_key_exists($variableName, $fields) && is_null($fields[$variableName]) && self::isNullable($variableName)) {
+            array_push($this->openAPINullablesSetToNull, $variableName);
+        }
+
+        $this->container[$variableName] = isset($fields[$variableName]) ? $fields[$variableName] : $defaultValue;
+
+        return $this;
     }
 
     /**
@@ -256,6 +340,12 @@ class MapTest implements ModelInterface, ArrayAccess
      */
     public function setMapMapOfString($map_map_of_string)
     {
+
+
+        if (is_null($map_map_of_string)) {
+            throw new \InvalidArgumentException('non-nullable map_map_of_string cannot be null');
+        }
+
         $this->container['map_map_of_string'] = $map_map_of_string;
 
         return $this;
@@ -289,6 +379,12 @@ class MapTest implements ModelInterface, ArrayAccess
                 )
             );
         }
+
+
+        if (is_null($map_of_enum_string)) {
+            throw new \InvalidArgumentException('non-nullable map_of_enum_string cannot be null');
+        }
+
         $this->container['map_of_enum_string'] = $map_of_enum_string;
 
         return $this;
@@ -313,6 +409,12 @@ class MapTest implements ModelInterface, ArrayAccess
      */
     public function setDirectMap($direct_map)
     {
+
+
+        if (is_null($direct_map)) {
+            throw new \InvalidArgumentException('non-nullable direct_map cannot be null');
+        }
+
         $this->container['direct_map'] = $direct_map;
 
         return $this;
@@ -337,6 +439,12 @@ class MapTest implements ModelInterface, ArrayAccess
      */
     public function setIndirectMap($indirect_map)
     {
+
+
+        if (is_null($indirect_map)) {
+            throw new \InvalidArgumentException('non-nullable indirect_map cannot be null');
+        }
+
         $this->container['indirect_map'] = $indirect_map;
 
         return $this;

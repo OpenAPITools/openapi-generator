@@ -126,6 +126,50 @@ class XmlItem implements ModelInterface, ArrayAccess
     ];
 
     /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static $openAPINullables = [
+        'attribute_string' => false,
+        'attribute_number' => false,
+        'attribute_integer' => false,
+        'attribute_boolean' => false,
+        'wrapped_array' => false,
+        'name_string' => false,
+        'name_number' => false,
+        'name_integer' => false,
+        'name_boolean' => false,
+        'name_array' => false,
+        'name_wrapped_array' => false,
+        'prefix_string' => false,
+        'prefix_number' => false,
+        'prefix_integer' => false,
+        'prefix_boolean' => false,
+        'prefix_array' => false,
+        'prefix_wrapped_array' => false,
+        'namespace_string' => false,
+        'namespace_number' => false,
+        'namespace_integer' => false,
+        'namespace_boolean' => false,
+        'namespace_array' => false,
+        'namespace_wrapped_array' => false,
+        'prefix_ns_string' => false,
+        'prefix_ns_number' => false,
+        'prefix_ns_integer' => false,
+        'prefix_ns_boolean' => false,
+        'prefix_ns_array' => false,
+        'prefix_ns_wrapped_array' => false
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization
      *
      * @return array
@@ -143,6 +187,60 @@ class XmlItem implements ModelInterface, ArrayAccess
     public static function openAPIFormats()
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of property to nullable mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPINullables()
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return array
+     */
+    public function getOpenAPINullablesSetToNull()
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    public function setOpenAPINullablesSetToNull($nullablesSetToNull)
+    {
+        $this->openAPINullablesSetToNull=$nullablesSetToNull;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        if (isset(self::$openAPINullables[$property])) {
+            return self::$openAPINullables[$property];
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        if (in_array($property, $this->getOpenAPINullablesSetToNull())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -317,35 +415,46 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['attribute_string'] = isset($data['attribute_string']) ? $data['attribute_string'] : null;
-        $this->container['attribute_number'] = isset($data['attribute_number']) ? $data['attribute_number'] : null;
-        $this->container['attribute_integer'] = isset($data['attribute_integer']) ? $data['attribute_integer'] : null;
-        $this->container['attribute_boolean'] = isset($data['attribute_boolean']) ? $data['attribute_boolean'] : null;
-        $this->container['wrapped_array'] = isset($data['wrapped_array']) ? $data['wrapped_array'] : null;
-        $this->container['name_string'] = isset($data['name_string']) ? $data['name_string'] : null;
-        $this->container['name_number'] = isset($data['name_number']) ? $data['name_number'] : null;
-        $this->container['name_integer'] = isset($data['name_integer']) ? $data['name_integer'] : null;
-        $this->container['name_boolean'] = isset($data['name_boolean']) ? $data['name_boolean'] : null;
-        $this->container['name_array'] = isset($data['name_array']) ? $data['name_array'] : null;
-        $this->container['name_wrapped_array'] = isset($data['name_wrapped_array']) ? $data['name_wrapped_array'] : null;
-        $this->container['prefix_string'] = isset($data['prefix_string']) ? $data['prefix_string'] : null;
-        $this->container['prefix_number'] = isset($data['prefix_number']) ? $data['prefix_number'] : null;
-        $this->container['prefix_integer'] = isset($data['prefix_integer']) ? $data['prefix_integer'] : null;
-        $this->container['prefix_boolean'] = isset($data['prefix_boolean']) ? $data['prefix_boolean'] : null;
-        $this->container['prefix_array'] = isset($data['prefix_array']) ? $data['prefix_array'] : null;
-        $this->container['prefix_wrapped_array'] = isset($data['prefix_wrapped_array']) ? $data['prefix_wrapped_array'] : null;
-        $this->container['namespace_string'] = isset($data['namespace_string']) ? $data['namespace_string'] : null;
-        $this->container['namespace_number'] = isset($data['namespace_number']) ? $data['namespace_number'] : null;
-        $this->container['namespace_integer'] = isset($data['namespace_integer']) ? $data['namespace_integer'] : null;
-        $this->container['namespace_boolean'] = isset($data['namespace_boolean']) ? $data['namespace_boolean'] : null;
-        $this->container['namespace_array'] = isset($data['namespace_array']) ? $data['namespace_array'] : null;
-        $this->container['namespace_wrapped_array'] = isset($data['namespace_wrapped_array']) ? $data['namespace_wrapped_array'] : null;
-        $this->container['prefix_ns_string'] = isset($data['prefix_ns_string']) ? $data['prefix_ns_string'] : null;
-        $this->container['prefix_ns_number'] = isset($data['prefix_ns_number']) ? $data['prefix_ns_number'] : null;
-        $this->container['prefix_ns_integer'] = isset($data['prefix_ns_integer']) ? $data['prefix_ns_integer'] : null;
-        $this->container['prefix_ns_boolean'] = isset($data['prefix_ns_boolean']) ? $data['prefix_ns_boolean'] : null;
-        $this->container['prefix_ns_array'] = isset($data['prefix_ns_array']) ? $data['prefix_ns_array'] : null;
-        $this->container['prefix_ns_wrapped_array'] = isset($data['prefix_ns_wrapped_array']) ? $data['prefix_ns_wrapped_array'] : null;
+        $this->setIfExists('attribute_string', $data, null);
+        $this->setIfExists('attribute_number', $data, null);
+        $this->setIfExists('attribute_integer', $data, null);
+        $this->setIfExists('attribute_boolean', $data, null);
+        $this->setIfExists('wrapped_array', $data, null);
+        $this->setIfExists('name_string', $data, null);
+        $this->setIfExists('name_number', $data, null);
+        $this->setIfExists('name_integer', $data, null);
+        $this->setIfExists('name_boolean', $data, null);
+        $this->setIfExists('name_array', $data, null);
+        $this->setIfExists('name_wrapped_array', $data, null);
+        $this->setIfExists('prefix_string', $data, null);
+        $this->setIfExists('prefix_number', $data, null);
+        $this->setIfExists('prefix_integer', $data, null);
+        $this->setIfExists('prefix_boolean', $data, null);
+        $this->setIfExists('prefix_array', $data, null);
+        $this->setIfExists('prefix_wrapped_array', $data, null);
+        $this->setIfExists('namespace_string', $data, null);
+        $this->setIfExists('namespace_number', $data, null);
+        $this->setIfExists('namespace_integer', $data, null);
+        $this->setIfExists('namespace_boolean', $data, null);
+        $this->setIfExists('namespace_array', $data, null);
+        $this->setIfExists('namespace_wrapped_array', $data, null);
+        $this->setIfExists('prefix_ns_string', $data, null);
+        $this->setIfExists('prefix_ns_number', $data, null);
+        $this->setIfExists('prefix_ns_integer', $data, null);
+        $this->setIfExists('prefix_ns_boolean', $data, null);
+        $this->setIfExists('prefix_ns_array', $data, null);
+        $this->setIfExists('prefix_ns_wrapped_array', $data, null);
+    }
+
+    public function setIfExists(string $variableName, $fields, $defaultValue)
+    {
+        if (is_array($fields) && array_key_exists($variableName, $fields) && is_null($fields[$variableName]) && self::isNullable($variableName)) {
+            array_push($this->openAPINullablesSetToNull, $variableName);
+        }
+
+        $this->container[$variableName] = isset($fields[$variableName]) ? $fields[$variableName] : $defaultValue;
+
+        return $this;
     }
 
     /**
@@ -391,6 +500,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setAttributeString($attribute_string)
     {
+
+
+        if (is_null($attribute_string)) {
+            throw new \InvalidArgumentException('non-nullable attribute_string cannot be null');
+        }
+
         $this->container['attribute_string'] = $attribute_string;
 
         return $this;
@@ -415,6 +530,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setAttributeNumber($attribute_number)
     {
+
+
+        if (is_null($attribute_number)) {
+            throw new \InvalidArgumentException('non-nullable attribute_number cannot be null');
+        }
+
         $this->container['attribute_number'] = $attribute_number;
 
         return $this;
@@ -439,6 +560,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setAttributeInteger($attribute_integer)
     {
+
+
+        if (is_null($attribute_integer)) {
+            throw new \InvalidArgumentException('non-nullable attribute_integer cannot be null');
+        }
+
         $this->container['attribute_integer'] = $attribute_integer;
 
         return $this;
@@ -463,6 +590,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setAttributeBoolean($attribute_boolean)
     {
+
+
+        if (is_null($attribute_boolean)) {
+            throw new \InvalidArgumentException('non-nullable attribute_boolean cannot be null');
+        }
+
         $this->container['attribute_boolean'] = $attribute_boolean;
 
         return $this;
@@ -487,6 +620,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setWrappedArray($wrapped_array)
     {
+
+
+        if (is_null($wrapped_array)) {
+            throw new \InvalidArgumentException('non-nullable wrapped_array cannot be null');
+        }
+
         $this->container['wrapped_array'] = $wrapped_array;
 
         return $this;
@@ -511,6 +650,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNameString($name_string)
     {
+
+
+        if (is_null($name_string)) {
+            throw new \InvalidArgumentException('non-nullable name_string cannot be null');
+        }
+
         $this->container['name_string'] = $name_string;
 
         return $this;
@@ -535,6 +680,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNameNumber($name_number)
     {
+
+
+        if (is_null($name_number)) {
+            throw new \InvalidArgumentException('non-nullable name_number cannot be null');
+        }
+
         $this->container['name_number'] = $name_number;
 
         return $this;
@@ -559,6 +710,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNameInteger($name_integer)
     {
+
+
+        if (is_null($name_integer)) {
+            throw new \InvalidArgumentException('non-nullable name_integer cannot be null');
+        }
+
         $this->container['name_integer'] = $name_integer;
 
         return $this;
@@ -583,6 +740,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNameBoolean($name_boolean)
     {
+
+
+        if (is_null($name_boolean)) {
+            throw new \InvalidArgumentException('non-nullable name_boolean cannot be null');
+        }
+
         $this->container['name_boolean'] = $name_boolean;
 
         return $this;
@@ -607,6 +770,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNameArray($name_array)
     {
+
+
+        if (is_null($name_array)) {
+            throw new \InvalidArgumentException('non-nullable name_array cannot be null');
+        }
+
         $this->container['name_array'] = $name_array;
 
         return $this;
@@ -631,6 +800,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNameWrappedArray($name_wrapped_array)
     {
+
+
+        if (is_null($name_wrapped_array)) {
+            throw new \InvalidArgumentException('non-nullable name_wrapped_array cannot be null');
+        }
+
         $this->container['name_wrapped_array'] = $name_wrapped_array;
 
         return $this;
@@ -655,6 +830,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixString($prefix_string)
     {
+
+
+        if (is_null($prefix_string)) {
+            throw new \InvalidArgumentException('non-nullable prefix_string cannot be null');
+        }
+
         $this->container['prefix_string'] = $prefix_string;
 
         return $this;
@@ -679,6 +860,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixNumber($prefix_number)
     {
+
+
+        if (is_null($prefix_number)) {
+            throw new \InvalidArgumentException('non-nullable prefix_number cannot be null');
+        }
+
         $this->container['prefix_number'] = $prefix_number;
 
         return $this;
@@ -703,6 +890,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixInteger($prefix_integer)
     {
+
+
+        if (is_null($prefix_integer)) {
+            throw new \InvalidArgumentException('non-nullable prefix_integer cannot be null');
+        }
+
         $this->container['prefix_integer'] = $prefix_integer;
 
         return $this;
@@ -727,6 +920,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixBoolean($prefix_boolean)
     {
+
+
+        if (is_null($prefix_boolean)) {
+            throw new \InvalidArgumentException('non-nullable prefix_boolean cannot be null');
+        }
+
         $this->container['prefix_boolean'] = $prefix_boolean;
 
         return $this;
@@ -751,6 +950,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixArray($prefix_array)
     {
+
+
+        if (is_null($prefix_array)) {
+            throw new \InvalidArgumentException('non-nullable prefix_array cannot be null');
+        }
+
         $this->container['prefix_array'] = $prefix_array;
 
         return $this;
@@ -775,6 +980,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixWrappedArray($prefix_wrapped_array)
     {
+
+
+        if (is_null($prefix_wrapped_array)) {
+            throw new \InvalidArgumentException('non-nullable prefix_wrapped_array cannot be null');
+        }
+
         $this->container['prefix_wrapped_array'] = $prefix_wrapped_array;
 
         return $this;
@@ -799,6 +1010,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNamespaceString($namespace_string)
     {
+
+
+        if (is_null($namespace_string)) {
+            throw new \InvalidArgumentException('non-nullable namespace_string cannot be null');
+        }
+
         $this->container['namespace_string'] = $namespace_string;
 
         return $this;
@@ -823,6 +1040,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNamespaceNumber($namespace_number)
     {
+
+
+        if (is_null($namespace_number)) {
+            throw new \InvalidArgumentException('non-nullable namespace_number cannot be null');
+        }
+
         $this->container['namespace_number'] = $namespace_number;
 
         return $this;
@@ -847,6 +1070,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNamespaceInteger($namespace_integer)
     {
+
+
+        if (is_null($namespace_integer)) {
+            throw new \InvalidArgumentException('non-nullable namespace_integer cannot be null');
+        }
+
         $this->container['namespace_integer'] = $namespace_integer;
 
         return $this;
@@ -871,6 +1100,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNamespaceBoolean($namespace_boolean)
     {
+
+
+        if (is_null($namespace_boolean)) {
+            throw new \InvalidArgumentException('non-nullable namespace_boolean cannot be null');
+        }
+
         $this->container['namespace_boolean'] = $namespace_boolean;
 
         return $this;
@@ -895,6 +1130,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNamespaceArray($namespace_array)
     {
+
+
+        if (is_null($namespace_array)) {
+            throw new \InvalidArgumentException('non-nullable namespace_array cannot be null');
+        }
+
         $this->container['namespace_array'] = $namespace_array;
 
         return $this;
@@ -919,6 +1160,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setNamespaceWrappedArray($namespace_wrapped_array)
     {
+
+
+        if (is_null($namespace_wrapped_array)) {
+            throw new \InvalidArgumentException('non-nullable namespace_wrapped_array cannot be null');
+        }
+
         $this->container['namespace_wrapped_array'] = $namespace_wrapped_array;
 
         return $this;
@@ -943,6 +1190,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixNsString($prefix_ns_string)
     {
+
+
+        if (is_null($prefix_ns_string)) {
+            throw new \InvalidArgumentException('non-nullable prefix_ns_string cannot be null');
+        }
+
         $this->container['prefix_ns_string'] = $prefix_ns_string;
 
         return $this;
@@ -967,6 +1220,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixNsNumber($prefix_ns_number)
     {
+
+
+        if (is_null($prefix_ns_number)) {
+            throw new \InvalidArgumentException('non-nullable prefix_ns_number cannot be null');
+        }
+
         $this->container['prefix_ns_number'] = $prefix_ns_number;
 
         return $this;
@@ -991,6 +1250,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixNsInteger($prefix_ns_integer)
     {
+
+
+        if (is_null($prefix_ns_integer)) {
+            throw new \InvalidArgumentException('non-nullable prefix_ns_integer cannot be null');
+        }
+
         $this->container['prefix_ns_integer'] = $prefix_ns_integer;
 
         return $this;
@@ -1015,6 +1280,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixNsBoolean($prefix_ns_boolean)
     {
+
+
+        if (is_null($prefix_ns_boolean)) {
+            throw new \InvalidArgumentException('non-nullable prefix_ns_boolean cannot be null');
+        }
+
         $this->container['prefix_ns_boolean'] = $prefix_ns_boolean;
 
         return $this;
@@ -1039,6 +1310,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixNsArray($prefix_ns_array)
     {
+
+
+        if (is_null($prefix_ns_array)) {
+            throw new \InvalidArgumentException('non-nullable prefix_ns_array cannot be null');
+        }
+
         $this->container['prefix_ns_array'] = $prefix_ns_array;
 
         return $this;
@@ -1063,6 +1340,12 @@ class XmlItem implements ModelInterface, ArrayAccess
      */
     public function setPrefixNsWrappedArray($prefix_ns_wrapped_array)
     {
+
+
+        if (is_null($prefix_ns_wrapped_array)) {
+            throw new \InvalidArgumentException('non-nullable prefix_ns_wrapped_array cannot be null');
+        }
+
         $this->container['prefix_ns_wrapped_array'] = $prefix_ns_wrapped_array;
 
         return $this;

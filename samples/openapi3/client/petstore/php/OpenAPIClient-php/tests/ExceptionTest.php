@@ -26,7 +26,7 @@ class ExceptionTest extends TestCase
 
     /**
      * @expectedException \OpenAPI\Client\ApiException
-     * @expectedExceptionMessage Could not resolve host
+     * @expectedExceptionMessage Could not resolve
      */
     public function testWrongHost()
     {

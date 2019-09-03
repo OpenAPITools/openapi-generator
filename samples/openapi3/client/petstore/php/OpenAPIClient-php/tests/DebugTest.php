@@ -1,17 +1,22 @@
 <?php
+
 namespace OpenAPI\Client;
 
 use PHPUnit\Framework\TestCase;
 
 class DebugTest extends TestCase
 {
-
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $newPet = new Model\Pet;
+        $newPet = new Model\Pet();
         $newPet->setId(1);
-        $newPet->setName("PHP Unit Test");
+        $newPet->setName('PHP Unit Test');
+        $category = new Model\Category();
+        $category->setId($newPet->getId());
+        $category->setName('anyCategoryName');
+        $newPet->setCategory($category);
+        $newPet->setStatus('pending');
         (new Api\PetApi())->addPetWithHttpInfo($newPet);
     }
 
