@@ -15,6 +15,8 @@ import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AsciidocDocumentationCodegen;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -22,6 +24,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 
 /** check against ping.yaml spec. */
 public class AsciidocGeneratorTest {	
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
  
 	@Test
     public void testSpecSchema() throws Exception {
@@ -37,7 +41,7 @@ public class AsciidocGeneratorTest {
     public void testGenerateMarkupFileWithAsciidocGenerator() throws Exception {
 
         File output = Files.createTempDirectory("test").toFile();
-
+        
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("asciidoc")
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
@@ -83,6 +87,8 @@ public class AsciidocGeneratorTest {
     @Test
     public void testAdditionalDirectoriesGeneratoreHeaderAttributes() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
+
+        LOGGER.info("test: generating sample markup " + output.getAbsolutePath());
 
         Map<String, Object> props = new TreeMap<String, Object>();
         props.put("specDir", "spec");
