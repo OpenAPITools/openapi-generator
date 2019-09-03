@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// OuterComposite struct for OuterComposite
 type OuterComposite struct {
 	MyNumber *float32 `json:"my_number,omitempty"`
 
@@ -121,6 +121,7 @@ func (o *OuterComposite) SetMyBoolean(v bool) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o OuterComposite) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.MyNumber != nil {

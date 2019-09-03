@@ -12,7 +12,7 @@ import (
 	"time"
 	"encoding/json"
 )
-
+// MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid *string `json:"uuid,omitempty"`
 
@@ -122,6 +122,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Uuid != nil {

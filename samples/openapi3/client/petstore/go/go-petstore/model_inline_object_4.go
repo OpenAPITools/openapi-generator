@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// InlineObject4 struct for InlineObject4
 type InlineObject4 struct {
 	// field1
 	Param string `json:"param"`

@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// List struct for List
 type List struct {
 	Var123List string `json:"123-list,omitempty"`
 }
