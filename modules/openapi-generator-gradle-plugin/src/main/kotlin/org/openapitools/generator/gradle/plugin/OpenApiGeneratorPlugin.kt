@@ -116,6 +116,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     id.set(generate.id)
                     version.set(generate.version)
                     library.set(generate.library)
+                    gitHost.set(generate.gitHost)
                     gitUserId.set(generate.gitUserId)
                     gitRepoId.set(generate.gitRepoId)
                     releaseNote.set(generate.releaseNote)

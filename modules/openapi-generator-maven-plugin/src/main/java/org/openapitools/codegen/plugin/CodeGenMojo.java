@@ -98,6 +98,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String inputSpec;
 
     /**
+     * Git host, e.g. gitlab.com.
+     */
+    @Parameter(name = "gitHost", property = "openapi.generator.maven.plugin.gitHost", required = false)
+    private String gitHost;
+
+    /**
      * Git user ID, e.g. swagger-api.
      */
     @Parameter(name = "gitUserId", property = "openapi.generator.maven.plugin.gitUserId", required = false)
@@ -454,6 +460,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(inputSpec)) {
                 configurator.setInputSpec(inputSpec);
+            }
+
+            if (isNotEmpty(gitHost)) {
+                configurator.setGitHost(gitHost);
             }
 
             if (isNotEmpty(gitUserId)) {
