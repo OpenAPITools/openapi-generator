@@ -59,7 +59,6 @@ declare -a scripts=(
 "./bin/apex-petstore.sh"
 "./bin/perl-petstore-all.sh"
 "./bin/dart-jaguar-petstore.sh"
-"./bin/dart-flutter-petstore.sh"
 "./bin/dart-petstore.sh"
 "./bin/dart2-petstore.sh"
 "./bin/java-play-framework-petstore-server-all.sh"
