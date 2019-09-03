@@ -44,9 +44,9 @@ Finally add this to the Gemfile:
 
 ### Install from Git
 
-If the Ruby gem is hosted at a git repository: https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_GIT_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}YOUR_GIT_REPO{{/gitRepoId}}, then add the following in the Gemfile:
+If the Ruby gem is hosted at a git repository: https://{{gitHost}}/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_GIT_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}YOUR_GIT_REPO{{/gitRepoId}}, then add the following in the Gemfile:
 
-    gem '{{{gemName}}}', :git => 'https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_GIT_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}YOUR_GIT_REPO{{/gitRepoId}}.git'
+    gem '{{{gemName}}}', :git => 'https://{{gitHost}}/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_GIT_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}YOUR_GIT_REPO{{/gitRepoId}}.git'
 
 ### Include the Ruby code directly
 
