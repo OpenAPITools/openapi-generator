@@ -8,7 +8,7 @@ export R_LIBS_USER=$HOME/R
 
 echo "R lib directory: $R_LIBS_USER"
 
-mkdir $R_LIBS_USER || true
+mkdir -p $R_LIBS_USER || true
 
 Rscript -e "install.packages('jsonlite', repos='$REPO', lib='$R_LIBS_USER')"
 Rscript -e "install.packages('httr', repos='$REPO', lib='$R_LIBS_USER')"
