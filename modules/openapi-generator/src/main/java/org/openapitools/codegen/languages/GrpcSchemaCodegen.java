@@ -181,7 +181,7 @@ public class GrpcSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("root.mustache", "", packageName + ".proto"));
+        //supportingFiles.add(new SupportingFile("root.mustache", "", packageName + ".proto"));
         //supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         //supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"))
         //supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
