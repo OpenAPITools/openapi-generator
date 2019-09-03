@@ -23,7 +23,7 @@ var (
 	_ _context.Context
 )
 
-// Service  service
+// UserApiService UserApi service
 type UserApiService service
 
 /*

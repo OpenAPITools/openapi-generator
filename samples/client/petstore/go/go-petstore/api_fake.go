@@ -24,7 +24,7 @@ var (
 	_ _context.Context
 )
 
-// Service  service
+// FakeApiService FakeApi service
 type FakeApiService service
 
 /*
@@ -95,6 +95,11 @@ func (a *FakeApiService) CreateXmlItem(ctx _context.Context, xmlItem XmlItem) (*
 	return localVarHTTPResponse, nil
 }
 
+// FakeOuterBooleanSerializeOpts Optional parameters for the method 'FakeOuterBooleanSerialize'
+type FakeOuterBooleanSerializeOpts struct {
+    Body optional.Bool
+}
+
 /*
 FakeOuterBooleanSerialize Method for FakeOuterBooleanSerialize
 Test serialization of outer boolean types
@@ -103,11 +108,6 @@ Test serialization of outer boolean types
  * @param "Body" (optional.Bool) -  Input boolean as post body
 @return bool
 */
-
-type FakeOuterBooleanSerializeOpts struct {
-	Body optional.Bool
-}
-
 func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -193,6 +193,11 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// FakeOuterCompositeSerializeOpts Optional parameters for the method 'FakeOuterCompositeSerialize'
+type FakeOuterCompositeSerializeOpts struct {
+    Body optional.Interface
+}
+
 /*
 FakeOuterCompositeSerialize Method for FakeOuterCompositeSerialize
 Test serialization of object with outer number type
@@ -201,11 +206,6 @@ Test serialization of object with outer number type
  * @param "Body" (optional.Interface of OuterComposite) -  Input composite as post body
 @return OuterComposite
 */
-
-type FakeOuterCompositeSerializeOpts struct {
-	Body optional.Interface
-}
-
 func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -295,6 +295,11 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// FakeOuterNumberSerializeOpts Optional parameters for the method 'FakeOuterNumberSerialize'
+type FakeOuterNumberSerializeOpts struct {
+    Body optional.Float32
+}
+
 /*
 FakeOuterNumberSerialize Method for FakeOuterNumberSerialize
 Test serialization of outer number types
@@ -303,11 +308,6 @@ Test serialization of outer number types
  * @param "Body" (optional.Float32) -  Input number as post body
 @return float32
 */
-
-type FakeOuterNumberSerializeOpts struct {
-	Body optional.Float32
-}
-
 func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVarOptionals *FakeOuterNumberSerializeOpts) (float32, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -393,6 +393,11 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// FakeOuterStringSerializeOpts Optional parameters for the method 'FakeOuterStringSerialize'
+type FakeOuterStringSerializeOpts struct {
+    Body optional.String
+}
+
 /*
 FakeOuterStringSerialize Method for FakeOuterStringSerialize
 Test serialization of outer string types
@@ -401,11 +406,6 @@ Test serialization of outer string types
  * @param "Body" (optional.String) -  Input string as post body
 @return string
 */
-
-type FakeOuterStringSerializeOpts struct {
-	Body optional.String
-}
-
 func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVarOptionals *FakeOuterStringSerializeOpts) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -717,6 +717,20 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, body Client) (Cli
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// TestEndpointParametersOpts Optional parameters for the method 'TestEndpointParameters'
+type TestEndpointParametersOpts struct {
+    Integer optional.Int32
+    Int32_ optional.Int32
+    Int64_ optional.Int64
+    Float optional.Float32
+    String_ optional.String
+    Binary optional.Interface
+    Date optional.String
+    DateTime optional.Time
+    Password optional.String
+    Callback optional.String
+}
+
 /*
 TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -737,20 +751,6 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
  * @param "Password" (optional.String) -  None
  * @param "Callback" (optional.String) -  None
 */
-
-type TestEndpointParametersOpts struct {
-	Integer optional.Int32
-	Int32_ optional.Int32
-	Int64_ optional.Int64
-	Float optional.Float32
-	String_ optional.String
-	Binary optional.Interface
-	Date optional.String
-	DateTime optional.Time
-	Password optional.String
-	Callback optional.String
-}
-
 func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals *TestEndpointParametersOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -873,6 +873,18 @@ func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number flo
 	return localVarHTTPResponse, nil
 }
 
+// TestEnumParametersOpts Optional parameters for the method 'TestEnumParameters'
+type TestEnumParametersOpts struct {
+    EnumHeaderStringArray optional.Interface
+    EnumHeaderString optional.String
+    EnumQueryStringArray optional.Interface
+    EnumQueryString optional.String
+    EnumQueryInteger optional.Int32
+    EnumQueryDouble optional.Float64
+    EnumFormStringArray optional.Interface
+    EnumFormString optional.String
+}
+
 /*
 TestEnumParameters To test enum parameters
 To test enum parameters
@@ -887,18 +899,6 @@ To test enum parameters
  * @param "EnumFormStringArray" (optional.Interface of []string) -  Form parameter enum test (string array)
  * @param "EnumFormString" (optional.String) -  Form parameter enum test (string)
 */
-
-type TestEnumParametersOpts struct {
-	EnumHeaderStringArray optional.Interface
-	EnumHeaderString optional.String
-	EnumQueryStringArray optional.Interface
-	EnumQueryString optional.String
-	EnumQueryInteger optional.Int32
-	EnumQueryDouble optional.Float64
-	EnumFormStringArray optional.Interface
-	EnumFormString optional.String
-}
-
 func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOptionals *TestEnumParametersOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
@@ -983,6 +983,13 @@ func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOption
 	return localVarHTTPResponse, nil
 }
 
+// TestGroupParametersOpts Optional parameters for the method 'TestGroupParameters'
+type TestGroupParametersOpts struct {
+    StringGroup optional.Int32
+    BooleanGroup optional.Bool
+    Int64Group optional.Int64
+}
+
 /*
 TestGroupParameters Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
@@ -995,13 +1002,6 @@ Fake endpoint to test group parameters (optional)
  * @param "BooleanGroup" (optional.Bool) -  Boolean in group parameters
  * @param "Int64Group" (optional.Int64) -  Integer in group parameters
 */
-
-type TestGroupParametersOpts struct {
-	StringGroup optional.Int32
-	BooleanGroup optional.Bool
-	Int64Group optional.Int64
-}
-
 func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete

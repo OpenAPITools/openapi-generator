@@ -16,10 +16,31 @@ var (
 	_ _context.Context
 )
 
-// {{className}}Service {{className}} service
+// {{classname}}Service {{classname}} service
 type {{classname}}Service service
 {{#operation}}
 
+{{#hasOptionalParams}}
+// {{{nickname}}}Opts Optional parameters for the method '{{{nickname}}}'
+type {{{nickname}}}Opts struct {
+{{#allParams}}
+{{^required}}
+{{#isPrimitiveType}}
+{{^isBinary}}
+    {{vendorExtensions.x-exportParamName}} optional.{{vendorExtensions.x-optionalDataType}}
+{{/isBinary}}
+{{#isBinary}}
+    {{vendorExtensions.x-exportParamName}} optional.Interface
+{{/isBinary}}
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+    {{vendorExtensions.x-exportParamName}} optional.Interface
+{{/isPrimitiveType}}
+{{/required}}
+{{/allParams}}
+}
+
+{{/hasOptionalParams}}
 /*
 {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
 {{#notes}}
@@ -43,27 +64,6 @@ type {{classname}}Service service
 @return {{{returnType}}}
 {{/returnType}}
 */
-{{#hasOptionalParams}}
-
-type {{{nickname}}}Opts struct {
-{{#allParams}}
-{{^required}}
-{{#isPrimitiveType}}
-{{^isBinary}}
-	{{vendorExtensions.x-exportParamName}} optional.{{vendorExtensions.x-optionalDataType}}
-{{/isBinary}}
-{{#isBinary}}
-	{{vendorExtensions.x-exportParamName}} optional.Interface
-{{/isBinary}}
-{{/isPrimitiveType}}
-{{^isPrimitiveType}}
-	{{vendorExtensions.x-exportParamName}} optional.Interface
-{{/isPrimitiveType}}
-{{/required}}
-{{/allParams}}
-}
-
-{{/hasOptionalParams}}
 func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}

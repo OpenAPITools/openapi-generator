@@ -21,7 +21,7 @@ var (
 	_ _context.Context
 )
 
-// Service  service
+// FakeClassnameTags123ApiService FakeClassnameTags123Api service
 type FakeClassnameTags123ApiService service
 
 /*

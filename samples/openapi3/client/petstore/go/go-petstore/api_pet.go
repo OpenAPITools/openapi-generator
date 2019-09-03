@@ -25,7 +25,7 @@ var (
 	_ _context.Context
 )
 
-// Service  service
+// PetApiService PetApi service
 type PetApiService service
 
 /*
@@ -95,6 +95,11 @@ func (a *PetApiService) AddPet(ctx _context.Context, pet Pet) (*_nethttp.Respons
 	return localVarHTTPResponse, nil
 }
 
+// DeletePetOpts Optional parameters for the method 'DeletePet'
+type DeletePetOpts struct {
+    ApiKey optional.String
+}
+
 /*
 DeletePet Deletes a pet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -102,11 +107,6 @@ DeletePet Deletes a pet
  * @param optional nil or *DeletePetOpts - Optional Parameters:
  * @param "ApiKey" (optional.String) - 
 */
-
-type DeletePetOpts struct {
-	ApiKey optional.String
-}
-
 func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOptionals *DeletePetOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
@@ -514,6 +514,12 @@ func (a *PetApiService) UpdatePet(ctx _context.Context, pet Pet) (*_nethttp.Resp
 	return localVarHTTPResponse, nil
 }
 
+// UpdatePetWithFormOpts Optional parameters for the method 'UpdatePetWithForm'
+type UpdatePetWithFormOpts struct {
+    Name optional.String
+    Status optional.String
+}
+
 /*
 UpdatePetWithForm Updates a pet in the store with form data
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -522,12 +528,6 @@ UpdatePetWithForm Updates a pet in the store with form data
  * @param "Name" (optional.String) -  Updated name of the pet
  * @param "Status" (optional.String) -  Updated status of the pet
 */
-
-type UpdatePetWithFormOpts struct {
-	Name optional.String
-	Status optional.String
-}
-
 func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, localVarOptionals *UpdatePetWithFormOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -595,6 +595,12 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 	return localVarHTTPResponse, nil
 }
 
+// UploadFileOpts Optional parameters for the method 'UploadFile'
+type UploadFileOpts struct {
+    AdditionalMetadata optional.String
+    File optional.Interface
+}
+
 /*
 UploadFile uploads an image
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -604,12 +610,6 @@ UploadFile uploads an image
  * @param "File" (optional.Interface of *os.File) -  file to upload
 @return ApiResponse
 */
-
-type UploadFileOpts struct {
-	AdditionalMetadata optional.String
-	File optional.Interface
-}
-
 func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOptionals *UploadFileOpts) (ApiResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -709,6 +709,11 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// UploadFileWithRequiredFileOpts Optional parameters for the method 'UploadFileWithRequiredFile'
+type UploadFileWithRequiredFileOpts struct {
+    AdditionalMetadata optional.String
+}
+
 /*
 UploadFileWithRequiredFile uploads an image (required)
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -718,11 +723,6 @@ UploadFileWithRequiredFile uploads an image (required)
  * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
 @return ApiResponse
 */
-
-type UploadFileWithRequiredFileOpts struct {
-	AdditionalMetadata optional.String
-}
-
 func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId int64, requiredFile *os.File, localVarOptionals *UploadFileWithRequiredFileOpts) (ApiResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost

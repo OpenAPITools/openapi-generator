@@ -21,7 +21,7 @@ var (
 	_ _context.Context
 )
 
-// Service  service
+// AnotherFakeApiService AnotherFakeApi service
 type AnotherFakeApiService service
 
 /*

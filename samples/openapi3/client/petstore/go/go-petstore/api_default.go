@@ -21,7 +21,7 @@ var (
 	_ _context.Context
 )
 
-// Service  service
+// DefaultApiService DefaultApi service
 type DefaultApiService service
 
 /*
