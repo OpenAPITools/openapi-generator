@@ -46,9 +46,11 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
 
     {{/required}}
     {{/allParams}}
-    const queryParameters = {};
+    let queryParameters = null;
 
     {{#queryParams}}
+    queryParameters = {};
+
     {{#isListContainer}}
     if (requestParameters.{{paramName}}) {
         {{#isCollectionFormatMulti}}
@@ -173,6 +175,9 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{/isPrimitiveType}}
         {{/isContainer}}
         {{/bodyParam}}
+        {{/hasBodyParam}}
+        {{^hasBodyParam}}
+        body: queryParameters,
         {{/hasBodyParam}}
     };
 
