@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// AdditionalPropertiesClass struct for AdditionalPropertiesClass
 type AdditionalPropertiesClass struct {
 	MapString *map[string]string `json:"map_string,omitempty"`
 
@@ -401,6 +401,7 @@ func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{}) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.MapString != nil {

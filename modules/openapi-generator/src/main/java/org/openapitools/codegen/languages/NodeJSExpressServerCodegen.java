@@ -163,11 +163,11 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         if (templateName.equals("service.mustache")) {
             String stringToMatch = File.separator + "controllers" + File.separator;
             String replacement = File.separator + implFolder + File.separator;
-            result = result.replaceAll(Pattern.quote(stringToMatch), replacement);
-            
+            result = result.replace(stringToMatch, replacement);
+
             stringToMatch = "Controller.js";
             replacement = "Service.js";
-            result = result.replaceAll(Pattern.quote(stringToMatch), replacement);
+            result = result.replace(stringToMatch, replacement);
         }
         return result;
     }

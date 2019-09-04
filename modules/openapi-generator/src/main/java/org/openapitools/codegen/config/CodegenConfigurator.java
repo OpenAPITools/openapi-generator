@@ -91,6 +91,7 @@ public class CodegenConfigurator {
                 DynamicSettings settings = mapper.readValue(new File(configFile), DynamicSettings.class);
                 CodegenConfigurator configurator = new CodegenConfigurator();
                 configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(settings.getGeneratorSettings());
+                configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(settings.getWorkflowSettings());
                 return configurator;
             } catch (IOException ex) {
                 LOGGER.error("Unable to deserialize config file: " + configFile, ex);
@@ -218,6 +219,11 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setGitRepoId(String gitRepoId) {
         generatorSettingsBuilder.withGitRepoId(gitRepoId);
+        return this;
+    }
+
+    public CodegenConfigurator setGitHost(String gitHost) {
+        generatorSettingsBuilder.withGitHost(gitHost);
         return this;
     }
 

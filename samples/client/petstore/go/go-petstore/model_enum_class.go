@@ -8,11 +8,12 @@
  */
 
 package petstore
+// EnumClass the model 'EnumClass'
 type EnumClass string
 
 // List of EnumClass
 const (
-	ENUMCLASS_ABC EnumClass = "_abc"
-	ENUMCLASS_EFG EnumClass = "-efg"
-	ENUMCLASS_XYZ EnumClass = "(xyz)"
+	ABC EnumClass = "_abc"
+	EFG EnumClass = "-efg"
+	XYZ EnumClass = "(xyz)"
 )

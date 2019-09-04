@@ -16,21 +16,9 @@ class ApiResponse {
 
   ApiResponse.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    if (json['code'] == null) {
-      code = null;
-    } else {
-          code = json['code'];
-    }
-    if (json['type'] == null) {
-      type = null;
-    } else {
-          type = json['type'];
-    }
-    if (json['message'] == null) {
-      message = null;
-    } else {
-          message = json['message'];
-    }
+    code = json['code'];
+    type = json['type'];
+    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
@@ -54,6 +42,17 @@ class ApiResponse {
       json.forEach((String key, dynamic value) => map[key] = ApiResponse.fromJson(value));
     }
     return map;
+  }
+
+  // maps a json object with a list of ApiResponse-objects as value to a dart map
+  static Map<String, List<ApiResponse>> mapListFromJson(Map<String, dynamic> json) {
+    var map = Map<String, List<ApiResponse>>();
+     if (json != null && json.isNotEmpty) {
+       json.forEach((String key, dynamic value) {
+         map[key] = ApiResponse.listFromJson(value);
+       });
+     }
+     return map;
   }
 }
 

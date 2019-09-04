@@ -1,0 +1,36 @@
+{{>partial_header}}
+syntax = "proto3";
+
+package {{{packageName}}};
+
+{{#imports}}
+{{#import}}
+import public "{{{modelPackage}}}/{{{import}}}.proto";
+{{/import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+message {{classname}} {
+
+  {{#vars}}
+  {{#description}}
+  // {{{.}}}
+  {{/description}}
+  {{^isEnum}}
+  {{#vendorExtensions.x-protobuf-type}}{{.}} {{/vendorExtensions.x-protobuf-type}}{{vendorExtensions.x-protobuf-data-type}} {{name}} = {{vendorExtensions.x-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}};
+  {{/isEnum}}
+  {{#isEnum}}
+  enum {{name}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{protobuf-enum-index}}};
+    {{/enumVars}}
+    {{/allowableValues}}
+  }
+  {{/isEnum}}
+
+  {{/vars}}
+}
+{{/model}}
+{{/models}}

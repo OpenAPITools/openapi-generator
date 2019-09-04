@@ -98,6 +98,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String inputSpec;
 
     /**
+     * Git host, e.g. gitlab.com.
+     */
+    @Parameter(name = "gitHost", property = "openapi.generator.maven.plugin.gitHost", required = false)
+    private String gitHost;
+
+    /**
      * Git user ID, e.g. swagger-api.
      */
     @Parameter(name = "gitUserId", property = "openapi.generator.maven.plugin.gitUserId", required = false)
@@ -205,6 +211,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "ignoreFileOverride", property = "openapi.generator.maven.plugin.ignoreFileOverride", required = false)
     private String ignoreFileOverride;
+
+    /**
+     * Sets custom User-Agent header value
+     */
+    @Parameter(name = "httpUserAgent", property = "openapi.generator.maven.plugin.httpUserAgent", required = false)
+    private String httpUserAgent;
 
     /**
      * To remove operationId prefix (e.g. user_getName => getName)
@@ -450,6 +462,10 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setInputSpec(inputSpec);
             }
 
+            if (isNotEmpty(gitHost)) {
+                configurator.setGitHost(gitHost);
+            }
+
             if (isNotEmpty(gitUserId)) {
                 configurator.setGitUserId(gitUserId);
             }
@@ -460,6 +476,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(ignoreFileOverride)) {
                 configurator.setIgnoreFileOverride(ignoreFileOverride);
+            }
+
+            if (isNotEmpty(httpUserAgent)) {
+                configurator.setHttpUserAgent(httpUserAgent);
             }
 
             if (skipValidateSpec != null) {

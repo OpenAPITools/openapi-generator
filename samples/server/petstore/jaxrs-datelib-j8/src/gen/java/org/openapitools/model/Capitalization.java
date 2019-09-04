@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -25,6 +26,14 @@ import javax.validation.Valid;
 /**
  * Capitalization
  */
+@JsonPropertyOrder({
+  Capitalization.JSON_PROPERTY_SMALL_CAMEL,
+  Capitalization.JSON_PROPERTY_CAPITAL_CAMEL,
+  Capitalization.JSON_PROPERTY_SMALL_SNAKE,
+  Capitalization.JSON_PROPERTY_CAPITAL_SNAKE,
+  Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
+  Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
+})
 
 public class Capitalization  implements Serializable {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";

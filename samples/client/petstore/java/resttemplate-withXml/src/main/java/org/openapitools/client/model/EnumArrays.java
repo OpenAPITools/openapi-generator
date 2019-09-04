@@ -23,12 +23,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * EnumArrays
  */
+@JsonPropertyOrder({
+  EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
+  EnumArrays.JSON_PROPERTY_ARRAY_ENUM
+})
 
 @XmlRootElement(name = "EnumArrays")
 @XmlAccessorType(XmlAccessType.FIELD)

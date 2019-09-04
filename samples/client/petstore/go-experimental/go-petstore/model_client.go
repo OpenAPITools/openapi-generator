@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// Client struct for Client
 type Client struct {
 	Client *string `json:"client,omitempty"`
 
@@ -51,6 +51,7 @@ func (o *Client) SetClient(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Client) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Client != nil {

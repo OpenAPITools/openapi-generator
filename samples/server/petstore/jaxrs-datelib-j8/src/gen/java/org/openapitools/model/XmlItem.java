@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -28,6 +29,37 @@ import javax.validation.Valid;
 /**
  * XmlItem
  */
+@JsonPropertyOrder({
+  XmlItem.JSON_PROPERTY_ATTRIBUTE_STRING,
+  XmlItem.JSON_PROPERTY_ATTRIBUTE_NUMBER,
+  XmlItem.JSON_PROPERTY_ATTRIBUTE_INTEGER,
+  XmlItem.JSON_PROPERTY_ATTRIBUTE_BOOLEAN,
+  XmlItem.JSON_PROPERTY_WRAPPED_ARRAY,
+  XmlItem.JSON_PROPERTY_NAME_STRING,
+  XmlItem.JSON_PROPERTY_NAME_NUMBER,
+  XmlItem.JSON_PROPERTY_NAME_INTEGER,
+  XmlItem.JSON_PROPERTY_NAME_BOOLEAN,
+  XmlItem.JSON_PROPERTY_NAME_ARRAY,
+  XmlItem.JSON_PROPERTY_NAME_WRAPPED_ARRAY,
+  XmlItem.JSON_PROPERTY_PREFIX_STRING,
+  XmlItem.JSON_PROPERTY_PREFIX_NUMBER,
+  XmlItem.JSON_PROPERTY_PREFIX_INTEGER,
+  XmlItem.JSON_PROPERTY_PREFIX_BOOLEAN,
+  XmlItem.JSON_PROPERTY_PREFIX_ARRAY,
+  XmlItem.JSON_PROPERTY_PREFIX_WRAPPED_ARRAY,
+  XmlItem.JSON_PROPERTY_NAMESPACE_STRING,
+  XmlItem.JSON_PROPERTY_NAMESPACE_NUMBER,
+  XmlItem.JSON_PROPERTY_NAMESPACE_INTEGER,
+  XmlItem.JSON_PROPERTY_NAMESPACE_BOOLEAN,
+  XmlItem.JSON_PROPERTY_NAMESPACE_ARRAY,
+  XmlItem.JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY,
+  XmlItem.JSON_PROPERTY_PREFIX_NS_STRING,
+  XmlItem.JSON_PROPERTY_PREFIX_NS_NUMBER,
+  XmlItem.JSON_PROPERTY_PREFIX_NS_INTEGER,
+  XmlItem.JSON_PROPERTY_PREFIX_NS_BOOLEAN,
+  XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
+  XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
+})
 
 public class XmlItem  implements Serializable {
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";

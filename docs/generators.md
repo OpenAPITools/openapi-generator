@@ -125,12 +125,14 @@ The following generators are available:
 
 
 ## SCHEMA generators
+* [avro-schema (beta)](generators/avro-schema)  
 * [mysql-schema](generators/mysql-schema)  
 
 
 ## CONFIG generators
 * [apache2](generators/apache2)  
 * [graphql-schema](generators/graphql-schema)  
+* [grpc-schema (beta)](generators/grpc-schema)  
 
 
 

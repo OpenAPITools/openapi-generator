@@ -8,6 +8,7 @@
  */
 
 package petstore
+// OuterEnumInteger the model 'OuterEnumInteger'
 type OuterEnumInteger int32
 
 // List of OuterEnumInteger

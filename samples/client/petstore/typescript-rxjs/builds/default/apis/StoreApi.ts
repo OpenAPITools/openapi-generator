@@ -45,7 +45,7 @@ export class StoreApi extends BaseAPI {
             path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(requestParameters.orderId)),
             method: 'DELETE',
         });
-    }
+    };
 
     /**
      * Returns a map of status codes to quantities
@@ -61,7 +61,7 @@ export class StoreApi extends BaseAPI {
             method: 'GET',
             headers,
         });
-    }
+    };
 
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -74,7 +74,7 @@ export class StoreApi extends BaseAPI {
             path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(requestParameters.orderId)),
             method: 'GET',
         });
-    }
+    };
 
     /**
      * Place an order for a pet
@@ -92,6 +92,6 @@ export class StoreApi extends BaseAPI {
             headers,
             body: requestParameters.body,
         });
-    }
+    };
 
 }
