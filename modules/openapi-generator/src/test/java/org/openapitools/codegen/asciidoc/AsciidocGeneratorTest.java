@@ -28,7 +28,7 @@ public class AsciidocGeneratorTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
  
 	@Test
-    public void testSpecSchema() throws Exception {
+    public void testPingSpecTitle() throws Exception {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/ping.yaml");
 
         AsciidocDocumentationCodegen codeGen = new AsciidocDocumentationCodegen();
@@ -38,7 +38,7 @@ public class AsciidocGeneratorTest {
     }
 	
     @Test
-    public void testGenerateMarkupFileWithAsciidocGenerator() throws Exception {
+    public void testGenerateIndexAsciidocMarkupFileWithAsciidocGenerator() throws Exception {
 
         File output = Files.createTempDirectory("test").toFile();
         
@@ -58,7 +58,7 @@ public class AsciidocGeneratorTest {
     }
     
     @Test
-    public void testGenerateAsciidocMarkupContent() throws Exception {
+    public void testGenerateIndexAsciidocMarkupContent() throws Exception {
         final File output = Files.createTempDirectory("test").toFile();
         output.mkdirs();
         output.deleteOnExit();
@@ -85,7 +85,7 @@ public class AsciidocGeneratorTest {
 
     
     @Test
-    public void testAdditionalDirectoriesGeneratoreHeaderAttributes() throws Exception {
+    public void testAdditionalDirectoriesGeneratedIntoHeaderAttributes() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
 
         LOGGER.info("test: generating sample markup " + output.getAbsolutePath());

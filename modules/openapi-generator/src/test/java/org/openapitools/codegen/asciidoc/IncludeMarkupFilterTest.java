@@ -20,7 +20,7 @@ public class IncludeMarkupFilterTest extends LambdaTest {
     }
 
     @Test
-    public void testMarkupFilterDoesNotIncludeMissingFile() {
+    public void testIncludeMarkupFilterDoesNotIncludeMissingFile() {
         
     	final AsciidocDocumentationCodegen generator = new AsciidocDocumentationCodegen();
         final Map<String, Object> ctx = context("specinclude", generator.new IncludeMarkupLambda("DOES_NOT_EXIST"));
@@ -30,7 +30,7 @@ public class IncludeMarkupFilterTest extends LambdaTest {
     }
 
     @Test
-    public void testMarkupIncludesFoundFileOk() throws IOException {
+    public void testIncludeMarkupFilterFoundFileOk() throws IOException {
     	
     	File tempFile = File.createTempFile("IncludeMarkupFilterTestDummyfile", "-adoc");
         tempFile.deleteOnExit();

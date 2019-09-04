@@ -18,7 +18,7 @@ public class AsciidocSampleGeneratorTest {
 
 	/** ensure api-docs.json includes sample and spec files into markup. */
 	@Test
-	public void testSampleMarkupGenerationFromJsonWithSpecsAndSamples() throws Exception {
+	public void testSampleAsciidocMarkupGenerationFromJsonWithSpecsAndSamples() throws Exception {
 
 		File outputTempDirectory = Files.createTempDirectory("test-asciidoc-sample-generator.").toFile();
 
