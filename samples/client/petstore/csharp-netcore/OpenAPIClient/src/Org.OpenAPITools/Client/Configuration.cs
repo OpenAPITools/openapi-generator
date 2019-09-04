@@ -395,7 +395,7 @@ namespace Org.OpenAPITools.Client
             {
                 ApiKey = apiKey,
                 ApiKeyPrefix = apiKeyPrefix,
-                DefaultHeader = defaultHeaders,
+                DefaultHeaders = defaultHeaders,
                 BasePath = second.BasePath ?? first.BasePath,
                 Timeout = second.Timeout,
                 UserAgent = second.UserAgent ?? first.UserAgent,
