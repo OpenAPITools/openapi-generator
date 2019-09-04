@@ -20,6 +20,7 @@ package org.openapitools.codegen.plugin;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
@@ -51,6 +53,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.sonatype.plexus.build.incremental.BuildContext;
@@ -767,7 +770,14 @@ public class CodeGenMojo extends AbstractMojo {
         if (inputSpecRemoteUrl != null) {
             inputSpecTempFile = File.createTempFile("openapi-spec", ".tmp");
 
-            ReadableByteChannel readableByteChannel = Channels.newChannel(inputSpecRemoteUrl.openStream());
+            URLConnection conn = inputSpecRemoteUrl.openConnection();
+            if (isNotEmpty(auth)) {
+                List<AuthorizationValue> authList = AuthParser.parse(auth);
+                for (AuthorizationValue auth : authList) {
+                    conn.setRequestProperty(auth.getKeyName(), auth.getValue());
+                }
+            }
+            ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream());
 
             FileOutputStream fileOutputStream = new FileOutputStream(inputSpecTempFile);
             FileChannel fileChannel = fileOutputStream.getChannel();
