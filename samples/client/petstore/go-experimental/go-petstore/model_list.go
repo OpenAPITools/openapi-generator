@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// List struct for List
 type List struct {
 	Var123List *string `json:"123-list,omitempty"`
 
@@ -51,6 +51,7 @@ func (o *List) SetVar123List(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o List) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Var123List != nil {

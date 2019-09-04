@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// Capitalization struct for Capitalization
 type Capitalization struct {
 	SmallCamel *string `json:"smallCamel,omitempty"`
 
@@ -227,6 +227,7 @@ func (o *Capitalization) SetATT_NAME(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Capitalization) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.SmallCamel != nil {

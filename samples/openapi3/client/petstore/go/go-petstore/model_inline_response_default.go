@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// InlineResponseDefault struct for InlineResponseDefault
 type InlineResponseDefault struct {
 	String Foo `json:"string,omitempty"`
 }
