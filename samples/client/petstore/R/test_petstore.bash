@@ -4,7 +4,7 @@ set -e
 
 REPO=http://cran.revolutionanalytics.com
 
-export R_LIBS_USER=$HOME/R
+export R_LIBS_USER=$HOME/.R
 
 echo "R lib directory: $R_LIBS_USER"
 
