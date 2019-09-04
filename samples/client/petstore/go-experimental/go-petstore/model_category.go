@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 )
-
+// Category struct for Category
 type Category struct {
 	Id *int64 `json:"id,omitempty"`
 
@@ -87,6 +87,7 @@ func (o *Category) SetName(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Category) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
