@@ -23,11 +23,11 @@ import org.testng.annotations.Test;
 import io.swagger.v3.oas.models.OpenAPI;
 
 /** check against ping.yaml spec. */
-public class AsciidocGeneratorTest {	
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
- 
-	@Test
+public class AsciidocGeneratorTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
+
+    @Test
     public void testPingSpecTitle() throws Exception {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/ping.yaml");
 
@@ -36,16 +36,14 @@ public class AsciidocGeneratorTest {
 
         Assert.assertEquals(openAPI.getInfo().getTitle(), "ping test");
     }
-	
+
     @Test
     public void testGenerateIndexAsciidocMarkupFileWithAsciidocGenerator() throws Exception {
 
         File output = Files.createTempDirectory("test").toFile();
-        
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("asciidoc")
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath())
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("asciidoc")
+                .setInputSpec("src/test/resources/3_0/ping.yaml").setOutputDir(output.getAbsolutePath())
                 .addAdditionalProperty(AsciidocDocumentationCodegen.SNIPPET_DIR, "MY-SNIPPET-DIR")
                 .addAdditionalProperty(AsciidocDocumentationCodegen.SPEC_DIR, "MY-SPEC-DIR");
 
@@ -56,7 +54,7 @@ public class AsciidocGeneratorTest {
         Map<String, String> generatedFiles = generator.getFiles();
         TestUtils.ensureContainsFile(generatedFiles, output, "index.adoc");
     }
-    
+
     @Test
     public void testGenerateIndexAsciidocMarkupContent() throws Exception {
         final File output = Files.createTempDirectory("test").toFile();
@@ -73,17 +71,18 @@ public class AsciidocGeneratorTest {
         boolean markupFileGenerated = false;
         for (File file : files) {
             if (file.getName().equals("index.adoc")) {
-            	markupFileGenerated = true;
+                markupFileGenerated = true;
                 String markupContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
                 // check on some basic asciidoc markup content
-                Assert.assertTrue(markupContent.contains("= ping test"), "expected = header in: " + markupContent.substring(0, 50));
-                Assert.assertTrue(markupContent.contains(":toc: "), "expected = :toc: " + markupContent.substring(0, 50));
+                Assert.assertTrue(markupContent.contains("= ping test"),
+                        "expected = header in: " + markupContent.substring(0, 50));
+                Assert.assertTrue(markupContent.contains(":toc: "),
+                        "expected = :toc: " + markupContent.substring(0, 50));
             }
         }
         Assert.assertTrue(markupFileGenerated, "Default api file is not generated!");
     }
 
-    
     @Test
     public void testAdditionalDirectoriesGeneratedIntoHeaderAttributes() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
@@ -93,22 +92,22 @@ public class AsciidocGeneratorTest {
         Map<String, Object> props = new TreeMap<String, Object>();
         props.put("specDir", "spec");
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("asciidoc")
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath())
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("asciidoc")
+                .setInputSpec("src/test/resources/3_0/ping.yaml").setOutputDir(output.getAbsolutePath())
                 .addAdditionalProperty(AsciidocDocumentationCodegen.SPEC_DIR, "SPEC-DIR")
-        		.addAdditionalProperty(AsciidocDocumentationCodegen.SNIPPET_DIR, "MY/SNIPPET/DIR");
+                .addAdditionalProperty(AsciidocDocumentationCodegen.SNIPPET_DIR, "MY/SNIPPET/DIR");
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         boolean markupFileGenerated = false;
         for (File file : files) {
             if (file.getName().equals("index.adoc")) {
-            	markupFileGenerated = true;
+                markupFileGenerated = true;
                 String markupContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-                Assert.assertTrue(markupContent.contains(":specDir: SPEC-DIR"), "expected :specDir: in: " + markupContent.substring(0, 250));
-                Assert.assertTrue(markupContent.contains(":snippetDir: MY/SNIPPET/DIR"), "expected :snippetDir: in: " + markupContent.substring(0, 250));
+                Assert.assertTrue(markupContent.contains(":specDir: SPEC-DIR"),
+                        "expected :specDir: in: " + markupContent.substring(0, 250));
+                Assert.assertTrue(markupContent.contains(":snippetDir: MY/SNIPPET/DIR"),
+                        "expected :snippetDir: in: " + markupContent.substring(0, 250));
             }
         }
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");

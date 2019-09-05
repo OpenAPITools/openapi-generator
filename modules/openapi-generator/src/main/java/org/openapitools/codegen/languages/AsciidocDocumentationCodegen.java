@@ -19,103 +19,112 @@ import com.samskivert.mustache.Template;
 
 import io.swagger.v3.oas.models.OpenAPI;
 
-/** basic asciidoc markup generator.
- * @see <a href="https://asciidoctor.org">asciidoctor</a> 
-  */
+/**
+ * basic asciidoc markup generator.
+ * 
+ * @see <a href="https://asciidoctor.org">asciidoctor</a>
+ */
 public class AsciidocDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocDocumentationCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocDocumentationCodegen.class);
 
     public static final String SPEC_DIR = "specDir";
     public static final String SNIPPET_DIR = "snippetDir";
 
-	/** 
-	 * Lambda emitting an asciidoc "include::filename.adoc[]" if file is found in path. 
-	 * Use:
-	 * <pre>{{#includemarkup}}{{name}}/description.adoc{{/includemarkup}}</pre>
-	 */
-	public class IncludeMarkupLambda implements Mustache.Lambda {
-		
-		private long includeCount = 0;
-		private long notFoundCount = 0;
-    	private String basePath;
-	    
-	    public IncludeMarkupLambda(final String basePath) {
-	    	this.basePath = basePath;
-		}
-	    
-	    public String resetCounter( ) {
-	    	String msg = "included: " + includeCount + " notFound: " + notFoundCount + " from " + basePath;
-	    	includeCount = 0;
-	    	notFoundCount = 0;
-	    	return msg;
-	    }
+    /**
+     * Lambda emitting an asciidoc "include::filename.adoc[]" if file is found in
+     * path. Use:
+     * 
+     * <pre>
+     * {{#includemarkup}}{{name}}/description.adoc{{/includemarkup}}
+     * </pre>
+     */
+    public class IncludeMarkupLambda implements Mustache.Lambda {
 
-	    @Override
-	    public void execute(final Template.Fragment frag, final Writer out) throws IOException {
-	    	
-	    	final String relativeFileName = AsciidocDocumentationCodegen.sanitize(frag.execute());
-	    	final Path filePathToInclude = Paths.get(basePath, relativeFileName).toAbsolutePath();
-	        
-	        if(Files.isRegularFile(filePathToInclude)) {
-		        LOGGER.debug("including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
-		        out.write("\ninclude::" + relativeFileName + "[]\n");	
-	        } else {
-		        LOGGER.debug(++notFoundCount + ". file not found, skip include for: " +  filePathToInclude.toString());
-		        out.write("\n// markup not found, no include ::" + relativeFileName + "[]\n");	
-	        }	        
-	    }
-	}
-	
-	/** 
-	 * Lambda emitting an asciidoc "http link" if file is found in path. 
-	 * Use:
-	 * <pre>{{#snippetLink}}markup until koma, /{{name}}.json{{/snippetLink}}</pre>
-	 */
-	public class LinkMarkupLambda implements Mustache.Lambda {
-		
-		private long linkedCount = 0;
-		private long notFoundLinkCount = 0;
-    	private String basePath;
-	    
-	    public LinkMarkupLambda(final String basePath) {
-	    	this.basePath = basePath;
-		}
-	    
-	    public String resetCounter( ) {
-	    	String msg = "linked:" + linkedCount + " notFound: " + notFoundLinkCount + " from " + basePath;
-	    	linkedCount = 0;
-	    	notFoundLinkCount = 0;
-	    	return msg;
-	    }
+        private long includeCount = 0;
+        private long notFoundCount = 0;
+        private String basePath;
 
-	    @Override
-	    public void execute(final Template.Fragment frag, final Writer out) throws IOException {
-	    	
-	    	final String content = frag.execute();
-	    	final String[] tokens = content.split(",", 2);
+        public IncludeMarkupLambda(final String basePath) {
+            this.basePath = basePath;
+        }
 
-	    	final String linkName = tokens.length > 0 ? tokens[0] : "";
-	    	
-	    	final String relativeFileName = AsciidocDocumentationCodegen.sanitize(tokens.length > 1 ? tokens[1] : linkName);
-	    	
-	    	final Path filePathToLinkTo = Paths.get(basePath, relativeFileName).toAbsolutePath();  	
-	        
-	        if(Files.isRegularFile(filePathToLinkTo)) {
-		        LOGGER.debug("linking " + ++linkedCount + ". file into markup from: " + filePathToLinkTo.toString());
-		        out.write("\n" + linkName + " link:" + relativeFileName + "[]\n");	
-	        } else {
-		        LOGGER.debug(++notFoundLinkCount + ". file not found, skip link for: " + filePathToLinkTo.toString());
-		        out.write("\n// file not found, no " + linkName + " link :" + relativeFileName + "[]\n");	
-	        }	        
-	    }
-	}	
-	
+        public String resetCounter() {
+            String msg = "included: " + includeCount + " notFound: " + notFoundCount + " from " + basePath;
+            includeCount = 0;
+            notFoundCount = 0;
+            return msg;
+        }
+
+        @Override
+        public void execute(final Template.Fragment frag, final Writer out) throws IOException {
+
+            final String relativeFileName = AsciidocDocumentationCodegen.sanitize(frag.execute());
+            final Path filePathToInclude = Paths.get(basePath, relativeFileName).toAbsolutePath();
+
+            if (Files.isRegularFile(filePathToInclude)) {
+                LOGGER.debug(
+                        "including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
+                out.write("\ninclude::" + relativeFileName + "[]\n");
+            } else {
+                LOGGER.debug(++notFoundCount + ". file not found, skip include for: " + filePathToInclude.toString());
+                out.write("\n// markup not found, no include ::" + relativeFileName + "[]\n");
+            }
+        }
+    }
+
+    /**
+     * Lambda emitting an asciidoc "http link" if file is found in path. Use:
+     * 
+     * <pre>
+     * {{#snippetLink}}markup until koma, /{{name}}.json{{/snippetLink}}
+     * </pre>
+     */
+    public class LinkMarkupLambda implements Mustache.Lambda {
+
+        private long linkedCount = 0;
+        private long notFoundLinkCount = 0;
+        private String basePath;
+
+        public LinkMarkupLambda(final String basePath) {
+            this.basePath = basePath;
+        }
+
+        public String resetCounter() {
+            String msg = "linked:" + linkedCount + " notFound: " + notFoundLinkCount + " from " + basePath;
+            linkedCount = 0;
+            notFoundLinkCount = 0;
+            return msg;
+        }
+
+        @Override
+        public void execute(final Template.Fragment frag, final Writer out) throws IOException {
+
+            final String content = frag.execute();
+            final String[] tokens = content.split(",", 2);
+
+            final String linkName = tokens.length > 0 ? tokens[0] : "";
+
+            final String relativeFileName = AsciidocDocumentationCodegen
+                    .sanitize(tokens.length > 1 ? tokens[1] : linkName);
+
+            final Path filePathToLinkTo = Paths.get(basePath, relativeFileName).toAbsolutePath();
+
+            if (Files.isRegularFile(filePathToLinkTo)) {
+                LOGGER.debug("linking " + ++linkedCount + ". file into markup from: " + filePathToLinkTo.toString());
+                out.write("\n" + linkName + " link:" + relativeFileName + "[]\n");
+            } else {
+                LOGGER.debug(++notFoundLinkCount + ". file not found, skip link for: " + filePathToLinkTo.toString());
+                out.write("\n// file not found, no " + linkName + " link :" + relativeFileName + "[]\n");
+            }
+        }
+    }
+
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
-    
+
     private IncludeMarkupLambda includeSpecMarkupLambda;
     private IncludeMarkupLambda includeSnippetMarkupLambda;
     private LinkMarkupLambda linkSnippetMarkupLambda;
@@ -124,40 +133,42 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         return CodegenType.DOCUMENTATION;
     }
 
-    /** extracted filter value should be relative to be of use as link or include file. 
+    /**
+     * extracted filter value should be relative to be of use as link or include
+     * file.
+     * 
      * @param name filename to sanitize
-     * @return trimmed and striped path part or empty string. */
+     * @return trimmed and striped path part or empty string.
+     */
     static String sanitize(final String name) {
-    	String sanitized = name == null ? "" : name.trim();
-    	return sanitized.startsWith(File.separator) || sanitized.startsWith("/")
-    			? sanitized.substring(1)
-    			: sanitized;
-	}
+        String sanitized = name == null ? "" : name.trim();
+        return sanitized.startsWith(File.separator) || sanitized.startsWith("/") ? sanitized.substring(1) : sanitized;
+    }
 
-	public String getName() {
+    public String getName() {
         return "asciidoc";
     }
 
     public String getHelp() {
         return "Generates asciidoc markup based documentation.";
     }
-      
+
     public String getSpecDir() {
-    	return additionalProperties.get("specDir").toString();
+        return additionalProperties.get("specDir").toString();
     }
-    
+
     public String getSnippetDir() {
-    	return additionalProperties.get("snippetDir").toString();
+        return additionalProperties.get("snippetDir").toString();
     }
 
     public AsciidocDocumentationCodegen() {
         super();
 
         LOGGER.trace("start asciidoc codegen");
-        
+
         outputFolder = "generated-code" + File.separator + "asciidoc";
         embeddedTemplateDir = templateDir = "asciidoc-documentation";
-                
+
         defaultIncludes = new HashSet<String>();
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
@@ -170,15 +181,13 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
-        
-        cliOptions.add(new CliOption(
-        		SNIPPET_DIR, 
-        		"path with includable markup snippets (e.g. test output generated by restdoc, default: .")
-        		.defaultValue("."));
-        cliOptions.add(new CliOption(
-        		SPEC_DIR, 
-        		"path with includable markup spec files (e.g. handwritten additional docs, default: .")
-        		.defaultValue(".."));
+
+        cliOptions.add(new CliOption(SNIPPET_DIR,
+                "path with includable markup snippets (e.g. test output generated by restdoc, default: .")
+                        .defaultValue("."));
+        cliOptions.add(new CliOption(SPEC_DIR,
+                "path with includable markup spec files (e.g. handwritten additional docs, default: .")
+                        .defaultValue(".."));
 
         additionalProperties.put("appName", "OpenAPI Sample description");
         additionalProperties.put("appDescription", "A sample OpenAPI documentation");
@@ -190,15 +199,15 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        
+
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.adoc"));
         reservedWords = new HashSet<String>();
 
         languageSpecificPrimitives = new HashSet<String>();
         importMapping = new HashMap<String, String>();
-        
+
     }
-    
+
     @Override
     public String escapeQuotationMark(String input) {
         return input; // just return the original string
@@ -208,45 +217,44 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     public String escapeUnsafeCharacters(String input) {
         return input; // just return the original string
     }
-    
+
     @Override
     public void processOpts() {
         super.processOpts();
-        
+
         String specDir = this.additionalProperties.get(SPEC_DIR) + "";
-    	if( !Files.isDirectory(Paths.get(specDir))) {
-    		LOGGER.warn("base part for include markup lambda not found: " + specDir + " as " + Paths.get(specDir).toAbsolutePath());
-    	};
-        
+        if (!Files.isDirectory(Paths.get(specDir))) {
+            LOGGER.warn("base part for include markup lambda not found: " + specDir + " as "
+                    + Paths.get(specDir).toAbsolutePath());
+        }
+        ;
+
         this.includeSpecMarkupLambda = new IncludeMarkupLambda(specDir);
-        additionalProperties.put("specinclude", this.includeSpecMarkupLambda );
+        additionalProperties.put("specinclude", this.includeSpecMarkupLambda);
 
         String snippetDir = this.additionalProperties.get(SNIPPET_DIR) + "";
-    	if( !Files.isDirectory(Paths.get(snippetDir))) {
-    		LOGGER.warn("base part for include markup lambda not found: " + snippetDir + " as " + Paths.get(snippetDir).toAbsolutePath());
-    	};
-        
+        if (!Files.isDirectory(Paths.get(snippetDir))) {
+            LOGGER.warn("base part for include markup lambda not found: " + snippetDir + " as "
+                    + Paths.get(snippetDir).toAbsolutePath());
+        }
+        ;
+
         this.includeSnippetMarkupLambda = new IncludeMarkupLambda(snippetDir);
-        additionalProperties.put("snippetinclude", this.includeSnippetMarkupLambda );    
+        additionalProperties.put("snippetinclude", this.includeSnippetMarkupLambda);
 
         this.linkSnippetMarkupLambda = new LinkMarkupLambda(snippetDir);
-        additionalProperties.put("snippetlink", this.linkSnippetMarkupLambda );    
+        additionalProperties.put("snippetlink", this.linkSnippetMarkupLambda);
     }
 
     @Override
     public void processOpenAPI(OpenAPI openAPI) {
-    	if(this.includeSpecMarkupLambda != null) {
-    		LOGGER.info("specs: " + 
-    				": " + 
-    				this.includeSpecMarkupLambda.resetCounter());
-    	}
-    	if(this.includeSnippetMarkupLambda != null) {
-    		LOGGER.info(
-    				"snippets: " + 
-    				": " + 
-    				this.includeSnippetMarkupLambda.resetCounter());
-    	}
-		super.processOpenAPI(openAPI);
-	}
+        if (this.includeSpecMarkupLambda != null) {
+            LOGGER.info("specs: " + ": " + this.includeSpecMarkupLambda.resetCounter());
+        }
+        if (this.includeSnippetMarkupLambda != null) {
+            LOGGER.info("snippets: " + ": " + this.includeSnippetMarkupLambda.resetCounter());
+        }
+        super.processOpenAPI(openAPI);
+    }
 
 }
