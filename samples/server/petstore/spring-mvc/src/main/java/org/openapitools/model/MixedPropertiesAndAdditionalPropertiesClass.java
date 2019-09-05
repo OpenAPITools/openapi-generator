@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
 import org.threeten.bp.OffsetDateTime;
-import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 

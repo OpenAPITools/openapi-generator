@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.virtualan.model.Category;
 import org.openapitools.virtualan.model.Tag;
-import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
