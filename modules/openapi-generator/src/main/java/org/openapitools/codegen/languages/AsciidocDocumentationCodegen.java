@@ -54,7 +54,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 	    @Override
 	    public void execute(final Template.Fragment frag, final Writer out) throws IOException {
 	    	
-	    	final String relativeFileName = AsciidocDocumentationCodegen.Sanitize(frag.execute());
+	    	final String relativeFileName = AsciidocDocumentationCodegen.sanitize(frag.execute());
 	    	final Path filePathToInclude = Paths.get(basePath, relativeFileName).toAbsolutePath();
 	        
 	        if(Files.isRegularFile(filePathToInclude)) {
@@ -97,7 +97,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
 	    	final String linkName = tokens.length > 0 ? tokens[0] : "";
 	    	
-	    	final String relativeFileName = AsciidocDocumentationCodegen.Sanitize(tokens.length > 1 ? tokens[1] : linkName);
+	    	final String relativeFileName = AsciidocDocumentationCodegen.sanitize(tokens.length > 1 ? tokens[1] : linkName);
 	    	
 	    	final Path filePathToLinkTo = Paths.get(basePath, relativeFileName).toAbsolutePath();  	
 	        
@@ -124,8 +124,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         return CodegenType.DOCUMENTATION;
     }
 
-    /** extracted filter value should be relative to be of use as link or include file. */
-    public static String Sanitize(final String name) {
+    /** extracted filter value should be relative to be of use as link or include file. 
+     * @param name filename to sanitize
+     * @return trimmed and striped path part or empty string. */
+    static String sanitize(final String name) {
     	String sanitized = name == null ? "" : name.trim();
     	return sanitized.startsWith(File.separator) || sanitized.startsWith("/")
     			? sanitized.substring(1)
