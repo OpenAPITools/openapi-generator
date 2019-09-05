@@ -1,1 +1,30 @@
-#
+import httpclient
+import strformat
+import strutils
+import json
+import tables
+import uri
+
+{{#imports}}import ../models/{{import}}
+{{/imports}}
+
+const basepath = "{{{basePath}}}"
+{{#operations}}{{#operation}}
+proc {{{operationId}}}*(httpClient: HttpClient, {{#allParams}}{{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{^returnType}}void{{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}} =
+{{#hasBodyParam}}  httpClient.headers["Content-Type"] = "application/json"{{/hasBodyParam}}{{#hasHeaderParams}}{{#headerParams}}  httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}
+{{/headerParams}}{{/hasHeaderParams}}{{#hasQueryParams}}
+  let query = encodeQuery([{{#queryParams}}
+    ( "{{{baseName}}}", ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}} ),{{/queryParams}}
+  ]){{/hasQueryParams}}
+  discard httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#pathParams}}fmt"{{{path}}}"{{/pathParams}}{{#hasQueryParams}} & "?" & query{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}})
+{{#hasFormParams}}
+    {{#formParams}}
+        {{#isFile}}
+#.with_form_param("{{{baseName}}}".to_string(), unimplemented!())
+        {{/isFile}}
+        {{^isFile}}
+# .with_form_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
+        {{/isFile}}
+    {{/formParams}}
+{{/hasFormParams}}
+{{/operation}}{{/operations}}
