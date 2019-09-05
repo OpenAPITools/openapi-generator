@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// ArrayOfArrayOfNumberOnly struct for ArrayOfArrayOfNumberOnly
 type ArrayOfArrayOfNumberOnly struct {
 	ArrayArrayNumber *[][]float32 `json:"ArrayArrayNumber,omitempty"`
 
@@ -51,6 +51,7 @@ func (o *ArrayOfArrayOfNumberOnly) SetArrayArrayNumber(v [][]float32) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ArrayArrayNumber != nil {

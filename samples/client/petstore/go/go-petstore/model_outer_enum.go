@@ -8,6 +8,7 @@
  */
 
 package petstore
+// OuterEnum the model 'OuterEnum'
 type OuterEnum string
 
 // List of OuterEnum

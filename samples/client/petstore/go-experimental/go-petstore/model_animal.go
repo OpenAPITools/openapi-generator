@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 )
-
+// Animal struct for Animal
 type Animal struct {
 	ClassName *string `json:"className,omitempty"`
 
@@ -87,6 +87,7 @@ func (o *Animal) SetColor(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Animal) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ClassName == nil {
