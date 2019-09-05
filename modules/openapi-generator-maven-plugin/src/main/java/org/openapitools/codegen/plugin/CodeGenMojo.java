@@ -801,9 +801,7 @@ public class CodeGenMojo extends AbstractMojo {
     private URL inputSpecRemoteUrl(){
         try {
             return new URI(inputSpec).toURL();
-        } catch (URISyntaxException e) {
-            return null;
-        } catch (MalformedURLException e) {
+        } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
             return null;
         }
     }
