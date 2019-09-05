@@ -321,7 +321,7 @@ namespace Org.OpenAPITools.Client
                     request.RequestFormat = DataFormat.Json;
                 }
 
-                request.AddBody(options.Data);
+                request.AddJsonBody(options.Data);
             }
 
             if (options.FileParameters != null)
