@@ -331,9 +331,9 @@ namespace Org.OpenAPITools.Client
                     var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
                     var fileStream = fileParam.Value as FileStream;
                     if (fileStream != null)
-                        FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name));
+                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name)));
                     else
-                        FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided");
+                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided"));
                 }
             }
 
