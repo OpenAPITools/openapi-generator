@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
@@ -9,11 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
@@ -39,9 +39,11 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".nim");
         apiTemplateFiles.put("api.mustache", ".nim");
         embeddedTemplateDir = templateDir = "nim-client";
-        apiPackage = File.separator + "apis";
-        modelPackage = File.separator + "models";
+        apiPackage = File.separator + "src" + File.separator + "apis";
+        modelPackage = File.separator + "src" + File.separator + "models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", "src", "api_client.nim"));
+        supportingFiles.add(new SupportingFile("config.mustache", "src", "config.nim"));
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -108,6 +110,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "string");
         typeMapping.put("password", "string");
+        typeMapping.put("file", "string");
     }
 
     @Override
@@ -125,16 +128,58 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelImport(String name) {
+        name = name.replaceAll("-", "_");
         if (importMapping.containsKey(name)) {
-            return StringUtils.camelize(importMapping.get(name), true);
+            return "model_" + StringUtils.underscore(importMapping.get(name));
         } else {
-            return StringUtils.camelize(name, true);
+            return "model_" + StringUtils.underscore(name);
+        }
+    }
+
+    @Override
+    public String toApiImport(String name) {
+        name = name.replaceAll("-", "_");
+        if (importMapping.containsKey(name)) {
+            return "api_" + StringUtils.underscore(importMapping.get(name));
+        } else {
+            return "api_" + StringUtils.underscore(name);
         }
     }
 
     @Override
     public String toModelFilename(String name) {
-        return StringUtils.camelize(name, true);
+        name = name.replaceAll("-", "_");
+        return "model_" + StringUtils.underscore(name);
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        name = name.replaceAll("-", "_");
+        return "api_" + StringUtils.underscore(name);
+    }
+
+    @Override
+    public String toOperationId(String operationId) {
+        String sanitizedOperationId = sanitizeName(operationId);
+
+        if (isReservedWord(sanitizedOperationId)) {
+            sanitizedOperationId = "call" + StringUtils.camelize(sanitizedOperationId, false);
+        }
+
+        return StringUtils.camelize(sanitizedOperationId, true);
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        @SuppressWarnings("unchecked")
+        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+        @SuppressWarnings("unchecked")
+        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        for (CodegenOperation operation : operations) {
+            operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+        }
+
+        return objs;
     }
 
     @Override
@@ -146,6 +191,12 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return null;
             }
             return "seq[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            if (inner == null) {
+                inner = new StringSchema();
+            }
+            return "Table[string, " + getTypeDeclaration(inner) + "]";
         }
 
         String schemaType = getSchemaType(p);

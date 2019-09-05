@@ -1,0 +1,12 @@
+import httpclient
+
+import config
+
+# Models
+{{#models}}{{#model}}import models/{{classFilename}}
+{{/model}}{{/models}}
+# APIs
+{{#apiInfo}}{{#apis}}import apis/{{classFilename}}
+{{/apis}}{{/apiInfo}}
+let client = newHttpClient()
+client.headers["User-Agent"] = config.useragent
