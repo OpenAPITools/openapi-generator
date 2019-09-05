@@ -4,27 +4,25 @@ import strutils
 import json
 import tables
 import uri
+import marshal
 
 {{#imports}}import ../models/{{import}}
 {{/imports}}
-
+{{#description}}# {{{description}}}{{/description}}
 const basepath = "{{{basePath}}}"
 {{#operations}}{{#operation}}
 proc {{{operationId}}}*(httpClient: HttpClient, {{#allParams}}{{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{^returnType}}void{{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}} =
-{{#hasBodyParam}}  httpClient.headers["Content-Type"] = "application/json"{{/hasBodyParam}}{{#hasHeaderParams}}{{#headerParams}}  httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}
-{{/headerParams}}{{/hasHeaderParams}}{{#hasQueryParams}}
+  ## {{{summary}}}{{#hasBodyParam}}
+  httpClient.headers["Content-Type"] = "application/json"{{/hasBodyParam}}{{#hasFormParams}}
+  httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"{{/hasFormParams}}{{#hasHeaderParams}}{{#headerParams}}
+  httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{/headerParams}}{{#description}} ## {{{description}}}{{/description}}{{/hasHeaderParams}}{{#hasQueryParams}}
   let query = encodeQuery([{{#queryParams}}
-    ( "{{{baseName}}}", ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}} ),{{/queryParams}}
-  ]){{/hasQueryParams}}
-  discard httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#pathParams}}fmt"{{{path}}}"{{/pathParams}}{{#hasQueryParams}} & "?" & query{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}})
-{{#hasFormParams}}
-    {{#formParams}}
-        {{#isFile}}
-#.with_form_param("{{{baseName}}}".to_string(), unimplemented!())
-        {{/isFile}}
-        {{^isFile}}
-# .with_form_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
-        {{/isFile}}
-    {{/formParams}}
-{{/hasFormParams}}
+    ("{{{baseName}}}", ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}), # {{{description}}}{{/queryParams}}
+  ]){{/hasQueryParams}}{{#hasFormParams}}
+  let query = encodeQuery([{{#formParams}}
+    ("{{{baseName}}}", ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}), # {{{description}}}{{/formParams}}
+  ]){{/hasFormParams}}
+  let response = httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#pathParams}}fmt"{{{path}}}"{{/pathParams}}{{#hasQueryParams}} & "?" & query{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, $query{{/hasFormParams}}){{#returnType}}
+  result = to[{{{returnType}}}](response.body){{/returnType}}
+
 {{/operation}}{{/operations}}
