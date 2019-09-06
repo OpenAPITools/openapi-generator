@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 )
-
+// TypeHolderExample struct for TypeHolderExample
 type TypeHolderExample struct {
 	StringItem *string `json:"string_item,omitempty"`
 
@@ -192,6 +192,7 @@ func (o *TypeHolderExample) SetArrayItem(v []int32) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o TypeHolderExample) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.StringItem == nil {

@@ -631,6 +631,9 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-08-14 - [Our OpenAPI journey with Standardizing SDKs](https://bitmovin.com/our-openapi-journey-with-standardizing-sdks/) by [Sebastian Burgstaller](https://bitmovin.com/author/sburgstaller/) at [Bitmovin](https://www.bitmovin.com)
 - 2019-08-15 - [APIのコードを自動生成させたいだけならgRPCでなくてもよくない?](https://www.m3tech.blog/entry/2019/08/15/110000) by [M3, Inc.](https://corporate.m3.com/)
 - 2019-08-24 - [SwaggerドキュメントからOpenAPI Generatorを使ってモックサーバー作成](https://qiita.com/masayoshi0222/items/4845e4c715d04587c104) by [坂本正義](https://qiita.com/masayoshi0222)
+- 2019-08-29 - [OpenAPI初探](https://cloud.tencent.com/developer/article/1495986) by [peakxie](https://cloud.tencent.com/developer/user/1113152) at [腾讯云社区](https://cloud.tencent.com/developer)
+- 2019-08-29 - [全面进化：Kubernetes CRD 1.16 GA前瞻](https://www.servicemesher.com/blog/kubernetes-1.16-crd-ga-preview/) by [Min Kim](https://github.com/yue9944882) at [ServiceMesher Blog](https://www.servicemesher.com/blog/)
+- 2019-09-01 - [Creating a PHP-Slim server using OpenAPI (Youtube video)](https://www.youtube.com/watch?v=5cJtbIrsYkg) by [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -806,7 +809,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | C++       | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08) |
 | C#        | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) |
 | Clojure   |  |
-| Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) |
+| Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @nickmeinhold (2019/09)  |
 | Eiffel    | @jvelilla (2017/09) |
 | Elixir    | @mrmstn (2018/12) |
 | Elm       | @eriktim (2018/09) |

@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 )
-
+// Pet struct for Pet
 type Pet struct {
 	Id *int64 `json:"id,omitempty"`
 
@@ -228,6 +228,7 @@ func (o *Pet) SetStatus(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Pet) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
