@@ -91,7 +91,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("UUID", "QString");
         typeMapping.put("URI", "QString");
         typeMapping.put("file", "QIODevice");
-        typeMapping.put("binary", "QIODevice");
+        typeMapping.put("binary", "QByteArray");
         importMapping = new HashMap<String, String>();
         namespaces = new HashMap<String, String>();
 
@@ -160,9 +160,9 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isBinarySchema(p)) {
-            return getSchemaType(p) + "*";
+            return getSchemaType(p);
         } else if (ModelUtils.isFileSchema(p)) {
-            return getSchemaType(p) + "*";
+            return getSchemaType(p);
         }
         if (foundationClasses.contains(openAPIType)) {
             return openAPIType;

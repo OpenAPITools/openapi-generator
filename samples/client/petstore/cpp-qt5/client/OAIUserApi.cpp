@@ -46,6 +46,10 @@ void OAIUserApi::setApiTimeOutMs(const int tout){
     timeout = tout;
 }
 
+void OAIUserApi::setWorkingDirectory(const QString& path){
+    workingDirectory = path;
+}
+
 void OAIUserApi::addHeaders(const QString& key, const QString& value){
     defaultHeaders.insert(key, value);
 }
@@ -58,6 +62,7 @@ OAIUserApi::createUser(const OAIUser& body) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
 
     
@@ -107,6 +112,7 @@ OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& body) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
 
     
@@ -157,6 +163,7 @@ OAIUserApi::createUsersWithListInput(const QList<OAIUser>& body) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
 
     
@@ -210,6 +217,7 @@ OAIUserApi::deleteUser(const QString& username) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "DELETE");
 
 
@@ -258,6 +266,7 @@ OAIUserApi::getUserByName(const QString& username) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -320,6 +329,7 @@ OAIUserApi::loginUser(const QString& username, const QString& password) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -367,6 +377,7 @@ OAIUserApi::logoutUser() {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -415,6 +426,7 @@ OAIUserApi::updateUser(const QString& username, const OAIUser& body) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "PUT");
 
     
