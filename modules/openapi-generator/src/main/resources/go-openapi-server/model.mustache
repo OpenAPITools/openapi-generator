@@ -1,0 +1,72 @@
+{{>partial_header}}
+package {{modelPackage}}
+{{#models}}
+{{#imports}}
+{{#-first}}
+{{/-first}}
+import "{{import}}"
+{{#-last}}
+{{/-last}}
+{{/imports}}
+{{#model}}
+{{^isEnum}}
+import "github.com/jinzhu/copier"
+{{/isEnum}}
+{{/model}}
+
+{{#model}}
+{{#isEnum}}
+{{#description}}
+// {{{classname}}} : {{{description}}}
+{{/description}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+
+// List of {{{name}}}
+const (
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{^-first}}
+	{{/-first}}
+	{{classname}}_{{name}} {{{classname}}} = "{{{value}}}"
+	{{/enumVars}}
+	{{/allowableValues}}
+){{/isEnum}}{{^isEnum}}{{#description}}
+// {{{description}}}{{/description}}
+type {{classname}} struct {
+{{#vars}}
+{{^-first}}
+{{/-first}}
+{{#description}}
+	// {{{description}}}
+{{/description}}
+	{{name}} {{^required}}*{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+{{/vars}}
+}
+type {{classname}}_Field_Bits uint64
+const (
+	{{classname}}_UnUsed {{classname}}_Field_Bits = 1 << (1 * iota)
+{{#vars}}
+{{^-first}}
+{{/-first}}
+	{{classname}}_{{name}}
+{{/vars}}
+)
+
+func New{{classname}}(requiredFieldsBitMap {{classname}}_Field_Bits) *{{classname}} {
+        New := {{classname}}{}
+{{#vars}}
+{{^-first}}
+{{/-first}}
+{{^required}}	if ({{classname}}_{{name}} & requiredFieldsBitMap) > 0 { New.{{name}} = new({{dataType}}) }{{/required}}{{#required}}	//required field - {{name}} {{/required}}
+{{/vars}}
+        return &New
+}
+func (self *{{classname}})  Clone(model_fields {{classname}}_Field_Bits) *{{classname}} {
+	clone := New{{classname}}(model_fields)
+	copier.Copy(clone, self)
+	return clone
+}
+
+{{/isEnum}}
+{{/model}}
+{{/models}}

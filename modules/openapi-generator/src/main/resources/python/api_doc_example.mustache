@@ -16,6 +16,7 @@ configuration.api_key['{{{keyParamName}}}'] = 'YOUR_API_KEY'
 # configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
 configuration = {{{packageName}}}.Configuration()
+configuration.verify_ssl = False
 configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isOAuth}}
 
 # create an instance of the API class

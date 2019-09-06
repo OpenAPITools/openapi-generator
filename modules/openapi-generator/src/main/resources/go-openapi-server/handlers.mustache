@@ -1,0 +1,43 @@
+{{>partial_header}}
+package {{apiPackage}}
+import (
+	middleware "github.com/go-openapi/runtime/middleware"
+	"net/http"
+	"strings"
+	"math"
+
+)
+type EmptyPayload struct {
+	Message *string
+}
+
+// Principal principal
+type Principal struct {
+
+	// name
+	Name string `json:"name,omitempty"`
+
+}
+
+func (o *{{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}}API) InitHandlerCache(context *middleware.Context) map[string]map[string]http.Handler {
+        handlers := make(map[string]map[string]http.Handler)
+
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+        if handlers[strings.ToUpper("{{httpMethod}}")] == nil {
+                handlers[strings.ToUpper("{{httpMethod}}")] = make(map[string]http.Handler)
+        }
+        handlers[strings.ToUpper("{{httpMethod}}")]["{{path}}"] = New{{nickname}}(context, o.{{nickname}}Handler)
+
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+	return handlers
+}
+
+
+/*{{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}}API APIs */
+type {{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}}API struct {
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+	{{nickname}}Handler {{nickname}}Handler
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+}
+

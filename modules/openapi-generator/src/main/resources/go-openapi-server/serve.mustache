@@ -1,0 +1,66 @@
+{{>partial_header}}
+package {{apiPackage}}
+
+
+import (
+	"net/http"
+	middleware "github.com/go-openapi/runtime/middleware"
+)
+
+{{#operations}}{{#operation}}
+// {{nickname}} - {{{summary}}}
+
+type {{nickname}}HandlerFunc func({{nickname}}Params,  interface{}) middleware.Responder
+
+func (fn {{nickname}}HandlerFunc) Handle(params {{nickname}}Params, principal interface{}) middleware.Responder {
+	return fn(params, principal)
+}
+
+type {{nickname}}Handler interface {
+	Handle({{nickname}}Params, interface{}) middleware.Responder
+}
+
+func New{{nickname}}(ctx *middleware.Context, handler {{nickname}}Handler) *{{nickname}} {
+	return &{{nickname}}{Context: ctx, Handler: handler}
+}
+
+type {{nickname}} struct {
+	Context *middleware.Context
+	Handler {{nickname}}Handler
+}
+
+func (o *{{nickname}}) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+	route, rCtx, _ := o.Context.RouteInfo(r)
+	if rCtx != nil {
+		r = rCtx
+	}
+	var Params = New{{nickname}}Params()
+
+	var principal Principal
+	/*
+	//TODO auth machnism need to be implemented using o.Context.Authoriz
+	// 	
+	uprinc, aCtx, err := o.Context.Authorize(r, route)
+	if err != nil {
+		o.Context.Respond(rw, r, route.Produces, route, err)
+		return
+	}
+	if aCtx != nil {
+		r = aCtx
+	}
+	/*
+	if uprinc != nil {
+		principal = uprinc.(*Principal)
+	}*/
+
+	if err := o.Context.BindValidRequest(r, route, &Params); err != nil {
+		o.Context.Respond(rw, r, route.Produces, route, err)
+		return
+	}
+
+	res := o.Handler.Handle(Params, principal) // actually handle the request
+
+	o.Context.Respond(rw, r, route.Produces, route, res)
+
+}
+{{/operation}}{{/operations}}

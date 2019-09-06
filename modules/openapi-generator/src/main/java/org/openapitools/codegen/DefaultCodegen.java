@@ -1863,8 +1863,6 @@ public class DefaultCodegen implements CodegenConfig {
     protected void addProperties(Map<String, Schema> properties, List<String> required, Schema
             schema, Map<String, Schema> allSchemas) {
         if (schema instanceof ComposedSchema) {
-            throw new RuntimeException("Please report the issue: Cannot process Composed Schema in addProperties: " + schema);
-            /*
             ComposedSchema composedSchema = (ComposedSchema) schema;
             if (composedSchema.getAllOf() == null) {
                 return;
@@ -1874,7 +1872,6 @@ public class DefaultCodegen implements CodegenConfig {
                 addProperties(properties, required, component, allSchemas);
             }
             return;
-            */
         }
 
         Schema unaliasSchema = ModelUtils.unaliasSchema(globalSchemas, schema);

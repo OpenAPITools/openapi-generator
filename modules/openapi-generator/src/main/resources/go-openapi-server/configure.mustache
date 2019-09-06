@@ -1,0 +1,14 @@
+{{>partial_header}}
+package {{invokerPackage}}
+import (
+	api "{{projectName}}/{{apiPackagePath}}"
+)
+
+func New{{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}}API() *api.{{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}}API {
+	return &api.{{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}}API{
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+		{{nickname}}Handler: api.{{nickname}}HandlerFunc(ApiImpl{{nickname}}Handler),
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+	}
+}
+

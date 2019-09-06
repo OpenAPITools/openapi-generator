@@ -20,7 +20,9 @@ Method | HTTP request | Description
 ### Example
 {{#hasAuthMethods}}{{#authMethods}}
 {{#isBasic}}* Basic Authentication ({{name}}): {{/isBasic }}{{#isApiKey}}* Api Key Authentication ({{name}}): {{/isApiKey }}{{#isOAuth}}* OAuth Authentication ({{name}}): {{/isOAuth }}
+
 {{> api_doc_example }}
+
 {{/authMethods}}
 {{/hasAuthMethods}}
 {{^hasAuthMethods}}

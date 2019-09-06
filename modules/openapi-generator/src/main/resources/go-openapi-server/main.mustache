@@ -1,0 +1,154 @@
+{{>partial_header}}
+package main
+
+import (
+	"C"
+	"encoding/json"
+	"io/ioutil"
+
+	"log"
+	"os"
+
+	"crypto/tls"
+	"net/http"
+
+	apihandlers "{{projectName}}/{{invokerPackagePath}}"
+
+	loads "github.com/go-openapi/loads"
+	flags "github.com/jessevdk/go-flags"
+
+	errors "github.com/go-openapi/errors"
+	runtime "github.com/go-openapi/runtime"
+	middleware "github.com/go-openapi/runtime/middleware"
+)
+
+func configureAPI(api *CommonAPI) http.Handler {
+	// configure the api here
+
+
+{{#appName}}
+	pkgApi := apihandlers.New{{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}}API()
+{{/appName}}
+	// Update the handlers here to override
+
+	handlers := pkgApi.InitHandlerCache(api.Context())
+	api.SetHandlers(handlers)
+
+	api.ServeError = errors.ServeError
+
+	// Set your custom logger if needed. Default one is log.Printf
+	// Expected interface func(string, ...interface{})
+	//
+	// Example:
+	// apiLogger = log.Printf
+
+	api.JSONConsumer = runtime.JSONConsumer()
+
+	api.JSONProducer = runtime.JSONProducer()
+
+	api.ServerShutdown = func() {
+		// add code here
+	}
+	mimeTypes := []string{"application/json"}
+
+	api.ConsumersFor(mimeTypes)
+	api.ProducersFor(mimeTypes)
+	return setupGlobalMiddleware(api.Serve(setupMiddlewares))
+}
+
+func configureTLS(tlsConfig *tls.Config) {
+	// Make all necessary changes to the TLS configuration here.
+}
+
+func configureServer(s *http.Server, scheme, addr string) {
+}
+
+func setupMiddlewares(handler http.Handler) http.Handler {
+	return handler
+}
+
+func setupGlobalMiddleware(handler http.Handler) http.Handler {
+	return handler
+}
+
+func configureFlags(api *CommonAPI) {
+	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
+}
+func CheckError(err error) {
+    if err != nil {
+        panic("error: " + err.Error())
+    }
+}
+func InitSwaggerJsonFile() (json.RawMessage, json.RawMessage) {
+	var (
+		SwaggerJSON     json.RawMessage
+		FlatSwaggerJSON json.RawMessage
+	)
+
+	// Replace with actual swagger file
+	data, err := ioutil.ReadFile("/go/src/{{projectName}}/api/openapi.json")
+	CheckError(err)
+
+	m := make(map[string]interface{})
+	err = json.Unmarshal([]byte(data), &m)
+	CheckError(err)
+
+	m["basePath"] = "{{basePathWithoutHost}}"
+	j, err := json.Marshal(m)
+	CheckError(err)
+	
+	err = json.Unmarshal(j, &SwaggerJSON)
+	CheckError(err)
+
+	err = json.Unmarshal(j, &FlatSwaggerJSON)
+	CheckError(err)
+
+	return SwaggerJSON, FlatSwaggerJSON
+
+}
+func main() {
+
+	SwaggerJSON, FlatSwaggerJSON := InitSwaggerJsonFile()
+	swaggerSpec, err := loads.Embedded(SwaggerJSON, FlatSwaggerJSON)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	api := NewCommonAPI(swaggerSpec)
+
+	server := NewServer(api)
+	defer server.Shutdown()
+
+	parser := flags.NewParser(server, flags.Default)
+	// Replace with actual
+	parser.ShortDescription = "apis"
+	// Replace with actual
+	parser.LongDescription = "None"
+
+	server.ConfigureFlags()
+	for _, optsGroup := range api.CommandLineOptionsGroups {
+		_, err := parser.AddGroup(optsGroup.ShortDescription, optsGroup.LongDescription, optsGroup.Options)
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
+
+	if _, err := parser.Parse(); err != nil {
+		code := 1
+		if fe, ok := err.(*flags.Error); ok {
+			if fe.Type == flags.ErrHelp {
+				code = 0
+			}
+		}
+		os.Exit(code)
+	}
+
+	server.Host = string("0.0.0.0")
+	server.EnabledListeners = []string{"http"}
+	server.Port = 8080
+
+	server.SetHandler(configureAPI(api))
+
+	if err := server.Serve(); err != nil {
+		log.Fatalln(err)
+	}
+}

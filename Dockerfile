@@ -1,4 +1,13 @@
+FROM golang:alpine AS builder
+# Install git.
+# Git is required for fetching the dependencies.
+RUN apk update && apk add --no-cache git
+RUN	go get -u -v golang.org/x/tools/cmd/goimports
+
+
 FROM jimschubert/8-jdk-alpine-mvn:1.0
+COPY --from=builder /go/bin/goimports /bin/goimports
+
 
 RUN set -x && \
     apk add --no-cache bash

@@ -1,0 +1,15 @@
+{{>partial_header}}
+package {{modelPackage}}
+import (
+	"strings"
+)
+
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+func Build{{nickname}}Path({{#allParams}}{{#isPathParam}}param{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} string, {{/isPathParam}}{{/allParams}}unusedParams ...int) string {
+	path := "{{path}}"
+{{#allParams}}{{#isPathParam}}
+	path = strings.Replace(path, "{" + "{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}" + "}",  param{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}, -1)
+{{/isPathParam}}{{/allParams}}
+	return path
+}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}

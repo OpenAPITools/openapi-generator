@@ -1,0 +1,684 @@
+{{>partial_header}}
+
+package main
+
+import (
+	"context"
+	"crypto/tls"
+	"crypto/x509"
+	"errors"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net"
+	"net/http"
+	"os"
+	"os/signal"
+	"strconv"
+	"strings"
+	"sync"
+	"sync/atomic"
+	"syscall"
+	"time"
+
+	"github.com/go-openapi/runtime/flagext"
+	"github.com/go-openapi/swag"
+	flags "github.com/jessevdk/go-flags"
+	"golang.org/x/net/netutil"
+
+	ers "github.com/go-openapi/errors"
+	loads "github.com/go-openapi/loads"
+	runtime "github.com/go-openapi/runtime"
+	middleware "github.com/go-openapi/runtime/middleware"
+	security "github.com/go-openapi/runtime/security"
+	spec "github.com/go-openapi/spec"
+	strfmt "github.com/go-openapi/strfmt"
+)
+
+const (
+	schemeHTTP  = "http"
+	schemeHTTPS = "https"
+	schemeUnix  = "unix"
+)
+
+var defaultSchemes []string
+
+func init() {
+	defaultSchemes = []string{
+		schemeHTTPS,
+	}
+}
+
+// Principal principal
+type Principal struct {
+
+	// name
+	//TODO placeholder for role based auth
+	Name string `json:"name,omitempty"`
+}
+
+/*CommonAPIs */
+type CommonAPI struct {
+	spec            *loads.Document
+	context         *middleware.Context
+	handlers        map[string]map[string]http.Handler
+	formats         strfmt.Registry
+	customConsumers map[string]runtime.Consumer
+	customProducers map[string]runtime.Producer
+	defaultConsumes string
+	defaultProduces string
+	Middleware      func(middleware.Builder) http.Handler
+
+	BasicAuthenticator  func(security.UserPassAuthentication) runtime.Authenticator
+	APIKeyAuthenticator func(string, string, security.TokenAuthentication) runtime.Authenticator
+	BearerAuthenticator func(string, security.ScopedTokenAuthentication) runtime.Authenticator
+
+	JSONConsumer runtime.Consumer
+
+	JSONProducer runtime.Producer
+
+	ServeError func(http.ResponseWriter, *http.Request, error)
+
+	ServerShutdown func()
+
+	CommandLineOptionsGroups []swag.CommandLineOptionsGroup
+
+	Logger func(string, ...interface{})
+
+	APIAuthorizer runtime.Authorizer
+
+	ValidateJWT func(string, []string) (*Principal, error)
+}
+
+func NewCommonAPI(spec *loads.Document) *CommonAPI {
+	return &CommonAPI{
+		handlers:            make(map[string]map[string]http.Handler),
+		formats:             strfmt.Default,
+		defaultConsumes:     "application/json",
+		defaultProduces:     "application/json",
+		customConsumers:     make(map[string]runtime.Consumer),
+		customProducers:     make(map[string]runtime.Producer),
+		ServerShutdown:      func() {},
+		spec:                spec,
+		ServeError:          ers.ServeError,
+		BasicAuthenticator:  security.BasicAuth,
+		APIKeyAuthenticator: security.APIKeyAuth,
+		BearerAuthenticator: security.BearerAuth,
+		JSONConsumer:        runtime.JSONConsumer(),
+		JSONProducer:        runtime.JSONProducer(),
+
+		ValidateJWT: func(token string, scopes []string) (*Principal, error) {
+			return nil, ers.NotImplemented("not yet been implemented")
+		},
+
+		APIAuthorizer: security.Authorized(),
+	}
+}
+func (o *CommonAPI) Serve(builder middleware.Builder) http.Handler {
+	o.Init()
+
+	if o.Middleware != nil {
+		return o.Middleware(builder)
+	}
+	return o.context.APIHandler(builder)
+}
+
+func (o *CommonAPI) Init() {
+	o.Context()
+	//TODO do other stuff
+}
+
+func (o *CommonAPI) RegisterConsumer(mediaType string, consumer runtime.Consumer) {
+	o.customConsumers[mediaType] = consumer
+}
+
+func (o *CommonAPI) RegisterProducer(mediaType string, producer runtime.Producer) {
+	o.customProducers[mediaType] = producer
+}
+
+func (o *CommonAPI) SetDefaultProduces(mediaType string) {
+	o.defaultProduces = mediaType
+}
+
+func (o *CommonAPI) SetDefaultConsumes(mediaType string) {
+	o.defaultConsumes = mediaType
+}
+
+func (o *CommonAPI) SetSpec(spec *loads.Document) {
+	o.spec = spec
+}
+
+func (o *CommonAPI) DefaultProduces() string {
+	return o.defaultProduces
+}
+func (o *CommonAPI) DefaultConsumes() string {
+	return o.defaultConsumes
+}
+
+func (o *CommonAPI) Formats() strfmt.Registry {
+	return o.formats
+}
+
+func (o *CommonAPI) RegisterFormat(name string, format strfmt.Format, validator strfmt.Validator) {
+	o.formats.Add(name, format, validator)
+}
+func (o *CommonAPI) ServeErrorFor(operationID string) func(http.ResponseWriter, *http.Request, error) {
+	return o.ServeError
+}
+func (o *CommonAPI) AuthenticatorsFor(schemes map[string]spec.SecurityScheme) map[string]runtime.Authenticator {
+	//TODO Place holder for security
+	result := make(map[string]runtime.Authenticator)
+
+	for name, scheme := range schemes {
+		switch name {
+		case "ValidateJWT":
+			result[name] = o.BearerAuthenticator(scheme.Name, func(token string, scopes []string) (interface{}, error) {
+				return o.ValidateJWT(token, scopes)
+			})
+		}
+	}
+	return result
+}
+
+func (o *CommonAPI) Authorizer() runtime.Authorizer {
+
+	return o.APIAuthorizer
+}
+
+func (o *CommonAPI) ConsumersFor(mediaTypes []string) map[string]runtime.Consumer {
+
+	result := make(map[string]runtime.Consumer)
+	result["application/json"] = o.JSONConsumer
+	/*
+		for _, mt := range mediaTypes {
+			switch mt {
+
+			case "application/json":
+				result["application/json"] = o.JSONConsumer
+
+			}
+
+			if c, ok := o.customConsumers[mt]; ok {
+				result[mt] = c
+			}
+		}*/
+	return result
+
+}
+
+func (o *CommonAPI) ProducersFor(mediaTypes []string) map[string]runtime.Producer {
+
+	result := make(map[string]runtime.Producer)
+	result["application/json"] = o.JSONProducer
+	/*
+		for _, mt := range mediaTypes {
+			switch mt {
+
+			case "application/json":
+				result["application/json"] = o.JSONProducer
+
+			}
+
+			if p, ok := o.customProducers[mt]; ok {
+				result[mt] = p
+			}
+		}*/
+	return result
+
+}
+
+func (o *CommonAPI) SetHandlers(handlers map[string]map[string]http.Handler) {
+	o.handlers = handlers
+}
+
+func (o *CommonAPI) HandlerFor(method, path string) (http.Handler, bool) {
+	if o.handlers == nil {
+		return nil, false
+	}
+	um := strings.ToUpper(method)
+	if _, ok := o.handlers[um]; !ok {
+		return nil, false
+	}
+	if path == "/" {
+		path = ""
+	}
+	h, ok := o.handlers[um][path]
+	return h, ok
+}
+
+func (o *CommonAPI) Context() *middleware.Context {
+	if o.context == nil {
+		o.context = middleware.NewRoutableContext(o.spec, o, nil)
+	}
+
+	return o.context
+}
+
+func NewServer(api *CommonAPI) *Server {
+	s := new(Server)
+
+	s.shutdown = make(chan struct{})
+	s.api = api
+	s.interrupt = make(chan os.Signal, 1)
+	return s
+}
+
+func (s *Server) ConfigureAPI() {
+	if s.api != nil {
+		s.handler = configureAPI(s.api)
+	}
+}
+
+func (s *Server) ConfigureFlags() {
+	if s.api != nil {
+		configureFlags(s.api)
+	}
+}
+
+type Server struct {
+	EnabledListeners []string         `long:"scheme" description:"the listeners to enable, this can be repeated and defaults to the schemes in the swagger spec"`
+	CleanupTimeout   time.Duration    `long:"cleanup-timeout" description:"grace period for which to wait before killing idle connections" default:"10s"`
+	GracefulTimeout  time.Duration    `long:"graceful-timeout" description:"grace period for which to wait before shutting down the server" default:"15s"`
+	MaxHeaderSize    flagext.ByteSize `long:"max-header-size" description:"controls the maximum number of bytes the server will read parsing the request header's keys and values, including the request line. It does not limit the size of the request body." default:"1MiB"`
+
+	SocketPath    flags.Filename `long:"socket-path" description:"the unix socket to listen on" default:"/var/run/{{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}}.sock"`
+	domainSocketL net.Listener
+
+	Host         string        `long:"host" description:"the IP to listen on" default:"localhost" env:"HOST"`
+	Port         int           `long:"port" description:"the port to listen on for insecure connections, defaults to a random value" env:"PORT"`
+	ListenLimit  int           `long:"listen-limit" description:"limit the number of outstanding requests"`
+	KeepAlive    time.Duration `long:"keep-alive" description:"sets the TCP keep-alive timeouts on accepted connections. It prunes dead TCP connections ( e.g. closing laptop mid-download)" default:"3m"`
+	ReadTimeout  time.Duration `long:"read-timeout" description:"maximum duration before timing out read of the request" default:"30s"`
+	WriteTimeout time.Duration `long:"write-timeout" description:"maximum duration before timing out write of the response" default:"60s"`
+	httpServerL  net.Listener
+
+	TLSHost           string         `long:"tls-host" description:"the IP to listen on for tls, when not specified it's the same as --host" env:"TLS_HOST"`
+	TLSPort           int            `long:"tls-port" description:"the port to listen on for secure connections, defaults to a random value" env:"TLS_PORT"`
+	TLSCertificate    flags.Filename `long:"tls-certificate" description:"the certificate to use for secure connections" env:"TLS_CERTIFICATE"`
+	TLSCertificateKey flags.Filename `long:"tls-key" description:"the private key to use for secure conections" env:"TLS_PRIVATE_KEY"`
+	TLSCACertificate  flags.Filename `long:"tls-ca" description:"the certificate authority file to be used with mutual tls auth" env:"TLS_CA_CERTIFICATE"`
+	TLSListenLimit    int            `long:"tls-listen-limit" description:"limit the number of outstanding requests"`
+	TLSKeepAlive      time.Duration  `long:"tls-keep-alive" description:"sets the TCP keep-alive timeouts on accepted connections. It prunes dead TCP connections ( e.g. closing laptop mid-download)"`
+	TLSReadTimeout    time.Duration  `long:"tls-read-timeout" description:"maximum duration before timing out read of the request"`
+	TLSWriteTimeout   time.Duration  `long:"tls-write-timeout" description:"maximum duration before timing out write of the response"`
+	httpsServerL      net.Listener
+
+	api          *CommonAPI
+	handler      http.Handler
+	hasListeners bool
+	shutdown     chan struct{}
+	shuttingDown int32
+	interrupted  bool
+	interrupt    chan os.Signal
+}
+
+func (s *Server) Logf(f string, args ...interface{}) {
+	if s.api != nil && s.api.Logger != nil {
+		s.api.Logger(f, args...)
+	} else {
+		log.Printf(f, args...)
+	}
+}
+
+func (s *Server) Fatalf(f string, args ...interface{}) {
+	if s.api != nil && s.api.Logger != nil {
+		s.api.Logger(f, args...)
+		os.Exit(1)
+	} else {
+		log.Fatalf(f, args...)
+	}
+}
+
+func (s *Server) SetAPI(api *CommonAPI) {
+	if api == nil {
+		s.api = nil
+		s.handler = nil
+		return
+	}
+
+	s.api = api
+	s.api.Logger = log.Printf
+	s.handler = configureAPI(api)
+}
+
+func (s *Server) hasScheme(scheme string) bool {
+	schemes := s.EnabledListeners
+	if len(schemes) == 0 {
+		schemes = defaultSchemes
+	}
+
+	for _, v := range schemes {
+		if v == scheme {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *Server) Serve() (err error) {
+	if !s.hasListeners {
+		if err = s.Listen(); err != nil {
+			return err
+		}
+	}
+
+	if s.handler == nil {
+		if s.api == nil {
+			return errors.New("can't create the default handler, as no api is set")
+		}
+
+		s.SetHandler(s.api.Serve(nil))
+	}
+
+	wg := new(sync.WaitGroup)
+	once := new(sync.Once)
+	signalNotify(s.interrupt)
+	go handleInterrupt(once, s)
+
+	servers := []*http.Server{}
+	wg.Add(1)
+	go s.handleShutdown(wg, &servers)
+
+	if s.hasScheme(schemeUnix) {
+		domainSocket := new(http.Server)
+		domainSocket.MaxHeaderBytes = int(s.MaxHeaderSize)
+		domainSocket.Handler = s.handler
+		if int64(s.CleanupTimeout) > 0 {
+			domainSocket.IdleTimeout = s.CleanupTimeout
+		}
+
+		configureServer(domainSocket, "unix", string(s.SocketPath))
+
+		wg.Add(1)
+		s.Logf("Serving {{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}} at unix://%s", s.SocketPath)
+		go func(l net.Listener) {
+			defer wg.Done()
+			if err := domainSocket.Serve(l); err != nil && err != http.ErrServerClosed {
+				s.Fatalf("%v", err)
+			}
+			s.Logf("Stopped serving {{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}} at unix://%s", s.SocketPath)
+		}(s.domainSocketL)
+		servers = append(servers, domainSocket)
+	}
+
+	if s.hasScheme(schemeHTTP) {
+		httpServer := new(http.Server)
+		httpServer.MaxHeaderBytes = int(s.MaxHeaderSize)
+		httpServer.ReadTimeout = s.ReadTimeout
+		// FIXME: Timeouts must be disabled in order to support streaming endpoints.
+		// See this golang issue: https://github.com/golang/go/issues/16100
+		//		httpServer.WriteTimeout = s.WriteTimeout
+		httpServer.SetKeepAlivesEnabled(int64(s.KeepAlive) > 0)
+		if s.ListenLimit > 0 {
+			s.httpServerL = netutil.LimitListener(s.httpServerL, s.ListenLimit)
+		}
+
+		if int64(s.CleanupTimeout) > 0 {
+			httpServer.IdleTimeout = s.CleanupTimeout
+		}
+
+		httpServer.Handler = s.handler
+
+		configureServer(httpServer, "http", s.httpServerL.Addr().String())
+
+		wg.Add(1)
+		s.Logf("Serving {{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}} at http://%s", s.httpServerL.Addr())
+		go func(l net.Listener) {
+			defer wg.Done()
+			if err := httpServer.Serve(l); err != nil && err != http.ErrServerClosed {
+				s.Fatalf("%v", err)
+			}
+			s.Logf("Stopped serving {{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}} at http://%s", l.Addr())
+		}(s.httpServerL)
+		servers = append(servers, httpServer)
+	}
+
+	if s.hasScheme(schemeHTTPS) {
+		httpsServer := new(http.Server)
+		httpsServer.MaxHeaderBytes = int(s.MaxHeaderSize)
+		httpsServer.ReadTimeout = s.TLSReadTimeout
+		// FIXME: Timeouts must be disabled in order to support streaming endpoints.
+		// See this golang issue: https://github.com/golang/go/issues/16100
+		//		httpsServer.WriteTimeout = s.TLSWriteTimeout
+		httpsServer.SetKeepAlivesEnabled(int64(s.TLSKeepAlive) > 0)
+		if s.TLSListenLimit > 0 {
+			s.httpsServerL = netutil.LimitListener(s.httpsServerL, s.TLSListenLimit)
+		}
+		if int64(s.CleanupTimeout) > 0 {
+			httpsServer.IdleTimeout = s.CleanupTimeout
+		}
+		httpsServer.Handler = s.handler
+
+		httpsServer.TLSConfig = &tls.Config{
+			PreferServerCipherSuites: true,
+			CurvePreferences:         []tls.CurveID{tls.CurveP256},
+			NextProtos:               []string{"http/2", "h2"},
+			MinVersion:               tls.VersionTLS12,
+			CipherSuites: []uint16{
+				tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+				tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+				tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+				tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,
+				tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+			},
+		}
+
+		if s.TLSCertificate != "" && s.TLSCertificateKey != "" {
+			httpsServer.TLSConfig.Certificates = make([]tls.Certificate, 1)
+			httpsServer.TLSConfig.Certificates[0], err = tls.LoadX509KeyPair(string(s.TLSCertificate), string(s.TLSCertificateKey))
+			if err != nil {
+				return err
+			}
+		}
+
+		if s.TLSCACertificate != "" {
+			caCert, caCertErr := ioutil.ReadFile(string(s.TLSCACertificate))
+			if caCertErr != nil {
+				return caCertErr
+			}
+			caCertPool := x509.NewCertPool()
+			ok := caCertPool.AppendCertsFromPEM(caCert)
+			if !ok {
+				return fmt.Errorf("cannot parse CA certificate")
+			}
+			httpsServer.TLSConfig.ClientCAs = caCertPool
+			httpsServer.TLSConfig.ClientAuth = tls.RequireAndVerifyClientCert
+		}
+
+		configureTLS(httpsServer.TLSConfig)
+
+		if len(httpsServer.TLSConfig.Certificates) == 0 {
+			if s.TLSCertificate == "" {
+				if s.TLSCertificateKey == "" {
+					s.Fatalf("the required flags `--tls-certificate` and `--tls-key` were not specified")
+				}
+				s.Fatalf("the required flag `--tls-certificate` was not specified")
+			}
+			if s.TLSCertificateKey == "" {
+				s.Fatalf("the required flag `--tls-key` was not specified")
+			}
+			s.Fatalf("no certificate was configured for TLS")
+		}
+
+		httpsServer.TLSConfig.BuildNameToCertificate()
+
+		configureServer(httpsServer, "https", s.httpsServerL.Addr().String())
+
+		wg.Add(1)
+		s.Logf("Serving {{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}} at https://%s", s.httpsServerL.Addr())
+		go func(l net.Listener) {
+			defer wg.Done()
+			if err := httpsServer.Serve(l); err != nil && err != http.ErrServerClosed {
+				s.Fatalf("%v", err)
+			}
+			s.Logf("Stopped serving {{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}} at https://%s", l.Addr())
+		}(tls.NewListener(s.httpsServerL, httpsServer.TLSConfig))
+		servers = append(servers, httpsServer)
+	}
+
+	wg.Wait()
+	return nil
+}
+
+func (s *Server) Listen() error {
+	if s.hasListeners {
+		return nil
+	}
+
+	if s.hasScheme(schemeHTTPS) {
+		if s.TLSHost == "" {
+			s.TLSHost = s.Host
+		}
+		if s.TLSListenLimit == 0 {
+			s.TLSListenLimit = s.ListenLimit
+		}
+		if int64(s.TLSKeepAlive) == 0 {
+			s.TLSKeepAlive = s.KeepAlive
+		}
+		if int64(s.TLSReadTimeout) == 0 {
+			s.TLSReadTimeout = s.ReadTimeout
+		}
+		if int64(s.TLSWriteTimeout) == 0 {
+			s.TLSWriteTimeout = s.WriteTimeout
+		}
+	}
+
+	if s.hasScheme(schemeUnix) {
+		domSockListener, err := net.Listen("unix", string(s.SocketPath))
+		if err != nil {
+			return err
+		}
+		s.domainSocketL = domSockListener
+	}
+
+	if s.hasScheme(schemeHTTP) {
+		listener, err := net.Listen("tcp", net.JoinHostPort(s.Host, strconv.Itoa(s.Port)))
+		if err != nil {
+			return err
+		}
+
+		h, p, err := swag.SplitHostPort(listener.Addr().String())
+		if err != nil {
+			return err
+		}
+		s.Host = h
+		s.Port = p
+		s.httpServerL = listener
+	}
+
+	if s.hasScheme(schemeHTTPS) {
+		tlsListener, err := net.Listen("tcp", net.JoinHostPort(s.TLSHost, strconv.Itoa(s.TLSPort)))
+		if err != nil {
+			return err
+		}
+
+		sh, sp, err := swag.SplitHostPort(tlsListener.Addr().String())
+		if err != nil {
+			return err
+		}
+		s.TLSHost = sh
+		s.TLSPort = sp
+		s.httpsServerL = tlsListener
+	}
+
+	s.hasListeners = true
+	return nil
+}
+
+func (s *Server) Shutdown() error {
+	if atomic.CompareAndSwapInt32(&s.shuttingDown, 0, 1) {
+		close(s.shutdown)
+	}
+	return nil
+}
+
+func (s *Server) handleShutdown(wg *sync.WaitGroup, serversPtr *[]*http.Server) {
+	defer wg.Done()
+
+	<-s.shutdown
+
+	servers := *serversPtr
+
+	ctx, cancel := context.WithTimeout(context.TODO(), s.GracefulTimeout)
+	defer cancel()
+
+	shutdownChan := make(chan bool)
+	for i := range servers {
+		server := servers[i]
+		go func() {
+			var success bool
+			defer func() {
+				shutdownChan <- success
+			}()
+			if err := server.Shutdown(ctx); err != nil {
+				s.Logf("HTTP server Shutdown: %v", err)
+			} else {
+				success = true
+			}
+		}()
+	}
+
+	success := true
+	for range servers {
+		success = success && <-shutdownChan
+	}
+	if success {
+		s.api.ServerShutdown()
+	}
+}
+
+func (s *Server) GetHandler() http.Handler {
+	return s.handler
+}
+
+func (s *Server) SetHandler(handler http.Handler) {
+	s.handler = handler
+}
+
+func (s *Server) UnixListener() (net.Listener, error) {
+	if !s.hasListeners {
+		if err := s.Listen(); err != nil {
+			return nil, err
+		}
+	}
+	return s.domainSocketL, nil
+}
+
+func (s *Server) HTTPListener() (net.Listener, error) {
+	if !s.hasListeners {
+		if err := s.Listen(); err != nil {
+			return nil, err
+		}
+	}
+	return s.httpServerL, nil
+}
+
+func (s *Server) TLSListener() (net.Listener, error) {
+	if !s.hasListeners {
+		if err := s.Listen(); err != nil {
+			return nil, err
+		}
+	}
+	return s.httpsServerL, nil
+}
+
+func handleInterrupt(once *sync.Once, s *Server) {
+	once.Do(func() {
+		for _ = range s.interrupt {
+			if s.interrupted {
+				s.Logf("Server already shutting down")
+				continue
+			}
+			s.interrupted = true
+			s.Logf("Shutting down... ")
+			if err := s.Shutdown(); err != nil {
+				s.Logf("HTTP {{#lambda.removespaces}}{{appName}}{{/lambda.removespaces}} Shutdown: %v", err)
+			}
+		}
+	})
+}
+
+func signalNotify(interrupt chan<- os.Signal) {
+	signal.Notify(interrupt, syscall.SIGINT, syscall.SIGTERM)
+}

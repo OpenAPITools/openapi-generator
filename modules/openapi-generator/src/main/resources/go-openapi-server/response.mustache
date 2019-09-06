@@ -1,0 +1,52 @@
+{{>partial_header}}
+package {{apiPackage}}
+
+
+import (
+	"net/http"
+	"github.com/go-openapi/runtime"
+	model "{{projectName}}/{{modelPackagePath}}"
+)
+{{#operations}}{{#operation}}
+{{#responses}}
+const {{nickname}}_{{code}}Code int = {{code}}
+
+type {{nickname}}_{{code}} struct {
+	_statusCode int
+	/*
+	  In: Body
+	*/
+	Payload *{{^dataType}}EmptyPayload{{/dataType}}{{dataType}} `json:"body,omitempty"`
+}
+
+func New{{nickname}}_{{code}}() *{{nickname}}_{{code}} {
+
+	return &{{nickname}}_{{code}}{ _statusCode: {{code}} }
+}
+
+func (o *{{nickname}}_{{code}}) WithPayload(payload *{{^dataType}}EmptyPayload{{/dataType}}{{dataType}}) *{{nickname}}_{{code}} {
+	o.Payload = payload
+	return o
+}
+
+func (o *{{nickname}}_{{code}}) SetPayload(payload *{{^dataType}}EmptyPayload{{/dataType}}{{dataType}}) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *{{nickname}}_{{code}}) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+	if o._statusCode <= 0 {
+		o._statusCode = 500
+	}
+
+	rw.WriteHeader(o._statusCode)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+
+}
+{{/responses}}
+{{/operation}}{{/operations}}

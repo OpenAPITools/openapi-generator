@@ -1,0 +1,73 @@
+{{>partial_header}}
+package {{apiPackage}}
+
+import (
+	"errors"
+	"net/url"
+	golangswaggerpaths "path"
+)
+
+{{#operations}}{{#operation}}
+type {{nickname}}URL struct {
+	_basePath string
+}
+func (o *{{nickname}}URL) WithBasePath(bp string) *{{nickname}}URL {
+	o.SetBasePath(bp)
+	return o
+}
+func (o *{{nickname}}URL) SetBasePath(bp string) {
+	o._basePath = bp
+}
+func (o *{{nickname}}URL) Build() (*url.URL, error) {
+	var result url.URL
+
+	var _path = "{{path}}"
+
+	_basePath := o._basePath
+	if _basePath == "" {
+		_basePath = "{{basePathWithoutHost}}"
+	}
+	result.Path = golangswaggerpaths.Join(_basePath, _path)
+
+	return &result, nil
+}
+
+func (o *{{nickname}}URL) Must(u *url.URL, err error) *url.URL {
+	if err != nil {
+		panic(err)
+	}
+	if u == nil {
+		panic("url can't be nil")
+	}
+	return u
+}
+
+
+func (o *{{nickname}}URL) String() string {
+	return o.Must(o.Build()).String()
+}
+
+func (o *{{nickname}}URL) BuildFull(scheme, host string) (*url.URL, error) {
+	if scheme == "" {
+		return nil, errors.New("scheme is required for a full url on {{nickname}}URL")
+	}
+	if host == "" {
+		return nil, errors.New("host is required for a full url on {{nickname}}URL")
+	}
+
+	base, err := o.Build()
+	if err != nil {
+		return nil, err
+	}
+
+	base.Scheme = scheme
+	base.Host = host
+	return base, nil
+}
+
+func (o *{{nickname}}URL) StringFull(scheme, host string) string {
+	return o.Must(o.BuildFull(scheme, host)).String()
+}
+
+{{/operation}}{{/operations}}
+

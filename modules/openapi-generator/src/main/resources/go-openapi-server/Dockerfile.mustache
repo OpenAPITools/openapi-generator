@@ -1,0 +1,6 @@
+FROM golang:1.10 AS build
+WORKDIR /go/src/{{projectName}}
+COPY . .
+
+RUN cd ./server && go get -d -v ./... && go build -o {{projectName}} .
+ENTRYPOINT ["./server/{{projectName}}"]

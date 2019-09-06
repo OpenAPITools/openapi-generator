@@ -1,0 +1,172 @@
+{{>partial_header}}
+package {{apiPackage}}
+
+
+import (
+	"net/http"
+	ge "github.com/go-openapi/errors"
+	middleware "github.com/go-openapi/runtime/middleware"
+	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/swag"
+	model "{{projectName}}/{{modelPackagePath}}"
+)
+{{#operations}}{{#operation}}
+func New{{nickname}}Params() {{nickname}}Params {
+
+	return {{nickname}}Params{}
+}
+
+type {{nickname}}Params struct {
+
+	// HTTP Request Object
+	HTTPRequest *http.Request `json:"-"`
+{{#allParams}}
+	{{#isQueryParam}}
+	{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{dataType}}
+	{{/isQueryParam}}
+	{{#isPathParam}}
+	{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{dataType}}
+	{{/isPathParam}}
+	{{#isBodyParam}}
+	Body *{{dataType}}
+	{{/isBodyParam}}
+{{/allParams}}
+}
+
+func (o *{{nickname}}Params) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+	var res []error
+
+	o.HTTPRequest = r
+
+{{#allParams}}
+	{{#isQueryParam}}
+	q{{paramName}}, qhk{{paramName}}, _ := runtime.Values(r.URL.Query()).GetOK("{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}")
+	if err := o.bind{{paramName}}(q{{paramName}}, qhk{{paramName}}, route.Formats); err != nil {
+		res = append(res, err)
+	}
+	{{/isQueryParam}}
+	{{#isBodyParam}}
+	if runtime.HasBody(r) {
+		defer r.Body.Close()
+		var body {{dataType}}
+		if err := route.Consumer.Consume(r.Body, &body); err != nil {
+			res = append(res, ge.NewParseError("body", "body", "", err))
+		} else {
+			// validate body object
+			/* FIXME - Skip validator for now
+			if err := body.Validate(route.Formats); err != nil {
+				res = append(res, err)
+			}
+
+			if len(res) == 0 {
+				o.Body = &body
+			}
+			*/
+			o.Body = &body
+		}
+	}
+	{{/isBodyParam}}
+	{{#isPathParam}}
+	r{{paramName}}, rhk{{paramName}}, _ := route.Params.GetOK("{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}")
+	if err := o.bind{{paramName}}(r{{paramName}}, rhk{{paramName}}, route.Formats); err != nil {
+		res = append(res, err)
+	}
+	{{/isPathParam}}
+{{/allParams}}
+	if len(res) > 0 {
+		return ge.CompositeValidationError(res...)
+	}
+	return nil
+}
+{{#allParams}}
+{{#isPathParam}}
+func (o *{{nickname}}Params) bind{{paramName}}(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	{{#isPrimitiveType}}
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+	{{/isPrimitiveType}}
+	{{#isBoolean}}
+	value, err := swag.ConvertBool(raw)
+	if err != nil {
+		return ge.InvalidType("{{paramName}}", "query", "bool", raw)
+	}
+	{{/isBoolean}}
+	{{#isInteger}}
+	value, err := swag.ConvertInt32(raw)
+	if err != nil {
+		return ge.InvalidType("{{paramName}}", "query", "integer", raw)
+	}
+	{{/isInteger}}
+	{{#isLong}}
+	value, err := swag.ConvertInt64(raw)
+	if err != nil {
+		return ge.InvalidType("{{paramName}}", "query", "integer", raw)
+	}
+	{{/isLong}}
+	{{#isString}}
+	value := raw
+	{{/isString}}
+	o.{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} = value
+
+	return nil
+}
+{{/isPathParam}}
+{{#isQueryParam}}
+func (o *{{nickname}}Params) bind{{paramName}}(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	{{#isPrimitiveType}}
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+	if raw == "" {
+	{{#required}}
+		return ge.Required("{{paramName}}", "query")
+	{{/required}}
+	{{^required}}
+		return nil
+	{{/required}}
+	}
+	{{/isPrimitiveType}}
+	{{#isBoolean}}
+	value, err := swag.ConvertBool(raw)
+	if err != nil {
+		return ge.InvalidType("{{paramName}}", "query", "bool", raw)
+	}
+	{{/isBoolean}}
+	{{#isInteger}}
+	value, err := swag.ConvertInt32(raw)
+	if err != nil {
+		return ge.InvalidType("{{paramName}}", "query", "integer", raw)
+	}
+	{{/isInteger}}
+	{{#isLong}}
+	value, err := swag.ConvertInt64(raw)
+	if err != nil {
+		return ge.InvalidType("{{paramName}}", "query", "integer", raw)
+	}
+	{{/isLong}}
+	{{#isString}}
+	value := raw
+	{{/isString}}
+	{{#isListContainer}}
+	var value {{dataType}}
+	raw := rawData
+	if len(raw) == 0 {
+		return nil
+	}
+	for _, iter := range raw {
+		in := iter
+		value = append(value, in)
+	}
+	{{/isListContainer}}
+
+	o.{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} = value
+	return nil
+}
+{{/isQueryParam}}
+{{/allParams}}
+
+{{/operation}}{{/operations}}

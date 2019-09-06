@@ -1,0 +1,19 @@
+{{>partial_header}}
+package {{invokerPackage}}
+{{#operations}}
+
+import (
+	api "{{projectName}}/{{apiPackagePath}}"
+){{#operation}}
+
+/*
+* ApiImpl{{nickname}}Handler function
+*{{#description}}{{description}}{{/description}}
+* @params api.{{nickname}}Params - query, path, body params
+* @params principal -
+* @return middleware.Responder - middleware responder
+*/
+func ApiImpl{{nickname}}Handler(params api.{{nickname}}Params, principal interface{}) middleware.Responder {
+	// TODO implement here
+	return middleware.NotImplemented("operation has not yet been implemented")
+}{{/operation}}{{/operations}}
