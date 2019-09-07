@@ -96,7 +96,7 @@ public class Pet {
 
       @Override
       public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return StatusEnum.fromValue(value);
       }
     }

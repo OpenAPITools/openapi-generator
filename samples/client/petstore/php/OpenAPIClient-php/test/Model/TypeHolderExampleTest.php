@@ -93,6 +93,13 @@ class TypeHolderExampleTest extends TestCase
     }
 
     /**
+     * Test attribute "float_item"
+     */
+    public function testPropertyFloatItem()
+    {
+    }
+
+    /**
      * Test attribute "integer_item"
      */
     public function testPropertyIntegerItem()
