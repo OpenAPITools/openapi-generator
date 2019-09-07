@@ -2,5 +2,5 @@
   "!include": "bin/typescript-axios-petstore-target-es6.json",
   "generatorName": "typescript-axios",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/client/petstore/typescript-axios/builds/es6-target"
+  "outputDir": "samples/client/petstore/typescript-axios/builds/es6-target"
 }

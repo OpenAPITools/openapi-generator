@@ -2,7 +2,7 @@
   "!include": "bin/typescript-angular-v8-petstore-provided-in-root-with-npm.json",
   "generatorName": "typescript-angular",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/client/petstore/typescript-angular-v8-provided-in-root/builds/with-npm",
+  "outputDir": "samples/client/petstore/typescript-angular-v8-provided-in-root/builds/with-npm",
   "additionalProperties": {
     "ngVersion": "8.0.0"
   }

@@ -1,5 +1,5 @@
 {
   "generatorName": "typescript-axios",
   "inputSpec": "modules/openapi-generator/src/test/resources/3_0/petstore-with-complex-headers.yaml",
-  "outDir": "samples/client/petstore/typescript-axios/builds/with-complex-headers"
+  "outputDir": "samples/client/petstore/typescript-axios/builds/with-complex-headers"
 }

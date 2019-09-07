@@ -1,5 +1,5 @@
 {
   "generatorName": "typescript-node",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/client/petstore/typescript-node/default"
+  "outputDir": "samples/client/petstore/typescript-node/default"
 }

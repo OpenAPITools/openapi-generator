@@ -1,7 +1,7 @@
 {
   "generatorName": "typescript-axios",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/client/petstore/typescript-axios/builds/with-interfaces",
+  "outputDir": "samples/client/petstore/typescript-axios/builds/with-interfaces",
   "additionalProperties": {
     "withInterfaces": true
   }

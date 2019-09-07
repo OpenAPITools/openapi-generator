@@ -1,7 +1,7 @@
 {
   "generatorName": "jaxrs-resteasy",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/server/petstore/jaxrs-resteasy/default",
+  "outputDir": "samples/server/petstore/jaxrs-resteasy/default",
   "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/resteasy",
   "additionalProperties": {
     "hideGenerationTimestamp": true

@@ -2,7 +2,7 @@
   "!include": "bin/typescript-petstore-npm.json",
   "generatorName": "typescript-angular",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/client/petstore/typescript-angular-v4/npm",
+  "outputDir": "samples/client/petstore/typescript-angular-v4/npm",
   "additionalProperties": {
     "ngVersion": "4"
   }

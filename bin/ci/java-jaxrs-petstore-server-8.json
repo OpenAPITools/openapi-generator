@@ -3,7 +3,7 @@
   "artifactId": "jaxrs-resteasy-eap-java8-server",
   "generatorName": "jaxrs-resteasy-eap",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/server/petstore/jaxrs-resteasy/eap-java8",
+  "outputDir": "samples/server/petstore/jaxrs-resteasy/eap-java8",
   "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/resteasy/eap",
   "additionalProperties": {
     "hideGenerationTimestamp": true

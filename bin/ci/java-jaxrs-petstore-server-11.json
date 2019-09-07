@@ -3,7 +3,7 @@
   "artifactId": "jaxrs-resteasy-joda-server",
   "generatorName": "jaxrs-resteasy",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/server/petstore/jaxrs-resteasy/joda",
+  "outputDir": "samples/server/petstore/jaxrs-resteasy/joda",
   "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/resteasy",
   "additionalProperties": {
     "hideGenerationTimestamp": true

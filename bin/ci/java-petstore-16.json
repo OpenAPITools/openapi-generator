@@ -3,7 +3,7 @@
   "artifactId": "petstore-java-client-retrofit2-play26",
   "generatorName": "java",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
-  "outDir": "samples/client/petstore/java/retrofit2-play26",
+  "outputDir": "samples/client/petstore/java/retrofit2-play26",
   "additionalProperties": {
     "hideGenerationTimestamp": true
   }

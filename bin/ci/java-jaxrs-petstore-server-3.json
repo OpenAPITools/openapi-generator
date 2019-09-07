@@ -2,7 +2,7 @@
   "artifactId": "cxf-server-non-spring",
   "generatorName": "jaxrs-cxf",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/server/petstore/jaxrs-cxf-non-spring-app",
+  "outputDir": "samples/server/petstore/jaxrs-cxf-non-spring-app",
   "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/cxf",
   "additionalProperties": {
     "hideGenerationTimestamp": true,

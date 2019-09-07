@@ -2,5 +2,5 @@
   "!include": "bin/typescript-fetch-petstore-target-es6.json",
   "generatorName": "typescript-fetch",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outDir": "samples/client/petstore/typescript-fetch/builds/es6-target"
+  "outputDir": "samples/client/petstore/typescript-fetch/builds/es6-target"
 }
