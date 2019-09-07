@@ -374,6 +374,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedOptionalImport = false;
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
+        boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
@@ -391,8 +392,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // import "reflect" package if the parameter is collectionFormat=multi
-                if (param.isCollectionFormatMulti) {
+                if (!addedReflectImport && param.isCollectionFormatMulti) {
                     imports.add(createMapping("import", "reflect"));
+                    addedReflectImport = true;
                 }
 
                 // import "optionals" package if the parameter is optional

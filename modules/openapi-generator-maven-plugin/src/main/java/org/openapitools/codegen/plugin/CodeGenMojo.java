@@ -20,7 +20,18 @@ package org.openapitools.codegen.plugin;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +53,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.sonatype.plexus.build.incremental.BuildContext;
@@ -429,7 +441,7 @@ public class CodeGenMojo extends AbstractMojo {
                 if (inputSpecFile.exists()) {
                     File storedInputSpecHashFile = getHashFile(inputSpecFile);
                     if(storedInputSpecHashFile.exists()) {
-                        String inputSpecHash = Files.asByteSource(inputSpecFile).hash(Hashing.sha256()).toString();
+                        String inputSpecHash = calculateInputSpecHash(inputSpecFile);
                         String storedInputSpecHash = Files.asCharSource(storedInputSpecHashFile, Charsets.UTF_8).read();
                         if (inputSpecHash.equals(storedInputSpecHash)) {
                             getLog().info(
@@ -720,12 +732,7 @@ public class CodeGenMojo extends AbstractMojo {
 
             // Store a checksum of the input spec
             File storedInputSpecHashFile = getHashFile(inputSpecFile);
-            ByteSource inputSpecByteSource =
-                inputSpecFile.exists()
-                    ? Files.asByteSource(inputSpecFile)
-                    : CharSource.wrap(ClasspathHelper.loadFileFromClasspath(inputSpecFile.toString().replaceAll("\\\\","/")))
-                        .asByteSource(Charsets.UTF_8);
-            String  inputSpecHash =inputSpecByteSource.hash(Hashing.sha256()).toString();
+            String inputSpecHash = calculateInputSpecHash(inputSpecFile);
 
             if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
                 File parent = new File(storedInputSpecHashFile.getParent());
@@ -746,8 +753,75 @@ public class CodeGenMojo extends AbstractMojo {
         }
     }
 
+    /**
+     * Calculate openapi specification file hash. If specification is hosted on remote resource it is downloaded first
+     *
+     * @param inputSpecFile - Openapi specification input file to calculate it's hash.
+     *                        Does not taken into account if input spec is hosted on remote resource
+     * @return openapi specification file hash
+     * @throws IOException
+     */
+    private String calculateInputSpecHash(File inputSpecFile) throws IOException {
+
+        URL inputSpecRemoteUrl = inputSpecRemoteUrl();
+
+        File inputSpecTempFile = inputSpecFile;
+
+        if (inputSpecRemoteUrl != null) {
+            inputSpecTempFile = File.createTempFile("openapi-spec", ".tmp");
+
+            URLConnection conn = inputSpecRemoteUrl.openConnection();
+            if (isNotEmpty(auth)) {
+                List<AuthorizationValue> authList = AuthParser.parse(auth);
+                for (AuthorizationValue auth : authList) {
+                    conn.setRequestProperty(auth.getKeyName(), auth.getValue());
+                }
+            }
+            ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream());
+
+            FileOutputStream fileOutputStream = new FileOutputStream(inputSpecTempFile);
+            FileChannel fileChannel = fileOutputStream.getChannel();
+
+            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+        }
+
+        ByteSource inputSpecByteSource =
+                inputSpecTempFile.exists()
+                        ? Files.asByteSource(inputSpecTempFile)
+                        : CharSource.wrap(ClasspathHelper.loadFileFromClasspath(inputSpecTempFile.toString().replaceAll("\\\\","/")))
+                        .asByteSource(Charsets.UTF_8);
+
+        return inputSpecByteSource.hash(Hashing.sha256()).toString();
+    }
+
+    /**
+     * Try to parse inputSpec setting string into URL
+     * @return A valid URL or null if inputSpec is not a valid URL
+     */
+    private URL inputSpecRemoteUrl(){
+        try {
+            return new URI(inputSpec).toURL();
+        } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get specification hash file
+     * @param inputSpecFile - Openapi specification input file to calculate it's hash.
+     *                        Does not taken into account if input spec is hosted on remote resource
+     * @return a file with previously calculated hash
+     */
     private File getHashFile(File inputSpecFile) {
-        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + inputSpecFile.getName() + ".sha256");
+        String name = inputSpecFile.getName();
+
+        URL url = inputSpecRemoteUrl();
+        if (url != null) {
+            String[] segments = url.getPath().split("/");
+            name = Files.getNameWithoutExtension(segments[segments.length - 1]);
+        }
+
+        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + ".sha256");
     }
 
     private String getCompileSourceRoot() {
@@ -757,8 +831,7 @@ public class CodeGenMojo extends AbstractMojo {
         final String sourceFolder =
                 sourceFolderObject == null ? "src/main/java" : sourceFolderObject.toString();
 
-        String sourceJavaFolder = output.toString() + "/" + sourceFolder;
-        return sourceJavaFolder;
+        return output.toString() + "/" + sourceFolder;
     }
 
     private void addCompileSourceRootIfConfigured() {
