@@ -1,0 +1,10 @@
+{
+  "generatorName": "dart",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outDir": "samples/client/petstore/dart2/openapi",
+  "templateDir": "modules/openapi-generator/src/main/resources/dart",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "browserClient": false
+  }
+}
