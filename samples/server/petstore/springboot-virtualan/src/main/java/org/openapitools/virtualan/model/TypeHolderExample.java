@@ -23,6 +23,9 @@ public class TypeHolderExample   {
   @JsonProperty("number_item")
   private BigDecimal numberItem;
 
+  @JsonProperty("float_item")
+  private Float floatItem;
+
   @JsonProperty("integer_item")
   private Integer integerItem;
 
@@ -74,6 +77,27 @@ public class TypeHolderExample   {
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
+  }
+
+  public TypeHolderExample floatItem(Float floatItem) {
+    this.floatItem = floatItem;
+    return this;
+  }
+
+  /**
+   * Get floatItem
+   * @return floatItem
+  */
+  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @NotNull
+
+
+  public Float getFloatItem() {
+    return floatItem;
+  }
+
+  public void setFloatItem(Float floatItem) {
+    this.floatItem = floatItem;
   }
 
   public TypeHolderExample integerItem(Integer integerItem) {
@@ -156,6 +180,7 @@ public class TypeHolderExample   {
     TypeHolderExample typeHolderExample = (TypeHolderExample) o;
     return Objects.equals(this.stringItem, typeHolderExample.stringItem) &&
         Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
+        Objects.equals(this.floatItem, typeHolderExample.floatItem) &&
         Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
         Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
         Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
@@ -163,7 +188,7 @@ public class TypeHolderExample   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+    return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
 
   @Override
@@ -173,6 +198,7 @@ public class TypeHolderExample   {
     
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
+    sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
