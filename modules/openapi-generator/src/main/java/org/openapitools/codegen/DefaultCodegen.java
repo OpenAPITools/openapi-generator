@@ -2303,8 +2303,8 @@ public class DefaultCodegen implements CodegenConfig {
             //    property.baseType = getSimpleRef(p.get$ref());
             //}
             // --END of revision
-            property.isModel = ModelUtils.isModel(p);
             setNonArrayMapProperty(property, type);
+            property.isModel = ModelUtils.isObjectSchema(p) && ModelUtils.isModel(p);
         }
 
         LOGGER.debug("debugging from property return: " + property);
