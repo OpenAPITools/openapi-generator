@@ -560,6 +560,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Commencis](https://www.commencis.com/)
 - [Cupix](https://www.cupix.com/)
 - [DB Systel](https://www.dbsystel.de)
+- [Element AI](https://www.elementai.com/)
 - [FormAPI](https://formapi.io/)
 - [Fuse](https://www.fuse.no/)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
