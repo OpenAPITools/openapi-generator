@@ -190,12 +190,12 @@ public class GenerateBatch implements Runnable {
                 ClientOptInput opts = configurator.toClientOptInput();
                 CodegenConfig config = opts.getConfig();
                 String name = config.getName();
-
-                System.out.printf(Locale.ROOT, "[%s] Generating %s…%n", Thread.currentThread().getName(), name);
-
+                
                 Path target = Paths.get(config.getOutputDir());
                 Path updated = rootDir.resolve(target);
                 config.setOutputDir(updated.toString());
+
+                System.out.printf(Locale.ROOT, "[%s] Generating %s (outputs to %s)…%n", Thread.currentThread().getName(), name, updated.toString());
 
                 DefaultGenerator defaultGenerator = new DefaultGenerator();
                 defaultGenerator.opts(opts);
