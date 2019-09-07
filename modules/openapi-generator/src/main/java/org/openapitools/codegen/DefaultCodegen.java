@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
@@ -2303,7 +2302,6 @@ public class DefaultCodegen implements CodegenConfig {
             //    property.baseType = getSimpleRef(p.get$ref());
             //}
             // --END of revision
-            property.isModel = ModelUtils.isModel(p);
             setNonArrayMapProperty(property, type);
         }
 
@@ -3129,9 +3127,6 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 codegenParameter.dataType = codegenProperty.dataType;
             }
-            if (ModelUtils.isObjectSchema(parameterSchema)) {
-                codegenProperty.complexType = codegenParameter.dataType;
-            }
             codegenParameter.dataFormat = codegenProperty.dataFormat;
             codegenParameter.required = codegenProperty.required;
 
@@ -3318,10 +3313,6 @@ public class DefaultCodegen implements CodegenConfig {
      * @return data type
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
-        if (parameter.get$ref() != null) {
-            String refName = ModelUtils.getSimpleRef(parameter.get$ref());
-            return toModelName(refName);
-        }
         return null;
     }
 

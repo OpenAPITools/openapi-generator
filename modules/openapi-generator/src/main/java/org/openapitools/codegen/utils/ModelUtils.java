@@ -526,31 +526,6 @@ public class ModelUtils {
     }
 
     /**
-     * Check to see if the schema is a model with at least one properties
-     *
-     * @param schema potentially containing a '$ref'
-     * @return true if it's a model with at least one properties
-     */
-    public static boolean isModel(Schema schema) {
-        if (schema == null) {
-            LOGGER.error("Schema cannot be null in isModel check");
-            return false;
-        }
-
-        // has at least one property
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            return true;
-        }
-
-        // composed schema is a model
-        if (schema instanceof ComposedSchema) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Check to see if the schema is a free form object
      *
      * @param schema potentially containing a '$ref'
