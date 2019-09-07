@@ -29,6 +29,7 @@ import io.airlift.airline.Arguments;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.DynamicSettings;
@@ -71,6 +72,9 @@ public class GenerateBatch implements Runnable {
     @Option(name = {"--includes-base-dir"}, description = "base directory used for includes")
     private String includes;
 
+    @Option(name = {"--root-dir"}, description = "root directory used output/includes (includes can be overridden)")
+    private String root;
+
     /**
      * When an object implementing interface <code>Runnable</code> is used
      * to create a thread, starting the thread causes the object's
@@ -105,6 +109,13 @@ public class GenerateBatch implements Runnable {
             includesDir = first.getParent().toFile();
         }
 
+        Path rootDir;
+        if (root != null) {
+            rootDir = Paths.get(root);
+        } else {
+            rootDir = Paths.get(System.getProperty("user.dir"));
+        }
+
         // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
         // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
         // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
@@ -134,7 +145,7 @@ public class GenerateBatch implements Runnable {
         ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
         // Execute each configurator on a separate pooled thread.
-        configurators.forEach(configurator -> executor.execute(new GenerationRunner(configurator, Boolean.TRUE.equals(failFast))));
+        configurators.forEach(configurator -> executor.execute(new GenerationRunner(configurator, rootDir, Boolean.TRUE.equals(failFast))));
 
         executor.shutdown();
 
@@ -152,12 +163,14 @@ public class GenerateBatch implements Runnable {
     }
 
     private static class GenerationRunner implements Runnable {
-        private CodegenConfigurator configurator;
-        private boolean exitOnError;
+        private final CodegenConfigurator configurator;
+        private final Path rootDir;
+        private final boolean exitOnError;
 
-        private GenerationRunner(CodegenConfigurator configurator, boolean failFast) {
+        private GenerationRunner(CodegenConfigurator configurator, Path rootDir, boolean failFast) {
             this.configurator = configurator;
-            exitOnError = failFast;
+            this.rootDir = rootDir;
+            this.exitOnError = failFast;
         }
 
         /**
@@ -175,11 +188,20 @@ public class GenerateBatch implements Runnable {
         public void run() {
             try {
                 ClientOptInput opts = configurator.toClientOptInput();
-                String name = opts.getConfig().getName();
+                CodegenConfig config = opts.getConfig();
+                String name = config.getName();
+
                 System.out.printf(Locale.ROOT, "[%s] Generating %s…%n", Thread.currentThread().getName(), name);
-                new DefaultGenerator()
-                        .opts(opts)
-                        .generate();
+
+                Path target = Paths.get(config.getOutputDir());
+                Path updated = rootDir.resolve(target);
+                config.setOutputDir(updated.toString());
+
+                DefaultGenerator defaultGenerator = new DefaultGenerator();
+                defaultGenerator.opts(opts);
+
+                defaultGenerator.generate();
+
                 System.out.printf(Locale.ROOT, "[%s] Finished generating %s…%n", Thread.currentThread().getName(), name);
             } catch (Throwable e) {
                 System.err.printf(Locale.ROOT, "[%s] Generation failed: (%s) %s%n", Thread.currentThread().getName(), e.getClass().getSimpleName(), e.getMessage());
