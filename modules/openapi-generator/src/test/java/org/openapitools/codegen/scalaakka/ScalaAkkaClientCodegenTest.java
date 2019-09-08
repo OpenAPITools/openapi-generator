@@ -282,6 +282,7 @@ public class ScalaAkkaClientCodegenTest {
     @Test(description = "verify handling of Scala reserved words")
     public void scalaReservedWordTest() throws Exception {
         Map<String, Object> properties = new HashMap<>();
+        properties.put("mainPackage", "hello.world");
 
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -301,9 +302,9 @@ public class ScalaAkkaClientCodegenTest {
         Map<String, String> generatedFiles = generator.getFiles();
         Assert.assertEquals(generatedFiles.size(), 13);
 
-        final String someObjFilename = new File(output, "src/main/scala/org/openapitools/client/model/SomeObj.scala").getAbsolutePath().replace("\\", "/");
+        final String someObjFilename = new File(output, "src/main/scala/hello/world/model/SomeObj.scala").getAbsolutePath().replace("\\", "/");
         final String someObjFileContents = generatedFiles.get(someObjFilename);
-        Assert.assertTrue(someObjFileContents.contains("package org.openapitools.client.model"));
+        Assert.assertTrue(someObjFileContents.contains("package hello.world.model"));
         Assert.assertTrue(someObjFileContents.contains("case class SomeObj"));
         Assert.assertTrue(someObjFileContents.contains("id: Option[Long] = None,"));
         Assert.assertTrue(someObjFileContents.contains("name: Option[String] = None,"));
