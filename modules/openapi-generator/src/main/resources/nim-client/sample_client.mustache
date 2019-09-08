@@ -1,0 +1,165 @@
+{{>header}}
+import httpclient
+import logging
+import options
+
+import config
+
+# Models
+{{#models}}{{#model}}import {{packageName}}/models/{{classFilename}}
+{{/model}}{{/models}}
+# APIs
+{{#apiInfo}}{{#apis}}import {{packageName}}/apis/{{classFilename}}
+{{/apis}}{{/apiInfo}}
+let logger = newConsoleLogger()
+addHandler(logger)
+
+let client = newHttpClient()
+client.headers["User-Agent"] = config.useragent
+
+# Test Pet
+let category = Category(id: 1, name : "Shiba")
+let tag1 = Tag(id: 1, name: "blood A")
+let tag2 = Tag(id: 2, name: "tel 1234-5678")
+let photos = @[
+  "https://www.asahicom.jp/articles/images/AS20190719000785_commL.jpg",
+  "https://cdn0.mynvwm.com/wp-content/uploads/2019/02/adorable-animal-breed-1805164-e1549450482765.jpg"
+]
+let pochi = Pet(id: 1, category: category, name: "Pochi", photoUrls: photos, tags: @[tag1, tag2], status: Available)
+let tama = Pet(id: 1, category: category, name: "Tama", photoUrls: photos, tags: @[tag1], status: Sold)
+
+# Test Order
+let myorder = Order(
+  id: 1,
+  petId: 1,
+  quantity: 3,
+  shipDate: "2019-09-08T13:53:16.603+0000",
+  status: Delivered,
+  complete: false,
+)
+
+# Test User
+let jdoe = User(
+  id: 1,
+  username: "jdoe",
+  firstName: "John",
+  lastName: "Doe",
+  email: "jdoe@example.com",
+  password: "password1234",
+  phone: "0011223344",
+  userStatus: 1
+)
+
+let asmithee = User(
+  id: 2,
+  username: "asmithee",
+  firstName: "Alan",
+  lastName: "Smithee",
+  email: "asmithee@example.com",
+  password: "password5678",
+  phone: "99887766",
+  userStatus: 2
+)
+
+block:
+  let response = client.createUser(jdoe)
+  echo(response.code)
+
+block:
+  let response = client.deleteUser("jdoe")
+  echo(response.code)
+
+block:
+  let response = client.createUsersWithArrayInput(@[jdoe, asmithee])
+  echo(response.code)
+
+block:
+  let response = client.createUsersWithListInput(@[jdoe, asmithee])
+  echo(response.code)
+
+block:
+  let response = client.updateUser("jdoe", jdoe)
+  echo(response.code)
+
+block:
+  let (api_result, response) = client.getUserByName("asmithee")
+  echo(repr(api_result))
+  echo(response.code)
+
+block:
+  let (api_result, response) = client.loginUser("user", "pass")
+  echo(repr(api_result))
+  echo(response.code)
+
+block:
+  let response = client.logoutUser()
+  echo(response.code)
+
+block:
+  let (api_result, response) = client.getOrderById(1)
+  echo(repr(api_result))
+  echo(response.code)
+
+block:
+  let response = client.deleteOrder("1")
+  echo(response.code)
+
+block:
+  let (api_result, response) = client.placeOrder(myorder)
+  echo(repr(api_result))
+  echo(response.code)
+
+block:
+  let (api_result, response) = client.getOrderById(1)
+  echo(repr(api_result))
+  echo(response.code)
+
+block:
+  let (api_result, response) = client.getInventory()
+  echo(repr(api_result))
+  echo(response.code)
+
+block:
+  let response = client.addPet(pochi)
+  echo(response.code)
+
+block:
+  let response = client.deletePet(1, "")
+  echo(response.code)
+  discard client.addPet(pochi)
+
+block:
+  let (api_result, response) = client.findPetsByStatus(@[Sold])
+  echo(repr(api_result))
+  echo(response.code)
+
+block:
+  let (api_result, response) = client.findPetsByTags(@["blood A"])
+  echo(repr(api_result))
+  echo(response.code)
+
+block:
+  let (api_result, response) = client.getPetById(1)
+  echo(repr(api_result))
+  echo(response.code)
+
+block:
+  let response = client.updatePet(tama)
+  echo(response.code)
+  block:
+    let (api_result, response) = client.getPetById(1)
+    echo(repr(api_result))
+    echo(response.code)
+
+block:
+  let response = client.updatePetWithForm(1, "Kuro", "pending")
+  echo(response.code)
+  block:
+    let (api_result, response) = client.getPetById(1)
+    echo(repr(api_result))
+    echo(response.code)
+
+block:
+  let (api_result, response) = client.uploadFile(1, "kuro's photo", "kuro.jpg")
+  echo(repr(api_result))
+  echo(response.code)
