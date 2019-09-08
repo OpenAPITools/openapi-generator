@@ -280,7 +280,7 @@ public class ScalaAkkaClientCodegenTest {
     }
 
     @Test(description = "verify handling of Scala reserved words")
-    public void scalaReservedWordTest() throws Exception {
+    public void codeGenerationTest() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put("mainPackage", "hello.world");
 
