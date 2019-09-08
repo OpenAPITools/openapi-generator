@@ -1,13 +1,14 @@
 {{>header}}
 import httpclient
-import strformat
-import strutils
 import json
-import tables
-import uri
+import logging
 import marshal
 import options
-import logging
+import strformat
+import strutils
+import tables
+import typetraits
+import uri
 
 {{#imports}}import ../models/{{import}}
 {{/imports}}
@@ -17,16 +18,20 @@ const basepath = "{{{basePath}}}"
 template constructResult[T](response: Response): untyped =
   if response.code in {Http200, Http201, Http202, Http204, Http206}:
     try:
-      (some(to[T](response.body)), response)
+      when name(stripGenericParams(T.typedesc).typedesc) == name(Table):
+        (some(json.to(parseJson(response.body), T.typedesc)), response)
+      else:
+        (some(marshal.to[T](response.body)), response)
     except JsonParsingError:
+      # The server returned a malformed response though the response code is 2XX
       # TODO: need better error handling
       error("JsonParsingError")
-      raise
+      (none(T.typedesc), response)
   else:
     (none(T.typedesc), response)
 
 {{#operations}}{{#operation}}
-proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{dataType}}}{{/datatypeWithEnum}}{{/isUuid}}{{/isString}}{{/allParams}}): {{^returnType}}Response{{/returnType}}{{#returnType}}(Option[{{{returnType}}}], Response){{/returnType}} {{#isDeprecated}} {.deprecated.}{{/isDeprecated}} =
+proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{dataType}}}{{/datatypeWithEnum}}{{/isUuid}}{{/isString}}{{/allParams}}): {{^returnType}}Response{{/returnType}}{{#returnType}}(Option[{{{returnType}}}], Response){{/returnType}}{{#isDeprecated}} {.deprecated.}{{/isDeprecated}} =
   ## {{{summary}}}{{#hasBodyParam}}
   httpClient.headers["Content-Type"] = "application/json"{{/hasBodyParam}}{{#hasFormParams}}{{^isMultipart}}
   httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"{{/isMultipart}}{{#isMultipart}}
