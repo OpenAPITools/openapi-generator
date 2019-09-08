@@ -320,6 +320,9 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertTrue(someObjFileContents.contains("`implicit`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`match`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`case`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`import`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`lazy`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`private`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`type`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("foobar: Option[Boolean] = None"));
     }

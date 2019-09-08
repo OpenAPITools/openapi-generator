@@ -65,6 +65,12 @@ components:
           type: string
         case:
           type: string
+        import:
+          type: string
+        lazy:
+          type: string
+        private:
+          type: string
         type:
           type: string
         foobar:
