@@ -120,10 +120,21 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String escapeReservedWord(String name) {
+        LOGGER.warn("A reserved word \"" + name + "\" is used. Consider renaming the field name");
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return "var" + StringUtils.camelize(name, false);
+        return "`" + name + "`";
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override

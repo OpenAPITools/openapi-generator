@@ -1,3 +1,4 @@
+{{>header}}
 import httpclient
 import strformat
 import strutils
@@ -5,24 +6,45 @@ import json
 import tables
 import uri
 import marshal
+import options
+import logging
 
 {{#imports}}import ../models/{{import}}
 {{/imports}}
 {{#description}}# {{{description}}}{{/description}}
 const basepath = "{{{basePath}}}"
+
+template constructResult[T](response: Response): untyped =
+  if response.code in {Http200, Http201, Http202, Http204, Http206}:
+    try:
+      (some(to[T](response.body)), response)
+    except JsonParsingError:
+      # TODO: need better error handling
+      error("JsonParsingError")
+      raise
+  else:
+    (none(T.typedesc), response)
+
 {{#operations}}{{#operation}}
-proc {{{operationId}}}*(httpClient: HttpClient, {{#allParams}}{{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{^returnType}}void{{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}} =
+proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{dataType}}}{{/datatypeWithEnum}}{{/isUuid}}{{/isString}}{{/allParams}}): {{^returnType}}Response{{/returnType}}{{#returnType}}(Option[{{{returnType}}}], Response){{/returnType}} {{#isDeprecated}} {.deprecated.}{{/isDeprecated}} =
   ## {{{summary}}}{{#hasBodyParam}}
-  httpClient.headers["Content-Type"] = "application/json"{{/hasBodyParam}}{{#hasFormParams}}
-  httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"{{/hasFormParams}}{{#hasHeaderParams}}{{#headerParams}}
+  httpClient.headers["Content-Type"] = "application/json"{{/hasBodyParam}}{{#hasFormParams}}{{^isMultipart}}
+  httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"{{/isMultipart}}{{#isMultipart}}
+  httpClient.headers["Content-Type"] = "multipart/form-data"{{/isMultipart}}{{/hasFormParams}}{{#hasHeaderParams}}{{#headerParams}}
   httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{/headerParams}}{{#description}} ## {{{description}}}{{/description}}{{/hasHeaderParams}}{{#hasQueryParams}}
-  let query = encodeQuery([{{#queryParams}}
+  let query_for_api_call = encodeQuery([{{#queryParams}}
     ("{{{baseName}}}", ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}), # {{{description}}}{{/queryParams}}
-  ]){{/hasQueryParams}}{{#hasFormParams}}
-  let query = encodeQuery([{{#formParams}}
+  ]){{/hasQueryParams}}{{#hasFormParams}}{{^isMultipart}}
+  let query_for_api_call = encodeQuery([{{#formParams}}
     ("{{{baseName}}}", ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}), # {{{description}}}{{/formParams}}
-  ]){{/hasFormParams}}
-  let response = httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#pathParams}}fmt"{{{path}}}"{{/pathParams}}{{#hasQueryParams}} & "?" & query{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, $query{{/hasFormParams}}){{#returnType}}
-  result = to[{{{returnType}}}](response.body){{/returnType}}
+  ]){{/isMultipart}}{{#isMultipart}}
+  let query_for_api_call = newMultipartData({
+{{#formParams}}    "{{{baseName}}}": ${{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}, # {{{description}}}
+{{/formParams}}
+  }){{/isMultipart}}{{/hasFormParams}}{{#returnType}}
+
+  let response = httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#pathParams}}fmt"{{{path}}}"{{/pathParams}}{{#hasQueryParams}} & "?" & query_for_api_call{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$query_for_api_call{{/isMultipart}}{{#isMultipart}}multipart=query_for_api_call{{/isMultipart}}{{/hasFormParams}})
+  constructResult[{{{returnType}}}](response){{/returnType}}{{^returnType}}
+  httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#pathParams}}fmt"{{{path}}}"{{/pathParams}}{{#hasQueryParams}} & "?" & query_for_api_call{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$query_for_api_call{{/isMultipart}}{{#isMultipart}}multipart=query_for_api_call{{/isMultipart}}{{/hasFormParams}}){{/returnType}}
 
 {{/operation}}{{/operations}}
