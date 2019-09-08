@@ -75,3 +75,10 @@ components:
           type: string
         foobar:
           type: boolean
+      required:
+        - id
+        - try
+        - catch
+        - finally
+        - lazy
+        - foobar

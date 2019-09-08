@@ -306,25 +306,25 @@ public class ScalaAkkaClientCodegenTest {
         final String someObjFileContents = generatedFiles.get(someObjFilename);
         Assert.assertTrue(someObjFileContents.contains("package hello.world.model"));
         Assert.assertTrue(someObjFileContents.contains("case class SomeObj"));
-        Assert.assertTrue(someObjFileContents.contains("id: Option[Long] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("id: Long,"));
         Assert.assertTrue(someObjFileContents.contains("name: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`val`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`var`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`class`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`trait`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`object`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`try`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`catch`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`finally`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`try`: String,"));
+        Assert.assertTrue(someObjFileContents.contains("`catch`: String,"));
+        Assert.assertTrue(someObjFileContents.contains("`finally`: String,"));
         Assert.assertTrue(someObjFileContents.contains("`def`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`for`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`implicit`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`match`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`case`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`import`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`lazy`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`lazy`: String,"));
         Assert.assertTrue(someObjFileContents.contains("`private`: Option[String] = None,"));
         Assert.assertTrue(someObjFileContents.contains("`type`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("foobar: Option[Boolean] = None"));
+        Assert.assertTrue(someObjFileContents.contains("foobar: Boolean"));
     }
 }
