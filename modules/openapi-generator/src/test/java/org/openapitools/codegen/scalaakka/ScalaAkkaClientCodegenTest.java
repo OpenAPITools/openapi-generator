@@ -21,13 +21,16 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScalaAkkaClientCodegenTest {
 
@@ -276,4 +279,48 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 1);
     }
 
+    @Test(description = "verify handling of Scala reserved words")
+    public void scalaReservedWordTest() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(codegen.getName())
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/scala_reserved_words.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 13);
+
+        final String someObjFilename = output.getAbsolutePath() + "/src/main/scala/org/openapitools/client/model/SomeObj.scala";
+        final String someObjFileContents = generatedFiles.get(someObjFilename);
+        Assert.assertTrue(someObjFileContents.contains("package org.openapitools.client.model"));
+        Assert.assertTrue(someObjFileContents.contains("case class SomeObj"));
+        Assert.assertTrue(someObjFileContents.contains("id: Option[Long] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("name: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`val`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`var`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`class`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`trait`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`object`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`try`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`catch`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`finally`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`def`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`for`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`implicit`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`match`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`case`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("`type`: Option[String] = None,"));
+        Assert.assertTrue(someObjFileContents.contains("foobar: Option[Boolean] = None"));
+    }
 }
