@@ -279,7 +279,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 1);
     }
 
-    @Test(description = "verify handling of Scala reserved words")
+    @Test(description = "validate codegen output")
     public void codeGenerationTest() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put("mainPackage", "hello.world");
