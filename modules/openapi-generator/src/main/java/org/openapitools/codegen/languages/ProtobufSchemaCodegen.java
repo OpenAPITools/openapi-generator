@@ -41,9 +41,9 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class GrpcSchemaCodegen extends DefaultCodegen implements CodegenConfig {
+public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GrpcSchemaCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     protected String packageName = "openapitools";
 
@@ -53,24 +53,24 @@ public class GrpcSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String getName() {
-        return "grpc-schema";
+        return "protobuf-schema";
     }
 
     public String getHelp() {
-        return "Generates gRPC and Protbuf schema files (beta)";
+        return "Generates gRPC and protocol buffer schema files (beta)";
     }
 
-    public GrpcSchemaCodegen() {
+    public ProtobufSchemaCodegen() {
         super();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
 
-        outputFolder = "generated-code/grpc-schema";
+        outputFolder = "generated-code/protobuf-schema";
         modelTemplateFiles.put("model.mustache", ".proto");
         apiTemplateFiles.put("api.mustache", ".proto");
-        embeddedTemplateDir = templateDir = "grpc-schema";
+        embeddedTemplateDir = templateDir = "protobuf-schema";
         hideGenerationTimestamp = Boolean.TRUE;
         modelPackage = "messages";
         apiPackage = "services";
