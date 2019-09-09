@@ -66,13 +66,14 @@ export class {{classname}} {
 {{/useHttpClient}}
 
     constructor(protected {{#useHttpClient}}httpClient: HttpClient{{/useHttpClient}}{{^useHttpClient}}http: Http{{/useHttpClient}}, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = (typeof configuration.basePath === 'string') ? configuration.basePath : ((typeof basePath === 'string') ? basePath : this.basePath);
-
-        } else {
-            this.configuration.basePath = (typeof basePath === 'string') ? basePath : this.basePath
+        }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
         }
 {{#useHttpClient}}
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
