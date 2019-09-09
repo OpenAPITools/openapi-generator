@@ -45,7 +45,7 @@ export class StoreService {
     public deleteOrder(orderId: string, observe?: 'body', headers?: Headers): Observable<any>;
     public deleteOrder(orderId: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public deleteOrder(orderId: string, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (orderId == null){
+        if (orderId === null || orderId === undefined){
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
 
@@ -94,7 +94,7 @@ export class StoreService {
     public getOrderById(orderId: number, observe?: 'body', headers?: Headers): Observable<Order>;
     public getOrderById(orderId: number, observe?: 'response', headers?: Headers): Observable<HttpResponse<Order>>;
     public getOrderById(orderId: number, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (orderId == null){
+        if (orderId === null || orderId === undefined){
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
 
@@ -119,7 +119,7 @@ export class StoreService {
     public placeOrder(body: Order, observe?: 'body', headers?: Headers): Observable<Order>;
     public placeOrder(body: Order, observe?: 'response', headers?: Headers): Observable<HttpResponse<Order>>;
     public placeOrder(body: Order, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (body == null){
+        if (body === null || body === undefined){
             throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
 

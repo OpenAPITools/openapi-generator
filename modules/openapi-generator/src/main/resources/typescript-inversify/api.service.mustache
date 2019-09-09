@@ -60,7 +60,7 @@ export class {{classname}} {
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe: any = 'body', headers: Headers = {}): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<any> {
 {{#allParams}}
 {{#required}}
-        if ({{paramName}} == null){
+        if ({{paramName}} === null || {{paramName}} === undefined){
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
 
