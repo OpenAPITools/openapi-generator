@@ -156,6 +156,13 @@ open class GenerateTask : DefaultTask() {
     val additionalProperties = project.objects.property<Map<String, String>>()
 
     /**
+     * Sets server variable for server URL template substitution, in the format of name=value,name=value.
+     * You can also have multiple occurrences of this option.
+     */
+    @get:Internal
+    val serverVariables = project.objects.property<Map<String, String>>()
+
+    /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
      */
     @get:Internal
@@ -196,6 +203,12 @@ open class GenerateTask : DefaultTask() {
      */
     @get:Internal
     val library = project.objects.property<String?>()
+
+    /**
+     * Git host, e.g. gitlab.com.
+     */
+    @get:Internal
+    val gitHost = project.objects.property<String?>()
 
     /**
      * Git user ID, e.g. openapitools.
@@ -503,6 +516,10 @@ open class GenerateTask : DefaultTask() {
                 configurator.setLibrary(value)
             }
 
+            gitHost.ifNotEmpty { value ->
+                configurator.setGitHost(value)
+            }
+
             gitUserId.ifNotEmpty { value ->
                 configurator.setGitUserId(value)
             }
@@ -570,6 +587,12 @@ open class GenerateTask : DefaultTask() {
             if (additionalProperties.isPresent) {
                 additionalProperties.get().forEach { entry ->
                     configurator.addAdditionalProperty(entry.key, entry.value)
+                }
+            }
+
+            if (serverVariables.isPresent) {
+                serverVariables.get().forEach { entry ->
+                    configurator.addServerVariable(entry.key, entry.value)
                 }
             }
 

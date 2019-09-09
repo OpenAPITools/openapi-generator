@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns></returns>
-        void DeletePet (long? petId, string apiKey = null);
+        void DeletePet (long petId, string apiKey = default(string));
 
         /// <summary>
         /// Deletes a pet
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null);
+        ApiResponse<Object> DeletePetWithHttpInfo (long petId, string apiKey = default(string));
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -119,7 +119,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>Pet</returns>
-        Pet GetPetById (long? petId);
+        Pet GetPetById (long petId);
 
         /// <summary>
         /// Find pet by ID
@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>ApiResponse of Pet</returns>
-        ApiResponse<Pet> GetPetByIdWithHttpInfo (long? petId);
+        ApiResponse<Pet> GetPetByIdWithHttpInfo (long petId);
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns></returns>
-        void UpdatePetWithForm (long? petId, string name = null, string status = null);
+        void UpdatePetWithForm (long petId, string name = default(string), string status = default(string));
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long? petId, string name = null, string status = null);
+        ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long petId, string name = default(string), string status = default(string));
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -188,7 +188,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        ApiResponse UploadFile (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream));
 
         /// <summary>
         /// uploads an image
@@ -201,7 +201,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream));
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -213,7 +213,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
 
         /// <summary>
         /// uploads an image (required)
@@ -226,7 +226,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
         #endregion Synchronous Operations
     }
 
@@ -424,7 +424,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns></returns>
-        public void DeletePet (long? petId, string apiKey = null)
+        public void DeletePet (long petId, string apiKey = default(string))
         {
              DeletePetWithHttpInfo(petId, apiKey);
         }
@@ -436,7 +436,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null)
+        public ApiResponse<Object> DeletePetWithHttpInfo (long petId, string apiKey = default(string))
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -508,7 +508,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
-        public ApiResponse< List<Pet> > FindPetsByStatusWithHttpInfo (List<string> status)
+        public ApiResponse<List<Pet>> FindPetsByStatusWithHttpInfo (List<string> status)
         {
             // verify the required parameter 'status' is set
             if (status == null)
@@ -581,7 +581,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
-        public ApiResponse< List<Pet> > FindPetsByTagsWithHttpInfo (List<string> tags)
+        public ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo (List<string> tags)
         {
             // verify the required parameter 'tags' is set
             if (tags == null)
@@ -642,7 +642,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>Pet</returns>
-        public Pet GetPetById (long? petId)
+        public Pet GetPetById (long petId)
         {
              ApiResponse<Pet> localVarResponse = GetPetByIdWithHttpInfo(petId);
              return localVarResponse.Data;
@@ -654,7 +654,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>ApiResponse of Pet</returns>
-        public ApiResponse< Pet > GetPetByIdWithHttpInfo (long? petId)
+        public ApiResponse<Pet> GetPetByIdWithHttpInfo (long petId)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -795,7 +795,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns></returns>
-        public void UpdatePetWithForm (long? petId, string name = null, string status = null)
+        public void UpdatePetWithForm (long petId, string name = default(string), string status = default(string))
         {
              UpdatePetWithFormWithHttpInfo(petId, name, status);
         }
@@ -808,7 +808,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long? petId, string name = null, string status = null)
+        public ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long petId, string name = default(string), string status = default(string))
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -872,7 +872,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public ApiResponse UploadFile (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream))
         {
              ApiResponse<ApiResponse> localVarResponse = UploadFileWithHttpInfo(petId, additionalMetadata, file);
              return localVarResponse.Data;
@@ -886,7 +886,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        public ApiResponse< ApiResponse > UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public ApiResponse<ApiResponse> UploadFileWithHttpInfo (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream))
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -951,7 +951,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string))
         {
              ApiResponse<ApiResponse> localVarResponse = UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
              return localVarResponse.Data;
@@ -965,7 +965,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        public ApiResponse< ApiResponse > UploadFileWithRequiredFileWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string))
         {
             // verify the required parameter 'petId' is set
             if (petId == null)

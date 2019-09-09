@@ -19,15 +19,20 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * NumberOnly
  */
+@JsonPropertyOrder({
+  NumberOnly.JSON_PROPERTY_JUST_NUMBER
+})
 
 public class NumberOnly   {
-  @JsonProperty("JustNumber")
+  public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
+  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {

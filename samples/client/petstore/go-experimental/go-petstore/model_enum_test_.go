@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 )
-
+// EnumTest struct for EnumTest
 type EnumTest struct {
 	EnumString *string `json:"enum_string,omitempty"`
 
@@ -192,6 +192,7 @@ func (o *EnumTest) SetOuterEnum(v OuterEnum) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o EnumTest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.EnumString != nil {

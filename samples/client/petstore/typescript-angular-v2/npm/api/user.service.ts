@@ -45,19 +45,6 @@ export class UserService {
         this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
     }
 
-    /**
-     * @param consumes string[] mime-types
-     * @return true: consumes contains 'multipart/form-data', false: otherwise
-     */
-    private canConsumeForm(consumes: string[]): boolean {
-        const form = 'multipart/form-data';
-        for (const consume of consumes) {
-            if (form === consume) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * This can only be done by the logged in user.
@@ -210,6 +197,7 @@ export class UserService {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
@@ -234,7 +222,6 @@ export class UserService {
 
     /**
      * Creates list of users with given input array
-     * 
      * @param body List of user object
      
      */
@@ -252,6 +239,7 @@ export class UserService {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -277,7 +265,6 @@ export class UserService {
 
     /**
      * Creates list of users with given input array
-     * 
      * @param body List of user object
      
      */
@@ -295,6 +282,7 @@ export class UserService {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -339,9 +327,6 @@ export class UserService {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -358,7 +343,6 @@ export class UserService {
 
     /**
      * Get user by user name
-     * 
      * @param username The name that needs to be fetched. Use user1 for testing.
      
      */
@@ -379,9 +363,6 @@ export class UserService {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -398,7 +379,6 @@ export class UserService {
 
     /**
      * Logs user into the system
-     * 
      * @param username The user name for login
      * @param password The password for login in clear text
      
@@ -431,9 +411,6 @@ export class UserService {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -451,7 +428,6 @@ export class UserService {
 
     /**
      * Logs out current logged in user session
-     * 
      
      */
     public logoutUserWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
@@ -466,9 +442,6 @@ export class UserService {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -507,6 +480,7 @@ export class UserService {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [

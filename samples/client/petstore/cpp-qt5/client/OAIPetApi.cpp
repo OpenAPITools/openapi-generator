@@ -56,7 +56,7 @@ OAIPetApi::addPet(const OAIPet& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "POST");
 
@@ -108,7 +108,7 @@ OAIPetApi::deletePet(const qint64& pet_id, const QString& api_key) {
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(pet_id)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "DELETE");
 
@@ -196,7 +196,7 @@ OAIPetApi::findPetsByStatus(const QList<QString>& status) {
       }
     }
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "GET");
 
@@ -291,7 +291,7 @@ OAIPetApi::findPetsByTags(const QList<QString>& tags) {
       }
     }
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "GET");
 
@@ -349,7 +349,7 @@ OAIPetApi::getPetById(const qint64& pet_id) {
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(pet_id)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "GET");
 
@@ -395,7 +395,7 @@ OAIPetApi::updatePet(const OAIPet& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "PUT");
 
@@ -447,7 +447,7 @@ OAIPetApi::updatePetWithForm(const qint64& pet_id, const QString& name, const QS
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(pet_id)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "POST");
     if (name != nullptr) {
@@ -501,7 +501,7 @@ OAIPetApi::uploadFile(const qint64& pet_id, const QString& additional_metadata, 
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(pet_id)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     OAIHttpRequestInput input(fullPath, "POST");
     if (additional_metadata != nullptr) {

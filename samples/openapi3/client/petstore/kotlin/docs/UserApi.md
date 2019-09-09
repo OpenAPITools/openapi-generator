@@ -89,7 +89,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.Array&lt;User&gt;**](kotlin.Array.md)| List of user object |
+ **user** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -133,7 +133,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.Array&lt;User&gt;**](kotlin.Array.md)| List of user object |
+ **user** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -179,7 +179,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The name that needs to be deleted | [default to null]
+ **username** | **kotlin.String**| The name that needs to be deleted |
 
 ### Return type
 
@@ -224,7 +224,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
+ **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
@@ -270,8 +270,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The user name for login | [default to null]
- **password** | **kotlin.String**| The password for login in clear text | [default to null]
+ **username** | **kotlin.String**| The user name for login |
+ **password** | **kotlin.String**| The password for login in clear text |
 
 ### Return type
 
@@ -358,7 +358,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| name that need to be deleted | [default to null]
+ **username** | **kotlin.String**| name that need to be deleted |
  **user** | [**User**](User.md)| Updated user object |
 
 ### Return type

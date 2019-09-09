@@ -41,7 +41,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.openapitools.client.JSON;
-
 import static io.restassured.http.Method.*;
 
 @Api(value = "Fake")
@@ -197,6 +196,16 @@ public class FakeApi {
             @ApiResponse(code = 200, message = "successful operation")  })
     public TestJsonFormDataOper testJsonFormData() {
         return new TestJsonFormDataOper(createReqSpec());
+    }
+
+    @ApiOperation(value = "",
+            notes = "To test the collection format in query parameters",
+            nickname = "testQueryParameterCollectionFormat",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Success")  })
+    public TestQueryParameterCollectionFormatOper testQueryParameterCollectionFormat() {
+        return new TestQueryParameterCollectionFormatOper(createReqSpec());
     }
 
     /**
@@ -1371,6 +1380,115 @@ public class FakeApi {
          * @return operation
          */
         public TestJsonFormDataOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
+     * 
+     * To test the collection format in query parameters
+     *
+     * @see #pipeQuery  (required)
+     * @see #ioutilQuery  (required)
+     * @see #httpQuery  (required)
+     * @see #urlQuery  (required)
+     * @see #contextQuery  (required)
+     */
+    public static class TestQueryParameterCollectionFormatOper {
+
+        public static final Method REQ_METHOD = PUT;
+        public static final String REQ_URI = "/fake/test-query-paramters";
+
+        private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
+
+        public TestQueryParameterCollectionFormatOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * PUT /fake/test-query-paramters
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
+        }
+
+        public static final String PIPE_QUERY = "pipe";
+
+        /**
+         * @param pipe (List&lt;String&gt;)  (required)
+         * @return operation
+         */
+        public TestQueryParameterCollectionFormatOper pipeQuery(Object... pipe) {
+            reqSpec.addQueryParam(PIPE_QUERY, pipe);
+            return this;
+        }
+
+        public static final String IOUTIL_QUERY = "ioutil";
+
+        /**
+         * @param ioutil (List&lt;String&gt;)  (required)
+         * @return operation
+         */
+        public TestQueryParameterCollectionFormatOper ioutilQuery(Object... ioutil) {
+            reqSpec.addQueryParam(IOUTIL_QUERY, ioutil);
+            return this;
+        }
+
+        public static final String HTTP_QUERY = "http";
+
+        /**
+         * @param http (List&lt;String&gt;)  (required)
+         * @return operation
+         */
+        public TestQueryParameterCollectionFormatOper httpQuery(Object... http) {
+            reqSpec.addQueryParam(HTTP_QUERY, http);
+            return this;
+        }
+
+        public static final String URL_QUERY = "url";
+
+        /**
+         * @param url (List&lt;String&gt;)  (required)
+         * @return operation
+         */
+        public TestQueryParameterCollectionFormatOper urlQuery(Object... url) {
+            reqSpec.addQueryParam(URL_QUERY, url);
+            return this;
+        }
+
+        public static final String CONTEXT_QUERY = "context";
+
+        /**
+         * @param context (List&lt;String&gt;)  (required)
+         * @return operation
+         */
+        public TestQueryParameterCollectionFormatOper contextQuery(Object... context) {
+            reqSpec.addQueryParam(CONTEXT_QUERY, context);
+            return this;
+        }
+
+        /**
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
+         * @return operation
+         */
+        public TestQueryParameterCollectionFormatOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
+         * @return operation
+         */
+        public TestQueryParameterCollectionFormatOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
             respSpecCustomizer.accept(respSpec);
             return this;
         }

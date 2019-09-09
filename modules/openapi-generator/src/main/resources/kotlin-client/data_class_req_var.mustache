@@ -1,5 +1,10 @@
 {{#description}}
     /* {{{description}}} */
 {{/description}}
+    {{#moshi}}
     @Json(name = "{{{baseName}}}")
-    val {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}
+    {{/moshi}}
+    {{#gson}}
+    @SerializedName("{{name}}")
+    {{/gson}}
+    val {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}

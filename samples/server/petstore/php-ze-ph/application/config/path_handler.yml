@@ -12,6 +12,7 @@ Articus\PathHandler\RouteInjection\Factory:
     - App\Handler\FakeOuterComposite
     - App\Handler\FakeOuterNumber
     - App\Handler\FakeOuterString
+    - App\Handler\FakeTestQueryParamters
     - App\Handler\FakePetIdUploadImageWithRequiredFile
     - App\Handler\FakeClassnameTest
     - App\Handler\Pet
@@ -53,6 +54,7 @@ Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
   App\Handler\FakeOuterComposite: []
   App\Handler\FakeOuterNumber: []
   App\Handler\FakeOuterString: []
+  App\Handler\FakeTestQueryParamters: []
   App\Handler\FakePetIdUploadImageWithRequiredFile: []
   App\Handler\FakeClassnameTest: []
   App\Handler\Pet: []

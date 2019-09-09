@@ -16,13 +16,13 @@ type t = {
     (* {{{description}}} *)
     {{/description}}
     {{#isEnum}}
-    {{{name}}}: {{^isMapContainer}}Enums.{{/isMapContainer}}{{{datatypeWithEnum}}}{{^isContainer}}{{#defaultValue}}[@default {{{defaultValue}}}]{{/defaultValue}}{{/isContainer}}{{^isContainer}}{{#required}}{{#isNullable}} option [@default None]{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default None]{{/required}}{{/isContainer}};
+    {{{name}}}: {{^isMapContainer}}Enums.{{/isMapContainer}}{{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#defaultValue}}[@default {{{defaultValue}}}]{{/defaultValue}}{{/required}}{{/isContainer}}{{^isContainer}}{{#required}}{{#isNullable}} option [@default {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}]{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}]{{/required}}{{/isContainer}};
     {{/isEnum}}
     {{^isEnum}}
     {{{name}}}: {{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default None]{{/required}}{{/isContainer}};
     {{/isEnum}}
 {{/vars}}
-} [@@deriving yojson, show ];;
+} [@@deriving yojson { strict = false }, show ];;
 
 {{#description}}
 (** {{{description}}} *)

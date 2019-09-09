@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**JustSymbol** | Pointer to **string** |  | [optional]
-**ArrayEnum** | Pointer to **[]string** |  | [optional]
+**JustSymbol** | Pointer to **string** |  | [optional] 
+**ArrayEnum** | Pointer to **[]string** |  | [optional] 
 
 ## Methods
 

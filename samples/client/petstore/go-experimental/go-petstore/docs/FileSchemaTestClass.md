@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**File** | Pointer to [**File**](File.md) |  | [optional]
-**Files** | Pointer to [**[]File**](File.md) |  | [optional]
+**File** | Pointer to [**File**](File.md) |  | [optional] 
+**Files** | Pointer to [**[]File**](File.md) |  | [optional] 
 
 ## Methods
 

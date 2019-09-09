@@ -33,7 +33,9 @@ public class Client {
   @SerializedName(SERIALIZED_NAME_CLIENT)
   private String client;
 
+
   public Client client(String client) {
+    
     this.client = client;
     return this;
   }
@@ -44,9 +46,12 @@ public class Client {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getClient() {
     return client;
   }
+
+
 
   public void setClient(String client) {
     this.client = client;

@@ -107,7 +107,7 @@ interface UserApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\User[]
+     * @return OpenAPI\Server\Model\User
      *
      */
     public function getUserByName($username, &$responseCode, array &$responseHeaders);

@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// InlineObject struct for InlineObject
 type InlineObject struct {
 	// Updated name of the pet
 	Name string `json:"name,omitempty"`

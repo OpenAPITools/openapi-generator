@@ -7,8 +7,6 @@ import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.CompletableFuture;
 
 import javax.validation.constraints.*;
 
@@ -16,10 +14,10 @@ import javax.validation.constraints.*;
 public interface StoreApiControllerImpInterface {
     void deleteOrder(String orderId) throws Exception;
 
-    CompletionStage<Map<String, Integer>> getInventory() throws Exception;
+    Map<String, Integer> getInventory() throws Exception;
 
-    CompletionStage<Order> getOrderById( @Min(1) @Max(5)Long orderId) throws Exception;
+    Order getOrderById( @Min(1) @Max(5)Long orderId) throws Exception;
 
-    CompletionStage<Order> placeOrder(Order order) throws Exception;
+    Order placeOrder(Order body) throws Exception;
 
 }

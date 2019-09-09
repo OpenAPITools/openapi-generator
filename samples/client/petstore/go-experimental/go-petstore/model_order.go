@@ -12,7 +12,7 @@ import (
 	"time"
 	"encoding/json"
 )
-
+// Order struct for Order
 type Order struct {
 	Id *int64 `json:"id,omitempty"`
 
@@ -228,6 +228,7 @@ func (o *Order) SetComplete(v bool) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Order) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {

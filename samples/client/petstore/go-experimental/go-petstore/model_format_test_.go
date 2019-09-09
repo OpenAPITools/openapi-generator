@@ -14,7 +14,7 @@ import (
 	"encoding/json"
 	"errors"
 )
-
+// FormatTest struct for FormatTest
 type FormatTest struct {
 	Integer *int32 `json:"integer,omitempty"`
 
@@ -474,6 +474,7 @@ func (o *FormatTest) SetPassword(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o FormatTest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Integer != nil {

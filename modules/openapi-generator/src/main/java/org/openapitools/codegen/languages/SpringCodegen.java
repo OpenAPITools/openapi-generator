@@ -69,6 +69,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
 
+    public static final String OPEN_BRACE = "{";
+    public static final String CLOSE_BRACE = "}";
+
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
     protected String basePackage = "org.openapitools";
@@ -103,7 +106,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-spring";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
@@ -113,6 +116,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         // spring uses the jackson lib
         additionalProperties.put("jackson", "true");
+        additionalProperties.put("openbrace", OPEN_BRACE);
+        additionalProperties.put("closebrace", CLOSE_BRACE);
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(this.getConfigPackage()));
@@ -132,7 +137,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
         cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG, "Generate Spring OpenAPI Docket configuration class.", openapiDocketConfig));
         cliOptions.add(CliOption.newBoolean(API_FIRST, "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
-        cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,"Use Optional container for optional parameters", useOptional));
+        cliOptions.add(CliOption.newBoolean(USE_OPTIONAL, "Use Optional container for optional parameters", useOptional));
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
@@ -172,7 +177,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void processOpts() {
 
-        List<Pair<String,String>> configOptions = additionalProperties.entrySet().stream()
+        List<Pair<String, String>> configOptions = additionalProperties.entrySet().stream()
                 .filter(e -> !Arrays.asList(API_FIRST, "hideGenerationTimestamp").contains(e.getKey()))
                 .filter(e -> cliOptions.stream().map(CliOption::getOpt).anyMatch(opt -> opt.equals(e.getKey())))
                 .map(e -> Pair.of(e.getKey(), e.getValue().toString()))
@@ -220,7 +225,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         } else {
             additionalProperties.put(BASE_PACKAGE, basePackage);
         }
-        
+
         if (additionalProperties.containsKey(VIRTUAL_SERVICE)) {
             this.setVirtualService(Boolean.valueOf(additionalProperties.get(VIRTUAL_SERVICE).toString()));
         }
@@ -248,7 +253,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(REACTIVE)) {
-            if (!library.equals(SPRING_BOOT)) {
+            if (!SPRING_BOOT.equals(library)) {
                 throw new IllegalArgumentException("Currently, reactive option is only supported with Spring-boot");
             }
             this.setReactive(Boolean.valueOf(additionalProperties.get(REACTIVE).toString()));
@@ -287,7 +292,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(API_FIRST)) {
             this.setApiFirst(Boolean.valueOf(additionalProperties.get(API_FIRST).toString()));
         }
-        
+
         if (additionalProperties.containsKey(HATEOAS)) {
             this.setHateoas(Boolean.valueOf(additionalProperties.get(HATEOAS).toString()));
         }
@@ -398,12 +403,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
         }
 
+
         if (this.java8) {
             additionalProperties.put("javaVersion", "1.8");
-            additionalProperties.put("jdk8-default-interface", !this.skipDefaultInterface);
-            if (!SPRING_CLOUD_LIBRARY.equals(library)) {
-                additionalProperties.put("jdk8", true);
+            if (SPRING_CLOUD_LIBRARY.equals(library)) {
+                additionalProperties.put("jdk8-default-interface", false);
+            } else {
+                additionalProperties.put("jdk8-default-interface", !this.skipDefaultInterface);
             }
+            additionalProperties.put("jdk8", true);
             if (this.async) {
                 additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
             }
@@ -414,7 +422,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
 
-        if(!this.apiFirst && !this.reactive) {
+
+        if (!this.apiFirst && !this.reactive) {
             additionalProperties.put("useSpringfox", true);
         }
 
@@ -458,7 +467,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if((library.equals(SPRING_BOOT) || library.equals(SPRING_MVC_LIBRARY)) && !useTags) {
+        if ((library.equals(SPRING_BOOT) || library.equals(SPRING_MVC_LIBRARY)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -490,7 +499,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         */
 
-        if(!additionalProperties.containsKey(TITLE)) {
+        if (!additionalProperties.containsKey(TITLE)) {
             // From the title, compute a reasonable name for the package and the API
             String title = openAPI.getInfo().getTitle();
 
@@ -507,7 +516,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if(!additionalProperties.containsKey(SERVER_PORT)) {
-            URL url = URLPathUtils.getServerURL(openAPI);
+            URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
             this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
         }
 
@@ -578,7 +587,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 });
 
-                if(implicitHeaders){
+                if (implicitHeaders) {
                     removeHeadersFromAllParams(operation.allParams);
                 }
             }
@@ -589,12 +598,12 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     private interface DataTypeAssigner {
         void setReturnType(String returnType);
+
         void setReturnContainer(String returnContainer);
     }
 
     /**
-     *
-     * @param returnType The return type that needs to be converted
+     * @param returnType       The return type that needs to be converted
      * @param dataTypeAssigner An object that will assign the data to the respective fields in the model.
      */
     private void doDataTypeAssignment(String returnType, DataTypeAssigner dataTypeAssigner) {
@@ -625,29 +634,30 @@ public class SpringCodegen extends AbstractJavaCodegen
     /**
      * This method removes header parameters from the list of parameters and also
      * corrects last allParams hasMore state.
+     *
      * @param allParams list of all parameters
      */
     private void removeHeadersFromAllParams(List<CodegenParameter> allParams) {
-        if(allParams.isEmpty()){
+        if (allParams.isEmpty()) {
             return;
         }
         final ArrayList<CodegenParameter> copy = new ArrayList<>(allParams);
         allParams.clear();
 
-        for(CodegenParameter p : copy){
-            if(!p.isHeaderParam){
+        for (CodegenParameter p : copy) {
+            if (!p.isHeaderParam) {
                 allParams.add(p);
             }
         }
         if (!allParams.isEmpty()) {
-            allParams.get(allParams.size()-1).hasMore =false;
+            allParams.get(allParams.size() - 1).hasMore = false;
         }
     }
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
-        if(library.equals(SPRING_CLOUD_LIBRARY)) {
+        if (library.equals(SPRING_CLOUD_LIBRARY)) {
             List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
             if (authMethods != null) {
                 for (CodegenSecurity authMethod : authMethods) {
@@ -717,9 +727,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         return this.basePackage;
     }
 
-    public void setInterfaceOnly(boolean interfaceOnly) { this.interfaceOnly = interfaceOnly; }
+    public void setInterfaceOnly(boolean interfaceOnly) {
+        this.interfaceOnly = interfaceOnly;
+    }
 
-    public void setDelegatePattern(boolean delegatePattern) { this.delegatePattern = delegatePattern; }
+    public void setDelegatePattern(boolean delegatePattern) {
+        this.delegatePattern = delegatePattern;
+    }
 
     public void setSingleContentTypes(boolean singleContentTypes) {
         this.singleContentTypes = singleContentTypes;
@@ -729,13 +743,21 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setJava8(boolean java8) { this.java8 = java8; }
 
-    public void setVirtualService(boolean virtualService) { this.virtualService = virtualService; }
+    public void setVirtualService(boolean virtualService) {
+        this.virtualService = virtualService;
+    }
 
-    public void setAsync(boolean async) { this.async = async; }
+    public void setAsync(boolean async) {
+        this.async = async;
+    }
 
-    public void setReactive(boolean reactive) { this.reactive = reactive; }
+    public void setReactive(boolean reactive) {
+        this.reactive = reactive;
+    }
 
-    public void setResponseWrapper(String responseWrapper) { this.responseWrapper = responseWrapper; }
+    public void setResponseWrapper(String responseWrapper) {
+        this.responseWrapper = responseWrapper;
+    }
 
     public void setUseTags(boolean useTags) {
         this.useTags = useTags;
@@ -752,7 +774,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setApiFirst(boolean apiFirst) {
         this.apiFirst = apiFirst;
     }
-    
+
     public void setHateoas(boolean hateoas) {
         this.hateoas = hateoas;
     }
@@ -793,7 +815,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         objs = super.postProcessModelsEnum(objs);
 
         //Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;

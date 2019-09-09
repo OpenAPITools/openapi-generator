@@ -213,4 +213,19 @@ public interface FakeApi {
     @retrofit2.http.Field("param") String param, @retrofit2.http.Field("param2") String param2
   );
 
+  /**
+   * 
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @return Observable&lt;Void&gt;
+   */
+  @PUT("fake/test-query-paramters")
+  Observable<Void> testQueryParameterCollectionFormat(
+    @retrofit2.http.Query("pipe") CSVParams pipe, @retrofit2.http.Query("ioutil") CSVParams ioutil, @retrofit2.http.Query("http") SPACEParams http, @retrofit2.http.Query("url") CSVParams url, @retrofit2.http.Query("context") List<String> context
+  );
+
 }
