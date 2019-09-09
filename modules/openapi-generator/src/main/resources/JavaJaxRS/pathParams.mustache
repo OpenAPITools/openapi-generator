@@ -6,6 +6,10 @@
         }}{{#defaultValue}}, defaultValue = "{{{defaultValue}}}"{{/defaultValue}}{{!
     }}){{!
 
-    }} @PathParam("{{baseName}}") {{{dataType}}} {{paramName}}{{!
+    }} @PathParam("{{baseName}}"){{!
+
+    }}{{#useBeanValidation}} {{>beanValidation}}{{/useBeanValidation}}{{!
+
+    }} {{{dataType}}} {{paramName}}{{!
 
 }}{{/isPathParam}}

@@ -26,6 +26,10 @@
         }}{{/defaultValue}}{{!
     }}{{/isContainer}}{{!
 
-    }} @QueryParam("{{baseName}}") {{{dataType}}} {{paramName}}{{!
+    }} @QueryParam("{{baseName}}"){{!
+
+    }}{{#useBeanValidation}} {{>beanValidation}}{{/useBeanValidation}}{{!
+
+    }} {{{dataType}}} {{paramName}}{{!
 
 }}{{/isQueryParam}}
