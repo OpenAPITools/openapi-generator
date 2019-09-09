@@ -14,15 +14,15 @@ class HttpClient implements IHttpClient {
         return this.performNetworkCall(url, "GET", undefined, headers);
     }
 
-    post(url: string, body: {}|FormData, headers?: Headers): Observable<HttpResponse> {
+    post(url: string, body?: {}|FormData, headers?: Headers): Observable<HttpResponse> {
         return this.performNetworkCall(url, "POST", this.getJsonBody(body), this.addJsonHeaders(headers));
     }
 
-    put(url: string, body: {}, headers?: Headers): Observable<HttpResponse> {
+    put(url: string, body?: {}, headers?: Headers): Observable<HttpResponse> {
         return this.performNetworkCall(url, "PUT", this.getJsonBody(body), this.addJsonHeaders(headers));
     }
 
-    patch(url: string, body: {}, headers?: Headers): Observable<HttpResponse> {
+    patch(url: string, body?: {}, headers?: Headers): Observable<HttpResponse> {
         return this.performNetworkCall(url, "PATCH", this.getJsonBody(body), this.addJsonHeaders(headers));
     }
 
@@ -31,8 +31,11 @@ class HttpClient implements IHttpClient {
         return this.performNetworkCall(url, "DELETE", undefined, headers);
     }
 
-    private getJsonBody(body: {}|FormData) {
-        return !(body instanceof FormData) ? JSON.stringify(body) : body;
+    private getJsonBody(body?: {}|FormData) {
+        if (body === undefined || body instanceof FormData) {
+            return body;
+        }
+        return JSON.stringify(body);
     }
 
     private addJsonHeaders(headers?: Headers) {
