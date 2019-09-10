@@ -69,7 +69,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin), **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples)), **Kotlin** (Spring Boot, Ktor), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)
 **API documentation generators** | **HTML**, **Confluence Wiki**
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
-**Others**                       | **GraphQL**, **JMeter**, **MySQL Schema**
+**Others**                       | **GraphQL**, **JMeter**, **MySQL Schema**, **Protocol Buffer**
 
 ## Table of contents
 
@@ -768,6 +768,7 @@ Here is a list of template creators:
    * Avro: @sgadouar 
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
    * MySQL: @ybelenko
+   * Protocol Buffer: @wing328
 
 :heart: = Link to support the contributor directly
 

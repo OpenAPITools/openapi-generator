@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties $@"
-ags="generate -t modules/openapi-generator/src/main/resources/grpc-schema -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g grpc-schema -o samples/config/petstore/grpc-schema --additional-properties packageName=petstore $@"
+ags="generate -t modules/openapi-generator/src/main/resources/protobuf-schema -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g protobuf-schema -o samples/config/petstore/protobuf-schema --additional-properties packageName=petstore $@"
 
 java $JAVA_OPTS -jar $executable $ags

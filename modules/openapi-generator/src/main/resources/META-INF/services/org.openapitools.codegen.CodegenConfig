@@ -34,7 +34,6 @@ org.openapitools.codegen.languages.GoServerCodegen
 org.openapitools.codegen.languages.GoGinServerCodegen
 org.openapitools.codegen.languages.GraphQLSchemaCodegen
 org.openapitools.codegen.languages.GraphQLNodeJSExpressServerCodegen
-org.openapitools.codegen.languages.GrpcSchemaCodegen
 org.openapitools.codegen.languages.GroovyClientCodegen
 org.openapitools.codegen.languages.KotlinClientCodegen
 org.openapitools.codegen.languages.KotlinServerCodegen
@@ -78,6 +77,7 @@ org.openapitools.codegen.languages.PhpSilexServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
+org.openapitools.codegen.languages.ProtobufSchemaCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
 org.openapitools.codegen.languages.PythonClientExperimentalCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
