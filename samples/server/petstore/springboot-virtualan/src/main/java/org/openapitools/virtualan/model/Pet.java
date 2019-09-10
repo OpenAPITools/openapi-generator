@@ -58,7 +58,6 @@ public class Pet   {
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }

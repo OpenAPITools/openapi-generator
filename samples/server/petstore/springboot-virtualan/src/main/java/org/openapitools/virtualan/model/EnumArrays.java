@@ -37,7 +37,6 @@ public class EnumArrays   {
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
@@ -76,7 +75,6 @@ public class EnumArrays   {
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }

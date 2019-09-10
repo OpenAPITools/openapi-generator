@@ -42,7 +42,6 @@ public class MapTest   {
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }

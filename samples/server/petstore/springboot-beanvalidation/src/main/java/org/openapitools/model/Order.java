@@ -50,7 +50,6 @@ public class Order   {
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }

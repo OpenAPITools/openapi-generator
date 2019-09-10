@@ -31,7 +31,6 @@ public enum EnumClass {
   }
 
   @Override
-  @JsonValue
   public String toString() {
     return String.valueOf(value);
   }
