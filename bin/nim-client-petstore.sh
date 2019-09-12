@@ -26,8 +26,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-#ags="$@ generate -t modules/openapi-generator/src/main/resources/nim-client -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml --additional-properties packageName=petstore -g nim -o samples/client/petstore/nim"
-#ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml --additional-properties packageName=petstore -g nim -o samples/client/petstore/nim"
-ags="$@ generate -DdebugSwagger -DdebugOperations -DdebugModels -t modules/openapi-generator/src/main/resources/nim-client -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml --additional-properties packageName=petstore -g nim -o samples/client/petstore/nim"
+ags="$@ generate -t modules/openapi-generator/src/main/resources/nim-client -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml --additional-properties packageName=petstore -g nim -o samples/client/petstore/nim"
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}

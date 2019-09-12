@@ -146,6 +146,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     apiPackage = File.separator + packageName + File.separator + "apis";
     modelPackage = File.separator + packageName + File.separator + "models";
+    supportingFiles.add(new SupportingFile("lib.mustache", "", packageName + ".nim"));
   }
 
   @Override
@@ -245,7 +246,29 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
       return typeMapping.get(schemaType);
     }
 
-    return schemaType;
+    if (schemaType.matches("\\d.*")) { // starts with number
+      return "`" + schemaType + "`";
+    } else {
+      return schemaType;
+    }
+  }
+
+  @Override
+  public String toVarName(String name) {
+    if (isReservedWord(name)) {
+      name = escapeReservedWord(name);
+    }
+
+    if (name.matches("^\\d.*")) {
+      name = "`" + name + "`";
+    }
+
+    return name;
+  }
+
+  @Override
+  public String toParamName(String name) {
+    return toVarName(name);
   }
 
   @Override
@@ -263,11 +286,24 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String toEnumName(CodegenProperty property) {
-    return StringUtils.camelize(property.name, false);
+    String name = StringUtils.camelize(property.name, false);
+
+    if (name.matches("\\d.*")) { // starts with number
+      return "`" + name + "`";
+    } else {
+      return name;
+    }
   }
 
   @Override
   public String toEnumVarName(String name, String datatype) {
-    return StringUtils.camelize(name, false);
+    name = name.replace(" ", "_");
+    name = StringUtils.camelize(name, false);
+
+    if (name.matches("\\d.*")) { // starts with number
+      return "`" + name + "`";
+    } else {
+      return name;
+    }
   }
 }
