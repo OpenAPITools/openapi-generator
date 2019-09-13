@@ -13,6 +13,7 @@ package petstore
 type TypeHolderExample struct {
 	StringItem string `json:"string_item" xml:"string_item"`
 	NumberItem float32 `json:"number_item" xml:"number_item"`
+	FloatItem float32 `json:"float_item" xml:"float_item"`
 	IntegerItem int32 `json:"integer_item" xml:"integer_item"`
 	BoolItem bool `json:"bool_item" xml:"bool_item"`
 	ArrayItem []int32 `json:"array_item" xml:"array_item"`

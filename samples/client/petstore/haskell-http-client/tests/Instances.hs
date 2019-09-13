@@ -511,6 +511,7 @@ genTypeHolderExample n =
   TypeHolderExample
     <$> arbitrary -- typeHolderExampleStringItem :: Text
     <*> arbitrary -- typeHolderExampleNumberItem :: Double
+    <*> arbitrary -- typeHolderExampleFloatItem :: Float
     <*> arbitrary -- typeHolderExampleIntegerItem :: Int
     <*> arbitrary -- typeHolderExampleBoolItem :: Bool
     <*> arbitrary -- typeHolderExampleArrayItem :: [Int]

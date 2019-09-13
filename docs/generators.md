@@ -38,6 +38,7 @@ The following generators are available:
 * [jmeter](generators/jmeter)  
 * [kotlin](generators/kotlin)  
 * [lua](generators/lua)  
+* [nim (beta)](generators/nim)  
 * [objc](generators/objc)  
 * [ocaml](generators/ocaml)  
 * [perl](generators/perl)  
@@ -132,7 +133,7 @@ The following generators are available:
 ## CONFIG generators
 * [apache2](generators/apache2)  
 * [graphql-schema](generators/graphql-schema)  
-* [grpc-schema (beta)](generators/grpc-schema)  
+* [protobuf-schema (beta)](generators/protobuf-schema)  
 
 
 
