@@ -16,10 +16,10 @@ type AdditionalPropertiesClass struct {
 	MapInteger map[string]int32 `json:"map_integer,omitempty" xml:"map_integer"`
 	MapBoolean map[string]bool `json:"map_boolean,omitempty" xml:"map_boolean"`
 	MapArrayInteger map[string][]int32 `json:"map_array_integer,omitempty" xml:"map_array_integer"`
-	MapArrayAnytype map[string][]map[string]interface{} `json:"map_array_anytype,omitempty" xml:"map_array_anytype"`
+	MapArrayAnytype map[string][]interface{} `json:"map_array_anytype,omitempty" xml:"map_array_anytype"`
 	MapMapString map[string]map[string]string `json:"map_map_string,omitempty" xml:"map_map_string"`
-	MapMapAnytype map[string]map[string]map[string]interface{} `json:"map_map_anytype,omitempty" xml:"map_map_anytype"`
-	Anytype1 map[string]interface{} `json:"anytype_1,omitempty" xml:"anytype_1"`
-	Anytype2 map[string]interface{} `json:"anytype_2,omitempty" xml:"anytype_2"`
-	Anytype3 map[string]interface{} `json:"anytype_3,omitempty" xml:"anytype_3"`
+	MapMapAnytype map[string]map[string]interface{} `json:"map_map_anytype,omitempty" xml:"map_map_anytype"`
+	Anytype1 interface{} `json:"anytype_1,omitempty" xml:"anytype_1"`
+	Anytype2 interface{} `json:"anytype_2,omitempty" xml:"anytype_2"`
+	Anytype3 interface{} `json:"anytype_3,omitempty" xml:"anytype_3"`
 }
