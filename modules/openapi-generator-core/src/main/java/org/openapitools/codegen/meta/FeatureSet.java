@@ -30,7 +30,7 @@ public class FeatureSet {
     private EnumSet<ClientModificationFeature> clientModificationFeatures;
     private EnumSet<DataTypeFeature> dataTypeFeatures;
     private EnumSet<DocumentationFeature> documentationFeature;
-    private EnumSet<ModelReuseFeature> modelReuseFeature;
+    private EnumSet<SchemaSupportFeature> schemaSupportFeature;
     private EnumSet<ParameterFeature> parameterFeature;
     private EnumSet<SecurityFeature> securityFeature;
 
@@ -39,10 +39,14 @@ public class FeatureSet {
             clientModificationFeatures = builder.clientModificationFeatures;
             dataTypeFeatures = builder.dataTypeFeatures;
             documentationFeature = builder.documentationFeature;
-            modelReuseFeature = builder.modelReuseFeature;
+            schemaSupportFeature = builder.schemaSupportFeature;
             parameterFeature = builder.parameterFeature;
             securityFeature = builder.securityFeature;
         }
+    }
+
+    public Builder modify() {
+        return FeatureSet.newBuilder(this);
     }
 
     public static Builder newBuilder() {
@@ -55,7 +59,7 @@ public class FeatureSet {
             builder.clientModificationFeatures = copy.getClientModificationFeatures();
             builder.dataTypeFeatures = copy.getDataTypeFeatures();
             builder.documentationFeature = copy.getDocumentationFeature();
-            builder.modelReuseFeature = copy.getModelReuseFeature();
+            builder.schemaSupportFeature = copy.getSchemaSupportFeature();
             builder.parameterFeature = copy.getParameterFeature();
             builder.securityFeature = copy.getSecurityFeature();
         }
@@ -106,11 +110,11 @@ public class FeatureSet {
      *
      * @return A new copy of the defined feature set. Changes to this instance are not promoted.
      */
-    public EnumSet<ModelReuseFeature> getModelReuseFeature() {
-        if (modelReuseFeature != null) {
-            return EnumSet.copyOf(modelReuseFeature);
+    public EnumSet<SchemaSupportFeature> getSchemaSupportFeature() {
+        if (schemaSupportFeature != null) {
+            return EnumSet.copyOf(schemaSupportFeature);
         } else {
-            return EnumSet.noneOf(ModelReuseFeature.class);
+            return EnumSet.noneOf(SchemaSupportFeature.class);
         }
     }
 
@@ -147,7 +151,7 @@ public class FeatureSet {
         private EnumSet<ClientModificationFeature> clientModificationFeatures;
         private EnumSet<DataTypeFeature> dataTypeFeatures;
         private EnumSet<DocumentationFeature> documentationFeature;
-        private EnumSet<ModelReuseFeature> modelReuseFeature;
+        private EnumSet<SchemaSupportFeature> schemaSupportFeature;
         private EnumSet<ParameterFeature> parameterFeature;
         private EnumSet<SecurityFeature> securityFeature;
 
@@ -200,16 +204,16 @@ public class FeatureSet {
         }
 
         /**
-         * Sets the {@code modelReuseFeature} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code schemaSupportFeature} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param modelReuseFeature the {@code modelReuseFeature} to set
+         * @param schemaSupportFeature the {@code schemaSupportFeature} to set
          * @return a reference to this Builder
          */
-        public Builder modelReuseFeature(EnumSet<ModelReuseFeature> modelReuseFeature) {
-            if (modelReuseFeature != null) {
-                this.modelReuseFeature = modelReuseFeature;
+        public Builder schemaSupportFeature(EnumSet<SchemaSupportFeature> schemaSupportFeature) {
+            if (schemaSupportFeature != null) {
+                this.schemaSupportFeature = schemaSupportFeature;
             } else {
-                this.modelReuseFeature = EnumSet.noneOf(ModelReuseFeature.class);
+                this.schemaSupportFeature = EnumSet.noneOf(SchemaSupportFeature.class);
             }
             return this;
         }
