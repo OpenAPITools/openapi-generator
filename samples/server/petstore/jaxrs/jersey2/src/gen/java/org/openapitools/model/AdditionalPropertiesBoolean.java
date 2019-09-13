@@ -20,15 +20,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * AdditionalPropertiesBoolean
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesBoolean.JSON_PROPERTY_NAME
+})
 
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
   public AdditionalPropertiesBoolean name(String name) {

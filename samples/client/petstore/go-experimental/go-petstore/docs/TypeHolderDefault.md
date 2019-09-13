@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**StringItem** | Pointer to **string** |  |  [default to what]
+**StringItem** | Pointer to **string** |  | [default to what]
 **NumberItem** | Pointer to **float32** |  | 
 **IntegerItem** | Pointer to **int32** |  | 
-**BoolItem** | Pointer to **bool** |  |  [default to true]
+**BoolItem** | Pointer to **bool** |  | [default to true]
 **ArrayItem** | Pointer to **[]int32** |  | 
 
 ## Methods

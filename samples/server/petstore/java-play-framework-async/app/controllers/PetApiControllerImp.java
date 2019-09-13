@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 
 public class PetApiControllerImp implements PetApiControllerImpInterface {
     @Override
-    public void addPet(Pet pet) throws Exception {
+    public void addPet(Pet body) throws Exception {
         //Do your magic!!!
     }
 
@@ -23,31 +23,25 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<List<Pet>> findPetsByStatus( @NotNull List<String> status) throws Exception {
+    public List<Pet> findPetsByStatus( @NotNull List<String> status) throws Exception {
         //Do your magic!!!
-        return CompletableFuture.supplyAsync(() -> {
-           return new ArrayList<Pet>();
-        });
+        return new ArrayList<Pet>();
     }
 
     @Override
-    public CompletionStage<List<Pet>> findPetsByTags( @NotNull List<String> tags) throws Exception {
+    public List<Pet> findPetsByTags( @NotNull List<String> tags) throws Exception {
         //Do your magic!!!
-        return CompletableFuture.supplyAsync(() -> {
-           return new ArrayList<Pet>();
-        });
+        return new ArrayList<Pet>();
     }
 
     @Override
-    public CompletionStage<Pet> getPetById(Long petId) throws Exception {
+    public Pet getPetById(Long petId) throws Exception {
         //Do your magic!!!
-        return CompletableFuture.supplyAsync(() -> {
-           return new Pet();
-        });
+        return new Pet();
     }
 
     @Override
-    public void updatePet(Pet pet) throws Exception {
+    public void updatePet(Pet body) throws Exception {
         //Do your magic!!!
     }
 
@@ -57,11 +51,9 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception {
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception {
         //Do your magic!!!
-        return CompletableFuture.supplyAsync(() -> {
-           return new ModelApiResponse();
-        });
+        return new ModelApiResponse();
     }
 
 }

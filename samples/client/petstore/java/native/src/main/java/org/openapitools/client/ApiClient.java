@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -162,6 +163,8 @@ public class ApiClient {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.registerModule(new JavaTimeModule());
+    JsonNullableModule jnm = new JsonNullableModule();
+    mapper.registerModule(jnm);
     URI baseURI = URI.create("http://petstore.swagger.io:80/v2");
     scheme = baseURI.getScheme();
     host = baseURI.getHost();
@@ -258,6 +261,17 @@ public class ApiClient {
    */
   public String getBaseUri() {
     return scheme + "://" + host + (port == -1 ? "" : ":" + port) + basePath;
+  }
+
+  /**
+   * Set a custom scheme for the target service, for example 'https'.
+   *
+   * @param scheme The scheme of the target service
+   * @return This object.
+   */
+  public ApiClient setScheme(String scheme){
+    this.scheme = scheme;
+    return this;
   }
 
   /**

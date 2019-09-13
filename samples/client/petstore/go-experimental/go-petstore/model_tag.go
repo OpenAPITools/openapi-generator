@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// Tag struct for Tag
 type Tag struct {
 	Id *int64 `json:"id,omitempty"`
 
@@ -86,6 +86,7 @@ func (o *Tag) SetName(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Tag) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {

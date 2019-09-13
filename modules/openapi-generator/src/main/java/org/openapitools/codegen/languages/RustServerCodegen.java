@@ -24,9 +24,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.XML;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
@@ -291,7 +289,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
         info.setVersion(StringUtils.join(versionComponents, "."));
 
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", URLPathUtils.getPort(url, 80));
     }
@@ -617,10 +615,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         for (CodegenParameter param : op.headerParams) {
-            // If a header uses UUIDs, we need to import the UUID package.
-            if (param.dataType.equals(uuidType)) {
-                additionalProperties.put("apiUsesUuid", true);
-            }
             processParam(param, op);
 
             // Give header params a name in camel case. CodegenParameters don't have a nameInCamelCase property.
@@ -756,10 +750,21 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             if (op.authMethods != null) {
+                boolean headerAuthMethods = false;
+
                 for (CodegenSecurity s : op.authMethods) {
                     if (s.isApiKey && s.isKeyInHeader) {
                         s.vendorExtensions.put("x-apiKeyName", toModelName(s.keyParamName));
+                        headerAuthMethods = true;
                     }
+
+                    if (s.isBasicBasic || s.isBasicBearer || s.isOAuth) {
+                        headerAuthMethods = true;
+                    }
+                }
+
+                if (headerAuthMethods) {
+                    op.vendorExtensions.put("hasHeaderAuthMethods", "true");
                 }
             }
         }
@@ -927,7 +932,15 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             String modelName = entry.getKey();
             CodegenModel model = entry.getValue();
 
+            if (uuidType.equals(model.dataType)) {
+                additionalProperties.put("apiUsesUuid", true);
+            }
+
             for (CodegenProperty prop : model.vars) {
+                if (prop.dataType.equals(uuidType)) {
+                    additionalProperties.put("apiUsesUuid", true);
+                }
+
                 String xmlName = modelXmlNames.get(prop.dataType);
                 if (xmlName != null) {
                     prop.vendorExtensions.put("itemXmlName", xmlName);
@@ -1133,6 +1146,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
         String example = null;
+
+        // If a parameter uses UUIDs, we need to import the UUID package.
+        if (param.dataType.equals(uuidType)) {
+            additionalProperties.put("apiUsesUuid", true);
+        }
 
         if (param.isString) {
             param.vendorExtensions.put("formatString", "\\\"{}\\\"");

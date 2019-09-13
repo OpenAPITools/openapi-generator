@@ -146,12 +146,6 @@
       ]
     },
     {
-      "input": "dart-flutter-petstore.sh",
-      "matches": [
-        "Client: Dart"
-      ]
-    },
-    {
       "input": "dart-jaguar-petstore.sh",
       "matches": [
         "Client: Dart"

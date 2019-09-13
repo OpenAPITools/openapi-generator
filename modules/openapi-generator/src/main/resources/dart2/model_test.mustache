@@ -5,7 +5,9 @@ import 'package:test/test.dart';
 
 // tests for {{classname}}
 void main() {
-  var instance = new Pet();
+    {{^isEnum}}
+    var instance = new {{classname}}();
+    {{/isEnum}}
 
   group('test {{classname}}', () {
     {{#vars}}

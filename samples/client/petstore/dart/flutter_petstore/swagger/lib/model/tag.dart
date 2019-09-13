@@ -17,12 +17,12 @@ class Tag {
     if (json['id'] == null) {
       id = null;
     } else {
-          id = json['id'];
+      id = json['id'];
     }
     if (json['name'] == null) {
       name = null;
     } else {
-          name = json['name'];
+      name = json['name'];
     }
   }
 
@@ -37,10 +37,10 @@ class Tag {
     return json == null ? new List<Tag>() : json.map((value) => new Tag.fromJson(value)).toList();
   }
 
-  static Map<String, Tag> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, Tag> mapFromJson(Map<String, Map<String, dynamic>> json) {
     var map = new Map<String, Tag>();
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = new Tag.fromJson(value));
+    if (json != null && json.length > 0) {
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new Tag.fromJson(value));
     }
     return map;
   }

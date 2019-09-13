@@ -167,11 +167,50 @@ public class SpringCodegenTest {
         checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/PonyApi.java",  "@RequestParam");
     }
 
+    @Test
+    public void generateFormatForDateAndDateTimeQueryParam() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/issue_2053.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileContains(
+            generator,
+            outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java",
+            "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)"
+        );
+        checkFileContains(
+            generator,
+            outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java",
+            "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)"
+        );
+    }
+
     private void checkFileNotContains(MockDefaultGenerator generator, String path, String... lines) {
         String file = generator.getFiles().get(path);
         assertNotNull(file);
         for (String line : lines)
             assertFalse(file.contains(line));
+    }
+
+    private void checkFileContains(MockDefaultGenerator generator, String path, String... lines) {
+        String file = generator.getFiles().get(path);
+        assertNotNull(file);
+        for (String line : lines)
+            assertTrue(file.contains(line));
     }
 
     @Test

@@ -82,7 +82,7 @@ export class PetApi extends BaseAPI {
             headers,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * Deletes a pet
@@ -105,7 +105,7 @@ export class PetApi extends BaseAPI {
             method: 'DELETE',
             headers,
         });
-    }
+    };
 
     /**
      * Multiple status values can be provided with comma separated strings
@@ -133,7 +133,7 @@ export class PetApi extends BaseAPI {
             headers,
             query,
         });
-    }
+    };
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -161,7 +161,7 @@ export class PetApi extends BaseAPI {
             headers,
             query,
         });
-    }
+    };
 
     /**
      * Returns a single pet
@@ -179,7 +179,7 @@ export class PetApi extends BaseAPI {
             method: 'GET',
             headers,
         });
-    }
+    };
 
     /**
      * Update an existing pet
@@ -203,7 +203,7 @@ export class PetApi extends BaseAPI {
             headers,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * Updates a pet in the store with form data
@@ -235,7 +235,7 @@ export class PetApi extends BaseAPI {
             headers,
             body: formData,
         });
-    }
+    };
 
     /**
      * uploads an image
@@ -267,7 +267,7 @@ export class PetApi extends BaseAPI {
             headers,
             body: formData,
         });
-    }
+    };
 
 }
 

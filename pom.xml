@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.1.3-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -188,7 +188,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -844,6 +844,18 @@
             </modules>
         </profile>
         <profile>
+            <id>typescript-fetch-client-builds-prefix-parameter-interfaces</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-fetch/builds/prefix-parameter-interfaces</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-angularjs-client</id>
             <activation>
                 <property>
@@ -1024,9 +1036,7 @@
             <modules>
                 <!-- clients -->
                 <module>samples/client/petstore/c</module>
-                <!--<module>samples/client/petstore/dart-jaguar/openapi</module>
-                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>-->
-                <!--<module>samples/client/petstore/dart2/petstore</module>-->
+                <!-- <module>samples/client/petstore/cpp-qt5</module> -->
                 <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust-reqwest</module>
@@ -1049,7 +1059,8 @@
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <module>samples/client/petstore/typescript-axios/tests/default</module>
+                <!-- comment out due to CI failure, e.g. https://travis-ci.org/OpenAPITools/openapi-generator/builds/574865730
+                <module>samples/client/petstore/typescript-axios/tests/default</module>-->
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
                 <!-- comment out due to github rate limit error
@@ -1384,8 +1395,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-parser-version>2.0.13-OpenAPITools.org-2</swagger-parser-version>
-        <swagger-core-version>2.0.7</swagger-core-version>
+        <swagger-core-version>2.0.9</swagger-core-version>
+        <swagger-parser-version>2.0.14-OpenAPITools.org-1</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>

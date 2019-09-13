@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Client** | Pointer to **string** |  | [optional]
+**Client** | Pointer to **string** |  | [optional] 
 
 ## Methods
 

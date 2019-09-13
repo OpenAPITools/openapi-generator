@@ -253,6 +253,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
         {{#withXml}}
             <!-- XML processing: Jackson -->
             <dependency>
@@ -299,10 +304,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
-        <google-api-client-version>1.23.0</google-api-client-version>
+        <google-api-client-version>1.30.2</google-api-client-version>
         <jersey-common-version>2.25.1</jersey-common-version>
         <jackson-version>2.9.9</jackson-version>
         <jackson-databind-version>2.9.9</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}

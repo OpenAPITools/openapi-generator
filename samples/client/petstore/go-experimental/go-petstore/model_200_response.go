@@ -11,8 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
-// Model for testing model name starting with number
+// Model200Response Model for testing model name starting with number
 type Model200Response struct {
 	Name *int32 `json:"name,omitempty"`
 
@@ -87,6 +86,7 @@ func (o *Model200Response) SetClass(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Model200Response) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {

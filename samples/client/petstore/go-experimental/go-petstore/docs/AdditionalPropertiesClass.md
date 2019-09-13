@@ -4,17 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**MapString** | Pointer to **map[string]string** |  | [optional]
-**MapNumber** | Pointer to **map[string]float32** |  | [optional]
-**MapInteger** | Pointer to **map[string]int32** |  | [optional]
-**MapBoolean** | Pointer to **map[string]bool** |  | [optional]
-**MapArrayInteger** | Pointer to [**map[string][]int32**](array.md) |  | [optional]
-**MapArrayAnytype** | Pointer to [**map[string][]map[string]interface{}**](array.md) |  | [optional]
-**MapMapString** | Pointer to [**map[string]map[string]string**](map.md) |  | [optional]
-**MapMapAnytype** | Pointer to [**map[string]map[string]map[string]interface{}**](map.md) |  | [optional]
-**Anytype1** | Pointer to [**map[string]interface{}**](.md) |  | [optional]
-**Anytype2** | Pointer to [**map[string]interface{}**](.md) |  | [optional]
-**Anytype3** | Pointer to [**map[string]interface{}**](.md) |  | [optional]
+**MapString** | Pointer to **map[string]string** |  | [optional] 
+**MapNumber** | Pointer to **map[string]float32** |  | [optional] 
+**MapInteger** | Pointer to **map[string]int32** |  | [optional] 
+**MapBoolean** | Pointer to **map[string]bool** |  | [optional] 
+**MapArrayInteger** | Pointer to [**map[string][]int32**](array.md) |  | [optional] 
+**MapArrayAnytype** | Pointer to [**map[string][]map[string]interface{}**](array.md) |  | [optional] 
+**MapMapString** | Pointer to [**map[string]map[string]string**](map.md) |  | [optional] 
+**MapMapAnytype** | Pointer to [**map[string]map[string]map[string]interface{}**](map.md) |  | [optional] 
+**Anytype1** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
+**Anytype2** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
+**Anytype3** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
 
 ## Methods
 

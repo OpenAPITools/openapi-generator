@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -31,15 +32,23 @@ import javax.validation.Valid;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
+@JsonPropertyOrder({
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_UUID,
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
+})
 
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
-  @JsonProperty("uuid")
+  public static final String JSON_PROPERTY_UUID = "uuid";
+  @JsonProperty(JSON_PROPERTY_UUID)
   private UUID uuid;
 
-  @JsonProperty("dateTime")
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("map")
+  public static final String JSON_PROPERTY_MAP = "map";
+  @JsonProperty(JSON_PROPERTY_MAP)
   private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {

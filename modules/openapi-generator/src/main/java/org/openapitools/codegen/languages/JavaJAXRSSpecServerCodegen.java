@@ -239,6 +239,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public String toApiName(final String name) {
         String computed = name;
         if (computed.length() == 0) {
+            if (primaryResourceName == null) {
+                return "DefaultApi";
+            }
             return primaryResourceName + "Api";
         }
         computed = sanitizeName(computed);

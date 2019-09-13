@@ -5,11 +5,11 @@
  *
  *)
 
-val create_user : User.t -> unit Lwt.t
-val create_users_with_array_input : User.t list -> unit Lwt.t
-val create_users_with_list_input : User.t list -> unit Lwt.t
-val delete_user : string -> unit Lwt.t
-val get_user_by_name : string -> User.t Lwt.t
-val login_user : string -> string -> string Lwt.t
+val create_user : body:User.t -> unit Lwt.t
+val create_users_with_array_input : body:User.t list -> unit Lwt.t
+val create_users_with_list_input : body:User.t list -> unit Lwt.t
+val delete_user : username:string -> unit Lwt.t
+val get_user_by_name : username:string -> User.t Lwt.t
+val login_user : username:string -> password:string -> string Lwt.t
 val logout_user : unit -> unit Lwt.t
-val update_user : string -> User.t -> unit Lwt.t
+val update_user : username:string -> body:User.t -> unit Lwt.t

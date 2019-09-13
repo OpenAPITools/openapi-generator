@@ -47,7 +47,10 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key_query](../README.md#api_key_query)
+
+Configure api_key_query:
+    ApiClient.apiKey["api_key_query"] = ""
+    ApiClient.apiKeyPrefix["api_key_query"] = ""
 
 ### HTTP request headers
 

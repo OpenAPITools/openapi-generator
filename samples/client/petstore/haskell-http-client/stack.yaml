@@ -1,8 +1,8 @@
-resolver: lts-13.9
+resolver: lts-14.3
 build:
   haddock-arguments:
     haddock-args:
     - "--odir=./docs"
-extra-deps: [ katip-0.8.0.0 ]
+extra-deps: [ katip-0.8.3.0 ]
 packages:
 - '.'

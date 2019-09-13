@@ -102,7 +102,7 @@ void
       }
     }
     {{/collectionFormat}}{{/queryParams}}
-    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker();
+    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this);
     worker->setTimeOut(timeout);
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
     {{#formParams}}
