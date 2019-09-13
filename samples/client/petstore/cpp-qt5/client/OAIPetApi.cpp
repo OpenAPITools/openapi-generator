@@ -64,7 +64,7 @@ OAIPetApi::addPet(const OAIPet& body) {
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
-
+    
     
     QString output = body.asJson();
     input.request_body.append(output);
@@ -117,6 +117,7 @@ OAIPetApi::deletePet(const qint64& pet_id, const QString& api_key) {
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "DELETE");
+    
 
     if (api_key != nullptr) {
         input.headers.insert("api_key", api_key);
@@ -206,6 +207,7 @@ OAIPetApi::findPetsByStatus(const QList<QString>& status) {
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -302,6 +304,7 @@ OAIPetApi::findPetsByTags(const QList<QString>& tags) {
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -361,6 +364,7 @@ OAIPetApi::getPetById(const qint64& pet_id) {
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -408,7 +412,7 @@ OAIPetApi::updatePet(const OAIPet& body) {
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "PUT");
-
+    
     
     QString output = body.asJson();
     input.request_body.append(output);
@@ -461,9 +465,10 @@ OAIPetApi::updatePetWithForm(const qint64& pet_id, const QString& name, const QS
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
-    input.add_var("name", ::OpenAPI::toStringValue(name));
-        input.add_var("status", ::OpenAPI::toStringValue(status));
     
+    input.add_var("name", ::OpenAPI::toStringValue(name));
+    input.add_var("status", ::OpenAPI::toStringValue(status));
+
 
     foreach(QString key, this->defaultHeaders.keys()) {
         input.headers.insert(key, this->defaultHeaders.value(key));
@@ -512,10 +517,10 @@ OAIPetApi::uploadFile(const qint64& pet_id, const QString& additional_metadata, 
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
-    input.add_var("additionalMetadata", ::OpenAPI::toStringValue(additional_metadata));
-        
-    input.add_file("file", file.local_filename, file.request_filename, file.mime_type);
     
+    input.add_var("additionalMetadata", ::OpenAPI::toStringValue(additional_metadata));
+    input.add_file("file", file.local_filename, file.request_filename, file.mime_type);
+
 
     foreach(QString key, this->defaultHeaders.keys()) {
         input.headers.insert(key, this->defaultHeaders.value(key));

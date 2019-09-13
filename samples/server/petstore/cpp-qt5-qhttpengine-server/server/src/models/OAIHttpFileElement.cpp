@@ -50,15 +50,14 @@ QString
 OAIHttpFileElement::asJson() const{
     QFile file(local_filename);
     QByteArray bArray;
-    try {
-        if(file.exists()){
-            file.open(QIODevice::ReadOnly);
-            bArray = file.readAll();
-            file.close();
-        }
+    bool result = false;
+    if(file.exists()) {
+        result = file.open(QIODevice::ReadOnly);
+        bArray = file.readAll();
+        file.close();
     }
-    catch(const std::exception &ex) {
-        qDebug() << "Error opening file " << ex.what();
+    if(!result) {
+        qDebug() << "Error opening file " << local_filename;
     }
     return QString(bArray);
 }
@@ -67,15 +66,14 @@ QJsonValue
 OAIHttpFileElement::asJsonValue() const{
     QFile file(local_filename);
     QByteArray bArray;
-    try {
-        if(file.exists()){
-            file.open(QIODevice::ReadOnly);
-            bArray = file.readAll();
-            file.close();
-        }
+    bool result = false;    
+    if(file.exists()) {
+        result = file.open(QIODevice::ReadOnly);
+        bArray = file.readAll();
+        file.close();
     }
-    catch(const std::exception &ex) {
-        qDebug() << "Error opening file " << ex.what();
+    if(!result) {
+        qDebug() << "Error opening file " << local_filename;
     }
     return QJsonDocument::fromBinaryData(bArray.data()).object();
 }
@@ -84,17 +82,14 @@ bool
 OAIHttpFileElement::fromStringValue(const QString &instr){
     QFile file(local_filename);
     bool result = false;
-    try {
-        if(file.exists()){
-            file.remove();
-        }
-        file.open(QIODevice::WriteOnly);
-        file.write(instr.toUtf8());
-        file.close();
-        result = true;
+    if(file.exists()) {
+        file.remove();
     }
-    catch(const std::exception &ex) {
-        qDebug() << "Error creating file " << ex.what();
+    result = file.open(QIODevice::WriteOnly);
+    file.write(instr.toUtf8());
+    file.close();
+    if(!result) {
+        qDebug() << "Error creating file " << local_filename;
     }
     return result;
 }
@@ -103,17 +98,14 @@ bool
 OAIHttpFileElement::fromJsonValue(const QJsonValue &jval) {
     QFile file(local_filename);
     bool result = false;
-    try {
-        if(file.exists()){
-            file.remove();
-        }
-        file.open(QIODevice::WriteOnly);
-        file.write(QJsonDocument(jval.toObject()).toBinaryData());
-        file.close();
-        result = true;
+    if(file.exists()) {
+        file.remove();
     }
-    catch(const std::exception &ex) {
-        qDebug() << "Error creating file " << ex.what();
+    result = file.open(QIODevice::WriteOnly);
+    file.write(QJsonDocument(jval.toObject()).toBinaryData());
+    file.close();
+    if(!result) {
+        qDebug() << "Error creating file " << local_filename;
     }
     return result;
 }
@@ -122,16 +114,15 @@ QByteArray
 OAIHttpFileElement::asByteArray() const {
     QFile file(local_filename);
     QByteArray bArray;
-    try {
-        if(file.exists()){
-            file.open(QIODevice::ReadOnly);
-            bArray = file.readAll();
-            file.close();
-        }
+    bool result = false;
+    if(file.exists()) {
+        result = file.open(QIODevice::ReadOnly);
+        bArray = file.readAll();
+        file.close();
     }
-    catch(const std::exception &ex) {
-        qDebug() << "Error opening file " << ex.what();
-    }
+    if(!result) {
+        qDebug() << "Error opening file " << local_filename;
+    }       
     return bArray;
 }
 
@@ -139,17 +130,14 @@ bool
 OAIHttpFileElement::fromByteArray(const QByteArray& bytes){
     QFile file(local_filename);
     bool result = false;
-    try {
-        if(file.exists()){
-            file.remove();
-        }
-        file.open(QIODevice::WriteOnly);
-        file.write(bytes);
-        file.close();
-        result = true;
+    if(file.exists()){
+        file.remove();
     }
-    catch(const std::exception &ex) {
-        qDebug() << "Error creating file " << ex.what();
+    result = file.open(QIODevice::WriteOnly);
+    file.write(bytes);
+    file.close();
+    if(!result) {
+        qDebug() << "Error creating file " << local_filename;
     }
     return result;
 }

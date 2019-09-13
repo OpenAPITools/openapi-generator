@@ -326,7 +326,12 @@ void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
     }
 
     if (request_content.size() > 0 && !isFormData && (input->var_layout != MULTIPART)) {
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        if(!input->headers.contains("Content-Type")){
+            request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        }
+        else {
+            request.setHeader(QNetworkRequest::ContentTypeHeader, input->headers.value("Content-Type"));
+        }
     }
     else if (input->var_layout == URL_ENCODED) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
