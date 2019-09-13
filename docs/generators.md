@@ -38,6 +38,7 @@ The following generators are available:
 * [jmeter](generators/jmeter)  
 * [kotlin](generators/kotlin)  
 * [lua](generators/lua)  
+* [nim](generators/nim)  
 * [objc](generators/objc)  
 * [ocaml](generators/ocaml)  
 * [perl](generators/perl)  
