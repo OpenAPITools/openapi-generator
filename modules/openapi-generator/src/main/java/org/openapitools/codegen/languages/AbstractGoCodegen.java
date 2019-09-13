@@ -85,7 +85,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "rune",
                         "byte",
                         "interface{}"
-                        )
+                )
         );
 
         instantiationTypes.clear();
@@ -109,7 +109,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("file", "*os.File");
         typeMapping.put("binary", "*os.File");
         typeMapping.put("ByteArray", "string");
-        typeMapping.put("object", "map[string]interface{}");
+        typeMapping.put("object", "interface{}");
 
         importMapping = new HashMap<String, String>();
 
@@ -312,19 +312,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
-        } else {
-            // Handle "any type" as an empty interface
-            if (openAPIType.equals("object") && !ModelUtils.isObjectSchema(p) && !ModelUtils.isMapSchema(p)) {
-                return "interface{}";
-            }
-
-            if (typeMapping.containsKey(openAPIType)) {
-                type = typeMapping.get(openAPIType);
-                if (languageSpecificPrimitives.contains(type))
-                    return (type);
-            } else
-                type = openAPIType;
-        }
+        } else if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
+            if (languageSpecificPrimitives.contains(type))
+                return (type);
+        } else
+            type = openAPIType;
         return type;
     }
 
