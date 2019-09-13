@@ -178,6 +178,10 @@ public class Generate implements Runnable {
     @Option(name = {"--library"}, title = "library", description = CodegenConstants.LIBRARY_DESC)
     private String library;
 
+    @Option(name = {"--git-host"}, title = "git host",
+            description = CodegenConstants.GIT_HOST_DESC)
+    private String gitHost;
+
     @Option(name = {"--git-user-id"}, title = "git user id",
             description = CodegenConstants.GIT_USER_ID_DESC)
     private String gitUserId;
@@ -341,6 +345,10 @@ public class Generate implements Runnable {
 
         if (isNotEmpty(library)) {
             configurator.setLibrary(library);
+        }
+
+        if (isNotEmpty(gitHost)) {
+            configurator.setGitHost(gitHost);
         }
 
         if (isNotEmpty(gitUserId)) {

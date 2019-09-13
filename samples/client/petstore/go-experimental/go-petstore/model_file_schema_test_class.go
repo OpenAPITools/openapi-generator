@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// FileSchemaTestClass struct for FileSchemaTestClass
 type FileSchemaTestClass struct {
 	File *File `json:"file,omitempty"`
 
@@ -86,6 +86,7 @@ func (o *FileSchemaTestClass) SetFiles(v []File) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.File != nil {

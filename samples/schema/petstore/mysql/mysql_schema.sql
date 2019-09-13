@@ -416,6 +416,7 @@ CREATE TABLE IF NOT EXISTS `TypeHolderDefault` (
 CREATE TABLE IF NOT EXISTS `TypeHolderExample` (
   `string_item` TEXT NOT NULL,
   `number_item` DECIMAL(20, 9) NOT NULL,
+  `float_item` DECIMAL(20, 9) NOT NULL,
   `integer_item` INT NOT NULL,
   `bool_item` TINYINT(1) NOT NULL,
   `array_item` JSON NOT NULL
