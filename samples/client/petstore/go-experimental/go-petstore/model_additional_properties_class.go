@@ -23,17 +23,17 @@ type AdditionalPropertiesClass struct {
 
 	MapArrayInteger *map[string][]int32 `json:"map_array_integer,omitempty"`
 
-	MapArrayAnytype *map[string][]map[string]interface{} `json:"map_array_anytype,omitempty"`
+	MapArrayAnytype *map[string][]interface{} `json:"map_array_anytype,omitempty"`
 
 	MapMapString *map[string]map[string]string `json:"map_map_string,omitempty"`
 
-	MapMapAnytype *map[string]map[string]map[string]interface{} `json:"map_map_anytype,omitempty"`
+	MapMapAnytype *map[string]map[string]interface{} `json:"map_map_anytype,omitempty"`
 
-	Anytype1 *map[string]interface{} `json:"anytype_1,omitempty"`
+	Anytype1 *interface{} `json:"anytype_1,omitempty"`
 
-	Anytype2 *map[string]interface{} `json:"anytype_2,omitempty"`
+	Anytype2 *interface{} `json:"anytype_2,omitempty"`
 
-	Anytype3 *map[string]interface{} `json:"anytype_3,omitempty"`
+	Anytype3 *interface{} `json:"anytype_3,omitempty"`
 
 }
 
@@ -203,9 +203,9 @@ func (o *AdditionalPropertiesClass) SetMapArrayInteger(v map[string][]int32) {
 }
 
 // GetMapArrayAnytype returns the MapArrayAnytype field if non-nil, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]map[string]interface{} {
+func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]interface{} {
 	if o == nil || o.MapArrayAnytype == nil {
-		var ret map[string][]map[string]interface{}
+		var ret map[string][]interface{}
 		return ret
 	}
 	return *o.MapArrayAnytype
@@ -213,9 +213,9 @@ func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]map[string
 
 // GetMapArrayAnytypeOk returns a tuple with the MapArrayAnytype field if it's non-nil, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapArrayAnytypeOk() (map[string][]map[string]interface{}, bool) {
+func (o *AdditionalPropertiesClass) GetMapArrayAnytypeOk() (map[string][]interface{}, bool) {
 	if o == nil || o.MapArrayAnytype == nil {
-		var ret map[string][]map[string]interface{}
+		var ret map[string][]interface{}
 		return ret, false
 	}
 	return *o.MapArrayAnytype, true
@@ -230,8 +230,8 @@ func (o *AdditionalPropertiesClass) HasMapArrayAnytype() bool {
 	return false
 }
 
-// SetMapArrayAnytype gets a reference to the given map[string][]map[string]interface{} and assigns it to the MapArrayAnytype field.
-func (o *AdditionalPropertiesClass) SetMapArrayAnytype(v map[string][]map[string]interface{}) {
+// SetMapArrayAnytype gets a reference to the given map[string][]interface{} and assigns it to the MapArrayAnytype field.
+func (o *AdditionalPropertiesClass) SetMapArrayAnytype(v map[string][]interface{}) {
 	o.MapArrayAnytype = &v
 }
 
@@ -269,9 +269,9 @@ func (o *AdditionalPropertiesClass) SetMapMapString(v map[string]map[string]stri
 }
 
 // GetMapMapAnytype returns the MapMapAnytype field if non-nil, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]map[string]interface{} {
+func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]interface{} {
 	if o == nil || o.MapMapAnytype == nil {
-		var ret map[string]map[string]map[string]interface{}
+		var ret map[string]map[string]interface{}
 		return ret
 	}
 	return *o.MapMapAnytype
@@ -279,9 +279,9 @@ func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]map
 
 // GetMapMapAnytypeOk returns a tuple with the MapMapAnytype field if it's non-nil, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapMapAnytypeOk() (map[string]map[string]map[string]interface{}, bool) {
+func (o *AdditionalPropertiesClass) GetMapMapAnytypeOk() (map[string]map[string]interface{}, bool) {
 	if o == nil || o.MapMapAnytype == nil {
-		var ret map[string]map[string]map[string]interface{}
+		var ret map[string]map[string]interface{}
 		return ret, false
 	}
 	return *o.MapMapAnytype, true
@@ -296,15 +296,15 @@ func (o *AdditionalPropertiesClass) HasMapMapAnytype() bool {
 	return false
 }
 
-// SetMapMapAnytype gets a reference to the given map[string]map[string]map[string]interface{} and assigns it to the MapMapAnytype field.
-func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]map[string]interface{}) {
+// SetMapMapAnytype gets a reference to the given map[string]map[string]interface{} and assigns it to the MapMapAnytype field.
+func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]interface{}) {
 	o.MapMapAnytype = &v
 }
 
 // GetAnytype1 returns the Anytype1 field if non-nil, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetAnytype1() map[string]interface{} {
+func (o *AdditionalPropertiesClass) GetAnytype1() interface{} {
 	if o == nil || o.Anytype1 == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret
 	}
 	return *o.Anytype1
@@ -312,9 +312,9 @@ func (o *AdditionalPropertiesClass) GetAnytype1() map[string]interface{} {
 
 // GetAnytype1Ok returns a tuple with the Anytype1 field if it's non-nil, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetAnytype1Ok() (map[string]interface{}, bool) {
+func (o *AdditionalPropertiesClass) GetAnytype1Ok() (interface{}, bool) {
 	if o == nil || o.Anytype1 == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret, false
 	}
 	return *o.Anytype1, true
@@ -329,15 +329,15 @@ func (o *AdditionalPropertiesClass) HasAnytype1() bool {
 	return false
 }
 
-// SetAnytype1 gets a reference to the given map[string]interface{} and assigns it to the Anytype1 field.
-func (o *AdditionalPropertiesClass) SetAnytype1(v map[string]interface{}) {
+// SetAnytype1 gets a reference to the given interface{} and assigns it to the Anytype1 field.
+func (o *AdditionalPropertiesClass) SetAnytype1(v interface{}) {
 	o.Anytype1 = &v
 }
 
 // GetAnytype2 returns the Anytype2 field if non-nil, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetAnytype2() map[string]interface{} {
+func (o *AdditionalPropertiesClass) GetAnytype2() interface{} {
 	if o == nil || o.Anytype2 == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret
 	}
 	return *o.Anytype2
@@ -345,9 +345,9 @@ func (o *AdditionalPropertiesClass) GetAnytype2() map[string]interface{} {
 
 // GetAnytype2Ok returns a tuple with the Anytype2 field if it's non-nil, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetAnytype2Ok() (map[string]interface{}, bool) {
+func (o *AdditionalPropertiesClass) GetAnytype2Ok() (interface{}, bool) {
 	if o == nil || o.Anytype2 == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret, false
 	}
 	return *o.Anytype2, true
@@ -362,15 +362,15 @@ func (o *AdditionalPropertiesClass) HasAnytype2() bool {
 	return false
 }
 
-// SetAnytype2 gets a reference to the given map[string]interface{} and assigns it to the Anytype2 field.
-func (o *AdditionalPropertiesClass) SetAnytype2(v map[string]interface{}) {
+// SetAnytype2 gets a reference to the given interface{} and assigns it to the Anytype2 field.
+func (o *AdditionalPropertiesClass) SetAnytype2(v interface{}) {
 	o.Anytype2 = &v
 }
 
 // GetAnytype3 returns the Anytype3 field if non-nil, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetAnytype3() map[string]interface{} {
+func (o *AdditionalPropertiesClass) GetAnytype3() interface{} {
 	if o == nil || o.Anytype3 == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret
 	}
 	return *o.Anytype3
@@ -378,9 +378,9 @@ func (o *AdditionalPropertiesClass) GetAnytype3() map[string]interface{} {
 
 // GetAnytype3Ok returns a tuple with the Anytype3 field if it's non-nil, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetAnytype3Ok() (map[string]interface{}, bool) {
+func (o *AdditionalPropertiesClass) GetAnytype3Ok() (interface{}, bool) {
 	if o == nil || o.Anytype3 == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret, false
 	}
 	return *o.Anytype3, true
@@ -395,8 +395,8 @@ func (o *AdditionalPropertiesClass) HasAnytype3() bool {
 	return false
 }
 
-// SetAnytype3 gets a reference to the given map[string]interface{} and assigns it to the Anytype3 field.
-func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{}) {
+// SetAnytype3 gets a reference to the given interface{} and assigns it to the Anytype3 field.
+func (o *AdditionalPropertiesClass) SetAnytype3(v interface{}) {
 	o.Anytype3 = &v
 }
 

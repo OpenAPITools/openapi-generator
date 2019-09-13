@@ -9,12 +9,12 @@ Name | Type | Description | Notes
 **MapInteger** | Pointer to **map[string]int32** |  | [optional] 
 **MapBoolean** | Pointer to **map[string]bool** |  | [optional] 
 **MapArrayInteger** | Pointer to [**map[string][]int32**](array.md) |  | [optional] 
-**MapArrayAnytype** | Pointer to [**map[string][]map[string]interface{}**](array.md) |  | [optional] 
+**MapArrayAnytype** | Pointer to [**map[string][]interface{}**](array.md) |  | [optional] 
 **MapMapString** | Pointer to [**map[string]map[string]string**](map.md) |  | [optional] 
-**MapMapAnytype** | Pointer to [**map[string]map[string]map[string]interface{}**](map.md) |  | [optional] 
-**Anytype1** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
-**Anytype2** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
-**Anytype3** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
+**MapMapAnytype** | Pointer to [**map[string]map[string]interface{}**](map.md) |  | [optional] 
+**Anytype1** | Pointer to [**interface{}**](.md) |  | [optional] 
+**Anytype2** | Pointer to [**interface{}**](.md) |  | [optional] 
+**Anytype3** | Pointer to [**interface{}**](.md) |  | [optional] 
 
 ## Methods
 
@@ -145,13 +145,13 @@ SetMapArrayInteger gets a reference to the given map[string][]int32 and assigns 
 
 ### GetMapArrayAnytype
 
-`func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]map[string]interface{}`
+`func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]interface{}`
 
 GetMapArrayAnytype returns the MapArrayAnytype field if non-nil, zero value otherwise.
 
 ### GetMapArrayAnytypeOk
 
-`func (o *AdditionalPropertiesClass) GetMapArrayAnytypeOk() (map[string][]map[string]interface{}, bool)`
+`func (o *AdditionalPropertiesClass) GetMapArrayAnytypeOk() (map[string][]interface{}, bool)`
 
 GetMapArrayAnytypeOk returns a tuple with the MapArrayAnytype field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -164,9 +164,9 @@ HasMapArrayAnytype returns a boolean if a field has been set.
 
 ### SetMapArrayAnytype
 
-`func (o *AdditionalPropertiesClass) SetMapArrayAnytype(v map[string][]map[string]interface{})`
+`func (o *AdditionalPropertiesClass) SetMapArrayAnytype(v map[string][]interface{})`
 
-SetMapArrayAnytype gets a reference to the given map[string][]map[string]interface{} and assigns it to the MapArrayAnytype field.
+SetMapArrayAnytype gets a reference to the given map[string][]interface{} and assigns it to the MapArrayAnytype field.
 
 ### GetMapMapString
 
@@ -195,13 +195,13 @@ SetMapMapString gets a reference to the given map[string]map[string]string and a
 
 ### GetMapMapAnytype
 
-`func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]map[string]interface{}`
+`func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]interface{}`
 
 GetMapMapAnytype returns the MapMapAnytype field if non-nil, zero value otherwise.
 
 ### GetMapMapAnytypeOk
 
-`func (o *AdditionalPropertiesClass) GetMapMapAnytypeOk() (map[string]map[string]map[string]interface{}, bool)`
+`func (o *AdditionalPropertiesClass) GetMapMapAnytypeOk() (map[string]map[string]interface{}, bool)`
 
 GetMapMapAnytypeOk returns a tuple with the MapMapAnytype field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -214,19 +214,19 @@ HasMapMapAnytype returns a boolean if a field has been set.
 
 ### SetMapMapAnytype
 
-`func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]map[string]interface{})`
+`func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]interface{})`
 
-SetMapMapAnytype gets a reference to the given map[string]map[string]map[string]interface{} and assigns it to the MapMapAnytype field.
+SetMapMapAnytype gets a reference to the given map[string]map[string]interface{} and assigns it to the MapMapAnytype field.
 
 ### GetAnytype1
 
-`func (o *AdditionalPropertiesClass) GetAnytype1() map[string]interface{}`
+`func (o *AdditionalPropertiesClass) GetAnytype1() interface{}`
 
 GetAnytype1 returns the Anytype1 field if non-nil, zero value otherwise.
 
 ### GetAnytype1Ok
 
-`func (o *AdditionalPropertiesClass) GetAnytype1Ok() (map[string]interface{}, bool)`
+`func (o *AdditionalPropertiesClass) GetAnytype1Ok() (interface{}, bool)`
 
 GetAnytype1Ok returns a tuple with the Anytype1 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -239,19 +239,19 @@ HasAnytype1 returns a boolean if a field has been set.
 
 ### SetAnytype1
 
-`func (o *AdditionalPropertiesClass) SetAnytype1(v map[string]interface{})`
+`func (o *AdditionalPropertiesClass) SetAnytype1(v interface{})`
 
-SetAnytype1 gets a reference to the given map[string]interface{} and assigns it to the Anytype1 field.
+SetAnytype1 gets a reference to the given interface{} and assigns it to the Anytype1 field.
 
 ### GetAnytype2
 
-`func (o *AdditionalPropertiesClass) GetAnytype2() map[string]interface{}`
+`func (o *AdditionalPropertiesClass) GetAnytype2() interface{}`
 
 GetAnytype2 returns the Anytype2 field if non-nil, zero value otherwise.
 
 ### GetAnytype2Ok
 
-`func (o *AdditionalPropertiesClass) GetAnytype2Ok() (map[string]interface{}, bool)`
+`func (o *AdditionalPropertiesClass) GetAnytype2Ok() (interface{}, bool)`
 
 GetAnytype2Ok returns a tuple with the Anytype2 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -264,19 +264,19 @@ HasAnytype2 returns a boolean if a field has been set.
 
 ### SetAnytype2
 
-`func (o *AdditionalPropertiesClass) SetAnytype2(v map[string]interface{})`
+`func (o *AdditionalPropertiesClass) SetAnytype2(v interface{})`
 
-SetAnytype2 gets a reference to the given map[string]interface{} and assigns it to the Anytype2 field.
+SetAnytype2 gets a reference to the given interface{} and assigns it to the Anytype2 field.
 
 ### GetAnytype3
 
-`func (o *AdditionalPropertiesClass) GetAnytype3() map[string]interface{}`
+`func (o *AdditionalPropertiesClass) GetAnytype3() interface{}`
 
 GetAnytype3 returns the Anytype3 field if non-nil, zero value otherwise.
 
 ### GetAnytype3Ok
 
-`func (o *AdditionalPropertiesClass) GetAnytype3Ok() (map[string]interface{}, bool)`
+`func (o *AdditionalPropertiesClass) GetAnytype3Ok() (interface{}, bool)`
 
 GetAnytype3Ok returns a tuple with the Anytype3 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -289,9 +289,9 @@ HasAnytype3 returns a boolean if a field has been set.
 
 ### SetAnytype3
 
-`func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{})`
+`func (o *AdditionalPropertiesClass) SetAnytype3(v interface{})`
 
-SetAnytype3 gets a reference to the given map[string]interface{} and assigns it to the Anytype3 field.
+SetAnytype3 gets a reference to the given interface{} and assigns it to the Anytype3 field.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **StringItem** | Pointer to **string** |  | 
 **NumberItem** | Pointer to **float32** |  | 
+**FloatItem** | Pointer to **float32** |  | 
 **IntegerItem** | Pointer to **int32** |  | 
 **BoolItem** | Pointer to **bool** |  | 
 **ArrayItem** | Pointer to **[]int32** |  | 
@@ -61,6 +62,31 @@ HasNumberItem returns a boolean if a field has been set.
 `func (o *TypeHolderExample) SetNumberItem(v float32)`
 
 SetNumberItem gets a reference to the given float32 and assigns it to the NumberItem field.
+
+### GetFloatItem
+
+`func (o *TypeHolderExample) GetFloatItem() float32`
+
+GetFloatItem returns the FloatItem field if non-nil, zero value otherwise.
+
+### GetFloatItemOk
+
+`func (o *TypeHolderExample) GetFloatItemOk() (float32, bool)`
+
+GetFloatItemOk returns a tuple with the FloatItem field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### HasFloatItem
+
+`func (o *TypeHolderExample) HasFloatItem() bool`
+
+HasFloatItem returns a boolean if a field has been set.
+
+### SetFloatItem
+
+`func (o *TypeHolderExample) SetFloatItem(v float32)`
+
+SetFloatItem gets a reference to the given float32 and assigns it to the FloatItem field.
 
 ### GetIntegerItem
 
