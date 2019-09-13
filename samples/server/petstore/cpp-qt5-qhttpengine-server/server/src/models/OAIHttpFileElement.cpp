@@ -15,7 +15,6 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <exception>
 
 #include "OAIHttpFileElement.h"
 
