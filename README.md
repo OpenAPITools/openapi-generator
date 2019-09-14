@@ -761,6 +761,7 @@ Here is a list of template creators:
    * Scala Lagom: @gmkumar2005
    * Scala Play: @adigerber
  * Documentation
+   * AsciiDoc: @man-at-home
    * HTML Doc 2: @jhitchcock
    * Confluence Wiki: @jhitchcock
  * Configuration
