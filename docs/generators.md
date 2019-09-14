@@ -117,6 +117,7 @@ The following generators are available:
 
 
 ## DOCUMENTATION generators
+* [asciidoc](generators/asciidoc)  
 * [cwiki](generators/cwiki)  
 * [dynamic-html](generators/dynamic-html)  
 * [html](generators/html)  

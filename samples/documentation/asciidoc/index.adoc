@@ -1,0 +1,1659 @@
+= OpenAPI Petstore 
+team@openapitools.org
+1.0.0
+:toc: left
+:numbered:
+:toclevels: 3
+:source-highlighter: highlightjs
+:keywords: openapi, rest, OpenAPI Petstore 
+:specDir: modules\openapi-generator\src\main\resources\asciidoc-documentation
+:snippetDir: .
+
+[abstract]
+.Abstract
+This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+
+
+include::stubs/empty.adoc[]
+
+
+== Endpoints
+
+
+[.Pet]
+=== Pet
+
+
+[.addPet]
+==== addPet
+    
+`POST /pet`
+
+Add a new pet to the store
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| body 
+| Pet object that needs to be added to the store <<Pet>> 
+| X 
+|  
+|  
+
+
+|===         
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 405
+| Invalid input
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Pet/addPet/POST/http-request.adoc[]
+
+
+// markup not included, not found: include::Pet/addPet/POST/http-response.adoc[]
+
+
+
+[.deletePet]
+==== deletePet
+    
+`DELETE /pet/{petId}`
+
+Deletes a pet
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| petId 
+| Pet id to delete  
+| X 
+| null 
+|  
+
+
+|===         
+
+
+====== Header Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| apiKey 
+|   
+| - 
+| null 
+|  
+
+
+|===         
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 400
+| Invalid pet value
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Pet/deletePet/DELETE/http-request.adoc[]
+
+
+// markup not included, not found: include::Pet/deletePet/DELETE/http-response.adoc[]
+
+
+
+[.findPetsByStatus]
+==== findPetsByStatus
+    
+`GET /pet/findByStatus`
+
+Finds Pets by status
+
+
+
+// markup not included, not found: include::Pet/findPetsByStatus/operation-spec.adoc[]
+
+
+===== Description 
+
+Multiple status values can be provided with comma separated strings
+
+===== Parameters
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| status 
+| Status values that need to be considered for filter <<String>> 
+| X 
+| null 
+|  
+
+
+|===         
+
+
+===== Return Type
+
+array[<<Pet>>]
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+| List[<<Pet>>] 
+
+
+| 400
+| Invalid status value
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Pet/findPetsByStatus/GET/http-request.adoc[]
+
+
+// markup not included, not found: include::Pet/findPetsByStatus/GET/http-response.adoc[]
+
+
+
+[.findPetsByTags]
+==== findPetsByTags
+    
+`GET /pet/findByTags`
+
+Finds Pets by tags
+
+
+
+// markup not included, not found: include::Pet/findPetsByTags/operation-spec.adoc[]
+
+
+===== Description 
+
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
+===== Parameters
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| tags 
+| Tags to filter by <<String>> 
+| X 
+| null 
+|  
+
+
+|===         
+
+
+===== Return Type
+
+array[<<Pet>>]
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+| List[<<Pet>>] 
+
+
+| 400
+| Invalid tag value
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Pet/findPetsByTags/GET/http-request.adoc[]
+
+
+// markup not included, not found: include::Pet/findPetsByTags/GET/http-response.adoc[]
+
+
+
+[.getPetById]
+==== getPetById
+    
+`GET /pet/{petId}`
+
+Find pet by ID
+
+
+
+// markup not included, not found: include::Pet/getPetById/operation-spec.adoc[]
+
+
+===== Description 
+
+Returns a single pet
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| petId 
+| ID of pet to return  
+| X 
+| null 
+|  
+
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<Pet>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Pet>>
+
+
+| 400
+| Invalid ID supplied
+|  <<>>
+
+
+| 404
+| Pet not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Pet/getPetById/GET/http-request.adoc[]
+
+
+// markup not included, not found: include::Pet/getPetById/GET/http-response.adoc[]
+
+
+
+[.updatePet]
+==== updatePet
+    
+`PUT /pet`
+
+Update an existing pet
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| body 
+| Pet object that needs to be added to the store <<Pet>> 
+| X 
+|  
+|  
+
+
+|===         
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 400
+| Invalid ID supplied
+|  <<>>
+
+
+| 404
+| Pet not found
+|  <<>>
+
+
+| 405
+| Validation exception
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Pet/updatePet/PUT/http-request.adoc[]
+
+
+// markup not included, not found: include::Pet/updatePet/PUT/http-response.adoc[]
+
+
+
+[.updatePetWithForm]
+==== updatePetWithForm
+    
+`POST /pet/{petId}`
+
+Updates a pet in the store with form data
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| petId 
+| ID of pet that needs to be updated  
+| X 
+| null 
+|  
+
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 405
+| Invalid input
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Pet/updatePetWithForm/POST/http-request.adoc[]
+
+
+// markup not included, not found: include::Pet/updatePetWithForm/POST/http-response.adoc[]
+
+
+
+[.uploadFile]
+==== uploadFile
+    
+`POST /pet/{petId}/uploadImage`
+
+uploads an image
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| petId 
+| ID of pet to update  
+| X 
+| null 
+|  
+
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<ApiResponse>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<ApiResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Pet/uploadFile/POST/http-request.adoc[]
+
+
+// markup not included, not found: include::Pet/uploadFile/POST/http-response.adoc[]
+
+
+
+[.Store]
+=== Store
+
+
+[.deleteOrder]
+==== deleteOrder
+    
+`DELETE /store/order/{orderId}`
+
+Delete purchase order by ID
+
+
+
+// markup not included, not found: include::Store/deleteOrder/operation-spec.adoc[]
+
+
+===== Description 
+
+For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| orderId 
+| ID of the order that needs to be deleted  
+| X 
+| null 
+|  
+
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 400
+| Invalid ID supplied
+|  <<>>
+
+
+| 404
+| Order not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Store/deleteOrder/DELETE/http-request.adoc[]
+
+
+// markup not included, not found: include::Store/deleteOrder/DELETE/http-response.adoc[]
+
+
+
+[.getInventory]
+==== getInventory
+    
+`GET /store/inventory`
+
+Returns pet inventories by status
+
+
+
+// markup not included, not found: include::Store/getInventory/operation-spec.adoc[]
+
+
+===== Description 
+
+Returns a map of status codes to quantities
+
+===== Parameters
+
+
+
+
+
+
+===== Return Type
+
+
+<<Map>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+| Map[<<integer>>] 
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Store/getInventory/GET/http-request.adoc[]
+
+
+// markup not included, not found: include::Store/getInventory/GET/http-response.adoc[]
+
+
+
+[.getOrderById]
+==== getOrderById
+    
+`GET /store/order/{orderId}`
+
+Find purchase order by ID
+
+
+
+// markup not included, not found: include::Store/getOrderById/operation-spec.adoc[]
+
+
+===== Description 
+
+For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| orderId 
+| ID of pet that needs to be fetched  
+| X 
+| null 
+|  
+
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<Order>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Order>>
+
+
+| 400
+| Invalid ID supplied
+|  <<>>
+
+
+| 404
+| Order not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Store/getOrderById/GET/http-request.adoc[]
+
+
+// markup not included, not found: include::Store/getOrderById/GET/http-response.adoc[]
+
+
+
+[.placeOrder]
+==== placeOrder
+    
+`POST /store/order`
+
+Place an order for a pet
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| body 
+| order placed for purchasing the pet <<Order>> 
+| X 
+|  
+|  
+
+
+|===         
+
+
+
+
+===== Return Type
+
+<<Order>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Order>>
+
+
+| 400
+| Invalid Order
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::Store/placeOrder/POST/http-request.adoc[]
+
+
+// markup not included, not found: include::Store/placeOrder/POST/http-response.adoc[]
+
+
+
+[.User]
+=== User
+
+
+[.createUser]
+==== createUser
+    
+`POST /user`
+
+Create user
+
+
+
+// markup not included, not found: include::User/createUser/operation-spec.adoc[]
+
+
+===== Description 
+
+This can only be done by the logged in user.
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| body 
+| Created user object <<User>> 
+| X 
+|  
+|  
+
+
+|===         
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| successful operation
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::User/createUser/POST/http-request.adoc[]
+
+
+// markup not included, not found: include::User/createUser/POST/http-response.adoc[]
+
+
+
+[.createUsersWithArrayInput]
+==== createUsersWithArrayInput
+    
+`POST /user/createWithArray`
+
+Creates list of users with given input array
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| body 
+| List of user object <<User>> 
+| X 
+|  
+|  
+
+
+|===         
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| successful operation
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::User/createUsersWithArrayInput/POST/http-request.adoc[]
+
+
+// markup not included, not found: include::User/createUsersWithArrayInput/POST/http-response.adoc[]
+
+
+
+[.createUsersWithListInput]
+==== createUsersWithListInput
+    
+`POST /user/createWithList`
+
+Creates list of users with given input array
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| body 
+| List of user object <<User>> 
+| X 
+|  
+|  
+
+
+|===         
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| successful operation
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::User/createUsersWithListInput/POST/http-request.adoc[]
+
+
+// markup not included, not found: include::User/createUsersWithListInput/POST/http-response.adoc[]
+
+
+
+[.deleteUser]
+==== deleteUser
+    
+`DELETE /user/{username}`
+
+Delete user
+
+
+
+// markup not included, not found: include::User/deleteUser/operation-spec.adoc[]
+
+
+===== Description 
+
+This can only be done by the logged in user.
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| username 
+| The name that needs to be deleted  
+| X 
+| null 
+|  
+
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 400
+| Invalid username supplied
+|  <<>>
+
+
+| 404
+| User not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::User/deleteUser/DELETE/http-request.adoc[]
+
+
+// markup not included, not found: include::User/deleteUser/DELETE/http-response.adoc[]
+
+
+
+[.getUserByName]
+==== getUserByName
+    
+`GET /user/{username}`
+
+Get user by user name
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| username 
+| The name that needs to be fetched. Use user1 for testing.  
+| X 
+| null 
+|  
+
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<User>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<User>>
+
+
+| 400
+| Invalid username supplied
+|  <<>>
+
+
+| 404
+| User not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::User/getUserByName/GET/http-request.adoc[]
+
+
+// markup not included, not found: include::User/getUserByName/GET/http-response.adoc[]
+
+
+
+[.loginUser]
+==== loginUser
+    
+`GET /user/login`
+
+Logs user into the system
+
+
+===== Parameters
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| username 
+| The user name for login  
+| X 
+| null 
+|  
+
+
+| password 
+| The password for login in clear text  
+| X 
+| null 
+|  
+
+
+|===         
+
+
+===== Return Type
+
+
+<<String>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<String>>
+
+
+| 400
+| Invalid username/password supplied
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::User/loginUser/GET/http-request.adoc[]
+
+
+// markup not included, not found: include::User/loginUser/GET/http-response.adoc[]
+
+
+
+[.logoutUser]
+==== logoutUser
+    
+`GET /user/logout`
+
+Logs out current logged in user session
+
+
+===== Parameters
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| successful operation
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::User/logoutUser/GET/http-request.adoc[]
+
+
+// markup not included, not found: include::User/logoutUser/GET/http-response.adoc[]
+
+
+
+[.updateUser]
+==== updateUser
+    
+`PUT /user/{username}`
+
+Updated user
+
+
+
+// markup not included, not found: include::User/updateUser/operation-spec.adoc[]
+
+
+===== Description 
+
+This can only be done by the logged in user.
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| username 
+| name that need to be deleted  
+| X 
+| null 
+|  
+
+
+|===         
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| body 
+| Updated user object <<User>> 
+| X 
+|  
+|  
+
+
+|===         
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 400
+| Invalid user supplied
+|  <<>>
+
+
+| 404
+| User not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not included, not found: include::User/updateUser/PUT/http-request.adoc[]
+
+
+// markup not included, not found: include::User/updateUser/PUT/http-response.adoc[]
+
+
+
+[#models]
+== Models
+
+
+[#ApiResponse]
+==== _ApiResponse_ An uploaded response
+
+Describes the result of uploading an image resource
+
+[.fields-ApiResponse]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| code 
+|  
+| Integer  
+| 
+| int32  _
+
+| type 
+|  
+| String  
+| 
+|   _
+
+| message 
+|  
+| String  
+| 
+|   _
+
+|===
+
+
+[#Category]
+==== _Category_ Pet category
+
+A category for a pet
+
+[.fields-Category]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64  _
+
+| name 
+|  
+| String  
+| 
+|   _
+
+|===
+
+
+[#Order]
+==== _Order_ Pet Order
+
+An order for a pets from the pet store
+
+[.fields-Order]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64  _
+
+| petId 
+|  
+| Long  
+| 
+| int64  _
+
+| quantity 
+|  
+| Integer  
+| 
+| int32  _
+
+| shipDate 
+|  
+| Date  
+| 
+| date-time  _
+
+| status 
+|  
+| String  
+| Order Status
+|  Enum: _ placed, approved, delivered,  _
+
+| complete 
+|  
+| Boolean  
+| 
+|   _
+
+|===
+
+
+[#Pet]
+==== _Pet_ a Pet
+
+A pet for sale in the pet store
+
+[.fields-Pet]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64  _
+
+| category 
+|  
+| Category  
+| 
+|   _
+
+| name 
+| X 
+| String  
+| 
+|   _
+
+| photoUrls 
+| X 
+| List  of <<string>> 
+| 
+|   _
+
+| tags 
+|  
+| List  of <<Tag>> 
+| 
+|   _
+
+| status 
+|  
+| String  
+| pet status in the store
+|  Enum: _ available, pending, sold,  _
+
+|===
+
+
+[#Tag]
+==== _Tag_ Pet Tag
+
+A tag for a pet
+
+[.fields-Tag]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64  _
+
+| name 
+|  
+| String  
+| 
+|   _
+
+|===
+
+
+[#User]
+==== _User_ a User
+
+A User who is purchasing from the pet store
+
+[.fields-User]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64  _
+
+| username 
+|  
+| String  
+| 
+|   _
+
+| firstName 
+|  
+| String  
+| 
+|   _
+
+| lastName 
+|  
+| String  
+| 
+|   _
+
+| email 
+|  
+| String  
+| 
+|   _
+
+| password 
+|  
+| String  
+| 
+|   _
+
+| phone 
+|  
+| String  
+| 
+|   _
+
+| userStatus 
+|  
+| Integer  
+| User Status
+| int32  _
+
+|===
+
+
