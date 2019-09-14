@@ -38,6 +38,7 @@ The following generators are available:
 * [jmeter](generators/jmeter)  
 * [kotlin](generators/kotlin)  
 * [lua](generators/lua)  
+* [nim (beta)](generators/nim)  
 * [objc](generators/objc)  
 * [ocaml](generators/ocaml)  
 * [perl](generators/perl)  
@@ -117,6 +118,7 @@ The following generators are available:
 
 
 ## DOCUMENTATION generators
+* [asciidoc](generators/asciidoc)  
 * [cwiki](generators/cwiki)  
 * [dynamic-html](generators/dynamic-html)  
 * [html](generators/html)  
@@ -126,12 +128,14 @@ The following generators are available:
 
 
 ## SCHEMA generators
+* [avro-schema (beta)](generators/avro-schema)  
 * [mysql-schema](generators/mysql-schema)  
 
 
 ## CONFIG generators
 * [apache2](generators/apache2)  
 * [graphql-schema](generators/graphql-schema)  
+* [protobuf-schema (beta)](generators/protobuf-schema)  
 
 
 

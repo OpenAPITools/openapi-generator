@@ -16,9 +16,6 @@ import java.io.File;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.CompletableFuture;
-
 import javax.validation.constraints.*;
 import play.Configuration;
 
@@ -40,87 +37,75 @@ public class UserApiController extends Controller {
 
 
     @ApiAction
-    public CompletionStage<Result> createUser() throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        User user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), User.class);
+    public Result createUser() throws Exception {
+        JsonNode nodebody = request().body().asJson();
+        User body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(user);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.createUser(user)
-            return ok();
-        });
+        imp.createUser(body);
+        return ok();
     }
 
     @ApiAction
-    public CompletionStage<Result> createUsersWithArrayInput() throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        List<User> user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
+    public Result createUsersWithArrayInput() throws Exception {
+        JsonNode nodebody = request().body().asJson();
+        List<User> body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
-                for (User curItem : user) {
+                for (User curItem : body) {
                     OpenAPIUtils.validate(curItem);
                 }
             }
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.createUsersWithArrayInput(user)
-            return ok();
-        });
+        imp.createUsersWithArrayInput(body);
+        return ok();
     }
 
     @ApiAction
-    public CompletionStage<Result> createUsersWithListInput() throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        List<User> user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
+    public Result createUsersWithListInput() throws Exception {
+        JsonNode nodebody = request().body().asJson();
+        List<User> body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
-                for (User curItem : user) {
+                for (User curItem : body) {
                     OpenAPIUtils.validate(curItem);
                 }
             }
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.createUsersWithListInput(user)
-            return ok();
-        });
+        imp.createUsersWithListInput(body);
+        return ok();
     }
 
     @ApiAction
-    public CompletionStage<Result> deleteUser(String username) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
-            imp.deleteUser(username)
-            return ok();
-        });
+    public Result deleteUser(String username) throws Exception {
+        imp.deleteUser(username);
+        return ok();
     }
 
     @ApiAction
-    public CompletionStage<Result> getUserByName(String username) throws Exception {
-        CompletionStage<User> stage = imp.getUserByName(username).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+    public Result getUserByName(String username) throws Exception {
+        User obj = imp.getUserByName(username);
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+        }
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
     }
 
     @ApiAction
-    public CompletionStage<Result> loginUser() throws Exception {
+    public Result loginUser() throws Exception {
         String valueusername = request().getQueryString("username");
         String username;
         if (valueusername != null) {
@@ -135,38 +120,30 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'password' parameter is required");
         }
-        CompletionStage<String> stage = imp.loginUser(username, password).thenApply(obj -> { 
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        String obj = imp.loginUser(username, password);
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
     }
 
     @ApiAction
-    public CompletionStage<Result> logoutUser() throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
-            imp.logoutUser()
-            return ok();
-        });
+    public Result logoutUser() throws Exception {
+        imp.logoutUser();
+        return ok();
     }
 
     @ApiAction
-    public CompletionStage<Result> updateUser(String username) throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        User user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), User.class);
+    public Result updateUser(String username) throws Exception {
+        JsonNode nodebody = request().body().asJson();
+        User body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(user);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.updateUser(username, user)
-            return ok();
-        });
+        imp.updateUser(username, body);
+        return ok();
     }
 }

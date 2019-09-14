@@ -7,10 +7,10 @@ class StoreApi {
 
   StoreApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
-  /// Delete purchase order by ID
+  /// Delete purchase order by ID with HTTP info returned
   ///
   /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-  Future deleteOrder(String orderId) async {
+  Future deleteOrderWithHttpInfo(String orderId) async {
     Object postBody;
 
     // verify required params are set
@@ -48,7 +48,14 @@ class StoreApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Delete purchase order by ID
+  ///
+  /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+  Future deleteOrder(String orderId) async {
+    Response response = await deleteOrderWithHttpInfo(orderId);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -56,10 +63,11 @@ class StoreApi {
       return;
     }
   }
-  /// Returns pet inventories by status
+
+  /// Returns pet inventories by status with HTTP info returned
   ///
   /// Returns a map of status codes to quantities
-  Future<Map<String, int>> getInventory() async {
+  Future<Response> getInventoryWithHttpInfo() async {
     Object postBody;
 
     // verify required params are set
@@ -94,7 +102,14 @@ class StoreApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Returns pet inventories by status
+  ///
+  /// Returns a map of status codes to quantities
+  Future<Map<String, int>> getInventory() async {
+    Response response = await getInventoryWithHttpInfo();
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -104,10 +119,11 @@ class StoreApi {
       return null;
     }
   }
-  /// Find purchase order by ID
+
+  /// Find purchase order by ID with HTTP info returned
   ///
   /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-  Future<Order> getOrderById(int orderId) async {
+  Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
     Object postBody;
 
     // verify required params are set
@@ -145,7 +161,14 @@ class StoreApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Find purchase order by ID
+  ///
+  /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+  Future<Order> getOrderById(int orderId) async {
+    Response response = await getOrderByIdWithHttpInfo(orderId);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -154,10 +177,11 @@ class StoreApi {
       return null;
     }
   }
-  /// Place an order for a pet
+
+  /// Place an order for a pet with HTTP info returned
   ///
   /// 
-  Future<Order> placeOrder(Order body) async {
+  Future<Response> placeOrderWithHttpInfo(Order body) async {
     Object postBody = body;
 
     // verify required params are set
@@ -195,7 +219,14 @@ class StoreApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Place an order for a pet
+  ///
+  /// 
+  Future<Order> placeOrder(Order body) async {
+    Response response = await placeOrderWithHttpInfo(body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -204,4 +235,5 @@ class StoreApi {
       return null;
     }
   }
+
 }

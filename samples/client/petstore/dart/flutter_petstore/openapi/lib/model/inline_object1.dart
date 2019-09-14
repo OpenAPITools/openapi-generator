@@ -2,9 +2,9 @@ part of openapi.api;
 
 class InlineObject1 {
   /* Additional data to pass to server */
-  String additionalMetadata = null;
+    String additionalMetadata = null;
   /* file to upload */
-  MultipartFile file = null;
+    MultipartFile file = null;
   InlineObject1();
 
   @override
@@ -14,16 +14,10 @@ class InlineObject1 {
 
   InlineObject1.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    if (json['additionalMetadata'] == null) {
-      additionalMetadata = null;
-    } else {
-          additionalMetadata = json['additionalMetadata'];
-    }
-    if (json['file'] == null) {
-      file = null;
-    } else {
-      file = File.fromJson(json['file']);
-    }
+    additionalMetadata = json['additionalMetadata'];
+    file = (json['file'] == null) ?
+      null :
+      File.fromJson(json['file']);
   }
 
   Map<String, dynamic> toJson() {

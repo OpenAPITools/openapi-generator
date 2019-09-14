@@ -131,6 +131,13 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     void testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2);
 
+    @PUT
+    @Path("/test-query-paramters")
+    @ApiOperation(value = "", notes = "To test the collection format in query parameters", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success", response = Void.class) })
+    void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull    List<String> pipe,@QueryParam("ioutil") @NotNull    List<String> ioutil,@QueryParam("http") @NotNull    List<String> http,@QueryParam("url") @NotNull    List<String> url,@QueryParam("context") @NotNull    List<String> context);
+
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })

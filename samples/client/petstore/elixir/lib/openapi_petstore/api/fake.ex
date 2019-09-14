@@ -429,4 +429,38 @@ defmodule OpenapiPetstore.Api.Fake do
       { 200, false}
     ])
   end
+
+  @doc """
+  To test the collection format in query parameters
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - pipe ([String.t]): 
+  - ioutil ([String.t]): 
+  - http ([String.t]): 
+  - url ([String.t]): 
+  - context ([String.t]): 
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, %{}} on success
+  {:error, info} on failure
+  """
+  @spec test_query_parameter_collection_format(Tesla.Env.client, list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, _opts \\ []) do
+    %{}
+    |> method(:put)
+    |> url("/fake/test-query-paramters")
+    |> add_param(:query, :"pipe", pipe)
+    |> add_param(:query, :"ioutil", ioutil)
+    |> add_param(:query, :"http", http)
+    |> add_param(:query, :"url", url)
+    |> add_param(:query, :"context", context)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, false}
+    ])
+  end
 end

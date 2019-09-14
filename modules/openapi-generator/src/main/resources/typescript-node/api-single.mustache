@@ -22,6 +22,8 @@ import { OAuth } from '../model/models';
 {{/authMethods}}
 {{/hasAuthMethods}}
 
+import { HttpError } from './apis';
+
 let defaultBasePath = '{{{basePath}}}';
 
 // ===============================================
@@ -222,7 +224,7 @@ export class {{classname}} {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });

@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -25,25 +26,30 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
+@JsonPropertyOrder({
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_UUID,
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
+})
 
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
-  @JsonProperty(JSON_PROPERTY_UUID)
   private UUID uuid;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
-  @JsonProperty(JSON_PROPERTY_MAP)
-  private Map<String, Animal> map = new HashMap<String, Animal>();
+  private Map<String, Animal> map = null;
+
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+    
     this.uuid = uuid;
     return this;
   }
@@ -54,15 +60,22 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public UUID getUuid() {
     return uuid;
   }
+
+
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
+
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
+    
     this.dateTime = dateTime;
     return this;
   }
@@ -73,15 +86,22 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
+
+
 
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
+
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+    
     this.map = map;
     return this;
   }
@@ -100,9 +120,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Map<String, Animal> getMap() {
     return map;
   }
+
+
 
   public void setMap(Map<String, Animal> map) {
     this.map = map;

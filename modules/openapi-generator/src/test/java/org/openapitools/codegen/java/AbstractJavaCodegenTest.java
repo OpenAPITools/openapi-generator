@@ -18,6 +18,10 @@
 package org.openapitools.codegen.java;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
@@ -300,6 +304,30 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(api);
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0-SNAPSHOT");
+    }
+
+    @Test
+    public void toDefaultValueTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        Schema<?> schema = createObjectSchemaWithMinItems();
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertNull(defaultValue);
+    }
+
+    @Test
+    public void getTypeDeclarationTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        Schema<?> schema = createObjectSchemaWithMinItems();
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Object");
+    }
+
+    private static Schema<?> createObjectSchemaWithMinItems() {
+        return new ObjectSchema()
+                .addProperties("id", new IntegerSchema().format("int32"))
+                .minItems(1);
     }
 
     private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {

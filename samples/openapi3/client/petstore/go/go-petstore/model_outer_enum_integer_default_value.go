@@ -8,6 +8,7 @@
  */
 
 package petstore
+// OuterEnumIntegerDefaultValue the model 'OuterEnumIntegerDefaultValue'
 type OuterEnumIntegerDefaultValue int32
 
 // List of OuterEnumIntegerDefaultValue

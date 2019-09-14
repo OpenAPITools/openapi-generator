@@ -3,6 +3,7 @@ package org.openapitools.client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -94,6 +95,8 @@ public class ApiClient {
         mapper.setDateFormat(dateFormat);
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNullableModule jnm = new JsonNullableModule();
+        mapper.registerModule(jnm);
 
         this.webClient = buildWebClient(mapper);
         this.init();

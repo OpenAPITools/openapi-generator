@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ClassName** | Pointer to **string** |  | 
 **Color** | Pointer to **string** |  | [optional] [default to red]
-**Declawed** | Pointer to **bool** |  | [optional]
+**Declawed** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 

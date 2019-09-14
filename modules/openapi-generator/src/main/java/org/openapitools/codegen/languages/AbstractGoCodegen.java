@@ -38,6 +38,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     protected boolean withGoCodegenComment = false;
     protected boolean withXml = false;
+    protected boolean enumClassPrefix = false;
 
     protected String packageName = "openapi";
 
@@ -373,6 +374,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedOptionalImport = false;
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
+        boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
@@ -390,8 +392,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // import "reflect" package if the parameter is collectionFormat=multi
-                if (param.isCollectionFormatMulti) {
+                if (!addedReflectImport && param.isCollectionFormatMulti) {
                     imports.add(createMapping("import", "reflect"));
+                    addedReflectImport = true;
                 }
 
                 // import "optionals" package if the parameter is optional
@@ -616,6 +619,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setWithXml(boolean withXml) {
         this.withXml = withXml;
+    }
+
+    public void setEnumClassPrefix(boolean enumClassPrefix) {
+        this.enumClassPrefix = enumClassPrefix;
     }
 
     @Override

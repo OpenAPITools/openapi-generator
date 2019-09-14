@@ -1,0 +1,25 @@
+openapi: 3.0.2
+info:
+  title: Name demo
+  version: 1.0
+paths:
+  /{country}/document:
+    get:
+      summary: Get a document
+      tags:
+      - document
+      operationId: getDocument
+      parameters:
+      - name: country
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          description: The document
+        "500":
+          description: Server error
+tags:
+- name: document
+  description: Document tag

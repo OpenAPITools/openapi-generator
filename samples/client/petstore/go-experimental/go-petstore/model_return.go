@@ -11,8 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
-// Model for testing reserved words
+// Return Model for testing reserved words
 type Return struct {
 	Return *int32 `json:"return,omitempty"`
 
@@ -52,6 +51,7 @@ func (o *Return) SetReturn(v int32) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Return) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Return != nil {

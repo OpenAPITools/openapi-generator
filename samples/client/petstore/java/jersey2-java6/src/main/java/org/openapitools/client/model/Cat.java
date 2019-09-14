@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -21,17 +22,22 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.CatAllOf;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Cat
  */
+@JsonPropertyOrder({
+  Cat.JSON_PROPERTY_DECLAWED
+})
 
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
-  @JsonProperty(JSON_PROPERTY_DECLAWED)
   private Boolean declawed;
 
+
   public Cat declawed(Boolean declawed) {
+    
     this.declawed = declawed;
     return this;
   }
@@ -42,9 +48,14 @@ public class Cat extends Animal {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Boolean isDeclawed() {
     return declawed;
   }
+
+
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;

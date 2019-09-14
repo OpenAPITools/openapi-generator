@@ -1,4 +1,9 @@
+{{#gson}}
+import com.google.gson.annotations.SerializedName
+{{/gson}}
+{{#moshi}}
 import com.squareup.moshi.Json
+{{/moshi}}
 
 /**
 * {{{description}}}
@@ -7,7 +12,12 @@ import com.squareup.moshi.Json
 enum class {{classname}}(val value: {{{dataType}}}){
 
 {{#allowableValues}}{{#enumVars}}
+    {{#moshi}}
     @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{/moshi}}
+    {{#gson}}
+    @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{/gson}}
     {{#isListContainer}}
     {{#isList}}
     {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}

@@ -8,7 +8,6 @@ extern crate mime;
 extern crate chrono;
 extern crate percent_encoding;
 extern crate url;
-extern crate uuid;
 
 use std::sync::Arc;
 use std::marker::PhantomData;
