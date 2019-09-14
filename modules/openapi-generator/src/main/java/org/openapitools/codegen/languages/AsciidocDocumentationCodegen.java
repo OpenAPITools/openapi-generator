@@ -243,7 +243,6 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             LOGGER.warn("base part for include markup lambda not found: " + specDir + " as "
                     + Paths.get(specDir).toAbsolutePath());
         }
-        ;
 
         this.includeSpecMarkupLambda = new IncludeMarkupLambda(specDir);
         additionalProperties.put("specinclude", this.includeSpecMarkupLambda);
@@ -253,7 +252,6 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             LOGGER.warn("base part for include markup lambda not found: " + snippetDir + " as "
                     + Paths.get(snippetDir).toAbsolutePath());
         }
-        ;
 
         this.includeSnippetMarkupLambda = new IncludeMarkupLambda(snippetDir);
         additionalProperties.put("snippetinclude", this.includeSnippetMarkupLambda);
