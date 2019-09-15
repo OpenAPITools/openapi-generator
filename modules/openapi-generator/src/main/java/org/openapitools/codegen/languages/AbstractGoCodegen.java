@@ -302,7 +302,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             type = openAPIType;
         } else {
             // Handle "any type" as an empty interface
-            if (openAPIType == "object" && p != null && !ModelUtils.isObjectSchema(p) && !ModelUtils.isMapSchema(p)) {
+            if (openAPIType.equals("object") && p != null && !ModelUtils.isObjectSchema(p) && !ModelUtils.isMapSchema(p)) {
                 return "interface{}";
             }
 
