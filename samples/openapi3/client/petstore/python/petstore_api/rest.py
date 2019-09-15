@@ -108,7 +108,7 @@ class RESTClientObject(object):
 
     def request(self, method, url, query_params=None, headers=None,
                 body=None, post_params=None, _preload_content=True,
-                _request_timeout=None):
+                _request_timeout=None, _decode_utf8=None):
         """Perform requests.
 
         :param method: http request method
@@ -130,6 +130,9 @@ class RESTClientObject(object):
         method = method.upper()
         assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT',
                           'PATCH', 'OPTIONS']
+
+        if _decode_utf8 is None:
+            _decode_utf8 = {}
 
         if post_params and body:
             raise ApiValueError(
@@ -217,13 +220,14 @@ class RESTClientObject(object):
         if _preload_content:
             r = RESTResponse(r)
 
-            # In the python 3, the response.data is bytes.
-            # we need to decode it to string.
-            if six.PY3:
-                r.data = r.data.decode('utf8')
+            if _decode_utf8.get(r.status, True):
+                # In the python 3, the response.data is bytes.
+                # we need to decode it to string.
+                if six.PY3:
+                    r.data = r.data.decode('utf8')
 
-            # log response body
-            logger.debug("response body: %s", r.data)
+                # log response body
+                logger.debug("response body: %s", r.data)
 
         if not 200 <= r.status <= 299:
             raise ApiException(http_resp=r)
@@ -231,66 +235,73 @@ class RESTClientObject(object):
         return r
 
     def GET(self, url, headers=None, query_params=None, _preload_content=True,
-            _request_timeout=None):
+            _request_timeout=None, _decode_utf8=True):
         return self.request("GET", url,
                             headers=headers,
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
+                            _decode_utf8=_decode_utf8,
                             query_params=query_params)
 
     def HEAD(self, url, headers=None, query_params=None, _preload_content=True,
-             _request_timeout=None):
+             _request_timeout=None, _decode_utf8=True):
         return self.request("HEAD", url,
                             headers=headers,
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
+                            _decode_utf8=_decode_utf8,
                             query_params=query_params)
 
     def OPTIONS(self, url, headers=None, query_params=None, post_params=None,
-                body=None, _preload_content=True, _request_timeout=None):
+                body=None, _preload_content=True, _request_timeout=None, _decode_utf8=True):
         return self.request("OPTIONS", url,
                             headers=headers,
                             query_params=query_params,
                             post_params=post_params,
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
+                            _decode_utf8=_decode_utf8,
                             body=body)
 
     def DELETE(self, url, headers=None, query_params=None, body=None,
-               _preload_content=True, _request_timeout=None):
+               _preload_content=True, _request_timeout=None, _decode_utf8=True):
         return self.request("DELETE", url,
                             headers=headers,
                             query_params=query_params,
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
+                            _decode_utf8=_decode_utf8,
                             body=body)
 
     def POST(self, url, headers=None, query_params=None, post_params=None,
-             body=None, _preload_content=True, _request_timeout=None):
+             body=None, _preload_content=True, _request_timeout=None, _decode_utf8=True):
         return self.request("POST", url,
                             headers=headers,
                             query_params=query_params,
                             post_params=post_params,
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
+                            _decode_utf8=_decode_utf8,
                             body=body)
 
     def PUT(self, url, headers=None, query_params=None, post_params=None,
-            body=None, _preload_content=True, _request_timeout=None):
+            body=None, _preload_content=True, _request_timeout=None, _decode_utf8=True):
         return self.request("PUT", url,
                             headers=headers,
                             query_params=query_params,
                             post_params=post_params,
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
+                            _decode_utf8=_decode_utf8,
                             body=body)
 
     def PATCH(self, url, headers=None, query_params=None, post_params=None,
-              body=None, _preload_content=True, _request_timeout=None):
+              body=None, _preload_content=True, _request_timeout=None, _decode_utf8=True):
         return self.request("PATCH", url,
                             headers=headers,
                             query_params=query_params,
                             post_params=post_params,
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
+                            _decode_utf8=_decode_utf8,
                             body=body)

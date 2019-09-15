@@ -132,6 +132,11 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+            405: None
+        }
+
         return self.api_client.call_api(
             '/pet', 'POST',
             path_params,
@@ -140,7 +145,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -239,6 +244,11 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+            400: None
+        }
+
         return self.api_client.call_api(
             '/pet/{petId}', 'DELETE',
             path_params,
@@ -247,7 +257,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -348,6 +358,12 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+            200: 'list[Pet]',
+            400: None
+        }
+
         return self.api_client.call_api(
             '/pet/findByStatus', 'GET',
             path_params,
@@ -356,7 +372,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='list[Pet]',  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -457,6 +473,12 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+            200: 'list[Pet]',
+            400: None
+        }
+
         return self.api_client.call_api(
             '/pet/findByTags', 'GET',
             path_params,
@@ -465,7 +487,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='list[Pet]',  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -565,6 +587,13 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['api_key']  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+            200: 'Pet',
+            400: None,
+            404: None
+        }
+
         return self.api_client.call_api(
             '/pet/{petId}', 'GET',
             path_params,
@@ -573,7 +602,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Pet',  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -677,6 +706,13 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+            400: None,
+            404: None,
+            405: None
+        }
+
         return self.api_client.call_api(
             '/pet', 'PUT',
             path_params,
@@ -685,7 +721,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -792,6 +828,11 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+            405: None
+        }
+
         return self.api_client.call_api(
             '/pet/{petId}', 'POST',
             path_params,
@@ -800,7 +841,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -910,6 +951,11 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+            200: 'ApiResponse'
+        }
+
         return self.api_client.call_api(
             '/pet/{petId}/uploadImage', 'POST',
             path_params,
@@ -918,7 +964,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='ApiResponse',  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -1032,6 +1078,11 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+            200: 'ApiResponse'
+        }
+
         return self.api_client.call_api(
             '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
             path_params,
@@ -1040,7 +1091,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='ApiResponse',  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

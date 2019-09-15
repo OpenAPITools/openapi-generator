@@ -58,23 +58,23 @@ class ApiClientTests(unittest.TestCase):
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
         accept = self.api_client.select_header_accept(accepts)
-        self.assertEqual(accept, 'application/json')
+        self.assertEqual('application/json;q=1, application/xml;q=0.9', accept)
 
         accepts = ['application/json', 'application/xml']
         accept = self.api_client.select_header_accept(accepts)
-        self.assertEqual(accept, 'application/json')
+        self.assertEqual('application/json;q=1, application/xml;q=0.9', accept)
 
         accepts = ['application/xml', 'application/json']
         accept = self.api_client.select_header_accept(accepts)
-        self.assertEqual(accept, 'application/json')
+        self.assertEqual('application/xml;q=0.9, application/json;q=1', accept)
 
         accepts = ['text/plain', 'application/xml']
         accept = self.api_client.select_header_accept(accepts)
-        self.assertEqual(accept, 'text/plain, application/xml')
+        self.assertEqual('text/plain;q=0.9, application/xml;q=0.9', accept)
 
         accepts = []
         accept = self.api_client.select_header_accept(accepts)
-        self.assertEqual(accept, None)
+        self.assertEqual(None, accept)
 
     def test_select_header_content_type(self):
         content_types = ['APPLICATION/JSON', 'APPLICATION/XML']

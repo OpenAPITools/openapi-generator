@@ -222,6 +222,13 @@ class {{classname}}(object):
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]  # noqa: E501
 
+        # multiple potential response types
+        response_types = {
+        {{#responses}}
+            {{code}}: {{#dataType}}'{{dataType}}'{{/dataType}}{{^dataType}}None{{/dataType}}{{#hasMore}},{{/hasMore}}
+        {{/responses}}
+        }
+
         return self.api_client.call_api(
             '{{{path}}}', '{{httpMethod}}',
             path_params,
@@ -230,7 +237,7 @@ class {{classname}}(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}},  # noqa: E501
+            response_types=response_types,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

@@ -2586,6 +2586,14 @@ public class DefaultCodegen implements CodegenConfig {
             if (methodResponse != null) {
                 Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
 
+                for (CodegenResponse response : op.responses){
+                    Schema thisResponseSchema = (Schema) response.schema;
+                    if (thisResponseSchema != null) {
+                        CodegenProperty cm = fromProperty("response", thisResponseSchema);
+                        response.dataType = cm.dataType;
+                    }
+                }
+
                 if (responseSchema != null) {
                     CodegenProperty cm = fromProperty("response", responseSchema);
 
