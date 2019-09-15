@@ -11,6 +11,7 @@ defmodule OpenapiPetstore.Model.TypeHolderExample do
   defstruct [
     :"string_item",
     :"number_item",
+    :"float_item",
     :"integer_item",
     :"bool_item",
     :"array_item"
@@ -19,6 +20,7 @@ defmodule OpenapiPetstore.Model.TypeHolderExample do
   @type t :: %__MODULE__{
     :"string_item" => String.t,
     :"number_item" => float(),
+    :"float_item" => float(),
     :"integer_item" => integer(),
     :"bool_item" => boolean(),
     :"array_item" => [integer()]

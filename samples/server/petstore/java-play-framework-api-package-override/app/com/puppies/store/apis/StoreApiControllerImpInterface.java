@@ -18,6 +18,6 @@ public interface StoreApiControllerImpInterface {
 
     Order getOrderById( @Min(1) @Max(5)Long orderId) throws Exception;
 
-    Order placeOrder(Order order) throws Exception;
+    Order placeOrder(Order body) throws Exception;
 
 }

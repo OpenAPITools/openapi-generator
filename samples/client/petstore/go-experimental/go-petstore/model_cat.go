@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 )
-
+// Cat struct for Cat
 type Cat struct {
 	ClassName *string `json:"className,omitempty"`
 
@@ -122,6 +122,7 @@ func (o *Cat) SetDeclawed(v bool) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Cat) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ClassName == nil {

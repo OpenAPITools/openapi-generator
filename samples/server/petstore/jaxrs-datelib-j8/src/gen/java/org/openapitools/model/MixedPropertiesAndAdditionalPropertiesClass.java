@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -31,6 +32,11 @@ import javax.validation.Valid;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
+@JsonPropertyOrder({
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_UUID,
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
+  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
+})
 
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   public static final String JSON_PROPERTY_UUID = "uuid";

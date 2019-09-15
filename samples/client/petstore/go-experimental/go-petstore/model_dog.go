@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 )
-
+// Dog struct for Dog
 type Dog struct {
 	ClassName *string `json:"className,omitempty"`
 
@@ -122,6 +122,7 @@ func (o *Dog) SetBreed(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Dog) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ClassName == nil {

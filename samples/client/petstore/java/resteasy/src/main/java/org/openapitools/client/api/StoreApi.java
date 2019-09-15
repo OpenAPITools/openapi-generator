@@ -41,7 +41,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public void deleteOrder(String orderId) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
@@ -82,7 +82,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public Map<String, Integer> getInventory() throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/store/inventory".replaceAll("\\{format\\}","json");
@@ -118,7 +118,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public Order getOrderById(Long orderId) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
     if (orderId == null) {

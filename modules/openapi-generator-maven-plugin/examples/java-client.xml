@@ -13,10 +13,11 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>4.1.1-SNAPSHOT</version>
+                <version>4.1.3-SNAPSHOT</version>
                 <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
+                        <id>default</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -37,6 +38,36 @@
 
                             <!-- override the default library to jersey2 -->
                             <library>jersey2</library>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>remote</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <!-- specify the swagger yaml -->
+                            <inputSpec>https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml</inputSpec>
+
+                            <!-- target to generate java client code -->
+                            <generatorName>java</generatorName>
+
+                            <!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
+                                 you can use the following target: <generatorName>spring</generatorName> -->
+
+                            <!-- pass any necessary config options -->
+                            <configOptions>
+                                <dateLibrary>joda</dateLibrary>
+                            </configOptions>
+
+                            <!-- override the default library to jersey2 -->
+                            <library>jersey2</library>
+
+                            <output>${project.build.directory}/generated-sources/remote-openapi</output>
+                            <apiPackage>remote.org.openapitools.client.api</apiPackage>
+                            <modelPackage>remote.org.openapitools.client.model</modelPackage>
+                            <invokerPackage>remote.org.openapitools.client</invokerPackage>
                         </configuration>
                     </execution>
                 </executions>

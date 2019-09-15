@@ -21,12 +21,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * InlineObject2
  */
+@JsonPropertyOrder({
+  InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING_ARRAY,
+  InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING
+})
 
 public class InlineObject2   {
   /**

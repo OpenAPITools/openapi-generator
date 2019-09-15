@@ -15,10 +15,17 @@ open class ApiClient(val baseUrl: String) {
     companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
+        protected const val Authorization = "Authorization"
         protected const val JsonMediaType = "application/json"
         protected const val FormDataMediaType = "multipart/form-data"
         protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
         protected const val XmlMediaType = "application/xml"
+
+        val apiKey: MutableMap<String, String> = mutableMapOf()
+        val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
+        var username: String? = null
+        var password: String? = null
+        var accessToken: String? = null
 
         @JvmStatic
         val client: OkHttpClient by lazy {
@@ -65,8 +72,63 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
+    {{#hasAuthMethods}}
+    protected fun updateAuthParams(requestConfig: RequestConfig) {
+        {{#authMethods}}
+        {{#isApiKey}}
+        {{#isKeyInHeader}}
+        if (requestConfig.headers["{{keyParamName}}"].isNullOrEmpty()) {
+        {{/isKeyInHeader}}
+        {{#isKeyInQuery}}
+        if (requestConfig.query["{{keyParamName}}"].isNullOrEmpty()) {
+        {{/isKeyInQuery}}
+            if (apiKey["{{keyParamName}}"] != null) {
+                if (apiKeyPrefix["{{keyParamName}}"] != null) {
+                    {{#isKeyInHeader}}
+                    requestConfig.headers["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!
+                    {{/isKeyInHeader}}
+                    {{#isKeyInQuery}}
+                    requestConfig.query["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!
+                    {{/isKeyInQuery}}
+                } else {
+                    {{#isKeyInHeader}}
+                    requestConfig.headers["{{keyParamName}}"] = apiKey["{{keyParamName}}"]!!
+                    {{/isKeyInHeader}}
+                    {{#isKeyInQuery}}
+                    requestConfig.query["{{keyParamName}}"] = apiKey["{{keyParamName}}"]!!
+                    {{/isKeyInQuery}}
+                }
+            }
+        }
+        {{/isApiKey}}
+        {{#isBasic}}
+        {{^isBasicBearer}}
+        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+            requestConfig.headers[Authorization] = Credentials.basic(username, password)
+        }
+        {{/isBasicBearer}}
+        {{#isBasicBearer}}
+        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+            requestConfig.headers[Authorization] = "Bearer " + accessToken
+        }
+        {{/isBasicBearer}}
+        {{/isBasic}}
+        {{#isOAuth}}
+        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+            requestConfig.headers[Authorization] = "Bearer " + accessToken
+        }
+        {{/isOAuth}}
+        {{/authMethods}}
+    }
+    {{/hasAuthMethods}}
+
     protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
+        {{#hasAuthMethods}}
+
+        // take authMethod from operation
+        updateAuthParams(requestConfig)
+        {{/hasAuthMethods}}
 
         val url = httpUrl.newBuilder()
             .addPathSegments(requestConfig.path.trimStart('/'))

@@ -29,7 +29,7 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     }
 
     @Override
-    public Order placeOrder(Order order)  {
+    public Order placeOrder(Order body)  {
         //Do your magic!!!
         return new Order();
     }

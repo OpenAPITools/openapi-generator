@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**MyNumber** | Pointer to **float32** |  | [optional]
-**MyString** | Pointer to **string** |  | [optional]
-**MyBoolean** | Pointer to **bool** |  | [optional]
+**MyNumber** | Pointer to **float32** |  | [optional] 
+**MyString** | Pointer to **string** |  | [optional] 
+**MyBoolean** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 
