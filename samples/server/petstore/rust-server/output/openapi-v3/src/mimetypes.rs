@@ -6,6 +6,11 @@ pub mod responses {
     // The macro is called per-operation to beat the recursion limit
 
     lazy_static! {
+        /// Create Mime objects for the response content types for ResponsesWithHeadersGet
+        pub static ref RESPONSES_WITH_HEADERS_GET_SUCCESS: Mime = "application/json".parse().unwrap();
+    }
+
+    lazy_static! {
         /// Create Mime objects for the response content types for UuidGet
         pub static ref UUID_GET_DUPLICATE_RESPONSE_LONG_TEXT: Mime = "application/json".parse().unwrap();
     }
