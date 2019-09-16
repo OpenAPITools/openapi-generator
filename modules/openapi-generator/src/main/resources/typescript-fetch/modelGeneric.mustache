@@ -13,7 +13,7 @@ import {
 {{#discriminator}}
 import {
 {{#discriminator.mappedModels}}
-     {{modelName}}FromJSONTyped
+     {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
 {{/discriminator.mappedModels}}
 } from './';
 

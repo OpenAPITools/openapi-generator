@@ -113,7 +113,7 @@ export const COLLECTION_FORMATS = {
     pipes: "|",
 };
 
-export type FetchAPI = GlobalFetch['fetch'];
+export type FetchAPI = {{#typescriptThreePlus}}WindowOrWorkerGlobalScope{{/typescriptThreePlus}}{{^typescriptThreePlus}}GlobalFetch{{/typescriptThreePlus}}['fetch'];
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

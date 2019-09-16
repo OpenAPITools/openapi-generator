@@ -179,6 +179,8 @@ StoreApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -223,6 +225,8 @@ StoreApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -269,6 +273,8 @@ StoreApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -319,6 +325,8 @@ StoreApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {

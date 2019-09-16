@@ -45,7 +45,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         modelToIgnore.add("object");
         modelToIgnore.add("list");
         modelToIgnore.add("file");
-        modelToIgnore.add("uint8list");
+        modelToIgnore.add("list<int>");
     }
 
     private static final String SERIALIZATION_JSON = "json";
@@ -63,8 +63,8 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         cliOptions.add(new CliOption(SERIALIZATION_FORMAT, "Choose serialization format JSON or PROTO is supported"));
 
-        typeMapping.put("file", "Uint8List");
-        typeMapping.put("binary", "Uint8List");
+        typeMapping.put("file", "List<int>");
+        typeMapping.put("binary", "List<int>");
 
         protoTypeMapping.put("Array", "repeated");
         protoTypeMapping.put("array", "repeated");
@@ -247,19 +247,19 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             }
 
             for (CodegenParameter param : op.allParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
             }
             for (CodegenParameter param : op.formParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
             }
             for (CodegenParameter param : op.bodyParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
@@ -274,8 +274,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             for (String item : op.imports) {
                 if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
                     imports.add(underscore(item));
-                } else if (item.equalsIgnoreCase("Uint8List")) {
-                    fullImports.add("dart:typed_data");
                 }
             }
             modelImports.addAll(imports);

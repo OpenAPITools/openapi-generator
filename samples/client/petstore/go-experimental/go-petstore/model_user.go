@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// User struct for User
 type User struct {
 	Id *int64 `json:"id,omitempty"`
 
@@ -297,6 +297,7 @@ func (o *User) SetUserStatus(v int32) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o User) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {

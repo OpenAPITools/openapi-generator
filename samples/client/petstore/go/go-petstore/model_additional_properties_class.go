@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// AdditionalPropertiesClass struct for AdditionalPropertiesClass
 type AdditionalPropertiesClass struct {
 	MapString map[string]string `json:"map_string,omitempty"`
 	MapNumber map[string]float32 `json:"map_number,omitempty"`

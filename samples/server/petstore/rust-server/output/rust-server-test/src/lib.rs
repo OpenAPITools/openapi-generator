@@ -53,31 +53,34 @@ pub const API_VERSION: &'static str = "2.3.4";
 #[derive(Debug, PartialEq)]
 pub enum DummyGetResponse {
     /// Success
-    Success ,
+    Success
 }
 
 #[derive(Debug, PartialEq)]
 pub enum DummyPutResponse {
     /// Success
-    Success ,
+    Success
 }
 
 #[derive(Debug, PartialEq)]
 pub enum FileResponseGetResponse {
     /// Success
-    Success ( swagger::ByteArray ) ,
+    Success
+    (swagger::ByteArray)
 }
 
 #[derive(Debug, PartialEq)]
 pub enum HtmlPostResponse {
     /// Success
-    Success ( String ) ,
+    Success
+    (String)
 }
 
 #[derive(Debug, PartialEq)]
 pub enum RawJsonGetResponse {
     /// Success
-    Success ( serde_json::Value ) ,
+    Success
+    (serde_json::Value)
 }
 
 

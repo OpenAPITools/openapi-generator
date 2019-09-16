@@ -30,6 +30,7 @@ import java.util.*;
 public final class GeneratorSettings implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneratorSettings.class);
+    private static String DEFAULT_GIT_HOST = "github.com";
     private static String DEFAULT_GIT_USER_ID = "GIT_USER_ID";
     private static String DEFAULT_GIT_REPO_ID = "GIT_REPO_ID";
     private static String DEFAULT_RELEASE_NOTE = "Minor update";
@@ -54,6 +55,7 @@ public final class GeneratorSettings implements Serializable {
     private ImmutableMap<String, String> reservedWordMappings;
     private ImmutableMap<String, String> serverVariables;
 
+    private String gitHost;
     private String gitUserId;
     private String gitRepoId;
     private String releaseNote;
@@ -256,6 +258,17 @@ public final class GeneratorSettings implements Serializable {
         return serverVariables;
     }
 
+    /**
+     * Gets git host. e.g. <strong>gitlab.com</strong>.
+     * <p>
+     * Generally used by git_push.sh in generated sources which support it.
+     * This value may also be used by templates in maven style references, READMEs, or other documentation.
+     *
+     * @return the git host
+     */
+    public String getGitHost() {
+        return gitHost;
+    }
 
     /**
      * Gets git user id. e.g. <strong>openapitools</strong>.
@@ -324,6 +337,7 @@ public final class GeneratorSettings implements Serializable {
         languageSpecificPrimitives = ImmutableSet.copyOf(builder.languageSpecificPrimitives);
         reservedWordMappings = ImmutableMap.copyOf(builder.reservedWordMappings);
         serverVariables = ImmutableMap.copyOf(builder.serverVariables);
+        gitHost = builder.gitHost;
         gitUserId = builder.gitUserId;
         gitRepoId = builder.gitRepoId;
         releaseNote = builder.releaseNote;
@@ -358,6 +372,9 @@ public final class GeneratorSettings implements Serializable {
         if (isNotEmpty(modelNameSuffix)) {
             additional.put("modelNameSuffix", modelNameSuffix);
         }
+        if (isNotEmpty(gitHost)) {
+            additional.put("gitHost", gitHost);
+        }
         if (isNotEmpty(gitUserId)) {
             additional.put("gitUserId", gitUserId);
         }
@@ -390,6 +407,7 @@ public final class GeneratorSettings implements Serializable {
     }
 
     private void setDefaults() {
+        gitHost = DEFAULT_GIT_HOST;
         gitUserId = DEFAULT_GIT_USER_ID;
         gitRepoId = DEFAULT_GIT_REPO_ID;
         releaseNote = DEFAULT_RELEASE_NOTE;
@@ -442,6 +460,7 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getServerVariables() != null) {
             builder.serverVariables.putAll(copy.getServerVariables());
         }
+        builder.gitHost = copy.getGitHost();
         builder.gitUserId = copy.getGitUserId();
         builder.gitRepoId = copy.getGitRepoId();
         builder.releaseNote = copy.getReleaseNote();
@@ -473,6 +492,7 @@ public final class GeneratorSettings implements Serializable {
         private Set<String> languageSpecificPrimitives;
         private Map<String, String> reservedWordMappings;
         private Map<String, String> serverVariables;
+        private String gitHost;
         private String gitUserId;
         private String gitRepoId;
         private String releaseNote;
@@ -490,6 +510,7 @@ public final class GeneratorSettings implements Serializable {
             reservedWordMappings = new HashMap<>();
             serverVariables = new HashMap<>();
 
+            gitHost = DEFAULT_GIT_HOST;
             gitUserId = DEFAULT_GIT_USER_ID;
             gitRepoId = DEFAULT_GIT_REPO_ID;
             releaseNote = DEFAULT_RELEASE_NOTE;
@@ -784,6 +805,17 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code gitHost} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param gitHost the {@code gitHost} to set
+         * @return a reference to this Builder
+         */
+        public Builder withGitHost(String gitHost) {
+            this.gitHost = gitHost;
+            return this;
+        }
+
+        /**
          * Sets the {@code gitUserId} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param gitUserId the {@code gitUserId} to set
@@ -860,6 +892,7 @@ public final class GeneratorSettings implements Serializable {
                 ", importMappings=" + importMappings +
                 ", languageSpecificPrimitives=" + languageSpecificPrimitives +
                 ", reservedWordMappings=" + reservedWordMappings +
+                ", gitHost='" + gitHost + '\'' +
                 ", gitUserId='" + gitUserId + '\'' +
                 ", gitRepoId='" + gitRepoId + '\'' +
                 ", releaseNote='" + releaseNote + '\'' +
@@ -889,6 +922,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getImportMappings(), that.getImportMappings()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getReservedWordMappings(), that.getReservedWordMappings()) &&
+                Objects.equals(getGitHost(), that.getGitHost()) &&
                 Objects.equals(getGitUserId(), that.getGitUserId()) &&
                 Objects.equals(getGitRepoId(), that.getGitRepoId()) &&
                 Objects.equals(getReleaseNote(), that.getReleaseNote()) &&
@@ -915,6 +949,7 @@ public final class GeneratorSettings implements Serializable {
                 getImportMappings(),
                 getLanguageSpecificPrimitives(),
                 getReservedWordMappings(),
+                getGitHost(),
                 getGitUserId(),
                 getGitRepoId(),
                 getReleaseNote(),

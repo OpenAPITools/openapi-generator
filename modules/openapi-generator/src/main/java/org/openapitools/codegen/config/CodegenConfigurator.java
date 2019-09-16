@@ -222,6 +222,11 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setGitHost(String gitHost) {
+        generatorSettingsBuilder.withGitHost(gitHost);
+        return this;
+    }
+
     public CodegenConfigurator setGitUserId(String gitUserId) {
         generatorSettingsBuilder.withGitUserId(gitUserId);
         return this;

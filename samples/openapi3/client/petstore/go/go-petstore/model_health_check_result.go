@@ -8,8 +8,7 @@
  */
 
 package petstore
-
-// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+// HealthCheckResult Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 type HealthCheckResult struct {
 	NullableMessage *string `json:"NullableMessage,omitempty"`
 }

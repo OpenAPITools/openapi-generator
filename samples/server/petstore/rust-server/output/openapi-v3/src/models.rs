@@ -221,7 +221,6 @@ impl DuplicateXmlObject {
 /// Test a model containing a UUID
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-
 pub struct UuidObject(uuid::Uuid);
 
 impl ::std::convert::From<uuid::Uuid> for UuidObject {

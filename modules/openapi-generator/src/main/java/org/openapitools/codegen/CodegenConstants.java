@@ -212,6 +212,9 @@ public class CodegenConstants {
     public static final String MODEL_NAME_SUFFIX = "modelNameSuffix";
     public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names.";
 
+    public static final String GIT_HOST = "gitHost";
+    public static final String GIT_HOST_DESC = "Git host, e.g. gitlab.com.";
+
     public static final String GIT_USER_ID = "gitUserId";
     public static final String GIT_USER_ID_DESC = "Git user ID, e.g. openapitools.";
 

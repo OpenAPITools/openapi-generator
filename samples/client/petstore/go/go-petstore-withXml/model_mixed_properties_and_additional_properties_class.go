@@ -12,7 +12,7 @@ package petstore
 import (
 	"time"
 )
-
+// MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid string `json:"uuid,omitempty" xml:"uuid"`
 	DateTime time.Time `json:"dateTime,omitempty" xml:"dateTime"`

@@ -61,6 +61,9 @@
       "generators/aspnetcore": {
         "title": "generators/aspnetcore"
       },
+      "generators/avro-schema": {
+        "title": "generators/avro-schema"
+      },
       "generators/bash": {
         "title": "generators/bash"
       },
@@ -250,6 +253,9 @@
       "generators/mysql-schema": {
         "title": "generators/mysql-schema"
       },
+      "generators/nodejs-express-server": {
+        "title": "generators/nodejs-express-server"
+      },
       "generators/nodejs-server-deprecated": {
         "title": "generators/nodejs-server-deprecated"
       },
@@ -258,6 +264,12 @@
       },
       "generators/objc": {
         "title": "generators/objc"
+      },
+      "generators/ocaml-client": {
+        "title": "generators/ocaml-client"
+      },
+      "generators/ocaml": {
+        "title": "generators/ocaml"
       },
       "generators/openapi-yaml": {
         "title": "generators/openapi-yaml"

@@ -109,6 +109,7 @@ dependencies {
     compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "io.rest-assured:scala-support:$rest_assured_version"
     compile "io.gsonfire:gson-fire:$gson_fire_version"
+    compile 'com.google.code.gson:gson:$gson_version'
     compile "org.threeten:threetenbp:$threetenbp_version"
     compile "com.squareup.okio:okio:$okio_version"
     testCompile "junit:junit:$junit_version"
