@@ -8,7 +8,7 @@
 {{!-- for enum schemas --}}
 {{#isEnum}}
 /// {{{description}}}
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum {{classname}} {
 {{#allowableValues}}
 {{#enumVars}}
@@ -18,8 +18,32 @@ pub enum {{classname}} {
 }
 {{/isEnum}}
 
+{{!-- for schemas that have a discriminator --}}
+{{#discriminator}}
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "{{{propertyName}}}")]
+pub enum {{classname}} {
+{{#vendorExtensions}}
+    {{#mappedModels}}
+    #[serde(rename="{{mappingName}}")]
+    {{modelName}} {
+    {{#vars}}
+        {{#description}}
+        /// {{{description}}}
+        {{/description}}
+        #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
+        {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
+    {{/vars}}
+    },
+    {{/mappedModels}}
+{{/vendorExtensions}}
+}
+
+{{/discriminator}}
+
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
+{{^discriminator}}
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
@@ -43,6 +67,7 @@ impl {{{classname}}} {
         }
     }
 }
+{{/discriminator}}
 {{/isEnum}}
 
 {{!-- for properties that are of enum type --}}
