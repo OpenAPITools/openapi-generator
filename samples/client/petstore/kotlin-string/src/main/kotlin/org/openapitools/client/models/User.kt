@@ -24,6 +24,7 @@ import com.squareup.moshi.Json
  * @param phone 
  * @param userStatus User Status
  */
+
 data class User (
     @Json(name = "id")
     val id: kotlin.Long? = null,
