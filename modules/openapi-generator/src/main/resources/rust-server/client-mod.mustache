@@ -514,7 +514,16 @@ impl<F, C> Api<C> for Client<F> where
                         })
 {{/dataType}}{{^dataType}}
                         future::ok(
-                            {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{#headers}}{{#-first}}{ {{/-first}}{{^-first}}, {{/-first}}{{{name}}}: response_{{{name}}}{{#-last}} }{{/-last}}{{/headers}}
+                            {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}
+{{#headers}}
+  {{#-first}}
+                            {
+  {{/-first}}
+                              {{{name}}}: response_{{{name}}},
+  {{#-last}}
+                            }
+  {{/-last}}
+{{/headers}}
                         )
 {{/dataType}}
                     ) as Box<Future<Item=_, Error=_>>

@@ -1166,6 +1166,7 @@
                 <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/scala-finch</module>
+                <module>samples/server/petstore/kotlin/vertx</module>
                 <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>

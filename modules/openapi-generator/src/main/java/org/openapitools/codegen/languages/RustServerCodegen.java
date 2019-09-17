@@ -909,6 +909,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("usesXmlNamespaces", true);
         }
 
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(model);
+
+        if (additionalProperties != null) {
+            mdl.additionalPropertiesType = getSchemaType(additionalProperties);
+        }
+
         return mdl;
     }
 
@@ -1123,20 +1129,34 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 // 'null'. This ensures that we treat this model as a struct
                 // with multiple parameters.
                 cm.dataType = null;
-            } else if (cm.dataType != null) {
-                if (cm.dataType.equals("map")) {
-                    // We don't yet support `additionalProperties`. We ignore
-                    // the `additionalProperties` type ('map') and warn the
-                    // user. This will produce code that compiles, but won't
-                    // feature the `additionalProperties`.
+            } else if (cm.dataType != null && cm.dataType.equals("map")) {
+                if (!cm.allVars.isEmpty() || cm.additionalPropertiesType == null) {
+                    // We don't yet support `additionalProperties` that also have
+                    // properties. If we see variables, we ignore the
+                    // `additionalProperties` type ('map') and warn the user. This
+                    // will produce code that compiles, but won't feature the
+                    // `additionalProperties` - but that's likely more useful to
+                    // the user than the alternative.
+                    LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
                     cm.dataType = null;
-                    LOGGER.warn("Ignoring unsupported additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318)");
-                } else {
-                    // We need to hack about with single-parameter models to
-                    // get them recognised correctly.
-                    cm.isAlias = false;
-                    cm.dataType = typeMapping.get(cm.dataType);
                 }
+                else
+                {
+                    String type;
+
+                    if (typeMapping.containsKey(cm.additionalPropertiesType)) {
+                        type = typeMapping.get(cm.additionalPropertiesType);
+                    } else {
+                        type = toModelName(cm.additionalPropertiesType);
+                    }
+
+                    cm.dataType = "HashMap<String, " + type + ">";
+                }
+            } else if (cm.dataType != null) {
+                // We need to hack about with single-parameter models to
+                // get them recognised correctly.
+                cm.isAlias = false;
+                cm.dataType = typeMapping.get(cm.dataType);
             }
 
             cm.vendorExtensions.put("isString", "String".equals(cm.dataType));
