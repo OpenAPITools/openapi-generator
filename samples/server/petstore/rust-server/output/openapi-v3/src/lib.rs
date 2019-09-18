@@ -54,53 +54,76 @@ pub const API_VERSION: &'static str = "1.0.7";
 #[derive(Debug, PartialEq)]
 pub enum RequiredOctetStreamPutResponse {
     /// OK
-    OK ,
+    OK
+}
+
+#[derive(Debug, PartialEq)]
+pub enum ResponsesWithHeadersGetResponse {
+    /// Success
+    Success
+    {
+        body: String,
+        success_info: String,
+    }
+    ,
+    /// Precondition Failed
+    PreconditionFailed
+    {
+        further_info: String,
+        failure_info: String,
+    }
 }
 
 #[derive(Debug, PartialEq)]
 pub enum UuidGetResponse {
     /// Duplicate Response long text. One.
-    DuplicateResponseLongText ( uuid::Uuid ) ,
+    DuplicateResponseLongText
+    (uuid::Uuid)
 }
 
 #[derive(Debug, PartialEq)]
 pub enum XmlExtraPostResponse {
     /// OK
-    OK ,
+    OK
+    ,
     /// Bad Request
-    BadRequest ,
+    BadRequest
 }
 
 #[derive(Debug, PartialEq)]
 pub enum XmlOtherPostResponse {
     /// OK
-    OK ,
+    OK
+    ,
     /// Bad Request
-    BadRequest ,
+    BadRequest
 }
 
 #[derive(Debug, PartialEq)]
 pub enum XmlOtherPutResponse {
     /// OK
-    OK ,
+    OK
+    ,
     /// Bad Request
-    BadRequest ,
+    BadRequest
 }
 
 #[derive(Debug, PartialEq)]
 pub enum XmlPostResponse {
     /// OK
-    OK ,
+    OK
+    ,
     /// Bad Request
-    BadRequest ,
+    BadRequest
 }
 
 #[derive(Debug, PartialEq)]
 pub enum XmlPutResponse {
     /// OK
-    OK ,
+    OK
+    ,
     /// Bad Request
-    BadRequest ,
+    BadRequest
 }
 
 
@@ -109,6 +132,9 @@ pub trait Api<C> {
 
 
     fn required_octet_stream_put(&self, body: swagger::ByteArray, context: &C) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
+
+
+    fn responses_with_headers_get(&self, context: &C) -> Box<Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>>;
 
 
     fn uuid_get(&self, context: &C) -> Box<Future<Item=UuidGetResponse, Error=ApiError>>;
@@ -135,6 +161,9 @@ pub trait ApiNoContext {
 
 
     fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
+
+
+    fn responses_with_headers_get(&self) -> Box<Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>>;
 
 
     fn uuid_get(&self) -> Box<Future<Item=UuidGetResponse, Error=ApiError>>;
@@ -173,6 +202,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
         self.api().required_octet_stream_put(body, &self.context())
+    }
+
+
+    fn responses_with_headers_get(&self) -> Box<Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>> {
+        self.api().responses_with_headers_get(&self.context())
     }
 
 

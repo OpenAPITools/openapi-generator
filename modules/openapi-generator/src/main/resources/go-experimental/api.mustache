@@ -276,19 +276,21 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 {{^isKeyInCookie}}
 	if ctx != nil {
 		// API Key Authentication
-		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
-			var key string
-			if auth.Prefix != "" {
-				key = auth.Prefix + " " + auth.Key
-			} else {
-				key = auth.Key
+		if auth, ok := ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if auth, ok := auth["{{keyParamName}}"]; ok {
+				var key string
+				if auth.Prefix != "" {
+					key = auth.Prefix + " " + auth.Key
+				} else {
+					key = auth.Key
+				}
+				{{#isKeyInHeader}}
+				localVarHeaderParams["{{keyParamName}}"] = key
+				{{/isKeyInHeader}}
+				{{#isKeyInQuery}}
+				localVarQueryParams.Add("{{keyParamName}}", key)
+				{{/isKeyInQuery}}
 			}
-			{{#isKeyInHeader}}
-			localVarHeaderParams["{{keyParamName}}"] = key
-			{{/isKeyInHeader}}
-			{{#isKeyInQuery}}
-			localVarQueryParams.Add("{{keyParamName}}", key)
-			{{/isKeyInQuery}}
 		}
 	}
 {{/isKeyInCookie}}
