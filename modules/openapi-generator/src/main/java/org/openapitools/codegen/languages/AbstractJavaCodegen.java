@@ -60,7 +60,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String invokerPackage = "org.openapitools";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-java";
-    protected String artifactVersion = "1.0.0";
+    protected String artifactVersion = null;
     protected String artifactUrl = "https://github.com/openapitools/openapi-generator";
     protected String artifactDescription = "OpenAPI Java";
     protected String developerName = "OpenAPI-Generator Contributors";
@@ -1038,12 +1038,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        // If no artifactVersion is provided in additional properties, version from API specification is used.
-        // If none of them is provided then fallbacks to default version
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
-            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
-        } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
-            this.setArtifactVersion(openAPI.getInfo().getVersion());
+        if(artifactVersion == null) {
+            // If no artifactVersion is provided in additional properties, version from API specification is used.
+            // If none of them is provided then fallbacks to default version
+            if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+                this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
+            } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+                this.setArtifactVersion(openAPI.getInfo().getVersion());
+            } else {
+                this.setArtifactVersion("1.0.0");
+            }
+        } else {
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
@@ -1433,7 +1439,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @return SNAPSHOT version
      */
     private String buildSnapshotVersion(String version) {
-        return version + "-" + "SNAPSHOT";
+        if(version.endsWith("-SNAPSHOT")) {
+            return version;
+        }
+        return version + "-SNAPSHOT";
     }
 
     public void setSupportJava6(boolean value) {
