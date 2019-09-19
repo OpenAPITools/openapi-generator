@@ -245,22 +245,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-
-        // workaround for: https://github.com/swagger-api/swagger-codegen/issues/4258
-        objs = postProcessModelsRemoveDuplicates(super.postProcessModels(objs));
+        objs = super.postProcessModels(objs);
         return postProcessModelsEscapeNames(objs);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> postProcessModelsRemoveDuplicates(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            if (cm.requiredVars != null) removeDuplicates(cm.requiredVars);
-            if (cm.optionalVars != null) removeDuplicates(cm.optionalVars);
-        }
-        return objs;
     }
 
     @SuppressWarnings("unchecked")
