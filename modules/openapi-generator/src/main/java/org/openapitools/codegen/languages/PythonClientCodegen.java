@@ -531,7 +531,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("-", "_");
 
         // e.g. PhoneNumberApi.py => phone_number_api.py
-        return underscore(name) + "_api";
+        return underscore(name+ "_" + apiNameSuffix);
     }
 
     @Override
@@ -541,11 +541,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
-            return "DefaultApi";
-        }
-        // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "Api";
+        return super.toApiName(name);
     }
 
     @Override
@@ -553,7 +549,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "default_api";
         }
-        return underscore(name) + "_api";
+        return underscore(name+ "_" + apiNameSuffix);
     }
 
     @Override

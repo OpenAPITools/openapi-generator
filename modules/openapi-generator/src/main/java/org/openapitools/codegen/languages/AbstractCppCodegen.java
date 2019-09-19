@@ -150,7 +150,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toApiName(String type) {
-        return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api");
+        return sanitizeName(modelNamePrefix + super.toApiName(type));
     }
 
     @Override

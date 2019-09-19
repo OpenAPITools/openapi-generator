@@ -206,6 +206,9 @@ public class CodegenConstants {
     // Codegen constants should define a description and provide proper input validation for the value of serializationLibrary
     public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
 
+    public static final String API_NAME_SUFFIX = "apiNameSuffix";
+    public static final String API_NAME_SUFFIX_DESC = "Suffix that will be appended to all api names.";
+
     public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
     public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names.";
 
