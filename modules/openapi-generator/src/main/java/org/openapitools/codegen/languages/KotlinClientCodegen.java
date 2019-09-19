@@ -190,13 +190,23 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(MULTIPLATFORM, true);
             setDateLibrary(DateLibrary.STRING.value);
 
-            // multiplatform import mapping
-            importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
+            // multiplatform default includes
             defaultIncludes.add("io.ktor.client.request.forms.InputProvider");
 
             // multiplatform type mapping
             typeMapping.put("number", "kotlin.Double");
             typeMapping.put("file", "InputProvider");
+
+            // multiplatform import mapping
+            importMapping.put("BigDecimal", "kotlin.Double");
+            importMapping.put("UUID", "kotlin.String");
+            importMapping.put("URI", "kotlin.String");
+            importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
+            importMapping.put("File", "io.ktor.client.request.forms.InputProvider");
+            importMapping.put("Timestamp", "kotlin.String");
+            importMapping.put("LocalDateTime", "kotlin.String");
+            importMapping.put("LocalDate", "kotlin.String");
+            importMapping.put("LocalTime", "kotlin.String");
 
             // multiplatform specific supporting files
             supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
