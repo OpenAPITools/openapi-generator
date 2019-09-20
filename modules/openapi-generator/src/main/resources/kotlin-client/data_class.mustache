@@ -32,8 +32,9 @@ data class {{classname}} (
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ){{#parcelizeModels}} : Parcelable{{/parcelizeModels}}
-{{#hasEnums}}{{#vars}}{{#isEnum}}
+{{#hasEnums}}
 {
+{{#vars}}{{#isEnum}}
     /**
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
@@ -58,5 +59,6 @@ data class {{classname}} (
         object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value }.toTypedArray())
     {{/multiplatform}}
     }
+{{/isEnum}}{{/vars}}
 }
-{{/isEnum}}{{/vars}}{{/hasEnums}}
+{{/hasEnums}}
