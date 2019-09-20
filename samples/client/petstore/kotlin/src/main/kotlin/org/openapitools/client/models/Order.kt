@@ -37,8 +37,8 @@ data class Order (
     @Json(name = "complete")
     val complete: kotlin.Boolean? = null
 )
-
 {
+
     /**
     * Order Status
     * Values: placed,approved,delivered
@@ -52,6 +52,6 @@ data class Order (
         @Json(name = "delivered") delivered("delivered");
     
     }
-}
 
+}
 

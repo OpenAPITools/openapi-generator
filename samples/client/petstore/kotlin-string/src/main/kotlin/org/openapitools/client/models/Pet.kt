@@ -39,8 +39,8 @@ data class Pet (
     @Json(name = "status")
     val status: Pet.Status? = null
 )
-
 {
+
     /**
     * pet status in the store
     * Values: available,pending,sold
@@ -54,6 +54,6 @@ data class Pet (
         @Json(name = "sold") sold("sold");
     
     }
-}
 
+}
 
