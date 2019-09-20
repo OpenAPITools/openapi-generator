@@ -11,7 +11,7 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun deletePet(petId: Long,apiKey: String?): Unit {
+    override fun deletePet(petId: Long,apiKey: String): Unit {
         TODO("Implement me")
     }
 
