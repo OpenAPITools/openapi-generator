@@ -35,5 +35,5 @@ file(GLOB SRCS
 )
 
 add_executable(${PROJECT_NAME} ${SRCS} )
-add_dependencies(${PROJECT_NAME} PISTACHE NLOHMANN)
+{{#addExternalLibs}}add_dependencies(${PROJECT_NAME} PISTACHE NLOHMANN){{/addExternalLibs}}
 target_link_libraries(${PROJECT_NAME} pistache pthread)
