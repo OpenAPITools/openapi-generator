@@ -26,4 +26,3 @@ data class Category (
     val name: kotlin.String? = null
 )
 
-

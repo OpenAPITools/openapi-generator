@@ -29,4 +29,3 @@ data class ApiResponse (
     val message: kotlin.String? = null
 )
 
-
