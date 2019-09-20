@@ -19,5 +19,5 @@ return CompletableFuture.supplyAsync(()-> {
     {{/-last}}
 {{/examples}}
 {{^examples}}
-return {{#async}}CompletableFuture.completedFuture({{/async}}ResponseEntity<>({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
+return {{#async}}CompletableFuture.completedFuture({{/async}}ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
 {{/examples}}
