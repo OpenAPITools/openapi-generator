@@ -25,8 +25,9 @@ data class {{classname}} (
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ){{#parcelizeModels}} : Parcelable{{/parcelizeModels}}
-{{#hasEnums}}{{#vars}}{{#isEnum}}
+{{#hasEnums}}
 {
+{{#vars}}{{#isEnum}}
     /**
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
@@ -41,5 +42,6 @@ data class {{classname}} (
         {{/gson}}
     {{/enumVars}}{{/allowableValues}}
     }
+{{/isEnum}}{{/vars}}
 }
-{{/isEnum}}{{/vars}}{{/hasEnums}}
+{{/hasEnums}}
