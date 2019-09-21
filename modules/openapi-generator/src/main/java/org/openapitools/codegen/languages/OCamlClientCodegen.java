@@ -18,12 +18,14 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +34,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -87,7 +91,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "new", "nonrec", "object", "of", "open", "or",
                         "private", "rec", "sig", "struct", "then", "to",
                         "true", "try", "type", "val", "virtual", "when",
-                        "while", "with"
+                        "while", "with",
+
+                        "result"
                 )
         );
 
@@ -141,7 +147,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("object", "Yojson.Safe.t");
         typeMapping.put("any", "Yojson.Safe.t");
         typeMapping.put("file", "string");
-        typeMapping.put("ByteArray", "bytes");
+        typeMapping.put("ByteArray", "string");
         // lib
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
@@ -318,6 +324,13 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                             collectEnumSchemas(p, content.get(p).getSchema());
                         }
                     }
+                    if (apiResponse.getHeaders() != null) {
+                        Map<String, Header> headers = apiResponse.getHeaders();
+                        for (String h : headers.keySet()) {
+                            Header header = headers.get(h);
+                            collectEnumSchemas(h, header.getSchema());
+                        }
+                    }
                 }
             }
         }
@@ -397,6 +410,13 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("OCAML_POST_PROCESS_FILE"))) {
+            LOGGER.info("Hint: Environment variable 'OCAML_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export OCAML_POST_PROCESS_FILE=\"ocamlformat -i --enable-outside-detected-project\"' (Linux/Mac)");
+            LOGGER.info("Note: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'OCAML_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -594,11 +614,11 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId) || sanitizedOperationId.matches("^[0-9].*")) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + StringUtils.underscore("call_" + operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return StringUtils.underscore(sanitizedOperationId);
+        return underscore(sanitizedOperationId);
     }
 
     private Map<String, Object> allowableValues(String valueString) {
@@ -621,9 +641,19 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return result;
     }
 
+    public String toEnumValueName(String name) {
+        if (reservedWords.contains(name)) {
+            return escapeReservedWord(name);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+            return escape(name, specialCharReplacements, Collections.singletonList("_"), null);
+        } else {
+            return name;
+        }
+    }
+
     private String ocamlizeEnumValue(String value) {
         String sanitizedValue =
-                super.toVarName(value.isEmpty() ? "empty" : value)
+                toEnumValueName(value.isEmpty() ? "empty" : value)
                         .replace(" ", "_");
 
         if (!sanitizedValue.matches("^[a-zA-Z_].*")) {
@@ -668,6 +698,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     param.vendorExtensions.put(X_MODEL_MODULE, param.dataType.substring(0, param.dataType.lastIndexOf('.')));
                 }
             }
+
+            if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
+                operation.vendorExtensions.put("x-returnFreeFormObject", true);
+            }
         }
 
         for (Map.Entry<String, String> e : enumUniqNames.entrySet()) {
@@ -704,7 +738,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return input
                 .replace("*)", "*_)")
                 .replace("(*", "(_*")
-                .replace("\"", "\\\"");
+                .replace("\"", "''");
     }
 
     @Override
@@ -721,9 +755,40 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
+            if (p.getEnum() != null) {
+                return ocamlizeEnumValue(p.getDefault().toString());
+            }
             return p.getDefault().toString();
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
+
+        if (file == null) {
+            return;
+        }
+        String ocamlPostProcessFile = System.getenv("OCAML_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(ocamlPostProcessFile)) {
+            return; // skip if OCAML_POST_PROCESS_FILE env variable is not defined
+        }
+        // only process files with ml or mli extension
+        if ("ml".equals(FilenameUtils.getExtension(file.toString())) || "mli".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = ocamlPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
         }
     }
 }

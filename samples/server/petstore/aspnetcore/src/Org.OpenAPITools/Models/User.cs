@@ -12,9 +12,11 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
 { 
@@ -28,7 +30,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Username
@@ -71,7 +73,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name="userStatus", EmitDefaultValue=false)]
-        public int? UserStatus { get; set; }
+        public int UserStatus { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -127,7 +129,7 @@ namespace Org.OpenAPITools.Models
             return 
                 (
                     Id == other.Id ||
-                    Id != null &&
+                    
                     Id.Equals(other.Id)
                 ) && 
                 (
@@ -162,7 +164,7 @@ namespace Org.OpenAPITools.Models
                 ) && 
                 (
                     UserStatus == other.UserStatus ||
-                    UserStatus != null &&
+                    
                     UserStatus.Equals(other.UserStatus)
                 );
         }
@@ -177,7 +179,7 @@ namespace Org.OpenAPITools.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Id != null)
+                    
                     hashCode = hashCode * 59 + Id.GetHashCode();
                     if (Username != null)
                     hashCode = hashCode * 59 + Username.GetHashCode();
@@ -191,7 +193,7 @@ namespace Org.OpenAPITools.Models
                     hashCode = hashCode * 59 + Password.GetHashCode();
                     if (Phone != null)
                     hashCode = hashCode * 59 + Phone.GetHashCode();
-                    if (UserStatus != null)
+                    
                     hashCode = hashCode * 59 + UserStatus.GetHashCode();
                 return hashCode;
             }

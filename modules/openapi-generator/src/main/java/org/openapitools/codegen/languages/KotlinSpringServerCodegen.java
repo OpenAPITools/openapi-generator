@@ -407,7 +407,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (!additionalProperties.containsKey(SERVER_PORT)) {
-            URL url = URLPathUtils.getServerURL(openAPI);
+            URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
             this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
         }
 

@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.serializer.SerializerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,11 +58,11 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void processOpenAPI(OpenAPI openAPI) {
-        String swaggerString = Json.pretty(openAPI);
+        String jsonOpenAPI = SerializerUtils.toJsonString(openAPI);
 
         try {
             String outputFile = outputFolder + File.separator + "openapi.json";
-            FileUtils.writeStringToFile(new File(outputFile), swaggerString);
+            FileUtils.writeStringToFile(new File(outputFile), jsonOpenAPI);
             LOGGER.info("wrote file to " + outputFile);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

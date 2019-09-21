@@ -355,4 +355,29 @@ abstract class AbstractFakeApi
 
         return $response->write($message)->withStatus(501);
     }
+
+    /**
+     * PUT testQueryParameterCollectionFormat
+     * Notes: To test the collection format in query parameters
+     *
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
+     */
+    public function testQueryParameterCollectionFormat(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $queryParams = $request->getQueryParams();
+        $pipe = $request->getQueryParam('pipe');
+        $ioutil = $request->getQueryParam('ioutil');
+        $http = $request->getQueryParam('http');
+        $url = $request->getQueryParam('url');
+        $context = $request->getQueryParam('context');
+        $message = "How about implementing testQueryParameterCollectionFormat as a PUT method in OpenAPIServer\Api\FakeApi class?";
+        throw new Exception($message);
+
+        return $response->write($message)->withStatus(501);
+    }
 }

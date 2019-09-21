@@ -8,6 +8,7 @@
  */
 
 package petstore
+// EnumClass the model 'EnumClass'
 type EnumClass string
 
 // List of EnumClass

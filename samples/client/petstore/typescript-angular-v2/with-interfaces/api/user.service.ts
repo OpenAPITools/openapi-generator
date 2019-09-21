@@ -35,30 +35,18 @@ export class UserService implements UserServiceInterface {
     public encoder: QueryEncoder;
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
+        }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
         }
         this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
     }
 
-    /**
-     * @param consumes string[] mime-types
-     * @return true: consumes contains 'multipart/form-data', false: otherwise
-     */
-    private canConsumeForm(consumes: string[]): boolean {
-        const form = 'multipart/form-data';
-        for (const consume of consumes) {
-            if (form === consume) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * This can only be done by the logged in user.
@@ -211,6 +199,7 @@ export class UserService implements UserServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
@@ -235,7 +224,6 @@ export class UserService implements UserServiceInterface {
 
     /**
      * Creates list of users with given input array
-     * 
      * @param body List of user object
      
      */
@@ -253,6 +241,7 @@ export class UserService implements UserServiceInterface {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -278,7 +267,6 @@ export class UserService implements UserServiceInterface {
 
     /**
      * Creates list of users with given input array
-     * 
      * @param body List of user object
      
      */
@@ -296,6 +284,7 @@ export class UserService implements UserServiceInterface {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -340,9 +329,6 @@ export class UserService implements UserServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -359,7 +345,6 @@ export class UserService implements UserServiceInterface {
 
     /**
      * Get user by user name
-     * 
      * @param username The name that needs to be fetched. Use user1 for testing.
      
      */
@@ -380,9 +365,6 @@ export class UserService implements UserServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -399,7 +381,6 @@ export class UserService implements UserServiceInterface {
 
     /**
      * Logs user into the system
-     * 
      * @param username The user name for login
      * @param password The password for login in clear text
      
@@ -432,9 +413,6 @@ export class UserService implements UserServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -452,7 +430,6 @@ export class UserService implements UserServiceInterface {
 
     /**
      * Logs out current logged in user session
-     * 
      
      */
     public logoutUserWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
@@ -467,9 +444,6 @@ export class UserService implements UserServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -508,6 +482,7 @@ export class UserService implements UserServiceInterface {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [

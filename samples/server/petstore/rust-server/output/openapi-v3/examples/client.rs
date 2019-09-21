@@ -7,9 +7,9 @@ extern crate futures;
 #[macro_use]
 extern crate swagger;
 #[allow(unused_extern_crates)]
-extern crate uuid;
 extern crate clap;
 extern crate tokio_core;
+extern crate uuid;
 
 use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
@@ -22,6 +22,8 @@ use openapi_v3::{ApiNoContext, ContextWrapperExt,
                       MultipleAuthSchemeGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RequiredOctetStreamPutResponse,
+                      ResponsesWithHeadersGetResponse,
+                      UuidGetResponse,
                       XmlExtraPostResponse,
                       XmlOtherPostResponse,
                       XmlOtherPutResponse,
@@ -38,6 +40,8 @@ fn main() {
     "MultipleAuthSchemeGet",
     "ReadonlyAuthSchemeGet",
     "RequiredOctetStreamPut",
+    "ResponsesWithHeadersGet",
+    "UuidGet",
     "XmlExtraPost",
     "XmlOtherPost",
     "XmlOtherPut",
@@ -95,6 +99,16 @@ fn main() {
 
         Some("RequiredOctetStreamPut") => {
             let result = core.run(client.required_octet_stream_put(swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"))));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("ResponsesWithHeadersGet") => {
+            let result = core.run(client.responses_with_headers_get());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("UuidGet") => {
+            let result = core.run(client.uuid_get());
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 

@@ -5,11 +5,11 @@
  *
  *)
 
-val add_pet : Pet.t -> unit Lwt.t
-val delete_pet : int64 -> string -> unit Lwt.t
-val find_pets_by_status : Enums.pet_status list -> Pet.t list Lwt.t
-val find_pets_by_tags : string list -> Pet.t list Lwt.t
-val get_pet_by_id : int64 -> Pet.t Lwt.t
-val update_pet : Pet.t -> unit Lwt.t
-val update_pet_with_form : int64 -> string -> string -> unit Lwt.t
-val upload_file : int64 -> string -> string -> Api_response.t Lwt.t
+val add_pet : body:Pet.t -> unit Lwt.t
+val delete_pet : pet_id:int64 -> ?api_key:string -> unit -> unit Lwt.t
+val find_pets_by_status : status:Enums.pet_status list -> Pet.t list Lwt.t
+val find_pets_by_tags : tags:string list -> Pet.t list Lwt.t
+val get_pet_by_id : pet_id:int64 -> Pet.t Lwt.t
+val update_pet : body:Pet.t -> unit Lwt.t
+val update_pet_with_form : pet_id:int64 -> ?name:string -> ?status:string -> unit -> unit Lwt.t
+val upload_file : pet_id:int64 -> ?additional_metadata:string -> ?file:string -> unit -> Api_response.t Lwt.t

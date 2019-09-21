@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// NumberOnly struct for NumberOnly
 type NumberOnly struct {
 	JustNumber *float32 `json:"JustNumber,omitempty"`
 
@@ -51,6 +51,7 @@ func (o *NumberOnly) SetJustNumber(v float32) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o NumberOnly) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.JustNumber != nil {

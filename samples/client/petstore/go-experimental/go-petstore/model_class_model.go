@@ -11,8 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
-// Model for testing model with \"_class\" property
+// ClassModel Model for testing model with \"_class\" property
 type ClassModel struct {
 	Class *string `json:"_class,omitempty"`
 
@@ -52,6 +51,7 @@ func (o *ClassModel) SetClass(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o ClassModel) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Class != nil {

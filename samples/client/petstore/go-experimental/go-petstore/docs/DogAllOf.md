@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Breed** | Pointer to **string** |  | [optional]
+**Breed** | Pointer to **string** |  | [optional] 
 
 ## Methods
 

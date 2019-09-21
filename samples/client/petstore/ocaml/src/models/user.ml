@@ -16,7 +16,7 @@ type t = {
     phone: string option [@default None];
     (* User Status *)
     user_status: int32 option [@default None];
-} [@@deriving yojson, show ];;
+} [@@deriving yojson { strict = false }, show ];;
 
 (** A User who is purchasing from the pet store *)
 let create () : t = {

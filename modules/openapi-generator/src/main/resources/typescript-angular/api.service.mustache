@@ -66,13 +66,14 @@ export class {{classname}} {
 {{/useHttpClient}}
 
     constructor(protected {{#useHttpClient}}httpClient: HttpClient{{/useHttpClient}}{{^useHttpClient}}http: Http{{/useHttpClient}}, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
+        }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
         }
 {{#useHttpClient}}
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
@@ -82,6 +83,7 @@ export class {{classname}} {
 {{/useHttpClient}}
     }
 
+{{#hasSomeFormParams}}
     /**
      * @param consumes string[] mime-types
      * @return true: consumes contains 'multipart/form-data', false: otherwise
@@ -95,6 +97,7 @@ export class {{classname}} {
         }
         return false;
     }
+{{/hasSomeFormParams}}
 
 {{^useHttpClient}}
 {{! Before HttpClient implementation or method overloading we relied on 2 functions, 1 to return the straight body as json
@@ -129,8 +132,12 @@ export class {{classname}} {
 
 {{#operation}}
     /**
+{{#summary}}
      * {{summary}}
+{{/summary}}
+{{#notes}}
      * {{notes}}
+{{/notes}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}{{#useHttpClient}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.{{/useHttpClient}}
@@ -256,12 +263,25 @@ export class {{classname}} {
 {{/useHttpClient}}
         }
 
+{{#bodyParam}}
+{{- duplicated below, don't forget to change}}
         // to determine the Content-Type header
         const consumes: string[] = [
             {{#consumes}}
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/consumes}}
         ];
+{{/bodyParam}}
+{{#hasFormParams}}
+{{^bodyParam}}
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            {{#consumes}}
+            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            {{/consumes}}
+        ];
+{{/bodyParam}}
+{{/hasFormParams}}
 {{#bodyParam}}
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
@@ -323,7 +343,7 @@ export class {{classname}} {
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined) {
-            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', <any>{{paramName}}){{#useHttpClient}} as any || formParams{{/useHttpClient}};
+            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}useForm ? new Blob([JSON.stringify({{paramName}})], {type: 'application/json'}) : <any>{{paramName}}{{/isModel}}){{#useHttpClient}} as any || formParams{{/useHttpClient}};
         }
         {{/isListContainer}}
 {{/formParams}}

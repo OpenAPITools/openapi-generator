@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
 <a name="createXmlItem"></a>
@@ -586,5 +587,55 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+<a name="testQueryParameterCollectionFormat"></a>
+# **testQueryParameterCollectionFormat**
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiClient;
+//import io.restassured.builder.RequestSpecBuilder;
+//import io.restassured.filter.log.ErrorLoggingFilter;
+
+FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
+                () -> new RequestSpecBuilder()
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+
+api.testQueryParameterCollectionFormat()
+    .pipeQuery(pipe)
+    .ioutilQuery(ioutil)
+    .httpQuery(http)
+    .urlQuery(url)
+    .contextQuery(context).execute(r -> r.prettyPeek());
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+ **ioutil** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+ **http** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+ **url** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+ **context** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 

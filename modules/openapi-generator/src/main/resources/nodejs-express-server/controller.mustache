@@ -1,0 +1,18 @@
+const Controller = require('./Controller');
+
+class {{{classname}}}Controller {
+  constructor(Service) {
+    this.service = Service;
+  }
+
+{{#operations}}
+{{#operation}}
+  async {{operationId}}(request, response) {
+    await Controller.handleRequest(request, response, this.service.{{operationId}});
+  }
+
+{{/operation}}
+}
+
+module.exports = {{classname}}Controller;
+{{/operations}}

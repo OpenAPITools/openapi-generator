@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name (required).</param>
         /// <param name="property">property.</param>
-        public Name(int? name = default(int?), string property = default(string))
+        public Name(int name = default(int), string property = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -57,13 +57,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
-        public int? _Name { get; set; }
+        public int _Name { get; set; }
 
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name="snake_case", EmitDefaultValue=false)]
-        public int? SnakeCase { get; private set; }
+        public int SnakeCase { get; private set; }
 
         /// <summary>
         /// Gets or Sets Property
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _123Number
         /// </summary>
         [DataMember(Name="123Number", EmitDefaultValue=false)]
-        public int? _123Number { get; private set; }
+        public int _123Number { get; private set; }
 
         /// <summary>
         /// Returns the string presentation of the object
