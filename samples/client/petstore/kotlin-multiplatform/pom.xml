@@ -33,8 +33,9 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>gradle</executable>
+                            <executable>/bin/bash</executable>
                             <arguments>
+                                <argument>gradlew</argument>
                                 <argument>test</argument>
                             </arguments>
                         </configuration>
