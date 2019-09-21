@@ -45,4 +45,3 @@ data class NullableClass (
     @SerialName(value = "objectItemsNullable") val objectItemsNullable: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
 )
 
-

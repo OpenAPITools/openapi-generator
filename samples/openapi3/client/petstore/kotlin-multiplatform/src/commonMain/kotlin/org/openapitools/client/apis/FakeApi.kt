@@ -53,10 +53,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -65,14 +63,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * 
@@ -84,13 +80,10 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun fakeOuterBooleanSerialize(body: kotlin.Boolean?) : HttpResponse<kotlin.Boolean> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -99,13 +92,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -118,13 +110,10 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun fakeOuterCompositeSerialize(outerComposite: OuterComposite?) : HttpResponse<OuterComposite> {
 
         val localVariableBody = outerComposite
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -133,13 +122,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -152,13 +140,10 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun fakeOuterNumberSerialize(body: kotlin.Double?) : HttpResponse<kotlin.Double> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -167,13 +152,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -186,13 +170,10 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun fakeOuterStringSerialize(body: kotlin.String?) : HttpResponse<kotlin.String> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -201,13 +182,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -219,13 +199,10 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass) : HttpResponse<Unit> {
 
         val localVariableBody = fileSchemaTestClass
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
@@ -234,13 +211,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -253,15 +229,11 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun testBodyWithQueryParams(query: kotlin.String, user: User) : HttpResponse<Unit> {
 
         val localVariableBody = user
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
         query?.apply { localVariableQuery["query"] = listOf("$query") }
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
@@ -270,13 +242,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -289,13 +260,10 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun testClientModel(client: Client) : HttpResponse<Client> {
 
         val localVariableBody = client
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.PATCH,
@@ -304,13 +272,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -350,13 +317,11 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
                 dateTime?.apply { it.append("dateTime", dateTime.toString()) }
                 password?.apply { it.append("password", password.toString()) }
                 paramCallback?.apply { it.append("callback", paramCallback.toString()) }
-        }.build()
+            }.build()
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -365,14 +330,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return urlEncodedFormRequest(
+        return urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * To test enum parameters
@@ -393,25 +356,17 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             ParametersBuilder().also {
                 enumFormStringArray?.apply { it.append("enum_form_string_array", enumFormStringArray.toString()) }
                 enumFormString?.apply { it.append("enum_form_string", enumFormString.toString()) }
-        }.build()
+            }.build()
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
         enumQueryStringArray?.apply { localVariableQuery["enum_query_string_array"] = toMultiValue(this, "multi") }
-        
         enumQueryString?.apply { localVariableQuery["enum_query_string"] = listOf("$enumQueryString") }
-        
         enumQueryInteger?.apply { localVariableQuery["enum_query_integer"] = listOf("$enumQueryInteger") }
-        
         enumQueryDouble?.apply { localVariableQuery["enum_query_double"] = listOf("$enumQueryDouble") }
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
         enumHeaderStringArray?.apply { localVariableHeaders["enum_header_string_array"] = this.joinToString(separator = collectionDelimiter("csv")) }
-        
         enumHeaderString?.apply { localVariableHeaders["enum_header_string"] = this.toString() }
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -420,14 +375,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return urlEncodedFormRequest(
+        return urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * Fake endpoint to test group parameters (optional)
@@ -446,22 +399,14 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
         requiredStringGroup?.apply { localVariableQuery["required_string_group"] = listOf("$requiredStringGroup") }
-        
         requiredInt64Group?.apply { localVariableQuery["required_int64_group"] = listOf("$requiredInt64Group") }
-        
         stringGroup?.apply { localVariableQuery["string_group"] = listOf("$stringGroup") }
-        
         int64Group?.apply { localVariableQuery["int64_group"] = listOf("$int64Group") }
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
         requiredBooleanGroup?.apply { localVariableHeaders["required_boolean_group"] = this.toString() }
-        
         booleanGroup?.apply { localVariableHeaders["boolean_group"] = this.toString() }
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -470,14 +415,12 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * test inline additionalProperties
@@ -488,13 +431,10 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun testInlineAdditionalProperties(requestBody: kotlin.collections.Map<kotlin.String, kotlin.String>) : HttpResponse<Unit> {
 
         val localVariableBody = TestInlineAdditionalPropertiesRequest(requestBody)
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -503,7 +443,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
@@ -519,7 +459,6 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
             override fun deserialize(decoder: Decoder) = TestInlineAdditionalPropertiesRequest(serializer.deserialize(decoder))
     }
 }
-    
 
     /**
     * test json serialization of form data
@@ -534,13 +473,11 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
             ParametersBuilder().also {
                 param?.apply { it.append("param", param.toString()) }
                 param2?.apply { it.append("param2", param2.toString()) }
-        }.build()
+            }.build()
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -549,14 +486,12 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
             headers = localVariableHeaders
         )
 
-    return urlEncodedFormRequest(
+        return urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * 
@@ -574,20 +509,13 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
         pipe?.apply { localVariableQuery["pipe"] = toMultiValue(this, "multi") }
-        
         ioutil?.apply { localVariableQuery["ioutil"] = toMultiValue(this, "csv") }
-        
         http?.apply { localVariableQuery["http"] = toMultiValue(this, "space") }
-        
         url?.apply { localVariableQuery["url"] = toMultiValue(this, "csv") }
-        
         context?.apply { localVariableQuery["context"] = toMultiValue(this, "multi") }
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
@@ -596,14 +524,12 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
 
     companion object {
@@ -615,27 +541,7 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
             
             
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             serializer.setMapper(TestInlineAdditionalPropertiesRequest::class, TestInlineAdditionalPropertiesRequest.serializer())
-            
-            
-            
-            
-            
         }
     }
 }

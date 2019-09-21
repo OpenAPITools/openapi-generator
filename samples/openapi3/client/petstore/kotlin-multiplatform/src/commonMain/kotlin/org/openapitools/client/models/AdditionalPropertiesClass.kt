@@ -25,4 +25,3 @@ data class AdditionalPropertiesClass (
     @SerialName(value = "mapOfMapProperty") val mapOfMapProperty: kotlin.collections.Map<kotlin.String, kotlin.collections.Map<kotlin.String, kotlin.String>>? = null
 )
 
-

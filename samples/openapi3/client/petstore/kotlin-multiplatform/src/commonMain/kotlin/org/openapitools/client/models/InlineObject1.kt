@@ -27,4 +27,3 @@ data class InlineObject1 (
     @SerialName(value = "file") val file: io.ktor.client.request.forms.InputProvider? = null
 )
 
-

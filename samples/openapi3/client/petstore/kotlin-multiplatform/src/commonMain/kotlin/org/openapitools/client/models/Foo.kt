@@ -23,4 +23,3 @@ data class Foo (
     @SerialName(value = "bar") val bar: kotlin.String? = null
 )
 
-

@@ -23,9 +23,8 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class MixedPropertiesAndAdditionalPropertiesClass (
-    @SerialName(value = "uuid") val uuid: java.util.UUID? = null,
+    @SerialName(value = "uuid") val uuid: kotlin.String? = null,
     @SerialName(value = "dateTime") val dateTime: kotlin.String? = null,
     @SerialName(value = "map") val map: kotlin.collections.Map<kotlin.String, Animal>? = null
 )
-
 

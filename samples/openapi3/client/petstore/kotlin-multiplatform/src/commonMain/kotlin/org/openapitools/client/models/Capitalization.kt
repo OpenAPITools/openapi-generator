@@ -34,4 +34,3 @@ data class Capitalization (
     @SerialName(value = "ATT_NAME") val ATT_NAME: kotlin.String? = null
 )
 
-

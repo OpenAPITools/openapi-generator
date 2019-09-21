@@ -23,4 +23,3 @@ data class Return (
     @SerialName(value = "&#x60;return&#x60;") val ``return``: kotlin.Int? = null
 )
 
-

@@ -28,8 +28,8 @@ data class MapTest (
     @SerialName(value = "directMap") val directMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null,
     @SerialName(value = "indirectMap") val indirectMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null
 )
-
 {
+
     /**
     * 
     * Values: uPPER,lower
@@ -44,6 +44,6 @@ data class MapTest (
 
         object Serializer : CommonEnumSerializer<MapOfEnumString>("MapOfEnumString", values(), values().map { it.value }.toTypedArray())
     }
-}
 
+}
 

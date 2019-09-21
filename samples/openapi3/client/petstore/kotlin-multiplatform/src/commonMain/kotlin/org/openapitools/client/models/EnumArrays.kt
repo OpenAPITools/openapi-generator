@@ -24,8 +24,8 @@ data class EnumArrays (
     @SerialName(value = "justSymbol") val justSymbol: EnumArrays.JustSymbol? = null,
     @SerialName(value = "arrayEnum") val arrayEnum: kotlin.Array<EnumArrays.ArrayEnum>? = null
 )
-
 {
+
     /**
     * 
     * Values: greaterThanEqual,dollar
@@ -40,9 +40,7 @@ data class EnumArrays (
 
         object Serializer : CommonEnumSerializer<JustSymbol>("JustSymbol", values(), values().map { it.value }.toTypedArray())
     }
-}
 
-{
     /**
     * 
     * Values: fish,crab
@@ -57,6 +55,6 @@ data class EnumArrays (
 
         object Serializer : CommonEnumSerializer<ArrayEnum>("ArrayEnum", values(), values().map { it.value }.toTypedArray())
     }
-}
 
+}
 

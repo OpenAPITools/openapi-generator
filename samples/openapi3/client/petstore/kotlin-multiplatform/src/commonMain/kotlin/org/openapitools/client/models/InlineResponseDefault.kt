@@ -24,4 +24,3 @@ data class InlineResponseDefault (
     @SerialName(value = "string") val string: Foo? = null
 )
 
-

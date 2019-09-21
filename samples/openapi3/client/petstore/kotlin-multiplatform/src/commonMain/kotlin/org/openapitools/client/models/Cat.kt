@@ -27,4 +27,3 @@ data class Cat (
     @SerialName(value = "color") val color: kotlin.String? = null
 )
 
-

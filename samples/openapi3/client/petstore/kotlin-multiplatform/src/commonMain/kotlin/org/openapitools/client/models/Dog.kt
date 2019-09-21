@@ -27,4 +27,3 @@ data class Dog (
     @SerialName(value = "color") val color: kotlin.String? = null
 )
 
-

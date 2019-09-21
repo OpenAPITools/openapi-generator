@@ -33,8 +33,8 @@ data class Order (
     @SerialName(value = "status") val status: Order.Status? = null,
     @SerialName(value = "complete") val complete: kotlin.Boolean? = null
 )
-
 {
+
     /**
     * Order Status
     * Values: placed,approved,delivered
@@ -51,6 +51,6 @@ data class Order (
 
         object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value }.toTypedArray())
     }
-}
 
+}
 

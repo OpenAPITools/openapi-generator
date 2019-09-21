@@ -63,4 +63,3 @@ data class InlineObject3 (
     @SerialName(value = "callback") val callback: kotlin.String? = null
 )
 
-

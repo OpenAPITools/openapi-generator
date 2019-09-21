@@ -21,8 +21,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class FileSchemaTestClass (
-    @SerialName(value = "file") val file: java.io.File? = null,
-    @SerialName(value = "files") val files: kotlin.Array<java.io.File>? = null
+    @SerialName(value = "file") val file: io.ktor.client.request.forms.InputProvider? = null,
+    @SerialName(value = "files") val files: kotlin.Array<io.ktor.client.request.forms.InputProvider>? = null
 )
-
 

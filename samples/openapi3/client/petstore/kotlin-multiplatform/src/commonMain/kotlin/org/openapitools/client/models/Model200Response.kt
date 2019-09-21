@@ -25,4 +25,3 @@ data class Model200Response (
     @SerialName(value = "propertyClass") val propertyClass: kotlin.String? = null
 )
 
-

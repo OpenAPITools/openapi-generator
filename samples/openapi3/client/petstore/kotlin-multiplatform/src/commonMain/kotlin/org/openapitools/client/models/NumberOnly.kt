@@ -23,4 +23,3 @@ data class NumberOnly (
     @SerialName(value = "justNumber") val justNumber: kotlin.Double? = null
 )
 
-

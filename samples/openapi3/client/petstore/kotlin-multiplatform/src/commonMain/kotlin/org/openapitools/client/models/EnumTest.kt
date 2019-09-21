@@ -40,8 +40,8 @@ data class EnumTest (
     @SerialName(value = "outerEnumDefaultValue") val outerEnumDefaultValue: OuterEnumDefaultValue? = null,
     @SerialName(value = "outerEnumIntegerDefaultValue") val outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue? = null
 )
-
 {
+
     /**
     * 
     * Values: uPPER,lower,eMPTY
@@ -58,9 +58,7 @@ data class EnumTest (
 
         object Serializer : CommonEnumSerializer<EnumString>("EnumString", values(), values().map { it.value }.toTypedArray())
     }
-}
 
-{
     /**
     * 
     * Values: uPPER,lower,eMPTY
@@ -77,9 +75,7 @@ data class EnumTest (
 
         object Serializer : CommonEnumSerializer<EnumStringRequired>("EnumStringRequired", values(), values().map { it.value }.toTypedArray())
     }
-}
 
-{
     /**
     * 
     * Values: _1,minus1
@@ -94,9 +90,7 @@ data class EnumTest (
 
         object Serializer : CommonEnumSerializer<EnumInteger>("EnumInteger", values(), values().map { it.value }.toTypedArray())
     }
-}
 
-{
     /**
     * 
     * Values: _1period1,minus1Period2
@@ -111,6 +105,6 @@ data class EnumTest (
 
         object Serializer : CommonEnumSerializer<EnumNumber>("EnumNumber", values(), values().map { it.value }.toTypedArray())
     }
-}
 
+}
 

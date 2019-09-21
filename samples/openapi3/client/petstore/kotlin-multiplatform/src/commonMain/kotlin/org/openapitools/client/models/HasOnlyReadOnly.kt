@@ -25,4 +25,3 @@ data class HasOnlyReadOnly (
     @SerialName(value = "foo") val foo: kotlin.String? = null
 )
 
-
