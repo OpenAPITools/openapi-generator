@@ -36,7 +36,7 @@
                             <executable>/bin/bash</executable>
                             <arguments>
                                 <argument>gradlew</argument>
-                                <argument>test</argument>
+                                <argument>build</argument>
                             </arguments>
                         </configuration>
                     </execution>
