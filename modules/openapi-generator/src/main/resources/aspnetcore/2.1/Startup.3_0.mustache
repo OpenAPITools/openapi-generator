@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.OpenApi.Models;
 using {{packageName}}.Filters;{{/useSwashbuckle}}
 using {{packageName}}.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -60,32 +62,32 @@ namespace {{packageName}}
 
             // Add framework services.
             services
-                .AddMvc()
-                {{#compatibilityVersion}}
-                .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
-                {{/compatibilityVersion}}
-                .AddJsonOptions(opts =>
-                {
-                    opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    opts.SerializerSettings.Converters.Add(new StringEnumConverter
+                .AddControllers()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(opts =>
                     {
-                        CamelCaseText = true
-                    });
-                });
+                        opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        opts.SerializerSettings.Converters.Add(new StringEnumConverter
+                        {
+                            NamingStrategy = new CamelCaseNamingStrategy()
+                        });
+                    }
+                );
+
             {{#useSwashbuckle}}
 
             services
                 .AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}", new Info
+                    c.SwaggerDoc("{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}", new OpenApiInfo
                     {
                         Version = "{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}",
                         Title = "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}}",
-                        Description = "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} (ASP.NET Core 2.0)",
-                        Contact = new Contact()
+                        Description = "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} (ASP.NET Core 3.0)",
+                        Contact = new OpenApiContact()
                         {
                            Name = "{{#infoName}}{{{infoName}}}{{/infoName}}{{^infoName}}OpenAPI-Generator Contributors{{/infoName}}",
-                           Url = "{{#infoUrl}}{{{infoUrl}}}{{/infoUrl}}{{^infoUrl}}https://github.com/openapitools/openapi-generator{{/infoUrl}}",
+                           Url = new Uri("{{#infoUrl}}{{{infoUrl}}}{{/infoUrl}}{{^infoUrl}}https://github.com/openapitools/openapi-generator{{/infoUrl}}"),
                            Email = "{{#infoEmail}}{{{infoEmail}}}{{/infoEmail}}"
                         },
                         TermsOfService = "{{#termsOfService}}{{{termsOfService}}}{{/termsOfService}}"
@@ -109,11 +111,11 @@ namespace {{packageName}}
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        /// <param name="env"></param>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
             app
-                .UseMvc()
                 .UseDefaultFiles()
                 .UseStaticFiles(){{#useSwashbuckle}}
                 .UseSwagger(c =>
@@ -137,6 +139,12 @@ namespace {{packageName}}
             {
                 app.UseHsts();
             }
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+
+            });
         }
     }
 }
