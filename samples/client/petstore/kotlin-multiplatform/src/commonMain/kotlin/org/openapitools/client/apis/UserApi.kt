@@ -46,13 +46,10 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun createUser(body: User) : HttpResponse<Unit> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -79,13 +76,10 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun createUsersWithArrayInput(body: kotlin.Array<User>) : HttpResponse<Unit> {
 
         val localVariableBody = CreateUsersWithArrayInputRequest(body.asList())
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -121,13 +115,10 @@ private class CreateUsersWithArrayInputRequest(val value: List<User>) {
     suspend fun createUsersWithListInput(body: kotlin.Array<User>) : HttpResponse<Unit> {
 
         val localVariableBody = CreateUsersWithListInputRequest(body.asList())
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -166,10 +157,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -200,10 +189,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -235,14 +222,10 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
         username?.apply { localVariableQuery["username"] = listOf("$username") }
-        
         password?.apply { localVariableQuery["password"] = listOf("$password") }
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -271,10 +254,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -302,13 +283,10 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     suspend fun updateUser(username: kotlin.String, body: User) : HttpResponse<Unit> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,

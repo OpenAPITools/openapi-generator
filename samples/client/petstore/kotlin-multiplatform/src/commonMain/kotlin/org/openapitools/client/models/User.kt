@@ -38,4 +38,3 @@ data class User (
     @SerialName(value = "userStatus") val userStatus: kotlin.Int? = null
 )
 
-

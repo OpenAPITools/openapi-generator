@@ -40,25 +40,37 @@ class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
     suspend fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
 
         val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{operationIdCamelCase}}Request({{paramName}}.asList()){{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{operationIdCamelCase}}Request({{paramName}}){{/isMapContainer}}{{^isMapContainer}}{{paramName}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
-            {{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}formData {
+            {{^hasBodyParam}}
+            {{#hasFormParams}}
+            {{#isMultipart}}
+            formData {
                 {{#formParams}}
                 {{paramName}}?.apply { append("{{{baseName}}}", {{paramName}}) }
                 {{/formParams}}
-            }{{/isMultipart}}{{^isMultipart}}ParametersBuilder().also {
+            }
+            {{/isMultipart}}
+            {{^isMultipart}}
+            ParametersBuilder().also {
                 {{#formParams}}
                 {{paramName}}?.apply { it.append("{{{baseName}}}", {{paramName}}.toString()) }
                 {{/formParams}}
-        }.build(){{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}io.ktor.client.utils.EmptyContent{{/hasFormParams}}{{/hasBodyParam}}
+            }.build()
+            {{/isMultipart}}
+            {{/hasFormParams}}
+            {{^hasFormParams}}
+            io.ktor.client.utils.EmptyContent
+            {{/hasFormParams}}
+            {{/hasBodyParam}}
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        {{#hasQueryParams}}{{#queryParams}}
+        {{#queryParams}}
         {{paramName}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{paramName}}"){{/isContainer}} }
-        {{/queryParams}}{{/hasQueryParams}}
+        {{/queryParams}}
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        {{#hasHeaderParams}}{{#headerParams}}
+        {{#headerParams}}
         {{paramName}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
-        {{/headerParams}}{{/hasHeaderParams}}
+        {{/headerParams}}
 
         val localVariableConfig = RequestConfig(
             RequestMethod.{{httpMethod}},

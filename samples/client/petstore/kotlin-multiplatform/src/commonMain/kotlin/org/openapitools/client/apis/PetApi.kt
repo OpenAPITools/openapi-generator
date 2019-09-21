@@ -47,13 +47,10 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun addPet(body: Pet) : HttpResponse<Unit> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -84,12 +81,9 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
         apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -120,12 +114,9 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
         status?.apply { localVariableQuery["status"] = toMultiValue(this, "csv") }
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -165,12 +156,9 @@ private class FindPetsByStatusResponse(val value: List<Pet>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
         tags?.apply { localVariableQuery["tags"] = toMultiValue(this, "csv") }
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -210,10 +198,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -240,13 +226,10 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
     suspend fun updatePet(body: Pet) : HttpResponse<Unit> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
@@ -276,15 +259,13 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
 
         val localVariableBody = 
             ParametersBuilder().also {
-                name?.apply { it.append("name", name) }
-                status?.apply { it.append("status", status) }
-        }.build()
+                name?.apply { it.append("name", name.toString()) }
+                status?.apply { it.append("status", status.toString()) }
+            }.build()
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -320,10 +301,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
             }
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,

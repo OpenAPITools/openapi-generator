@@ -49,10 +49,8 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -82,10 +80,8 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -125,10 +121,8 @@ private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -156,13 +150,10 @@ private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
     suspend fun placeOrder(body: Order) : HttpResponse<Order> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
