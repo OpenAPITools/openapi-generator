@@ -1268,7 +1268,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     private List<CodegenSecurity> filterAuthMethods(List<CodegenSecurity> authMethods, List<SecurityRequirement> securities) {
-        if (securities == null || securities.isEmpty()) {
+        if (securities == null || securities.isEmpty() || authMethods == null) {
             return authMethods;
         }
 
