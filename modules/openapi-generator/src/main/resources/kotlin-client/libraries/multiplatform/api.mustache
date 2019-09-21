@@ -35,8 +35,10 @@ class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
     * {{notes}}
     {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
     {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-    */{{#returnType}}
-    @Suppress("UNCHECKED_CAST"){{/returnType}}
+    */
+    {{#returnType}}
+    @Suppress("UNCHECKED_CAST")
+    {{/returnType}}
     suspend fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
 
         val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{operationIdCamelCase}}Request({{paramName}}.asList()){{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{operationIdCamelCase}}Request({{paramName}}){{/isMapContainer}}{{^isMapContainer}}{{paramName}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
@@ -79,22 +81,40 @@ class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return {{#hasBodyParam}}jsonRequest{{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}multipartFormRequest{{/isMultipart}}{{^isMultipart}}urlEncodedFormRequest{{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}request{{/hasFormParams}}{{/hasBodyParam}}(
+        return {{#hasBodyParam}}jsonRequest{{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}multipartFormRequest{{/isMultipart}}{{^isMultipart}}urlEncodedFormRequest{{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}request{{/hasFormParams}}{{/hasBodyParam}}(
             localVariableConfig,
             localVariableBody
         ).{{#isListContainer}}wrap<{{operationIdCamelCase}}Response>().map { value.toTypedArray() }{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMapContainer}}{{^isMapContainer}}wrap(){{/isMapContainer}}{{/isListContainer}}
     }
 
-    {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{>serial_wrapper_request_list}}{{/isListContainer}}{{#isMapContainer}}{{>serial_wrapper_request_map}}{{/isMapContainer}}{{/bodyParam}}{{/hasBodyParam}}
-    {{#isListContainer}}{{>serial_wrapper_response_list}}{{/isListContainer}}{{#isMapContainer}}{{>serial_wrapper_response_map}}{{/isMapContainer}}
+    {{#hasBodyParam}}
+    {{#bodyParam}}
+    {{#isListContainer}}{{>serial_wrapper_request_list}}{{/isListContainer}}{{#isMapContainer}}{{>serial_wrapper_request_map}}{{/isMapContainer}}
+    {{/bodyParam}}
+    {{/hasBodyParam}}
+    {{#isListContainer}}
+    {{>serial_wrapper_response_list}}
+    {{/isListContainer}}
+    {{#isMapContainer}}
+    {{>serial_wrapper_response_map}}
+    {{/isMapContainer}}
 
     {{/operation}}
 
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
             {{#operation}}
-            {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isListContainer}}{{#isMapContainer}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isMapContainer}}{{/bodyParam}}{{/hasBodyParam}}
-            {{#isListContainer}}serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer()){{/isListContainer}}{{#isMapContainer}}serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer()){{/isMapContainer}}
+            {{#hasBodyParam}}
+            {{#bodyParam}}
+            {{#isListContainer}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isListContainer}}{{#isMapContainer}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isMapContainer}}
+            {{/bodyParam}}
+            {{/hasBodyParam}}
+            {{#isListContainer}}
+            serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
+            {{/isListContainer}}
+            {{#isMapContainer}}
+            serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
+            {{/isMapContainer}}
             {{/operation}}
         }
     }

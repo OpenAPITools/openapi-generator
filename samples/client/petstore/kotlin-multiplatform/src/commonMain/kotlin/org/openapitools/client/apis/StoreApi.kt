@@ -59,14 +59,12 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * Returns pet inventories by status
@@ -90,13 +88,12 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap<GetInventoryResponse>().map { value }
     }
 
-    
     @Serializable
 private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
     @Serializer(GetInventoryResponse::class)
@@ -131,14 +128,12 @@ private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * Place an order for a pet
@@ -162,25 +157,18 @@ private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
     
-    
 
 
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
-            
-            
-            
             serializer.setMapper(GetInventoryResponse::class, GetInventoryResponse.serializer())
-            
-            
-            
             
         }
     }

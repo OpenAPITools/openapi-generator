@@ -59,13 +59,12 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -92,14 +91,12 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * Finds Pets by status
@@ -125,13 +122,12 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap<FindPetsByStatusResponse>().map { value.toTypedArray() }
     }
 
-    
     @Serializable
 private class FindPetsByStatusResponse(val value: List<Pet>) {
     @Serializer(FindPetsByStatusResponse::class)
@@ -167,13 +163,12 @@ private class FindPetsByStatusResponse(val value: List<Pet>) {
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap<FindPetsByTagsResponse>().map { value.toTypedArray() }
     }
 
-    
     @Serializable
 private class FindPetsByTagsResponse(val value: List<Pet>) {
     @Serializer(FindPetsByTagsResponse::class)
@@ -208,14 +203,12 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * Update an existing pet
@@ -238,13 +231,12 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -274,14 +266,12 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
             headers = localVariableHeaders
         )
 
-    return urlEncodedFormRequest(
+        return urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * uploads an image
@@ -311,33 +301,19 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
             headers = localVariableHeaders
         )
 
-    return multipartFormRequest(
+        return multipartFormRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
 
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
             
-            
-            
-            
-            
             serializer.setMapper(FindPetsByStatusResponse::class, FindPetsByStatusResponse.serializer())
-            
             serializer.setMapper(FindPetsByTagsResponse::class, FindPetsByTagsResponse.serializer())
-            
-            
-            
-            
-            
-            
-            
             
         }
     }
