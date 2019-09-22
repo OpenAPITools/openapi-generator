@@ -186,6 +186,7 @@ samples/client/petstore/kotlin-string/build
 samples/openapi3/client/petstore/kotlin/build
 samples/server/petstore/kotlin-server/ktor/build
 samples/server/petstore/kotlin-springboot/build
+samples/client/petstore/kotlin-multiplatform/build/
 \?
 
 # haskell

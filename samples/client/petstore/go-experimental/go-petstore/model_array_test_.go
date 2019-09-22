@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// ArrayTest struct for ArrayTest
 type ArrayTest struct {
 	ArrayOfString *[]string `json:"array_of_string,omitempty"`
 
@@ -121,6 +121,7 @@ func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o ArrayTest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ArrayOfString != nil {

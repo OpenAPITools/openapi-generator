@@ -38,5 +38,16 @@ class Category {
     }
     return map;
   }
+
+  // maps a json object with a list of Category-objects as value to a dart map
+  static Map<String, List<Category>> mapListFromJson(Map<String, dynamic> json) {
+    var map = Map<String, List<Category>>();
+     if (json != null && json.isNotEmpty) {
+       json.forEach((String key, dynamic value) {
+         map[key] = Category.listFromJson(value);
+       });
+     }
+     return map;
+  }
 }
 

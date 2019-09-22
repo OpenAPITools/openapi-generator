@@ -12,8 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 )
-
-// Model for testing model name same as property name
+// Name Model for testing model name same as property name
 type Name struct {
 	Name *int32 `json:"name,omitempty"`
 
@@ -158,6 +157,7 @@ func (o *Name) SetVar123Number(v int32) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o Name) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Name == nil {

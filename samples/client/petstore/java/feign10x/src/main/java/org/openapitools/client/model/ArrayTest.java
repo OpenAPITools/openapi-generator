@@ -24,10 +24,16 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * ArrayTest
  */
+@JsonPropertyOrder({
+  ArrayTest.JSON_PROPERTY_ARRAY_OF_STRING,
+  ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
+  ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
+})
 
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";

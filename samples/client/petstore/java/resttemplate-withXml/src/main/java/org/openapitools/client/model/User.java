@@ -21,12 +21,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * User
  */
+@JsonPropertyOrder({
+  User.JSON_PROPERTY_ID,
+  User.JSON_PROPERTY_USERNAME,
+  User.JSON_PROPERTY_FIRST_NAME,
+  User.JSON_PROPERTY_LAST_NAME,
+  User.JSON_PROPERTY_EMAIL,
+  User.JSON_PROPERTY_PASSWORD,
+  User.JSON_PROPERTY_PHONE,
+  User.JSON_PROPERTY_USER_STATUS
+})
 
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)

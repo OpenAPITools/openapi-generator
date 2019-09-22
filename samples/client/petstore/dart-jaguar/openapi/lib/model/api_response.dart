@@ -5,13 +5,13 @@ part 'api_response.jser.dart';
 
 class ApiResponse {
   
-  @Alias('code', isNullable: false)
+  @Alias('code', isNullable: false,  )
   final int code;
   
-  @Alias('type', isNullable: false)
+  @Alias('type', isNullable: false,  )
   final String type;
   
-  @Alias('message', isNullable: false)
+  @Alias('message', isNullable: false,  )
   final String message;
   
 

@@ -23,7 +23,6 @@ data class HasOnlyReadOnly (
     val bar: kotlin.String? = null,
     @Json(name = "foo")
     val foo: kotlin.String? = null
-) {
+)
 
-}
 

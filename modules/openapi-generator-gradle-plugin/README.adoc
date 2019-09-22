@@ -202,6 +202,11 @@ apply plugin: 'org.openapi.generator'
 |None
 |Reference the library template (sub-template) of a generator.
 
+|gitHost
+|String
+|github.com
+|Git user ID, e.g. gitlab.com.
+
 |gitUserId
 |String
 |None

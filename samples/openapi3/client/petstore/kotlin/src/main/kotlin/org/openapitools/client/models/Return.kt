@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
 data class Return (
     @Json(name = "return")
     val `return`: kotlin.Int? = null
-) {
+)
 
-}
 

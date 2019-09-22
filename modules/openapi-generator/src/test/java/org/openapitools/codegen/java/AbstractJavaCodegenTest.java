@@ -310,11 +310,24 @@ public class AbstractJavaCodegenTest {
     public void toDefaultValueTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
-        Schema schema = new ObjectSchema()
+        Schema<?> schema = createObjectSchemaWithMinItems();
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertNull(defaultValue);
+    }
+
+    @Test
+    public void getTypeDeclarationTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        Schema<?> schema = createObjectSchemaWithMinItems();
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Object");
+    }
+
+    private static Schema<?> createObjectSchemaWithMinItems() {
+        return new ObjectSchema()
                 .addProperties("id", new IntegerSchema().format("int32"))
                 .minItems(1);
-        String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new ArrayList<String>()");
     }
 
     private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {

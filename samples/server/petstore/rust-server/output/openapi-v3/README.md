@@ -62,6 +62,7 @@ To run a client, follow one of the following simple steps:
 
 ```
 cargo run --example client RequiredOctetStreamPut
+cargo run --example client ResponsesWithHeadersGet
 cargo run --example client UuidGet
 cargo run --example client XmlExtraPost
 cargo run --example client XmlOtherPost
@@ -102,6 +103,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
+[****](docs/default_api.md#) | **GET** /responses_with_headers | 
 [****](docs/default_api.md#) | **GET** /uuid | 
 [****](docs/default_api.md#) | **POST** /xml_extra | 
 [****](docs/default_api.md#) | **POST** /xml_other | 
