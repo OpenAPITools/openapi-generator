@@ -50,10 +50,16 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public PythonClientExperimentalCodegen() {
         super();
 
-        supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
-        apiDocTemplateFiles.put("python-experimental/api_doc.mustache", ".md");
+        apiTemplateFiles.remove("api.mustache");
         apiTemplateFiles.put("python-experimental/api.mustache", ".py");
+
+        apiDocTemplateFiles.remove("api_doc.mustache");
+        apiDocTemplateFiles.put("python-experimental/api_doc.mustache", ".md");
+
+        modelDocTemplateFiles.remove("model_doc.mustache");
         modelDocTemplateFiles.put("python-experimental/model_doc.mustache", ".md");
+
+        modelTemplateFiles.remove("model.mustache");
         modelTemplateFiles.put("python-experimental/model.mustache", ".py");
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -64,10 +70,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-        modelTemplateFiles.put("python-experimental/model.mustache", ".py");
-        supportingFiles.add(new SupportingFile("python-experimental/model_utils.mustache", packagePath(), "model_utils.py"));
-        apiTemplateFiles.put("python-experimental/api.mustache", ".py");
+
+        supportingFiles.remove(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
         supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
+
+        supportingFiles.add(new SupportingFile("python-experimental/model_utils.mustache", packagePath(), "model_utils.py"));
 
         // default this to true so the python ModelSimple models will be generated
         ModelUtils.setGenerateAliasAsModel(true);
