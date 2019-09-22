@@ -23,12 +23,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * AdditionalPropertiesObject
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesObject.JSON_PROPERTY_NAME
+})
 
 @XmlRootElement(name = "AdditionalPropertiesObject")
 @XmlAccessorType(XmlAccessType.FIELD)

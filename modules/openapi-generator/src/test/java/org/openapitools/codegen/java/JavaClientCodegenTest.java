@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.java;
 
-import static org.openapitools.codegen.TestUtils.*;
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -50,6 +50,7 @@ import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -181,7 +182,7 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.zzzzzzz.aaaaa.api");
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.zzzzzzz.iiii.invoker");
-        codegen.additionalProperties().put(JavaClientCodegen.SERIALIZATION_LIBRARY, "JACKSON");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "JACKSON");
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY2);
         codegen.processOpts();
 
@@ -333,6 +334,78 @@ public class JavaClientCodegenTest {
 
         WrittenTemplateBasedFile templateBasedFile = TestUtils.getTemplateBasedFile(generator, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
         Assert.assertEquals(templateBasedFile.getTemplateData().get("classname"), "DefaultApi");
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testGeneratePingSomeObj() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.MODEL_PACKAGE, "zz.yyyy.model.xxxx");
+        properties.put(CodegenConstants.API_PACKAGE, "zz.yyyy.api.xxxx");
+        properties.put(CodegenConstants.INVOKER_PACKAGE, "zz.yyyy.invoker.xxxx");
+        properties.put(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "is");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 37);
+        TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
+        TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
+        TestUtils.ensureContainsFile(generatedFiles, output, ".travis.yml");
+        TestUtils.ensureContainsFile(generatedFiles, output, "build.gradle");
+        TestUtils.ensureContainsFile(generatedFiles, output, "build.sbt");
+        TestUtils.ensureContainsFile(generatedFiles, output, "docs/PingApi.md");
+        TestUtils.ensureContainsFile(generatedFiles, output, "docs/SomeObj.md");
+        TestUtils.ensureContainsFile(generatedFiles, output, "git_push.sh");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradle.properties");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.jar");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.properties");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradlew.bat");
+        TestUtils.ensureContainsFile(generatedFiles, output, "gradlew");
+        TestUtils.ensureContainsFile(generatedFiles, output, "pom.xml");
+        TestUtils.ensureContainsFile(generatedFiles, output, "README.md");
+        TestUtils.ensureContainsFile(generatedFiles, output, "settings.gradle");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/AndroidManifest.xml");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/api/xxxx/PingApi.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiCallback.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiClient.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiException.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiResponse.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/ApiKeyAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/Authentication.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/HttpBasicAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/HttpBearerAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/Configuration.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/GzipRequestInterceptor.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/JSON.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/Pair.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ProgressRequestBody.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ProgressResponseBody.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/StringUtil.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/model/xxxx/SomeObj.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/test/java/zz/yyyy/api/xxxx/PingApiTest.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/test/java/zz/yyyy/model/xxxx/SomeObjTest.java");
+
+        validateJavaSourceFiles(generatedFiles);
+
+        String defaultApiFilename = new File(output, "src/main/java/zz/yyyy/model/xxxx/SomeObj.java").getAbsolutePath().replace("\\", "/");
+        String defaultApiConent = generatedFiles.get(defaultApiFilename);
+        assertTrue(defaultApiConent.contains("public class SomeObj"));
+        assertTrue(defaultApiConent.contains("Boolean isActive()"));
 
         output.deleteOnExit();
     }

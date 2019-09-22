@@ -15,7 +15,7 @@ class UserApi {
 
     // verify required params are set
     if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -28,12 +28,12 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -50,7 +50,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -64,7 +64,7 @@ class UserApi {
 
     // verify required params are set
     if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -77,12 +77,12 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -99,7 +99,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -113,7 +113,7 @@ class UserApi {
 
     // verify required params are set
     if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -126,12 +126,12 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -148,7 +148,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -158,11 +158,11 @@ class UserApi {
   ///
   /// This can only be done by the logged in user.
   Future deleteUser(String username) async {
-    Object postBody;
+    Object postBody = null;
 
     // verify required params are set
     if(username == null) {
-     throw ApiException(400, "Missing required param: username");
+     throw new ApiException(400, "Missing required param: username");
     }
 
     // create path and map variables
@@ -175,12 +175,12 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -197,7 +197,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -207,11 +207,11 @@ class UserApi {
   ///
   /// 
   Future<User> getUserByName(String username) async {
-    Object postBody;
+    Object postBody = null;
 
     // verify required params are set
     if(username == null) {
-     throw ApiException(400, "Missing required param: username");
+     throw new ApiException(400, "Missing required param: username");
     }
 
     // create path and map variables
@@ -224,12 +224,12 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -246,7 +246,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
     } else {
@@ -257,14 +257,14 @@ class UserApi {
   ///
   /// 
   Future<String> loginUser(String username, String password) async {
-    Object postBody;
+    Object postBody = null;
 
     // verify required params are set
     if(username == null) {
-     throw ApiException(400, "Missing required param: username");
+     throw new ApiException(400, "Missing required param: username");
     }
     if(password == null) {
-     throw ApiException(400, "Missing required param: password");
+     throw new ApiException(400, "Missing required param: password");
     }
 
     // create path and map variables
@@ -279,12 +279,12 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -301,7 +301,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
     } else {
@@ -312,7 +312,7 @@ class UserApi {
   ///
   /// 
   Future logoutUser() async {
-    Object postBody;
+    Object postBody = null;
 
     // verify required params are set
 
@@ -326,12 +326,12 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -348,7 +348,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -362,10 +362,10 @@ class UserApi {
 
     // verify required params are set
     if(username == null) {
-     throw ApiException(400, "Missing required param: username");
+     throw new ApiException(400, "Missing required param: username");
     }
     if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -378,12 +378,12 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -400,7 +400,7 @@ class UserApi {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;

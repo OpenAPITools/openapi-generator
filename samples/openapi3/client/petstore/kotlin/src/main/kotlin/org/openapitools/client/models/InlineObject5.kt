@@ -25,7 +25,6 @@ data class InlineObject5 (
     /* Additional data to pass to server */
     @Json(name = "additionalMetadata")
     val additionalMetadata: kotlin.String? = null
-) {
+)
 
-}
 

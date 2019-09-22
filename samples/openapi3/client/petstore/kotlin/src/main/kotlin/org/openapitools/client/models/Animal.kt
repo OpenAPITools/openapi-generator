@@ -23,7 +23,6 @@ data class Animal (
     val className: kotlin.String,
     @Json(name = "color")
     val color: kotlin.String? = null
-) {
+)
 
-}
 

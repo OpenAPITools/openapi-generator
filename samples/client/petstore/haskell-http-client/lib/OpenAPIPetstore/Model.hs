@@ -1687,6 +1687,7 @@ mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem type
 data TypeHolderExample = TypeHolderExample
   { typeHolderExampleStringItem :: !(Text) -- ^ /Required/ "string_item"
   , typeHolderExampleNumberItem :: !(Double) -- ^ /Required/ "number_item"
+  , typeHolderExampleFloatItem :: !(Float) -- ^ /Required/ "float_item"
   , typeHolderExampleIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
   , typeHolderExampleBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
   , typeHolderExampleArrayItem :: !([Int]) -- ^ /Required/ "array_item"
@@ -1698,6 +1699,7 @@ instance A.FromJSON TypeHolderExample where
     TypeHolderExample
       <$> (o .:  "string_item")
       <*> (o .:  "number_item")
+      <*> (o .:  "float_item")
       <*> (o .:  "integer_item")
       <*> (o .:  "bool_item")
       <*> (o .:  "array_item")
@@ -1708,6 +1710,7 @@ instance A.ToJSON TypeHolderExample where
    _omitNulls
       [ "string_item" .= typeHolderExampleStringItem
       , "number_item" .= typeHolderExampleNumberItem
+      , "float_item" .= typeHolderExampleFloatItem
       , "integer_item" .= typeHolderExampleIntegerItem
       , "bool_item" .= typeHolderExampleBoolItem
       , "array_item" .= typeHolderExampleArrayItem
@@ -1718,14 +1721,16 @@ instance A.ToJSON TypeHolderExample where
 mkTypeHolderExample
   :: Text -- ^ 'typeHolderExampleStringItem' 
   -> Double -- ^ 'typeHolderExampleNumberItem' 
+  -> Float -- ^ 'typeHolderExampleFloatItem' 
   -> Int -- ^ 'typeHolderExampleIntegerItem' 
   -> Bool -- ^ 'typeHolderExampleBoolItem' 
   -> [Int] -- ^ 'typeHolderExampleArrayItem' 
   -> TypeHolderExample
-mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
+mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleFloatItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
   TypeHolderExample
   { typeHolderExampleStringItem
   , typeHolderExampleNumberItem
+  , typeHolderExampleFloatItem
   , typeHolderExampleIntegerItem
   , typeHolderExampleBoolItem
   , typeHolderExampleArrayItem

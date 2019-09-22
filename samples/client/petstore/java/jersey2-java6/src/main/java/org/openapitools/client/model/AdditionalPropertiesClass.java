@@ -24,10 +24,24 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * AdditionalPropertiesClass
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_NUMBER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_BOOLEAN,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE1,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
+})
 
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";

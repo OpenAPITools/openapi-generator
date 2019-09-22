@@ -5,10 +5,10 @@ part 'tag.jser.dart';
 
 class Tag {
   
-  @Alias('id', isNullable: false)
+  @Alias('id', isNullable: false,  )
   final int id;
   
-  @Alias('name', isNullable: false)
+  @Alias('name', isNullable: false,  )
   final String name;
   
 

@@ -53,7 +53,7 @@ pub const API_VERSION: &'static str = "1.0.7";
 #[derive(Debug, PartialEq)]
 pub enum MultipartRequestPostResponse {
     /// OK
-    OK ,
+    OK
 }
 
 

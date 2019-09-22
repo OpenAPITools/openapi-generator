@@ -780,6 +780,11 @@ typeHolderExampleNumberItemL :: Lens_' TypeHolderExample (Double)
 typeHolderExampleNumberItemL f TypeHolderExample{..} = (\typeHolderExampleNumberItem -> TypeHolderExample { typeHolderExampleNumberItem, ..} ) <$> f typeHolderExampleNumberItem
 {-# INLINE typeHolderExampleNumberItemL #-}
 
+-- | 'typeHolderExampleFloatItem' Lens
+typeHolderExampleFloatItemL :: Lens_' TypeHolderExample (Float)
+typeHolderExampleFloatItemL f TypeHolderExample{..} = (\typeHolderExampleFloatItem -> TypeHolderExample { typeHolderExampleFloatItem, ..} ) <$> f typeHolderExampleFloatItem
+{-# INLINE typeHolderExampleFloatItemL #-}
+
 -- | 'typeHolderExampleIntegerItem' Lens
 typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample (Int)
 typeHolderExampleIntegerItemL f TypeHolderExample{..} = (\typeHolderExampleIntegerItem -> TypeHolderExample { typeHolderExampleIntegerItem, ..} ) <$> f typeHolderExampleIntegerItem

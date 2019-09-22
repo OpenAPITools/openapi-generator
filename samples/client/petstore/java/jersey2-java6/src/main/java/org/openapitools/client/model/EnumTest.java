@@ -21,10 +21,18 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.OuterEnum;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * EnumTest
  */
+@JsonPropertyOrder({
+  EnumTest.JSON_PROPERTY_ENUM_STRING,
+  EnumTest.JSON_PROPERTY_ENUM_STRING_REQUIRED,
+  EnumTest.JSON_PROPERTY_ENUM_INTEGER,
+  EnumTest.JSON_PROPERTY_ENUM_NUMBER,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM
+})
 
 public class EnumTest {
   /**

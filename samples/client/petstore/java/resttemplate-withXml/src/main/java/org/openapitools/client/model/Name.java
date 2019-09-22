@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -28,6 +29,12 @@ import javax.xml.bind.annotation.*;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
+@JsonPropertyOrder({
+  Name.JSON_PROPERTY_NAME,
+  Name.JSON_PROPERTY_SNAKE_CASE,
+  Name.JSON_PROPERTY_PROPERTY,
+  Name.JSON_PROPERTY_123NUMBER
+})
 
 @XmlRootElement(name = "Name")
 @XmlAccessorType(XmlAccessType.FIELD)

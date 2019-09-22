@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// MapTest struct for MapTest
 type MapTest struct {
 	MapMapOfString *map[string]map[string]string `json:"map_map_of_string,omitempty"`
 
@@ -156,6 +156,7 @@ func (o *MapTest) SetIndirectMap(v map[string]bool) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o MapTest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.MapMapOfString != nil {

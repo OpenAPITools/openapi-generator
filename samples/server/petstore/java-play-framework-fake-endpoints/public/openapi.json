@@ -2534,6 +2534,11 @@
             "example" : 1.234,
             "type" : "number"
           },
+          "float_item" : {
+            "example" : 1.234,
+            "format" : "float",
+            "type" : "number"
+          },
           "integer_item" : {
             "example" : -2,
             "type" : "integer"
@@ -2550,7 +2555,7 @@
             "type" : "array"
           }
         },
-        "required" : [ "array_item", "bool_item", "integer_item", "number_item", "string_item" ],
+        "required" : [ "array_item", "bool_item", "float_item", "integer_item", "number_item", "string_item" ],
         "type" : "object"
       },
       "XmlItem" : {

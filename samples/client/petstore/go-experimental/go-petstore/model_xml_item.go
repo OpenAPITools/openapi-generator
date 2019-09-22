@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// XmlItem struct for XmlItem
 type XmlItem struct {
 	AttributeString *string `json:"attribute_string,omitempty"`
 
@@ -1031,6 +1031,7 @@ func (o *XmlItem) SetPrefixNsWrappedArray(v []int32) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o XmlItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.AttributeString != nil {

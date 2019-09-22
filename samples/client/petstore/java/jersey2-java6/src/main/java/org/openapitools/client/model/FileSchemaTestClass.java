@@ -22,10 +22,15 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * FileSchemaTestClass
  */
+@JsonPropertyOrder({
+  FileSchemaTestClass.JSON_PROPERTY_FILE,
+  FileSchemaTestClass.JSON_PROPERTY_FILES
+})
 
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";

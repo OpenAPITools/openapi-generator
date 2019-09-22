@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
 data class Client (
     @Json(name = "client")
     val client: kotlin.String? = null
-) {
+)
 
-}
 

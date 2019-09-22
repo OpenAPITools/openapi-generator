@@ -36,15 +36,34 @@ impl ANullableContainer {
 /// An additionalPropertiesObject
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-pub struct AdditionalPropertiesObject {
-}
+pub struct AdditionalPropertiesObject(HashMap<String, String>);
 
-impl AdditionalPropertiesObject {
-    pub fn new() -> AdditionalPropertiesObject {
-        AdditionalPropertiesObject {
-        }
+impl ::std::convert::From<HashMap<String, String>> for AdditionalPropertiesObject {
+    fn from(x: HashMap<String, String>) -> Self {
+        AdditionalPropertiesObject(x)
     }
 }
+
+
+impl ::std::convert::From<AdditionalPropertiesObject> for HashMap<String, String> {
+    fn from(x: AdditionalPropertiesObject) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for AdditionalPropertiesObject {
+    type Target = HashMap<String, String>;
+    fn deref(&self) -> &HashMap<String, String> {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for AdditionalPropertiesObject {
+    fn deref_mut(&mut self) -> &mut HashMap<String, String> {
+        &mut self.0
+    }
+}
+
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -26,6 +27,11 @@ import javax.validation.Valid;
 /**
  * OuterComposite
  */
+@JsonPropertyOrder({
+  OuterComposite.JSON_PROPERTY_MY_NUMBER,
+  OuterComposite.JSON_PROPERTY_MY_STRING,
+  OuterComposite.JSON_PROPERTY_MY_BOOLEAN
+})
 
 public class OuterComposite  implements Serializable {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";

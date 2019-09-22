@@ -27,6 +27,7 @@
 #include "OAIObject.h"
 #include "OAIEnum.h"
 
+
 namespace OpenAPI {
 
 class OAITag: public OAIObject {

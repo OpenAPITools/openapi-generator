@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// CatAllOf struct for CatAllOf
 type CatAllOf struct {
 	Declawed *bool `json:"declawed,omitempty"`
 
@@ -51,6 +51,7 @@ func (o *CatAllOf) SetDeclawed(v bool) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o CatAllOf) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Declawed != nil {

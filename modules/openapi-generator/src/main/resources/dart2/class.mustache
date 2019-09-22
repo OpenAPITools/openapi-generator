@@ -36,9 +36,16 @@ class {{classname}} {
       {{/isListContainer}}
       {{^isListContainer}}
       {{#isMapContainer}}
+      {{#items.isListContainer}}
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      {{items.complexType}}.mapListFromJson(json['{{baseName}}']);
+      {{/items.isListContainer}}
+      {{^items.isListContainer}}
     {{name}} = (json['{{baseName}}'] == null) ?
       null :
       {{complexType}}.mapFromJson(json['{{baseName}}']);
+      {{/items.isListContainer}}
       {{/isMapContainer}}
       {{^isMapContainer}}
     {{name}} = (json['{{baseName}}'] == null) ?
@@ -107,5 +114,16 @@ class {{classname}} {
       json.forEach((String key, dynamic value) => map[key] = {{classname}}.fromJson(value));
     }
     return map;
+  }
+
+  // maps a json object with a list of {{classname}}-objects as value to a dart map
+  static Map<String, List<{{classname}}>> mapListFromJson(Map<String, dynamic> json) {
+    var map = Map<String, List<{{classname}}>>();
+     if (json != null && json.isNotEmpty) {
+       json.forEach((String key, dynamic value) {
+         map[key] = {{classname}}.listFromJson(value);
+       });
+     }
+     return map;
   }
 }

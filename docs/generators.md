@@ -38,6 +38,7 @@ The following generators are available:
 * [jmeter](generators/jmeter)  
 * [kotlin](generators/kotlin)  
 * [lua](generators/lua)  
+* [nim (beta)](generators/nim)  
 * [objc](generators/objc)  
 * [ocaml](generators/ocaml)  
 * [perl](generators/perl)  
@@ -94,6 +95,7 @@ The following generators are available:
 * [jaxrs-spec](generators/jaxrs-spec)  
 * [kotlin-server](generators/kotlin-server)  
 * [kotlin-spring](generators/kotlin-spring)  
+* [kotlin-vertx (beta)](generators/kotlin-vertx)  
 * [nodejs-express-server (beta)](generators/nodejs-express-server)  
 * [nodejs-server-deprecated (deprecated)](generators/nodejs-server-deprecated)  
 * [php-laravel](generators/php-laravel)  
@@ -116,6 +118,7 @@ The following generators are available:
 
 
 ## DOCUMENTATION generators
+* [asciidoc](generators/asciidoc)  
 * [cwiki](generators/cwiki)  
 * [dynamic-html](generators/dynamic-html)  
 * [html](generators/html)  
@@ -132,6 +135,7 @@ The following generators are available:
 ## CONFIG generators
 * [apache2](generators/apache2)  
 * [graphql-schema](generators/graphql-schema)  
+* [protobuf-schema (beta)](generators/protobuf-schema)  
 
 
 
