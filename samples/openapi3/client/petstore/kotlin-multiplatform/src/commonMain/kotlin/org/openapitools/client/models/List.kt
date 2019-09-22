@@ -23,4 +23,3 @@ data class List (
     @SerialName(value = "&#x60;123minusList&#x60;") val ``123minusList``: kotlin.String? = null
 )
 
-

@@ -701,6 +701,7 @@ Here is a list of template creators:
    * Javascript (Flow types) @jaypea
    * JMeter: @davidkiss
    * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
+   * Kotlin (MultiPlatform): @andrewemery
    * Lua: @daurnimator
    * Nim: @hokamoto
    * OCaml: @cgensoul

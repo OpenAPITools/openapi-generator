@@ -25,4 +25,3 @@ data class ReadOnlyFirst (
     @SerialName(value = "baz") val baz: kotlin.String? = null
 )
 
-

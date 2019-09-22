@@ -25,4 +25,3 @@ data class Animal (
     @SerialName(value = "color") val color: kotlin.String? = null
 )
 
-

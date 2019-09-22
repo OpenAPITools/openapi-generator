@@ -47,13 +47,10 @@ class AnotherFakeApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun call123testSpecialTags(client: Client) : HttpResponse<Client> {
 
         val localVariableBody = client
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.PATCH,
@@ -62,19 +59,17 @@ class AnotherFakeApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
     
-    
 
 
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
-            
             
         }
     }

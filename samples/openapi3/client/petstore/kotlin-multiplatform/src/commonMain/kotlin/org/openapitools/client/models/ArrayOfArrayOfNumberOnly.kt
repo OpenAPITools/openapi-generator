@@ -23,4 +23,3 @@ data class ArrayOfArrayOfNumberOnly (
     @SerialName(value = "arrayArrayNumber") val arrayArrayNumber: kotlin.Array<kotlin.Array<kotlin.Double>>? = null
 )
 
-

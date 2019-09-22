@@ -23,4 +23,3 @@ data class ClassModel (
     @SerialName(value = "propertyClass") val propertyClass: kotlin.String? = null
 )
 
-

@@ -25,4 +25,3 @@ data class Tag (
     @SerialName(value = "name") val name: kotlin.String? = null
 )
 
-

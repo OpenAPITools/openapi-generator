@@ -46,11 +46,10 @@ data class FormatTest (
     @SerialName(value = "string") val string: kotlin.String? = null,
     @SerialName(value = "binary") val binary: io.ktor.client.request.forms.InputProvider? = null,
     @SerialName(value = "dateTime") val dateTime: kotlin.String? = null,
-    @SerialName(value = "uuid") val uuid: java.util.UUID? = null,
+    @SerialName(value = "uuid") val uuid: kotlin.String? = null,
     /* A string that is a 10 digit number. Can have leading zeros. */
     @SerialName(value = "patternWithDigits") val patternWithDigits: kotlin.String? = null,
     /* A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01. */
     @SerialName(value = "patternWithDigitsAndDelimiter") val patternWithDigitsAndDelimiter: kotlin.String? = null
 )
-
 

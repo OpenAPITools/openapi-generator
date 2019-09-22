@@ -4,8 +4,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**file** | [**java.io.File**](java.io.File.md) |  |  [optional]
-**files** | [**kotlin.Array&lt;java.io.File&gt;**](java.io.File.md) |  |  [optional]
+**file** | [**io.ktor.client.request.forms.InputProvider**](io.ktor.client.request.forms.InputProvider.md) |  |  [optional]
+**files** | [**kotlin.Array&lt;io.ktor.client.request.forms.InputProvider&gt;**](io.ktor.client.request.forms.InputProvider.md) |  |  [optional]
 
 
 

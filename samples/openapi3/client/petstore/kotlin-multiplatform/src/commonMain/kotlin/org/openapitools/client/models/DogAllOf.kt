@@ -23,4 +23,3 @@ data class DogAllOf (
     @SerialName(value = "breed") val breed: kotlin.String? = null
 )
 
-

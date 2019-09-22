@@ -46,13 +46,10 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun createUser(body: User) : HttpResponse<Unit> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -61,13 +58,12 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
     
 
     /**
@@ -79,13 +75,10 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     suspend fun createUsersWithArrayInput(body: kotlin.Array<User>) : HttpResponse<Unit> {
 
         val localVariableBody = CreateUsersWithArrayInputRequest(body.asList())
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -94,7 +87,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
@@ -110,7 +103,6 @@ private class CreateUsersWithArrayInputRequest(val value: List<User>) {
             override fun deserialize(decoder: Decoder) = CreateUsersWithArrayInputRequest(serializer.deserialize(decoder))
     }
 }
-    
 
     /**
     * Creates list of users with given input array
@@ -121,13 +113,10 @@ private class CreateUsersWithArrayInputRequest(val value: List<User>) {
     suspend fun createUsersWithListInput(body: kotlin.Array<User>) : HttpResponse<Unit> {
 
         val localVariableBody = CreateUsersWithListInputRequest(body.asList())
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -136,7 +125,7 @@ private class CreateUsersWithArrayInputRequest(val value: List<User>) {
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
@@ -152,7 +141,6 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             override fun deserialize(decoder: Decoder) = CreateUsersWithListInputRequest(serializer.deserialize(decoder))
     }
 }
-    
 
     /**
     * Delete user
@@ -166,10 +154,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -178,14 +164,12 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * Get user by user name
@@ -200,10 +184,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -212,14 +194,12 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * Logs user into the system
@@ -235,14 +215,10 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
         username?.apply { localVariableQuery["username"] = listOf("$username") }
-        
         password?.apply { localVariableQuery["password"] = listOf("$password") }
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -251,14 +227,12 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * Logs out current logged in user session
@@ -271,10 +245,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -283,14 +255,12 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
     /**
     * Updated user
@@ -302,13 +272,10 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     suspend fun updateUser(username: kotlin.String, body: User) : HttpResponse<Unit> {
 
         val localVariableBody = body
-            
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
@@ -317,33 +284,20 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
             headers = localVariableHeaders
         )
 
-    return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
     
-    
 
 
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
             
-            
             serializer.setMapper(CreateUsersWithArrayInputRequest::class, CreateUsersWithArrayInputRequest.serializer())
-            
             serializer.setMapper(CreateUsersWithListInputRequest::class, CreateUsersWithListInputRequest.serializer())
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             
         }
     }

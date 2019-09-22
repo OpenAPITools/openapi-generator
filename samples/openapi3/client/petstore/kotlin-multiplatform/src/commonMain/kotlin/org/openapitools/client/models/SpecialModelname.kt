@@ -23,4 +23,3 @@ data class SpecialModelname (
     @SerialName(value = "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket") val dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: kotlin.Long? = null
 )
 
-

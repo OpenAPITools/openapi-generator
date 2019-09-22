@@ -49,10 +49,8 @@ class DefaultApi @UseExperimental(UnstableDefault::class) constructor(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        
 
         val localVariableHeaders = mutableMapOf<String, String>()
-        
 
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -61,20 +59,16 @@ class DefaultApi @UseExperimental(UnstableDefault::class) constructor(
             headers = localVariableHeaders
         )
 
-    return request(
+        return request(
             localVariableConfig,
             localVariableBody
         ).wrap()
     }
 
-    
-    
 
 
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
-            
-            
         }
     }
 }

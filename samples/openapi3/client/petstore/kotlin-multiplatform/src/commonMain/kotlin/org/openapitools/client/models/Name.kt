@@ -29,4 +29,3 @@ data class Name (
     @SerialName(value = "&#x60;123number&#x60;") val ``123number``: kotlin.Int? = null
 )
 
-

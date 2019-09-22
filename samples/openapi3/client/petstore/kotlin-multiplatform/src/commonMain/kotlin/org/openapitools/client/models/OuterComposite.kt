@@ -27,4 +27,3 @@ data class OuterComposite (
     @SerialName(value = "myBoolean") val myBoolean: kotlin.Boolean? = null
 )
 
-

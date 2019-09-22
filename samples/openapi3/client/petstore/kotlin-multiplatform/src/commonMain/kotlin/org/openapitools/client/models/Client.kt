@@ -23,4 +23,3 @@ data class Client (
     @SerialName(value = "client") val client: kotlin.String? = null
 )
 
-

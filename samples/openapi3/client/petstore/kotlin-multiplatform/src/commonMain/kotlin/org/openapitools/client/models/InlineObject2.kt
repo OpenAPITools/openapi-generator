@@ -26,8 +26,8 @@ data class InlineObject2 (
     /* Form parameter enum test (string) */
     @SerialName(value = "enumFormString") val enumFormString: InlineObject2.EnumFormString? = null
 )
-
 {
+
     /**
     * Form parameter enum test (string array)
     * Values: greaterThan,dollar
@@ -42,9 +42,7 @@ data class InlineObject2 (
 
         object Serializer : CommonEnumSerializer<EnumFormStringArray>("EnumFormStringArray", values(), values().map { it.value }.toTypedArray())
     }
-}
 
-{
     /**
     * Form parameter enum test (string)
     * Values: abc,minusEfg,leftParenthesisXyzRightParenthesis
@@ -61,6 +59,6 @@ data class InlineObject2 (
 
         object Serializer : CommonEnumSerializer<EnumFormString>("EnumFormString", values(), values().map { it.value }.toTypedArray())
     }
-}
 
+}
 

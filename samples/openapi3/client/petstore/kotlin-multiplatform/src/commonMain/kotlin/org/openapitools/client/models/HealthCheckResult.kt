@@ -23,4 +23,3 @@ data class HealthCheckResult (
     @SerialName(value = "nullableMessage") val nullableMessage: kotlin.String? = null
 )
 
-

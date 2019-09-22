@@ -28,4 +28,3 @@ data class ArrayTest (
     @SerialName(value = "arrayArrayOfModel") val arrayArrayOfModel: kotlin.Array<kotlin.Array<ReadOnlyFirst>>? = null
 )
 
-

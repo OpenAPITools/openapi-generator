@@ -27,4 +27,3 @@ data class InlineObject (
     @SerialName(value = "status") val status: kotlin.String? = null
 )
 
-

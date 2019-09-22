@@ -27,4 +27,3 @@ data class InlineObject5 (
     @SerialName(value = "additionalMetadata") val additionalMetadata: kotlin.String? = null
 )
 
-

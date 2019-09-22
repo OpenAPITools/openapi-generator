@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **binary** | [**io.ktor.client.request.forms.InputProvider**](io.ktor.client.request.forms.InputProvider.md) |  |  [optional]
 **date** | **kotlin.String** |  | 
 **dateTime** | **kotlin.String** |  |  [optional]
-**uuid** | [**java.util.UUID**](java.util.UUID.md) |  |  [optional]
+**uuid** | **kotlin.String** |  |  [optional]
 **password** | **kotlin.String** |  | 
 **patternWithDigits** | **kotlin.String** | A string that is a 10 digit number. Can have leading zeros. |  [optional]
 **patternWithDigitsAndDelimiter** | **kotlin.String** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. |  [optional]
