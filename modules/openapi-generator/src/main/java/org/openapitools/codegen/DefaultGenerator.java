@@ -1056,14 +1056,19 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
-                if (authMethods == null || authMethods.isEmpty()) {
-                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
-                }
 
                 if (authMethods != null && !authMethods.isEmpty()) {
                     List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
                     codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
                     codegenOperation.hasAuthMethods = true;
+                } else {
+                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
+
+                    if (authMethods != null && !authMethods.isEmpty()) {
+                        List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
+                        codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
+                        codegenOperation.hasAuthMethods = true;
+                    }
                 }
 
             } catch (Exception ex) {
