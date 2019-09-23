@@ -344,10 +344,8 @@ export class PetApi extends runtime.BaseAPI {
         let formParams: { append(param: string, value: any): any };
         let useForm = false;
         if (useForm) {
-            headerParameters['Content-Type'] = 'multipart/form-data';
             formParams = new FormData();
         } else {
-            headerParameters['Content-Type'] = 'application/x-www-form-urlencoded';
             formParams = new URLSearchParams();
         }
 
@@ -409,10 +407,8 @@ export class PetApi extends runtime.BaseAPI {
         // use FormData to transmit files using content-type "multipart/form-data"
         useForm = canConsumeForm;
         if (useForm) {
-            headerParameters['Content-Type'] = 'multipart/form-data';
             formParams = new FormData();
         } else {
-            headerParameters['Content-Type'] = 'application/x-www-form-urlencoded';
             formParams = new URLSearchParams();
         }
 

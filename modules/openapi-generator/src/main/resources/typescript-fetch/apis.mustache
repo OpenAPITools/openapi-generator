@@ -167,10 +167,8 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isFile}}
         {{/formParams}}
         if (useForm) {
-            headerParameters['Content-Type'] = 'multipart/form-data';
             formParams = new FormData();
         } else {
-            headerParameters['Content-Type'] = 'application/x-www-form-urlencoded';
             formParams = new URLSearchParams();
         }
 
