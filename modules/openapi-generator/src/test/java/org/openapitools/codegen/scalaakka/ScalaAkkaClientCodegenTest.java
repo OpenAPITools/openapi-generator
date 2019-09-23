@@ -18,6 +18,7 @@
 package org.openapitools.codegen.scalaakka;
 
 import com.google.common.collect.Sets;
+import com.google.common.io.Resources;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
@@ -28,6 +29,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -303,28 +305,8 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(generatedFiles.size(), 13);
 
         final String someObjFilename = new File(output, "src/main/scala/hello/world/model/SomeObj.scala").getAbsolutePath().replace("\\", "/");
-        final String someObjFileContents = generatedFiles.get(someObjFilename);
-        Assert.assertTrue(someObjFileContents.contains("package hello.world.model"));
-        Assert.assertTrue(someObjFileContents.contains("case class SomeObj"));
-        Assert.assertTrue(someObjFileContents.contains("id: Long,"));
-        Assert.assertTrue(someObjFileContents.contains("name: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`val`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`var`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`class`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`trait`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`object`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`try`: String,"));
-        Assert.assertTrue(someObjFileContents.contains("`catch`: String,"));
-        Assert.assertTrue(someObjFileContents.contains("`finally`: String,"));
-        Assert.assertTrue(someObjFileContents.contains("`def`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`for`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`implicit`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`match`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`case`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`import`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`lazy`: String,"));
-        Assert.assertTrue(someObjFileContents.contains("`private`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("`type`: Option[String] = None,"));
-        Assert.assertTrue(someObjFileContents.contains("foobar: Boolean"));
+        Assert.assertEquals(
+                generatedFiles.get(someObjFilename),
+                Resources.toString(Resources.getResource("codegen/scala/SomeObj.scala.txt"), StandardCharsets.UTF_8));
     }
 }
