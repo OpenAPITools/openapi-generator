@@ -15,6 +15,7 @@
 import ApiClient from "../ApiClient";
 import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
+import MixedPropertiesAndAdditionalPropertiesClass from '../model/MixedPropertiesAndAdditionalPropertiesClass';
 import OuterComposite from '../model/OuterComposite';
 import User from '../model/User';
 import XmlItem from '../model/XmlItem';
@@ -740,6 +741,51 @@ export default class FakeApi {
      */
     testJsonFormData(param, param2) {
       return this.testJsonFormDataWithHttpInfo(param, param2)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * test mixed properties and additionalProperties
+     * @param {module:model/MixedPropertiesAndAdditionalPropertiesClass} param request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/MixedPropertiesAndAdditionalPropertiesClass} and HTTP response
+     */
+    testMixedPropertiesAndAdditionalPropertiesWithHttpInfo(param) {
+      let postBody = param;
+      // verify the required parameter 'param' is set
+      if (param === undefined || param === null) {
+        throw new Error("Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = MixedPropertiesAndAdditionalPropertiesClass;
+      return this.apiClient.callApi(
+        '/fake/body-mixedPropertiesAndAdditionalProperties', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * test mixed properties and additionalProperties
+     * @param {module:model/MixedPropertiesAndAdditionalPropertiesClass} param request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/MixedPropertiesAndAdditionalPropertiesClass}
+     */
+    testMixedPropertiesAndAdditionalProperties(param) {
+      return this.testMixedPropertiesAndAdditionalPropertiesWithHttpInfo(param)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

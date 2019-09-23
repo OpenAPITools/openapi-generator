@@ -78,9 +78,6 @@ module PetApiHandlerParams =
     type FindPetsByTagsQueryParams = {
       tags : string[] ;
       
-
-      maxCount : int option;
-      
     }
     //#endregion
 

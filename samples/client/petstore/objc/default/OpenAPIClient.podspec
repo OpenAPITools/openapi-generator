@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
     s.summary          = "OpenAPI Petstore"
     s.description      = <<-DESC
-                         This is a sample server Petstore server. For this sample, you can use the api key \"special-key\" to test the authorization filters
+                         This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
                          DESC
 
     s.platform     = :ios, '7.0'

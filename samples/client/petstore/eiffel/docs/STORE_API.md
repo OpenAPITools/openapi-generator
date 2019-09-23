@@ -1,12 +1,12 @@
 # STORE_API
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 Feature | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete_order**](STORE_API.md#delete_order) | **Delete** /store/order/{order_id} | Delete purchase order by ID
+[**delete_order**](STORE_API.md#delete_order) | **Delete** /store/order/{orderId} | Delete purchase order by ID
 [**inventory**](STORE_API.md#inventory) | **Get** /store/inventory | Returns pet inventories by status
-[**order_by_id**](STORE_API.md#order_by_id) | **Get** /store/order/{order_id} | Find purchase order by ID
+[**order_by_id**](STORE_API.md#order_by_id) | **Get** /store/order/{orderId} | Find purchase order by ID
 [**place_order**](STORE_API.md#place_order) | **Post** /store/order | Place an order for a pet
 
 
@@ -23,7 +23,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **STRING_32**| ID of the order that needs to be deleted | 
+ **order_id** | **STRING_32**| ID of the order that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -80,7 +80,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **INTEGER_64**| ID of pet that needs to be fetched | 
+ **order_id** | **INTEGER_64**| ID of pet that needs to be fetched | [default to null]
 
 ### Return type
 
@@ -98,7 +98,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **place_order**
-> place_order (order: ORDER ): detachable ORDER
+> place_order (body: ORDER ): detachable ORDER
 	
 
 Place an order for a pet
@@ -108,7 +108,7 @@ Place an order for a pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**ORDER**](ORDER.md)| order placed for purchasing the pet | 
+ **body** | [**ORDER**](ORDER.md)| order placed for purchasing the pet | 
 
 ### Return type
 

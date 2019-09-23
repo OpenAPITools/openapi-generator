@@ -1,10 +1,10 @@
-name: PetstoreClient
+name: OpenAPIClient
 targets:
-  PetstoreClient:
+  OpenAPIClient:
     type: framework
     platform: iOS
     deploymentTarget: "10.0"
-    sources: [PetstoreClient]
+    sources: [OpenAPIClient]
     info:
       path: ./Info.plist
       version: 1.0.0

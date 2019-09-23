@@ -8,6 +8,7 @@
 import Foundation
 
 
+/** An order for a pets from the pet store */
 public class Order: JSONEncodable {
     public enum Status: String { 
         case Placed = "placed"

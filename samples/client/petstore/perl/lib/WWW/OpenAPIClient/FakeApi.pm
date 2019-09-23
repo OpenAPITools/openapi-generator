@@ -1170,6 +1170,71 @@ sub test_json_form_data {
 }
 
 #
+# test_mixed_properties_and_additional_properties
+#
+# test mixed properties and additionalProperties
+# 
+# @param MixedPropertiesAndAdditionalPropertiesClass $param request body (required)
+{
+    my $params = {
+    'param' => {
+        data_type => 'MixedPropertiesAndAdditionalPropertiesClass',
+        description => 'request body',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_mixed_properties_and_additional_properties' } = { 
+        summary => 'test mixed properties and additionalProperties',
+        params => $params,
+        returns => 'MixedPropertiesAndAdditionalPropertiesClass',
+        };
+}
+# @return MixedPropertiesAndAdditionalPropertiesClass
+#
+sub test_mixed_properties_and_additional_properties {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'param' is set
+    unless (exists $args{'param'}) {
+      croak("Missing the required parameter 'param' when calling test_mixed_properties_and_additional_properties");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/body-mixedPropertiesAndAdditionalProperties';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('*/*');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'param'}) {
+        $_body_data = $args{'param'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('MixedPropertiesAndAdditionalPropertiesClass', $response);
+    return $_response_object;
+}
+
+#
 # test_query_parameter_collection_format
 #
 # 

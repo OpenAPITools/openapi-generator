@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
@@ -393,6 +394,30 @@ public interface FakeApi {
   @GET("/fake/jsonFormData")
   void testJsonFormData(
     @retrofit.http.Field("param") String param, @retrofit.http.Field("param2") String param2, Callback<Void> cb
+  );
+  /**
+   * test mixed properties and additionalProperties
+   * Sync method
+   * 
+   * @param param request body (required)
+   * @return MixedPropertiesAndAdditionalPropertiesClass
+   */
+  
+  @POST("/fake/body-mixedPropertiesAndAdditionalProperties")
+  MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(
+    @retrofit.http.Body MixedPropertiesAndAdditionalPropertiesClass param
+  );
+
+  /**
+   * test mixed properties and additionalProperties
+   * Async method
+   * @param param request body (required)
+   * @param cb callback method
+   */
+  
+  @POST("/fake/body-mixedPropertiesAndAdditionalProperties")
+  void testMixedPropertiesAndAdditionalProperties(
+    @retrofit.http.Body MixedPropertiesAndAdditionalPropertiesClass param, Callback<MixedPropertiesAndAdditionalPropertiesClass> cb
   );
   /**
    * 

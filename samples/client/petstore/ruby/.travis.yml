@@ -7,5 +7,5 @@ rvm:
 script:
   - bundle install --path vendor/bundle
   - bundle exec rspec
-  - gem build petstore.gemspec
-  - gem install ./petstore-1.0.0.gem
+  - gem build openapi_client.gemspec
+  - gem install ./openapi_client-1.0.0.gem

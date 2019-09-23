@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -560,6 +561,40 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+    }
+    /**
+     * test mixed properties and additionalProperties
+     * 
+     * @param param request body (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param, Handler<AsyncResult<MixedPropertiesAndAdditionalPropertiesClass>> resultHandler) {
+        Object localVarBody = param;
+        
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/body-mixedPropertiesAndAdditionalProperties";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = { "*/*" };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+        TypeReference<MixedPropertiesAndAdditionalPropertiesClass> localVarReturnType = new TypeReference<MixedPropertiesAndAdditionalPropertiesClass>() {};
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
      * 

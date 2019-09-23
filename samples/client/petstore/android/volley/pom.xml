@@ -3,13 +3,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openapitools</groupId>
-  <artifactId>petstore-android-volley</artifactId>
+  <artifactId>openapi-android-client</artifactId>
   <version>1.0.0</version>
   <dependencies>
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
       <version>${swagger-annotations-version}</version>
+    </dependency>
+    <!-- @Nullable annotation -->
+    <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+        <version>3.0.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
@@ -47,7 +53,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.5.1</version>
         <configuration>
           <source>1.7</source>
           <target>1.7</target>

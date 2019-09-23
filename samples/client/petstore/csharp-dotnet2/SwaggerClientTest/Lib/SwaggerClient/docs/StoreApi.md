@@ -198,7 +198,7 @@ No authorization required
 
 <a name="placeorder"></a>
 # **PlaceOrder**
-> Order PlaceOrder (Order order)
+> Order PlaceOrder (Order body)
 
 Place an order for a pet
 
@@ -218,12 +218,12 @@ namespace Example
         {
             
             var apiInstance = new StoreApi();
-            var order = new Order(); // Order | order placed for purchasing the pet
+            var body = new Order(); // Order | order placed for purchasing the pet
 
             try
             {
                 // Place an order for a pet
-                Order result = apiInstance.PlaceOrder(order);
+                Order result = apiInstance.PlaceOrder(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -239,7 +239,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

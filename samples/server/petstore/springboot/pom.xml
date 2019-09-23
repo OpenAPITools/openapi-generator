@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>springboot</artifactId>
+    <artifactId>openapi-spring</artifactId>
     <packaging>jar</packaging>
-    <name>springboot</name>
+    <name>openapi-spring</name>
     <version>1.0.0</version>
     <properties>
         <java.version>1.8</java.version>

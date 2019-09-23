@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testMixedPropertiesAndAdditionalProperties**](FakeApi.md#testMixedPropertiesAndAdditionalProperties) | **POST** /fake/body-mixedPropertiesAndAdditionalProperties | test mixed properties and additionalProperties
 [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
@@ -872,6 +873,66 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
+<a name="testMixedPropertiesAndAdditionalProperties"></a>
+# **testMixedPropertiesAndAdditionalProperties**
+> MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(param)
+
+test mixed properties and additionalProperties
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    MixedPropertiesAndAdditionalPropertiesClass param = new MixedPropertiesAndAdditionalPropertiesClass(); // MixedPropertiesAndAdditionalPropertiesClass | request body
+    try {
+      MixedPropertiesAndAdditionalPropertiesClass result = apiInstance.testMixedPropertiesAndAdditionalProperties(param);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#testMixedPropertiesAndAdditionalProperties");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | [**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)| request body |
+
+### Return type
+
+[**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
 
 ### HTTP response details
 | Status code | Description | Response headers |

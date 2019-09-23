@@ -1,6 +1,6 @@
-# Petstore::UserApi
+# OpenapiClient::UserApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -27,15 +27,15 @@ This can only be done by the logged in user.
 
 ```ruby
 # load the gem
-require 'petstore'
+require 'openapi_client'
 
-api_instance = Petstore::UserApi.new
-body = Petstore::User.new # User | Created user object
+api_instance = OpenapiClient::UserApi.new
+body = OpenapiClient::User.new # User | Created user object
 
 begin
   #Create user
   api_instance.create_user(body)
-rescue Petstore::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Exception when calling UserApi->create_user: #{e}"
 end
 ```
@@ -71,15 +71,15 @@ Creates list of users with given input array
 
 ```ruby
 # load the gem
-require 'petstore'
+require 'openapi_client'
 
-api_instance = Petstore::UserApi.new
-body = [Petstore::User.new] # Array<User> | List of user object
+api_instance = OpenapiClient::UserApi.new
+body = [OpenapiClient::User.new] # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
   api_instance.create_users_with_array_input(body)
-rescue Petstore::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Exception when calling UserApi->create_users_with_array_input: #{e}"
 end
 ```
@@ -115,15 +115,15 @@ Creates list of users with given input array
 
 ```ruby
 # load the gem
-require 'petstore'
+require 'openapi_client'
 
-api_instance = Petstore::UserApi.new
-body = [Petstore::User.new] # Array<User> | List of user object
+api_instance = OpenapiClient::UserApi.new
+body = [OpenapiClient::User.new] # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
   api_instance.create_users_with_list_input(body)
-rescue Petstore::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Exception when calling UserApi->create_users_with_list_input: #{e}"
 end
 ```
@@ -161,15 +161,15 @@ This can only be done by the logged in user.
 
 ```ruby
 # load the gem
-require 'petstore'
+require 'openapi_client'
 
-api_instance = Petstore::UserApi.new
+api_instance = OpenapiClient::UserApi.new
 username = 'username_example' # String | The name that needs to be deleted
 
 begin
   #Delete user
   api_instance.delete_user(username)
-rescue Petstore::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Exception when calling UserApi->delete_user: #{e}"
 end
 ```
@@ -205,16 +205,16 @@ Get user by user name
 
 ```ruby
 # load the gem
-require 'petstore'
+require 'openapi_client'
 
-api_instance = Petstore::UserApi.new
+api_instance = OpenapiClient::UserApi.new
 username = 'username_example' # String | The name that needs to be fetched. Use user1 for testing.
 
 begin
   #Get user by user name
   result = api_instance.get_user_by_name(username)
   p result
-rescue Petstore::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Exception when calling UserApi->get_user_by_name: #{e}"
 end
 ```
@@ -250,9 +250,9 @@ Logs user into the system
 
 ```ruby
 # load the gem
-require 'petstore'
+require 'openapi_client'
 
-api_instance = Petstore::UserApi.new
+api_instance = OpenapiClient::UserApi.new
 username = 'username_example' # String | The user name for login
 password = 'password_example' # String | The password for login in clear text
 
@@ -260,7 +260,7 @@ begin
   #Logs user into the system
   result = api_instance.login_user(username, password)
   p result
-rescue Petstore::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Exception when calling UserApi->login_user: #{e}"
 end
 ```
@@ -297,14 +297,14 @@ Logs out current logged in user session
 
 ```ruby
 # load the gem
-require 'petstore'
+require 'openapi_client'
 
-api_instance = Petstore::UserApi.new
+api_instance = OpenapiClient::UserApi.new
 
 begin
   #Logs out current logged in user session
   api_instance.logout_user
-rescue Petstore::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Exception when calling UserApi->logout_user: #{e}"
 end
 ```
@@ -339,16 +339,16 @@ This can only be done by the logged in user.
 
 ```ruby
 # load the gem
-require 'petstore'
+require 'openapi_client'
 
-api_instance = Petstore::UserApi.new
+api_instance = OpenapiClient::UserApi.new
 username = 'username_example' # String | name that need to be deleted
-body = Petstore::User.new # User | Updated user object
+body = OpenapiClient::User.new # User | Updated user object
 
 begin
   #Updated user
   api_instance.update_user(username, body)
-rescue Petstore::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Exception when calling UserApi->update_user: #{e}"
 end
 ```

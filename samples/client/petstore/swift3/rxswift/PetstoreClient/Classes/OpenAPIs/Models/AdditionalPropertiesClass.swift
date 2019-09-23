@@ -10,16 +10,34 @@ import Foundation
 
 open class AdditionalPropertiesClass: JSONEncodable {
 
-    public var mapProperty: [String:String]?
-    public var mapOfMapProperty: [String:[String:String]]?
+    public var mapString: [String:String]?
+    public var mapNumber: [String:Double]?
+    public var mapInteger: [String:Int32]?
+    public var mapBoolean: [String:Bool]?
+    public var mapArrayInteger: [String:[Int32]]?
+    public var mapArrayAnytype: [String:[Any]]?
+    public var mapMapString: [String:[String:String]]?
+    public var mapMapAnytype: [String:[String:Any]]?
+    public var anytype1: Any?
+    public var anytype2: Any?
+    public var anytype3: Any?
 
     public init() {}
 
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["map_property"] = self.mapProperty?.encodeToJSON()
-        nillableDictionary["map_of_map_property"] = self.mapOfMapProperty?.encodeToJSON()
+        nillableDictionary["map_string"] = self.mapString?.encodeToJSON()
+        nillableDictionary["map_number"] = self.mapNumber?.encodeToJSON()
+        nillableDictionary["map_integer"] = self.mapInteger?.encodeToJSON()
+        nillableDictionary["map_boolean"] = self.mapBoolean?.encodeToJSON()
+        nillableDictionary["map_array_integer"] = self.mapArrayInteger?.encodeToJSON()
+        nillableDictionary["map_array_anytype"] = self.mapArrayAnytype?.encodeToJSON()
+        nillableDictionary["map_map_string"] = self.mapMapString?.encodeToJSON()
+        nillableDictionary["map_map_anytype"] = self.mapMapAnytype?.encodeToJSON()
+        nillableDictionary["anytype_1"] = self.anytype1?.encodeToJSON()
+        nillableDictionary["anytype_2"] = self.anytype2?.encodeToJSON()
+        nillableDictionary["anytype_3"] = self.anytype3?.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

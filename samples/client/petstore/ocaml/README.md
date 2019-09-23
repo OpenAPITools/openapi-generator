@@ -13,7 +13,7 @@ OCaml 4.x
 
 ## Installation
 
-Please run the following commands to build the package `petstore_client`:
+Please run the following commands to build the package `openapi`:
 
 ```sh
 opam install ppx_deriving_yojson cohttp ppx_deriving cohttp-lwt-unix

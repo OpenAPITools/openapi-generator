@@ -6,7 +6,7 @@ team@openapitools.org
 :toclevels: 3
 :source-highlighter: highlightjs
 :keywords: openapi, rest, OpenAPI Petstore 
-:specDir: modules/openapi-generator/src/main/resources/asciidoc-documentation
+:specDir: modules\openapi-generator\src\main\resources\asciidoc-documentation
 :snippetDir: .
 :generator-template: v1 2019-09-03
 :info-url: https://openapi-generator.tech

@@ -5,7 +5,7 @@ using System.Text;
 using Sharpility.Extensions;
 using NodaTime;
 
-namespace Org.OpenAPITools.v2.Models
+namespace Org.OpenAPITools._v2.Models
 {
     /// <summary>
     /// An order for a pets from the pet store
@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.v2.Models
         /// <summary>
         /// ShipDate
         /// </summary>
-        public ZonedDateTime? ShipDate { get; private set; }
+        public DateTime? ShipDate { get; private set; }
 
         /// <summary>
         /// Order Status
@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.v2.Models
         {
         }
 
-        private Order(long? Id, long? PetId, int? Quantity, ZonedDateTime? ShipDate, StatusEnum? Status, bool? Complete)
+        private Order(long? Id, long? PetId, int? Quantity, DateTime? ShipDate, StatusEnum? Status, bool? Complete)
         {
             
             this.Id = Id;
@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.v2.Models
             private long? _Id;
             private long? _PetId;
             private int? _Quantity;
-            private ZonedDateTime? _ShipDate;
+            private DateTime? _ShipDate;
             private StatusEnum? _Status;
             private bool? _Complete;
 
@@ -192,7 +192,7 @@ namespace Org.OpenAPITools.v2.Models
             /// Sets value for Order.ShipDate property.
             /// </summary>
             /// <param name="value">ShipDate</param>
-            public OrderBuilder ShipDate(ZonedDateTime? value)
+            public OrderBuilder ShipDate(DateTime? value)
             {
                 _ShipDate = value;
                 return this;

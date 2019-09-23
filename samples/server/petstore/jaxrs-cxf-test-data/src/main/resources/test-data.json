@@ -79,7 +79,7 @@
         }
       },
       "testEndpointParameters" : {
-        "_double" : 91.68589154730602421612164906388358076583244837820529937744140625,
+        "_double" : 91.68589154730603,
         "patternWithoutDelimiter" : "^K᫢",
         "_byte" : "VA==",
         "integer" : 79,
@@ -118,6 +118,33 @@
       "testJsonFormData" : {
         "param" : "Gfe588Q6",
         "param2" : "QBx28IQ"
+      },
+      "testMixedPropertiesAndAdditionalProperties" : {
+        "param" : {
+          "dateTime" : "1970-01-01T00:00:00.000Z",
+          "map" : {
+            "i21w8VZ" : {
+              "className" : "re87bNVSE1",
+              "color" : "kLNq7G"
+            }
+          }
+        },
+        "response" : {
+          "dateTime" : "1970-01-01T00:00:00.000Z",
+          "map" : {
+            "iBt5Da" : {
+              "className" : "eYyYIa5",
+              "color" : "lS6244Q"
+            }
+          }
+        }
+      },
+      "testQueryParameterCollectionFormat" : {
+        "pipe" : [ "H1B1f" ],
+        "ioutil" : [ "z74M1maPqH" ],
+        "http" : [ "mDWp0" ],
+        "url" : [ "Oavjvp" ],
+        "context" : [ "hS3Zh" ]
       }
     },
     "FakeClassnameTags123Api" : {

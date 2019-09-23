@@ -15,6 +15,7 @@
 import ApiClient from "../ApiClient";
 import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
+import MixedPropertiesAndAdditionalPropertiesClass from '../model/MixedPropertiesAndAdditionalPropertiesClass';
 import OuterComposite from '../model/OuterComposite';
 import User from '../model/User';
 import XmlItem from '../model/XmlItem';
@@ -642,6 +643,47 @@ export default class FakeApi {
       let returnType = null;
       return this.apiClient.callApi(
         '/fake/jsonFormData', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the testMixedPropertiesAndAdditionalProperties operation.
+     * @callback module:api/FakeApi~testMixedPropertiesAndAdditionalPropertiesCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/MixedPropertiesAndAdditionalPropertiesClass} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * test mixed properties and additionalProperties
+     * @param {module:model/MixedPropertiesAndAdditionalPropertiesClass} param request body
+     * @param {module:api/FakeApi~testMixedPropertiesAndAdditionalPropertiesCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/MixedPropertiesAndAdditionalPropertiesClass}
+     */
+    testMixedPropertiesAndAdditionalProperties(param, callback) {
+      let postBody = param;
+      // verify the required parameter 'param' is set
+      if (param === undefined || param === null) {
+        throw new Error("Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = MixedPropertiesAndAdditionalPropertiesClass;
+      return this.apiClient.callApi(
+        '/fake/body-mixedPropertiesAndAdditionalProperties', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

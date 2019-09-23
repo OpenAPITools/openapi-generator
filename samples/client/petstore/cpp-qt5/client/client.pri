@@ -15,9 +15,8 @@ HEADERS += \
 # Others
     $${PWD}/OAIHelpers.h \
     $${PWD}/OAIHttpRequest.h \
-    $${PWD}/OAIObject.h \
-    $${PWD}/OAIEnum.h \
-    $${PWD}/OAIHttpFileElement.h
+    $${PWD}/OAIObject.h
+    $${PWD}/OAIEnum.h
 
 SOURCES += \
 # Models
@@ -33,6 +32,5 @@ SOURCES += \
     $${PWD}/OAIUserApi.cpp \
 # Others
     $${PWD}/OAIHelpers.cpp \
-    $${PWD}/OAIHttpRequest.cpp \
-    $${PWD}/OAIHttpFileElement.cpp    
+    $${PWD}/OAIHttpRequest.cpp
 

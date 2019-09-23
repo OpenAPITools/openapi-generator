@@ -357,6 +357,27 @@ abstract class AbstractFakeApi
     }
 
     /**
+     * POST testMixedPropertiesAndAdditionalProperties
+     * Summary: test mixed properties and additionalProperties
+     * Output-Formats: [*_/_*]
+     *
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
+     */
+    public function testMixedPropertiesAndAdditionalProperties(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $body = $request->getParsedBody();
+        $message = "How about implementing testMixedPropertiesAndAdditionalProperties as a POST method in OpenAPIServer\Api\FakeApi class?";
+        throw new Exception($message);
+
+        return $response->write($message)->withStatus(501);
+    }
+
+    /**
      * PUT testQueryParameterCollectionFormat
      * Notes: To test the collection format in query parameters
      *

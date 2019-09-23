@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_mixed_properties_and_additional_properties**](FakeApi.md#test_mixed_properties_and_additional_properties) | **POST** /fake/body-mixedPropertiesAndAdditionalProperties | test mixed properties and additionalProperties
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 
 
@@ -757,6 +758,58 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_mixed_properties_and_additional_properties**
+> MixedPropertiesAndAdditionalPropertiesClass test_mixed_properties_and_additional_properties(param)
+
+test mixed properties and additionalProperties
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = petstore_api.FakeApi()
+param = petstore_api.MixedPropertiesAndAdditionalPropertiesClass() # MixedPropertiesAndAdditionalPropertiesClass | request body
+
+try:
+    # test mixed properties and additionalProperties
+    api_response = api_instance.test_mixed_properties_and_additional_properties(param)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling FakeApi->test_mixed_properties_and_additional_properties: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | [**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)| request body | 
+
+### Return type
+
+[**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
 
 ### HTTP response details
 | Status code | Description | Response headers |

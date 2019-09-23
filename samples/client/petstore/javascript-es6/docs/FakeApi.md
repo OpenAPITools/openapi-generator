@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testMixedPropertiesAndAdditionalProperties**](FakeApi.md#testMixedPropertiesAndAdditionalProperties) | **POST** /fake/body-mixedPropertiesAndAdditionalProperties | test mixed properties and additionalProperties
 [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
@@ -671,6 +672,49 @@ No authorization required
 
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
+
+
+## testMixedPropertiesAndAdditionalProperties
+
+> MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(param)
+
+test mixed properties and additionalProperties
+
+### Example
+
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let param = new OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass(); // MixedPropertiesAndAdditionalPropertiesClass | request body
+apiInstance.testMixedPropertiesAndAdditionalProperties(param, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | [**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)| request body | 
+
+### Return type
+
+[**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: */*
 
 
 ## testQueryParameterCollectionFormat

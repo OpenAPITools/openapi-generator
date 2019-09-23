@@ -64,22 +64,10 @@ toStringValue(const double &value){
     return QString::number(value);
 }
 
-QString 
-toStringValue(const OAIObject &value){
-    return value.asJson();
-}
-
-
 QString
 toStringValue(const OAIEnum &value){
     return value.asJson();
 }
-
-QString
-toStringValue(const OAIHttpFileElement &value){
-    return value.asJson();
-}
-
 
 QJsonValue
 toJsonValue(const QString &value){
@@ -135,12 +123,6 @@ QJsonValue
 toJsonValue(const OAIEnum &value){
     return value.asJsonValue();
 }
-
-QJsonValue
-toJsonValue(const OAIHttpFileElement &value){
-    return value.asJsonValue();
-}
-
 
 bool
 fromStringValue(const QString &inStr, QString &value){
@@ -234,11 +216,6 @@ bool
 fromStringValue(const QString &inStr, OAIEnum &value){
     value.fromJson(inStr);
     return true;
-}
-
-bool
-fromStringValue(const QString &inStr, OAIHttpFileElement &value){
-    return value.fromStringValue(inStr);
 }
 
 bool
@@ -367,11 +344,6 @@ bool
 fromJsonValue(OAIEnum &value, const QJsonValue &jval){
     value.fromJsonValue(jval);
     return true;
-}
-
-bool
-fromJsonValue(OAIHttpFileElement &value, const QJsonValue &jval){
-    return value.fromJsonValue(jval);
 }
 
 }

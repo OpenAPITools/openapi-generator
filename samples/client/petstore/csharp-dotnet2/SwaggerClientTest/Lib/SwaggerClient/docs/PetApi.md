@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="addpet"></a>
 # **AddPet**
-> void AddPet (Pet pet)
+> void AddPet (Pet body)
 
 Add a new pet to the store
 
@@ -39,12 +39,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(pet);
+                apiInstance.AddPet(body);
             }
             catch (Exception e)
             {
@@ -59,7 +59,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -339,7 +339,7 @@ Name | Type | Description  | Notes
 
 <a name="updatepet"></a>
 # **UpdatePet**
-> void UpdatePet (Pet pet)
+> void UpdatePet (Pet body)
 
 Update an existing pet
 
@@ -362,12 +362,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(pet);
+                apiInstance.UpdatePet(body);
             }
             catch (Exception e)
             {
@@ -382,7 +382,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 

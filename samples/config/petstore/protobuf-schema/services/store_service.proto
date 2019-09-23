@@ -10,7 +10,7 @@
 
 syntax = "proto3";
 
-package petstore;
+package ;
 
 import "google/protobuf/empty.proto";
 import public "models/order.proto";

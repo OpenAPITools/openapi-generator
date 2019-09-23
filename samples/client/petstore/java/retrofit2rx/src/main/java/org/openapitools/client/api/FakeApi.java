@@ -14,6 +14,7 @@ import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -211,6 +212,20 @@ public interface FakeApi {
   @GET("fake/jsonFormData")
   Observable<Void> testJsonFormData(
     @retrofit2.http.Field("param") String param, @retrofit2.http.Field("param2") String param2
+  );
+
+  /**
+   * test mixed properties and additionalProperties
+   * 
+   * @param param request body (required)
+   * @return Observable&lt;MixedPropertiesAndAdditionalPropertiesClass&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("fake/body-mixedPropertiesAndAdditionalProperties")
+  Observable<MixedPropertiesAndAdditionalPropertiesClass> testMixedPropertiesAndAdditionalProperties(
+    @retrofit2.http.Body MixedPropertiesAndAdditionalPropertiesClass param
   );
 
   /**

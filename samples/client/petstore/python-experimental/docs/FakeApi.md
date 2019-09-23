@@ -1,4 +1,4 @@
-# petstore_api.FakeApi
+# openapi_client.FakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -12,12 +12,13 @@ Method | HTTP request | Description
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**test_endpoint_enums_length_one**](FakeApi.md#test_endpoint_enums_length_one) | **PUT** /fake/enums-of-length-one/{path_string}/{path_integer} | 
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_mixed_properties_and_additional_properties**](FakeApi.md#test_mixed_properties_and_additional_properties) | **POST** /fake/body-mixedPropertiesAndAdditionalProperties | test mixed properties and additionalProperties
+[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 
 
 # **create_xml_item**
@@ -32,13 +33,13 @@ this route creates an XmlItem
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-xml_item = petstore_api.XmlItem() # XmlItem | XmlItem Body
+api_instance = openapi_client.FakeApi()
+xml_item = openapi_client.XmlItem() # XmlItem | XmlItem Body
 
 try:
     # creates an XmlItem
@@ -85,12 +86,12 @@ Test serialization of outer boolean types
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 body = True # bool | Input boolean as post body (optional)
 
 try:
@@ -138,13 +139,13 @@ Test serialization of object with outer number type
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
+api_instance = openapi_client.FakeApi()
+body = openapi_client.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_composite_serialize(body=body)
@@ -191,12 +192,12 @@ Test serialization of outer number types
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 body = 3.4 # float | Input number as post body (optional)
 
 try:
@@ -244,12 +245,12 @@ Test serialization of outer string types
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 body = 'body_example' # str | Input string as post body (optional)
 
 try:
@@ -297,13 +298,13 @@ For this test, the body for this request much reference a schema named `File`.
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
+api_instance = openapi_client.FakeApi()
+body = openapi_client.FileSchemaTestClass() # FileSchemaTestClass | 
 
 try:
     api_instance.test_body_with_file_schema(body)
@@ -347,14 +348,14 @@ No authorization required
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 query = 'query_example' # str | 
-body = petstore_api.User() # User | 
+body = openapi_client.User() # User | 
 
 try:
     api_instance.test_body_with_query_params(query, body)
@@ -401,13 +402,13 @@ To test \"client\" model
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = petstore_api.Client() # Client | client model
+api_instance = openapi_client.FakeApi()
+body = openapi_client.Client() # Client | client model
 
 try:
     # To test \"client\" model
@@ -443,66 +444,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **test_endpoint_enums_length_one**
-> test_endpoint_enums_length_one()
-
-
-
-This route has required values with enums of 1
-
-### Example
-
-```python
-from __future__ import print_function
-import time
-import petstore_api
-from petstore_api.rest import ApiException
-from pprint import pprint
-
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-query_integer = 3 # int |  (default to 3)
-query_string = 'brillig' # str |  (default to 'brillig')
-path_string = 'hello' # str |  (default to 'hello')
-path_integer = 34 # int |  (default to 34)
-header_number = 1.234 # float |  (default to 1.234)
-
-try:
-    api_instance.test_endpoint_enums_length_one(query_integer, query_string, path_string, path_integer, header_number)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_endpoint_enums_length_one: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query_integer** | **int**|  | defaults to 3
- **query_string** | **str**|  | defaults to 'brillig'
- **path_string** | **str**|  | defaults to 'hello'
- **path_integer** | **int**|  | defaults to 34
- **header_number** | **float**|  | defaults to 1.234
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Success |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **test_endpoint_parameters**
 > test_endpoint_parameters(number, double, pattern_without_delimiter, byte)
 
@@ -516,10 +457,10 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
-configuration = petstore_api.Configuration()
+configuration = openapi_client.Configuration()
 # Configure HTTP basic authorization: http_basic_test
 configuration.username = 'YOUR_USERNAME'
 configuration.password = 'YOUR_PASSWORD'
@@ -527,7 +468,7 @@ configuration.password = 'YOUR_PASSWORD'
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
+api_instance = openapi_client.FakeApi(openapi_client.ApiClient(configuration))
 number = 3.4 # float | None
 double = 3.4 # float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
@@ -602,12 +543,12 @@ To test enum parameters
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
 enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
@@ -670,12 +611,12 @@ Fake endpoint to test group parameters (optional)
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 required_string_group = 56 # int | Required String in group parameters
 required_boolean_group = True # bool | Required Boolean in group parameters
 required_int64_group = 56 # int | Required Integer in group parameters
@@ -731,12 +672,12 @@ test inline additionalProperties
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 param = {'key': 'param_example'} # dict(str, str) | request body
 
 try:
@@ -782,12 +723,12 @@ test json serialization of form data
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 param = 'param_example' # str | field1
 param2 = 'param2_example' # str | field2
 
@@ -822,6 +763,118 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_mixed_properties_and_additional_properties**
+> MixedPropertiesAndAdditionalPropertiesClass test_mixed_properties_and_additional_properties(param)
+
+test mixed properties and additionalProperties
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
+param = openapi_client.MixedPropertiesAndAdditionalPropertiesClass() # MixedPropertiesAndAdditionalPropertiesClass | request body
+
+try:
+    # test mixed properties and additionalProperties
+    api_response = api_instance.test_mixed_properties_and_additional_properties(param)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling FakeApi->test_mixed_properties_and_additional_properties: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | [**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)| request body |
+
+### Return type
+
+[**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_query_parameter_collection_format**
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
+pipe = ['pipe_example'] # list[str] | 
+ioutil = ['ioutil_example'] # list[str] | 
+http = ['http_example'] # list[str] | 
+url = ['url_example'] # list[str] | 
+context = ['context_example'] # list[str] | 
+
+try:
+    api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+except ApiException as e:
+    print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**list[str]**](str.md)|  |
+ **ioutil** | [**list[str]**](str.md)|  |
+ **http** | [**list[str]**](str.md)|  |
+ **url** | [**list[str]**](str.md)|  |
+ **context** | [**list[str]**](str.md)|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

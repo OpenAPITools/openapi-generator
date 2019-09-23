@@ -1,7 +1,7 @@
 {-
    OpenAPI Petstore
 
-   This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+   This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
    OpenAPI Version: 3.0.1
    OpenAPI Petstore API version: 1.0.0
@@ -91,7 +91,7 @@ instance P.Show OpenAPIPetstoreConfig where
 --
 -- configHost:
 --
--- @http://petstore.swagger.io:80/v2@
+-- @http://petstore.swagger.io/v2@
 --
 -- configUserAgent:
 --
@@ -101,7 +101,7 @@ newConfig :: IO OpenAPIPetstoreConfig
 newConfig = do
     logCxt <- initLogContext
     return $ OpenAPIPetstoreConfig
-        { configHost = "http://petstore.swagger.io:80/v2"
+        { configHost = "http://petstore.swagger.io/v2"
         , configUserAgent = "openapi-petstore/0.1.0.0"
         , configLogExecWithContext = runDefaultLogExecWithContext
         , configLogContext = logCxt

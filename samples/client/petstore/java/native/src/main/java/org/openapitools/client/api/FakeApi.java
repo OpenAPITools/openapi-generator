@@ -21,6 +21,7 @@ import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -726,6 +727,53 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
+    } catch (IOException | InterruptedException e) {
+      throw new ApiException(e);
+    }
+  }
+  /**
+   * test mixed properties and additionalProperties
+   * 
+   * @param param request body (required)
+   * @return MixedPropertiesAndAdditionalPropertiesClass
+   * @throws ApiException if fails to make API call
+   */
+  public MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param) throws ApiException {
+    // verify the required parameter 'param' is set
+    if (param == null) {
+      throw new ApiException(400, "Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/fake/body-mixedPropertiesAndAdditionalProperties";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(param);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+      if (memberVarReadTimeout != null) {
+        localVarRequestBuilder.timeout(memberVarReadTimeout);
+      }
+      if (memberVarInterceptor != null) {
+        memberVarInterceptor.accept(localVarRequestBuilder);
+      }
+
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (localVarResponse.statusCode()/ 100 != 2) {
+        throw new ApiException(localVarResponse.statusCode(),
+            "testMixedPropertiesAndAdditionalProperties call received non-success response",
+            localVarResponse.headers(),
+            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+      }
+
+      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<MixedPropertiesAndAdditionalPropertiesClass>() {});
     } catch (IOException | InterruptedException e) {
       throw new ApiException(e);
     }
