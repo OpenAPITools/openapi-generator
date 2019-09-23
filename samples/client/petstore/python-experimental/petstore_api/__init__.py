@@ -26,12 +26,17 @@ from petstore_api.api.user_api import UserApi
 
 # import ApiClient
 from petstore_api.api_client import ApiClient
+
+# import Configuration
 from petstore_api.configuration import Configuration
+
+# import exceptions
 from petstore_api.exceptions import OpenApiException
 from petstore_api.exceptions import ApiTypeError
 from petstore_api.exceptions import ApiValueError
 from petstore_api.exceptions import ApiKeyError
 from petstore_api.exceptions import ApiException
+
 # import models into sdk package
 from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType
 from petstore_api.models.additional_properties_array import AdditionalPropertiesArray
@@ -50,6 +55,14 @@ from petstore_api.models.capitalization import Capitalization
 from petstore_api.models.cat import Cat
 from petstore_api.models.cat_all_of import CatAllOf
 from petstore_api.models.category import Category
+from petstore_api.models.child import Child
+from petstore_api.models.child_all_of import ChildAllOf
+from petstore_api.models.child_cat import ChildCat
+from petstore_api.models.child_cat_all_of import ChildCatAllOf
+from petstore_api.models.child_dog import ChildDog
+from petstore_api.models.child_dog_all_of import ChildDogAllOf
+from petstore_api.models.child_lizard import ChildLizard
+from petstore_api.models.child_lizard_all_of import ChildLizardAllOf
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
 from petstore_api.models.dog import Dog
@@ -60,6 +73,8 @@ from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.file import File
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.format_test import FormatTest
+from petstore_api.models.grandparent import Grandparent
+from petstore_api.models.grandparent_animal import GrandparentAnimal
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.list import List
 from petstore_api.models.map_test import MapTest
@@ -72,6 +87,9 @@ from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_number import OuterNumber
+from petstore_api.models.parent import Parent
+from petstore_api.models.parent_all_of import ParentAllOf
+from petstore_api.models.parent_pet import ParentPet
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName
@@ -81,4 +99,3 @@ from petstore_api.models.type_holder_default import TypeHolderDefault
 from petstore_api.models.type_holder_example import TypeHolderExample
 from petstore_api.models.user import User
 from petstore_api.models.xml_item import XmlItem
-

@@ -482,7 +482,7 @@ SYNOPSIS
                 [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
-                [(-o <output directory> | --output <output directory>)] 
+                [(-o <output directory> | --output <output directory>)]
                 [(-p <additional properties> | --additional-properties <additional properties>)...]
                 [--package-name <package name>] [--release-note <release note>]
                 [--remove-operation-id-prefix]
@@ -562,7 +562,7 @@ Here is a list of community-conitributed IDE plug-ins that integrate with OpenAP
 - Visual Studio: [REST API Client Code Generator](https://marketplace.visualstudio.com/items?itemName=ChristianResmaHelle.ApiClientCodeGenerator) by [Christian Resma Helle](https://christian-helle.blogspot.com/)
 - Visual Studio Code: [Codewind OpenAPI Tools](https://marketplace.visualstudio.com/items?itemName=IBM.codewind-openapi-tools) by [IBM](https://marketplace.visualstudio.com/publishers/IBM)
 
- 
+
 ## [4 - Companies/Projects using OpenAPI Generator](#table-of-contents)
 Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
@@ -727,7 +727,7 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@jmini](https://github.com/jmini) (2018/04)  [:heart:](https://www.patreon.com/jmini)
 * [@etherealjoy](https://github.com/etherealjoy) (2019/06)
 
-:heart: = Link to support the contributor directly 
+:heart: = Link to support the contributor directly
 
 #### Template Creator
 
@@ -782,8 +782,9 @@ Here is a list of template creators:
    * Perl: @wing328 [:heart:](https://www.patreon.com/wing328)
    * PHP (Guzzle): @baartosz
    * PowerShell: @beatcracker
+   * Python-experimental: @spacether
    * R: @ramnov
-   * Ruby (Faraday): @meganemura @dkliban 
+   * Ruby (Faraday): @meganemura @dkliban
    * Rust: @farcaller
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
@@ -793,7 +794,7 @@ Here is a list of template creators:
    * Swift 4: @ehyche
    * TypeScript (Angular1): @mhardorf
    * TypeScript (Angular2): @roni-frantchi
-   * TypeScript (Angular6): @akehir 
+   * TypeScript (Angular6): @akehir
    * TypeScript (Angular7): @topce
    * TypeScript (Axios): @nicokoenig
    * TypeScript (Fetch): @leonyu
@@ -805,7 +806,7 @@ Here is a list of template creators:
  * Server Stubs
    * Ada: @stcarrez
    * C# ASP.NET 5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
-   * C# ASP.NET Core 3.0: @A-Joshi 
+   * C# ASP.NET Core 3.0: @A-Joshi
    * C# NancyFX: @mstefaniuk
    * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
@@ -848,7 +849,7 @@ Here is a list of template creators:
  * Configuration
    * Apache2: @stkrwork
  * Schema
-   * Avro: @sgadouar 
+   * Avro: @sgadouar
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
    * MySQL: @ybelenko
    * Protocol Buffer: @wing328

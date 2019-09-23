@@ -1238,6 +1238,10 @@ definitions:
         format: int64
       name:
         type: string
+      # we added fullName to make sure that serialization/deserialization
+      # works for a submodel of Pet that also uses js variable names
+      fullName:
+        type: string
     xml:
       name: Tag
   Pet:
@@ -2039,3 +2043,55 @@ definitions:
           xml:
             namespace: http://g.com/schema
             prefix: g
+  Grandparent:
+    type: object
+    properties:
+      radioWaves:
+        type: boolean
+  Parent:
+    allOf:
+      - $ref: '#/definitions/Grandparent'
+      - type: object
+        properties:
+          teleVision:
+            type: boolean
+  Child:
+    allOf:
+      - $ref: '#/definitions/Parent'
+      - type: object
+        properties:
+          interNet:
+            type: boolean
+  GrandparentAnimal:
+    type: object
+    required:
+    - pet_type
+    properties:
+      pet_type:
+        type: string
+  ParentPet:
+    type: object
+    discriminator: pet_type
+    allOf:
+    - $ref: '#/definitions/GrandparentAnimal'
+  ChildCat:
+    allOf:
+    - $ref: '#/definitions/ParentPet'
+    - type: object
+      properties:
+        name:
+          type: string
+  ChildDog:
+    allOf:
+    - $ref: '#/definitions/ParentPet'
+    - type: object
+      properties:
+        bark:
+          type: string
+  ChildLizard:
+    allOf:
+    - $ref: '#/definitions/ParentPet'
+    - type: object
+      properties:
+        lovesRocks:
+          type: boolean
