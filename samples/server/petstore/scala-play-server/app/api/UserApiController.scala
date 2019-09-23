@@ -6,7 +6,7 @@ import play.api.libs.json._
 import play.api.mvc._
 import model.User
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T16:21:58.590+08:00[Asia/Hong_Kong]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-09-23T12:38:26.780+02:00[Europe/Prague]")
 @Singleton
 class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extends AbstractController(cc) {
   /**
@@ -88,12 +88,14 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
     def executeApi(): String = {
       val username = request.getQueryString("username")
         .getOrElse {
-          throw new OpenApiExceptions.MissingRequiredParameterException("username", "query string")
-        }
+  throw new OpenApiExceptions.MissingRequiredParameterException("username", "query string")
+}
+
       val password = request.getQueryString("password")
         .getOrElse {
-          throw new OpenApiExceptions.MissingRequiredParameterException("password", "query string")
-        }
+  throw new OpenApiExceptions.MissingRequiredParameterException("password", "query string")
+}
+
       api.loginUser(username, password)
     }
 

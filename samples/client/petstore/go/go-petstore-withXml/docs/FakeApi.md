@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**TestGroupParameters**](FakeApi.md#TestGroupParameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#TestInlineAdditionalProperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
+[**TestMixedPropertiesAndAdditionalProperties**](FakeApi.md#TestMixedPropertiesAndAdditionalProperties) | **Post** /fake/body-mixedPropertiesAndAdditionalProperties | test mixed properties and additionalProperties
 [**TestQueryParameterCollectionFormat**](FakeApi.md#TestQueryParameterCollectionFormat) | **Put** /fake/test-query-paramters | 
 
 
@@ -535,6 +536,37 @@ No authorization required
 
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestMixedPropertiesAndAdditionalProperties
+
+> MixedPropertiesAndAdditionalPropertiesClass TestMixedPropertiesAndAdditionalProperties(ctx, param)
+test mixed properties and additionalProperties
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**param** | [**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)| request body | 
+
+### Return type
+
+[**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

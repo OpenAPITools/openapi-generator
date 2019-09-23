@@ -1,4 +1,4 @@
-# Go API client for petstore
+# Go API client for openapi
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -23,7 +23,7 @@ go get github.com/antihax/optional
 Put the package under your project folder and add the following in import:
 
 ```golang
-import "./petstore"
+import sw "./openapi"
 ```
 
 ## Documentation for API Endpoints
@@ -46,6 +46,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**TestMixedPropertiesAndAdditionalProperties**](docs/FakeApi.md#testmixedpropertiesandadditionalproperties) | **Post** /fake/body-mixedPropertiesAndAdditionalProperties | test mixed properties and additionalProperties
 *FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **Put** /fake/test-query-paramters | 
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **Post** /pet | Add a new pet to the store
@@ -125,37 +126,25 @@ Class | Method | HTTP request | Description
 
 
 
-## api_key
+### api_key
 
 - **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key and passed in as the auth context for each request.
 
 
-## api_key_query
+### api_key_query
 
 - **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
 
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key_query and passed in as the auth context for each request.
 
 
-## http_basic_test
+### http_basic_test
 
 - **Type**: HTTP basic authentication
 
@@ -170,7 +159,7 @@ r, err := client.Service.Operation(auth, args)
 ```
 
 
-## petstore_auth
+### petstore_auth
 
 
 - **Type**: OAuth

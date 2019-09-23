@@ -8,6 +8,7 @@
 import Foundation
 
 
+/** A tag for a pet */
 public class Tag: JSONEncodable {
     public var id: Int64?
     public var name: String?

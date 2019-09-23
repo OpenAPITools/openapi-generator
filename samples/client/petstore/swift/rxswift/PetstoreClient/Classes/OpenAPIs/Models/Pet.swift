@@ -8,6 +8,7 @@
 import Foundation
 
 
+/** A pet for sale in the pet store */
 public class Pet: JSONEncodable {
     public enum Status: String { 
         case Available = "available"

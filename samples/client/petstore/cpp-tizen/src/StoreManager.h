@@ -107,26 +107,26 @@ bool getOrderByIdAsync(char * accessToken,
 /*! \brief Place an order for a pet. *Synchronous*
  *
  * 
- * \param order order placed for purchasing the pet *Required*
+ * \param body order placed for purchasing the pet *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool placeOrderSync(char * accessToken,
-	Order order, 
+	Order body, 
 	void(* handler)(Order, Error, void* )
 	, void* userData);
 
 /*! \brief Place an order for a pet. *Asynchronous*
  *
  * 
- * \param order order placed for purchasing the pet *Required*
+ * \param body order placed for purchasing the pet *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool placeOrderAsync(char * accessToken,
-	Order order, 
+	Order body, 
 	void(* handler)(Order, Error, void* )
 	, void* userData);
 

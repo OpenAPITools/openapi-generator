@@ -22,6 +22,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_mixed_properties_and_additional_properties**](FakeApi.md#test_mixed_properties_and_additional_properties) | **POST** /fake/body-mixedPropertiesAndAdditionalProperties | test mixed properties and additionalProperties
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 
 
@@ -665,6 +666,50 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_mixed_properties_and_additional_properties**
+> MixedPropertiesAndAdditionalPropertiesClass test_mixed_properties_and_additional_properties(param => $param)
+
+test mixed properties and additionalProperties
+
+### Example 
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $param = WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass->new(); # MixedPropertiesAndAdditionalPropertiesClass | request body
+
+eval { 
+    my $result = $api_instance->test_mixed_properties_and_additional_properties(param => $param);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_mixed_properties_and_additional_properties: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | [**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)| request body | 
+
+### Return type
+
+[**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

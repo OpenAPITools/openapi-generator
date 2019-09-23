@@ -3,6 +3,7 @@ Articus\PathHandler\RouteInjection\Factory:
     '/v2':
     - App\Handler\AnotherFakeDummy
     - App\Handler\Fake
+    - App\Handler\FakeBodyMixedPropertiesAndAdditionalProperties
     - App\Handler\FakeBodyWithFileSchema
     - App\Handler\FakeBodyWithQueryParams
     - App\Handler\FakeCreateXmlItem
@@ -45,6 +46,7 @@ Articus\PathHandler\RouteInjection\Factory:
 Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
   App\Handler\AnotherFakeDummy: []
   App\Handler\Fake: []
+  App\Handler\FakeBodyMixedPropertiesAndAdditionalProperties: []
   App\Handler\FakeBodyWithFileSchema: []
   App\Handler\FakeBodyWithQueryParams: []
   App\Handler\FakeCreateXmlItem: []

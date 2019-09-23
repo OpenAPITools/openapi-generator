@@ -1,6 +1,7 @@
 package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
+import org.openapitools.model.Animal;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
@@ -9,7 +10,9 @@ import org.openapitools.model.FileSchemaTestClass;
 import java.util.List;
 import org.joda.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.MixedPropertiesAndAdditionalPropertiesClass;
 import org.openapitools.model.OuterComposite;
+import java.util.UUID;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -43,7 +46,7 @@ public class FakeApiServiceImpl implements FakeApi {
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "/home/tduperron/git/zomzog/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
+                    "C:\\Users\\balazs_zsoldos\\git\\openapi-generator\\samples\\server\\petstore\\jaxrs-cxf-test-data\\src\\main\\resources\\test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/FakeApi");
         } catch (CacheException e) {
             e.printStackTrace();
@@ -175,6 +178,25 @@ public class FakeApiServiceImpl implements FakeApi {
      */
     @Override
     public void testJsonFormData(String param, String param2) {
+
+    }
+
+    /**
+     * test mixed properties and additionalProperties
+     *
+     */
+    @Override
+    public MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param) {
+        try {
+            MixedPropertiesAndAdditionalPropertiesClass response = cache.getObject("/testMixedPropertiesAndAdditionalProperties/response", MixedPropertiesAndAdditionalPropertiesClass.class);
+            return response;
+        } catch (CacheException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) {
 
     }
 

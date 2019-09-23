@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -42,6 +43,8 @@ public interface FakeApi {
     void testInlineAdditionalProperties(Map<String, String> param, Handler<AsyncResult<Void>> handler);
 
     void testJsonFormData(String param, String param2, Handler<AsyncResult<Void>> handler);
+
+    void testMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param, Handler<AsyncResult<MixedPropertiesAndAdditionalPropertiesClass>> handler);
 
     void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Handler<AsyncResult<Void>> handler);
 

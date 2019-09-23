@@ -8,6 +8,7 @@
 import Foundation
 
 
+/** A User who is purchasing from the pet store */
 public class User: JSONEncodable {
     public var id: Int64?
     public var username: String?

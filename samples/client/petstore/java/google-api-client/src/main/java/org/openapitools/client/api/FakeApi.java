@@ -7,6 +7,7 @@ import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -1258,6 +1259,96 @@ public class FakeApi {
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+    }
+
+
+  /**
+    * test mixed properties and additionalProperties
+    * <p><b>200</b> - successful operation
+    * @param param request body
+    * @return MixedPropertiesAndAdditionalPropertiesClass
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param) throws IOException {
+        HttpResponse response = testMixedPropertiesAndAdditionalPropertiesForHttpResponse(param);
+        TypeReference typeRef = new TypeReference<MixedPropertiesAndAdditionalPropertiesClass>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+  /**
+    * test mixed properties and additionalProperties
+    * <p><b>200</b> - successful operation
+    * @param param request body
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @return MixedPropertiesAndAdditionalPropertiesClass
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param, Map<String, Object> params) throws IOException {
+        HttpResponse response = testMixedPropertiesAndAdditionalPropertiesForHttpResponse(param, params);
+        TypeReference typeRef = new TypeReference<MixedPropertiesAndAdditionalPropertiesClass>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+    public HttpResponse testMixedPropertiesAndAdditionalPropertiesForHttpResponse(MixedPropertiesAndAdditionalPropertiesClass param) throws IOException {
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-mixedPropertiesAndAdditionalProperties");
+
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(param);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+    }
+
+      public HttpResponse testMixedPropertiesAndAdditionalPropertiesForHttpResponse(java.io.InputStream param, String mediaType) throws IOException {
+          // verify the required parameter 'param' is set
+              if (param == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties");
+              }
+              UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-mixedPropertiesAndAdditionalProperties");
+
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
+
+              HttpContent content = param == null ?
+                apiClient.new JacksonJsonHttpContent(null) :
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, param);
+              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+      }
+
+    public HttpResponse testMixedPropertiesAndAdditionalPropertiesForHttpResponse(MixedPropertiesAndAdditionalPropertiesClass param, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-mixedPropertiesAndAdditionalProperties");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(param);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
 

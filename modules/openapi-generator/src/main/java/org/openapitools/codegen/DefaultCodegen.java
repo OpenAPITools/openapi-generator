@@ -4809,10 +4809,22 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.paramName = toParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-            codegenParameter.dataType = getTypeDeclaration(schema);
-            codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isMapContainer = Boolean.TRUE;
+
+            CodegenModel codegenModel = null;
+            if (name != null) {
+                codegenModel = fromModel(name, schema);
+            }
+
+            if (codegenModel != null) {
+                codegenParameter.baseType = codegenModel.classname;
+                codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
+                imports.add(codegenParameter.baseType);
+            } else {
+                codegenParameter.dataType = getTypeDeclaration(schema);
+                codegenParameter.baseType = getSchemaType(inner);
+            }
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
 

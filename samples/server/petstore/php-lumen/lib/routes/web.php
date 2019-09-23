@@ -52,6 +52,12 @@ $router->get('/v2/fake', 'FakeApi@testEnumParameters');
  */
 $router->delete('/v2/fake', 'FakeApi@testGroupParameters');
 /**
+ * post testMixedPropertiesAndAdditionalProperties
+ * Summary: test mixed properties and additionalProperties
+ * Notes: 
+ */
+$router->post('/v2/fake/body-mixedPropertiesAndAdditionalProperties', 'FakeApi@testMixedPropertiesAndAdditionalProperties');
+/**
  * put testBodyWithFileSchema
  * Summary: 
  * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.

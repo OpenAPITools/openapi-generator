@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testMixedPropertiesAndAdditionalProperties**](FakeApi.md#testMixedPropertiesAndAdditionalProperties) | **POST** /fake/body-mixedPropertiesAndAdditionalProperties | test mixed properties and additionalProperties
 [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
@@ -792,6 +793,60 @@ No authorization required
 
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
+
+
+## testMixedPropertiesAndAdditionalProperties
+
+> \OpenAPI\Client\Model\MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties($param)
+
+test mixed properties and additionalProperties
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$param = new \OpenAPI\Client\Model\MixedPropertiesAndAdditionalPropertiesClass(); // \OpenAPI\Client\Model\MixedPropertiesAndAdditionalPropertiesClass | request body
+
+try {
+    $result = $apiInstance->testMixedPropertiesAndAdditionalProperties($param);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testMixedPropertiesAndAdditionalProperties: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | [**\OpenAPI\Client\Model\MixedPropertiesAndAdditionalPropertiesClass**](../Model/MixedPropertiesAndAdditionalPropertiesClass.md)| request body |
+
+### Return type
+
+[**\OpenAPI\Client\Model\MixedPropertiesAndAdditionalPropertiesClass**](../Model/MixedPropertiesAndAdditionalPropertiesClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../../README.md#documentation-for-models)

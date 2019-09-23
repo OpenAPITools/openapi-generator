@@ -8,6 +8,7 @@
 import Foundation
 
 
+/** A category for a pet */
 public class Category: JSONEncodable {
     public var id: Int64?
     public var name: String?

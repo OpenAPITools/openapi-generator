@@ -224,6 +224,30 @@ class FakeApi extends Controller
         return response('How about implementing testGroupParameters as a delete method ?');
     }
     /**
+     * Operation testMixedPropertiesAndAdditionalProperties
+     *
+     * test mixed properties and additionalProperties.
+     *
+     *
+     * @return Http response
+     */
+    public function testMixedPropertiesAndAdditionalProperties()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['param'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $param when calling testMixedPropertiesAndAdditionalProperties');
+        }
+        $param = $input['param'];
+
+
+        return response('How about implementing testMixedPropertiesAndAdditionalProperties as a post method ?');
+    }
+    /**
      * Operation testBodyWithFileSchema
      *
      * .

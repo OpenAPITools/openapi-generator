@@ -1,5 +1,6 @@
 package org.openapitools.api;
 
+import org.openapitools.model.Animal;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
@@ -8,7 +9,9 @@ import org.openapitools.model.FileSchemaTestClass;
 import java.util.List;
 import org.joda.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.MixedPropertiesAndAdditionalPropertiesClass;
 import org.openapitools.model.OuterComposite;
+import java.util.UUID;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -73,7 +76,7 @@ public interface FakeApi  {
 
     @POST
     @Path("/fake/outer/number")
-    @Consumes({ "application/json" })
+    @Consumes({ "text/plain" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -182,9 +185,29 @@ public interface FakeApi  {
     @GET
     @Path("/fake/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "test json serialization of form data", tags={ "fake" })
+    @ApiOperation(value = "test json serialization of form data", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     public void testJsonFormData(@Multipart(value = "param")  String param, @Multipart(value = "param2")  String param2);
+
+    /**
+     * test mixed properties and additionalProperties
+     *
+     */
+    @POST
+    @Path("/fake/body-mixedPropertiesAndAdditionalProperties")
+    @Consumes({ "application/json" })
+    @Produces({ "*/*" })
+    @ApiOperation(value = "test mixed properties and additionalProperties", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = MixedPropertiesAndAdditionalPropertiesClass.class) })
+    public MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(@Valid MixedPropertiesAndAdditionalPropertiesClass param);
+
+    @PUT
+    @Path("/fake/test-query-paramters")
+    @ApiOperation(value = "", tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success") })
+    public void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull  List<String> pipe, @QueryParam("ioutil") @NotNull  List<String> ioutil, @QueryParam("http") @NotNull  List<String> http, @QueryParam("url") @NotNull  List<String> url, @QueryParam("context") @NotNull  List<String> context);
 }
 

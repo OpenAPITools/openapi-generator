@@ -7,6 +7,7 @@ import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.MixedPropertiesAndAdditionalPropertiesClass;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
@@ -130,6 +131,15 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     void testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2);
+
+    @POST
+    @Path("/body-mixedPropertiesAndAdditionalProperties")
+    @Consumes({ "application/json" })
+    @Produces({ "*/*" })
+    @ApiOperation(value = "test mixed properties and additionalProperties", notes = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = MixedPropertiesAndAdditionalPropertiesClass.class) })
+    MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(@Valid MixedPropertiesAndAdditionalPropertiesClass param);
 
     @PUT
     @Path("/test-query-paramters")

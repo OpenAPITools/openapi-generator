@@ -1005,6 +1005,27 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: param
+  /fake/body-mixedPropertiesAndAdditionalProperties:
+    post:
+      operationId: testMixedPropertiesAndAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MixedPropertiesAndAdditionalPropertiesClass'
+        description: request body
+        required: true
+      responses:
+        200:
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MixedPropertiesAndAdditionalPropertiesClass'
+          description: successful operation
+      summary: test mixed properties and additionalProperties
+      tags:
+      - fake
+      x-codegen-request-body-name: param
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -1425,6 +1446,9 @@ components:
     Animal:
       discriminator:
         propertyName: className
+      example:
+        color: red
+        className: className
       properties:
         className:
           type: string
@@ -1645,6 +1669,13 @@ components:
           type: string
       type: object
     MixedPropertiesAndAdditionalPropertiesClass:
+      example:
+        dateTime: 2000-01-23T04:56:07.000+00:00
+        uuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        map:
+          key:
+            color: red
+            className: className
       properties:
         uuid:
           format: uuid
@@ -1869,6 +1900,10 @@ components:
         number_item:
           example: 1.234
           type: number
+        float_item:
+          example: 1.234
+          format: float
+          type: number
         integer_item:
           example: -2
           type: integer
@@ -1887,6 +1922,7 @@ components:
       required:
       - array_item
       - bool_item
+      - float_item
       - integer_item
       - number_item
       - string_item

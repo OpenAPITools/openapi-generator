@@ -22,7 +22,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let orderId = "orderId_example" // String | ID of the order that needs to be deleted
 
@@ -72,7 +72,7 @@ Returns a map of status codes to quantities
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 
 // Returns pet inventories by status
@@ -118,7 +118,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let orderId = 987 // Int64 | ID of pet that needs to be fetched
 
@@ -166,7 +166,7 @@ Place an order for a pet
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let body = Order(id: 123, petId: 123, quantity: 123, shipDate: Date(), status: "status_example", complete: false) // Order | order placed for purchasing the pet
 

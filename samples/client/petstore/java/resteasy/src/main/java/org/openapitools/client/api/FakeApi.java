@@ -12,6 +12,7 @@ import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -657,6 +658,47 @@ if (param2 != null)
 
     apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
+  /**
+   * test mixed properties and additionalProperties
+   * 
+   * @param param request body (required)
+   * @return a {@code MixedPropertiesAndAdditionalPropertiesClass}
+   * @throws ApiException if fails to make API call
+   */
+  public MixedPropertiesAndAdditionalPropertiesClass testMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param) throws ApiException {
+    Object localVarPostBody = param;
+    
+    // verify the required parameter 'param' is set
+    if (param == null) {
+      throw new ApiException(400, "Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/body-mixedPropertiesAndAdditionalProperties".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    GenericType<MixedPropertiesAndAdditionalPropertiesClass> localVarReturnType = new GenericType<MixedPropertiesAndAdditionalPropertiesClass>() {};
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
   /**
    * 
    * To test the collection format in query parameters

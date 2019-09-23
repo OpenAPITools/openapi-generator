@@ -151,6 +151,21 @@ class Decoders {
                 fatalError("formatter failed to parse \(source)")
             }) 
 
+            // Decoder for [ApiResponse]
+            Decoders.addDecoder(clazz: [ApiResponse].self) { (source: AnyObject) -> [ApiResponse] in
+                return Decoders.decode(clazz: [ApiResponse].self, source: source)
+            }
+            // Decoder for ApiResponse
+            Decoders.addDecoder(clazz: ApiResponse.self) { (source: AnyObject) -> ApiResponse in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = ApiResponse()
+                instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"])
+                instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"])
+                instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"])
+                return instance
+            }
+
+
             // Decoder for [Category]
             Decoders.addDecoder(clazz: [Category].self) { (source: AnyObject) -> [Category] in
                 return Decoders.decode(clazz: [Category].self, source: source)

@@ -46,10 +46,6 @@ void OAIStoreApi::setApiTimeOutMs(const int tout){
     timeout = tout;
 }
 
-void OAIStoreApi::setWorkingDirectory(const QString& path){
-    workingDirectory = path;
-}
-
 void OAIStoreApi::addHeaders(const QString& key, const QString& value){
     defaultHeaders.insert(key, value);
 }
@@ -65,9 +61,7 @@ OAIStoreApi::deleteOrder(const QString& order_id) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "DELETE");
-    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -112,9 +106,7 @@ OAIStoreApi::getInventory() {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
-    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -172,9 +164,7 @@ OAIStoreApi::getOrderById(const qint64& order_id) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
-    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -220,9 +210,8 @@ OAIStoreApi::placeOrder(const OAIOrder& body) {
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
     worker->setTimeOut(timeout);
-    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
-    
+
     
     QString output = body.asJson();
     input.request_body.append(output);

@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**createXmlItem**](FakeAPI.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fakeOuterBooleanSerialize**](FakeAPI.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeAPI.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeAPI.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -16,7 +17,59 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeAPI.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeAPI.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeAPI.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testMixedPropertiesAndAdditionalProperties**](FakeAPI.md#testmixedpropertiesandadditionalproperties) | **POST** /fake/body-mixedPropertiesAndAdditionalProperties | test mixed properties and additionalProperties
+[**testQueryParameterCollectionFormat**](FakeAPI.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
 
+
+# **createXmlItem**
+```swift
+    open class func createXmlItem(xmlItem: XmlItem, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+```
+
+creates an XmlItem
+
+this route creates an XmlItem
+
+### Example 
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import OpenAPIClient
+
+let xmlItem = XmlItem(attributeString: "attributeString_example", attributeNumber: 123, attributeInteger: 123, attributeBoolean: false, wrappedArray: [123], nameString: "nameString_example", nameNumber: 123, nameInteger: 123, nameBoolean: false, nameArray: [123], nameWrappedArray: [123], prefixString: "prefixString_example", prefixNumber: 123, prefixInteger: 123, prefixBoolean: false, prefixArray: [123], prefixWrappedArray: [123], namespaceString: "namespaceString_example", namespaceNumber: 123, namespaceInteger: 123, namespaceBoolean: false, namespaceArray: [123], namespaceWrappedArray: [123], prefixNsString: "prefixNsString_example", prefixNsNumber: 123, prefixNsInteger: 123, prefixNsBoolean: false, prefixNsArray: [123], prefixNsWrappedArray: [123]) // XmlItem | XmlItem Body
+
+// creates an XmlItem
+FakeAPI.createXmlItem(xmlItem: xmlItem) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xmlItem** | [**XmlItem**](XmlItem.md) | XmlItem Body | 
+
+### Return type
+
+Void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakeOuterBooleanSerialize**
 ```swift
@@ -30,7 +83,7 @@ Test serialization of outer boolean types
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let body = false // Bool | Input boolean as post body (optional)
 
@@ -79,7 +132,7 @@ Test serialization of object with outer number type
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: false) // OuterComposite | Input composite as post body (optional)
 
@@ -128,7 +181,7 @@ Test serialization of outer number types
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let body = 987 // Double | Input number as post body (optional)
 
@@ -177,7 +230,7 @@ Test serialization of outer string types
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let body = "body_example" // String | Input string as post body (optional)
 
@@ -226,7 +279,7 @@ For this test, the body for this request much reference a schema named `File`.
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [File(sourceURI: "sourceURI_example")]) // FileSchemaTestClass | 
 
@@ -273,7 +326,7 @@ No authorization required
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let query = "query_example" // String | 
 let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | 
@@ -324,7 +377,7 @@ To test \"client\" model
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let body = Client(client: "client_example") // Client | client model
 
@@ -374,7 +427,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let number = 987 // Double | None
 let double = 987 // Double | None
@@ -450,7 +503,7 @@ To test enum parameters
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let enumHeaderStringArray = ["enumHeaderStringArray_example"] // [String] | Header parameter enum test (string array) (optional)
 let enumHeaderString = "enumHeaderString_example" // String | Header parameter enum test (string) (optional) (default to .-efg)
@@ -514,7 +567,7 @@ Fake endpoint to test group parameters (optional)
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let requiredStringGroup = 987 // Int | Required String in group parameters
 let requiredBooleanGroup = false // Bool | Required Boolean in group parameters
@@ -572,7 +625,7 @@ test inline additionalProperties
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let param = "TODO" // [String:String] | request body
 
@@ -620,7 +673,7 @@ test json serialization of form data
 ### Example 
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
+import OpenAPIClient
 
 let param = "param_example" // String | field1
 let param2 = "param2_example" // String | field2
@@ -656,6 +709,111 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **testMixedPropertiesAndAdditionalProperties**
+```swift
+    open class func testMixedPropertiesAndAdditionalProperties(param: MixedPropertiesAndAdditionalPropertiesClass, completion: @escaping (_ data: MixedPropertiesAndAdditionalPropertiesClass?, _ error: Error?) -> Void)
+```
+
+test mixed properties and additionalProperties
+
+### Example 
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import OpenAPIClient
+
+let param = MixedPropertiesAndAdditionalPropertiesClass(uuid: 123, dateTime: Date(), map: "TODO") // MixedPropertiesAndAdditionalPropertiesClass | request body
+
+// test mixed properties and additionalProperties
+FakeAPI.testMixedPropertiesAndAdditionalProperties(param: param) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | [**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md) | request body | 
+
+### Return type
+
+[**MixedPropertiesAndAdditionalPropertiesClass**](MixedPropertiesAndAdditionalPropertiesClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **testQueryParameterCollectionFormat**
+```swift
+    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+```
+
+
+
+To test the collection format in query parameters
+
+### Example 
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import OpenAPIClient
+
+let pipe = ["inner_example"] // [String] | 
+let ioutil = ["inner_example"] // [String] | 
+let http = ["inner_example"] // [String] | 
+let url = ["inner_example"] // [String] | 
+let context = ["inner_example"] // [String] | 
+
+FakeAPI.testQueryParameterCollectionFormat(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**[String]**](String.md) |  | 
+ **ioutil** | [**[String]**](String.md) |  | 
+ **http** | [**[String]**](String.md) |  | 
+ **url** | [**[String]**](String.md) |  | 
+ **context** | [**[String]**](String.md) |  | 
+
+### Return type
+
+Void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

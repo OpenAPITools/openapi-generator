@@ -7,6 +7,7 @@ import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -586,6 +587,42 @@ public class FakeApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
+     * test mixed properties and additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param param request body
+     * @return MixedPropertiesAndAdditionalPropertiesClass
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public Mono<MixedPropertiesAndAdditionalPropertiesClass> testMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param) throws RestClientException {
+        Object postBody = param;
+        
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties");
+        }
+        
+        String path = UriComponentsBuilder.fromPath("/fake/body-mixedPropertiesAndAdditionalProperties").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] accepts = { 
+            "*/*"
+        };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { 
+            "application/json"
+        };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<MixedPropertiesAndAdditionalPropertiesClass> returnType = new ParameterizedTypeReference<MixedPropertiesAndAdditionalPropertiesClass>() {};
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 

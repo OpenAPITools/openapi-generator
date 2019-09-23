@@ -10,6 +10,7 @@ import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.MixedPropertiesAndAdditionalPropertiesClass;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
@@ -222,6 +223,29 @@ public interface FakeApi {
         method = RequestMethod.GET)
     default CompletableFuture<ResponseEntity<Void>> testJsonFormData(@ApiParam(value = "field1", required=true) @RequestParam(value="param", required=true)  String param,@ApiParam(value = "field2", required=true) @RequestParam(value="param2", required=true)  String param2) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
+
+    }
+
+
+    @ApiOperation(value = "test mixed properties and additionalProperties", nickname = "testMixedPropertiesAndAdditionalProperties", notes = "", response = MixedPropertiesAndAdditionalPropertiesClass.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = MixedPropertiesAndAdditionalPropertiesClass.class) })
+    @RequestMapping(value = "/fake/body-mixedPropertiesAndAdditionalProperties",
+        produces = { "*/*" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    default CompletableFuture<ResponseEntity<MixedPropertiesAndAdditionalPropertiesClass>> testMixedPropertiesAndAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody MixedPropertiesAndAdditionalPropertiesClass param) {
+        return CompletableFuture.supplyAsync(()-> {
+            getRequest().ifPresent(request -> {
+                for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                        ApiUtil.setExampleResponse(request, "*/*", "{  \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",  \"uuid\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",  \"map\" : {    \"key\" : {      \"color\" : \"red\",      \"className\" : \"className\"    }  }}");
+                        break;
+                    }
+                }
+            });
+            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        }, Runnable::run);
 
     }
 

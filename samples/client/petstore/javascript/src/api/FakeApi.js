@@ -16,18 +16,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Client', 'model/FileSchemaTestClass', 'model/OuterComposite', 'model/User', 'model/XmlItem'], factory);
+    define(['ApiClient', 'model/Client', 'model/FileSchemaTestClass', 'model/MixedPropertiesAndAdditionalPropertiesClass', 'model/OuterComposite', 'model/User', 'model/XmlItem'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('../model/Client'), require('../model/FileSchemaTestClass'), require('../model/OuterComposite'), require('../model/User'), require('../model/XmlItem'));
+    module.exports = factory(require('../ApiClient'), require('../model/Client'), require('../model/FileSchemaTestClass'), require('../model/MixedPropertiesAndAdditionalPropertiesClass'), require('../model/OuterComposite'), require('../model/User'), require('../model/XmlItem'));
   } else {
     // Browser globals (root is window)
     if (!root.OpenApiPetstore) {
       root.OpenApiPetstore = {};
     }
-    root.OpenApiPetstore.FakeApi = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Client, root.OpenApiPetstore.FileSchemaTestClass, root.OpenApiPetstore.OuterComposite, root.OpenApiPetstore.User, root.OpenApiPetstore.XmlItem);
+    root.OpenApiPetstore.FakeApi = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Client, root.OpenApiPetstore.FileSchemaTestClass, root.OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass, root.OpenApiPetstore.OuterComposite, root.OpenApiPetstore.User, root.OpenApiPetstore.XmlItem);
   }
-}(this, function(ApiClient, Client, FileSchemaTestClass, OuterComposite, User, XmlItem) {
+}(this, function(ApiClient, Client, FileSchemaTestClass, MixedPropertiesAndAdditionalPropertiesClass, OuterComposite, User, XmlItem) {
   'use strict';
 
   /**
@@ -680,6 +680,49 @@
       var returnType = null;
       return this.apiClient.callApi(
         '/fake/jsonFormData', 'GET',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the testMixedPropertiesAndAdditionalProperties operation.
+     * @callback module:api/FakeApi~testMixedPropertiesAndAdditionalPropertiesCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/MixedPropertiesAndAdditionalPropertiesClass} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * test mixed properties and additionalProperties
+     * @param {module:model/MixedPropertiesAndAdditionalPropertiesClass} param request body
+     * @param {module:api/FakeApi~testMixedPropertiesAndAdditionalPropertiesCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/MixedPropertiesAndAdditionalPropertiesClass}
+     */
+    this.testMixedPropertiesAndAdditionalProperties = function(param, callback) {
+      var postBody = param;
+      // verify the required parameter 'param' is set
+      if (param === undefined || param === null) {
+        throw new Error("Missing the required parameter 'param' when calling testMixedPropertiesAndAdditionalProperties");
+      }
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/json'];
+      var accepts = ['*/*'];
+      var returnType = MixedPropertiesAndAdditionalPropertiesClass;
+      return this.apiClient.callApi(
+        '/fake/body-mixedPropertiesAndAdditionalProperties', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

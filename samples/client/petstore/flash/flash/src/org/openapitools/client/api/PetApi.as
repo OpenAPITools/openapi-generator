@@ -38,7 +38,7 @@ public class PetApi extends OpenApi {
     /*
      * Returns void 
      */
-    public function add_pet (pet: Pet): String {
+    public function add_pet (body: Pet): String {
         // create path and map variables
         var path: String = "/pet".replace(/{format}/g,"xml");
 
@@ -53,7 +53,7 @@ public class PetApi extends OpenApi {
 
         
         
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, pet, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
@@ -197,7 +197,7 @@ public class PetApi extends OpenApi {
     /*
      * Returns void 
      */
-    public function update_pet (pet: Pet): String {
+    public function update_pet (body: Pet): String {
         // create path and map variables
         var path: String = "/pet".replace(/{format}/g,"xml");
 
@@ -212,7 +212,7 @@ public class PetApi extends OpenApi {
 
         
         
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, pet, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 

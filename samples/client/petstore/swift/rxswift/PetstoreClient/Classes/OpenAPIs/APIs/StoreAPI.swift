@@ -126,7 +126,7 @@ public class StoreAPI: APIBase {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func getOrderById(orderId orderId: String, completion: ((data: Order?, error: ErrorType?) -> Void)) {
+    public class func getOrderById(orderId orderId: Int64, completion: ((data: Order?, error: ErrorType?) -> Void)) {
         getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
@@ -138,7 +138,7 @@ public class StoreAPI: APIBase {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: Observable<Order>
      */
-    public class func getOrderById(orderId orderId: String) -> Observable<Order> {
+    public class func getOrderById(orderId orderId: Int64) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
             getOrderById(orderId: orderId) { data, error in
                 if let error = error {
@@ -160,36 +160,36 @@ public class StoreAPI: APIBase {
   "quantity" : 1,
   "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
+  "complete" : false,
   "status" : "placed"
-}}, {contentType=application/xml, example=<Order>
+}, statusCode=200}, {contentType=application/xml, example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}]
+</Order>, statusCode=200}]
      - examples: [{contentType=application/json, example={
   "petId" : 6,
   "quantity" : 1,
   "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
+  "complete" : false,
   "status" : "placed"
-}}, {contentType=application/xml, example=<Order>
+}, statusCode=200}, {contentType=application/xml, example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}]
+</Order>, statusCode=200}]
      - parameter orderId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<Order> 
      */
-    public class func getOrderByIdWithRequestBuilder(orderId orderId: String) -> RequestBuilder<Order> {
+    public class func getOrderByIdWithRequestBuilder(orderId orderId: Int64) -> RequestBuilder<Order> {
         var path = "/store/order/{orderId}"
         path = path.stringByReplacingOccurrencesOfString("{orderId}", withString: "\(orderId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
@@ -208,11 +208,11 @@ public class StoreAPI: APIBase {
     /**
      Place an order for a pet
      
-     - parameter order: (body) order placed for purchasing the pet (optional)
+     - parameter body: (body) order placed for purchasing the pet 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func placeOrder(order order: Order? = nil, completion: ((data: Order?, error: ErrorType?) -> Void)) {
-        placeOrderWithRequestBuilder(order: order).execute { (response, error) -> Void in
+    public class func placeOrder(body body: Order, completion: ((data: Order?, error: ErrorType?) -> Void)) {
+        placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -220,12 +220,12 @@ public class StoreAPI: APIBase {
     /**
      Place an order for a pet
      
-     - parameter order: (body) order placed for purchasing the pet (optional)
+     - parameter body: (body) order placed for purchasing the pet 
      - returns: Observable<Order>
      */
-    public class func placeOrder(order order: Order? = nil) -> Observable<Order> {
+    public class func placeOrder(body body: Order) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
-            placeOrder(order: order) { data, error in
+            placeOrder(body: body) { data, error in
                 if let error = error {
                     observer.on(.Error(error as ErrorType))
                 } else {
@@ -244,39 +244,39 @@ public class StoreAPI: APIBase {
   "quantity" : 1,
   "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
+  "complete" : false,
   "status" : "placed"
-}}, {contentType=application/xml, example=<Order>
+}, statusCode=200}, {contentType=application/xml, example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}]
+</Order>, statusCode=200}]
      - examples: [{contentType=application/json, example={
   "petId" : 6,
   "quantity" : 1,
   "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
+  "complete" : false,
   "status" : "placed"
-}}, {contentType=application/xml, example=<Order>
+}, statusCode=200}, {contentType=application/xml, example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}]
-     - parameter order: (body) order placed for purchasing the pet (optional)
+</Order>, statusCode=200}]
+     - parameter body: (body) order placed for purchasing the pet 
 
      - returns: RequestBuilder<Order> 
      */
-    public class func placeOrderWithRequestBuilder(order order: Order? = nil) -> RequestBuilder<Order> {
+    public class func placeOrderWithRequestBuilder(body body: Order) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = order?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  

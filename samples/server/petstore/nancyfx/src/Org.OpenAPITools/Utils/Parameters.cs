@@ -9,7 +9,7 @@ using Sharpility.Base;
 using Sharpility.Extensions;
 using Sharpility.Util;
 
-namespace Org.OpenAPITools.v2.Utils
+namespace Org.OpenAPITools._v2.Utils
 {
     internal static class Parameters
     {

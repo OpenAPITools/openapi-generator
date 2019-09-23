@@ -1,7 +1,7 @@
 {
-    "name": "@openapitools/jquery-typescript-petstore",
+    "name": "@openapitools/angular2-typescript-petstore",
     "version": "0.0.1",
-    "description": "JQuery client for @openapitools/jquery-typescript-petstore",
+    "description": "JQuery client for @openapitools/angular2-typescript-petstore",
     "main": "api.js",
     "scripts": {
         "build": "tsc"

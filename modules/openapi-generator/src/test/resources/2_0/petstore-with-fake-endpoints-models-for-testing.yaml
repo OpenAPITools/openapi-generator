@@ -950,6 +950,27 @@ paths:
       responses:
         '200':
           description: successful operation
+  /fake/body-mixedPropertiesAndAdditionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test mixed properties and additionalProperties
+      description: ''
+      operationId: testMixedPropertiesAndAdditionalProperties
+      consumes:
+        - application/json
+      parameters:
+        - name: param
+          in: body
+          description: request body
+          required: true
+          schema:
+            $ref: '#/definitions/MixedPropertiesAndAdditionalPropertiesClass'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/MixedPropertiesAndAdditionalPropertiesClass'
   /fake/body-with-query-params:
     put:
       tags:

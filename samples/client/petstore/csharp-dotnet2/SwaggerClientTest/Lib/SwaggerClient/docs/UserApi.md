@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createuser"></a>
 # **CreateUser**
-> void CreateUser (User user)
+> void CreateUser (User body)
 
 Create user
 
@@ -38,12 +38,12 @@ namespace Example
         {
             
             var apiInstance = new UserApi();
-            var user = new User(); // User | Created user object
+            var body = new User(); // User | Created user object
 
             try
             {
                 // Create user
-                apiInstance.CreateUser(user);
+                apiInstance.CreateUser(body);
             }
             catch (Exception e)
             {
@@ -58,7 +58,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -77,7 +77,7 @@ No authorization required
 
 <a name="createuserswitharrayinput"></a>
 # **CreateUsersWithArrayInput**
-> void CreateUsersWithArrayInput (List<User> user)
+> void CreateUsersWithArrayInput (List<User> body)
 
 Creates list of users with given input array
 
@@ -97,12 +97,12 @@ namespace Example
         {
             
             var apiInstance = new UserApi();
-            var user = new List<User>(); // List<User> | List of user object
+            var body = new List<User>(); // List<User> | List of user object
 
             try
             {
                 // Creates list of users with given input array
-                apiInstance.CreateUsersWithArrayInput(user);
+                apiInstance.CreateUsersWithArrayInput(body);
             }
             catch (Exception e)
             {
@@ -117,7 +117,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List<User>**](List.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -136,7 +136,7 @@ No authorization required
 
 <a name="createuserswithlistinput"></a>
 # **CreateUsersWithListInput**
-> void CreateUsersWithListInput (List<User> user)
+> void CreateUsersWithListInput (List<User> body)
 
 Creates list of users with given input array
 
@@ -156,12 +156,12 @@ namespace Example
         {
             
             var apiInstance = new UserApi();
-            var user = new List<User>(); // List<User> | List of user object
+            var body = new List<User>(); // List<User> | List of user object
 
             try
             {
                 // Creates list of users with given input array
-                apiInstance.CreateUsersWithListInput(user);
+                apiInstance.CreateUsersWithListInput(body);
             }
             catch (Exception e)
             {
@@ -176,7 +176,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List<User>**](List.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -433,7 +433,7 @@ No authorization required
 
 <a name="updateuser"></a>
 # **UpdateUser**
-> void UpdateUser (string username, User user)
+> void UpdateUser (string username, User body)
 
 Updated user
 
@@ -456,12 +456,12 @@ namespace Example
             
             var apiInstance = new UserApi();
             var username = username_example;  // string | name that need to be deleted
-            var user = new User(); // User | Updated user object
+            var body = new User(); // User | Updated user object
 
             try
             {
                 // Updated user
-                apiInstance.UpdateUser(username, user);
+                apiInstance.UpdateUser(username, body);
             }
             catch (Exception e)
             {
@@ -477,7 +477,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 

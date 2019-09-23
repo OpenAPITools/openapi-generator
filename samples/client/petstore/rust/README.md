@@ -1,4 +1,4 @@
-# Rust API client for petstore_client
+# Rust API client for openapi
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 

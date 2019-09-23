@@ -19,6 +19,7 @@ import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -196,6 +197,16 @@ public class FakeApi {
             @ApiResponse(code = 200, message = "successful operation")  })
     public TestJsonFormDataOper testJsonFormData() {
         return new TestJsonFormDataOper(createReqSpec());
+    }
+
+    @ApiOperation(value = "test mixed properties and additionalProperties",
+            notes = "",
+            nickname = "testMixedPropertiesAndAdditionalProperties",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation")  })
+    public TestMixedPropertiesAndAdditionalPropertiesOper testMixedPropertiesAndAdditionalProperties() {
+        return new TestMixedPropertiesAndAdditionalPropertiesOper(createReqSpec());
     }
 
     @ApiOperation(value = "",
@@ -1380,6 +1391,77 @@ public class FakeApi {
          * @return operation
          */
         public TestJsonFormDataOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
+     * test mixed properties and additionalProperties
+     * 
+     *
+     * @see #body request body (required)
+     * return MixedPropertiesAndAdditionalPropertiesClass
+     */
+    public static class TestMixedPropertiesAndAdditionalPropertiesOper {
+
+        public static final Method REQ_METHOD = POST;
+        public static final String REQ_URI = "/fake/body-mixedPropertiesAndAdditionalProperties";
+
+        private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
+
+        public TestMixedPropertiesAndAdditionalPropertiesOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setContentType("application/json");
+            reqSpec.setAccept("*/*");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * POST /fake/body-mixedPropertiesAndAdditionalProperties
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
+        }
+
+        /**
+         * POST /fake/body-mixedPropertiesAndAdditionalProperties
+         * @param handler handler
+         * @return MixedPropertiesAndAdditionalPropertiesClass
+         */
+        public MixedPropertiesAndAdditionalPropertiesClass executeAs(Function<Response, Response> handler) {
+            Type type = new TypeToken<MixedPropertiesAndAdditionalPropertiesClass>(){}.getType();
+            return execute(handler).as(type);
+        }
+
+         /**
+         * @param param (MixedPropertiesAndAdditionalPropertiesClass) request body (required)
+         * @return operation
+         */
+        public TestMixedPropertiesAndAdditionalPropertiesOper body(MixedPropertiesAndAdditionalPropertiesClass param) {
+            reqSpec.setBody(param);
+            return this;
+        }
+
+        /**
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
+         * @return operation
+         */
+        public TestMixedPropertiesAndAdditionalPropertiesOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
+         * @return operation
+         */
+        public TestMixedPropertiesAndAdditionalPropertiesOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
             respSpecCustomizer.accept(respSpec);
             return this;
         }

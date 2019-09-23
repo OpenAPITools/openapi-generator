@@ -11,8 +11,6 @@ The following models have been auto-generated from the provided OpenAPI schema:
 - model/TagModel.fs
 - model/CategoryModel.fs
 - model/OrderModel.fs
-- model/InlineObject1Model.fs
-- model/InlineObjectModel.fs
 - model/PetModel.fs
 
 ## Operations

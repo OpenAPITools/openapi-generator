@@ -30,7 +30,6 @@
 #include "OAIObject.h"
 #include "OAIEnum.h"
 
-
 namespace OpenAPI {
 
 class OAIPet: public OAIObject {
@@ -69,7 +68,7 @@ public:
     void setStatus(const QString &status);
 
     
-
+    
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 

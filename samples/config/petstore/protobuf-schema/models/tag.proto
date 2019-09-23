@@ -10,7 +10,7 @@
 
 syntax = "proto3";
 
-package petstore;
+package ;
 
 
 message Tag {

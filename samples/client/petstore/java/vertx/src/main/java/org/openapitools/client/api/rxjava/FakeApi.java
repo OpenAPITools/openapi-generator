@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
+import org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -354,6 +355,27 @@ public class FakeApi {
     public Single<Void> rxTestJsonFormData(String param, String param2) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.testJsonFormData(param, param2, fut);
+        }));
+    }
+    /**
+     * test mixed properties and additionalProperties
+     * 
+     * @param param request body (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param, Handler<AsyncResult<MixedPropertiesAndAdditionalPropertiesClass>> resultHandler) {
+        delegate.testMixedPropertiesAndAdditionalProperties(param, resultHandler);
+    }
+
+    /**
+     * test mixed properties and additionalProperties
+     * 
+     * @param param request body (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<MixedPropertiesAndAdditionalPropertiesClass> rxTestMixedPropertiesAndAdditionalProperties(MixedPropertiesAndAdditionalPropertiesClass param) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testMixedPropertiesAndAdditionalProperties(param, fut);
         }));
     }
     /**

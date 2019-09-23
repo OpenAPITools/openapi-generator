@@ -11,7 +11,6 @@
 from __future__ import absolute_import
 
 import datetime
-import inspect
 import json
 import mimetypes
 from multiprocessing.pool import ThreadPool
@@ -23,10 +22,10 @@ import tempfile
 import six
 from six.moves.urllib.parse import quote
 
-from petstore_api.configuration import Configuration
-import petstore_api.models
-from petstore_api import rest
-from petstore_api.exceptions import ApiValueError
+from openapi_client.configuration import Configuration
+import openapi_client.models
+from openapi_client import rest
+from openapi_client.exceptions import ApiValueError
 
 
 class ApiClient(object):
@@ -278,7 +277,7 @@ class ApiClient(object):
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
             else:
-                klass = getattr(petstore_api.models, klass)
+                klass = getattr(openapi_client.models, klass)
 
         if klass in self.PRIMITIVE_TYPES:
             return self.__deserialize_primitive(data, klass)
@@ -623,33 +622,16 @@ class ApiClient(object):
                                                    'get_real_child_model'):
             return data
 
-        used_data = data
-        if not isinstance(data, (list, dict)):
-            used_data = [data]
-        keyword_args = {}
-        positional_args = []
+        kwargs = {}
         if klass.openapi_types is not None:
             for attr, attr_type in six.iteritems(klass.openapi_types):
                 if (data is not None and
-                        klass.attribute_map[attr] in used_data):
-                    value = used_data[klass.attribute_map[attr]]
-                    keyword_args[attr] = self.__deserialize(value, attr_type)
+                        klass.attribute_map[attr] in data and
+                        isinstance(data, (list, dict))):
+                    value = data[klass.attribute_map[attr]]
+                    kwargs[attr] = self.__deserialize(value, attr_type)
 
-        end_index = None
-        argspec = inspect.getargspec(getattr(klass, '__init__'))
-        if argspec.defaults:
-            end_index = -len(argspec.defaults)
-        required_positional_args = argspec.args[1:end_index]
-
-        for index, req_positional_arg in enumerate(required_positional_args):
-            if keyword_args and req_positional_arg in keyword_args:
-                positional_args.append(keyword_args[req_positional_arg])
-                del keyword_args[req_positional_arg]
-            elif (not keyword_args and index < len(used_data) and
-                    isinstance(used_data, list)):
-                positional_args.append(used_data[index])
-
-        instance = klass(*positional_args, **keyword_args)
+        instance = klass(**kwargs)
 
         if hasattr(instance, 'get_real_child_model'):
             klass_name = instance.get_real_child_model(data)
