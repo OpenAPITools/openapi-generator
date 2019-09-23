@@ -591,7 +591,7 @@ int32 = 56 # int | None (optional)
 int64 = 56 # int | None (optional)
 float = 3.4 # float | None (optional)
 string = 'string_example' # str | None (optional)
-binary = '/path/to/file' # file | None (optional)
+binary = '/path/to/file' # file_type | None (optional)
 date = '2013-10-20' # date | None (optional)
 date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
 password = 'password_example' # str | None (optional)
@@ -617,7 +617,7 @@ Name | Type | Description  | Notes
  **int64** | **int**| None | [optional]
  **float** | **float**| None | [optional]
  **string** | **str**| None | [optional]
- **binary** | **file**| None | [optional]
+ **binary** | **file_type**| None | [optional]
  **date** | **date**| None | [optional]
  **date_time** | **datetime**| None | [optional]
  **password** | **str**| None | [optional]
@@ -662,13 +662,13 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
+enum_header_string_array = ['enum_header_string_array_example'] # [str] | Header parameter enum test (string array) (optional)
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
-enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
+enum_query_string_array = ['enum_query_string_array_example'] # [str] | Query parameter enum test (string array) (optional)
 enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
+enum_form_string_array = '$' # [str] | Form parameter enum test (string array) (optional) (default to '$')
 enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
 
 try:
@@ -682,13 +682,13 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**list[str]**](str.md)| Header parameter enum test (string array) | [optional]
+ **enum_header_string_array** | [**[str]**](str.md)| Header parameter enum test (string array) | [optional]
  **enum_header_string** | **str**| Header parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
- **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional]
+ **enum_query_string_array** | [**[str]**](str.md)| Query parameter enum test (string array) | [optional]
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional]
- **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of '$'
+ **enum_form_string_array** | [**[str]**](str.md)| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of '$'
  **enum_form_string** | **str**| Form parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
 
 ### Return type
@@ -791,7 +791,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-param = {'key': 'param_example'} # dict(str, str) | request body
+param = {'key': 'param_example'} # {str: (str,)} | request body
 
 try:
     # test inline additionalProperties
@@ -804,7 +804,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**dict(str, str)**](str.md)| request body |
+ **param** | [**{str: (str,)}**](str.md)| request body |
 
 ### Return type
 

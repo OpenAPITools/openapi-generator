@@ -16,7 +16,11 @@ import unittest
 
 import petstore_api
 from petstore_api import Configuration
-from petstore_api.rest import ApiException
+
+from petstore_api.exceptions import (
+    ApiException,
+    ApiValueError,
+)
 
 from .util import id_gen
 
@@ -78,7 +82,6 @@ class PetApiTests(unittest.TestCase):
     def setUpFiles(self):
         self.test_file_dir = os.path.join(os.path.dirname(__file__), "..", "testfiles")
         self.test_file_dir = os.path.realpath(self.test_file_dir)
-        self.foo = os.path.join(self.test_file_dir, "foo.png")
 
     def test_preload_content_flag(self):
         self.pet_api.add_pet(self.pet)
@@ -173,7 +176,7 @@ class PetApiTests(unittest.TestCase):
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id("-9999999999999", async_req=True)
+        thread = self.pet_api.get_pet_by_id(-9999999999999, async_req=True)
 
         exception = None
         try:
@@ -246,21 +249,35 @@ class PetApiTests(unittest.TestCase):
 
     def test_upload_file(self):
         # upload file with form parameter
+        file_path = os.path.join(self.test_file_dir, "foo.png")
         try:
+            file = open(file_path, "rb")
             additional_metadata = "special"
             self.pet_api.upload_file(
                 pet_id=self.pet.id,
                 additional_metadata=additional_metadata,
-                file=self.foo
+                file=file
             )
         except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file.close()
 
         # upload only file
         try:
-            self.pet_api.upload_file(pet_id=self.pet.id, file=self.foo)
+            file = open(file_path, "rb")
+            self.pet_api.upload_file(pet_id=self.pet.id, file=file)
         except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file.close()
+
+        # passing in a closed file raises an exception
+        with self.assertRaises(ApiValueError) as exc:
+            file = open(file_path, "rb")
+            file.close()
+            self.pet_api.upload_file(pet_id=self.pet.id, file=file)
+
 
     def test_delete_pet(self):
         self.pet_api.add_pet(self.pet)

@@ -46,8 +46,8 @@ class TestFakeApi(unittest.TestCase):
         """
         # verify that the input and output are type OuterEnum
         endpoint = self.api.fake_outer_enum_serialize
-        assert endpoint.openapi_types['body'] == 'OuterEnum'
-        assert endpoint.settings['response_type'] == 'OuterEnum'
+        assert endpoint.openapi_types['body'] == (petstore_api.OuterEnum,)
+        assert endpoint.settings['response_type'] == (petstore_api.OuterEnum,)
 
     def test_fake_outer_number_serialize(self):
         """Test case for fake_outer_number_serialize
@@ -55,8 +55,8 @@ class TestFakeApi(unittest.TestCase):
         """
         # verify that the input and output are the correct type
         endpoint = self.api.fake_outer_number_serialize
-        assert endpoint.openapi_types['body'] == 'OuterNumber'
-        assert endpoint.settings['response_type'] == 'OuterNumber'
+        assert endpoint.openapi_types['body'] == (petstore_api.OuterNumber,)
+        assert endpoint.settings['response_type'] == (petstore_api.OuterNumber,)
 
     def test_fake_outer_string_serialize(self):
         """Test case for fake_outer_string_serialize

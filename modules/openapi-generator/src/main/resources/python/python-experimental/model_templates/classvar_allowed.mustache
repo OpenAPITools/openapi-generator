@@ -1,5 +1,5 @@
     allowed_values = {
-{{#vars}}
+{{#allVars}}
 {{#isEnum}}
         ('{{name}}',): {
 {{#isNullable}}
@@ -7,10 +7,10 @@
 {{/isNullable}}
 {{#allowableValues}}
 {{#enumVars}}
-            '{{name}}': {{{value}}}{{^-last}},{{/-last}}
+            '{{name}}': {{{value}}},
 {{/enumVars}}
 {{/allowableValues}}
         },
 {{/isEnum}}
-{{/vars}}
+{{/allVars}}
     }
