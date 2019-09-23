@@ -563,6 +563,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Element AI](https://www.elementai.com/)
 - [FormAPI](https://formapi.io/)
 - [Fuse](https://www.fuse.no/)
+- [Gantner](https://www.gantner.com)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [GoDaddy](https://godaddy.com)
