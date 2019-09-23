@@ -1,5 +1,7 @@
 export * from './apiResponse';
 export * from './category';
+export * from './inlineObject';
+export * from './inlineObject1';
 export * from './order';
 export * from './pet';
 export * from './tag';
@@ -9,6 +11,8 @@ import localVarRequest = require('request');
 
 import { ApiResponse } from './apiResponse';
 import { Category } from './category';
+import { InlineObject } from './inlineObject';
+import { InlineObject1 } from './inlineObject1';
 import { Order } from './order';
 import { Pet } from './pet';
 import { Tag } from './tag';
@@ -25,7 +29,7 @@ let primitives = [
                     "number",
                     "any"
                  ];
-                 
+
 let enumsMap: {[index: string]: any} = {
         "Order.StatusEnum": Order.StatusEnum,
         "Pet.StatusEnum": Pet.StatusEnum,
@@ -34,6 +38,8 @@ let enumsMap: {[index: string]: any} = {
 let typeMap: {[index: string]: any} = {
     "ApiResponse": ApiResponse,
     "Category": Category,
+    "InlineObject": InlineObject,
+    "InlineObject1": InlineObject1,
     "Order": Order,
     "Pet": Pet,
     "Tag": Tag,
@@ -99,7 +105,7 @@ export class ObjectSerializer {
             if (!typeMap[type]) { // in case we dont know the type
                 return data;
             }
-            
+
             // Get the actual type of this object
             type = this.findCorrectType(data, type);
 
@@ -180,6 +186,13 @@ export class ApiKeyAuth implements Authentication {
             (<any>requestOptions.qs)[this.paramName] = this.apiKey;
         } else if (this.location == "header" && requestOptions && requestOptions.headers) {
             requestOptions.headers[this.paramName] = this.apiKey;
+        } else if (this.location == 'cookie' && requestOptions && requestOptions.headers) {
+            if (requestOptions.headers['Cookie']) {
+                requestOptions.headers['Cookie'] += '; ' + this.paramName + '=' + encodeURIComponent(this.apiKey);
+            }
+            else {
+                requestOptions.headers['Cookie'] = this.paramName + '=' + encodeURIComponent(this.apiKey);
+            }
         }
     }
 }
