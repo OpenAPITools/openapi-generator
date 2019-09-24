@@ -490,10 +490,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
-                // Special handling of aliases only applies to Java
                 if (modelTemplate != null && modelTemplate.containsKey("model")) {
                     CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                    if (m.isAlias) {
+                    if (m.isAlias && !ModelUtils.isGenerateAliasAsModel()) {
                         continue;  // Don't create user-defined classes for aliases
                     }
                 }
