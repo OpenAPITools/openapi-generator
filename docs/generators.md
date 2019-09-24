@@ -75,6 +75,7 @@ The following generators are available:
 * [cpp-restbed-server](generators/cpp-restbed-server)  
 * [csharp-nancyfx](generators/csharp-nancyfx)  
 * [erlang-server](generators/erlang-server)  
+* [fsharp-functions](generators/fsharp-functions)  
 * [fsharp-giraffe-server](generators/fsharp-giraffe-server)  
 * [go-gin-server](generators/go-gin-server)  
 * [go-server](generators/go-server)  

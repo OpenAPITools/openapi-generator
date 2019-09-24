@@ -17,7 +17,7 @@ import http = require('http');
 import { Order } from '../model/order';
 
 import { ObjectSerializer, Authentication, VoidAuth } from '../model/models';
-import { ApiKeyAuth } from '../model/models';
+import { HttpBasicAuth, ApiKeyAuth, OAuth } from '../model/models';
 
 import { HttpError } from './apis';
 

@@ -16,20 +16,33 @@
 
 package org.openapitools.codegen.languages;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientExperimentalCodegen.class);
@@ -37,15 +50,38 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public PythonClientExperimentalCodegen() {
         super();
 
-        supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
-        apiDocTemplateFiles.put("python-experimental/api_doc.mustache", ".md");
+        apiTemplateFiles.remove("api.mustache");
         apiTemplateFiles.put("python-experimental/api.mustache", ".py");
+
+        apiDocTemplateFiles.remove("api_doc.mustache");
+        apiDocTemplateFiles.put("python-experimental/api_doc.mustache", ".md");
+
+        modelDocTemplateFiles.remove("model_doc.mustache");
         modelDocTemplateFiles.put("python-experimental/model_doc.mustache", ".md");
+
+        modelTemplateFiles.remove("model.mustache");
         modelTemplateFiles.put("python-experimental/model.mustache", ".py");
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
                 .build();
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        supportingFiles.remove(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
+
+        supportingFiles.add(new SupportingFile("python-experimental/model_utils.mustache", packagePath(), "model_utils.py"));
+
+        // default this to true so the python ModelSimple models will be generated
+        ModelUtils.setGenerateAliasAsModel(true);
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
+          LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
+        }
+
     }
 
     /**
@@ -160,6 +196,399 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         } else {
             return  defaultObject.toString();
         }
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        // add regex information to property
+        postProcessPattern(property.pattern, property.vendorExtensions);
+    }
+
+    // override with any special post-processing for all models
+    @SuppressWarnings({"static-method", "unchecked"})
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        // loop through all models and delete ones where type!=object and the model has no validations and enums
+        // we will remove them because they are not needed
+        Map<String, Schema> modelSchemasToRemove = new HashMap<String, Schema>();
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
+                CodegenProperty modelProperty = fromProperty("value", modelSchema);
+                if (cm.isEnum || cm.isAlias) {
+                    if (!modelProperty.isEnum && !modelProperty.hasValidation) {
+                        // remove these models because they are aliases and do not have any enums or validations
+                        modelSchemasToRemove.put(cm.name, modelSchema);
+                    }
+                } else if (cm.isArrayModel && !modelProperty.isEnum && !modelProperty.hasValidation) {
+                    // remove any ArrayModels which lack validation and enums
+                    modelSchemasToRemove.put(cm.name, modelSchema);
+                }
+            }
+        }
+
+        // Remove modelSchemasToRemove models from objs
+        for (String modelName : modelSchemasToRemove.keySet()) {
+            objs.remove(modelName);
+        }
+        return objs;
+    }
+
+    /**
+     * Convert OAS Property object to Codegen Property object
+     *
+     * @param name name of the property
+     * @param p    OAS property object
+     * @return Codegen Property object
+     */
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        // we have a custom version of this function to always set allowableValues.enumVars on all enum variables
+        CodegenProperty result = super.fromProperty(name, p);
+        if (result.isEnum) {
+            updateCodegenPropertyEnum(result);
+        }
+        return result;
+    }
+
+    /**
+     * Update codegen property's enum by adding "enumVars" (with name and value)
+     *
+     * @param var list of CodegenProperty
+     */
+    @Override
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        // we have a custom version of this method to omit overwriting the defaultValue
+        Map<String, Object> allowableValues = var.allowableValues;
+
+        // handle array
+        if (var.mostInnerItems != null) {
+            allowableValues = var.mostInnerItems.allowableValues;
+        }
+
+        if (allowableValues == null) {
+            return;
+        }
+
+        List<Object> values = (List<Object>) allowableValues.get("values");
+        if (values == null) {
+            return;
+        }
+
+        String varDataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
+        Optional<Schema> referencedSchema = ModelUtils.getSchemas(openAPI).entrySet().stream()
+                .filter(entry -> Objects.equals(varDataType, toModelName(entry.getKey())))
+                .map(Map.Entry::getValue)
+                .findFirst();
+        String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
+
+        // put "enumVars" map into `allowableValues", including `name` and `value`
+        List<Map<String, Object>> enumVars = new ArrayList<>();
+        String commonPrefix = findCommonPrefixOfVars(values);
+        int truncateIdx = commonPrefix.length();
+        for (Object value : values) {
+            Map<String, Object> enumVar = new HashMap<>();
+            String enumName;
+            if (truncateIdx == 0) {
+                enumName = value.toString();
+            } else {
+                enumName = value.toString().substring(truncateIdx);
+                if ("".equals(enumName)) {
+                    enumName = value.toString();
+                }
+            }
+
+            enumVar.put("name", toEnumVarName(enumName, dataType));
+            enumVar.put("value", toEnumValue(value.toString(), dataType));
+            enumVar.put("isString", isDataTypeString(dataType));
+            enumVars.add(enumVar);
+        }
+        // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
+        Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
+        if (referencedSchema.isPresent()) {
+            extensions = referencedSchema.get().getExtensions();
+        }
+        updateEnumVarsWithExtensions(enumVars, extensions);
+        allowableValues.put("enumVars", enumVars);
+        // overwriting defaultValue omitted from here
+    }
+
+    @Override
+    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
+        CodegenParameter result = super.fromRequestBody(body, imports, bodyParameterName);
+        // if we generated a model with a non-object type because it has validations or enums,
+        // make sure that the datatype of that body parameter refers to our model class
+        Content content = body.getContent();
+        Set<String> keySet = content.keySet();
+        Object[] keyArray = (Object[]) keySet.toArray();
+        MediaType mediaType = content.get(keyArray[0]);
+        Schema schema = mediaType.getSchema();
+        String ref = schema.get$ref();
+        if (ref == null) {
+            return result;
+        }
+        String modelName = ModelUtils.getSimpleRef(ref);
+        // the result lacks validation info so we need to make a CodegenProperty from the schema to check
+        // if we have validation and enum info exists
+        Schema realSchema = ModelUtils.getSchema(this.openAPI, modelName);
+        CodegenProperty modelProp = fromProperty("body", realSchema);
+        if (modelProp.isPrimitiveType && (modelProp.hasValidation || modelProp.isEnum)) {
+            String simpleDataType = result.dataType;
+            result.isPrimitiveType = false;
+            result.isModel = true;
+            result.dataType = modelName;
+            imports.add(modelName);
+            // set the example value
+            if (modelProp.isEnum) {
+                String value = modelProp._enum.get(0).toString();
+                result.example = modelName + "(" + toEnumValue(value, simpleDataType) + ")";
+            } else {
+                result.example = modelName + "(" + result.example + ")";
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Convert OAS Response object to Codegen Response object
+     *
+     * @param responseCode HTTP response code
+     * @param response     OAS Response object
+     * @return Codegen Response object
+     */
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        // if a response points at a model whose type != object and it has validations and/or enums, then we will
+        // generate the model, and the response.isModel must be changed to true and response.baseType must be the name
+        // of the model. Point responses at models if the model is python class type ModelSimple
+        // When we serialize/deserialize ModelSimple models, validations and enums will be checked.
+        Schema responseSchema;
+        if (this.openAPI != null && this.openAPI.getComponents() != null) {
+            responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(response));
+        } else { // no model/alias defined
+            responseSchema = ModelUtils.getSchemaFromResponse(response);
+        }
+
+        String newBaseType = null;
+        if (responseSchema != null) {
+            CodegenProperty cp = fromProperty("response", responseSchema);
+            if (cp.complexType != null) {
+                // check the referenced schema to see if it is an type=object model
+                Schema modelSchema = ModelUtils.getSchema(this.openAPI, cp.complexType);
+                if (modelSchema != null && !"object".equals(modelSchema.getType())) {
+                    CodegenProperty modelProp = fromProperty("response", modelSchema);
+                    if (modelProp.isEnum == true || modelProp.hasValidation == true) {
+                        // this model has validations and/or enums so we will generate it
+                        newBaseType = cp.complexType;
+                    }
+                }
+            } else {
+                if (cp.isEnum == true || cp.hasValidation == true) {
+                    // this model has validations and/or enums so we will generate it
+                    Schema sc =  ModelUtils.getSchemaFromResponse(response);
+                    newBaseType = ModelUtils.getSimpleRef(sc.get$ref());
+                }
+            }
+        }
+
+        CodegenResponse result = super.fromResponse(responseCode, response);
+        if (newBaseType != null) {
+            result.isModel = true;
+            result.baseType = newBaseType;
+            result.dataType = newBaseType;
+        }
+
+        return result;
+    }
+
+    /**
+     * Set op's returnBaseType, returnType, examples etc.
+     *
+     * @param operation endpoint Operation
+     * @param schemas a map of the schemas in the openapi spec
+     * @param op endpoint CodegenOperation
+     * @param methodResponse the default ApiResponse for the endpoint
+     */
+    @Override
+    public void handleMethodResponse(Operation operation,
+                                     Map<String, Schema> schemas,
+                                     CodegenOperation op,
+                                     ApiResponse methodResponse) {
+        // we have a custom version of this method to handle endpoints that return models where
+        // type != object the model has validations and/or enums
+        // we do this by invoking our custom fromResponse method to create defaultResponse
+        // which we then use to set op.returnType and op.returnBaseType
+        CodegenResponse defaultResponse = fromResponse("defaultResponse", methodResponse);
+        Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
+
+        if (responseSchema != null) {
+            op.returnBaseType = defaultResponse.baseType;
+
+            // generate examples
+            String exampleStatusCode = "200";
+            for (String key : operation.getResponses().keySet()) {
+                if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
+                    exampleStatusCode = key;
+                }
+            }
+            op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
+            op.defaultResponse = toDefaultValue(responseSchema);
+            op.returnType = defaultResponse.dataType;
+            op.hasReference = schemas.containsKey(op.returnBaseType);
+
+            // lookup discriminator
+            Schema schema = schemas.get(op.returnBaseType);
+            if (schema != null) {
+                CodegenModel cmod = fromModel(op.returnBaseType, schema);
+                op.discriminator = cmod.discriminator;
+            }
+
+            if (defaultResponse.isListContainer) {
+                op.isListContainer = true;
+            } else if (defaultResponse.isMapContainer) {
+                op.isMapContainer = true;
+            } else {
+                op.returnSimpleType = true;
+            }
+            if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
+                op.returnTypeIsPrimitive = true;
+            }
+        }
+        addHeaders(methodResponse, op.responseHeaders);
+    }
+
+
+    /**
+     * Return the sanitized variable name for enum
+     *
+     * @param value    enum variable name
+     * @param datatype data type
+     * @return the sanitized variable name for enum
+     */
+    public String toEnumVarName(String value, String datatype) {
+        // our enum var names are keys in a python dict, so change spaces to underscores
+        if (value.length() == 0) {
+            return "EMPTY";
+        }
+
+        String var = value.replaceAll("\\s+", "_").toUpperCase(Locale.ROOT);
+        return var;
+    }
+
+    /**
+     * Return the enum value in the language specified format
+     * e.g. status becomes "status"
+     *
+     * @param value    enum variable name
+     * @param datatype data type
+     * @return the sanitized value for enum
+     */
+    public String toEnumValue(String value, String datatype) {
+        if (datatype.equals("int") || datatype.equals("float")) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+    }
+
+    /**
+     * Convert OAS Model object to Codegen Model object
+     *
+     * @param name   the name of the model
+     * @param schema OAS Model object
+     * @return Codegen Model object
+     */
+    @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        // we have a custom version of this function so we can produce
+        // models for components whose type != object and which have validations and enums
+        // this ensures that endpoint (operation) responses with validations and enums
+        // will generate models, and when those endpoint responses are received in python
+        // the response is cast as a model, and the model will validate the response using the enums and validations
+        Map<String, String> propertyToModelName = new HashMap<String, String>();
+        Map<String, Schema> propertiesMap = schema.getProperties();
+        if (propertiesMap != null) {
+            for (Map.Entry<String, Schema> entry : propertiesMap.entrySet()) {
+                String schemaPropertyName = entry.getKey();
+                String pythonPropertyName = toVarName(schemaPropertyName);
+                Schema propertySchema = entry.getValue();
+                String ref = propertySchema.get$ref();
+                if (ref == null) {
+                    continue;
+                }
+                Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, propertySchema);
+                String refType = refSchema.getType();
+                if (refType == null || refType.equals("object")) {
+                    continue;
+                }
+                CodegenProperty modelProperty = fromProperty("_fake_name", refSchema);
+                if (modelProperty.isEnum == false && modelProperty.hasValidation == false) {
+                    continue;
+                }
+                String modelName = ModelUtils.getSimpleRef(ref);
+                propertyToModelName.put(pythonPropertyName, modelName);
+            }
+        }
+        CodegenModel result = super.fromModel(name, schema);
+
+        // make non-object type models have one property so we can use it to store enums and validations
+        if (result.isAlias || result.isEnum) {
+            Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
+            CodegenProperty modelProperty = fromProperty("value", modelSchema);
+            if (modelProperty.isEnum == true || modelProperty.hasValidation == true) {
+                // these models are non-object models with enums and/or validations
+                // add a single property to the model so we can have a way to access validations
+                result.isAlias = true;
+                modelProperty.required = true;
+                List<CodegenProperty> theProperties = Arrays.asList(modelProperty);
+                result.setAllVars(theProperties);
+                result.setVars(theProperties);
+                result.setRequiredVars(theProperties);
+                // post process model properties
+                if (result.vars != null) {
+                    for (CodegenProperty prop : result.vars) {
+                        postProcessModelProperty(result, prop);
+                    }
+                }
+
+            }
+        }
+
+        // return all models which don't need their properties connected to non-object models
+        if (propertyToModelName.isEmpty()) {
+            return result;
+        }
+
+        // fix all property references to non-object models, make those properties non-primitive and
+        // set their dataType and complexType to the model name, so documentation will refer to the correct model
+        ArrayList<List<CodegenProperty>> listOfLists= new ArrayList<List<CodegenProperty>>();
+        listOfLists.add(result.vars);
+        listOfLists.add(result.allVars);
+        listOfLists.add(result.requiredVars);
+        listOfLists.add(result.optionalVars);
+        listOfLists.add(result.readOnlyVars);
+        listOfLists.add(result.readWriteVars);
+        for (List<CodegenProperty> cpList : listOfLists) {
+            for (CodegenProperty cp : cpList) {
+                if (!propertyToModelName.containsKey(cp.name)) {
+                    continue;
+                }
+                cp.isPrimitiveType = false;
+                String modelName = propertyToModelName.get(cp.name);
+                cp.complexType = modelName;
+                cp.dataType = modelName;
+                cp.isEnum = false;
+                cp.hasValidation = false;
+            }
+        }
+        return result;
     }
 
 }
