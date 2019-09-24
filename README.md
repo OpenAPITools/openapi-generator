@@ -641,6 +641,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-09-14 - [Generating and Configuring a Mastercard API Client](https://developer.mastercard.com/platform/documentation/generating-and-configuring-a-mastercard-api-client/) at [Mastercard Developers Platform](https://developer.mastercard.com/platform/documentation/)
 - 2019-09-15 - [OpenAPI(Swagger)導入下調べ](https://qiita.com/ShoichiKuraoka/items/f1f7a3c2376f7cd9c56a) by [Shoichi Kuraoka](https://qiita.com/ShoichiKuraoka)
 - 2019-09-22 - [OpenAPI 3を完全に理解できる本](https://booth.pm/ja/items/1571902) by [@ota42y](https://twitter.com/ota42y)
+- 2019-09-23 - [swaggerからOpenApi GeneratorでSpringのコードを自動生成](https://qiita.com/littleFeet/items/492df2ad68a0799a5e5e) by [@littleFeet](https://qiita.com/littleFeet) at [Qiita](https://qiita.com/)
+
 
 ## [6 - About Us](#table-of-contents)
 
