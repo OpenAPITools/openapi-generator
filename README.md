@@ -640,6 +640,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-09-01 - [Creating a PHP-Slim server using OpenAPI (Youtube video)](https://www.youtube.com/watch?v=5cJtbIrsYkg) by [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA)
 - 2019-09-14 - [Generating and Configuring a Mastercard API Client](https://developer.mastercard.com/platform/documentation/generating-and-configuring-a-mastercard-api-client/) at [Mastercard Developers Platform](https://developer.mastercard.com/platform/documentation/)
 - 2019-09-15 - [OpenAPI(Swagger)導入下調べ](https://qiita.com/ShoichiKuraoka/items/f1f7a3c2376f7cd9c56a) by [Shoichi Kuraoka](https://qiita.com/ShoichiKuraoka)
+- 2019-09-22 - [OpenAPI 3を完全に理解できる本](https://booth.pm/ja/items/1571902) by [@ota42y](https://twitter.com/ota42y)
 
 ## [6 - About Us](#table-of-contents)
 
