@@ -36,7 +36,8 @@ case class SomeObj (
   `lazy`: String,
   `private`: Option[String] = None,
   `type`: Option[String] = None,
-  foobar: Boolean
+  foobar: Boolean,
+  createdAt: DateTime
 ) extends ApiModel
 
 object SomeObjEnums {
