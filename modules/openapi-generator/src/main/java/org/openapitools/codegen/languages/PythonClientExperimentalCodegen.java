@@ -78,10 +78,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         // default this to true so the python ModelSimple models will be generated
         ModelUtils.setGenerateAliasAsModel(true);
-        if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
-          LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
-        }
-
+        LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
     }
 
     /**
@@ -108,6 +105,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     /**
      * Return the default value of the property
+     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -194,7 +192,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
             return defaultValue;
         } else {
-            return  defaultObject.toString();
+            return defaultObject.toString();
         }
     }
 
@@ -387,7 +385,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             } else {
                 if (cp.isEnum == true || cp.hasValidation == true) {
                     // this model has validations and/or enums so we will generate it
-                    Schema sc =  ModelUtils.getSchemaFromResponse(response);
+                    Schema sc = ModelUtils.getSchemaFromResponse(response);
                     newBaseType = ModelUtils.getSimpleRef(sc.get$ref());
                 }
             }
@@ -406,9 +404,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     /**
      * Set op's returnBaseType, returnType, examples etc.
      *
-     * @param operation endpoint Operation
-     * @param schemas a map of the schemas in the openapi spec
-     * @param op endpoint CodegenOperation
+     * @param operation      endpoint Operation
+     * @param schemas        a map of the schemas in the openapi spec
+     * @param op             endpoint CodegenOperation
      * @param methodResponse the default ApiResponse for the endpoint
      */
     @Override
@@ -568,7 +566,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         // fix all property references to non-object models, make those properties non-primitive and
         // set their dataType and complexType to the model name, so documentation will refer to the correct model
-        ArrayList<List<CodegenProperty>> listOfLists= new ArrayList<List<CodegenProperty>>();
+        ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<List<CodegenProperty>>();
         listOfLists.add(result.vars);
         listOfLists.add(result.allVars);
         listOfLists.add(result.requiredVars);
