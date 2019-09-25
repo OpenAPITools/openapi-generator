@@ -1068,7 +1068,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "URI");
-        //typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
+        typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
 
 
         instantiationTypes = new HashMap<String, String>();
