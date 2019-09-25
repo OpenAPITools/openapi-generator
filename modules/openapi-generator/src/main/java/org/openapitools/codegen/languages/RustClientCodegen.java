@@ -186,6 +186,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         mas.put("vars", vars);
                         discriminatorVars.add(mas);
                     }
+                    // TODO: figure out how to properly have the original property type that didn't go through toVarName
+                    cm.vendorExtensions.put("tagName", cm.discriminator.getPropertyName().replace("_", ""));
                     cm.vendorExtensions.put("mappedModels", discriminatorVars);
                 }
             }

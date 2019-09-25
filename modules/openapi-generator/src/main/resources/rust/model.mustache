@@ -21,7 +21,7 @@ pub enum {{classname}} {
 {{!-- for schemas that have a discriminator --}}
 {{#discriminator}}
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-#[serde(tag = "{{{propertyName}}}")]
+#[serde(tag = "{{{vendorExtensions.tagName}}}")]
 pub enum {{classname}} {
 {{#vendorExtensions}}
     {{#mappedModels}}
