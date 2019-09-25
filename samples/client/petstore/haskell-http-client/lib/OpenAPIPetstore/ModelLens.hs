@@ -487,6 +487,11 @@ formatTestPasswordL :: Lens_' FormatTest (Text)
 formatTestPasswordL f FormatTest{..} = (\formatTestPassword -> FormatTest { formatTestPassword, ..} ) <$> f formatTestPassword
 {-# INLINE formatTestPasswordL #-}
 
+-- | 'formatTestBigDecimal' Lens
+formatTestBigDecimalL :: Lens_' FormatTest (Maybe BigDecimal)
+formatTestBigDecimalL f FormatTest{..} = (\formatTestBigDecimal -> FormatTest { formatTestBigDecimal, ..} ) <$> f formatTestBigDecimal
+{-# INLINE formatTestBigDecimalL #-}
+
 
 
 -- * HasOnlyReadOnly

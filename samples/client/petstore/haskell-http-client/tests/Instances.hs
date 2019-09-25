@@ -354,6 +354,7 @@ genFormatTest n =
     <*> arbitraryReducedMaybe n -- formatTestDateTime :: Maybe DateTime
     <*> arbitraryReducedMaybe n -- formatTestUuid :: Maybe Text
     <*> arbitrary -- formatTestPassword :: Text
+    <*> arbitraryReducedMaybe n -- formatTestBigDecimal :: Maybe BigDecimal
   
 instance Arbitrary HasOnlyReadOnly where
   arbitrary = sized genHasOnlyReadOnly

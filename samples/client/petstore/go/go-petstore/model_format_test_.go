@@ -27,4 +27,5 @@ type FormatTest struct {
 	DateTime time.Time `json:"dateTime,omitempty"`
 	Uuid string `json:"uuid,omitempty"`
 	Password string `json:"password"`
+	BigDecimal BigDecimal `json:"BigDecimal,omitempty"`
 }
