@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **DateTime** | [**time.Time**](time.Time.md) |  | [optional] 
 **Uuid** | **string** |  | [optional] 
 **Password** | **string** |  | 
-**BigDecimal** | [**BigDecimal**](BigDecimal.md) |  | [optional] 
+**BigDecimal** | **float64** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

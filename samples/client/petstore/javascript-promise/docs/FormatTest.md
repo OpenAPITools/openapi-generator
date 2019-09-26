@@ -17,6 +17,6 @@ Name | Type | Description | Notes
 **dateTime** | **Date** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
-**bigDecimal** | [**BigDecimal**](BigDecimal.md) |  | [optional] 
+**bigDecimal** | **Number** |  | [optional] 
 
 

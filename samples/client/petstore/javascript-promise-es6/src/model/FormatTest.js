@@ -12,7 +12,6 @@
  */
 
 import ApiClient from '../ApiClient';
-import BigDecimal from './BigDecimal';
 
 /**
  * The FormatTest model module.
@@ -96,7 +95,7 @@ class FormatTest {
                 obj['password'] = ApiClient.convertToType(data['password'], 'String');
             }
             if (data.hasOwnProperty('BigDecimal')) {
-                obj['BigDecimal'] = ApiClient.convertToType(data['BigDecimal'], BigDecimal);
+                obj['BigDecimal'] = ApiClient.convertToType(data['BigDecimal'], 'Number');
             }
         }
         return obj;
@@ -171,7 +170,7 @@ FormatTest.prototype['uuid'] = undefined;
 FormatTest.prototype['password'] = undefined;
 
 /**
- * @member {module:model/BigDecimal} BigDecimal
+ * @member {Number} BigDecimal
  */
 FormatTest.prototype['BigDecimal'] = undefined;
 

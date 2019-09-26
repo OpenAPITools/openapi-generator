@@ -16,18 +16,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/BigDecimal'], factory);
+    define(['ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./BigDecimal'));
+    module.exports = factory(require('../ApiClient'));
   } else {
     // Browser globals (root is window)
     if (!root.OpenApiPetstore) {
       root.OpenApiPetstore = {};
     }
-    root.OpenApiPetstore.FormatTest = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.BigDecimal);
+    root.OpenApiPetstore.FormatTest = factory(root.OpenApiPetstore.ApiClient);
   }
-}(this, function(ApiClient, BigDecimal) {
+}(this, function(ApiClient) {
   'use strict';
 
 
@@ -106,7 +106,7 @@
         obj['password'] = ApiClient.convertToType(data['password'], 'String');
       }
       if (data.hasOwnProperty('BigDecimal')) {
-        obj['BigDecimal'] = ApiClient.convertToType(data['BigDecimal'], BigDecimal);
+        obj['BigDecimal'] = ApiClient.convertToType(data['BigDecimal'], 'Number');
       }
     }
     return obj;
@@ -165,7 +165,7 @@
    */
   exports.prototype['password'] = undefined;
   /**
-   * @member {module:model/BigDecimal} BigDecimal
+   * @member {Number} BigDecimal
    */
   exports.prototype['BigDecimal'] = undefined;
 
