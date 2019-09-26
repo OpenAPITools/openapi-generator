@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid.</param>
         /// <param name="password">password (required).</param>
         /// <param name="bigDecimal">bigDecimal.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), BigDecimal bigDecimal = default(BigDecimal))
+        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), decimal bigDecimal = default(decimal))
         {
             // to ensure "number" is required (not null)
             if (number == null)
@@ -191,7 +191,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets BigDecimal
         /// </summary>
         [DataMember(Name="BigDecimal", EmitDefaultValue=false)]
-        public BigDecimal BigDecimal { get; set; }
+        public decimal BigDecimal { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -277,8 +277,7 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
                     hashCode = hashCode * 59 + this.Password.GetHashCode();
-                if (this.BigDecimal != null)
-                    hashCode = hashCode * 59 + this.BigDecimal.GetHashCode();
+                hashCode = hashCode * 59 + this.BigDecimal.GetHashCode();
                 return hashCode;
             }
         }
