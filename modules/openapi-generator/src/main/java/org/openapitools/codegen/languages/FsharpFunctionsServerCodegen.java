@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
@@ -44,11 +46,15 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
     }
 
     public String getHelp() {
-        return "Generates a fsharp-functions server.";
+        return "Generates a fsharp-functions server (beta).";
     }
 
     public FsharpFunctionsServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         // CLI options
         addOption(CodegenConstants.LICENSE_URL,
