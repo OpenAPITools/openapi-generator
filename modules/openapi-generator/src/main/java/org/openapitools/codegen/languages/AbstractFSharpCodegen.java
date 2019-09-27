@@ -29,6 +29,7 @@ import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.lang.Exception;
 
 import java.io.File;
@@ -298,7 +299,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-          setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
@@ -345,49 +346,49 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     /*
-    * F# does not allow forward declarations, so files must be imported in the correct order.
-    * Output of CodeGen models must therefore bein dependency order (rather than alphabetical order, which seems to be the default).    
-    * This could probably be made more efficient if absolutely needed.
-    */
+     * F# does not allow forward declarations, so files must be imported in the correct order.
+     * Output of CodeGen models must therefore bein dependency order (rather than alphabetical order, which seems to be the default).
+     * This could probably be made more efficient if absolutely needed.
+     */
     @SuppressWarnings({"unchecked"})
-    public Map<String,Object> postProcessDependencyOrders(final Map<String, Object> objs) {
-        
-      Map<String,Set<String>> dependencies = new HashMap<String,Set<String>>();
+    public Map<String, Object> postProcessDependencyOrders(final Map<String, Object> objs) {
 
-      List<String> classNames = new ArrayList<String>();
-        
-      for(String k : objs.keySet()) {
-        CodegenModel model = ModelUtils.getModelByName(k, objs);
-        if(model == null || model.classname == null) {
-          throw new RuntimeException("Null model encountered");
+        Map<String, Set<String>> dependencies = new HashMap<String, Set<String>>();
+
+        List<String> classNames = new ArrayList<String>();
+
+        for (String k : objs.keySet()) {
+            CodegenModel model = ModelUtils.getModelByName(k, objs);
+            if (model == null || model.classname == null) {
+                throw new RuntimeException("Null model encountered");
+            }
+            dependencies.put(model.classname, model.imports);
+
+            classNames.add(model.classname);
         }
-        dependencies.put(model.classname, model.imports);
-        
-        classNames.add(model.classname);
-      }
-      
-      Object[] sortedKeys = classNames.toArray();
 
-      for(int i1 = 0 ; i1 < sortedKeys.length; i1++) {
-        String k1 = sortedKeys[i1].toString();
-        for(int i2 = i1 + 1; i2 < sortedKeys.length; i2++) {
-          String k2 = sortedKeys[i2].toString();
-          if(dependencies.get(k2).contains(k1)) {
-            sortedKeys[i2] = k1;
-            sortedKeys[i1] = k2;
-            i1 = -1;
-            break;
-          }
+        Object[] sortedKeys = classNames.toArray();
+
+        for (int i1 = 0; i1 < sortedKeys.length; i1++) {
+            String k1 = sortedKeys[i1].toString();
+            for (int i2 = i1 + 1; i2 < sortedKeys.length; i2++) {
+                String k2 = sortedKeys[i2].toString();
+                if (dependencies.get(k2).contains(k1)) {
+                    sortedKeys[i2] = k1;
+                    sortedKeys[i1] = k2;
+                    i1 = -1;
+                    break;
+                }
+            }
         }
-      }
-      
-      Map<String,Object> sorted = new LinkedHashMap<String,Object>();
-      for(int i = sortedKeys.length - 1; i >= 0;  i--) {
-        Object k = sortedKeys[i];
-        sorted.put(k.toString(), objs.get(k));
-      }
 
-      return sorted;
+        Map<String, Object> sorted = new LinkedHashMap<String, Object>();
+        for (int i = sortedKeys.length - 1; i >= 0; i--) {
+            Object k = sortedKeys[i];
+            sorted.put(k.toString(), objs.get(k));
+        }
+
+        return sorted;
     }
 
     /**
@@ -656,23 +657,23 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
-    
+
     public String getNameUsingModelPropertyNaming(String name) {
-      switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-          case original:
-              return name;
-          case camelCase:
-              return camelize(name, true);
-          case PascalCase:
-              return camelize(name);
-          case snake_case:
-              return underscore(name);
-          default:
-              throw new IllegalArgumentException("Invalid model property naming '" +
-                      name + "'. Must be 'original', 'camelCase', " +
-                      "'PascalCase' or 'snake_case'");
-      }
-  }
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
+        }
+    }
 
     @Override
     public String toVarName(String name) {
