@@ -16,14 +16,60 @@
 
 package org.openapitools.codegen.meta.features;
 
+import org.openapitools.codegen.meta.features.annotations.OAS2;
+import org.openapitools.codegen.meta.features.annotations.OAS3;
+
 /**
  * Defines parameters supported by endpoints in the generated code.
  */
 public enum ParameterFeature {
+    /**
+     * Supports path parameters.
+     */
+    @OAS2 @OAS3
     Path,
+
+    /**
+     * Supports query parameters.
+     */
+    @OAS2 @OAS3
     Query,
+
+    /**
+     * Supports header parameters.
+     */
+    @OAS2 @OAS3
     Header,
+
+    /**
+     * Supports body parameters.
+     *
+     * @apiNote OAS 3.x specification supports this structurally rather than as an "in" parameter.
+     */
+    @OAS2
     Body,
+
+    /**
+     * Supports form encoded parameters.
+     *
+     * @apiNote OAS 3.x specification supports this structurally via content types rather than as an "in" parameter.
+     */
+    @OAS2
     FormUnencoded,
-    FormMultipart
+
+    /**
+     * Supports multipart parameters.
+     *
+     * @apiNote OAS 3.x specification supports this structurally via content types rather than as an "in" parameter.
+     */
+    @OAS2
+    FormMultipart,
+
+    /**
+     * Supports Cookie parameters.
+     *
+     * @apiNote Not defined in OAS 2.0 and no tooling extensions currently supported for OAS 2.0 support.
+     */
+    @OAS3
+    Cookie
 }

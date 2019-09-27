@@ -16,27 +16,35 @@
 
 package org.openapitools.codegen.meta.features;
 
+import org.openapitools.codegen.meta.features.annotations.OAS2;
+import org.openapitools.codegen.meta.features.annotations.OAS3;
 import org.openapitools.codegen.meta.features.annotations.ToolingExtension;
 
 /**
- * Defines the documentation type available in generated output.
+ * Defines wire formats explicitly defined in spec or supported by the tool.
  */
-public enum DocumentationFeature {
+public enum WireFormatFeature {
     /**
-     * Generated output includes a README.
+     * Supports JSON transfer
      */
-    @ToolingExtension
-    Readme,
+    @OAS2 @OAS3
+    JSON,
 
     /**
-     * Generated output includes documentation for all generated models.
+     * Supports XML transfer
      */
-    @ToolingExtension
-    Model,
+    @OAS2 @OAS3
+    XML,
 
     /**
-     * Generated output includes documentation for all generated APIs.
+     * Supports protocol buffer transfer
      */
     @ToolingExtension
-    Api;
+    PROTOBUF,
+
+    /**
+     * Supports other mime types or wire formats for transfer, to be documented by generators.
+     */
+    @OAS2 @OAS3
+    Custom
 }

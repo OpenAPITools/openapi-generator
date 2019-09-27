@@ -16,26 +16,43 @@
 
 package org.openapitools.codegen.meta.features;
 
+import org.openapitools.codegen.meta.features.annotations.OAS2;
+import org.openapitools.codegen.meta.features.annotations.OAS3;
+
 /**
  * Defines special circumstances handled by the generator.
  */
 public enum SchemaSupportFeature {
     /**
-     * Support of simple schemas (those which define properties directly)
+     * Support of simple schemas (those which define properties directly).
      */
+    @OAS2 @OAS3
     Simple,
+
     /**
      * Support of complex schemas (those which refer to the properties of another model).
-     * In OpenAPI Specification, this indicate support of AllOf/OneOf
+     *
+     * @apiNote In OpenAPI Specification, this indicates support of AllOf/OneOf.
      */
+    @OAS2 @OAS3
     Composite,
+
     /**
-     * Support for polymorphic classes. This suggests Composite support, but may not always be the case and is therefore separate.
-     * In OpenAPI Specification this indicates support of AllOf with a discriminator property on the derived schema.
+     * Support for polymorphic classes.
+     *
+     * <p>
+     * This suggests Composite support, but may not always be the case and is therefore separate.
+     * </p>
+     *
+     * @apiNote In OpenAPI Specification, this indicates support of AllOf with a discriminator property on the derived schema.
      */
+    @OAS2 @OAS3
     Polymorphism,
+
     /**
-     * Support for a union type. This suggests support of OneOf in OpenAPI Specification with a discriminator.
+     * Support for a union type.
+     *
+     * <p>
      * This means that a single "Type" in generated code may refer to one of any type in a set of 2 or more types.
      *
      * This is defined as a union as "OneOf" support is not explicitly limited to physical boundaries in OpenAPI Specification. The
@@ -44,6 +61,10 @@ public enum SchemaSupportFeature {
      *
      * Note that a generator may support "Unions" very loosely by returning an Object/Any/ref/interface{} type, leaving onus
      * on type determination to the consumer. This does *NOT* suggest generated code implements a "Union Type".
+     * </p>
+     *
+     * @apiNote This suggests support of OneOf in OpenAPI Specification with a discriminator.
      */
+    @OAS3
     Union
 }

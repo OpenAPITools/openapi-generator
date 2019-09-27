@@ -14,29 +14,14 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.meta.features;
+package org.openapitools.codegen.meta.features.annotations;
 
-import org.openapitools.codegen.meta.features.annotations.ToolingExtension;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-/**
- * Defines the documentation type available in generated output.
- */
-public enum DocumentationFeature {
-    /**
-     * Generated output includes a README.
-     */
-    @ToolingExtension
-    Readme,
-
-    /**
-     * Generated output includes documentation for all generated models.
-     */
-    @ToolingExtension
-    Model,
-
-    /**
-     * Generated output includes documentation for all generated APIs.
-     */
-    @ToolingExtension
-    Api;
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface OAS3 {
 }

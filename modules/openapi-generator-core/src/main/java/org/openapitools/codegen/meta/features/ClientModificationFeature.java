@@ -16,11 +16,27 @@
 
 package org.openapitools.codegen.meta.features;
 
+import org.openapitools.codegen.meta.features.annotations.ToolingExtension;
+
 /**
  * Defines a general set of modifications supported by a generated client.
  */
 public enum ClientModificationFeature {
+    /**
+     * Supports defining a custom overall base path in generated client output.
+     */
+    @ToolingExtension
     BasePath,
+
+    /**
+     * Supports cutomizing authorizations in generated client output.
+     */
+    @ToolingExtension
     Authorizations,
+
+    /**
+     * Supports customizing the user agent in generated client output.
+     */
+    @ToolingExtension
     UserAgent
 }

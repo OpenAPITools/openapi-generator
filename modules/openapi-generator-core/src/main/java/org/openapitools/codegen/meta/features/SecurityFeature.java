@@ -16,15 +16,62 @@
 
 package org.openapitools.codegen.meta.features;
 
+import org.openapitools.codegen.meta.features.annotations.OAS2;
+import org.openapitools.codegen.meta.features.annotations.OAS3;
+
 /**
  * Defines security features supported in the generated code.
  */
 public enum SecurityFeature {
+    /**
+     * Supports header-based basic http auth.
+     */
+    @OAS2 @OAS3
     BasicAuth,
+
+    /**
+     * Supports header-based api-key http auth.
+     */
+    @OAS2 @OAS3
     ApiKey,
+
+    /**
+     * Supports openid connect based http auth. Implies a requirement on openIdConnectUrl.
+     */
+    @OAS3
+    OpenIDConnect,
+
+    /**
+     * Supports header-based bearer auth (e.g. header + bearer format).
+     */
+    @OAS3
     BearerToken,
+
+    /**
+     * Supports authorization via OAuth2 implicit flow.
+     */
+    @OAS2 @OAS3
     OAuth2_Implicit,
+
+    /**
+     * Supports authorization via OAuth2 password flow.
+     */
+    @OAS2 @OAS3
     OAuth2_Password,
+
+    /**
+     * Supports authorization via OAuth2 client credentials flow ("application" in OAS 2.0).
+     *
+     * @apiNote In OAS 2.0, this is called "application" flow.
+     */
+    @OAS2 @OAS3
     OAuth2_ClientCredentials,
+
+    /**
+     * Supports authorization via OAuth2 flow ("accessCode" in OAS 2.0).
+     *
+     * @apiNote In OAS 2.0, this is called "accessCode" flow.
+     */
+    @OAS2 @OAS3
     OAuth2_AuthorizationCode
 }
