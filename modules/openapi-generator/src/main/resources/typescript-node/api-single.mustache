@@ -134,6 +134,9 @@ export class {{classname}} {
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+{{#hasProduces}}
+        localVarHeaderParams.Accept = '{{#produces}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/produces}}';
+{{/hasProduces}}
         let localVarFormParams: any = {};
 
 {{#allParams}}
