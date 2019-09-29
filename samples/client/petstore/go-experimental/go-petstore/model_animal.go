@@ -8,49 +8,10 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-	"errors"
-)
 // Animal struct for Animal
 type Animal struct {
-	ClassName *string `json:"className,omitempty"`
-
+	ClassName string `json:"className"`
 	Color *string `json:"color,omitempty"`
-
-}
-
-// GetClassName returns the ClassName field if non-nil, zero value otherwise.
-func (o *Animal) GetClassName() string {
-	if o == nil || o.ClassName == nil {
-		var ret string
-		return ret
-	}
-	return *o.ClassName
-}
-
-// GetClassNameOk returns a tuple with the ClassName field if it's non-nil, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *Animal) GetClassNameOk() (string, bool) {
-	if o == nil || o.ClassName == nil {
-		var ret string
-		return ret, false
-	}
-	return *o.ClassName, true
-}
-
-// HasClassName returns a boolean if a field has been set.
-func (o *Animal) HasClassName() bool {
-	if o != nil && o.ClassName != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetClassName gets a reference to the given string and assigns it to the ClassName field.
-func (o *Animal) SetClassName(v string) {
-	o.ClassName = &v
 }
 
 // GetColor returns the Color field if non-nil, zero value otherwise.
@@ -85,21 +46,4 @@ func (o *Animal) HasColor() bool {
 func (o *Animal) SetColor(v string) {
 	o.Color = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Animal) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.ClassName == nil {
-		return nil, errors.New("ClassName is required and not nullable, but was not set on Animal")
-	}
-	if o.ClassName != nil {
-		toSerialize["className"] = o.ClassName
-	}
-	if o.Color != nil {
-		toSerialize["color"] = o.Color
-	}
-	return json.Marshal(toSerialize)
-}
-
 

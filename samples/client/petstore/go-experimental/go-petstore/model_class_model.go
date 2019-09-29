@@ -8,13 +8,9 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // ClassModel Model for testing model with \"_class\" property
 type ClassModel struct {
 	Class *string `json:"_class,omitempty"`
-
 }
 
 // GetClass returns the Class field if non-nil, zero value otherwise.
@@ -49,15 +45,4 @@ func (o *ClassModel) HasClass() bool {
 func (o *ClassModel) SetClass(v string) {
 	o.Class = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o ClassModel) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Class != nil {
-		toSerialize["_class"] = o.Class
-	}
-	return json.Marshal(toSerialize)
-}
-
 

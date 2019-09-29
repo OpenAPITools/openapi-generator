@@ -8,19 +8,12 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // MapTest struct for MapTest
 type MapTest struct {
 	MapMapOfString *map[string]map[string]string `json:"map_map_of_string,omitempty"`
-
 	MapOfEnumString *map[string]string `json:"map_of_enum_string,omitempty"`
-
 	DirectMap *map[string]bool `json:"direct_map,omitempty"`
-
 	IndirectMap *map[string]bool `json:"indirect_map,omitempty"`
-
 }
 
 // GetMapMapOfString returns the MapMapOfString field if non-nil, zero value otherwise.
@@ -55,7 +48,6 @@ func (o *MapTest) HasMapMapOfString() bool {
 func (o *MapTest) SetMapMapOfString(v map[string]map[string]string) {
 	o.MapMapOfString = &v
 }
-
 // GetMapOfEnumString returns the MapOfEnumString field if non-nil, zero value otherwise.
 func (o *MapTest) GetMapOfEnumString() map[string]string {
 	if o == nil || o.MapOfEnumString == nil {
@@ -88,7 +80,6 @@ func (o *MapTest) HasMapOfEnumString() bool {
 func (o *MapTest) SetMapOfEnumString(v map[string]string) {
 	o.MapOfEnumString = &v
 }
-
 // GetDirectMap returns the DirectMap field if non-nil, zero value otherwise.
 func (o *MapTest) GetDirectMap() map[string]bool {
 	if o == nil || o.DirectMap == nil {
@@ -121,7 +112,6 @@ func (o *MapTest) HasDirectMap() bool {
 func (o *MapTest) SetDirectMap(v map[string]bool) {
 	o.DirectMap = &v
 }
-
 // GetIndirectMap returns the IndirectMap field if non-nil, zero value otherwise.
 func (o *MapTest) GetIndirectMap() map[string]bool {
 	if o == nil || o.IndirectMap == nil {
@@ -154,24 +144,4 @@ func (o *MapTest) HasIndirectMap() bool {
 func (o *MapTest) SetIndirectMap(v map[string]bool) {
 	o.IndirectMap = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o MapTest) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.MapMapOfString != nil {
-		toSerialize["map_map_of_string"] = o.MapMapOfString
-	}
-	if o.MapOfEnumString != nil {
-		toSerialize["map_of_enum_string"] = o.MapOfEnumString
-	}
-	if o.DirectMap != nil {
-		toSerialize["direct_map"] = o.DirectMap
-	}
-	if o.IndirectMap != nil {
-		toSerialize["indirect_map"] = o.IndirectMap
-	}
-	return json.Marshal(toSerialize)
-}
-
 

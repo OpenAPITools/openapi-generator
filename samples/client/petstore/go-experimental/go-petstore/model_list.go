@@ -8,13 +8,9 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // List struct for List
 type List struct {
 	Var123List *string `json:"123-list,omitempty"`
-
 }
 
 // GetVar123List returns the Var123List field if non-nil, zero value otherwise.
@@ -49,15 +45,4 @@ func (o *List) HasVar123List() bool {
 func (o *List) SetVar123List(v string) {
 	o.Var123List = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o List) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Var123List != nil {
-		toSerialize["123-list"] = o.Var123List
-	}
-	return json.Marshal(toSerialize)
-}
-
 

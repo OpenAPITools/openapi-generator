@@ -8,14 +8,10 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // File Must be named `File` for test.
 type File struct {
 	// Test capitalization
 	SourceURI *string `json:"sourceURI,omitempty"`
-
 }
 
 // GetSourceURI returns the SourceURI field if non-nil, zero value otherwise.
@@ -50,15 +46,4 @@ func (o *File) HasSourceURI() bool {
 func (o *File) SetSourceURI(v string) {
 	o.SourceURI = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o File) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.SourceURI != nil {
-		toSerialize["sourceURI"] = o.SourceURI
-	}
-	return json.Marshal(toSerialize)
-}
-
 

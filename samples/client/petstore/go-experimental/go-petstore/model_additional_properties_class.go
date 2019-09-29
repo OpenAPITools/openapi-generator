@@ -8,33 +8,19 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // AdditionalPropertiesClass struct for AdditionalPropertiesClass
 type AdditionalPropertiesClass struct {
 	MapString *map[string]string `json:"map_string,omitempty"`
-
 	MapNumber *map[string]float32 `json:"map_number,omitempty"`
-
 	MapInteger *map[string]int32 `json:"map_integer,omitempty"`
-
 	MapBoolean *map[string]bool `json:"map_boolean,omitempty"`
-
 	MapArrayInteger *map[string][]int32 `json:"map_array_integer,omitempty"`
-
 	MapArrayAnytype *map[string][]map[string]interface{} `json:"map_array_anytype,omitempty"`
-
 	MapMapString *map[string]map[string]string `json:"map_map_string,omitempty"`
-
 	MapMapAnytype *map[string]map[string]map[string]interface{} `json:"map_map_anytype,omitempty"`
-
 	Anytype1 *map[string]interface{} `json:"anytype_1,omitempty"`
-
 	Anytype2 *map[string]interface{} `json:"anytype_2,omitempty"`
-
 	Anytype3 *map[string]interface{} `json:"anytype_3,omitempty"`
-
 }
 
 // GetMapString returns the MapString field if non-nil, zero value otherwise.
@@ -69,7 +55,6 @@ func (o *AdditionalPropertiesClass) HasMapString() bool {
 func (o *AdditionalPropertiesClass) SetMapString(v map[string]string) {
 	o.MapString = &v
 }
-
 // GetMapNumber returns the MapNumber field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapNumber() map[string]float32 {
 	if o == nil || o.MapNumber == nil {
@@ -102,7 +87,6 @@ func (o *AdditionalPropertiesClass) HasMapNumber() bool {
 func (o *AdditionalPropertiesClass) SetMapNumber(v map[string]float32) {
 	o.MapNumber = &v
 }
-
 // GetMapInteger returns the MapInteger field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapInteger() map[string]int32 {
 	if o == nil || o.MapInteger == nil {
@@ -135,7 +119,6 @@ func (o *AdditionalPropertiesClass) HasMapInteger() bool {
 func (o *AdditionalPropertiesClass) SetMapInteger(v map[string]int32) {
 	o.MapInteger = &v
 }
-
 // GetMapBoolean returns the MapBoolean field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapBoolean() map[string]bool {
 	if o == nil || o.MapBoolean == nil {
@@ -168,7 +151,6 @@ func (o *AdditionalPropertiesClass) HasMapBoolean() bool {
 func (o *AdditionalPropertiesClass) SetMapBoolean(v map[string]bool) {
 	o.MapBoolean = &v
 }
-
 // GetMapArrayInteger returns the MapArrayInteger field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapArrayInteger() map[string][]int32 {
 	if o == nil || o.MapArrayInteger == nil {
@@ -201,7 +183,6 @@ func (o *AdditionalPropertiesClass) HasMapArrayInteger() bool {
 func (o *AdditionalPropertiesClass) SetMapArrayInteger(v map[string][]int32) {
 	o.MapArrayInteger = &v
 }
-
 // GetMapArrayAnytype returns the MapArrayAnytype field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]map[string]interface{} {
 	if o == nil || o.MapArrayAnytype == nil {
@@ -234,7 +215,6 @@ func (o *AdditionalPropertiesClass) HasMapArrayAnytype() bool {
 func (o *AdditionalPropertiesClass) SetMapArrayAnytype(v map[string][]map[string]interface{}) {
 	o.MapArrayAnytype = &v
 }
-
 // GetMapMapString returns the MapMapString field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapMapString() map[string]map[string]string {
 	if o == nil || o.MapMapString == nil {
@@ -267,7 +247,6 @@ func (o *AdditionalPropertiesClass) HasMapMapString() bool {
 func (o *AdditionalPropertiesClass) SetMapMapString(v map[string]map[string]string) {
 	o.MapMapString = &v
 }
-
 // GetMapMapAnytype returns the MapMapAnytype field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]map[string]interface{} {
 	if o == nil || o.MapMapAnytype == nil {
@@ -300,7 +279,6 @@ func (o *AdditionalPropertiesClass) HasMapMapAnytype() bool {
 func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]map[string]interface{}) {
 	o.MapMapAnytype = &v
 }
-
 // GetAnytype1 returns the Anytype1 field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetAnytype1() map[string]interface{} {
 	if o == nil || o.Anytype1 == nil {
@@ -333,7 +311,6 @@ func (o *AdditionalPropertiesClass) HasAnytype1() bool {
 func (o *AdditionalPropertiesClass) SetAnytype1(v map[string]interface{}) {
 	o.Anytype1 = &v
 }
-
 // GetAnytype2 returns the Anytype2 field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetAnytype2() map[string]interface{} {
 	if o == nil || o.Anytype2 == nil {
@@ -366,7 +343,6 @@ func (o *AdditionalPropertiesClass) HasAnytype2() bool {
 func (o *AdditionalPropertiesClass) SetAnytype2(v map[string]interface{}) {
 	o.Anytype2 = &v
 }
-
 // GetAnytype3 returns the Anytype3 field if non-nil, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetAnytype3() map[string]interface{} {
 	if o == nil || o.Anytype3 == nil {
@@ -399,45 +375,4 @@ func (o *AdditionalPropertiesClass) HasAnytype3() bool {
 func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{}) {
 	o.Anytype3 = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.MapString != nil {
-		toSerialize["map_string"] = o.MapString
-	}
-	if o.MapNumber != nil {
-		toSerialize["map_number"] = o.MapNumber
-	}
-	if o.MapInteger != nil {
-		toSerialize["map_integer"] = o.MapInteger
-	}
-	if o.MapBoolean != nil {
-		toSerialize["map_boolean"] = o.MapBoolean
-	}
-	if o.MapArrayInteger != nil {
-		toSerialize["map_array_integer"] = o.MapArrayInteger
-	}
-	if o.MapArrayAnytype != nil {
-		toSerialize["map_array_anytype"] = o.MapArrayAnytype
-	}
-	if o.MapMapString != nil {
-		toSerialize["map_map_string"] = o.MapMapString
-	}
-	if o.MapMapAnytype != nil {
-		toSerialize["map_map_anytype"] = o.MapMapAnytype
-	}
-	if o.Anytype1 != nil {
-		toSerialize["anytype_1"] = o.Anytype1
-	}
-	if o.Anytype2 != nil {
-		toSerialize["anytype_2"] = o.Anytype2
-	}
-	if o.Anytype3 != nil {
-		toSerialize["anytype_3"] = o.Anytype3
-	}
-	return json.Marshal(toSerialize)
-}
-
 

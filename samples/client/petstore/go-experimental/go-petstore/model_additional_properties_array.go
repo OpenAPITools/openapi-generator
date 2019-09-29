@@ -8,13 +8,9 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // AdditionalPropertiesArray struct for AdditionalPropertiesArray
 type AdditionalPropertiesArray struct {
 	Name *string `json:"name,omitempty"`
-
 }
 
 // GetName returns the Name field if non-nil, zero value otherwise.
@@ -49,15 +45,4 @@ func (o *AdditionalPropertiesArray) HasName() bool {
 func (o *AdditionalPropertiesArray) SetName(v string) {
 	o.Name = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o AdditionalPropertiesArray) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	return json.Marshal(toSerialize)
-}
-
 

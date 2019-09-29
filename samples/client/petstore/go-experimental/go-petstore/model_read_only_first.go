@@ -8,15 +8,10 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // ReadOnlyFirst struct for ReadOnlyFirst
 type ReadOnlyFirst struct {
 	Bar *string `json:"bar,omitempty"`
-
 	Baz *string `json:"baz,omitempty"`
-
 }
 
 // GetBar returns the Bar field if non-nil, zero value otherwise.
@@ -51,7 +46,6 @@ func (o *ReadOnlyFirst) HasBar() bool {
 func (o *ReadOnlyFirst) SetBar(v string) {
 	o.Bar = &v
 }
-
 // GetBaz returns the Baz field if non-nil, zero value otherwise.
 func (o *ReadOnlyFirst) GetBaz() string {
 	if o == nil || o.Baz == nil {
@@ -84,18 +78,4 @@ func (o *ReadOnlyFirst) HasBaz() bool {
 func (o *ReadOnlyFirst) SetBaz(v string) {
 	o.Baz = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Bar != nil {
-		toSerialize["bar"] = o.Bar
-	}
-	if o.Baz != nil {
-		toSerialize["baz"] = o.Baz
-	}
-	return json.Marshal(toSerialize)
-}
-
 

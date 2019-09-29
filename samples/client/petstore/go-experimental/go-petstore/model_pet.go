@@ -8,25 +8,15 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-	"errors"
-)
 // Pet struct for Pet
 type Pet struct {
 	Id *int64 `json:"id,omitempty"`
-
 	Category *Category `json:"category,omitempty"`
-
-	Name *string `json:"name,omitempty"`
-
-	PhotoUrls *[]string `json:"photoUrls,omitempty"`
-
+	Name string `json:"name"`
+	PhotoUrls []string `json:"photoUrls"`
 	Tags *[]Tag `json:"tags,omitempty"`
-
 	// pet status in the store
 	Status *string `json:"status,omitempty"`
-
 }
 
 // GetId returns the Id field if non-nil, zero value otherwise.
@@ -61,7 +51,6 @@ func (o *Pet) HasId() bool {
 func (o *Pet) SetId(v int64) {
 	o.Id = &v
 }
-
 // GetCategory returns the Category field if non-nil, zero value otherwise.
 func (o *Pet) GetCategory() Category {
 	if o == nil || o.Category == nil {
@@ -94,73 +83,6 @@ func (o *Pet) HasCategory() bool {
 func (o *Pet) SetCategory(v Category) {
 	o.Category = &v
 }
-
-// GetName returns the Name field if non-nil, zero value otherwise.
-func (o *Pet) GetName() string {
-	if o == nil || o.Name == nil {
-		var ret string
-		return ret
-	}
-	return *o.Name
-}
-
-// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *Pet) GetNameOk() (string, bool) {
-	if o == nil || o.Name == nil {
-		var ret string
-		return ret, false
-	}
-	return *o.Name, true
-}
-
-// HasName returns a boolean if a field has been set.
-func (o *Pet) HasName() bool {
-	if o != nil && o.Name != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
-func (o *Pet) SetName(v string) {
-	o.Name = &v
-}
-
-// GetPhotoUrls returns the PhotoUrls field if non-nil, zero value otherwise.
-func (o *Pet) GetPhotoUrls() []string {
-	if o == nil || o.PhotoUrls == nil {
-		var ret []string
-		return ret
-	}
-	return *o.PhotoUrls
-}
-
-// GetPhotoUrlsOk returns a tuple with the PhotoUrls field if it's non-nil, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
-	if o == nil || o.PhotoUrls == nil {
-		var ret []string
-		return ret, false
-	}
-	return *o.PhotoUrls, true
-}
-
-// HasPhotoUrls returns a boolean if a field has been set.
-func (o *Pet) HasPhotoUrls() bool {
-	if o != nil && o.PhotoUrls != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetPhotoUrls gets a reference to the given []string and assigns it to the PhotoUrls field.
-func (o *Pet) SetPhotoUrls(v []string) {
-	o.PhotoUrls = &v
-}
-
 // GetTags returns the Tags field if non-nil, zero value otherwise.
 func (o *Pet) GetTags() []Tag {
 	if o == nil || o.Tags == nil {
@@ -193,7 +115,6 @@ func (o *Pet) HasTags() bool {
 func (o *Pet) SetTags(v []Tag) {
 	o.Tags = &v
 }
-
 // GetStatus returns the Status field if non-nil, zero value otherwise.
 func (o *Pet) GetStatus() string {
 	if o == nil || o.Status == nil {
@@ -226,36 +147,4 @@ func (o *Pet) HasStatus() bool {
 func (o *Pet) SetStatus(v string) {
 	o.Status = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Pet) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.Category != nil {
-		toSerialize["category"] = o.Category
-	}
-	if o.Name == nil {
-		return nil, errors.New("Name is required and not nullable, but was not set on Pet")
-	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	if o.PhotoUrls == nil {
-		return nil, errors.New("PhotoUrls is required and not nullable, but was not set on Pet")
-	}
-	if o.PhotoUrls != nil {
-		toSerialize["photoUrls"] = o.PhotoUrls
-	}
-	if o.Tags != nil {
-		toSerialize["tags"] = o.Tags
-	}
-	if o.Status != nil {
-		toSerialize["status"] = o.Status
-	}
-	return json.Marshal(toSerialize)
-}
-
 

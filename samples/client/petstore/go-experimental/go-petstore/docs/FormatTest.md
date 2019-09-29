@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **DateTime** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
 **Uuid** | Pointer to **string** |  | [optional] 
 **Password** | Pointer to **string** |  | 
-**BigDecimal** | Pointer to **float64** |  | [optional] 
+**BigDecimal** | Pointer to [**BigDecimal**](BigDecimal.md) |  | [optional] 
 
 ## Methods
 
@@ -348,13 +348,13 @@ SetPassword gets a reference to the given string and assigns it to the Password 
 
 ### GetBigDecimal
 
-`func (o *FormatTest) GetBigDecimal() float64`
+`func (o *FormatTest) GetBigDecimal() BigDecimal`
 
 GetBigDecimal returns the BigDecimal field if non-nil, zero value otherwise.
 
 ### GetBigDecimalOk
 
-`func (o *FormatTest) GetBigDecimalOk() (float64, bool)`
+`func (o *FormatTest) GetBigDecimalOk() (BigDecimal, bool)`
 
 GetBigDecimalOk returns a tuple with the BigDecimal field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -367,9 +367,9 @@ HasBigDecimal returns a boolean if a field has been set.
 
 ### SetBigDecimal
 
-`func (o *FormatTest) SetBigDecimal(v float64)`
+`func (o *FormatTest) SetBigDecimal(v BigDecimal)`
 
-SetBigDecimal gets a reference to the given float64 and assigns it to the BigDecimal field.
+SetBigDecimal gets a reference to the given BigDecimal and assigns it to the BigDecimal field.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

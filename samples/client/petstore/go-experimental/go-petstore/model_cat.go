@@ -8,51 +8,11 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-	"errors"
-)
 // Cat struct for Cat
 type Cat struct {
-	ClassName *string `json:"className,omitempty"`
-
+	ClassName string `json:"className"`
 	Color *string `json:"color,omitempty"`
-
 	Declawed *bool `json:"declawed,omitempty"`
-
-}
-
-// GetClassName returns the ClassName field if non-nil, zero value otherwise.
-func (o *Cat) GetClassName() string {
-	if o == nil || o.ClassName == nil {
-		var ret string
-		return ret
-	}
-	return *o.ClassName
-}
-
-// GetClassNameOk returns a tuple with the ClassName field if it's non-nil, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *Cat) GetClassNameOk() (string, bool) {
-	if o == nil || o.ClassName == nil {
-		var ret string
-		return ret, false
-	}
-	return *o.ClassName, true
-}
-
-// HasClassName returns a boolean if a field has been set.
-func (o *Cat) HasClassName() bool {
-	if o != nil && o.ClassName != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetClassName gets a reference to the given string and assigns it to the ClassName field.
-func (o *Cat) SetClassName(v string) {
-	o.ClassName = &v
 }
 
 // GetColor returns the Color field if non-nil, zero value otherwise.
@@ -87,7 +47,6 @@ func (o *Cat) HasColor() bool {
 func (o *Cat) SetColor(v string) {
 	o.Color = &v
 }
-
 // GetDeclawed returns the Declawed field if non-nil, zero value otherwise.
 func (o *Cat) GetDeclawed() bool {
 	if o == nil || o.Declawed == nil {
@@ -120,24 +79,4 @@ func (o *Cat) HasDeclawed() bool {
 func (o *Cat) SetDeclawed(v bool) {
 	o.Declawed = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Cat) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.ClassName == nil {
-		return nil, errors.New("ClassName is required and not nullable, but was not set on Cat")
-	}
-	if o.ClassName != nil {
-		toSerialize["className"] = o.ClassName
-	}
-	if o.Color != nil {
-		toSerialize["color"] = o.Color
-	}
-	if o.Declawed != nil {
-		toSerialize["declawed"] = o.Declawed
-	}
-	return json.Marshal(toSerialize)
-}
-
 

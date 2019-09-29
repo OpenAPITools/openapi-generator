@@ -8,13 +8,9 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // Return Model for testing reserved words
 type Return struct {
 	Return *int32 `json:"return,omitempty"`
-
 }
 
 // GetReturn returns the Return field if non-nil, zero value otherwise.
@@ -49,15 +45,4 @@ func (o *Return) HasReturn() bool {
 func (o *Return) SetReturn(v int32) {
 	o.Return = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Return) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Return != nil {
-		toSerialize["return"] = o.Return
-	}
-	return json.Marshal(toSerialize)
-}
-
 

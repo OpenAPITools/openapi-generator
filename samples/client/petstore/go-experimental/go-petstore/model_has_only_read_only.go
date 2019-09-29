@@ -8,15 +8,10 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // HasOnlyReadOnly struct for HasOnlyReadOnly
 type HasOnlyReadOnly struct {
 	Bar *string `json:"bar,omitempty"`
-
 	Foo *string `json:"foo,omitempty"`
-
 }
 
 // GetBar returns the Bar field if non-nil, zero value otherwise.
@@ -51,7 +46,6 @@ func (o *HasOnlyReadOnly) HasBar() bool {
 func (o *HasOnlyReadOnly) SetBar(v string) {
 	o.Bar = &v
 }
-
 // GetFoo returns the Foo field if non-nil, zero value otherwise.
 func (o *HasOnlyReadOnly) GetFoo() string {
 	if o == nil || o.Foo == nil {
@@ -84,18 +78,4 @@ func (o *HasOnlyReadOnly) HasFoo() bool {
 func (o *HasOnlyReadOnly) SetFoo(v string) {
 	o.Foo = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o HasOnlyReadOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Bar != nil {
-		toSerialize["bar"] = o.Bar
-	}
-	if o.Foo != nil {
-		toSerialize["foo"] = o.Foo
-	}
-	return json.Marshal(toSerialize)
-}
-
 

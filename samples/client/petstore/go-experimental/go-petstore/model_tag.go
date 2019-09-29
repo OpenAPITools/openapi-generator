@@ -8,15 +8,10 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // Tag struct for Tag
 type Tag struct {
 	Id *int64 `json:"id,omitempty"`
-
 	Name *string `json:"name,omitempty"`
-
 }
 
 // GetId returns the Id field if non-nil, zero value otherwise.
@@ -51,7 +46,6 @@ func (o *Tag) HasId() bool {
 func (o *Tag) SetId(v int64) {
 	o.Id = &v
 }
-
 // GetName returns the Name field if non-nil, zero value otherwise.
 func (o *Tag) GetName() string {
 	if o == nil || o.Name == nil {
@@ -84,18 +78,4 @@ func (o *Tag) HasName() bool {
 func (o *Tag) SetName(v string) {
 	o.Name = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Tag) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	return json.Marshal(toSerialize)
-}
-
 

@@ -8,17 +8,11 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // ArrayTest struct for ArrayTest
 type ArrayTest struct {
 	ArrayOfString *[]string `json:"array_of_string,omitempty"`
-
 	ArrayArrayOfInteger *[][]int64 `json:"array_array_of_integer,omitempty"`
-
 	ArrayArrayOfModel *[][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
-
 }
 
 // GetArrayOfString returns the ArrayOfString field if non-nil, zero value otherwise.
@@ -53,7 +47,6 @@ func (o *ArrayTest) HasArrayOfString() bool {
 func (o *ArrayTest) SetArrayOfString(v []string) {
 	o.ArrayOfString = &v
 }
-
 // GetArrayArrayOfInteger returns the ArrayArrayOfInteger field if non-nil, zero value otherwise.
 func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 	if o == nil || o.ArrayArrayOfInteger == nil {
@@ -86,7 +79,6 @@ func (o *ArrayTest) HasArrayArrayOfInteger() bool {
 func (o *ArrayTest) SetArrayArrayOfInteger(v [][]int64) {
 	o.ArrayArrayOfInteger = &v
 }
-
 // GetArrayArrayOfModel returns the ArrayArrayOfModel field if non-nil, zero value otherwise.
 func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 	if o == nil || o.ArrayArrayOfModel == nil {
@@ -119,21 +111,4 @@ func (o *ArrayTest) HasArrayArrayOfModel() bool {
 func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
 	o.ArrayArrayOfModel = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o ArrayTest) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.ArrayOfString != nil {
-		toSerialize["array_of_string"] = o.ArrayOfString
-	}
-	if o.ArrayArrayOfInteger != nil {
-		toSerialize["array_array_of_integer"] = o.ArrayArrayOfInteger
-	}
-	if o.ArrayArrayOfModel != nil {
-		toSerialize["array_array_of_model"] = o.ArrayArrayOfModel
-	}
-	return json.Marshal(toSerialize)
-}
-
 

@@ -8,13 +8,9 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // Client struct for Client
 type Client struct {
 	Client *string `json:"client,omitempty"`
-
 }
 
 // GetClient returns the Client field if non-nil, zero value otherwise.
@@ -49,15 +45,4 @@ func (o *Client) HasClient() bool {
 func (o *Client) SetClient(v string) {
 	o.Client = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Client) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Client != nil {
-		toSerialize["client"] = o.Client
-	}
-	return json.Marshal(toSerialize)
-}
-
 

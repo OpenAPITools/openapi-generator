@@ -8,53 +8,12 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-	"errors"
-)
 // Name Model for testing model name same as property name
 type Name struct {
-	Name *int32 `json:"name,omitempty"`
-
+	Name int32 `json:"name"`
 	SnakeCase *int32 `json:"snake_case,omitempty"`
-
 	Property *string `json:"property,omitempty"`
-
 	Var123Number *int32 `json:"123Number,omitempty"`
-
-}
-
-// GetName returns the Name field if non-nil, zero value otherwise.
-func (o *Name) GetName() int32 {
-	if o == nil || o.Name == nil {
-		var ret int32
-		return ret
-	}
-	return *o.Name
-}
-
-// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *Name) GetNameOk() (int32, bool) {
-	if o == nil || o.Name == nil {
-		var ret int32
-		return ret, false
-	}
-	return *o.Name, true
-}
-
-// HasName returns a boolean if a field has been set.
-func (o *Name) HasName() bool {
-	if o != nil && o.Name != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given int32 and assigns it to the Name field.
-func (o *Name) SetName(v int32) {
-	o.Name = &v
 }
 
 // GetSnakeCase returns the SnakeCase field if non-nil, zero value otherwise.
@@ -89,7 +48,6 @@ func (o *Name) HasSnakeCase() bool {
 func (o *Name) SetSnakeCase(v int32) {
 	o.SnakeCase = &v
 }
-
 // GetProperty returns the Property field if non-nil, zero value otherwise.
 func (o *Name) GetProperty() string {
 	if o == nil || o.Property == nil {
@@ -122,7 +80,6 @@ func (o *Name) HasProperty() bool {
 func (o *Name) SetProperty(v string) {
 	o.Property = &v
 }
-
 // GetVar123Number returns the Var123Number field if non-nil, zero value otherwise.
 func (o *Name) GetVar123Number() int32 {
 	if o == nil || o.Var123Number == nil {
@@ -155,27 +112,4 @@ func (o *Name) HasVar123Number() bool {
 func (o *Name) SetVar123Number(v int32) {
 	o.Var123Number = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Name) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Name == nil {
-		return nil, errors.New("Name is required and not nullable, but was not set on Name")
-	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	if o.SnakeCase != nil {
-		toSerialize["snake_case"] = o.SnakeCase
-	}
-	if o.Property != nil {
-		toSerialize["property"] = o.Property
-	}
-	if o.Var123Number != nil {
-		toSerialize["123Number"] = o.Var123Number
-	}
-	return json.Marshal(toSerialize)
-}
-
 

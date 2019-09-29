@@ -8,15 +8,10 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // Model200Response Model for testing model name starting with number
 type Model200Response struct {
 	Name *int32 `json:"name,omitempty"`
-
 	Class *string `json:"class,omitempty"`
-
 }
 
 // GetName returns the Name field if non-nil, zero value otherwise.
@@ -51,7 +46,6 @@ func (o *Model200Response) HasName() bool {
 func (o *Model200Response) SetName(v int32) {
 	o.Name = &v
 }
-
 // GetClass returns the Class field if non-nil, zero value otherwise.
 func (o *Model200Response) GetClass() string {
 	if o == nil || o.Class == nil {
@@ -84,18 +78,4 @@ func (o *Model200Response) HasClass() bool {
 func (o *Model200Response) SetClass(v string) {
 	o.Class = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Model200Response) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	if o.Class != nil {
-		toSerialize["class"] = o.Class
-	}
-	return json.Marshal(toSerialize)
-}
-
 

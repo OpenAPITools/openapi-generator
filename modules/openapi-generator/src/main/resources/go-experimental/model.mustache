@@ -35,14 +35,14 @@ type {{classname}} struct {
 {{#description}}
 	// {{{description}}}
 {{/description}}
-	{{name}} *{{{dataType}}} `json:"{{baseName}},omitempty"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
-{{#isNullable}}	isExplicitNull{{name}} bool `json:"-"{{#withXml}} xml:"-"{{/withXml}}`{{/isNullable}}
+	{{name}} {{^required}}*{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}}{{^isNullable}},omitempty{{/isNullable}}{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 }
 {{/isEnum}}
 
 {{^isEnum}}
 {{#vars}}
+{{^required}}
 // Get{{name}} returns the {{name}} field if non-nil, zero value otherwise.
 func (o *{{classname}}) Get{{name}}() {{dataType}} {
 	if o == nil || o.{{name}} == nil {
@@ -75,55 +75,8 @@ func (o *{{classname}}) Has{{name}}() bool {
 func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
 	o.{{name}} = &v
 }
-
-{{#isNullable}}
-// Set{{name}}ExplicitNull (un)sets {{name}} to be considered as explicit "null" value
-// when serializing to JSON (pass true as argument to set this, false to unset)
-// The {{name}} value is set to nil even if false is passed
-func (o *{{classname}}) Set{{name}}ExplicitNull(b bool) {
-	o.{{name}} = nil
-	o.isExplicitNull{{name}} = b
-}
-{{/isNullable}}
+{{/required}}
 {{/vars}}
-
-// MarshalJSON returns the JSON representation of the model.
-func (o {{classname}}) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	{{#vars}}
-	{{#required}}
-	{{! if argument is required and not nullable, it can't be nil}}
-	{{^isNullable}}
-	if o.{{name}} == nil {
-		return nil, errors.New("{{name}} is required and not nullable, but was not set on {{classname}}")
-	}{{/isNullable}}
-	{{! if argument is required and nullable, it *must* have isExplicitNull<name> set to true when it's nil}}
-	{{#isNullable}}
-	if o.{{name}} == nil && !o.isExplicitNull{{name}} {
-		return nil, errors.New("{{name}} is required and nullable, but it wasn't set to be explicit null")
-	}
-	{{/isNullable}}
-	{{/required}}
-	{{! if argument is nullable, only serialize it if it is nil *and* was explicitly set to nil}}
-	{{#isNullable}}
-	if o.{{name}} == nil {
-		if o.isExplicitNull{{name}} {
-			toSerialize["{{baseName}}"] = o.{{name}}
-		}
-	} else {
-		toSerialize["{{baseName}}"] = o.{{name}}
-	}
-	{{/isNullable}}
-	{{! if argument is not nullable, don't set it if it is nil}}
-	{{^isNullable}}
-	if o.{{name}} != nil {
-		toSerialize["{{baseName}}"] = o.{{name}}
-	}
-	{{/isNullable}}
-	{{/vars}}
-	return json.Marshal(toSerialize)
-}
-
 {{/isEnum}}
 
 {{/model}}

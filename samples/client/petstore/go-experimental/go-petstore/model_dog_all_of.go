@@ -8,13 +8,9 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // DogAllOf struct for DogAllOf
 type DogAllOf struct {
 	Breed *string `json:"breed,omitempty"`
-
 }
 
 // GetBreed returns the Breed field if non-nil, zero value otherwise.
@@ -49,15 +45,4 @@ func (o *DogAllOf) HasBreed() bool {
 func (o *DogAllOf) SetBreed(v string) {
 	o.Breed = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o DogAllOf) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Breed != nil {
-		toSerialize["breed"] = o.Breed
-	}
-	return json.Marshal(toSerialize)
-}
-
 

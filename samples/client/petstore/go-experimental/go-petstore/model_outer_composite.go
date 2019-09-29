@@ -8,17 +8,11 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // OuterComposite struct for OuterComposite
 type OuterComposite struct {
 	MyNumber *float32 `json:"my_number,omitempty"`
-
 	MyString *string `json:"my_string,omitempty"`
-
 	MyBoolean *bool `json:"my_boolean,omitempty"`
-
 }
 
 // GetMyNumber returns the MyNumber field if non-nil, zero value otherwise.
@@ -53,7 +47,6 @@ func (o *OuterComposite) HasMyNumber() bool {
 func (o *OuterComposite) SetMyNumber(v float32) {
 	o.MyNumber = &v
 }
-
 // GetMyString returns the MyString field if non-nil, zero value otherwise.
 func (o *OuterComposite) GetMyString() string {
 	if o == nil || o.MyString == nil {
@@ -86,7 +79,6 @@ func (o *OuterComposite) HasMyString() bool {
 func (o *OuterComposite) SetMyString(v string) {
 	o.MyString = &v
 }
-
 // GetMyBoolean returns the MyBoolean field if non-nil, zero value otherwise.
 func (o *OuterComposite) GetMyBoolean() bool {
 	if o == nil || o.MyBoolean == nil {
@@ -119,21 +111,4 @@ func (o *OuterComposite) HasMyBoolean() bool {
 func (o *OuterComposite) SetMyBoolean(v bool) {
 	o.MyBoolean = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o OuterComposite) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.MyNumber != nil {
-		toSerialize["my_number"] = o.MyNumber
-	}
-	if o.MyString != nil {
-		toSerialize["my_string"] = o.MyString
-	}
-	if o.MyBoolean != nil {
-		toSerialize["my_boolean"] = o.MyBoolean
-	}
-	return json.Marshal(toSerialize)
-}
-
 

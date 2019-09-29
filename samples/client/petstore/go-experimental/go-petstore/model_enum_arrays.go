@@ -8,15 +8,10 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // EnumArrays struct for EnumArrays
 type EnumArrays struct {
 	JustSymbol *string `json:"just_symbol,omitempty"`
-
 	ArrayEnum *[]string `json:"array_enum,omitempty"`
-
 }
 
 // GetJustSymbol returns the JustSymbol field if non-nil, zero value otherwise.
@@ -51,7 +46,6 @@ func (o *EnumArrays) HasJustSymbol() bool {
 func (o *EnumArrays) SetJustSymbol(v string) {
 	o.JustSymbol = &v
 }
-
 // GetArrayEnum returns the ArrayEnum field if non-nil, zero value otherwise.
 func (o *EnumArrays) GetArrayEnum() []string {
 	if o == nil || o.ArrayEnum == nil {
@@ -84,18 +78,4 @@ func (o *EnumArrays) HasArrayEnum() bool {
 func (o *EnumArrays) SetArrayEnum(v []string) {
 	o.ArrayEnum = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o EnumArrays) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.JustSymbol != nil {
-		toSerialize["just_symbol"] = o.JustSymbol
-	}
-	if o.ArrayEnum != nil {
-		toSerialize["array_enum"] = o.ArrayEnum
-	}
-	return json.Marshal(toSerialize)
-}
-
 

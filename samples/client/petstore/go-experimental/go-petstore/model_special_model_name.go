@@ -8,13 +8,9 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
-
 }
 
 // GetSpecialPropertyName returns the SpecialPropertyName field if non-nil, zero value otherwise.
@@ -49,15 +45,4 @@ func (o *SpecialModelName) HasSpecialPropertyName() bool {
 func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
 	o.SpecialPropertyName = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o SpecialModelName) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.SpecialPropertyName != nil {
-		toSerialize["$special[property.name]"] = o.SpecialPropertyName
-	}
-	return json.Marshal(toSerialize)
-}
-
 

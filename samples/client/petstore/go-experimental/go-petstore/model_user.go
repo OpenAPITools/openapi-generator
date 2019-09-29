@@ -8,28 +8,17 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // User struct for User
 type User struct {
 	Id *int64 `json:"id,omitempty"`
-
 	Username *string `json:"username,omitempty"`
-
 	FirstName *string `json:"firstName,omitempty"`
-
 	LastName *string `json:"lastName,omitempty"`
-
 	Email *string `json:"email,omitempty"`
-
 	Password *string `json:"password,omitempty"`
-
 	Phone *string `json:"phone,omitempty"`
-
 	// User Status
 	UserStatus *int32 `json:"userStatus,omitempty"`
-
 }
 
 // GetId returns the Id field if non-nil, zero value otherwise.
@@ -64,7 +53,6 @@ func (o *User) HasId() bool {
 func (o *User) SetId(v int64) {
 	o.Id = &v
 }
-
 // GetUsername returns the Username field if non-nil, zero value otherwise.
 func (o *User) GetUsername() string {
 	if o == nil || o.Username == nil {
@@ -97,7 +85,6 @@ func (o *User) HasUsername() bool {
 func (o *User) SetUsername(v string) {
 	o.Username = &v
 }
-
 // GetFirstName returns the FirstName field if non-nil, zero value otherwise.
 func (o *User) GetFirstName() string {
 	if o == nil || o.FirstName == nil {
@@ -130,7 +117,6 @@ func (o *User) HasFirstName() bool {
 func (o *User) SetFirstName(v string) {
 	o.FirstName = &v
 }
-
 // GetLastName returns the LastName field if non-nil, zero value otherwise.
 func (o *User) GetLastName() string {
 	if o == nil || o.LastName == nil {
@@ -163,7 +149,6 @@ func (o *User) HasLastName() bool {
 func (o *User) SetLastName(v string) {
 	o.LastName = &v
 }
-
 // GetEmail returns the Email field if non-nil, zero value otherwise.
 func (o *User) GetEmail() string {
 	if o == nil || o.Email == nil {
@@ -196,7 +181,6 @@ func (o *User) HasEmail() bool {
 func (o *User) SetEmail(v string) {
 	o.Email = &v
 }
-
 // GetPassword returns the Password field if non-nil, zero value otherwise.
 func (o *User) GetPassword() string {
 	if o == nil || o.Password == nil {
@@ -229,7 +213,6 @@ func (o *User) HasPassword() bool {
 func (o *User) SetPassword(v string) {
 	o.Password = &v
 }
-
 // GetPhone returns the Phone field if non-nil, zero value otherwise.
 func (o *User) GetPhone() string {
 	if o == nil || o.Phone == nil {
@@ -262,7 +245,6 @@ func (o *User) HasPhone() bool {
 func (o *User) SetPhone(v string) {
 	o.Phone = &v
 }
-
 // GetUserStatus returns the UserStatus field if non-nil, zero value otherwise.
 func (o *User) GetUserStatus() int32 {
 	if o == nil || o.UserStatus == nil {
@@ -295,36 +277,4 @@ func (o *User) HasUserStatus() bool {
 func (o *User) SetUserStatus(v int32) {
 	o.UserStatus = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o User) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.Username != nil {
-		toSerialize["username"] = o.Username
-	}
-	if o.FirstName != nil {
-		toSerialize["firstName"] = o.FirstName
-	}
-	if o.LastName != nil {
-		toSerialize["lastName"] = o.LastName
-	}
-	if o.Email != nil {
-		toSerialize["email"] = o.Email
-	}
-	if o.Password != nil {
-		toSerialize["password"] = o.Password
-	}
-	if o.Phone != nil {
-		toSerialize["phone"] = o.Phone
-	}
-	if o.UserStatus != nil {
-		toSerialize["userStatus"] = o.UserStatus
-	}
-	return json.Marshal(toSerialize)
-}
-
 

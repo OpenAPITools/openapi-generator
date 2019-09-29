@@ -10,16 +10,12 @@
 package petstore
 import (
 	"time"
-	"encoding/json"
 )
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid *string `json:"uuid,omitempty"`
-
 	DateTime *time.Time `json:"dateTime,omitempty"`
-
 	Map *map[string]Animal `json:"map,omitempty"`
-
 }
 
 // GetUuid returns the Uuid field if non-nil, zero value otherwise.
@@ -54,7 +50,6 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUuid() bool {
 func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v string) {
 	o.Uuid = &v
 }
-
 // GetDateTime returns the DateTime field if non-nil, zero value otherwise.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
 	if o == nil || o.DateTime == nil {
@@ -87,7 +82,6 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasDateTime() bool {
 func (o *MixedPropertiesAndAdditionalPropertiesClass) SetDateTime(v time.Time) {
 	o.DateTime = &v
 }
-
 // GetMap returns the Map field if non-nil, zero value otherwise.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal {
 	if o == nil || o.Map == nil {
@@ -120,21 +114,4 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasMap() bool {
 func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal) {
 	o.Map = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Uuid != nil {
-		toSerialize["uuid"] = o.Uuid
-	}
-	if o.DateTime != nil {
-		toSerialize["dateTime"] = o.DateTime
-	}
-	if o.Map != nil {
-		toSerialize["map"] = o.Map
-	}
-	return json.Marshal(toSerialize)
-}
-
 

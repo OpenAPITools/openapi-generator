@@ -8,17 +8,11 @@
  */
 
 package petstore
-import (
-	"encoding/json"
-)
 // ApiResponse struct for ApiResponse
 type ApiResponse struct {
 	Code *int32 `json:"code,omitempty"`
-
 	Type *string `json:"type,omitempty"`
-
 	Message *string `json:"message,omitempty"`
-
 }
 
 // GetCode returns the Code field if non-nil, zero value otherwise.
@@ -53,7 +47,6 @@ func (o *ApiResponse) HasCode() bool {
 func (o *ApiResponse) SetCode(v int32) {
 	o.Code = &v
 }
-
 // GetType returns the Type field if non-nil, zero value otherwise.
 func (o *ApiResponse) GetType() string {
 	if o == nil || o.Type == nil {
@@ -86,7 +79,6 @@ func (o *ApiResponse) HasType() bool {
 func (o *ApiResponse) SetType(v string) {
 	o.Type = &v
 }
-
 // GetMessage returns the Message field if non-nil, zero value otherwise.
 func (o *ApiResponse) GetMessage() string {
 	if o == nil || o.Message == nil {
@@ -119,21 +111,4 @@ func (o *ApiResponse) HasMessage() bool {
 func (o *ApiResponse) SetMessage(v string) {
 	o.Message = &v
 }
-
-
-// MarshalJSON returns the JSON representation of the model.
-func (o ApiResponse) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
-	if o.Type != nil {
-		toSerialize["type"] = o.Type
-	}
-	if o.Message != nil {
-		toSerialize["message"] = o.Message
-	}
-	return json.Marshal(toSerialize)
-}
-
 
