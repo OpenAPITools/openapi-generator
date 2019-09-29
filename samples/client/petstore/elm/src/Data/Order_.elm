@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Order_ exposing (Order_, Status(..), decoder, encode)
+module Data.Order_ exposing (Order_, Status(..), decoder, encode, toString)
 
 import DateTime exposing (DateTime)
 import Dict exposing (Dict)
@@ -64,6 +64,13 @@ encode model =
 
 
 
+toString : Order_ -> String
+toString =
+    Encode.encode 0 << encode
+
+
+
+
 statusDecoder : Decoder Status
 statusDecoder =
     Decode.string
@@ -96,6 +103,7 @@ encodeStatus model =
 
         Delivered ->
             Encode.string "delivered"
+
 
 
 

@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Pet exposing (Pet, Status(..), decoder, encode)
+module Data.Pet exposing (Pet, Status(..), decoder, encode, toString)
 
 import Data.Category as Category exposing (Category)
 import Data.Tag as Tag exposing (Tag)
@@ -65,6 +65,13 @@ encode model =
 
 
 
+toString : Pet -> String
+toString =
+    Encode.encode 0 << encode
+
+
+
+
 statusDecoder : Decoder Status
 statusDecoder =
     Decode.string
@@ -97,6 +104,7 @@ encodeStatus model =
 
         Sold ->
             Encode.string "sold"
+
 
 
 

@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Category exposing (Category, decoder, encode)
+module Data.Category exposing (Category, decoder, encode, toString)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -41,5 +41,13 @@ encode model =
         , ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
 
         ]
+
+
+
+toString : Category -> String
+toString =
+    Encode.encode 0 << encode
+
+
 
 
