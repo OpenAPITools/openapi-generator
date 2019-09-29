@@ -287,6 +287,7 @@ class PetApi
 
 
 
+
         // body params
         $_tempBody = null;
         if (isset($pet)) {
@@ -518,6 +519,7 @@ class PetApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
         // header params
         if ($api_key !== null) {
@@ -799,13 +801,16 @@ class PetApi
         $httpBody = '';
         $multipart = false;
 
+
         // query params
         if (is_array($status)) {
             $status = ObjectSerializer::serializeCollection($status, 'csv', true);
         }
         if ($status !== null) {
-            $queryParams['status'] = ObjectSerializer::toQueryValue($status);
+            $queryParams['status'] = $status;
         }
+
+
 
 
         // body params
@@ -1074,13 +1079,16 @@ class PetApi
         $httpBody = '';
         $multipart = false;
 
+
         // query params
         if (is_array($tags)) {
             $tags = ObjectSerializer::serializeCollection($tags, 'csv', true);
         }
         if ($tags !== null) {
-            $queryParams['tags'] = ObjectSerializer::toQueryValue($tags);
+            $queryParams['tags'] = $tags;
         }
+
+
 
 
         // body params
@@ -1350,6 +1358,7 @@ class PetApi
         $multipart = false;
 
 
+
         // path params
         if ($pet_id !== null) {
             $resourcePath = str_replace(
@@ -1600,6 +1609,7 @@ class PetApi
 
 
 
+
         // body params
         $_tempBody = null;
         if (isset($pet)) {
@@ -1836,6 +1846,7 @@ class PetApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
 
         // path params
@@ -2130,6 +2141,7 @@ class PetApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
 
         // path params
@@ -2431,6 +2443,7 @@ class PetApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
 
         // path params

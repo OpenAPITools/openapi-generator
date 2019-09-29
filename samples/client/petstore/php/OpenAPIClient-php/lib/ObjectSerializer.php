@@ -206,23 +206,26 @@ class ObjectSerializer
      *
      * @return string
      */
-    public static function serializeCollection(array $collection, $collectionFormat, $allowCollectionFormatMulti = false)
+    public static function serializeCollection(array $collection, $style, $allowCollectionFormatMulti = false)
     {
         if ($allowCollectionFormatMulti && ('multi' === $collectionFormat)) {
             // http_build_query() almost does the job for us. We just
             // need to fix the result of multidimensional arrays.
             return preg_replace('/%5B[0-9]+%5D=/', '=', http_build_query($collection, '', '&'));
         }
-        switch ($collectionFormat) {
+        switch ($style) {
+            case 'pipeDelimited':
             case 'pipes':
                 return implode('|', $collection);
 
             case 'tsv':
                 return implode("\t", $collection);
 
+            case 'spaceDelimited':
             case 'ssv':
                 return implode(' ', $collection);
 
+            case 'simple':
             case 'csv':
                 // Deliberate fall through. CSV is default format.
             default:

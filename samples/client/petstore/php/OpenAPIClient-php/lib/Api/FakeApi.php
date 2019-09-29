@@ -267,6 +267,7 @@ class FakeApi
 
 
 
+
         // body params
         $_tempBody = null;
         if (isset($xml_item)) {
@@ -521,6 +522,7 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
 
 
@@ -781,6 +783,7 @@ class FakeApi
 
 
 
+
         // body params
         $_tempBody = null;
         if (isset($body)) {
@@ -1035,6 +1038,7 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
 
 
@@ -1295,6 +1299,7 @@ class FakeApi
 
 
 
+
         // body params
         $_tempBody = null;
         if (isset($body)) {
@@ -1507,6 +1512,7 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
 
 
@@ -1734,10 +1740,16 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
+
         // query params
-        if ($query !== null) {
-            $queryParams['query'] = ObjectSerializer::toQueryValue($query);
+        if (is_array($query)) {
+            $query = ObjectSerializer::serializeCollection($query, '', true);
         }
+        if ($query !== null) {
+            $queryParams['query'] = $query;
+        }
+
+
 
 
         // body params
@@ -2004,6 +2016,7 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
 
 
@@ -2356,6 +2369,7 @@ class FakeApi
 
 
 
+
         // form params
         if ($integer !== null) {
             $formParams['integer'] = ObjectSerializer::toFormValue($integer);
@@ -2660,25 +2674,43 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
+
         // query params
         if (is_array($enum_query_string_array)) {
             $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'csv', true);
         }
         if ($enum_query_string_array !== null) {
-            $queryParams['enum_query_string_array'] = ObjectSerializer::toQueryValue($enum_query_string_array);
+            $queryParams['enum_query_string_array'] = $enum_query_string_array;
         }
+
+
         // query params
+        if (is_array($enum_query_string)) {
+            $enum_query_string = ObjectSerializer::serializeCollection($enum_query_string, '', true);
+        }
         if ($enum_query_string !== null) {
-            $queryParams['enum_query_string'] = ObjectSerializer::toQueryValue($enum_query_string);
+            $queryParams['enum_query_string'] = $enum_query_string;
         }
+
+
         // query params
+        if (is_array($enum_query_integer)) {
+            $enum_query_integer = ObjectSerializer::serializeCollection($enum_query_integer, '', true);
+        }
         if ($enum_query_integer !== null) {
-            $queryParams['enum_query_integer'] = ObjectSerializer::toQueryValue($enum_query_integer);
+            $queryParams['enum_query_integer'] = $enum_query_integer;
         }
+
+
         // query params
-        if ($enum_query_double !== null) {
-            $queryParams['enum_query_double'] = ObjectSerializer::toQueryValue($enum_query_double);
+        if (is_array($enum_query_double)) {
+            $enum_query_double = ObjectSerializer::serializeCollection($enum_query_double, '', true);
         }
+        if ($enum_query_double !== null) {
+            $queryParams['enum_query_double'] = $enum_query_double;
+        }
+
+
         // header params
         if (is_array($enum_header_string_array)) {
             $enum_header_string_array = ObjectSerializer::serializeCollection($enum_header_string_array, 'csv');
@@ -2969,22 +3001,43 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
+
         // query params
+        if (is_array($required_string_group)) {
+            $required_string_group = ObjectSerializer::serializeCollection($required_string_group, '', true);
+        }
         if ($required_string_group !== null) {
-            $queryParams['required_string_group'] = ObjectSerializer::toQueryValue($required_string_group);
+            $queryParams['required_string_group'] = $required_string_group;
         }
+
+
         // query params
+        if (is_array($required_int64_group)) {
+            $required_int64_group = ObjectSerializer::serializeCollection($required_int64_group, '', true);
+        }
         if ($required_int64_group !== null) {
-            $queryParams['required_int64_group'] = ObjectSerializer::toQueryValue($required_int64_group);
+            $queryParams['required_int64_group'] = $required_int64_group;
         }
+
+
         // query params
+        if (is_array($string_group)) {
+            $string_group = ObjectSerializer::serializeCollection($string_group, '', true);
+        }
         if ($string_group !== null) {
-            $queryParams['string_group'] = ObjectSerializer::toQueryValue($string_group);
+            $queryParams['string_group'] = $string_group;
         }
+
+
         // query params
-        if ($int64_group !== null) {
-            $queryParams['int64_group'] = ObjectSerializer::toQueryValue($int64_group);
+        if (is_array($int64_group)) {
+            $int64_group = ObjectSerializer::serializeCollection($int64_group, '', true);
         }
+        if ($int64_group !== null) {
+            $queryParams['int64_group'] = $int64_group;
+        }
+
+
         // header params
         if ($required_boolean_group !== null) {
             $headerParams['required_boolean_group'] = ObjectSerializer::toHeaderValue($required_boolean_group);
@@ -3208,6 +3261,7 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
 
 
@@ -3438,6 +3492,7 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
+
 
 
 
@@ -3703,41 +3758,49 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
+
         // query params
         if (is_array($pipe)) {
             $pipe = ObjectSerializer::serializeCollection($pipe, 'csv', true);
         }
         if ($pipe !== null) {
-            $queryParams['pipe'] = ObjectSerializer::toQueryValue($pipe);
+            $queryParams['pipe'] = $pipe;
         }
+
+
         // query params
         if (is_array($ioutil)) {
             $ioutil = ObjectSerializer::serializeCollection($ioutil, 'csv', true);
         }
         if ($ioutil !== null) {
-            $queryParams['ioutil'] = ObjectSerializer::toQueryValue($ioutil);
+            $queryParams['ioutil'] = $ioutil;
         }
+
+
         // query params
         if (is_array($http)) {
             $http = ObjectSerializer::serializeCollection($http, 'space', true);
         }
         if ($http !== null) {
-            $queryParams['http'] = ObjectSerializer::toQueryValue($http);
+            $queryParams['http'] = $http;
         }
+
+
         // query params
         if (is_array($url)) {
             $url = ObjectSerializer::serializeCollection($url, 'csv', true);
         }
         if ($url !== null) {
-            $queryParams['url'] = ObjectSerializer::toQueryValue($url);
+            $queryParams['url'] = $url;
         }
+
+
         // query params
-        if (is_array($context)) {
-            $context = ObjectSerializer::serializeCollection($context, 'multi', true);
-        }
         if ($context !== null) {
-            $queryParams['context'] = ObjectSerializer::toQueryValue($context);
+            $queryParams['context'] = $context;
         }
+
+
 
 
         // body params
