@@ -301,6 +301,7 @@ export class UserApi {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        localVarHeaderParams.Accept = 'application/xml,application/json';
         let localVarFormParams: any = {};
 
         // verify required parameter 'username' is not null or undefined
@@ -357,6 +358,7 @@ export class UserApi {
         const localVarPath = this.basePath + '/user/login';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        localVarHeaderParams.Accept = 'application/xml,application/json';
         let localVarFormParams: any = {};
 
         // verify required parameter 'username' is not null or undefined
