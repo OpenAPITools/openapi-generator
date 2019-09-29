@@ -29,5 +29,5 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 
 # Generate client
-ags="generate -t modules/openapi-generator/src/main/resources/dart2 -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart2/openapi --additional-properties hideGenerationTimestamp=true  $@"
+ags="generate -t modules/openapi-generator/src/main/resources/dart2 -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart2/petstore_client_lib --additional-properties hideGenerationTimestamp=true $@"
 java $JAVA_OPTS -jar $executable $ags
