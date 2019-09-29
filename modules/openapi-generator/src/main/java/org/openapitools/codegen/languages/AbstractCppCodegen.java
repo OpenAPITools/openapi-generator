@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Map;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -305,5 +306,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if(!host.isEmpty()) {
             this.additionalProperties.put("serverHost", host);
         }
+    }
+    
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return postProcessModelsEnum(objs);
     }
 }
