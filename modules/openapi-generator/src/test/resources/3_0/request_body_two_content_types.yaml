@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Test
+  version: 1.0.0
+servers:
+  - url: 'http://test/'
+paths:
+  /transactions:
+    post:
+      summary: Endpoint for posting a new transaction
+      requestBody:
+        description: Post
+        content:
+          application/vnd.transaction.transaction.v1+json:
+            schema:
+              $ref: '#/components/schemas/TransactionV1'
+          application/vnd.transaction.transaction.v2+json:
+            schema:
+              $ref: '#/components/schemas/TransactionV2'
+      responses:
+        '204':
+          description: Transaction created
+components:
+  schemas:
+    TransactionV1:
+      type: object
+      properties:
+        test1:
+          type: string
+
+    TransactionV2:
+      type: object
+      properties:
+        test2:
+          type: string

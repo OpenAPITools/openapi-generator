@@ -786,9 +786,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     // Thus, we grab the inner schema beforehand, and then tinker afterwards to
     // restore things to sensible values.
     @Override
-    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
+    public List<CodegenParameter> fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         Schema original_schema = ModelUtils.getSchemaFromRequestBody(body);
-        CodegenParameter codegenParameter = super.fromRequestBody(body, imports, bodyParameterName);
+        List<CodegenParameter> codegenParameters = super.fromRequestBody(body, imports, bodyParameterName);
+        CodegenParameter codegenParameter = codegenParameters.get(0);
 
         if (StringUtils.isNotBlank(original_schema.get$ref())) {
             // Undo the mess `super.fromRequestBody` made - re-wrap the inner
@@ -809,7 +810,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
-        return codegenParameter;
+        return codegenParameters;
     }
 
     @Override

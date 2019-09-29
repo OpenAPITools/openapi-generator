@@ -314,8 +314,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     @Override
-    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
-        CodegenParameter result = super.fromRequestBody(body, imports, bodyParameterName);
+    public List<CodegenParameter> fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
+        List<CodegenParameter> results = super.fromRequestBody(body, imports, bodyParameterName);
+        CodegenParameter result = results.get(0);
         // if we generated a model with a non-object type because it has validations or enums,
         // make sure that the datatype of that body parameter refers to our model class
         Content content = body.getContent();
@@ -325,7 +326,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         Schema schema = mediaType.getSchema();
         String ref = schema.get$ref();
         if (ref == null) {
-            return result;
+            return results;
         }
         String modelName = ModelUtils.getSimpleRef(ref);
         // the result lacks validation info so we need to make a CodegenProperty from the schema to check
@@ -346,7 +347,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 result.example = modelName + "(" + result.example + ")";
             }
         }
-        return result;
+        return results;
     }
 
     /**

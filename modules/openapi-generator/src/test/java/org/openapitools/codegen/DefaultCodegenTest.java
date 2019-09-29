@@ -922,7 +922,7 @@ public class DefaultCodegenTest {
 
         RequestBody body = openAPI.getPaths().get("/examples").getPost().getRequestBody();
 
-        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "").get(0);
 
         Assert.assertTrue(codegenParameter.isContainer);
         Assert.assertTrue(codegenParameter.items.isModel);
@@ -940,11 +940,31 @@ public class DefaultCodegenTest {
 
         RequestBody body = openAPI.getPaths().get("/examples").getPost().getRequestBody();
 
-        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "").get(0);
 
         Assert.assertTrue(codegenParameter.isContainer);
         Assert.assertTrue(codegenParameter.items.isModel);
         Assert.assertFalse(codegenParameter.items.isContainer);
+    }
+
+    @Test
+    public void multipleRequestBodyParams() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/request_body_two_content_types.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Set<String> imports = new HashSet<>();
+
+        RequestBody body = openAPI.getPaths().get("/transactions").getPost().getRequestBody();
+
+        List<CodegenParameter> codegenParameters = codegen.fromRequestBody(body, imports, "");
+
+        Assert.assertEquals(2, codegenParameters.size());
+
+        List<String> paramContentTypes = codegenParameters.stream().map(param -> param.contentType).collect(Collectors.toList());
+        Assert.assertTrue(paramContentTypes.contains("application/vnd.transaction.transaction.v1+json"));
+        Assert.assertTrue(paramContentTypes.contains("application/vnd.transaction.transaction.v2+json"));
     }
 
     @Test
