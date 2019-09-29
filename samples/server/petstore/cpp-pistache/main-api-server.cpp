@@ -75,7 +75,7 @@ int main() {
         .threads(PISTACHE_SERVER_THREADS);
     opts.flags(Pistache::Tcp::Options::ReuseAddr);
     opts.maxRequestSize(PISTACHE_SERVER_MAX_REQUEST_SIZE);
-    opts.maxResponseSize(PISTACHE_SERVER_MAX_REQUEST_SIZE);
+    opts.maxResponseSize(PISTACHE_SERVER_MAX_RESPONSE_SIZE);
     httpEndpoint->init(opts);
 
     
