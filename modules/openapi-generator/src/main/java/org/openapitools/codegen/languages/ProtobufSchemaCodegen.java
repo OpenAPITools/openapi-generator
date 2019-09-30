@@ -26,6 +26,10 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -37,6 +41,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -65,6 +70,16 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
+                .build();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeWireFormatFeatures(WireFormatFeature.PROTOBUF)
+                .excludeWireFormatFeatures(
+                        Arrays.stream(WireFormatFeature.values()).filter(i -> i != WireFormatFeature.PROTOBUF)
+                        .toArray(WireFormatFeature[]::new)
+                )
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .build();
 
         outputFolder = "generated-code/protobuf-schema";

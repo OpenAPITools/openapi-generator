@@ -1075,6 +1075,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenType == null) {
             codegenType = CodegenType.OTHER;
         }
+
+        featureSet = DefaultFeatureSet;
+
         generatorMetadata = GeneratorMetadata.newBuilder()
                 .stability(Stability.STABLE)
                 .generationMessage(String.format(Locale.ROOT, "OpenAPI Generator: %s (%s)", getName(), codegenType.toValue()))
