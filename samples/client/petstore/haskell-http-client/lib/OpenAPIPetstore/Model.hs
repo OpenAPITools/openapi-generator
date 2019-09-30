@@ -1075,6 +1075,7 @@ data FormatTest = FormatTest
   , formatTestDateTime :: !(Maybe DateTime) -- ^ "dateTime"
   , formatTestUuid :: !(Maybe Text) -- ^ "uuid"
   , formatTestPassword :: !(Text) -- ^ /Required/ "password"
+  , formatTestBigDecimal :: !(Maybe Double) -- ^ "BigDecimal"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON FormatTest
@@ -1094,6 +1095,7 @@ instance A.FromJSON FormatTest where
       <*> (o .:? "dateTime")
       <*> (o .:? "uuid")
       <*> (o .:  "password")
+      <*> (o .:? "BigDecimal")
 
 -- | ToJSON FormatTest
 instance A.ToJSON FormatTest where
@@ -1112,6 +1114,7 @@ instance A.ToJSON FormatTest where
       , "dateTime" .= formatTestDateTime
       , "uuid" .= formatTestUuid
       , "password" .= formatTestPassword
+      , "BigDecimal" .= formatTestBigDecimal
       ]
 
 
@@ -1137,6 +1140,7 @@ mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
   , formatTestDateTime = Nothing
   , formatTestUuid = Nothing
   , formatTestPassword
+  , formatTestBigDecimal = Nothing
   }
 
 -- ** HasOnlyReadOnly
