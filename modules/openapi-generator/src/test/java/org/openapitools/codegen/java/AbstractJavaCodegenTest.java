@@ -18,6 +18,10 @@
 package org.openapitools.codegen.java;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
@@ -117,8 +121,11 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void testInitialConfigValues() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
@@ -129,17 +136,25 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools");
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "get");
+        Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), openAPI.getInfo().getVersion());
     }
 
     @Test
     public void testSettersForConfigValues() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
         codegen.setHideGenerationTimestamp(true);
         codegen.setModelPackage("xyz.yyyyy.zzzzzzz.model");
         codegen.setApiPackage("xyz.yyyyy.zzzzzzz.api");
         codegen.setInvokerPackage("xyz.yyyyy.zzzzzzz.invoker");
         codegen.setBooleanGetterPrefix("is");
+        codegen.setArtifactVersion("0.9.0-SNAPSHOT");
+
         codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
@@ -150,17 +165,24 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "is");
+        Assert.assertEquals(codegen.getArtifactVersion(), "0.9.0-SNAPSHOT");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), "0.9.0-SNAPSHOT");
     }
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.model.oooooo");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.api.oooooo");
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.invoker.oooooo");
         codegen.additionalProperties().put(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "getBoolean");
+        codegen.additionalProperties().put(CodegenConstants.ARTIFACT_VERSION, "0.8.0-SNAPSHOT");
         codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
@@ -171,6 +193,8 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.invoker.oooooo");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.invoker.oooooo");
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "getBoolean");
+        Assert.assertEquals(codegen.getArtifactVersion(), "0.8.0-SNAPSHOT");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), "0.8.0-SNAPSHOT");
     }
 
     @Test
@@ -300,6 +324,58 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(api);
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0-SNAPSHOT");
+    }
+
+    @Test(description = "tests if default version with snapshot is used when OpenAPI version has been provided")
+    public void snapshotVersionOpenAPITest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion("2.0");
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "2.0-SNAPSHOT");
+    }
+
+    @Test(description = "tests if default version with snapshot is used when setArtifactVersion is used")
+    public void snapshotVersionAlreadySnapshotTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        codegen.setArtifactVersion("4.1.2-SNAPSHOT");
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "4.1.2-SNAPSHOT");
+    }
+
+    @Test
+    public void toDefaultValueTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        Schema<?> schema = createObjectSchemaWithMinItems();
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertNull(defaultValue);
+    }
+
+    @Test
+    public void getTypeDeclarationTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        Schema<?> schema = createObjectSchemaWithMinItems();
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Object");
+    }
+
+    private static Schema<?> createObjectSchemaWithMinItems() {
+        return new ObjectSchema()
+                .addProperties("id", new IntegerSchema().format("int32"))
+                .minItems(1);
     }
 
     private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {

@@ -223,6 +223,10 @@ public interface CodegenConfig {
      */
     String getLibrary();
 
+    void setGitHost(String gitHost);
+
+    String getGitHost();
+
     void setGitUserId(String gitUserId);
 
     String getGitUserId();

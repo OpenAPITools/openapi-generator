@@ -7,10 +7,10 @@ class PetApi {
 
   PetApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
-  /// Add a new pet to the store
+  /// Add a new pet to the store with HTTP info returned
   ///
   /// 
-  Future addPet(Pet body) async {
+  Future addPetWithHttpInfo(Pet body) async {
     Object postBody = body;
 
     // verify required params are set
@@ -48,7 +48,14 @@ class PetApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Add a new pet to the store
+  ///
+  /// 
+  Future addPet(Pet body) async {
+    Response response = await addPetWithHttpInfo(body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -56,10 +63,11 @@ class PetApi {
       return;
     }
   }
-  /// Deletes a pet
+
+  /// Deletes a pet with HTTP info returned
   ///
   /// 
-  Future deletePet(int petId, { String apiKey }) async {
+  Future deletePetWithHttpInfo(int petId, { String apiKey }) async {
     Object postBody;
 
     // verify required params are set
@@ -98,7 +106,14 @@ class PetApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Deletes a pet
+  ///
+  /// 
+  Future deletePet(int petId, { String apiKey }) async {
+    Response response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -106,10 +121,11 @@ class PetApi {
       return;
     }
   }
-  /// Finds Pets by status
+
+  /// Finds Pets by status with HTTP info returned
   ///
   /// Multiple status values can be provided with comma separated strings
-  Future<List<Pet>> findPetsByStatus(List<String> status) async {
+  Future<Response> findPetsByStatusWithHttpInfo(List<String> status) async {
     Object postBody;
 
     // verify required params are set
@@ -148,7 +164,14 @@ class PetApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Finds Pets by status
+  ///
+  /// Multiple status values can be provided with comma separated strings
+  Future<List<Pet>> findPetsByStatus(List<String> status) async {
+    Response response = await findPetsByStatusWithHttpInfo(status);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -157,10 +180,11 @@ class PetApi {
       return null;
     }
   }
-  /// Finds Pets by tags
+
+  /// Finds Pets by tags with HTTP info returned
   ///
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-  Future<List<Pet>> findPetsByTags(List<String> tags) async {
+  Future<Response> findPetsByTagsWithHttpInfo(List<String> tags) async {
     Object postBody;
 
     // verify required params are set
@@ -199,7 +223,14 @@ class PetApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Finds Pets by tags
+  ///
+  /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+  Future<List<Pet>> findPetsByTags(List<String> tags) async {
+    Response response = await findPetsByTagsWithHttpInfo(tags);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -208,10 +239,11 @@ class PetApi {
       return null;
     }
   }
-  /// Find pet by ID
+
+  /// Find pet by ID with HTTP info returned
   ///
   /// Returns a single pet
-  Future<Pet> getPetById(int petId) async {
+  Future<Response> getPetByIdWithHttpInfo(int petId) async {
     Object postBody;
 
     // verify required params are set
@@ -249,7 +281,14 @@ class PetApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Find pet by ID
+  ///
+  /// Returns a single pet
+  Future<Pet> getPetById(int petId) async {
+    Response response = await getPetByIdWithHttpInfo(petId);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -258,10 +297,11 @@ class PetApi {
       return null;
     }
   }
-  /// Update an existing pet
+
+  /// Update an existing pet with HTTP info returned
   ///
   /// 
-  Future updatePet(Pet body) async {
+  Future updatePetWithHttpInfo(Pet body) async {
     Object postBody = body;
 
     // verify required params are set
@@ -299,7 +339,14 @@ class PetApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Update an existing pet
+  ///
+  /// 
+  Future updatePet(Pet body) async {
+    Response response = await updatePetWithHttpInfo(body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -307,10 +354,11 @@ class PetApi {
       return;
     }
   }
-  /// Updates a pet in the store with form data
+
+  /// Updates a pet in the store with form data with HTTP info returned
   ///
   /// 
-  Future updatePetWithForm(int petId, { String name, String status }) async {
+  Future updatePetWithFormWithHttpInfo(int petId, { String name, String status }) async {
     Object postBody;
 
     // verify required params are set
@@ -360,7 +408,14 @@ class PetApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// Updates a pet in the store with form data
+  ///
+  /// 
+  Future updatePetWithForm(int petId, { String name, String status }) async {
+    Response response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -368,10 +423,11 @@ class PetApi {
       return;
     }
   }
-  /// uploads an image
+
+  /// uploads an image with HTTP info returned
   ///
   /// 
-  Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
+  Future<Response> uploadFileWithHttpInfo(int petId, { String additionalMetadata, MultipartFile file }) async {
     Object postBody;
 
     // verify required params are set
@@ -420,7 +476,14 @@ class PetApi {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// uploads an image
+  ///
+  /// 
+  Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
+    Response response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -429,4 +492,5 @@ class PetApi {
       return null;
     }
   }
+
 }

@@ -1,6 +1,5 @@
 #![allow(unused_imports, unused_qualifications, unused_extern_crates)]
 extern crate chrono;
-extern crate uuid;
 
 use serde::ser::Serializer;
 
@@ -10,8 +9,8 @@ use swagger;
 use std::string::ParseError;
 
 
-
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct MultipartRequest {
     #[serde(rename = "string_field")]
     pub string_field: String,
@@ -42,6 +41,7 @@ impl MultipartRequest {
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct MultipartRequestObjectField {
     #[serde(rename = "field_a")]
     pub field_a: String,

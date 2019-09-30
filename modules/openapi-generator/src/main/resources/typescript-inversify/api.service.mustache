@@ -60,7 +60,7 @@ export class {{classname}} {
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe: any = 'body', headers: Headers = {}): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<any> {
 {{#allParams}}
 {{#required}}
-        if (!{{paramName}}){
+        if ({{paramName}} === null || {{paramName}} === undefined){
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
 
@@ -139,7 +139,7 @@ export class {{classname}} {
         headers['Accept'] = 'application/json';
         {{/produces}}
         {{#produces.0}}
-        headers['Accept'] = '{{{mediaType}}}';
+        headers['Accept'] = '{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}';
         {{/produces.0}}
 {{#bodyParam}}
         {{^consumes}}

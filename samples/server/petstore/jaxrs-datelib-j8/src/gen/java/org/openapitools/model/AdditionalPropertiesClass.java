@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -29,6 +30,19 @@ import javax.validation.Valid;
 /**
  * AdditionalPropertiesClass
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_NUMBER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_BOOLEAN,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE1,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
+})
 
 public class AdditionalPropertiesClass  implements Serializable {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
@@ -65,15 +79,15 @@ public class AdditionalPropertiesClass  implements Serializable {
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
-  private Object anytype1 = null;
+  private Object anytype1;
 
   public static final String JSON_PROPERTY_ANYTYPE2 = "anytype_2";
   @JsonProperty(JSON_PROPERTY_ANYTYPE2)
-  private Object anytype2 = null;
+  private Object anytype2;
 
   public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
   @JsonProperty(JSON_PROPERTY_ANYTYPE3)
-  private Object anytype3 = null;
+  private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;

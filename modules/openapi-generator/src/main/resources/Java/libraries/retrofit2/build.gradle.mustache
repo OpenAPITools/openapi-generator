@@ -127,12 +127,13 @@ ext {
     play_version = "2.4.11"
     {{/play24}}
     {{#play25}}
-    jackson_version = "2.9.9"
+    jackson_version = "2.9.10"
     play_version = "2.5.14"
     {{/play25}}
     {{#play26}}
-    jackson_version = "2.9.9"
-    jackson_databind_version = "2.9.9"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10"
+    jackson-databind-nullable-version = "0.2.0"
     play_version = "2.6.7"
     {{/play26}}
     {{/usePlayWS}}
@@ -189,6 +190,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson-databind-nullable-version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}:$jackson_version"
     {{/usePlayWS}}
 

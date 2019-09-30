@@ -15,45 +15,47 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Order
  */
+@JsonPropertyOrder({
+  Order.JSON_PROPERTY_ID,
+  Order.JSON_PROPERTY_PET_ID,
+  Order.JSON_PROPERTY_QUANTITY,
+  Order.JSON_PROPERTY_SHIP_DATE,
+  Order.JSON_PROPERTY_STATUS,
+  Order.JSON_PROPERTY_COMPLETE
+})
 
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Order")
 public class Order {
-  public static final String JSON_PROPERTY_ID = "id";
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
-  public static final String JSON_PROPERTY_PET_ID = "petId";
-  @JsonProperty(JSON_PROPERTY_PET_ID)
-  @JacksonXmlProperty(localName = "petId")
   @XmlElement(name = "petId")
+  public static final String JSON_PROPERTY_PET_ID = "petId";
   private Long petId;
 
-  public static final String JSON_PROPERTY_QUANTITY = "quantity";
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
-  @JacksonXmlProperty(localName = "quantity")
   @XmlElement(name = "quantity")
+  public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
 
-  public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
-  @JacksonXmlProperty(localName = "shipDate")
   @XmlElement(name = "shipDate")
+  public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   private OffsetDateTime shipDate;
 
   /**
@@ -93,19 +95,17 @@ public class Order {
     }
   }
 
-  public static final String JSON_PROPERTY_STATUS = "status";
-  @JsonProperty(JSON_PROPERTY_STATUS)
-  @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
+  public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
-  public static final String JSON_PROPERTY_COMPLETE = "complete";
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
-  @JacksonXmlProperty(localName = "complete")
   @XmlElement(name = "complete")
+  public static final String JSON_PROPERTY_COMPLETE = "complete";
   private Boolean complete = false;
 
+
   public Order id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -116,15 +116,23 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
+
   public Long getId() {
     return id;
   }
+
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public Order petId(Long petId) {
+    
     this.petId = petId;
     return this;
   }
@@ -135,15 +143,23 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "petId")
+
   public Long getPetId() {
     return petId;
   }
+
+
 
   public void setPetId(Long petId) {
     this.petId = petId;
   }
 
+
   public Order quantity(Integer quantity) {
+    
     this.quantity = quantity;
     return this;
   }
@@ -154,15 +170,23 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "quantity")
+
   public Integer getQuantity() {
     return quantity;
   }
+
+
 
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
+
   public Order shipDate(OffsetDateTime shipDate) {
+    
     this.shipDate = shipDate;
     return this;
   }
@@ -173,15 +197,23 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "shipDate")
+
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
+
+
 
   public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
+
   public Order status(StatusEnum status) {
+    
     this.status = status;
     return this;
   }
@@ -192,15 +224,23 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "Order Status")
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "status")
+
   public StatusEnum getStatus() {
     return status;
   }
+
+
 
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
+
   public Order complete(Boolean complete) {
+    
     this.complete = complete;
     return this;
   }
@@ -211,9 +251,15 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "complete")
+
   public Boolean getComplete() {
     return complete;
   }
+
+
 
   public void setComplete(Boolean complete) {
     this.complete = complete;

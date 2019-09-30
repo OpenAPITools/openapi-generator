@@ -13,6 +13,7 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import play.libs.Json;
 import play.libs.ws.WSClient;
@@ -89,6 +90,8 @@ public class ApiClient {
         }
         if (defaultMapper == null) {
             defaultMapper = Json.mapper();
+            JsonNullableModule jnm = new JsonNullableModule();
+            defaultMapper.registerModule(jnm);
         }
 
         return new Retrofit.Builder()

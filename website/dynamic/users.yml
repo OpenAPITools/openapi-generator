@@ -59,6 +59,11 @@
   infoLink: "https://www.kurusugawa.jp/"
   pinned: false
 -
+  caption: M3, Inc.
+  image: "img/companies/m3.png"
+  infoLink: "https://jobs.m3.com/engineer/"
+  pinned: false
+-
   caption: Metaswitch
   image: "img/companies/metaswitch.svg"
   infoLink: "https://www.metaswitch.com/"

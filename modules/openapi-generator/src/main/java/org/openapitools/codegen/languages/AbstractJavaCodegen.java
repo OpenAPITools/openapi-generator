@@ -43,6 +43,8 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
+    private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
+
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -60,7 +62,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String invokerPackage = "org.openapitools";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-java";
-    protected String artifactVersion = "1.0.0";
+    protected String artifactVersion = null;
     protected String artifactUrl = "https://github.com/openapitools/openapi-generator";
     protected String artifactDescription = "OpenAPI Java";
     protected String developerName = "OpenAPI-Generator Contributors";
@@ -144,7 +146,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC).defaultValue(this.getInvokerPackage()));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC).defaultValue(this.getGroupId()));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC).defaultValue(this.getArtifactId()));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC).defaultValue(this.getArtifactVersion()));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC).defaultValue(ARTIFACT_VERSION_DEFAULT_VALUE));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_URL, CodegenConstants.ARTIFACT_URL_DESC).defaultValue(this.getArtifactUrl()));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_DESCRIPTION, CodegenConstants.ARTIFACT_DESCRIPTION_DESC).defaultValue(this.getArtifactDescription()));
         cliOptions.add(new CliOption(CodegenConstants.SCM_CONNECTION, CodegenConstants.SCM_CONNECTION_DESC).defaultValue(this.getScmConnection()));
@@ -417,6 +419,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
         importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
+        importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
+        importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
         importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
         importMapping.put("TypeAdapter", "com.google.gson.TypeAdapter");
         importMapping.put("JsonAdapter", "com.google.gson.annotations.JsonAdapter");
@@ -684,14 +688,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            if (inner == null) {
-                LOGGER.error("`{}` (array property) does not have a proper inner type defined. Default to type:string", ap.getName());
-                inner = new StringSchema().description("TODO default missing array inner type to string");
-                ap.setItems(inner);
-            }
-            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+            Schema<?> items = getSchemaItems((ArraySchema) p);
+            return getSchemaType(p) + "<" + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             if (inner == null) {
@@ -716,7 +714,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isArraySchema(p)) {
-            final ArraySchema ap = (ArraySchema) p;
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.ArrayList<%s>()";
@@ -724,13 +721,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 pattern = "new ArrayList<%s>()";
             }
 
-            if (ap.getItems() == null) {
-                LOGGER.error("`{}` (array property) does not have a proper inner type defined. Default to type:string", ap.getName());
-                Schema inner = new StringSchema().description("TODO default missing array inner type to string");
-                ap.setItems(inner);
-            }
+            Schema<?> items = getSchemaItems((ArraySchema) p);
 
-            String typeDeclaration = getTypeDeclaration(ap.getItems());
+            String typeDeclaration = getTypeDeclaration(items);
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
@@ -800,7 +793,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return null;
+        } else if (ModelUtils.isObjectSchema(p)) {
+            if (p.getDefault() != null) {
+                return super.toDefaultValue(p);
+            }
+            return null;
         }
+
         return super.toDefaultValue(p);
     }
 
@@ -1041,12 +1040,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        // If no artifactVersion is provided in additional properties, version from API specification is used.
-        // If none of them is provided then fallbacks to default version
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
-            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
-        } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
-            this.setArtifactVersion(openAPI.getInfo().getVersion());
+        if(artifactVersion == null) {
+            // If no artifactVersion is provided in additional properties, version from API specification is used.
+            // If none of them is provided then fallbacks to default version
+            if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+                this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
+            } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+                this.setArtifactVersion(openAPI.getInfo().getVersion());
+            } else {
+                this.setArtifactVersion(ARTIFACT_VERSION_DEFAULT_VALUE);
+            }
+        } else {
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
@@ -1436,7 +1441,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @return SNAPSHOT version
      */
     private String buildSnapshotVersion(String version) {
-        return version + "-" + "SNAPSHOT";
+        if(version.endsWith("-SNAPSHOT")) {
+            return version;
+        }
+        return version + "-SNAPSHOT";
     }
 
     public void setSupportJava6(boolean value) {

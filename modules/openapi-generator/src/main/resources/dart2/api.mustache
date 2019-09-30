@@ -9,10 +9,10 @@ class {{classname}} {
   {{classname}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   {{#operation}}
-  /// {{summary}}
+  /// {{summary}} with HTTP info returned
   ///
   /// {{notes}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     Object postBody{{#bodyParam}} = {{paramName}}{{/bodyParam}};
 
     // verify required params are set
@@ -87,7 +87,14 @@ class {{classname}} {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// {{summary}}
+  ///
+  /// {{notes}}
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+    Response response = await {{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
@@ -112,6 +119,7 @@ class {{classname}} {
       return{{#returnType}} null{{/returnType}};
     }
   }
+
   {{/operation}}
 }
 {{/operations}}

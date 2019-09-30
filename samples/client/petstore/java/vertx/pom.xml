@@ -236,6 +236,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
@@ -261,8 +266,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vertx-version>3.4.2</vertx-version>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
-        <jackson-version>2.9.9</jackson-version>
-        <jackson-databind>2.9.9</jackson-databind>
+        <jackson-version>2.9.10</jackson-version>
+        <jackson-databind>2.9.10</jackson-databind>
+        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         <junit-version>4.12</junit-version>
     </properties>
 </project>

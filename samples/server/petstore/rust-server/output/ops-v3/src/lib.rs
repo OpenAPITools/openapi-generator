@@ -1,27 +1,36 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
 
-
-extern crate futures;
-extern crate chrono;
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
 extern crate log;
-extern crate mime;
+#[macro_use]
+extern crate serde_derive;
 
-// Logically this should be in the client and server modules, but rust doesn't allow `macro_use` from a module.
 #[cfg(any(feature = "client", feature = "server"))]
 #[macro_use]
 extern crate hyper;
-
-extern crate swagger;
-
+#[cfg(any(feature = "client", feature = "server"))]
 #[macro_use]
 extern crate url;
+
+// Crates for conversion support
+#[cfg(feature = "conversion")]
+#[macro_use]
+extern crate frunk_derives;
+#[cfg(feature = "conversion")]
+#[macro_use]
+extern crate frunk_enum_derive;
+#[cfg(feature = "conversion")]
+extern crate frunk_core;
+
+extern crate mime;
+extern crate serde;
+extern crate serde_json;
+
+extern crate futures;
+extern crate chrono;
+extern crate swagger;
 
 use futures::Stream;
 use std::io::Error;
@@ -29,12 +38,13 @@ use std::io::Error;
 #[allow(unused_imports)]
 use std::collections::HashMap;
 
-pub use futures::Future;
-
 #[cfg(any(feature = "client", feature = "server"))]
 mod mimetypes;
 
+#[deprecated(note = "Import swagger-rs directly")]
 pub use swagger::{ApiError, ContextWrapper};
+#[deprecated(note = "Import futures directly")]
+pub use futures::Future;
 
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "0.0.1";
@@ -43,223 +53,223 @@ pub const API_VERSION: &'static str = "0.0.1";
 #[derive(Debug, PartialEq)]
 pub enum Op10GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op11GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op12GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op13GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op14GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op15GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op16GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op17GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op18GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op19GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op1GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op20GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op21GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op22GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op23GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op24GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op25GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op26GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op27GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op28GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op29GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op2GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op30GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op31GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op32GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op33GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op34GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op35GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op36GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op37GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op3GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op4GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op5GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op6GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op7GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op8GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op9GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 

@@ -16,8 +16,8 @@
 #include <QObject>
 
 #include "OAIApiResponse.h"
+#include "OAIHttpFileElement.h"
 #include "OAIPet.h"
-#include <QIODevice>
 #include <QString>
 
 namespace OpenAPI {
@@ -39,7 +39,7 @@ public slots:
     virtual void getPetById(qint64 pet_id);
     virtual void updatePet(OAIPet body);
     virtual void updatePetWithForm(qint64 pet_id, QString name, QString status);
-    virtual void uploadFile(qint64 pet_id, QString additional_metadata, QIODevice* file);
+    virtual void uploadFile(qint64 pet_id, QString additional_metadata, OAIHttpFileElement file);
     
 
 };

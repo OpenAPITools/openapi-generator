@@ -7,9 +7,9 @@ extern crate futures;
 #[macro_use]
 extern crate swagger;
 #[allow(unused_extern_crates)]
-extern crate uuid;
 extern crate clap;
 extern crate tokio_core;
+extern crate uuid;
 
 use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 

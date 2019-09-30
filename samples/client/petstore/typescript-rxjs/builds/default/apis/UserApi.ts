@@ -69,7 +69,7 @@ export class UserApi extends BaseAPI {
             headers,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * Creates list of users with given input array
@@ -87,7 +87,7 @@ export class UserApi extends BaseAPI {
             headers,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * Creates list of users with given input array
@@ -105,7 +105,7 @@ export class UserApi extends BaseAPI {
             headers,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * This can only be done by the logged in user.
@@ -118,7 +118,7 @@ export class UserApi extends BaseAPI {
             path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
             method: 'DELETE',
         });
-    }
+    };
 
     /**
      * Get user by user name
@@ -130,7 +130,7 @@ export class UserApi extends BaseAPI {
             path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
             method: 'GET',
         });
-    }
+    };
 
     /**
      * Logs user into the system
@@ -149,7 +149,7 @@ export class UserApi extends BaseAPI {
             method: 'GET',
             query,
         });
-    }
+    };
 
     /**
      * Logs out current logged in user session
@@ -159,7 +159,7 @@ export class UserApi extends BaseAPI {
             path: '/user/logout',
             method: 'GET',
         });
-    }
+    };
 
     /**
      * This can only be done by the logged in user.
@@ -179,6 +179,6 @@ export class UserApi extends BaseAPI {
             headers,
             body: requestParameters.body,
         });
-    }
+    };
 
 }

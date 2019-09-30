@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -27,11 +28,15 @@ import javax.validation.Valid;
 /**
  * FileSchemaTestClass
  */
+@JsonPropertyOrder({
+  FileSchemaTestClass.JSON_PROPERTY_FILE,
+  FileSchemaTestClass.JSON_PROPERTY_FILES
+})
 
 public class FileSchemaTestClass  implements Serializable {
   public static final String JSON_PROPERTY_FILE = "file";
   @JsonProperty(JSON_PROPERTY_FILE)
-  private java.io.File file = null;
+  private java.io.File file;
 
   public static final String JSON_PROPERTY_FILES = "files";
   @JsonProperty(JSON_PROPERTY_FILES)

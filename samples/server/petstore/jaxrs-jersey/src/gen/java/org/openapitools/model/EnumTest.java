@@ -23,12 +23,23 @@ import org.openapitools.model.OuterEnum;
 import org.openapitools.model.OuterEnumDefaultValue;
 import org.openapitools.model.OuterEnumInteger;
 import org.openapitools.model.OuterEnumIntegerDefaultValue;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * EnumTest
  */
+@JsonPropertyOrder({
+  EnumTest.JSON_PROPERTY_ENUM_STRING,
+  EnumTest.JSON_PROPERTY_ENUM_STRING_REQUIRED,
+  EnumTest.JSON_PROPERTY_ENUM_INTEGER,
+  EnumTest.JSON_PROPERTY_ENUM_NUMBER,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
+})
 
 public class EnumTest   {
   /**

@@ -38,9 +38,15 @@ NAME
         openapi-generator-cli list - Lists the available generators
 
 SYNOPSIS
-        openapi-generator-cli list [(-s | --short)]
+        openapi-generator-cli list [(-i <include> | --include <include>)]
+                [(-s | --short)]
 
 OPTIONS
+        -i <include>, --include <include>
+            comma-separated list of stability indexes to include (value:
+            all,beta,stable,experimental,deprecated). Excludes deprecated by
+            default.
+
         -s, --short
             shortened output (suitable for scripting)
 
@@ -210,13 +216,14 @@ This command takes one or more parameters representing the args list you would o
 
 ```bash
 openapi-generator completion config-help
---named-header
 -o
 --output
+--named-header
 -g
 --generator-name
--l
---lang
+-f
+--format
+--markdown-header
 ```
 
 An example bash completion script can be found in the repo at [scripts/openapi-generator-cli-completion.bash](https://github.com/OpenAPITools/openapi-generator/blob/master/scripts/openapi-generator-cli-completion.bash).
