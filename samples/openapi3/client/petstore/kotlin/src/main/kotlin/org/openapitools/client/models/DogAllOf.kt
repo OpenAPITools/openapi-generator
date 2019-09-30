@@ -13,13 +13,20 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * 
  * @param breed 
  */
+@Parcelize
+
 data class DogAllOf (
     @Json(name = "breed")
     val breed: kotlin.String? = null
-)
+) 
 
+ : Parcelable, Serializable 
 

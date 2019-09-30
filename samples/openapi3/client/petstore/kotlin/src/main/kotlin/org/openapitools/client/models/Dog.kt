@@ -15,10 +15,16 @@ import org.openapitools.client.models.Animal
 import org.openapitools.client.models.DogAllOf
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * 
  * @param breed 
  */
+@Parcelize
+
 data class Dog (
     @Json(name = "className")
     val className: kotlin.String,
@@ -26,6 +32,7 @@ data class Dog (
     val breed: kotlin.String? = null,
     @Json(name = "color")
     val color: kotlin.String? = null
-)
+) 
 
+ : Parcelable, Serializable 
 

@@ -13,16 +13,23 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * 
  * @param file 
  * @param files 
  */
+@Parcelize
+
 data class FileSchemaTestClass (
     @Json(name = "file")
     val file: java.io.File? = null,
     @Json(name = "files")
     val files: kotlin.Array<java.io.File>? = null
-)
+) 
 
+ : Parcelable, Serializable 
 

@@ -12,17 +12,25 @@
 package org.openapitools.server.models
 
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * Describes the result of uploading an image resource
  * @param code 
  * @param type 
  * @param message 
  */
+@Parcelize
 data class ApiResponse (
     val code: kotlin.Int? = null,
     val type: kotlin.String? = null,
     val message: kotlin.String? = null
-) {
+) 
+
+ : Parcelable, Serializable 
+{
 
 }
 
