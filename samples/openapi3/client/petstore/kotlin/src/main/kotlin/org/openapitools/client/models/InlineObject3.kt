@@ -13,6 +13,10 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * 
  * @param integer None
@@ -30,6 +34,8 @@ import com.squareup.moshi.Json
  * @param password None
  * @param callback None
  */
+@Parcelize
+
 data class InlineObject3 (
     /* None */
     @Json(name = "number")
@@ -73,6 +79,7 @@ data class InlineObject3 (
     /* None */
     @Json(name = "callback")
     val callback: kotlin.String? = null
-)
+) 
 
+ : Parcelable, Serializable 
 

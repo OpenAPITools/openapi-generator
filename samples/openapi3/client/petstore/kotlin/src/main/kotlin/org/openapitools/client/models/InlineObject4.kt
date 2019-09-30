@@ -13,11 +13,17 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * 
  * @param param field1
  * @param param2 field2
  */
+@Parcelize
+
 data class InlineObject4 (
     /* field1 */
     @Json(name = "param")
@@ -25,6 +31,7 @@ data class InlineObject4 (
     /* field2 */
     @Json(name = "param2")
     val param2: kotlin.String
-)
+) 
 
+ : Parcelable, Serializable 
 

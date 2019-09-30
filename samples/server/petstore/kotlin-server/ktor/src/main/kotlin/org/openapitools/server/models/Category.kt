@@ -12,15 +12,23 @@
 package org.openapitools.server.models
 
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * A category for a pet
  * @param id 
  * @param name 
  */
+@Parcelize
 data class Category (
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
-) {
+) 
+
+ : Parcelable, Serializable 
+{
 
 }
 
