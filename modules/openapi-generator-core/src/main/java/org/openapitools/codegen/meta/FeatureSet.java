@@ -18,7 +18,9 @@ package org.openapitools.codegen.meta;
 
 import org.openapitools.codegen.meta.features.*;
 
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.stream.Collectors;
 
 /**
  * Defines the feature set for a target generator.
@@ -29,19 +31,23 @@ public class FeatureSet {
 
     private EnumSet<ClientModificationFeature> clientModificationFeatures;
     private EnumSet<DataTypeFeature> dataTypeFeatures;
-    private EnumSet<DocumentationFeature> documentationFeature;
-    private EnumSet<SchemaSupportFeature> schemaSupportFeature;
-    private EnumSet<ParameterFeature> parameterFeature;
-    private EnumSet<SecurityFeature> securityFeature;
+    private EnumSet<DocumentationFeature> documentationFeatures;
+    private EnumSet<GlobalFeature> globalFeatures;
+    private EnumSet<SchemaSupportFeature> schemaSupportFeatures;
+    private EnumSet<ParameterFeature> parameterFeatures;
+    private EnumSet<SecurityFeature> securityFeatures;
+    private EnumSet<WireFormatFeature> wireFormatFeatures;
 
     private FeatureSet(Builder builder) {
         if (builder != null) {
             clientModificationFeatures = builder.clientModificationFeatures;
             dataTypeFeatures = builder.dataTypeFeatures;
-            documentationFeature = builder.documentationFeature;
-            schemaSupportFeature = builder.schemaSupportFeature;
-            parameterFeature = builder.parameterFeature;
-            securityFeature = builder.securityFeature;
+            documentationFeatures = builder.documentationFeatures;
+            schemaSupportFeatures = builder.schemaSupportFeatures;
+            globalFeatures = builder.globalFeatures;
+            parameterFeatures = builder.parameterFeatures;
+            securityFeatures = builder.securityFeatures;
+            wireFormatFeatures = builder.wireFormatFeatures;
         }
     }
 
@@ -58,10 +64,12 @@ public class FeatureSet {
         if (copy != null) {
             builder.clientModificationFeatures = copy.getClientModificationFeatures();
             builder.dataTypeFeatures = copy.getDataTypeFeatures();
-            builder.documentationFeature = copy.getDocumentationFeature();
-            builder.schemaSupportFeature = copy.getSchemaSupportFeature();
-            builder.parameterFeature = copy.getParameterFeature();
-            builder.securityFeature = copy.getSecurityFeature();
+            builder.documentationFeatures = copy.getDocumentationFeatures();
+            builder.schemaSupportFeatures = copy.getSchemaSupportFeatures();
+            builder.globalFeatures = copy.getGlobalFeatures();
+            builder.parameterFeatures = copy.getParameterFeatures();
+            builder.securityFeatures = copy.getSecurityFeatures();
+            builder.wireFormatFeatures = copy.getWireFormatFeatures();
         }
         return builder;
     }
@@ -97,9 +105,9 @@ public class FeatureSet {
      *
      * @return A new copy of the defined feature set. Changes to this instance are not promoted.
      */
-    public EnumSet<DocumentationFeature> getDocumentationFeature() {
-        if (documentationFeature != null) {
-            return EnumSet.copyOf(documentationFeature);
+    public EnumSet<DocumentationFeature> getDocumentationFeatures() {
+        if (documentationFeatures != null) {
+            return EnumSet.copyOf(documentationFeatures);
         } else {
             return EnumSet.noneOf(DocumentationFeature.class);
         }
@@ -110,11 +118,24 @@ public class FeatureSet {
      *
      * @return A new copy of the defined feature set. Changes to this instance are not promoted.
      */
-    public EnumSet<SchemaSupportFeature> getSchemaSupportFeature() {
-        if (schemaSupportFeature != null) {
-            return EnumSet.copyOf(schemaSupportFeature);
+    public EnumSet<SchemaSupportFeature> getSchemaSupportFeatures() {
+        if (schemaSupportFeatures != null) {
+            return EnumSet.copyOf(schemaSupportFeatures);
         } else {
             return EnumSet.noneOf(SchemaSupportFeature.class);
+        }
+    }
+
+    /**
+     * Returns the spec features supported "globally" for a document (shared across all operations and/or models).
+     *
+     * @return A new copy of the defined feature set. Changes to this instance are not promoted.
+     */
+    public EnumSet<GlobalFeature> getGlobalFeatures() {
+        if (globalFeatures != null) {
+            return EnumSet.copyOf(globalFeatures);
+        } else {
+            return EnumSet.noneOf(GlobalFeature.class);
         }
     }
 
@@ -123,9 +144,9 @@ public class FeatureSet {
      *
      * @return A new copy of the defined feature set. Changes to this instance are not promoted.
      */
-    public EnumSet<ParameterFeature> getParameterFeature() {
-        if (parameterFeature != null) {
-            return EnumSet.copyOf(parameterFeature);
+    public EnumSet<ParameterFeature> getParameterFeatures() {
+        if (parameterFeatures != null) {
+            return EnumSet.copyOf(parameterFeatures);
         } else {
             return EnumSet.noneOf(ParameterFeature.class);
         }
@@ -136,11 +157,24 @@ public class FeatureSet {
      *
      * @return A new copy of the defined feature set. Changes to this instance are not promoted.
      */
-    public EnumSet<SecurityFeature> getSecurityFeature() {
-        if (securityFeature != null) {
-            return EnumSet.copyOf(securityFeature);
+    public EnumSet<SecurityFeature> getSecurityFeatures() {
+        if (securityFeatures != null) {
+            return EnumSet.copyOf(securityFeatures);
         } else {
             return EnumSet.noneOf(SecurityFeature.class);
+        }
+    }
+
+    /**
+     * Returns the wire format options officially supported by the generated code.
+     *
+     * @return A new copy of the defined feature set. Changes to this instance are not promoted.
+     */
+    public EnumSet<WireFormatFeature> getWireFormatFeatures() {
+        if (wireFormatFeatures != null) {
+            return EnumSet.copyOf(wireFormatFeatures);
+        } else {
+            return EnumSet.noneOf(WireFormatFeature.class);
         }
     }
 
@@ -150,12 +184,22 @@ public class FeatureSet {
     public static final class Builder {
         private EnumSet<ClientModificationFeature> clientModificationFeatures;
         private EnumSet<DataTypeFeature> dataTypeFeatures;
-        private EnumSet<DocumentationFeature> documentationFeature;
-        private EnumSet<SchemaSupportFeature> schemaSupportFeature;
-        private EnumSet<ParameterFeature> parameterFeature;
-        private EnumSet<SecurityFeature> securityFeature;
+        private EnumSet<DocumentationFeature> documentationFeatures;
+        private EnumSet<SchemaSupportFeature> schemaSupportFeatures;
+        private EnumSet<GlobalFeature> globalFeatures;
+        private EnumSet<ParameterFeature> parameterFeatures;
+        private EnumSet<SecurityFeature> securityFeatures;
+        private EnumSet<WireFormatFeature> wireFormatFeatures;
 
         private Builder() {
+            this.clientModificationFeatures = EnumSet.noneOf(ClientModificationFeature.class);
+            this.dataTypeFeatures = EnumSet.noneOf(DataTypeFeature.class);
+            this.documentationFeatures = EnumSet.noneOf(DocumentationFeature.class);
+            this.schemaSupportFeatures = EnumSet.noneOf(SchemaSupportFeature.class);
+            this.parameterFeatures = EnumSet.noneOf(ParameterFeature.class);
+            this.securityFeatures = EnumSet.noneOf(SecurityFeature.class);
+            this.globalFeatures = EnumSet.noneOf(GlobalFeature.class);
+            this.wireFormatFeatures = EnumSet.noneOf(WireFormatFeature.class);
         }
 
         /**
@@ -170,6 +214,30 @@ public class FeatureSet {
             } else {
                 this.clientModificationFeatures = EnumSet.noneOf(ClientModificationFeature.class);
             }
+            return this;
+        }
+
+        /**
+         * Includes the defined {@link ClientModificationFeature} to the new/existing set of supported features.
+         *
+         * @param clientModificationFeature One or more {@code clientModificationFeature} to ensure are included in the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder includeClientModificationFeature(ClientModificationFeature... clientModificationFeature) {
+            this.clientModificationFeatures.addAll(Arrays.stream(clientModificationFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Excludes the defined {@link ClientModificationFeature} from the set of supported features.
+         *
+         * @param clientModificationFeature One or more {@code clientModificationFeature} to ensure are excluded from the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder excludeClientModificationFeature(ClientModificationFeature... clientModificationFeature) {
+            this.clientModificationFeatures.removeAll(Arrays.stream(clientModificationFeature).collect(Collectors.toList()));
             return this;
         }
 
@@ -189,65 +257,266 @@ public class FeatureSet {
         }
 
         /**
-         * Sets the {@code documentationFeature} and returns a reference to this Builder so that the methods can be chained together.
+         * Includes the defined {@link DataTypeFeature} to the new/existing set of supported features.
          *
-         * @param documentationFeature the {@code documentationFeature} to set
+         * @param dataTypeFeature One or more {@code dataTypeFeature} to ensure are included in the set.
+         *
          * @return a reference to this Builder
          */
-        public Builder documentationFeature(EnumSet<DocumentationFeature> documentationFeature) {
-            if (documentationFeature != null) {
-                this.documentationFeature = documentationFeature;
+        public Builder includeDataTypeFeature(DataTypeFeature... dataTypeFeature) {
+            this.dataTypeFeatures.addAll(Arrays.stream(dataTypeFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Excludes the defined {@link DataTypeFeature} from the set of supported features.
+         *
+         * @param dataTypeFeature One or more {@code dataTypeFeature} to ensure are excluded from the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder excludeDataTypeFeature(DataTypeFeature... dataTypeFeature) {
+            this.dataTypeFeatures.removeAll(Arrays.stream(dataTypeFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Sets the {@code documentationFeature} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param documentationFeatures the {@code documentationFeature} to set
+         * @return a reference to this Builder
+         */
+        public Builder documentationFeatures(EnumSet<DocumentationFeature> documentationFeatures) {
+            if (documentationFeatures != null) {
+                this.documentationFeatures = documentationFeatures;
             } else {
-                this.documentationFeature = EnumSet.noneOf(DocumentationFeature.class);
+                this.documentationFeatures = EnumSet.noneOf(DocumentationFeature.class);
             }
+            return this;
+        }
+
+        /**
+         * Includes the defined {@link DocumentationFeature} to the new/existing set of supported features.
+         *
+         * @param documentationFeature One or more {@code documentationFeature} to ensure are included in the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder includeDocumentationFeature(DocumentationFeature... documentationFeature) {
+            this.documentationFeatures.addAll(Arrays.stream(documentationFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Excludes the defined {@link DocumentationFeature} from the set of supported features.
+         *
+         * @param documentationFeature One or more {@code documentationFeature} to ensure are excluded from the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder excludeDocumentationFeature(DocumentationFeature... documentationFeature) {
+            this.documentationFeatures.removeAll(Arrays.stream(documentationFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
          * Sets the {@code schemaSupportFeature} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param schemaSupportFeature the {@code schemaSupportFeature} to set
+         * @param schemaSupportFeatures the {@code schemaSupportFeature} to set
          * @return a reference to this Builder
          */
-        public Builder schemaSupportFeature(EnumSet<SchemaSupportFeature> schemaSupportFeature) {
-            if (schemaSupportFeature != null) {
-                this.schemaSupportFeature = schemaSupportFeature;
+        public Builder schemaSupportFeatures(EnumSet<SchemaSupportFeature> schemaSupportFeatures) {
+            if (schemaSupportFeatures != null) {
+                this.schemaSupportFeatures = schemaSupportFeatures;
             } else {
-                this.schemaSupportFeature = EnumSet.noneOf(SchemaSupportFeature.class);
+                this.schemaSupportFeatures = EnumSet.noneOf(SchemaSupportFeature.class);
             }
+            return this;
+        }
+
+        /**
+         * Includes the defined {@link SchemaSupportFeature} to the new/existing set of supported features.
+         *
+         * @param schemaSupportFeature One or more {@code schemaSupportFeature} to ensure are included in the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder includeSchemaSupportFeature(SchemaSupportFeature... schemaSupportFeature) {
+            this.schemaSupportFeatures.addAll(Arrays.stream(schemaSupportFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Excludes the defined {@link SchemaSupportFeature} from the set of supported features.
+         *
+         * @param schemaSupportFeature One or more {@code schemaSupportFeature} to ensure are excluded from the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder excludeSchemaSupportFeature(SchemaSupportFeature... schemaSupportFeature) {
+            this.schemaSupportFeatures.removeAll(Arrays.stream(schemaSupportFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
          * Sets the {@code parameterFeature} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param parameterFeature the {@code parameterFeature} to set
+         * @param parameterFeatures the {@code parameterFeature} to set
          * @return a reference to this Builder
          */
-        public Builder parameterFeature(EnumSet<ParameterFeature> parameterFeature) {
-            if (parameterFeature != null) {
-                this.parameterFeature = parameterFeature;
+        public Builder parameterFeatures(EnumSet<ParameterFeature> parameterFeatures) {
+            if (parameterFeatures != null) {
+                this.parameterFeatures = parameterFeatures;
             } else {
-                this.parameterFeature = EnumSet.noneOf(ParameterFeature.class);
+                this.parameterFeatures = EnumSet.noneOf(ParameterFeature.class);
             }
+            return this;
+        }
+
+        /**
+         * Includes the defined {@link ParameterFeature} to the new/existing set of supported features.
+         *
+         * @param parameterFeature One or more {@code parameterFeature} to ensure are included in the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder includeParameterFeatures(ParameterFeature... parameterFeature) {
+            this.parameterFeatures.addAll(Arrays.stream(parameterFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Excludes the defined {@link ParameterFeature} from the set of supported features.
+         *
+         * @param parameterFeature One or more {@code parameterFeature} to ensure are excluded from the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder excludeParameterFeatures(ParameterFeature... parameterFeature) {
+            this.parameterFeatures.removeAll(Arrays.stream(parameterFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
          * Sets the {@code securityFeature} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param securityFeature the {@code securityFeature} to set
+         * @param securityFeatures the {@code securityFeatures} to set
          * @return a reference to this Builder
          */
-        public Builder securityFeature(EnumSet<SecurityFeature> securityFeature) {
-            if (securityFeature != null) {
-                this.securityFeature = securityFeature;
+        public Builder securityFeatures(EnumSet<SecurityFeature> securityFeatures) {
+            if (securityFeatures != null) {
+                this.securityFeatures = securityFeatures;
             } else {
-                this.securityFeature = EnumSet.noneOf(SecurityFeature.class);
+                this.securityFeatures = EnumSet.noneOf(SecurityFeature.class);
             }
             return this;
         }
 
+        /**
+         * Includes the defined {@link SecurityFeature} to the new/existing set of supported features.
+         *
+         * @param securityFeature One or more {@code securityFeature} to ensure are included in the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder includeSecurityFeatures(SecurityFeature... securityFeature) {
+            this.securityFeatures.addAll(Arrays.stream(securityFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Excludes the defined {@link SecurityFeature} from the set of supported features.
+         *
+         * @param securityFeature One or more {@code securityFeature} to ensure are excluded from the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder excludeSecurityFeatures(SecurityFeature... securityFeature) {
+            this.securityFeatures.removeAll(Arrays.stream(securityFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Sets the {@code globalFeatures} and return a reference to this Builder so that the methods can be chained together.
+         *
+         * @param globalFeatures the {@code globalFeatures} to set
+         * @return a reference to this Builder
+         */
+        public Builder globalFeatures(EnumSet<GlobalFeature> globalFeatures) {
+            if (globalFeatures != null) {
+                this.globalFeatures = globalFeatures;
+            } else {
+                this.globalFeatures = EnumSet.noneOf(GlobalFeature.class);
+            }
+            return this;
+        }
+
+        /**
+         * Includes the defined {@link GlobalFeature} to the new/existing set of supported features.
+         *
+         * @param globalFeature One or more {@code globalFeatures} to ensure are included in the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder includeGlobalFeatures(GlobalFeature... globalFeature) {
+            this.globalFeatures.addAll(Arrays.stream(globalFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Excludes the defined {@link GlobalFeature} from the set of supported features.
+         *
+         * @param globalFeature One or more {@code globalFeatures} to ensure are excluded from the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder excludeGlobalFeatures(GlobalFeature... globalFeature) {
+            this.globalFeatures.removeAll(Arrays.stream(globalFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Sets the {@code wireFormatFeatures} and return a reference to this Builder so that the methods can be chained together.
+         *
+         * @param wireFormatFeatures the {@code wireFormatFeatures} to set
+         * @return a reference to this Builder
+         */
+        public Builder wireFormatFeatures(EnumSet<WireFormatFeature> wireFormatFeatures) {
+            if (wireFormatFeatures != null) {
+                this.wireFormatFeatures = wireFormatFeatures;
+            } else {
+                this.wireFormatFeatures = EnumSet.noneOf(WireFormatFeature.class);
+            }
+            return this;
+        }
+
+        /**
+         * Includes the defined {@link WireFormatFeature} to the new/existing set of supported features.
+         *
+         * @param wireFormatFeature One or more {@code wireFormatFeatures} to ensure are included in the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder includeWireFormatFeatures(WireFormatFeature... wireFormatFeature) {
+            this.wireFormatFeatures.addAll(Arrays.stream(wireFormatFeature).collect(Collectors.toList()));
+            return this;
+        }
+
+        /**
+         * Excludes the defined {@link WireFormatFeature} from the set of supported features.
+         *
+         * <p>
+         * This option should only be used if something is overtly broken or not possible in a generator. Please log a warning if invoking this method.
+         * </p>
+         *
+         * @param wireFormatFeature One or more {@code wireFormatFeatures} to ensure are excluded from the set.
+         *
+         * @return a reference to this Builder
+         */
+        public Builder excludeWireFormatFeatures(WireFormatFeature... wireFormatFeature) {
+            this.wireFormatFeatures.removeAll(Arrays.stream(wireFormatFeature).collect(Collectors.toList()));
+            return this;
+        }
 
         /**
          * Returns a {@code FeatureSet} built from the parameters previously set.
