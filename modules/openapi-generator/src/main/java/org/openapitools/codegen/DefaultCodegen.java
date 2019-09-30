@@ -2713,13 +2713,20 @@ public class DefaultCodegen implements CodegenConfig {
 
                     bodyParams.add(bodyParam);
 
-                    if (prependFormOrBodyParameters) {
-                        allParams.add(bodyParam);
-                    }
-
                     // add example
                     if (schemas != null) {
                         op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<String>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                    }
+                }
+                // TODO: many generators expect allParams to only have one bodyParam in it
+                // generators should either expect multiple bodyParam options in the allParams,
+                // or the bodyParam should be excluded from allParams and treated specially.
+                if (prependFormOrBodyParameters) {
+                    try {
+                        CodegenParameter firstBodyParam = requestBodyParams.get(0);
+                        allParams.add(firstBodyParam);
+                    } catch (IndexOutOfBoundsException e) {
+                        LOGGER.warn("No bodyParam available to prepend to allParams");
                     }
                 }
             }
