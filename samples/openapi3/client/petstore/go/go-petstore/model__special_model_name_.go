@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName int64 `json:"$special[property.name],omitempty"`
 }

@@ -1059,6 +1059,61 @@ paths:
           description: Success
       tags:
       - fake
+  /fake/test-query-paramters:
+    put:
+      description: To test the collection format in query parameters
+      operationId: testQueryParameterCollectionFormat
+      parameters:
+      - explode: true
+        in: query
+        name: pipe
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: false
+        in: query
+        name: ioutil
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: false
+        in: query
+        name: http
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: spaceDelimited
+      - explode: false
+        in: query
+        name: url
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: context
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        200:
+          description: Success
+      tags:
+      - fake
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       operationId: uploadFileWithRequiredFile
@@ -1682,6 +1737,7 @@ components:
       - placed
       - approved
       - delivered
+      nullable: true
       type: string
     OuterEnumInteger:
       enum:

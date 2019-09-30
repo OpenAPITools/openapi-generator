@@ -38,6 +38,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     protected boolean withGoCodegenComment = false;
     protected boolean withXml = false;
+    protected boolean enumClassPrefix = false;
 
     protected String packageName = "openapi";
 
@@ -95,6 +96,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("number", "float32");
         typeMapping.put("float", "float32");
         typeMapping.put("double", "float64");
+        typeMapping.put("BigDecimal", "float64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
@@ -373,6 +375,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedOptionalImport = false;
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
+        boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
@@ -387,6 +390,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
+                }
+
+                // import "reflect" package if the parameter is collectionFormat=multi
+                if (!addedReflectImport && param.isCollectionFormatMulti) {
+                    imports.add(createMapping("import", "reflect"));
+                    addedReflectImport = true;
                 }
 
                 // import "optionals" package if the parameter is optional
@@ -611,6 +620,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setWithXml(boolean withXml) {
         this.withXml = withXml;
+    }
+
+    public void setEnumClassPrefix(boolean enumClassPrefix) {
+        this.enumClassPrefix = enumClassPrefix;
     }
 
     @Override

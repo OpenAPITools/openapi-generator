@@ -31,7 +31,7 @@ go get github.com/antihax/optional
 Put the package under your project folder and add the following in import:
 
 ```golang
-import "./{{packageName}}"
+import sw "./{{packageName}}"
 ```
 
 ## Documentation for API Endpoints
@@ -54,19 +54,14 @@ Class | Method | HTTP request | Description
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
 {{#authMethods}}
 
-## {{{name}}}
+### {{{name}}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+- **Type**: API key
+- **API key parameter name**: {{{keyParamName}}}
+- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: {{keyParamName}} and passed in as the auth context for each request.
 
 {{/isApiKey}}
 {{#isBasic}}- **Type**: HTTP basic authentication
@@ -112,6 +107,22 @@ r, err := client.Service.Operation(auth, args)
 
 {{/isOAuth}}
 {{/authMethods}}
+
+## Documentation for Utility Methods
+
+Due to the fact that model structure members are all pointers, this package contains
+a number of utility functions to easily obtain pointers to values of basic types.
+Each of these functions takes a value of the given basic type and returns a pointer to it:
+
+* `PtrBool`
+* `PtrInt`
+* `PtrInt32`
+* `PtrInt64`
+* `PtrFloat`
+* `PtrFloat32`
+* `PtrFloat64`
+* `PtrString`
+* `PtrTime`
 
 ## Author
 

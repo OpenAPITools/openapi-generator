@@ -177,9 +177,16 @@ public interface FakeApi  {
     @GET
     @Path("/fake/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "test json serialization of form data", tags={ "fake" })
+    @ApiOperation(value = "test json serialization of form data", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     public void testJsonFormData(@Multipart(value = "param")  String param, @Multipart(value = "param2")  String param2);
+
+    @PUT
+    @Path("/fake/test-query-paramters")
+    @ApiOperation(value = "", tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success") })
+    public void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull  List<String> pipe, @QueryParam("ioutil") @NotNull  List<String> ioutil, @QueryParam("http") @NotNull  List<String> http, @QueryParam("url") @NotNull  List<String> url, @QueryParam("context") @NotNull  List<String> context);
 }
 

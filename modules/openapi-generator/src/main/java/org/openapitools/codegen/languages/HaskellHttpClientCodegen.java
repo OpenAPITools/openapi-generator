@@ -222,6 +222,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "Double");
+        typeMapping.put("BigDecimal", "Double");
         typeMapping.put("integer", "Int");
         typeMapping.put("file", "FilePath");
         // lib
@@ -1065,13 +1066,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             case "tsv":
                 return "TabSeparated";
             case "ssv":
+            case "space":
                 return "SpaceSeparated";
             case "pipes":
                 return "PipeSeparated";
             case "multi":
                 return "MultiParamArray";
             default:
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException(collectionFormat + " (collection format) not supported");
         }
     }
 

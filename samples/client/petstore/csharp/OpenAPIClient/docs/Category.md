@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **long?** |  | [optional] 
+**Id** | **long** |  | [optional] 
 **Name** | **string** |  | [default to "default-name"]
 
 [[Back to Model list]](../README.md#documentation-for-models)

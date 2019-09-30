@@ -1,6 +1,5 @@
 #![allow(unused_imports, unused_qualifications, unused_extern_crates)]
 extern crate chrono;
-extern crate uuid;
 
 use serde_xml_rs;
 use serde::ser::Serializer;
@@ -9,7 +8,7 @@ use std::collections::{HashMap, BTreeMap};
 use models;
 use swagger;
 use std::string::ParseError;
-
+use uuid;
 
 
 // Utility function for wrapping list elements when serializing xml
@@ -22,6 +21,7 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct AnotherXmlArray(#[serde(serialize_with = "wrap_in_snake_another_xml_inner")]Vec<String>);
 
 impl ::std::convert::From<Vec<String>> for AnotherXmlArray {
@@ -93,6 +93,7 @@ impl AnotherXmlArray {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "snake_another_xml_inner")]
 pub struct AnotherXmlInner(String);
 
@@ -140,6 +141,7 @@ impl AnotherXmlInner {
 
 /// An XML object
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "snake_another_xml_object")]
 pub struct AnotherXmlObject {
     #[serde(rename = "inner_string")]
@@ -176,6 +178,7 @@ impl AnotherXmlObject {
 
 /// An XML object
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "camelDuplicateXmlObject")]
 pub struct DuplicateXmlObject {
     #[serde(rename = "inner_string")]
@@ -217,7 +220,7 @@ impl DuplicateXmlObject {
 
 /// Test a model containing a UUID
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct UuidObject(uuid::Uuid);
 
 impl ::std::convert::From<uuid::Uuid> for UuidObject {
@@ -266,6 +269,7 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct XmlArray(#[serde(serialize_with = "wrap_in_camelXmlInner")]Vec<String>);
 
 impl ::std::convert::From<Vec<String>> for XmlArray {
@@ -337,6 +341,7 @@ impl XmlArray {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "camelXmlInner")]
 pub struct XmlInner(String);
 
@@ -384,6 +389,7 @@ impl XmlInner {
 
 /// An XML object
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "camelXmlObject")]
 pub struct XmlObject {
     #[serde(rename = "innerString")]

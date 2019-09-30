@@ -26,19 +26,19 @@ extension ObservableType {
     }
 }
 
-fileprivate let dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+private let dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
 
-fileprivate func logEvent(_ identifier: String, dateFormat: DateFormatter, content: String) {
+private func logEvent(_ identifier: String, dateFormat: DateFormatter, content: String) {
     print("\(dateFormat.string(from: Date())): \(identifier) -> \(content)")
 }
 
-final fileprivate class DebugSink<Source: ObservableType, O: ObserverType> : Sink<O>, ObserverType where O.E == Source.E {
+final private class DebugSink<Source: ObservableType, O: ObserverType> : Sink<O>, ObserverType where O.E == Source.E {
     typealias Element = O.E
     typealias Parent = Debug<Source>
-    
+
     private let _parent: Parent
     private let _timestampFormatter = DateFormatter()
-    
+
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
         _timestampFormatter.dateFormat = dateFormat
@@ -47,7 +47,7 @@ final fileprivate class DebugSink<Source: ObservableType, O: ObserverType> : Sin
 
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<Element>) {
         let maxEventTextLength = 40
         let eventText = "\(event)"
@@ -63,7 +63,7 @@ final fileprivate class DebugSink<Source: ObservableType, O: ObserverType> : Sin
             dispose()
         }
     }
-    
+
     override func dispose() {
         if !self.disposed {
             logEvent(_parent._identifier, dateFormat: _timestampFormatter, content: "isDisposed")
@@ -72,7 +72,7 @@ final fileprivate class DebugSink<Source: ObservableType, O: ObserverType> : Sin
     }
 }
 
-final fileprivate class Debug<Source: ObservableType> : Producer<Source.E> {
+final private class Debug<Source: ObservableType> : Producer<Source.E> {
     fileprivate let _identifier: String
     fileprivate let _trimOutput: Bool
     fileprivate let _source: Source
@@ -81,20 +81,18 @@ final fileprivate class Debug<Source: ObservableType> : Producer<Source.E> {
         _trimOutput = trimOutput
         if let identifier = identifier {
             _identifier = identifier
-        }
-        else {
+        } else {
             let trimmedFile: String
             if let lastIndex = file.lastIndexOf("/") {
                 trimmedFile = String(file[file.index(after: lastIndex) ..< file.endIndex])
-            }
-            else {
+            } else {
                 trimmedFile = file
             }
             _identifier = "\(trimmedFile):\(line) (\(function))"
         }
         _source = source
     }
-    
+
     override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Source.E {
         let sink = DebugSink(parent: self, observer: observer, cancel: cancel)
         let subscription = _source.subscribe(sink)

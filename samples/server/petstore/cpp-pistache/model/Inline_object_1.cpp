@@ -46,12 +46,12 @@ void to_json(nlohmann::json& j, const Inline_object_1& o)
 
 void from_json(const nlohmann::json& j, Inline_object_1& o)
 {
-    if(j.contains("additionalMetadata"))
+    if(j.find("additionalMetadata") != j.end())
     {
         j.at("additionalMetadata").get_to(o.m_AdditionalMetadata);
         o.m_AdditionalMetadataIsSet = true;
     } 
-    if(j.contains("file"))
+    if(j.find("file") != j.end())
     {
         j.at("file").get_to(o.m_file);
         o.m_fileIsSet = true;

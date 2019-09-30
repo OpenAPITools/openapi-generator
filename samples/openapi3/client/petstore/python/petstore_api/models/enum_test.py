@@ -72,8 +72,7 @@ class EnumTest(object):
             self.enum_integer = enum_integer
         if enum_number is not None:
             self.enum_number = enum_number
-        if outer_enum is not None:
-            self.outer_enum = outer_enum
+        self.outer_enum = outer_enum
         if outer_enum_integer is not None:
             self.outer_enum_integer = outer_enum_integer
         if outer_enum_default_value is not None:

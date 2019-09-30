@@ -8,6 +8,7 @@
  */
 
 package petstore
+// OuterEnum the model 'OuterEnum'
 type OuterEnum string
 
 // List of OuterEnum
@@ -16,3 +17,5 @@ const (
 	APPROVED OuterEnum = "approved"
 	DELIVERED OuterEnum = "delivered"
 )
+
+

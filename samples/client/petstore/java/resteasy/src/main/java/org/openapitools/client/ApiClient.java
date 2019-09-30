@@ -41,6 +41,7 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
@@ -652,11 +653,15 @@ public class ApiClient {
     } else if ("PUT".equals(method)) {
       response = invocationBuilder.put(entity);
     } else if ("DELETE".equals(method)) {
-      response = invocationBuilder.delete();
+      response = invocationBuilder.method("DELETE", entity);
     } else if ("PATCH".equals(method)) {
-      response = invocationBuilder.header("X-HTTP-Method-Override", "PATCH").post(entity);
+      response = invocationBuilder.method("PATCH", entity);
     } else if ("HEAD".equals(method)) {
       response = invocationBuilder.head();
+    } else if ("OPTIONS".equals(method)) {
+      response = invocationBuilder.options();
+    } else if ("TRACE".equals(method)) {
+      response = invocationBuilder.trace();
     } else {
       throw new ApiException(500, "unknown method type " + method);
     }

@@ -1,6 +1,6 @@
 library openapi.api;
 
-import 'package:http/io_client.dart';
+import 'package:http/http.dart' as http;
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:openapi/auth/api_key_auth.dart';
@@ -29,7 +29,7 @@ final _jsonJaguarRepo = JsonRepo()
 ..add(TagSerializer())
 ..add(UserSerializer())
 ;
-final Map<String, CodecRepo> converters = {
+final Map<String, CodecRepo> defaultConverters = {
     MimeTypes.json: _jsonJaguarRepo,
 };
 
@@ -37,7 +37,7 @@ final Map<String, CodecRepo> converters = {
 
 final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];
 
-class JaguarApiGen {
+class Openapi {
     List<Interceptor> interceptors;
     String basePath = "http://petstore.swagger.io/v2";
     Route _baseRoute;
@@ -46,8 +46,8 @@ class JaguarApiGen {
     /**
     * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
     */
-    JaguarApiGen({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl, this.timeout = const Duration(minutes: 2)}) {
-        _baseRoute = Route(baseUrl ?? basePath).withClient(globalClient ?? IOClient());
+    Openapi({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl, this.timeout = const Duration(minutes: 2)}) {
+        _baseRoute = Route(baseUrl ?? basePath).withClient(globalClient ?? http.Client());
         if(interceptors == null) {
             this.interceptors = _defaultInterceptors;
         }
@@ -86,7 +86,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = this.converters;
+            converters = defaultConverters;
         }
         return PetApi(base: base, converters: converters, timeout: timeout);
     }
@@ -101,7 +101,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = this.converters;
+            converters = defaultConverters;
         }
         return StoreApi(base: base, converters: converters, timeout: timeout);
     }
@@ -116,7 +116,7 @@ class JaguarApiGen {
             base = _baseRoute;
         }
         if(converters == null) {
-            converters = this.converters;
+            converters = defaultConverters;
         }
         return UserApi(base: base, converters: converters, timeout: timeout);
     }

@@ -1,0 +1,38 @@
+{{>partial_header}}
+{{#models}}
+{{#model}}
+{{#description}}
+ * Schema {{{classname}}} : {{{description}}}
+ *)
+{{/description}}
+{{^description}}
+ *)
+{{/description}}
+
+{{^isEnum}}
+type t = {
+{{#vars}}
+    {{#description}}
+    (* {{{description}}} *)
+    {{/description}}
+    {{#isEnum}}
+    {{{name}}}: {{^isMapContainer}}Enums.{{/isMapContainer}}{{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#defaultValue}}[@default {{{defaultValue}}}]{{/defaultValue}}{{/required}}{{/isContainer}}{{^isContainer}}{{#required}}{{#isNullable}} option [@default {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}]{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}]{{/required}}{{/isContainer}};
+    {{/isEnum}}
+    {{^isEnum}}
+    {{{name}}}: {{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default None]{{/required}}{{/isContainer}};
+    {{/isEnum}}
+{{/vars}}
+} [@@deriving yojson { strict = false }, show ];;
+
+{{#description}}
+(** {{{description}}} *)
+{{/description}}
+let create {{#requiredVars}}({{{name}}} : {{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : t = {
+    {{#vars}}
+    {{{name}}} = {{#required}}{{{name}}}{{/required}}{{^required}}{{#isContainer}}[]{{/isContainer}}{{^isContainer}}None{{/isContainer}}{{/required}};
+    {{/vars}}
+}
+{{/isEnum}}
+
+{{/model}}
+{{/models}}

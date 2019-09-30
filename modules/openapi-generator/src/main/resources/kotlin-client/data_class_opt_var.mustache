@@ -1,5 +1,12 @@
 {{#description}}
     /* {{{description}}} */
 {{/description}}
+    {{#jvm}}
+    {{#moshi}}
     @Json(name = "{{{baseName}}}")
-    val {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{#defaultvalue}}{{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}null{{/defaultvalue}}
+    {{/moshi}}
+    {{#gson}}
+    @SerializedName("{{name}}")
+    {{/gson}}
+    {{/jvm}}
+    {{#multiplatform}}@SerialName(value = "{{name}}") {{/multiplatform}}val {{{vendorExtensions.x-escapedName}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{#defaultvalue}}{{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}null{{/defaultvalue}}

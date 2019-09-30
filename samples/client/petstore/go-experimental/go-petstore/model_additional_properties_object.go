@@ -8,7 +8,56 @@
  */
 
 package petstore
-
+import (
+	"encoding/json"
+)
+// AdditionalPropertiesObject struct for AdditionalPropertiesObject
 type AdditionalPropertiesObject struct {
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
 }
+
+// GetName returns the Name field if non-nil, zero value otherwise.
+func (o *AdditionalPropertiesObject) GetName() string {
+	if o == nil || o.Name == nil {
+		var ret string
+		return ret
+	}
+	return *o.Name
+}
+
+// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *AdditionalPropertiesObject) GetNameOk() (string, bool) {
+	if o == nil || o.Name == nil {
+		var ret string
+		return ret, false
+	}
+	return *o.Name, true
+}
+
+// HasName returns a boolean if a field has been set.
+func (o *AdditionalPropertiesObject) HasName() bool {
+	if o != nil && o.Name != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetName gets a reference to the given string and assigns it to the Name field.
+func (o *AdditionalPropertiesObject) SetName(v string) {
+	o.Name = &v
+}
+
+
+// MarshalJSON returns the JSON representation of the model.
+func (o AdditionalPropertiesObject) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
+	return json.Marshal(toSerialize)
+}
+
+

@@ -12,9 +12,11 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
 { 
@@ -28,7 +30,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Category
@@ -60,6 +62,7 @@ namespace Org.OpenAPITools.Models
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
+        [TypeConverter(typeof(CustomEnumConverter<StatusEnum>))]
         [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public enum StatusEnum
         {
@@ -88,7 +91,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         /// <value>pet status in the store</value>
         [DataMember(Name="status", EmitDefaultValue=false)]
-        public StatusEnum? Status { get; set; }
+        public StatusEnum Status { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -142,7 +145,7 @@ namespace Org.OpenAPITools.Models
             return 
                 (
                     Id == other.Id ||
-                    Id != null &&
+                    
                     Id.Equals(other.Id)
                 ) && 
                 (
@@ -184,7 +187,7 @@ namespace Org.OpenAPITools.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Id != null)
+                    
                     hashCode = hashCode * 59 + Id.GetHashCode();
                     if (Category != null)
                     hashCode = hashCode * 59 + Category.GetHashCode();

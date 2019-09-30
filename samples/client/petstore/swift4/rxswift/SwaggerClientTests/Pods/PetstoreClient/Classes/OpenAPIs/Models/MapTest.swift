@@ -7,27 +7,23 @@
 
 import Foundation
 
-
-
 public struct MapTest: Codable {
 
     public enum MapOfEnumString: String, Codable {
         case upper = "UPPER"
         case lower = "lower"
     }
-    public var mapMapOfString: [String:[String:String]]?
-    public var mapOfEnumString: [String:String]?
+    public var mapMapOfString: [String: [String: String]]?
+    public var mapOfEnumString: [String: String]?
 
-    public init(mapMapOfString: [String:[String:String]]?, mapOfEnumString: [String:String]?) {
+    public init(mapMapOfString: [String: [String: String]]?, mapOfEnumString: [String: String]?) {
         self.mapMapOfString = mapMapOfString
         self.mapOfEnumString = mapOfEnumString
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
     }
 
-
 }
-

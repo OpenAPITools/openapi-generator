@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="integerItem">integerItem (required).</param>
         /// <param name="boolItem">boolItem (required) (default to true).</param>
         /// <param name="arrayItem">arrayItem (required).</param>
-        public TypeHolderDefault(string stringItem = "what", decimal? numberItem = default(decimal?), int? integerItem = default(int?), bool? boolItem = true, List<int?> arrayItem = default(List<int?>))
+        public TypeHolderDefault(string stringItem = "what", decimal numberItem = default(decimal), int integerItem = default(int), bool boolItem = true, List<int> arrayItem = default(List<int>))
         {
             // to ensure "stringItem" is required (not null)
             if (stringItem == null)
@@ -107,25 +107,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NumberItem
         /// </summary>
         [DataMember(Name="number_item", EmitDefaultValue=false)]
-        public decimal? NumberItem { get; set; }
+        public decimal NumberItem { get; set; }
 
         /// <summary>
         /// Gets or Sets IntegerItem
         /// </summary>
         [DataMember(Name="integer_item", EmitDefaultValue=false)]
-        public int? IntegerItem { get; set; }
+        public int IntegerItem { get; set; }
 
         /// <summary>
         /// Gets or Sets BoolItem
         /// </summary>
         [DataMember(Name="bool_item", EmitDefaultValue=false)]
-        public bool? BoolItem { get; set; }
+        public bool BoolItem { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayItem
         /// </summary>
         [DataMember(Name="array_item", EmitDefaultValue=false)]
-        public List<int?> ArrayItem { get; set; }
+        public List<int> ArrayItem { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

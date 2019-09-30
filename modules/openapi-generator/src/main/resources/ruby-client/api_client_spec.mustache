@@ -43,6 +43,7 @@ describe {{moduleName}}::ApiClient do
     end
   end
 
+{{^isFaraday}}
   describe 'params_encoding in #build_request' do
     let(:config) { {{moduleName}}::Configuration.new }
     let(:api_client) { {{moduleName}}::ApiClient.new(config) }
@@ -81,6 +82,7 @@ describe {{moduleName}}::ApiClient do
     end
   end
 
+{{/isFaraday}}
   describe '#deserialize' do
     it "handles Array<Integer>" do
       api_client = {{moduleName}}::ApiClient.new

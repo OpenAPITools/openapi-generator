@@ -8,6 +8,7 @@
  */
 
 package petstore
+// EnumClass the model 'EnumClass'
 type EnumClass string
 
 // List of EnumClass
@@ -16,3 +17,5 @@ const (
 	EFG EnumClass = "-efg"
 	XYZ EnumClass = "(xyz)"
 )
+
+

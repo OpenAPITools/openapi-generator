@@ -29,7 +29,7 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
 {
     j = nlohmann::json();
     {{#vars}}
-    {{#required}}j["{{baseName}}"] = o.m_{{name}};{{/required}}{{^required}}if(o.{{nameInCamelCase}}IsSet())
+    {{#required}}j["{{baseName}}"] = o.m_{{name}};{{/required}}{{^required}}if(o.{{nameInCamelCase}}IsSet(){{#isContainer}} || !o.m_{{name}}.empty(){{/isContainer}})
         j["{{baseName}}"] = o.m_{{name}};{{/required}}
     {{/vars}}
 }
@@ -37,7 +37,7 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
 void from_json(const nlohmann::json& j, {{classname}}& o)
 {
     {{#vars}}
-    {{#required}}j.at("{{baseName}}").get_to(o.m_{{name}});{{/required}}{{^required}}if(j.contains("{{baseName}}"))
+    {{#required}}j.at("{{baseName}}").get_to(o.m_{{name}});{{/required}}{{^required}}if(j.find("{{baseName}}") != j.end())
     {
         j.at("{{baseName}}").get_to(o.m_{{name}});
         o.m_{{name}}IsSet = true;
@@ -45,20 +45,15 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
     {{/vars}}
 }
 
-{{#vars}}{{#isContainer}}{{{dataType}}}& {{classname}}::{{getter}}()
-{
-    return m_{{name}};
-}
-{{/isContainer}}{{^isContainer}}{{{dataType}}} {{classname}}::{{getter}}() const
+{{#vars}}{{{dataType}}}{{#isContainer}}&{{/isContainer}} {{classname}}::{{getter}}(){{^isContainer}} const{{/isContainer}}
 {
     return m_{{name}};
 }
 void {{classname}}::{{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value)
 {
-    m_{{name}} = value;
-    {{^required}}m_{{name}}IsSet = true;{{/required}}
+    m_{{name}} = value;{{^required}}
+    m_{{name}}IsSet = true;{{/required}}
 }
-{{/isContainer}}
 {{^required}}bool {{classname}}::{{nameInCamelCase}}IsSet() const
 {
     return m_{{name}}IsSet;

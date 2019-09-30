@@ -30,4 +30,3 @@ extension AtomicInt {
         return (self.load() & mask) != 0
     }
 }
-

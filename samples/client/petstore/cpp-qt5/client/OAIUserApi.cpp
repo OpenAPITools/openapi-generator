@@ -46,6 +46,10 @@ void OAIUserApi::setApiTimeOutMs(const int tout){
     timeout = tout;
 }
 
+void OAIUserApi::setWorkingDirectory(const QString& path){
+    workingDirectory = path;
+}
+
 void OAIUserApi::addHeaders(const QString& key, const QString& value){
     defaultHeaders.insert(key, value);
 }
@@ -56,10 +60,11 @@ OAIUserApi::createUser(const OAIUser& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
-
+    
     
     QString output = body.asJson();
     input.request_body.append(output);
@@ -105,10 +110,11 @@ OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
-
+    
     
     QJsonDocument doc(::OpenAPI::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
@@ -155,10 +161,11 @@ OAIUserApi::createUsersWithListInput(const QList<OAIUser>& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
-
+    
     
     QJsonDocument doc(::OpenAPI::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
@@ -204,13 +211,15 @@ void
 OAIUserApi::deleteUser(const QString& username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
-    QString usernamePathParam("{"); 
+    QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "DELETE");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -252,13 +261,15 @@ void
 OAIUserApi::getUserByName(const QString& username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
-    QString usernamePathParam("{"); 
+    QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -318,9 +329,11 @@ OAIUserApi::loginUser(const QString& username, const QString& password) {
         .append("=")
         .append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(password)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -347,7 +360,7 @@ OAIUserApi::loginUserCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-    QString output;  
+    QString output;
     ::OpenAPI::fromStringValue(QString(worker->response), output);
     worker->deleteLater();
 
@@ -365,9 +378,11 @@ OAIUserApi::logoutUser() {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/logout");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -409,14 +424,15 @@ void
 OAIUserApi::updateUser(const QString& username, const OAIUser& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
-    QString usernamePathParam("{"); 
+    QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "PUT");
-
+    
     
     QString output = body.asJson();
     input.request_body.append(output);

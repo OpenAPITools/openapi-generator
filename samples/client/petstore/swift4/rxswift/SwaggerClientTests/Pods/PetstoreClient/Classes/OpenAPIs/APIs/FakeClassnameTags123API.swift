@@ -9,8 +9,6 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
-
 open class FakeClassnameTags123API {
     /**
      To test class name in snake case
@@ -18,7 +16,7 @@ open class FakeClassnameTags123API {
      - parameter client: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testClassname(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+    open class func testClassname(client: Client, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
         testClassnameWithRequestBuilder(client: client).execute { (response, error) -> Void in
             completion(response?.body, error)
         }

@@ -32,15 +32,8 @@ class TestTypeHolderDefault(unittest.TestCase):
         """Test TypeHolderDefault"""
         # required_vars are set to None now until swagger-parser/swagger-core fixes
         # https://github.com/swagger-api/swagger-parser/issues/971
-        required_vars = ['number_item', 'integer_item', 'array_item']
-        sample_values = [5.67, 4, [-5, 2, -6]]
-        assigned_variables = {}
-        for index, required_var in enumerate(required_vars):
-            with self.assertRaises(ValueError):
-                model = TypeHolderDefault(**assigned_variables)
-            assigned_variables[required_var] = sample_values[index]
-        # assigned_variables is fully set, all required variables passed in
-        model = TypeHolderDefault(**assigned_variables)
+        array_item = [1, 2, 3]
+        model = TypeHolderDefault(array_item=array_item)
         self.assertEqual(model.string_item, 'what')
         self.assertEqual(model.bool_item, True)
 

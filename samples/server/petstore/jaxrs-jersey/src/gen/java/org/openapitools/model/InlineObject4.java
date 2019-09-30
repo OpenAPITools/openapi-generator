@@ -18,18 +18,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * InlineObject4
  */
+@JsonPropertyOrder({
+  InlineObject4.JSON_PROPERTY_PARAM,
+  InlineObject4.JSON_PROPERTY_PARAM2
+})
 
 public class InlineObject4   {
-  @JsonProperty("param")
+  public static final String JSON_PROPERTY_PARAM = "param";
+  @JsonProperty(JSON_PROPERTY_PARAM)
   private String param;
 
-  @JsonProperty("param2")
+  public static final String JSON_PROPERTY_PARAM2 = "param2";
+  @JsonProperty(JSON_PROPERTY_PARAM2)
   private String param2;
 
   public InlineObject4 param(String param) {
