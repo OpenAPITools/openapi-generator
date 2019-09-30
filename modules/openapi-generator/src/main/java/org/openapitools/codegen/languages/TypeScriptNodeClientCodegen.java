@@ -261,13 +261,12 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
             return openAPIType;
         }
-        applyLocalTypeMapping(openAPIType);
-        return openAPIType;
+        return applyLocalTypeMapping(openAPIType);
     }
 
     private String applyLocalTypeMapping(String type) {
         if (typeMapping.containsKey(type)) {
-            type = typeMapping.get(type);
+            return typeMapping.get(type);
         }
         return type;
     }
