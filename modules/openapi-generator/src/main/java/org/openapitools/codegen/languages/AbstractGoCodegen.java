@@ -377,6 +377,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedOSImport = false;
         boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
+            // import "os" if the operation uses files
+            if (!addedOSImport && "*os.File".equals(operation.returnType)) {
+                imports.add(createMapping("import", "os"));
+                addedOSImport = true;
+            }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
                 if (!addedOSImport && "*os.File".equals(param.dataType)) {
