@@ -19,6 +19,7 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
+
 import org.openapitools.codegen.auth.AuthParser;
 
 import java.util.List;
@@ -64,6 +65,10 @@ public class ClientOptInput {
         return config;
     }
 
+    /**
+     * @deprecated use {@link #config(CodegenConfig)} instead
+     * @param config codegen config
+     */
     @Deprecated
     public void setConfig(CodegenConfig config) {
         this.config = config;
@@ -74,6 +79,10 @@ public class ClientOptInput {
         return openAPI;
     }
 
+    /**
+     * @deprecated use {@link #openAPI(OpenAPI)} instead
+     * @param openAPI the specification
+     */
     @Deprecated
     public void setOpenAPI(OpenAPI openAPI) {
         this.openAPI = openAPI;
