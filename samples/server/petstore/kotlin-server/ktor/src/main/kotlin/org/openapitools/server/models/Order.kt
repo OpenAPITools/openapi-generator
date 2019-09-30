@@ -12,6 +12,10 @@
 package org.openapitools.server.models
 
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -21,6 +25,7 @@ package org.openapitools.server.models
  * @param status Order Status
  * @param complete 
  */
+@Parcelize
 data class Order (
     val id: kotlin.Long? = null,
     val petId: kotlin.Long? = null,
@@ -29,7 +34,10 @@ data class Order (
     /* Order Status */
     val status: Order.Status? = null,
     val complete: kotlin.Boolean? = null
-) {
+) 
+
+ : Parcelable, Serializable 
+{
 
     /**
     * Order Status

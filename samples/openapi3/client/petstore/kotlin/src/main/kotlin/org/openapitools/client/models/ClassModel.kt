@@ -13,13 +13,20 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * Model for testing model with \"_class\" property
  * @param propertyClass 
  */
+@Parcelize
+
 data class ClassModel (
     @Json(name = "_class")
     val propertyClass: kotlin.String? = null
-)
+) 
 
+ : Parcelable, Serializable 
 

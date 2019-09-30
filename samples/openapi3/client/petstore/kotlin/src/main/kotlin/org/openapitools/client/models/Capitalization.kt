@@ -13,6 +13,10 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * 
  * @param smallCamel 
@@ -22,6 +26,8 @@ import com.squareup.moshi.Json
  * @param scAETHFlowPoints 
  * @param ATT_NAME Name of the pet 
  */
+@Parcelize
+
 data class Capitalization (
     @Json(name = "smallCamel")
     val smallCamel: kotlin.String? = null,
@@ -36,6 +42,7 @@ data class Capitalization (
     /* Name of the pet  */
     @Json(name = "ATT_NAME")
     val ATT_NAME: kotlin.String? = null
-)
+) 
 
+ : Parcelable, Serializable 
 

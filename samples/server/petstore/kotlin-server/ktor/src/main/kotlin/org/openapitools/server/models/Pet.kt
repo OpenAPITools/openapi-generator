@@ -14,6 +14,10 @@ package org.openapitools.server.models
 import org.openapitools.server.models.Category
 import org.openapitools.server.models.Tag
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * A pet for sale in the pet store
  * @param id 
@@ -23,6 +27,7 @@ import org.openapitools.server.models.Tag
  * @param tags 
  * @param status pet status in the store
  */
+@Parcelize
 data class Pet (
     val name: kotlin.String,
     val photoUrls: kotlin.Array<kotlin.String>,
@@ -31,7 +36,10 @@ data class Pet (
     val tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */
     val status: Pet.Status? = null
-) {
+) 
+
+ : Parcelable, Serializable 
+{
 
     /**
     * pet status in the store

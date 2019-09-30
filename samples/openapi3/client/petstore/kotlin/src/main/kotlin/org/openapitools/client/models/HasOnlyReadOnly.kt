@@ -13,16 +13,23 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+import java.io.Serializable
 /**
  * 
  * @param bar 
  * @param foo 
  */
+@Parcelize
+
 data class HasOnlyReadOnly (
     @Json(name = "bar")
     val bar: kotlin.String? = null,
     @Json(name = "foo")
     val foo: kotlin.String? = null
-)
+) 
 
+ : Parcelable, Serializable 
 
