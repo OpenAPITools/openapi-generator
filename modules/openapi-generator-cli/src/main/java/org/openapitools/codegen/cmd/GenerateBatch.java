@@ -116,6 +116,8 @@ public class GenerateBatch implements Runnable {
             rootDir = Paths.get(System.getProperty("user.dir"));
         }
 
+        LOGGER.info(String.format(Locale.ROOT, "Batch generation using %d threads.\nIncludes: %s\nRoot: %s", numThreads, includesDir.getAbsolutePath(), rootDir.toAbsolutePath().toString()));
+
         // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
         // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
         // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
