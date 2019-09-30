@@ -21,12 +21,17 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * ReadOnlyFirst
  */
+@JsonPropertyOrder({
+  ReadOnlyFirst.JSON_PROPERTY_BAR,
+  ReadOnlyFirst.JSON_PROPERTY_BAZ
+})
 
 @XmlRootElement(name = "ReadOnlyFirst")
 @XmlAccessorType(XmlAccessType.FIELD)

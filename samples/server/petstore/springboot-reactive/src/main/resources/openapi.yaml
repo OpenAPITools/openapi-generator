@@ -1626,6 +1626,9 @@ components:
           maxLength: 64
           minLength: 10
           type: string
+        BigDecimal:
+          format: number
+          type: string
       required:
       - byte
       - date
@@ -2004,6 +2007,10 @@ components:
         number_item:
           example: 1.234
           type: number
+        float_item:
+          example: 1.234
+          format: float
+          type: number
         integer_item:
           example: -2
           type: integer
@@ -2022,6 +2029,7 @@ components:
       required:
       - array_item
       - bool_item
+      - float_item
       - integer_item
       - number_item
       - string_item

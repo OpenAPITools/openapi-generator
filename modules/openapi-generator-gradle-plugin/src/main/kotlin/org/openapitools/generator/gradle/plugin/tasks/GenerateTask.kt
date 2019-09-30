@@ -205,6 +205,12 @@ open class GenerateTask : DefaultTask() {
     val library = project.objects.property<String?>()
 
     /**
+     * Git host, e.g. gitlab.com.
+     */
+    @get:Internal
+    val gitHost = project.objects.property<String?>()
+
+    /**
      * Git user ID, e.g. openapitools.
      */
     @get:Internal
@@ -508,6 +514,10 @@ open class GenerateTask : DefaultTask() {
 
             library.ifNotEmpty { value ->
                 configurator.setLibrary(value)
+            }
+
+            gitHost.ifNotEmpty { value ->
+                configurator.setGitHost(value)
             }
 
             gitUserId.ifNotEmpty { value ->

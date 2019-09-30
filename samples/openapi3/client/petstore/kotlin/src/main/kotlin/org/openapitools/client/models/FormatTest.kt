@@ -64,7 +64,6 @@ data class FormatTest (
     /* A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01. */
     @Json(name = "pattern_with_digits_and_delimiter")
     val patternWithDigitsAndDelimiter: kotlin.String? = null
-) {
+)
 
-}
 

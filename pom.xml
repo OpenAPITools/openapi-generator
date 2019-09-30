@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.1.2-SNAPSHOT</version>
+    <version>4.1.3-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -1039,7 +1039,6 @@
                 <!-- <module>samples/client/petstore/cpp-qt5</module> -->
                 <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/rust</module>
-                <module>samples/client/petstore/rust-reqwest</module>
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
@@ -1166,6 +1165,7 @@
                 <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/scala-finch</module>
+                <module>samples/server/petstore/kotlin/vertx</module>
                 <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
@@ -1243,6 +1243,7 @@
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
+                <module>samples/client/petstore/kotlin-multiplatform</module>
                 <module>samples/client/petstore/kotlin/</module>
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>

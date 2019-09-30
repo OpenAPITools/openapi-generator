@@ -39,18 +39,30 @@ export interface ModelApiResponse {
 }
 
 export function ModelApiResponseFromJSON(json: any): ModelApiResponse {
+    return ModelApiResponseFromJSONTyped(json, false);
+}
+
+export function ModelApiResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelApiResponse {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
     return {
+        
         'code': !exists(json, 'code') ? undefined : json['code'],
         'type': !exists(json, 'type') ? undefined : json['type'],
         'message': !exists(json, 'message') ? undefined : json['message'],
     };
 }
 
-export function ModelApiResponseToJSON(value?: ModelApiResponse): any {
+export function ModelApiResponseToJSON(value?: ModelApiResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
+    if (value === null) {
+        return null;
+    }
     return {
+        
         'code': value.code,
         'type': value.type,
         'message': value.message,

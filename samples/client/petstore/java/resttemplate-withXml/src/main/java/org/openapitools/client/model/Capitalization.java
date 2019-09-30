@@ -21,12 +21,21 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Capitalization
  */
+@JsonPropertyOrder({
+  Capitalization.JSON_PROPERTY_SMALL_CAMEL,
+  Capitalization.JSON_PROPERTY_CAPITAL_CAMEL,
+  Capitalization.JSON_PROPERTY_SMALL_SNAKE,
+  Capitalization.JSON_PROPERTY_CAPITAL_SNAKE,
+  Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
+  Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
+})
 
 @XmlRootElement(name = "Capitalization")
 @XmlAccessorType(XmlAccessType.FIELD)

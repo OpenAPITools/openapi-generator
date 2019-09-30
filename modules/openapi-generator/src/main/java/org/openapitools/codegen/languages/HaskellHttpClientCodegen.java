@@ -222,6 +222,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "Double");
+        typeMapping.put("BigDecimal", "Double");
         typeMapping.put("integer", "Int");
         typeMapping.put("file", "FilePath");
         // lib

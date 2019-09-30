@@ -106,7 +106,7 @@ module PetApiHandlerTests =
 
       // add your setup code here
 
-      let path = "/v2/pet/findByTags" + "?tags=ADDME&maxCount=ADDME"
+      let path = "/v2/pet/findByTags" + "?tags=ADDME"
 
       HttpGet client path
         |> isStatus (enum<HttpStatusCode>(200))
@@ -123,7 +123,7 @@ module PetApiHandlerTests =
 
       // add your setup code here
 
-      let path = "/v2/pet/findByTags" + "?tags=ADDME&maxCount=ADDME"
+      let path = "/v2/pet/findByTags" + "?tags=ADDME"
 
       HttpGet client path
         |> isStatus (enum<HttpStatusCode>(400))

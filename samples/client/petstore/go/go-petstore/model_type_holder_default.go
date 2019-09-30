@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// TypeHolderDefault struct for TypeHolderDefault
 type TypeHolderDefault struct {
 	StringItem string `json:"string_item"`
 	NumberItem float32 `json:"number_item"`

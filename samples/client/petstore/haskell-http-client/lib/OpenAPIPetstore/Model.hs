@@ -1075,6 +1075,7 @@ data FormatTest = FormatTest
   , formatTestDateTime :: !(Maybe DateTime) -- ^ "dateTime"
   , formatTestUuid :: !(Maybe Text) -- ^ "uuid"
   , formatTestPassword :: !(Text) -- ^ /Required/ "password"
+  , formatTestBigDecimal :: !(Maybe Double) -- ^ "BigDecimal"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON FormatTest
@@ -1094,6 +1095,7 @@ instance A.FromJSON FormatTest where
       <*> (o .:? "dateTime")
       <*> (o .:? "uuid")
       <*> (o .:  "password")
+      <*> (o .:? "BigDecimal")
 
 -- | ToJSON FormatTest
 instance A.ToJSON FormatTest where
@@ -1112,6 +1114,7 @@ instance A.ToJSON FormatTest where
       , "dateTime" .= formatTestDateTime
       , "uuid" .= formatTestUuid
       , "password" .= formatTestPassword
+      , "BigDecimal" .= formatTestBigDecimal
       ]
 
 
@@ -1137,6 +1140,7 @@ mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
   , formatTestDateTime = Nothing
   , formatTestUuid = Nothing
   , formatTestPassword
+  , formatTestBigDecimal = Nothing
   }
 
 -- ** HasOnlyReadOnly
@@ -1687,6 +1691,7 @@ mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem type
 data TypeHolderExample = TypeHolderExample
   { typeHolderExampleStringItem :: !(Text) -- ^ /Required/ "string_item"
   , typeHolderExampleNumberItem :: !(Double) -- ^ /Required/ "number_item"
+  , typeHolderExampleFloatItem :: !(Float) -- ^ /Required/ "float_item"
   , typeHolderExampleIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
   , typeHolderExampleBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
   , typeHolderExampleArrayItem :: !([Int]) -- ^ /Required/ "array_item"
@@ -1698,6 +1703,7 @@ instance A.FromJSON TypeHolderExample where
     TypeHolderExample
       <$> (o .:  "string_item")
       <*> (o .:  "number_item")
+      <*> (o .:  "float_item")
       <*> (o .:  "integer_item")
       <*> (o .:  "bool_item")
       <*> (o .:  "array_item")
@@ -1708,6 +1714,7 @@ instance A.ToJSON TypeHolderExample where
    _omitNulls
       [ "string_item" .= typeHolderExampleStringItem
       , "number_item" .= typeHolderExampleNumberItem
+      , "float_item" .= typeHolderExampleFloatItem
       , "integer_item" .= typeHolderExampleIntegerItem
       , "bool_item" .= typeHolderExampleBoolItem
       , "array_item" .= typeHolderExampleArrayItem
@@ -1718,14 +1725,16 @@ instance A.ToJSON TypeHolderExample where
 mkTypeHolderExample
   :: Text -- ^ 'typeHolderExampleStringItem' 
   -> Double -- ^ 'typeHolderExampleNumberItem' 
+  -> Float -- ^ 'typeHolderExampleFloatItem' 
   -> Int -- ^ 'typeHolderExampleIntegerItem' 
   -> Bool -- ^ 'typeHolderExampleBoolItem' 
   -> [Int] -- ^ 'typeHolderExampleArrayItem' 
   -> TypeHolderExample
-mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
+mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleFloatItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
   TypeHolderExample
   { typeHolderExampleStringItem
   , typeHolderExampleNumberItem
+  , typeHolderExampleFloatItem
   , typeHolderExampleIntegerItem
   , typeHolderExampleBoolItem
   , typeHolderExampleArrayItem

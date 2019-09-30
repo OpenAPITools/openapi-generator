@@ -9,22 +9,24 @@ part 'pet.jser.dart';
 
 class Pet {
   
-  @Alias('id', isNullable: false)
+  @Alias('id', isNullable: false,  )
   final int id;
   
-  @Alias('category', isNullable: false)
+  @Alias('category', isNullable: false,  )
   final Category category;
   
-  @Alias('name', isNullable: false)
+  @Alias('name', isNullable: false,  )
   final String name;
   
-  @Alias('photoUrls', isNullable: false)
+  @Alias('photoUrls', isNullable: false,  )
   final List<String> photoUrls;
   
-  @Alias('tags', isNullable: false)
+  @Alias('tags', isNullable: false,  )
   final List<Tag> tags;
    /* pet status in the store */
-  @Alias('status', isNullable: false)
+  @Alias('status', isNullable: false,
+          
+  )
   final String status;
   //enum statusEnum {  available,  pending,  sold,  };
 
