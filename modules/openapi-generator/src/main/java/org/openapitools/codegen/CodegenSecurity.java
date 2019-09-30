@@ -25,6 +25,7 @@ import java.util.Objects;
 
 public class CodegenSecurity {
     public String name;
+    public String baseName;
     public String type;
     public String scheme;
     public Boolean hasMore, isBasic, isOAuth, isApiKey;
@@ -53,6 +54,7 @@ public class CodegenSecurity {
         CodegenSecurity that = (CodegenSecurity) o;
 
         return Objects.equals(name, that.name) &&
+            Objects.equals(baseName, that.baseName) &&
             Objects.equals(type, that.type) &&
             Objects.equals(hasMore, that.hasMore) &&
             Objects.equals(isBasic, that.isBasic) &&
@@ -79,6 +81,7 @@ public class CodegenSecurity {
     public int hashCode() {
         return Objects.hash(
             name,
+            baseName,
             type,
             hasMore,
             isBasic,
