@@ -34,7 +34,7 @@ public enum GlobalFeature {
     /**
      * Supports providing an API prefix, appended to the host.
      *
-     * @apiNote OAS 3.x supports this indirectly via servers with template variables.
+     * <p>OAS 3.x supports this indirectly via servers with template variables.</p>
      */
     @OAS2 @OAS3
     BasePath,
@@ -56,7 +56,7 @@ public enum GlobalFeature {
      * If a generator only supports partial schemes, please choose the PartialSchemes option.
      * </p>
      *
-     * @apiNote OAS 3.x supports this indirectly via servers with template variables.
+     * <p>OAS 3.x supports this indirectly via servers with template variables.</p>
      */
     @OAS2 @OAS3
     Schemes,
@@ -68,7 +68,7 @@ public enum GlobalFeature {
      * Support should be explicitly documented in a generator's README.
      * </p>
      *
-     * @apiNote OAS 3.x supports this indirectly via servers with template variables.
+     * <p>OAS 3.x supports this indirectly via servers with template variables.</p>
      */
     @OAS2 @OAS3
     PartialSchemes,
@@ -76,7 +76,7 @@ public enum GlobalFeature {
     /**
      * Supports a globally defined array of consumable MimeTypes.
      *
-     * @apiNote Global support is undefined in OAS 3.x.
+     * <p>Global support is undefined in OAS 3.x.</p>
      */
     @OAS2
     Consumes,
@@ -84,7 +84,7 @@ public enum GlobalFeature {
     /**
      * Supports a globally defined array of produced MimeTypes.
      *
-     * @apiNote Global support is undefined in OAS 3.x.
+     * <p>Global support is undefined in OAS 3.x.</p>
      */
     @OAS2
     Produces,

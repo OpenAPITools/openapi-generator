@@ -44,7 +44,9 @@ public enum ParameterFeature {
     /**
      * Supports body parameters.
      *
-     * @apiNote OAS 3.x specification supports this structurally rather than as an "in" parameter.
+     * <p>
+     *     OAS 3.x specification supports this structurally rather than as an "in" parameter.
+     * </p>
      */
     @OAS2
     Body,
@@ -52,7 +54,7 @@ public enum ParameterFeature {
     /**
      * Supports form encoded parameters.
      *
-     * @apiNote OAS 3.x specification supports this structurally via content types rather than as an "in" parameter.
+     * OAS 3.x specification supports this structurally via content types rather than as an "in" parameter.
      */
     @OAS2
     FormUnencoded,
@@ -60,7 +62,7 @@ public enum ParameterFeature {
     /**
      * Supports multipart parameters.
      *
-     * @apiNote OAS 3.x specification supports this structurally via content types rather than as an "in" parameter.
+     * <p>OAS 3.x specification supports this structurally via content types rather than as an "in" parameter.</p>
      */
     @OAS2
     FormMultipart,
@@ -68,7 +70,7 @@ public enum ParameterFeature {
     /**
      * Supports Cookie parameters.
      *
-     * @apiNote Not defined in OAS 2.0 and no tooling extensions currently supported for OAS 2.0 support.
+     * <p>Not defined in OAS 2.0 and no tooling extensions currently supported for OAS 2.0 support.</p>
      */
     @OAS3
     Cookie

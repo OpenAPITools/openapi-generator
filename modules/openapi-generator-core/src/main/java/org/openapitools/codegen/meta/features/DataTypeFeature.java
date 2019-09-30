@@ -32,7 +32,7 @@ public enum DataTypeFeature {
     /**
      * Supports a generator-specific support usually via type=string's format property (e.g. email, uuid, etc), should be documented in generator README.
      *
-     * @apiNote Loosely described in OpenAPI Specification(s). Generally means a custom "format" option applied to a string-typed property.
+     * <p>Loosely described in OpenAPI Specification(s). Generally means a custom "format" option applied to a string-typed property.</p>
      */
     @OAS2 @OAS3
     Custom,
@@ -64,7 +64,7 @@ public enum DataTypeFeature {
     /**
      * Supports number/decimal (a special case for some languages)
      *
-     * @apiNote Decimal is not a type defined by OAS 2.0 specification
+     * <p>Decimal is not a type defined by OAS 2.0 specification</p>
      */
     @ToolingExtension
     Decimal,
@@ -112,9 +112,12 @@ public enum DataTypeFeature {
     /**
      * Supports string/password: A hint to UIs to obscure input.
      *
-     * @apiNote This should be used as an indicator for password best practices, such as assigning a variable to
-     *          a character array rather than string, avoiding logging the variable in clear text, and masking the value
-     *          in any user inputs. See OWASP for best practices.
+     *
+     * <p>
+     *     This should be used as an indicator for password best practices, such as assigning a variable to
+     *     a character array rather than string, avoiding logging the variable in clear text, and masking the value
+     *     in any user inputs. See OWASP for best practices.
+     * </p>
      */
     @OAS2 @OAS3
     Password,
@@ -123,6 +126,7 @@ public enum DataTypeFeature {
     /**
      * Supports file inputs (e.g. multipart support).
      *
+     * <p>OAS 3.x defines files differently.</p>
      * <p>
      * OAS 3.x does not have an explicit "file" type and instead relies on ContentType or response types.
      * That's not to say a generator doesn't support files, only that there's no direct
@@ -131,8 +135,6 @@ public enum DataTypeFeature {
      * <p>
      * NOTE: The default workflow may provide an "isFile" helper or synthesize the assumptions around files in the case of OAS 3.x.
      * </p>
-     *
-     * @apiNote OAS 3.x defines files differently.
      */
     @OAS2
     File,

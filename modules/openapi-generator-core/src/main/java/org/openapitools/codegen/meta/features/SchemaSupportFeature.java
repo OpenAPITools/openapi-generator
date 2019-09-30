@@ -32,7 +32,7 @@ public enum SchemaSupportFeature {
     /**
      * Support of complex schemas (those which refer to the properties of another model).
      *
-     * @apiNote In OpenAPI Specification, this indicates support of AllOf/OneOf.
+     * <p>In OpenAPI Specification, this indicates support of AllOf/OneOf.</p>
      */
     @OAS2 @OAS3
     Composite,
@@ -44,7 +44,7 @@ public enum SchemaSupportFeature {
      * This suggests Composite support, but may not always be the case and is therefore separate.
      * </p>
      *
-     * @apiNote In OpenAPI Specification, this indicates support of AllOf with a discriminator property on the derived schema.
+     * <p>In OpenAPI Specification, this indicates support of AllOf with a discriminator property on the derived schema.</p>
      */
     @OAS2 @OAS3
     Polymorphism,
@@ -63,7 +63,7 @@ public enum SchemaSupportFeature {
      * on type determination to the consumer. This does *NOT* suggest generated code implements a "Union Type".
      * </p>
      *
-     * @apiNote This suggests support of OneOf in OpenAPI Specification with a discriminator.
+     * <p>This suggests support of OneOf in OpenAPI Specification with a discriminator.</p>
      */
     @OAS3
     Union

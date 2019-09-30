@@ -62,7 +62,7 @@ public enum SecurityFeature {
     /**
      * Supports authorization via OAuth2 client credentials flow ("application" in OAS 2.0).
      *
-     * @apiNote In OAS 2.0, this is called "application" flow.
+     * <p>In OAS 2.0, this is called "application" flow.</p>
      */
     @OAS2 @OAS3
     OAuth2_ClientCredentials,
@@ -70,7 +70,7 @@ public enum SecurityFeature {
     /**
      * Supports authorization via OAuth2 flow ("accessCode" in OAS 2.0).
      *
-     * @apiNote In OAS 2.0, this is called "accessCode" flow.
+     * <p>In OAS 2.0, this is called "accessCode" flow.</p>
      */
     @OAS2 @OAS3
     OAuth2_AuthorizationCode
