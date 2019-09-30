@@ -43,6 +43,65 @@ public class CodegenResponse {
         return "0".equals(code) || "default".equals(code);
     }
 
+    public boolean isStatus1xx() { return code != null && code.length() == 3 && code.startsWith("1"); }
+    public boolean isStatus100() { return "100".equals(code); }
+    public boolean isStatus101() { return "101".equals(code); }
+    public boolean isStatus102() { return "102".equals(code); }
+
+    public boolean isStatus2xx() { return code != null && code.length() == 3 && code.startsWith("2"); }
+    public boolean isStatus200() { return "200".equals(code); }
+    public boolean isStatus201() { return "201".equals(code); }
+    public boolean isStatus202() { return "202".equals(code); }
+    public boolean isStatus203() { return "203".equals(code); }
+    public boolean isStatus204() { return "204".equals(code); }
+    public boolean isStatus205() { return "205".equals(code); }
+    public boolean isStatus206() { return "206".equals(code); }
+    public boolean isStatus207() { return "207".equals(code); }
+
+    public boolean isStatus3xx() { return code != null && code.length() == 3 && code.startsWith("3"); }
+    public boolean isStatus300() { return "300".equals(code); }
+    public boolean isStatus301() { return "301".equals(code); }
+    public boolean isStatus302() { return "302".equals(code); }
+    public boolean isStatus303() { return "303".equals(code); }
+    public boolean isStatus304() { return "304".equals(code); }
+    public boolean isStatus305() { return "305".equals(code); }
+    public boolean isStatus307() { return "307".equals(code); }
+
+    public boolean isStatus4xx() { return code != null && code.length() == 3 && code.startsWith("4"); }
+    public boolean isStatus400() { return "400".equals(code); }
+    public boolean isStatus401() { return "401".equals(code); }
+    public boolean isStatus402() { return "402".equals(code); }
+    public boolean isStatus403() { return "403".equals(code); }
+    public boolean isStatus404() { return "404".equals(code); }
+    public boolean isStatus405() { return "405".equals(code); }
+    public boolean isStatus406() { return "406".equals(code); }
+    public boolean isStatus407() { return "407".equals(code); }
+    public boolean isStatus408() { return "408".equals(code); }
+    public boolean isStatus409() { return "409".equals(code); }
+    public boolean isStatus410() { return "410".equals(code); }
+    public boolean isStatus411() { return "411".equals(code); }
+    public boolean isStatus412() { return "412".equals(code); }
+    public boolean isStatus413() { return "413".equals(code); }
+    public boolean isStatus414() { return "414".equals(code); }
+    public boolean isStatus415() { return "415".equals(code); }
+    public boolean isStatus416() { return "416".equals(code); }
+    public boolean isStatus417() { return "417".equals(code); }
+    public boolean isStatus418() { return "418".equals(code); }
+    public boolean isStatus419() { return "419".equals(code); }
+    public boolean isStatus420() { return "420".equals(code); }
+    public boolean isStatus422() { return "422".equals(code); }
+    public boolean isStatus423() { return "423".equals(code); }
+    public boolean isStatus424() { return "424".equals(code); }
+
+    public boolean isStatus5xx() { return code != null && code.length() == 3 && code.startsWith("5"); }
+    public boolean isStatus500() { return "500".equals(code); }
+    public boolean isStatus501() { return "501".equals(code); }
+    public boolean isStatus502() { return "502".equals(code); }
+    public boolean isStatus503() { return "503".equals(code); }
+    public boolean isStatus504() { return "504".equals(code); }
+    public boolean isStatus505() { return "505".equals(code); }
+    public boolean isStatus507() { return "507".equals(code); }
+
     @Override
     public String toString() {
         return "CodegenResponse{" +
