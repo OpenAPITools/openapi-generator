@@ -34,12 +34,14 @@ pub trait DefaultApi {
     fn dummy_get(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
 }
 
-
 impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
     fn dummy_get(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
-        __internal_request::Request::new(hyper::Method::Get, "/dummy".to_string())
+        let mut req = __internal_request::Request::new(hyper::Method::Get, "/dummy".to_string())
             .returns_nothing()
-            .execute(self.configuration.borrow())
+	;
+
+
+        req.execute(self.configuration.borrow())
     }
 
 }

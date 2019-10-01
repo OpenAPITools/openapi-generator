@@ -34,11 +34,13 @@ pub trait DefaultApi {
     fn fileresponsetest(&self, ) -> Box<Future<Item = std::path::PathBuf, Error = Error<serde_json::Value>>>;
 }
 
-
 impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
     fn fileresponsetest(&self, ) -> Box<Future<Item = std::path::PathBuf, Error = Error<serde_json::Value>>> {
-        __internal_request::Request::new(hyper::Method::Get, "/tests/fileResponse".to_string())
-            .execute(self.configuration.borrow())
+        let mut req = __internal_request::Request::new(hyper::Method::Get, "/tests/fileResponse".to_string())
+	;
+
+
+        req.execute(self.configuration.borrow())
     }
 
 }

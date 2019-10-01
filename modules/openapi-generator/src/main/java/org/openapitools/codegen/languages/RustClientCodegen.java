@@ -41,6 +41,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
 
+    public static final String GENERATE_OPTION_QUERY_PARAMS = "generateOptionQueryParams";
+    protected boolean generateOptionQueryParams = false;
+
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
@@ -138,6 +141,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(GENERATE_OPTION_QUERY_PARAMS,
+		"Whether to generate query parameters wrapped in Option"));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
@@ -184,6 +189,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put(REQWEST_LIBRARY, "true");
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
+        }
+
+        if (additionalProperties.containsKey(GENERATE_OPTION_QUERY_PARAMS)) {
+            setGenerateOptionQueryParams(convertPropertyToBooleanAndWriteBack(GENERATE_OPTION_QUERY_PARAMS));
+            additionalProperties.put("x-codegen-generate-option-query-params", this.generateOptionQueryParams);
         }
 
         apiTemplateFiles.put(getLibrary() + "/api.mustache", ".rs");
@@ -545,5 +555,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             return null;
         }
+    }
+
+    public void setGenerateOptionQueryParams(boolean generateOptionQueryParams) {
+        this.generateOptionQueryParams = generateOptionQueryParams;
     }
 }
