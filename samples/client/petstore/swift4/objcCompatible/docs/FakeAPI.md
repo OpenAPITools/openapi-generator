@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeAPI.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeAPI.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeAPI.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeAPI.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
 
 
 # **createXmlItem**
@@ -707,6 +708,63 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **testQueryParameterCollectionFormat**
+```swift
+    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+```
+
+
+
+To test the collection format in query parameters
+
+### Example 
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import PetstoreClient
+
+let pipe = ["inner_example"] // [String] | 
+let ioutil = ["inner_example"] // [String] | 
+let http = ["inner_example"] // [String] | 
+let url = ["inner_example"] // [String] | 
+let context = ["inner_example"] // [String] | 
+
+FakeAPI.testQueryParameterCollectionFormat(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**[String]**](String.md) |  | 
+ **ioutil** | [**[String]**](String.md) |  | 
+ **http** | [**[String]**](String.md) |  | 
+ **url** | [**[String]**](String.md) |  | 
+ **context** | [**[String]**](String.md) |  | 
+
+### Return type
+
+Void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

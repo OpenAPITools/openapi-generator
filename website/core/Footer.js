@@ -55,7 +55,7 @@ class Footer extends React.Component {
               rel="noreferrer noopener">
               Stack Overflow
             </a>
-            <a href="https://gitter.im/OpenAPITools/openapi-generator">Chat Room</a>
+            <a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a>
             <a
               href="https://twitter.com/oas_generator"
               target="_blank"

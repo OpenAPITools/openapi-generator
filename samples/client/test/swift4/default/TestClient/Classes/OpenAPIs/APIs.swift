@@ -9,22 +9,22 @@ import Foundation
 open class TestClientAPI {
     public static var basePath = "http://api.example.com/basePath"
     public static var credential: URLCredential?
-    public static var customHeaders: [String: String] = [:]
+    public static var customHeaders: [String:String] = [:]
     public static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
 }
 
 open class RequestBuilder<T> {
     var credential: URLCredential?
-    var headers: [String: String]
-    public let parameters: [String: Any]?
+    var headers: [String:String]
+    public let parameters: [String:Any]?
     public let isBody: Bool
     public let method: String
     public let URLString: String
 
     /// Optional block to obtain a reference to the request's progress instance when available.
-    public var onProgressReady: ((Progress) -> Void)?
+    public var onProgressReady: ((Progress) -> ())?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
+    required public init(method: String, URLString: String, parameters: [String:Any]?, isBody: Bool, headers: [String:String] = [:]) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
@@ -34,7 +34,7 @@ open class RequestBuilder<T> {
         addHeaders(TestClientAPI.customHeaders)
     }
 
-    open func addHeaders(_ aHeaders: [String: String]) {
+    open func addHeaders(_ aHeaders:[String:String]) {
         for (header, value) in aHeaders {
             headers[header] = value
         }
@@ -57,5 +57,5 @@ open class RequestBuilder<T> {
 
 public protocol RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
-    func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
+    func getBuilder<T:Decodable>() -> RequestBuilder<T>.Type
 }

@@ -14,7 +14,7 @@ Python 2.7 and 3.4+
 ## Installation & Usage
 ### pip install
 
-If the python package is hosted on Github, you can install directly from Github
+If the python package is hosted on a repository, you can install directly using:
 
 ```sh
 pip install git+https://github.com/GIT_USER_ID/GIT_REPO_ID.git
@@ -77,6 +77,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**create_xml_item**](docs/FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
+*FakeApi* | [**fake_outer_enum_serialize**](docs/FakeApi.md#fake_outer_enum_serialize) | **POST** /fake/outer/enum | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
@@ -152,9 +153,11 @@ Class | Method | HTTP request | Description
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
+ - [OuterNumber](docs/OuterNumber.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SpecialModelName](docs/SpecialModelName.md)
+ - [StringBooleanMap](docs/StringBooleanMap.md)
  - [Tag](docs/Tag.md)
  - [TypeHolderDefault](docs/TypeHolderDefault.md)
  - [TypeHolderExample](docs/TypeHolderExample.md)

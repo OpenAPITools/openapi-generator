@@ -42,14 +42,14 @@ public:
     enum class e{{classname}} 
     {
         {{#allowableValues}}
-        {{#values}}
+        {{#enumVars}}
         {{#enumDescription}}
         /// <summary>
         /// {{enumDescription}}
         /// </summary>
         {{/enumDescription}}
-        {{classname}}_{{.}}{{^last}},{{/last}}
-        {{/values}}
+        {{classname}}_{{{name}}}{{^last}},{{/last}}        
+        {{/enumVars}}        
         {{/allowableValues}}
     };
 

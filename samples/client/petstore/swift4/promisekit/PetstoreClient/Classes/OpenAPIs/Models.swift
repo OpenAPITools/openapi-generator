@@ -10,7 +10,7 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
-public enum ErrorResponse: Error {
+public enum ErrorResponse : Error {
     case error(Int, Data?, Error)
 }
 

@@ -54,7 +54,7 @@ export function ModelApiResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function ModelApiResponseToJSON(value?: ModelApiResponse): any {
+export function ModelApiResponseToJSON(value?: ModelApiResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
