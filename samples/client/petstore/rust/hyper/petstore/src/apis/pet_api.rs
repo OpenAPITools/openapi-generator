@@ -10,6 +10,7 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+#[allow(unused_imports)]
 use std::option::Option;
 
 use hyper;
@@ -46,9 +47,9 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
     fn add_pet(&self, body: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_body_param(body)
-            .returns_nothing()
         ;
+        req = req.with_body_param(body);
+        req = req.returns_nothing();
 
 
         req.execute(self.configuration.borrow())
@@ -57,10 +58,12 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
     fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Delete, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_path_param("petId".to_string(), pet_id.to_string())
-            .with_header_param("api_key".to_string(), api_key.to_string())
-            .returns_nothing()
         ;
+        req = req.with_path_param("petId".to_string(), pet_id.to_string());
+        if let Some(param_value) = api_key {
+            req = req.with_header_param("api_key".to_string(), param_value.to_string());
+        }
+        req = req.returns_nothing();
 
 
         req.execute(self.configuration.borrow())
@@ -69,7 +72,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
     fn find_pets_by_status(&self, status: Vec<String>) -> Box<Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/pet/findByStatus".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_query_param("status".to_string(), status.join(",").to_string())
         ;
 
         req = req.with_query_param("status".to_string(), status.join(",").to_string());
@@ -80,7 +82,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/pet/findByTags".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_query_param("tags".to_string(), tags.join(",").to_string())
         ;
 
         req = req.with_query_param("tags".to_string(), tags.join(",").to_string());
@@ -95,8 +96,8 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
                 in_query: false,
                 param_name: "api_key".to_owned(),
             }))
-            .with_path_param("petId".to_string(), pet_id.to_string())
         ;
+        req = req.with_path_param("petId".to_string(), pet_id.to_string());
 
 
         req.execute(self.configuration.borrow())
@@ -105,9 +106,9 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
     fn update_pet(&self, body: crate::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Put, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_body_param(body)
-            .returns_nothing()
         ;
+        req = req.with_body_param(body);
+        req = req.returns_nothing();
 
 
         req.execute(self.configuration.borrow())
@@ -116,11 +117,15 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
     fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_path_param("petId".to_string(), pet_id.to_string())
-            .with_form_param("name".to_string(), name.to_string())
-            .with_form_param("status".to_string(), status.to_string())
-            .returns_nothing()
         ;
+        req = req.with_path_param("petId".to_string(), pet_id.to_string());
+        if let Some(param_value) = name {
+            req = req.with_form_param("name".to_string(), param_value.to_string());
+        }
+        if let Some(param_value) = status {
+            req = req.with_form_param("status".to_string(), param_value.to_string());
+        }
+        req = req.returns_nothing();
 
 
         req.execute(self.configuration.borrow())
@@ -129,10 +134,14 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
     fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Box<Future<Item = crate::models::ApiResponse, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/pet/{petId}/uploadImage".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_path_param("petId".to_string(), pet_id.to_string())
-            .with_form_param("additionalMetadata".to_string(), additional_metadata.to_string())
-            .with_form_param("file".to_string(), unimplemented!())
         ;
+        req = req.with_path_param("petId".to_string(), pet_id.to_string());
+        if let Some(param_value) = additional_metadata {
+            req = req.with_form_param("additionalMetadata".to_string(), param_value.to_string());
+        }
+        if let Some(param_value) = file {
+            req = req.with_form_param("file".to_string(), unimplemented!());
+        }
 
 
         req.execute(self.configuration.borrow())

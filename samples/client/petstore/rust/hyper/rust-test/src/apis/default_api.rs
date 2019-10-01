@@ -10,6 +10,7 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+#[allow(unused_imports)]
 use std::option::Option;
 
 use hyper;
@@ -38,8 +39,8 @@ pub trait DefaultApi {
 impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
     fn dummy_get(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/dummy".to_string())
-            .returns_nothing()
         ;
+        req = req.returns_nothing();
 
 
         req.execute(self.configuration.borrow())

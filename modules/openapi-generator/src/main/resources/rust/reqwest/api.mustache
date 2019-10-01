@@ -1,6 +1,7 @@
 {{>partial_header}}
 use std::rc::Rc;
 use std::borrow::Borrow;
+#[allow(unused_imports)]
 use std::option::Option;
 
 use reqwest;
@@ -34,7 +35,7 @@ impl {{{classname}}} for {{{classname}}}Client {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{#isString}}){{/isString}}{{/pathParams}});
+        let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{#isString}}){{/isString}}{{/pathParams}});
         let mut req_builder = client.{{{httpMethod}}}(uri_str.as_str());
 
         {{#queryParams}}
@@ -68,7 +69,14 @@ impl {{{classname}}} for {{{classname}}}Client {
         }
         {{#hasHeaderParams}}
         {{#headerParams}}
+        {{#required}}
         req_builder = req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            req_builder = req_builder.header("{{{baseName}}}", param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        }
+        {{/required}}
         {{/headerParams}}
         {{/hasHeaderParams}}
         {{#hasAuthMethods}}
@@ -106,13 +114,27 @@ impl {{{classname}}} for {{{classname}}}Client {
         {{/hasAuthMethods}}
         {{#isMultipart}}
         {{#hasFormParams}}
-        let form = reqwest::multipart::Form::new()
+        let mut form = reqwest::multipart::Form::new();
         {{#formParams}}
         {{#isFile}}
-            .file("{{{baseName}}}", {{{paramName}}})?{{#-last}};{{/-last}}
+        {{#required}}
+        form = form.file("{{{baseName}}}", {{{paramName}}})?;
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            form = form.file("{{{baseName}}}", param_value)?;
+        }
+        {{/required}}
         {{/isFile}}
         {{^isFile}}
-            .text("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string()){{#-last}};{{/-last}}
+        {{#required}}
+        form = form.text("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            form = form.text("{{{baseName}}}", param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        }
+        {{/required}}
         {{/isFile}}
         {{/formParams}}
         req_builder = req_builder.multipart(form);
@@ -123,10 +145,24 @@ impl {{{classname}}} for {{{classname}}}Client {
         let mut form_params = std::collections::HashMap::new();
         {{#formParams}}
         {{#isFile}}
+        {{#required}}
         form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
+        }
+        {{/required}}
         {{/isFile}}
         {{^isFile}}
+        {{#required}}
         form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            form_params.insert("{{{baseName}}}", param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        }
+        {{/required}}
         {{/isFile}}
         {{/formParams}}
         req_builder = req_builder.form(&form_params);

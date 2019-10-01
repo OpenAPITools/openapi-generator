@@ -10,6 +10,7 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+#[allow(unused_imports)]
 use std::option::Option;
 
 use reqwest;
@@ -72,7 +73,9 @@ impl PetApi for PetApiClient {
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        req_builder = req_builder.header("api_key", api_key.to_string());
+        if let Some(param_value) = api_key {
+            req_builder = req_builder.header("api_key", param_value.to_string());
+        }
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
@@ -187,8 +190,12 @@ impl PetApi for PetApiClient {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
         let mut form_params = std::collections::HashMap::new();
-        form_params.insert("name", name.to_string());
-        form_params.insert("status", status.to_string());
+        if let Some(param_value) = name {
+            form_params.insert("name", param_value.to_string());
+        }
+        if let Some(param_value) = status {
+            form_params.insert("status", param_value.to_string());
+        }
         req_builder = req_builder.form(&form_params);
 
         // send request
@@ -211,9 +218,13 @@ impl PetApi for PetApiClient {
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        let form = reqwest::multipart::Form::new()
-            .text("additionalMetadata", additional_metadata.to_string())
-            .file("file", file)?;
+        let mut form = reqwest::multipart::Form::new();
+        if let Some(param_value) = additional_metadata {
+            form = form.text("additionalMetadata", param_value.to_string());
+        }
+        if let Some(param_value) = file {
+            form = form.file("file", param_value)?;
+        }
         req_builder = req_builder.multipart(form);
 
         // send request
