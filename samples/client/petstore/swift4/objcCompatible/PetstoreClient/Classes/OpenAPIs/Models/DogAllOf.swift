@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct DogAllOf: Codable {
 
     public var breed: String?
@@ -17,6 +15,4 @@ public struct DogAllOf: Codable {
         self.breed = breed
     }
 
-
 }
-
