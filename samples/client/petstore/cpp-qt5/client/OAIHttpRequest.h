@@ -27,20 +27,11 @@
 #include <QNetworkReply>
 
 
+#include "OAIHttpFileElement.h"
 
 namespace OpenAPI {
 
 enum OAIHttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
-
-class OAIHttpRequestInputFileElement {
-
-public:
-    QString variable_name;
-    QString local_filename;
-    QString request_filename;
-    QString mime_type;
-
-};
 
 
 class OAIHttpRequestInput {
@@ -51,7 +42,7 @@ public:
     OAIHttpRequestVarLayout var_layout;
     QMap<QString, QString> vars;
     QMap<QString, QString> headers;
-    QList<OAIHttpRequestInputFileElement> files;
+    QList<OAIHttpFileElement> files;
     QByteArray request_body;
 
     OAIHttpRequestInput();
@@ -74,19 +65,26 @@ public:
     explicit OAIHttpRequestWorker(QObject *parent = nullptr);
     virtual ~OAIHttpRequestWorker();
 
-    QMap<QByteArray, QByteArray> getResponseHeaders() const;
+    QMap<QString, QString> getResponseHeaders() const;
     QString http_attribute_encode(QString attribute_name, QString input);
     void execute(OAIHttpRequestInput *input);
     static QSslConfiguration* sslDefaultConfiguration;
     void setTimeOut(int tout);
+    void setWorkingDirectory(const QString &path);
+    OAIHttpFileElement getHttpFileElement(const QString &fieldname = QString());
+    QByteArray* getMultiPartField(const QString &fieldname = QString());    
 signals:
     void on_execution_finished(OAIHttpRequestWorker *worker);
 
 private:
     QNetworkAccessManager *manager;
-    QMap<QByteArray, QByteArray> headers;
+    QMap<QString, QString> headers;
+    QMap<QString, OAIHttpFileElement> files;
+    QMap<QString, QByteArray*> multiPartFields;
+    QString workingDirectory;
     int timeout;
     void on_manager_timeout(QNetworkReply *reply);
+    void process_form_response();    
 private slots:
     void on_manager_finished(QNetworkReply *reply);
 };

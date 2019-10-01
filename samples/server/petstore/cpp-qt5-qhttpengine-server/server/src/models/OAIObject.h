@@ -24,7 +24,7 @@ class OAIObject {
     OAIObject() {
 
     }
-    
+
     OAIObject(QString jsonString) {
         fromJson(jsonString);
     }

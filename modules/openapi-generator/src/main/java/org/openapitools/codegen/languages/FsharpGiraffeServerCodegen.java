@@ -187,7 +187,6 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
             LOGGER.warn("Library flag not currently supported.");
 
         String authFolder = sourceFolder + File.separator + "auth";
-        String serviceFolder = sourceFolder + File.separator + "services";
         String implFolder = sourceFolder + File.separator + "impl";
         String helperFolder = sourceFolder + File.separator + "helpers";
 

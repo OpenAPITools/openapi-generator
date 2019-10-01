@@ -34,6 +34,7 @@ public:
     void setBasePath(const QString& basePath);
     void setHost(const QString& host);
     void setApiTimeOutMs(const int tout);
+    void setWorkingDirectory(const QString& path);
     void addHeaders(const QString& key, const QString& value);
 
     void createUser(const OAIUser& body);
@@ -48,6 +49,7 @@ public:
 private:
     QString basePath;
     QString host;
+    QString workingDirectory;
     int timeout;
     QMap<QString, QString> defaultHeaders;
     void createUserCallback (OAIHttpRequestWorker * worker);

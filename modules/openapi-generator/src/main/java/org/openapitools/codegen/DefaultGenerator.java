@@ -35,6 +35,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.serializer.SerializerUtils;
@@ -490,10 +491,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
-                // Special handling of aliases only applies to Java
                 if (modelTemplate != null && modelTemplate.containsKey("model")) {
                     CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                    if (m.isAlias) {
+                    if (m.isAlias && !(config instanceof PythonClientExperimentalCodegen))  {
+                        // alias to number, string, enum, etc, which should not be generated as model
+                        // for PythonClientExperimentalCodegen, all aliases are generated as models
                         continue;  // Don't create user-defined classes for aliases
                     }
                 }
@@ -943,7 +945,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
      * Returns the path of a template, allowing access to the template where consuming literal contents aren't desirable or possible.
      *
      * @param name the template name (e.g. model.mustache)
-     *
      * @return The {@link Path} to the template
      */
     @Override
@@ -1063,21 +1064,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (authMethods != null && !authMethods.isEmpty()) {
                     codegenOperation.authMethods = config.fromSecurity(authMethods);
                     List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
-                    if (codegenOperation.authMethods != null){
-                        for (CodegenSecurity security : codegenOperation.authMethods){
+                    if (codegenOperation.authMethods != null) {
+                        for (CodegenSecurity security : codegenOperation.authMethods) {
                             if (security != null && security.isBasicBearer != null && security.isBasicBearer &&
-                               securities != null){
-                                for (SecurityRequirement req : securities){
+                                    securities != null) {
+                                for (SecurityRequirement req : securities) {
                                     if (req == null) continue;
-                                    for (String key : req.keySet()){
-                                        if (security.name != null && key.equals(security.name)){
+                                    for (String key : req.keySet()) {
+                                        if (security.name != null && key.equals(security.name)) {
                                             int count = 0;
-                                            for (String sc : req.get(key)){
+                                            for (String sc : req.get(key)) {
                                                 Map<String, Object> scope = new HashMap<String, Object>();
                                                 scope.put("scope", sc);
                                                 scope.put("description", "");
                                                 count++;
-                                                if (req.get(key) != null && count < req.get(key).size()){
+                                                if (req.get(key) != null && count < req.get(key).size()) {
                                                     scope.put("hasMore", "true");
                                                 } else {
                                                     scope.put("hasMore", null);
