@@ -13,7 +13,7 @@ steps:
   commands:
   - (cd samples/client/petstore/dart-jaguar/openapi && pub get && pub run build_runner build --delete-conflicting-outputs)
   - (cd samples/client/petstore/dart-jaguar/flutter_petstore/openapi && pub get && pub run build_runner build --delete-conflicting-outputs)
-  - (cd samples/client/petstore/dart2/petstore_client_lib && pub get && pub run test)
+  - (cd samples/client/petstore/dart2/petstore && pub get && pub run test)
 # test Java 11 HTTP client
 - name: java11-test
   image: openjdk:11.0
