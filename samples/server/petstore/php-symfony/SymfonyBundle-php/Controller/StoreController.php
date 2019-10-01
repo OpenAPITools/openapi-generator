@@ -224,7 +224,7 @@ class StoreController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("int");
         $asserts[] = new Assert\GreaterThanOrEqual(1);
-        $asserts[] = new Assert\LessThanOrEqual(1);
+        $asserts[] = new Assert\LessThanOrEqual(5);
         $response = $this->validate($orderId, $asserts);
         if ($response instanceof Response) {
             return $response;

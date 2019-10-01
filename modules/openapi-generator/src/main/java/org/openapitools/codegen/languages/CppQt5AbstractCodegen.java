@@ -333,11 +333,6 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        return postProcessModelsEnum(objs);
-    }
-
-    @Override
     public String toEnumValue(String value, String datatype) {
         return escapeText(value);
     }

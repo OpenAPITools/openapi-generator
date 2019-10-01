@@ -273,7 +273,8 @@ CREATE TABLE IF NOT EXISTS `format_test` (
   `date` DATE NOT NULL,
   `dateTime` DATETIME DEFAULT NULL,
   `uuid` TEXT DEFAULT NULL,
-  `password` VARCHAR(64) NOT NULL
+  `password` VARCHAR(64) NOT NULL,
+  `BigDecimal` DECIMAL(20, 9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

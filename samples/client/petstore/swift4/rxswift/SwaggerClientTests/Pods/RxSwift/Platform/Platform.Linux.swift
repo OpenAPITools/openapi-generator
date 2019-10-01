@@ -18,7 +18,8 @@
 
             if let newValue = value {
                 threadDictionary[key] = newValue
-            } else {
+            }
+            else {
                 threadDictionary[key] = nil
             }
 
