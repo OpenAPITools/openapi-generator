@@ -10,6 +10,7 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+use std::option::Option;
 
 use hyper;
 use serde_json;
@@ -37,7 +38,7 @@ pub trait DefaultApi {
 impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
     fn fileresponsetest(&self, ) -> Box<Future<Item = std::path::PathBuf, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/tests/fileResponse".to_string())
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())

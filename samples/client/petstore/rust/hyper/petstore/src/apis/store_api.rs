@@ -10,6 +10,7 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+use std::option::Option;
 
 use hyper;
 use serde_json;
@@ -42,7 +43,7 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Delete, "/store/order/{orderId}".to_string())
             .with_path_param("orderId".to_string(), order_id.to_string())
             .returns_nothing()
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())
@@ -55,7 +56,7 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
                 in_query: false,
                 param_name: "api_key".to_owned(),
             }))
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())
@@ -64,7 +65,7 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
     fn get_order_by_id(&self, order_id: i64) -> Box<Future<Item = crate::models::Order, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/store/order/{orderId}".to_string())
             .with_path_param("orderId".to_string(), order_id.to_string())
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())
@@ -73,7 +74,7 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
     fn place_order(&self, body: crate::models::Order) -> Box<Future<Item = crate::models::Order, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/store/order".to_string())
             .with_body_param(body)
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())

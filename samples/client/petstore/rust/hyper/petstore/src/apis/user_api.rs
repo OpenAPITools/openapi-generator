@@ -10,6 +10,7 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+use std::option::Option;
 
 use hyper;
 use serde_json;
@@ -46,7 +47,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/user".to_string())
             .with_body_param(body)
             .returns_nothing()
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())
@@ -56,7 +57,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/user/createWithArray".to_string())
             .with_body_param(body)
             .returns_nothing()
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())
@@ -66,7 +67,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/user/createWithList".to_string())
             .with_body_param(body)
             .returns_nothing()
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())
@@ -76,7 +77,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Delete, "/user/{username}".to_string())
             .with_path_param("username".to_string(), username.to_string())
             .returns_nothing()
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())
@@ -85,7 +86,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
     fn get_user_by_name(&self, username: &str) -> Box<Future<Item = crate::models::User, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/user/{username}".to_string())
             .with_path_param("username".to_string(), username.to_string())
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())
@@ -95,7 +96,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/user/login".to_string())
             .with_query_param("username".to_string(), username.to_string())
             .with_query_param("password".to_string(), password.to_string())
-	;
+        ;
 
         req = req.with_query_param("username".to_string(), username.to_string());
         req = req.with_query_param("password".to_string(), password.to_string());
@@ -106,7 +107,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
     fn logout_user(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/user/logout".to_string())
             .returns_nothing()
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())
@@ -117,7 +118,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
             .with_path_param("username".to_string(), username.to_string())
             .with_body_param(body)
             .returns_nothing()
-	;
+        ;
 
 
         req.execute(self.configuration.borrow())

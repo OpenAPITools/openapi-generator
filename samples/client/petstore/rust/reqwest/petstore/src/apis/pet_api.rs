@@ -10,6 +10,7 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+use std::option::Option;
 
 use reqwest;
 
@@ -29,13 +30,13 @@ impl PetApiClient {
 
 pub trait PetApi {
     fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error>;
-    fn delete_pet(&self, pet_id: i64, api_key: &str) -> Result<(), Error>;
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error>;
     fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error>;
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error>;
     fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error>;
     fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error>;
-    fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Result<(), Error>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Result<crate::models::ApiResponse, Error>;
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error>;
 }
 
 impl PetApi for PetApiClient {
@@ -61,7 +62,7 @@ impl PetApi for PetApiClient {
         Ok(())
     }
 
-    fn delete_pet(&self, pet_id: i64, api_key: &str) -> Result<(), Error> {
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -172,7 +173,7 @@ impl PetApi for PetApiClient {
         Ok(())
     }
 
-    fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Result<(), Error> {
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -197,7 +198,7 @@ impl PetApi for PetApiClient {
         Ok(())
     }
 
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Result<crate::models::ApiResponse, Error> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
