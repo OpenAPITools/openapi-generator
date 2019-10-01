@@ -135,7 +135,13 @@ export class {{classname}} {
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
 {{#hasProduces}}
-        localVarHeaderParams.Accept = '{{#produces}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/produces}}';
+        const produces = [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
 {{/hasProduces}}
         let localVarFormParams: any = {};
 
