@@ -13,16 +13,12 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param enumFormStringArray Form parameter enum test (string array)
  * @param enumFormString Form parameter enum test (string)
  */
-@Parcelize
 
 data class InlineObject2 (
     /* Form parameter enum test (string array) */
@@ -32,8 +28,8 @@ data class InlineObject2 (
     @Json(name = "enum_form_string")
     val enumFormString: InlineObject2.EnumFormString? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 {
 
     /**

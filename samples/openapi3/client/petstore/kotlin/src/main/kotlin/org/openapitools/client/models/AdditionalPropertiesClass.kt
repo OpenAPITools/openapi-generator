@@ -13,16 +13,12 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param mapProperty 
  * @param mapOfMapProperty 
  */
-@Parcelize
 
 data class AdditionalPropertiesClass (
     @Json(name = "map_property")
@@ -30,6 +26,6 @@ data class AdditionalPropertiesClass (
     @Json(name = "map_of_map_property")
     val mapOfMapProperty: kotlin.collections.Map<kotlin.String, kotlin.collections.Map<kotlin.String, kotlin.String>>? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

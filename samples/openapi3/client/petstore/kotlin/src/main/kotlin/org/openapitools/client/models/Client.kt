@@ -13,20 +13,16 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param client 
  */
-@Parcelize
 
 data class Client (
     @Json(name = "client")
     val client: kotlin.String? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

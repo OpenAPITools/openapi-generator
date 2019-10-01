@@ -12,9 +12,6 @@
 package org.openapitools.server.models
 
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * A User who is purchasing from the pet store
@@ -27,7 +24,6 @@ import java.io.Serializable
  * @param phone 
  * @param userStatus User Status
  */
-@Parcelize
 data class User (
     val id: kotlin.Long? = null,
     val username: kotlin.String? = null,
@@ -39,8 +35,8 @@ data class User (
     /* User Status */
     val userStatus: kotlin.Int? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 {
 
 }

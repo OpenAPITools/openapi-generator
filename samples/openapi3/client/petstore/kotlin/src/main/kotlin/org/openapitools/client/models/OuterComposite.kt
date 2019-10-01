@@ -13,9 +13,6 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
@@ -23,7 +20,6 @@ import java.io.Serializable
  * @param myString 
  * @param myBoolean 
  */
-@Parcelize
 
 data class OuterComposite (
     @Json(name = "my_number")
@@ -33,6 +29,6 @@ data class OuterComposite (
     @Json(name = "my_boolean")
     val myBoolean: kotlin.Boolean? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

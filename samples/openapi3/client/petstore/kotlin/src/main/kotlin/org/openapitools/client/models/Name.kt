@@ -13,9 +13,6 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * Model for testing model name same as property name
@@ -24,7 +21,6 @@ import java.io.Serializable
  * @param property 
  * @param ``123number`` 
  */
-@Parcelize
 
 data class Name (
     @Json(name = "name")
@@ -36,6 +32,6 @@ data class Name (
     @Json(name = "123Number")
     val ``123number``: kotlin.Int? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

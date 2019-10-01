@@ -13,9 +13,6 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
@@ -24,7 +21,6 @@ import java.io.Serializable
  * @param directMap 
  * @param indirectMap 
  */
-@Parcelize
 
 data class MapTest (
     @Json(name = "map_map_of_string")
@@ -36,8 +32,8 @@ data class MapTest (
     @Json(name = "indirect_map")
     val indirectMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 {
 
     /**

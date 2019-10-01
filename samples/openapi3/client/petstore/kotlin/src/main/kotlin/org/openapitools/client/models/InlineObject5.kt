@@ -13,16 +13,12 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param additionalMetadata Additional data to pass to server
  * @param requiredFile file to upload
  */
-@Parcelize
 
 data class InlineObject5 (
     /* file to upload */
@@ -32,6 +28,6 @@ data class InlineObject5 (
     @Json(name = "additionalMetadata")
     val additionalMetadata: kotlin.String? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

@@ -13,20 +13,16 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param declawed 
  */
-@Parcelize
 
 data class CatAllOf (
     @Json(name = "declawed")
     val declawed: kotlin.Boolean? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

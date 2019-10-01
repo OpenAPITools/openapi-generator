@@ -17,9 +17,6 @@ import org.openapitools.client.models.OuterEnumInteger
 import org.openapitools.client.models.OuterEnumIntegerDefaultValue
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
@@ -32,7 +29,6 @@ import java.io.Serializable
  * @param outerEnumDefaultValue 
  * @param outerEnumIntegerDefaultValue 
  */
-@Parcelize
 
 data class EnumTest (
     @Json(name = "enum_string_required")
@@ -52,8 +48,8 @@ data class EnumTest (
     @Json(name = "outerEnumIntegerDefaultValue")
     val outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 {
 
     /**

@@ -13,16 +13,12 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param justSymbol 
  * @param arrayEnum 
  */
-@Parcelize
 
 data class EnumArrays (
     @Json(name = "just_symbol")
@@ -30,8 +26,8 @@ data class EnumArrays (
     @Json(name = "array_enum")
     val arrayEnum: kotlin.Array<EnumArrays.ArrayEnum>? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 {
 
     /**
