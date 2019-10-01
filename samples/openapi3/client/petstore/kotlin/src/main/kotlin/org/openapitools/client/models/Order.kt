@@ -13,9 +13,6 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
@@ -26,7 +23,6 @@ import java.io.Serializable
  * @param status Order Status
  * @param complete 
  */
-@Parcelize
 
 data class Order (
     @Json(name = "id")
@@ -43,8 +39,8 @@ data class Order (
     @Json(name = "complete")
     val complete: kotlin.Boolean? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 {
 
     /**

@@ -13,20 +13,16 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param justNumber 
  */
-@Parcelize
 
 data class NumberOnly (
     @Json(name = "JustNumber")
     val justNumber: java.math.BigDecimal? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

@@ -14,9 +14,6 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Animal
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
@@ -24,7 +21,6 @@ import java.io.Serializable
  * @param dateTime 
  * @param map 
  */
-@Parcelize
 
 data class MixedPropertiesAndAdditionalPropertiesClass (
     @Json(name = "uuid")
@@ -34,6 +30,6 @@ data class MixedPropertiesAndAdditionalPropertiesClass (
     @Json(name = "map")
     val map: kotlin.collections.Map<kotlin.String, Animal>? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

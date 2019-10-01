@@ -13,16 +13,12 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param className 
  * @param color 
  */
-@Parcelize
 
 data class Animal (
     @Json(name = "className")
@@ -30,6 +26,6 @@ data class Animal (
     @Json(name = "color")
     val color: kotlin.String? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 
