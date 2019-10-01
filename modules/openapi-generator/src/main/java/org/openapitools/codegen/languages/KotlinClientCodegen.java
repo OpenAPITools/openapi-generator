@@ -43,9 +43,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String COLLECTION_TYPE = "collectionType";
+    public static final String HTTP_CLIENT = "httpClient";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String collectionType = CollectionType.ARRAY.value;
+    protected String httpClient = HttpClient.OKHTTP4.value;
 
     // https://kotlinlang.org/docs/reference/grammar.html#Identifier
     protected static final Pattern IDENTIFIER_PATTERN =
@@ -74,6 +76,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         public final String value;
 
         CollectionType(String value) {
+            this.value = value;
+        }
+    }
+
+    public enum HttpClient {
+        OKHTTP3("OkHttp3"),
+        OKHTTP4("OkHttp4");
+
+        public final String value;
+
+        HttpClient(String value) {
             this.value = value;
         }
     }
@@ -117,6 +130,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         collectionType.setDefault(this.collectionType);
         cliOptions.add(collectionType);
 
+        CliOption httpClient = new CliOption(HTTP_CLIENT, "Option. Http client type to use");
+        Map<String, String> httpClientOptions = new HashMap<>();
+        httpClientOptions.put(HttpClient.OKHTTP3.value, "OkHttp 3 (Android 2.3+ and Java 7+)");
+        httpClientOptions.put(HttpClient.OKHTTP4.value, "OkHttp 4 (Android 5.0+ and Java 8+)");
+        httpClient.setEnum(httpClientOptions);
+        httpClient.setDefault(this.httpClient);
+        cliOptions.add(httpClient);
+
         supportedLibraries.put(JVM, "Platform: Java Virtual Machine. HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.8.1.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.");
 
@@ -145,6 +166,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setCollectionType(String collectionType) {
         this.collectionType = collectionType;
+    }
+
+    public void setHttpClient(String httpClient) {
+        this.httpClient = httpClient;
     }
 
     @Override
@@ -250,6 +275,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("array", "kotlin.collections.List");
             typeMapping.put("list", "kotlin.collections.List");
             additionalProperties.put("isList", true);
+        }
+
+        // Http Client
+        if (additionalProperties.containsKey(HTTP_CLIENT)) {
+            setHttpClient(additionalProperties.get(HTTP_CLIENT).toString());
+        }
+
+        if (HttpClient.OKHTTP4.value.equals(httpClient)) {
+            additionalProperties.put(HttpClient.OKHTTP4.value, true);
+        } else if (HttpClient.OKHTTP3.value.equals(httpClient)) {
+            additionalProperties.put(HttpClient.OKHTTP3.value, true);
         }
     }
 
