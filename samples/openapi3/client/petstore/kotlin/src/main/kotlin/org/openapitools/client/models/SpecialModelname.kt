@@ -13,20 +13,16 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket 
  */
-@Parcelize
 
 data class SpecialModelname (
     @Json(name = "$special[property.name]")
     val dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: kotlin.Long? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

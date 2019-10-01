@@ -15,9 +15,6 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
@@ -28,7 +25,6 @@ import java.io.Serializable
  * @param tags 
  * @param status pet status in the store
  */
-@Parcelize
 
 data class Pet (
     @Json(name = "name")
@@ -45,8 +41,8 @@ data class Pet (
     @Json(name = "status")
     val status: Pet.Status? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 {
 
     /**

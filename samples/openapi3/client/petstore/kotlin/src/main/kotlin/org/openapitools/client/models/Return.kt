@@ -13,20 +13,16 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * Model for testing reserved words
  * @param ``return`` 
  */
-@Parcelize
 
 data class Return (
     @Json(name = "return")
     val ``return``: kotlin.Int? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

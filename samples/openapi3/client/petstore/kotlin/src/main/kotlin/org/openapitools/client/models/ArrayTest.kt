@@ -14,9 +14,6 @@ package org.openapitools.client.models
 import org.openapitools.client.models.ReadOnlyFirst
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
@@ -24,7 +21,6 @@ import java.io.Serializable
  * @param arrayArrayOfInteger 
  * @param arrayArrayOfModel 
  */
-@Parcelize
 
 data class ArrayTest (
     @Json(name = "array_of_string")
@@ -34,6 +30,6 @@ data class ArrayTest (
     @Json(name = "array_array_of_model")
     val arrayArrayOfModel: kotlin.Array<kotlin.Array<ReadOnlyFirst>>? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

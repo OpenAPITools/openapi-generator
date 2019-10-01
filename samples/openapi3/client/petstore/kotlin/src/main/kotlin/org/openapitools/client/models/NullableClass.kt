@@ -13,9 +13,6 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
@@ -32,7 +29,6 @@ import java.io.Serializable
  * @param objectAndItemsNullableProp 
  * @param objectItemsNullable 
  */
-@Parcelize
 
 data class NullableClass (
     @Json(name = "integer_prop")
@@ -60,6 +56,6 @@ data class NullableClass (
     @Json(name = "object_items_nullable")
     val objectItemsNullable: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 

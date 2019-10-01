@@ -13,16 +13,12 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 import java.io.Serializable
 /**
  * 
  * @param name Updated name of the pet
  * @param status Updated status of the pet
  */
-@Parcelize
 
 data class InlineObject (
     /* Updated name of the pet */
@@ -32,6 +28,6 @@ data class InlineObject (
     @Json(name = "status")
     val status: kotlin.String? = null
 ) 
+: Serializable 
 
- : Parcelable, Serializable 
 
