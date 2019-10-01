@@ -426,7 +426,7 @@ instance MimeRender MimeMultipartFormData DateTime where
   mimeRender _ = mimeRenderDefaultMultipartFormData
 
 -- | @{{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}@
-_readDateTime :: (TI.ParseTime t, Monad m, {{^dateTimeFormat}}Alternative m{{/dateTimeFormat}}) => String -> m t
+_readDateTime :: (TI.ParseTime t, Monad m{{^dateTimeFormat}}, Alternative m{{/dateTimeFormat}}) => String -> m t
 _readDateTime =
   {{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}
 {-# INLINE _readDateTime #-}
