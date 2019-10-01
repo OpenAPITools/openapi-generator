@@ -2768,8 +2768,13 @@ public class DefaultCodegen implements CodegenConfig {
                 allParams.add(cp.copy());
             }
 
-            for (CodegenParameter cp : bodyParams) {
-                allParams.add(cp.copy());
+            // TODO: many generators expect allParams to only have one bodyParam in it
+            // generators should either expect multiple bodyParam options in the allParams,
+            // or the bodyParam should be excluded from allParams and treated specially.
+            try {
+                allParams.add(bodyParams.get(0).copy());
+            } catch (IndexOutOfBoundsException e) {
+                LOGGER.warn("No bodyParam available to append to allParams");
             }
         }
 
