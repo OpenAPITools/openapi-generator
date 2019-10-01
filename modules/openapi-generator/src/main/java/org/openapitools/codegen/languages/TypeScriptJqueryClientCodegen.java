@@ -35,7 +35,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String SNAPSHOT = "snapshot";
     public static final String JQUERY_ALREADY_IMPORTED = "jqueryAlreadyImported";
 
     protected String npmRepository = null;

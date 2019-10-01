@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**TestGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+[**TestQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
 
 
 
@@ -31,6 +32,7 @@ this route creates an XmlItem
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -82,6 +84,11 @@ No authorization required
 - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -90,7 +97,7 @@ No authorization required
 
 ## FakeOuterBooleanSerialize
 
-> bool? FakeOuterBooleanSerialize (bool? body = null)
+> bool FakeOuterBooleanSerialize (bool body = null)
 
 
 
@@ -99,6 +106,7 @@ Test serialization of outer boolean types
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -112,11 +120,11 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(Configuration.Default);
-            var body = true;  // bool? | Input boolean as post body (optional) 
+            var body = true;  // bool | Input boolean as post body (optional) 
 
             try
             {
-                bool? result = apiInstance.FakeOuterBooleanSerialize(body);
+                bool result = apiInstance.FakeOuterBooleanSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
@@ -135,11 +143,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **bool?**| Input boolean as post body | [optional] 
+ **body** | **bool**| Input boolean as post body | [optional] 
 
 ### Return type
 
-**bool?**
+**bool**
 
 ### Authorization
 
@@ -149,6 +157,11 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Output boolean |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -167,6 +180,7 @@ Test serialization of object with outer number type
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -218,6 +232,11 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Output composite |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -226,7 +245,7 @@ No authorization required
 
 ## FakeOuterNumberSerialize
 
-> decimal? FakeOuterNumberSerialize (decimal? body = null)
+> decimal FakeOuterNumberSerialize (decimal body = null)
 
 
 
@@ -235,6 +254,7 @@ Test serialization of outer number types
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -248,11 +268,11 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(Configuration.Default);
-            var body = 8.14;  // decimal? | Input number as post body (optional) 
+            var body = 8.14;  // decimal | Input number as post body (optional) 
 
             try
             {
-                decimal? result = apiInstance.FakeOuterNumberSerialize(body);
+                decimal result = apiInstance.FakeOuterNumberSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
@@ -271,11 +291,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **decimal?**| Input number as post body | [optional] 
+ **body** | **decimal**| Input number as post body | [optional] 
 
 ### Return type
 
-**decimal?**
+**decimal**
 
 ### Authorization
 
@@ -285,6 +305,11 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Output number |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -303,6 +328,7 @@ Test serialization of outer string types
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -354,6 +380,11 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Output string |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -371,6 +402,7 @@ For this test, the body for this request much reference a schema named `File`.
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -421,6 +453,11 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Success |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -436,6 +473,7 @@ No authorization required
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -488,6 +526,11 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Success |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -505,6 +548,7 @@ To test \"client\" model
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -557,6 +601,11 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -565,7 +614,7 @@ No authorization required
 
 ## TestEndpointParameters
 
-> void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int integer = null, int int32 = null, long int64 = null, float _float = null, string _string = null, System.IO.Stream binary = null, DateTime date = null, DateTime dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -574,6 +623,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -591,18 +641,18 @@ namespace Example
             Configuration.Default.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi(Configuration.Default);
-            var number = 8.14;  // decimal? | None
-            var _double = 1.2D;  // double? | None
+            var number = 8.14;  // decimal | None
+            var _double = 1.2D;  // double | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
             var _byte = BYTE_ARRAY_DATA_HERE;  // byte[] | None
-            var integer = 56;  // int? | None (optional) 
-            var int32 = 56;  // int? | None (optional) 
-            var int64 = 789;  // long? | None (optional) 
-            var _float = 3.4F;  // float? | None (optional) 
+            var integer = 56;  // int | None (optional) 
+            var int32 = 56;  // int | None (optional) 
+            var int64 = 789;  // long | None (optional) 
+            var _float = 3.4F;  // float | None (optional) 
             var _string = _string_example;  // string | None (optional) 
             var binary = BINARY_DATA_HERE;  // System.IO.Stream | None (optional) 
-            var date = 2013-10-20;  // DateTime? | None (optional) 
-            var dateTime = 2013-10-20T19:20:30+01:00;  // DateTime? | None (optional) 
+            var date = 2013-10-20;  // DateTime | None (optional) 
+            var dateTime = 2013-10-20T19:20:30+01:00;  // DateTime | None (optional) 
             var password = password_example;  // string | None (optional) 
             var callback = callback_example;  // string | None (optional) 
 
@@ -627,18 +677,18 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **decimal?**| None | 
- **_double** | **double?**| None | 
+ **number** | **decimal**| None | 
+ **_double** | **double**| None | 
  **patternWithoutDelimiter** | **string**| None | 
  **_byte** | **byte[]**| None | 
- **integer** | **int?**| None | [optional] 
- **int32** | **int?**| None | [optional] 
- **int64** | **long?**| None | [optional] 
- **_float** | **float?**| None | [optional] 
+ **integer** | **int**| None | [optional] 
+ **int32** | **int**| None | [optional] 
+ **int64** | **long**| None | [optional] 
+ **_float** | **float**| None | [optional] 
  **_string** | **string**| None | [optional] 
  **binary** | **System.IO.Stream**| None | [optional] 
- **date** | **DateTime?**| None | [optional] 
- **dateTime** | **DateTime?**| None | [optional] 
+ **date** | **DateTime**| None | [optional] 
+ **dateTime** | **DateTime**| None | [optional] 
  **password** | **string**| None | [optional] 
  **callback** | **string**| None | [optional] 
 
@@ -655,6 +705,12 @@ void (empty response body)
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid username supplied |  -  |
+| **404** | User not found |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -663,7 +719,7 @@ void (empty response body)
 
 ## TestEnumParameters
 
-> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int enumQueryInteger = null, double enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
 
 To test enum parameters
 
@@ -672,6 +728,7 @@ To test enum parameters
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -689,8 +746,8 @@ namespace Example
             var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = enumQueryStringArray_example;  // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
-            var enumQueryDouble = 1.2D;  // double? | Query parameter enum test (double) (optional) 
+            var enumQueryInteger = 56;  // int | Query parameter enum test (double) (optional) 
+            var enumQueryDouble = 1.2D;  // double | Query parameter enum test (double) (optional) 
             var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
@@ -719,8 +776,8 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enumQueryStringArray** | **List&lt;string&gt;**| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
- **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
- **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
+ **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
+ **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
  **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] [default to $]
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
 
@@ -737,6 +794,12 @@ No authorization required
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid request |  -  |
+| **404** | Not found |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -745,7 +808,7 @@ No authorization required
 
 ## TestGroupParameters
 
-> void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int stringGroup = null, bool booleanGroup = null, long int64Group = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -754,6 +817,7 @@ Fake endpoint to test group parameters (optional)
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -767,12 +831,12 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(Configuration.Default);
-            var requiredStringGroup = 56;  // int? | Required String in group parameters
-            var requiredBooleanGroup = true;  // bool? | Required Boolean in group parameters
-            var requiredInt64Group = 789;  // long? | Required Integer in group parameters
-            var stringGroup = 56;  // int? | String in group parameters (optional) 
-            var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
-            var int64Group = 789;  // long? | Integer in group parameters (optional) 
+            var requiredStringGroup = 56;  // int | Required String in group parameters
+            var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
+            var requiredInt64Group = 789;  // long | Required Integer in group parameters
+            var stringGroup = 56;  // int | String in group parameters (optional) 
+            var booleanGroup = true;  // bool | Boolean in group parameters (optional) 
+            var int64Group = 789;  // long | Integer in group parameters (optional) 
 
             try
             {
@@ -795,12 +859,12 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **int?**| Required String in group parameters | 
- **requiredBooleanGroup** | **bool?**| Required Boolean in group parameters | 
- **requiredInt64Group** | **long?**| Required Integer in group parameters | 
- **stringGroup** | **int?**| String in group parameters | [optional] 
- **booleanGroup** | **bool?**| Boolean in group parameters | [optional] 
- **int64Group** | **long?**| Integer in group parameters | [optional] 
+ **requiredStringGroup** | **int**| Required String in group parameters | 
+ **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **long**| Required Integer in group parameters | 
+ **stringGroup** | **int**| String in group parameters | [optional] 
+ **booleanGroup** | **bool**| Boolean in group parameters | [optional] 
+ **int64Group** | **long**| Integer in group parameters | [optional] 
 
 ### Return type
 
@@ -814,6 +878,11 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Someting wrong |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -830,6 +899,7 @@ test inline additionalProperties
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -881,6 +951,11 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -896,6 +971,7 @@ test json serialization of form data
 ### Example
 
 ```csharp
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -948,6 +1024,92 @@ No authorization required
 
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestQueryParameterCollectionFormat
+
+> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestQueryParameterCollectionFormatExample
+    {
+        public static void Main()
+        {
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
+            var pipe = new List<string>(); // List<string> | 
+            var ioutil = new List<string>(); // List<string> | 
+            var http = new List<string>(); // List<string> | 
+            var url = new List<string>(); // List<string> | 
+            var context = new List<string>(); // List<string> | 
+
+            try
+            {
+                apiInstance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+            }
+            catch (ApiException e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestQueryParameterCollectionFormat: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**List&lt;string&gt;**](string.md)|  | 
+ **ioutil** | [**List&lt;string&gt;**](string.md)|  | 
+ **http** | [**List&lt;string&gt;**](string.md)|  | 
+ **url** | [**List&lt;string&gt;**](string.md)|  | 
+ **context** | [**List&lt;string&gt;**](string.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Success |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)

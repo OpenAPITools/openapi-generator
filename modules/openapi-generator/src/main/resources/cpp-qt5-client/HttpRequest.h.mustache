@@ -16,22 +16,13 @@
 #include <QNetworkReply>
 
 
+#include "{{prefix}}HttpFileElement.h"
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
 enum {{prefix}}HttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
-
-class {{prefix}}HttpRequestInputFileElement {
-
-public:
-    QString variable_name;
-    QString local_filename;
-    QString request_filename;
-    QString mime_type;
-
-};
 
 
 class {{prefix}}HttpRequestInput {
@@ -42,7 +33,7 @@ public:
     {{prefix}}HttpRequestVarLayout var_layout;
     QMap<QString, QString> vars;
     QMap<QString, QString> headers;
-    QList<{{prefix}}HttpRequestInputFileElement> files;
+    QList<{{prefix}}HttpFileElement> files;
     QByteArray request_body;
 
     {{prefix}}HttpRequestInput();
@@ -65,21 +56,28 @@ public:
     explicit {{prefix}}HttpRequestWorker(QObject *parent = nullptr);
     virtual ~{{prefix}}HttpRequestWorker();
 
-    QMap<QByteArray, QByteArray> getResponseHeaders() const;
+    QMap<QString, QString> getResponseHeaders() const;
     QString http_attribute_encode(QString attribute_name, QString input);
     void execute({{prefix}}HttpRequestInput *input);
     static QSslConfiguration* sslDefaultConfiguration;
     void setTimeOut(int tout);
+    void setWorkingDirectory(const QString &path);
+    {{prefix}}HttpFileElement getHttpFileElement(const QString &fieldname = QString());
+    QByteArray* getMultiPartField(const QString &fieldname = QString());    
 signals:
     void on_execution_finished({{prefix}}HttpRequestWorker *worker);
 
 private:
     QNetworkAccessManager *manager;
-    QMap<QByteArray, QByteArray> headers;
-    int timeout;    
-    void on_manager_timeout(QNetworkReply *reply);    
+    QMap<QString, QString> headers;
+    QMap<QString, OAIHttpFileElement> files;
+    QMap<QString, QByteArray*> multiPartFields;
+    QString workingDirectory;
+    int timeout;
+    void on_manager_timeout(QNetworkReply *reply);
+    void process_form_response();    
 private slots:
-    void on_manager_finished(QNetworkReply *reply);    
+    void on_manager_finished(QNetworkReply *reply);
 };
 
 {{#cppNamespaceDeclarations}}

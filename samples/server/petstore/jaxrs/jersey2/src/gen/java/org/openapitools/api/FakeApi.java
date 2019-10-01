@@ -255,6 +255,22 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testJsonFormData(param, param2, securityContext);
     }
+    @PUT
+    @Path("/test-query-paramters")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
+    public Response testQueryParameterCollectionFormat(@ApiParam(value = "",required=true)@QueryParam("pipe") List<String> pipe
+,@ApiParam(value = "",required=true)@QueryParam("ioutil") List<String> ioutil
+,@ApiParam(value = "",required=true)@QueryParam("http") List<String> http
+,@ApiParam(value = "",required=true)@QueryParam("url") List<String> url
+,@ApiParam(value = "",required=true)@QueryParam("context") List<String> context
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, securityContext);
+    }
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })

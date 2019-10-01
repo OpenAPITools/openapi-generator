@@ -18,13 +18,7 @@
 package org.openapitools.codegen.cmd;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsvList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applySystemPropertiesKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.spi.FilterAttachable;
@@ -140,7 +134,7 @@ public class Generate implements Runnable {
     private List<String> typeMappings = new ArrayList<>();
 
     @Option(
-            name = {"--additional-properties"},
+            name = {"-p", "--additional-properties"},
             title = "additional properties",
             description = "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value."
                     + " You can also have multiple occurrences of this option.")
@@ -160,6 +154,12 @@ public class Generate implements Runnable {
                     + " You can also have multiple occurrences of this option.")
     private List<String> importMappings = new ArrayList<>();
 
+    @Option(
+            name = {"--server-variables"},
+            title = "server variables",
+            description = "sets server variables overrides for spec documents which support variable templating of servers.")
+    private List<String> serverVariableOverrides = new ArrayList<>();
+
     @Option(name = {"--invoker-package"}, title = "invoker package",
             description = CodegenConstants.INVOKER_PACKAGE_DESC)
     private String invokerPackage;
@@ -177,6 +177,10 @@ public class Generate implements Runnable {
 
     @Option(name = {"--library"}, title = "library", description = CodegenConstants.LIBRARY_DESC)
     private String library;
+
+    @Option(name = {"--git-host"}, title = "git host",
+            description = CodegenConstants.GIT_HOST_DESC)
+    private String gitHost;
 
     @Option(name = {"--git-user-id"}, title = "git user id",
             description = CodegenConstants.GIT_USER_ID_DESC)
@@ -343,6 +347,10 @@ public class Generate implements Runnable {
             configurator.setLibrary(library);
         }
 
+        if (isNotEmpty(gitHost)) {
+            configurator.setGitHost(gitHost);
+        }
+
         if (isNotEmpty(gitUserId)) {
             configurator.setGitUserId(gitUserId);
         }
@@ -383,13 +391,17 @@ public class Generate implements Runnable {
             configurator.setStrictSpecBehavior(strictSpecBehavior);
         }
 
-        applySystemPropertiesKvpList(systemProperties, configurator);
+        if (systemProperties != null && !systemProperties.isEmpty()) {
+            System.err.println("[DEPRECATED] -D arguments after 'generate' are application arguments and not Java System Properties, please consider changing to -p, or apply your options to JAVA_OPTS, or move the -D arguments before the jar option.");
+            applySystemPropertiesKvpList(systemProperties, configurator);
+        }
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
+        applyServerVariablesKvpList(serverVariableOverrides, configurator);
 
         try {
             final ClientOptInput clientOptInput = configurator.toClientOptInput();

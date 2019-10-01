@@ -44,6 +44,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     public static final String ROOT_PACKAGE = "rootPackage";
 
     public static final String RX_INTERFACE_OPTION = "rxInterface";
+    public static final String RX_VERSION_2_OPTION = "rxVersion2";
     public static final String VERTX_SWAGGER_ROUTER_VERSION_OPTION = "vertxSwaggerRouterVersion";
 
     /**
@@ -88,6 +89,9 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         cliOptions.add(CliOption.newBoolean(RX_INTERFACE_OPTION,
                 "When specified, API interfaces are generated with RX "
                         + "and methods return Single<> and Comparable."));
+        cliOptions.add(CliOption.newBoolean(RX_VERSION_2_OPTION,
+                "When specified in combination with rxInterface, "
+                        + "API interfaces are generated with RxJava2."));
         cliOptions.add(CliOption.newString(VERTX_SWAGGER_ROUTER_VERSION_OPTION,
                 "Specify the version of the swagger router library"));
 
@@ -217,7 +221,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         super.preprocessOpenAPI(openAPI);
 
         // add server port from the swagger file, 8080 by default
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
 
         // retrieve api version from swagger file, 1.0.0-SNAPSHOT by default

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -25,9 +26,13 @@ import javax.validation.Valid;
 /**
  * CatAllOf
  */
+@JsonPropertyOrder({
+  CatAllOf.JSON_PROPERTY_DECLAWED
+})
 
 public class CatAllOf  implements Serializable {
-  @JsonProperty("declawed")
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
   private Boolean declawed;
 
   public CatAllOf declawed(Boolean declawed) {

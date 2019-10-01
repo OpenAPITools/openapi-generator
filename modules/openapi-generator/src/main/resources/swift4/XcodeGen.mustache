@@ -1,0 +1,17 @@
+name: {{projectName}}
+targets:
+  {{projectName}}:
+    type: framework
+    platform: iOS
+    deploymentTarget: "10.0"
+    sources: [{{projectName}}]
+    info:
+      path: ./Info.plist
+      version: {{#podVersion}}{{podVersion}}{{/podVersion}}{{^podVersion}}{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}{{/podVersion}}
+    settings:
+      APPLICATION_EXTENSION_API_ONLY: true
+    scheme: {}
+    dependencies:
+    - carthage: Alamofire{{#useRxSwift}}
+    - carthage: RxSwift{{/useRxSwift}}{{#usePromiseKit}}
+    - carthage: PromiseKit{{/usePromiseKit}}

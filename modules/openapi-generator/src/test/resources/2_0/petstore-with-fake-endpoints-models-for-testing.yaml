@@ -1041,6 +1041,53 @@ paths:
       responses:
         '200':
           description: Success
+  /fake/test-query-paramters:
+    put:
+      tags:
+        - fake
+      description: 'To test the collection format in query parameters'
+      operationId: testQueryParameterCollectionFormat
+      parameters:
+        - name: pipe
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: pipe
+        - name: ioutil
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: tsv
+        - name: http
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: ssv
+        - name: url
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+        - name: context
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
   '/fake/{petId}/uploadImageWithRequiredFile':
     post:
       tags:
@@ -1356,6 +1403,9 @@ definitions:
         format: password
         maxLength: 64
         minLength: 10
+      BigDecimal:
+        type: string
+        format: number
   EnumClass:
     type: string
     default: '-efg'
@@ -1736,6 +1786,7 @@ definitions:
     required:
       - string_item
       - number_item
+      - float_item
       - integer_item
       - bool_item
       - array_item
@@ -1746,6 +1797,10 @@ definitions:
       number_item:
         type: number
         example: 1.234
+      float_item:
+        type: number
+        example: 1.234
+        format: float
       integer_item:
         type: integer
         example: -2

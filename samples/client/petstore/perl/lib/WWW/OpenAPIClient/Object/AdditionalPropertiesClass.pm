@@ -161,16 +161,79 @@ __PACKAGE__->class_documentation({description => '',
 }                                 );
 
 __PACKAGE__->method_documentation({
-    'map_property' => {
+    'map_string' => {
         datatype => 'HASH[string,string]',
-        base_name => 'map_property',
+        base_name => 'map_string',
         description => '',
         format => '',
         read_only => '',
             },
-    'map_of_map_property' => {
+    'map_number' => {
+        datatype => 'HASH[string,double]',
+        base_name => 'map_number',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'map_integer' => {
+        datatype => 'HASH[string,int]',
+        base_name => 'map_integer',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'map_boolean' => {
+        datatype => 'HASH[string,boolean]',
+        base_name => 'map_boolean',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'map_array_integer' => {
+        datatype => 'HASH[string,ARRAY[int]]',
+        base_name => 'map_array_integer',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'map_array_anytype' => {
+        datatype => 'HASH[string,ARRAY[object]]',
+        base_name => 'map_array_anytype',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'map_map_string' => {
         datatype => 'HASH[string,HASH[string,string]]',
-        base_name => 'map_of_map_property',
+        base_name => 'map_map_string',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'map_map_anytype' => {
+        datatype => 'HASH[string,HASH[string,object]]',
+        base_name => 'map_map_anytype',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'anytype_1' => {
+        datatype => 'object',
+        base_name => 'anytype_1',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'anytype_2' => {
+        datatype => 'object',
+        base_name => 'anytype_2',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'anytype_3' => {
+        datatype => 'object',
+        base_name => 'anytype_3',
         description => '',
         format => '',
         read_only => '',
@@ -178,13 +241,31 @@ __PACKAGE__->method_documentation({
 });
 
 __PACKAGE__->openapi_types( {
-    'map_property' => 'HASH[string,string]',
-    'map_of_map_property' => 'HASH[string,HASH[string,string]]'
+    'map_string' => 'HASH[string,string]',
+    'map_number' => 'HASH[string,double]',
+    'map_integer' => 'HASH[string,int]',
+    'map_boolean' => 'HASH[string,boolean]',
+    'map_array_integer' => 'HASH[string,ARRAY[int]]',
+    'map_array_anytype' => 'HASH[string,ARRAY[object]]',
+    'map_map_string' => 'HASH[string,HASH[string,string]]',
+    'map_map_anytype' => 'HASH[string,HASH[string,object]]',
+    'anytype_1' => 'object',
+    'anytype_2' => 'object',
+    'anytype_3' => 'object'
 } );
 
 __PACKAGE__->attribute_map( {
-    'map_property' => 'map_property',
-    'map_of_map_property' => 'map_of_map_property'
+    'map_string' => 'map_string',
+    'map_number' => 'map_number',
+    'map_integer' => 'map_integer',
+    'map_boolean' => 'map_boolean',
+    'map_array_integer' => 'map_array_integer',
+    'map_array_anytype' => 'map_array_anytype',
+    'map_map_string' => 'map_map_string',
+    'map_map_anytype' => 'map_map_anytype',
+    'anytype_1' => 'anytype_1',
+    'anytype_2' => 'anytype_2',
+    'anytype_3' => 'anytype_3'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

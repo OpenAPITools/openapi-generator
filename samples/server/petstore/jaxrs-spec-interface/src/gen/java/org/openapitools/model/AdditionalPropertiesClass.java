@@ -28,9 +28,9 @@ public class AdditionalPropertiesClass  implements Serializable {
   private @Valid Map<String, List<Object>> mapArrayAnytype = new HashMap<String, List<Object>>();
   private @Valid Map<String, Map<String, String>> mapMapString = new HashMap<String, Map<String, String>>();
   private @Valid Map<String, Map<String, Object>> mapMapAnytype = new HashMap<String, Map<String, Object>>();
-  private @Valid Object anytype1 = null;
-  private @Valid Object anytype2 = null;
-  private @Valid Object anytype3 = null;
+  private @Valid Object anytype1;
+  private @Valid Object anytype2;
+  private @Valid Object anytype3;
 
   /**
    **/

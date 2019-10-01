@@ -49,52 +49,64 @@ sub new {
 
 
 #
-# fake_health_get
+# create_xml_item
 #
-# Health check endpoint
+# creates an XmlItem
 # 
+# @param XmlItem $xml_item XmlItem Body (required)
 {
     my $params = {
+    'xml_item' => {
+        data_type => 'XmlItem',
+        description => 'XmlItem Body',
+        required => '1',
+    },
     };
-    __PACKAGE__->method_documentation->{ 'fake_health_get' } = { 
-        summary => 'Health check endpoint',
+    __PACKAGE__->method_documentation->{ 'create_xml_item' } = { 
+        summary => 'creates an XmlItem',
         params => $params,
-        returns => 'HealthCheckResult',
+        returns => undef,
         };
 }
-# @return HealthCheckResult
+# @return void
 #
-sub fake_health_get {
+sub create_xml_item {
     my ($self, %args) = @_;
 
-    # parse inputs
-    my $_resource_path = '/fake/health';
+    # verify the required parameter 'xml_item' is set
+    unless (exists $args{'xml_item'}) {
+      croak("Missing the required parameter 'xml_item' when calling create_xml_item");
+    }
 
-    my $_method = 'GET';
+    # parse inputs
+    my $_resource_path = '/fake/create_xml_item';
+
+    my $_method = 'POST';
     my $query_params = {};
     my $header_params = {};
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept();
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16');
 
     my $_body_data;
+    # body params
+    if ( exists $args{'xml_item'}) {
+        $_body_data = $args{'xml_item'};
+    }
+
     # authentication setting, if any
     my $auth_settings = [qw()];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+    $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
-    if (!$response) {
-        return;
-    }
-    my $_response_object = $self->{api_client}->deserialize('HealthCheckResult', $response);
-    return $_response_object;
+    return;
 }
 
 #
@@ -135,7 +147,7 @@ sub fake_outer_boolean_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
     my $_body_data;
     # body params
@@ -162,10 +174,10 @@ sub fake_outer_boolean_serialize {
 #
 # 
 # 
-# @param OuterComposite $outer_composite Input composite as post body (optional)
+# @param OuterComposite $body Input composite as post body (optional)
 {
     my $params = {
-    'outer_composite' => {
+    'body' => {
         data_type => 'OuterComposite',
         description => 'Input composite as post body',
         required => '0',
@@ -195,12 +207,12 @@ sub fake_outer_composite_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
     my $_body_data;
     # body params
-    if ( exists $args{'outer_composite'}) {
-        $_body_data = $args{'outer_composite'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -255,7 +267,7 @@ sub fake_outer_number_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
     my $_body_data;
     # body params
@@ -315,7 +327,7 @@ sub fake_outer_string_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
     my $_body_data;
     # body params
@@ -342,10 +354,10 @@ sub fake_outer_string_serialize {
 #
 # 
 # 
-# @param FileSchemaTestClass $file_schema_test_class  (required)
+# @param FileSchemaTestClass $body  (required)
 {
     my $params = {
-    'file_schema_test_class' => {
+    'body' => {
         data_type => 'FileSchemaTestClass',
         description => '',
         required => '1',
@@ -362,9 +374,9 @@ sub fake_outer_string_serialize {
 sub test_body_with_file_schema {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'file_schema_test_class' is set
-    unless (exists $args{'file_schema_test_class'}) {
-      croak("Missing the required parameter 'file_schema_test_class' when calling test_body_with_file_schema");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling test_body_with_file_schema");
     }
 
     # parse inputs
@@ -384,8 +396,8 @@ sub test_body_with_file_schema {
 
     my $_body_data;
     # body params
-    if ( exists $args{'file_schema_test_class'}) {
-        $_body_data = $args{'file_schema_test_class'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -404,7 +416,7 @@ sub test_body_with_file_schema {
 # 
 # 
 # @param string $query  (required)
-# @param User $user  (required)
+# @param User $body  (required)
 {
     my $params = {
     'query' => {
@@ -412,7 +424,7 @@ sub test_body_with_file_schema {
         description => '',
         required => '1',
     },
-    'user' => {
+    'body' => {
         data_type => 'User',
         description => '',
         required => '1',
@@ -434,9 +446,9 @@ sub test_body_with_query_params {
       croak("Missing the required parameter 'query' when calling test_body_with_query_params");
     }
 
-    # verify the required parameter 'user' is set
-    unless (exists $args{'user'}) {
-      croak("Missing the required parameter 'user' when calling test_body_with_query_params");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling test_body_with_query_params");
     }
 
     # parse inputs
@@ -461,8 +473,8 @@ sub test_body_with_query_params {
 
     my $_body_data;
     # body params
-    if ( exists $args{'user'}) {
-        $_body_data = $args{'user'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -480,10 +492,10 @@ sub test_body_with_query_params {
 #
 # To test \"client\" model
 # 
-# @param Client $client client model (required)
+# @param Client $body client model (required)
 {
     my $params = {
-    'client' => {
+    'body' => {
         data_type => 'Client',
         description => 'client model',
         required => '1',
@@ -500,9 +512,9 @@ sub test_body_with_query_params {
 sub test_client_model {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'client' is set
-    unless (exists $args{'client'}) {
-      croak("Missing the required parameter 'client' when calling test_client_model");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling test_client_model");
     }
 
     # parse inputs
@@ -522,8 +534,8 @@ sub test_client_model {
 
     my $_body_data;
     # body params
-    if ( exists $args{'client'}) {
-        $_body_data = $args{'client'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -1010,7 +1022,7 @@ sub test_group_parameters {
 
     my $_body_data;
     # authentication setting, if any
-    my $auth_settings = [qw(bearer_test )];
+    my $auth_settings = [qw()];
 
     # make the API Call
     $self->{api_client}->call_api($_resource_path, $_method,
@@ -1024,10 +1036,10 @@ sub test_group_parameters {
 #
 # test inline additionalProperties
 # 
-# @param HASH[string,string] $request_body request body (required)
+# @param HASH[string,string] $param request body (required)
 {
     my $params = {
-    'request_body' => {
+    'param' => {
         data_type => 'HASH[string,string]',
         description => 'request body',
         required => '1',
@@ -1044,9 +1056,9 @@ sub test_group_parameters {
 sub test_inline_additional_properties {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'request_body' is set
-    unless (exists $args{'request_body'}) {
-      croak("Missing the required parameter 'request_body' when calling test_inline_additional_properties");
+    # verify the required parameter 'param' is set
+    unless (exists $args{'param'}) {
+      croak("Missing the required parameter 'param' when calling test_inline_additional_properties");
     }
 
     # parse inputs
@@ -1066,8 +1078,8 @@ sub test_inline_additional_properties {
 
     my $_body_data;
     # body params
-    if ( exists $args{'request_body'}) {
-        $_body_data = $args{'request_body'};
+    if ( exists $args{'param'}) {
+        $_body_data = $args{'param'};
     }
 
     # authentication setting, if any
@@ -1146,6 +1158,131 @@ sub test_json_form_data {
                 $form_params->{'param2'} = $self->{api_client}->to_form_value($args{'param2'});
     }
     
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
+# test_query_parameter_collection_format
+#
+# 
+# 
+# @param ARRAY[string] $pipe  (required)
+# @param ARRAY[string] $ioutil  (required)
+# @param ARRAY[string] $http  (required)
+# @param ARRAY[string] $url  (required)
+# @param ARRAY[string] $context  (required)
+{
+    my $params = {
+    'pipe' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    'ioutil' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    'http' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    'url' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    'context' => {
+        data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_query_parameter_collection_format' } = { 
+        summary => '',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_query_parameter_collection_format {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'pipe' is set
+    unless (exists $args{'pipe'}) {
+      croak("Missing the required parameter 'pipe' when calling test_query_parameter_collection_format");
+    }
+
+    # verify the required parameter 'ioutil' is set
+    unless (exists $args{'ioutil'}) {
+      croak("Missing the required parameter 'ioutil' when calling test_query_parameter_collection_format");
+    }
+
+    # verify the required parameter 'http' is set
+    unless (exists $args{'http'}) {
+      croak("Missing the required parameter 'http' when calling test_query_parameter_collection_format");
+    }
+
+    # verify the required parameter 'url' is set
+    unless (exists $args{'url'}) {
+      croak("Missing the required parameter 'url' when calling test_query_parameter_collection_format");
+    }
+
+    # verify the required parameter 'context' is set
+    unless (exists $args{'context'}) {
+      croak("Missing the required parameter 'context' when calling test_query_parameter_collection_format");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/test-query-paramters';
+
+    my $_method = 'PUT';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    # query params
+    if ( exists $args{'pipe'}) {
+        $query_params->{'pipe'} = $self->{api_client}->to_query_value($args{'pipe'});
+    }
+
+    # query params
+    if ( exists $args{'ioutil'}) {
+        $query_params->{'ioutil'} = $self->{api_client}->to_query_value($args{'ioutil'});
+    }
+
+    # query params
+    if ( exists $args{'http'}) {
+        $query_params->{'http'} = $self->{api_client}->to_query_value($args{'http'});
+    }
+
+    # query params
+    if ( exists $args{'url'}) {
+        $query_params->{'url'} = $self->{api_client}->to_query_value($args{'url'});
+    }
+
+    # query params
+    if ( exists $args{'context'}) {
+        $query_params->{'context'} = $self->{api_client}->to_query_value($args{'context'});
+    }
+
     my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw()];

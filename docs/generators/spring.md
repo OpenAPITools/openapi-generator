@@ -48,6 +48,7 @@ sidebar_label: spring
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |singleContentTypes|Whether to select only one produces/consumes content-type by operation.| |false|
+|skipDefaultInterface|Whether to generate default implementations for java8 interfaces| |false|
 |async|use async Callable controllers| |false|
 |reactive|wrap responses in Mono/Flux Reactor types (spring-boot only)| |false|
 |responseWrapper|wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)| |null|
@@ -61,4 +62,5 @@ sidebar_label: spring
 |useOptional|Use Optional container for optional parameters| |false|
 |hateoas|Use Spring HATEOAS library to allow adding HATEOAS links| |false|
 |returnSuccessCode|Generated server returns 2xx code| |false|
+|unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application using the SpringFox integration.</dd><dt>**spring-mvc**</dt><dd>Spring-MVC Server application using the SpringFox integration.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dl>|spring-boot|

@@ -27,7 +27,7 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -349,7 +349,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         }
         writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        if (GeneratorProperties.getProperty("noservice") == null) {
+        if (GlobalSettings.getProperty("noservice") == null) {
             apiTemplateFiles.put(
                     "service.mustache",   // the template to use
                     "Service.js");       // the extension for each file to write
@@ -358,7 +358,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String host =  URLPathUtils.getProtocolAndHost(url);
         String port = URLPathUtils.getPort(url, defaultServerPort) ;
         String basePath = url.getPath();

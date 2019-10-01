@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 )
-
+// InlineObject3 struct for InlineObject3
 type InlineObject3 struct {
 	// None
 	Integer int32 `json:"integer,omitempty"`

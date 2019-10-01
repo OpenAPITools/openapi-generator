@@ -43,8 +43,7 @@ func TestOAuth2(t *testing.T) {
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
 	if err != nil {
-		t.Errorf("Error while adding pet")
-		t.Log(err)
+		t.Fatalf("Error while adding pet: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -53,8 +52,7 @@ func TestOAuth2(t *testing.T) {
 	r, err = client.PetApi.DeletePet(auth, 12992, nil)
 
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -79,8 +77,7 @@ func TestBasicAuth(t *testing.T) {
 	r, err := client.PetApi.AddPet(auth, newPet)
 
 	if err != nil {
-		t.Errorf("Error while adding pet")
-		t.Log(err)
+		t.Fatalf("Error while adding pet: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -89,8 +86,7 @@ func TestBasicAuth(t *testing.T) {
 	r, err = client.PetApi.DeletePet(auth, 12992, nil)
 
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -110,8 +106,7 @@ func TestAccessToken(t *testing.T) {
 	r, err := client.PetApi.AddPet(nil, newPet)
 
 	if err != nil {
-		t.Errorf("Error while adding pet")
-		t.Log(err)
+		t.Fatalf("Error while adding pet: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -120,8 +115,7 @@ func TestAccessToken(t *testing.T) {
 	r, err = client.PetApi.DeletePet(auth, 12992, nil)
 
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -141,8 +135,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
 	if err != nil {
-		t.Errorf("Error while adding pet")
-		t.Log(err)
+		t.Fatalf("Error while adding pet: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -150,8 +143,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 
 	_, r, err = client.PetApi.GetPetById(auth, 12992)
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 
 	reqb, _ := httputil.DumpRequest(r.Request, true)
@@ -161,8 +153,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 
 	r, err = client.PetApi.DeletePet(auth, 12992, nil)
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -178,8 +169,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 	r, err := client.PetApi.AddPet(nil, newPet)
 
 	if err != nil {
-		t.Errorf("Error while adding pet")
-		t.Log(err)
+		t.Fatalf("Error while adding pet: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -187,8 +177,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 
 	_, r, err = client.PetApi.GetPetById(auth, 12992)
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 
 	reqb, _ := httputil.DumpRequest(r.Request, true)
@@ -198,8 +187,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 
 	r, err = client.PetApi.DeletePet(auth, 12992, nil)
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -214,8 +202,7 @@ func TestDefaultHeader(t *testing.T) {
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
 	if err != nil {
-		t.Errorf("Error while adding pet")
-		t.Log(err)
+		t.Fatalf("Error while adding pet: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -224,8 +211,7 @@ func TestDefaultHeader(t *testing.T) {
 	r, err = client.PetApi.DeletePet(context.Background(), 12992, nil)
 
 	if err != nil {
-		t.Errorf("Error while deleting pet by id")
-		t.Log(err)
+		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)
@@ -240,12 +226,23 @@ func TestHostOverride(t *testing.T) {
 	_, r, err := client.PetApi.FindPetsByStatus(context.Background(), nil)
 
 	if err != nil {
-		t.Errorf("Error while finding pets by status")
-		t.Log(err)
+		t.Fatalf("Error while finding pets by status: %v", err)
 	}
 
-	if r.Request.Host != testHost {
+	if r.Request.URL.Host != testHost {
 		t.Errorf("Request Host is %v, expected %v", r.Request.Host, testHost)
+	}
+}
+
+func TestSchemeOverride(t *testing.T) {
+	_, r, err := client.PetApi.FindPetsByStatus(context.Background(), nil)
+
+	if err != nil {
+		t.Fatalf("Error while finding pets by status: %v", err)
+	}
+
+	if r.Request.URL.Scheme != testScheme {
+		t.Errorf("Request Scheme is %v, expected %v", r.Request.URL.Scheme, testScheme)
 	}
 }
 

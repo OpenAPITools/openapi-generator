@@ -75,7 +75,7 @@ let body = [User(id: 123, username: "username_example", firstName: "firstName_ex
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md) | List of user object | 
+ **body** | [**[User]**](User.md) | List of user object | 
 
 ### Return type
 
@@ -113,7 +113,7 @@ let body = [User(id: 123, username: "username_example", firstName: "firstName_ex
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md) | List of user object | 
+ **body** | [**[User]**](User.md) | List of user object | 
 
 ### Return type
 

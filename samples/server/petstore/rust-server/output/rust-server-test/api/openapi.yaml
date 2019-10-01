@@ -127,10 +127,10 @@ components:
       type: object
     ObjectOfObjects_inner:
       properties:
-        optional_thing:
-          type: integer
         required_thing:
           type: string
+        optional_thing:
+          type: integer
       required:
       - required_thing
 

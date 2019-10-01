@@ -60,16 +60,16 @@ namespace {{packageName}}
 
             // Add framework services.
             services
-                .AddMvc()
+                .AddMvc({{^useDefaultRouting}}opts => opts.EnableEndpointRouting = false{{/useDefaultRouting}})
                 {{#compatibilityVersion}}
                 .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
                 {{/compatibilityVersion}}
-                .AddJsonOptions(opts =>
+                .{{#useNewtonsoft}}AddNewtonsoftJson{{/useNewtonsoft}}{{^useNewtonsoft}}AddJsonOptions{{/useNewtonsoft}}(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter
                     {
-                        CamelCaseText = true
+                        {{#useNewtonsoft}}NamingStrategy = new CamelCaseNamingStrategy(){{/useNewtonsoft}}{{^useNewtonsoft}}CamelCaseText = true{{/useNewtonsoft}}
                     });
                 });
             {{#useSwashbuckle}}
@@ -127,7 +127,12 @@ namespace {{packageName}}
 
                     //TODO: Or alternatively use the original Swagger contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
-                }){{/useSwashbuckle}};
+                }){{/useSwashbuckle}};{{^useDefaultRouting}}
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+	            {
+	    	        endpoints.MapControllers();
+	            });{{/useDefaultRouting}}
 
             if (env.IsDevelopment())
             {

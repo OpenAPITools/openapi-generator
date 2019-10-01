@@ -44,9 +44,9 @@ library
     , deepseq >= 1.4 && <1.6
     , exceptions >= 0.4
     , http-api-data >= 0.3.4 && <0.5
-    , http-client >=0.5 && <0.6
+    , http-client >=0.5 && <0.7
     , http-client-tls
-    , http-media >= 0.4 && < 0.8
+    , http-media >= 0.4 && < 0.9
     , http-types >=0.8 && <0.13
     , iso8601-time >=0.1.3 && <0.2.0
     , microlens >= 0.4.3 && <0.5

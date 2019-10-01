@@ -12,11 +12,10 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
-import { Http, Headers, URLSearchParams }                    from '@angular/http';
-import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
-import { Response, ResponseContentType }                     from '@angular/http';
+import { Http, Headers, URLSearchParams,
+        RequestMethod, RequestOptions, RequestOptionsArgs,
+        Response, ResponseContentType, QueryEncoder }        from '@angular/http';
 import { CustomQueryEncoderHelper }                          from '../encoder';
-
 import { Observable }                                        from 'rxjs/Observable';
 import '../rxjs-operators';
 
@@ -34,16 +33,19 @@ export class PetService implements PetServiceInterface {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders = new Headers();
     public configuration = new Configuration();
+    public encoder: QueryEncoder;
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
         }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
+        }
+        this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
     }
 
     /**
@@ -196,7 +198,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Add a new pet to the store
-     * 
      * @param body Pet object that needs to be added to the store
      
      */
@@ -222,6 +223,7 @@ export class PetService implements PetServiceInterface {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -249,7 +251,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Deletes a pet
-     * 
      * @param petId Pet id to delete
      * @param apiKey 
      
@@ -280,9 +281,6 @@ export class PetService implements PetServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -308,7 +306,7 @@ export class PetService implements PetServiceInterface {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
 
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
+        let queryParameters = new URLSearchParams('', this.encoder);
         if (status) {
             queryParameters.set('status', status.join(COLLECTION_FORMATS['csv']));
         }
@@ -333,9 +331,6 @@ export class PetService implements PetServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -362,7 +357,7 @@ export class PetService implements PetServiceInterface {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
 
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
+        let queryParameters = new URLSearchParams('', this.encoder);
         if (tags) {
             queryParameters.set('tags', tags.join(COLLECTION_FORMATS['csv']));
         }
@@ -387,9 +382,6 @@ export class PetService implements PetServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -433,9 +425,6 @@ export class PetService implements PetServiceInterface {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -452,7 +441,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Update an existing pet
-     * 
      * @param body Pet object that needs to be added to the store
      
      */
@@ -478,6 +466,7 @@ export class PetService implements PetServiceInterface {
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -505,7 +494,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Updates a pet in the store with form data
-     * 
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -549,7 +537,7 @@ export class PetService implements PetServiceInterface {
         } else {
             // TODO: this fails if a parameter is a file, the api can't consume "multipart/form-data" and a blob is passed.
             convertFormParamsToString = true;
-            formParams = new URLSearchParams('', new CustomQueryEncoderHelper());
+            formParams = new URLSearchParams('', this.encoder);
             // set the content-type explicitly to avoid having it set to 'text/plain'
             headers.set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
         }
@@ -577,7 +565,6 @@ export class PetService implements PetServiceInterface {
 
     /**
      * uploads an image
-     * 
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
@@ -625,7 +612,7 @@ export class PetService implements PetServiceInterface {
         } else {
             // TODO: this fails if a parameter is a file, the api can't consume "multipart/form-data" and a blob is passed.
             convertFormParamsToString = true;
-            formParams = new URLSearchParams('', new CustomQueryEncoderHelper());
+            formParams = new URLSearchParams('', this.encoder);
             // set the content-type explicitly to avoid having it set to 'text/plain'
             headers.set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
         }

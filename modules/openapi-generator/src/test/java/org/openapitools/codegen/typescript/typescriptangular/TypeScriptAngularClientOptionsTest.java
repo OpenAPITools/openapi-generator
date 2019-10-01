@@ -48,6 +48,8 @@ public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSupportsES6(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SUPPORTS_ES6_VALUE));
             times = 1;
+            clientCodegen.setStringEnums(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.STRING_ENUMS_VALUE));
+            times = 1;
             clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
             times = 1;
         }};

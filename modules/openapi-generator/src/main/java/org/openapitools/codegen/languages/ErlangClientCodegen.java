@@ -128,7 +128,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             if (languageSpecificPrimitives.contains(type))
                 return (type);
         } else
-            type = getTypeDeclaration(toModelName(snakeCase(schemaType)));
+            type = getTypeDeclaration(toModelName(lowerCamelCase(schemaType)));
         return type;
     }
 

@@ -726,6 +726,7 @@ paths:
               properties:
                 integer:
                   description: None
+                  format: int32
                   maximum: 100
                   minimum: 10
                   type: integer

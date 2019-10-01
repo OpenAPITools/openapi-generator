@@ -22,9 +22,8 @@ extension ObservableType {
     }
 }
 
-final fileprivate class TakeWhileSink<O: ObserverType>
-    : Sink<O>
-    , ObserverType {
+final private class TakeWhileSink<O: ObserverType>
+    : Sink<O>, ObserverType {
     typealias Element = O.E
     typealias Parent = TakeWhile<Element>
 
@@ -36,14 +35,14 @@ final fileprivate class TakeWhileSink<O: ObserverType>
         _parent = parent
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<Element>) {
         switch event {
         case .next(let value):
             if !_running {
                 return
             }
-            
+
             do {
                 _running = try _parent._predicate(value)
             } catch let e {
@@ -51,7 +50,7 @@ final fileprivate class TakeWhileSink<O: ObserverType>
                 dispose()
                 return
             }
-            
+
             if _running {
                 forwardOn(.next(value))
             } else {
@@ -63,10 +62,10 @@ final fileprivate class TakeWhileSink<O: ObserverType>
             dispose()
         }
     }
-    
+
 }
 
-final fileprivate class TakeWhile<Element>: Producer<Element> {
+final private class TakeWhile<Element>: Producer<Element> {
     typealias Predicate = (Element) throws -> Bool
 
     fileprivate let _source: Observable<Element>
@@ -77,7 +76,7 @@ final fileprivate class TakeWhile<Element>: Producer<Element> {
         _predicate = predicate
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = TakeWhileSink(parent: self, observer: observer, cancel: cancel)
         let subscription = _source.subscribe(sink)
         return (sink: sink, subscription: subscription)

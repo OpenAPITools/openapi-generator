@@ -20,24 +20,37 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * Order
  */
+@JsonPropertyOrder({
+  Order.JSON_PROPERTY_ID,
+  Order.JSON_PROPERTY_PET_ID,
+  Order.JSON_PROPERTY_QUANTITY,
+  Order.JSON_PROPERTY_SHIP_DATE,
+  Order.JSON_PROPERTY_STATUS,
+  Order.JSON_PROPERTY_COMPLETE
+})
 
 public class Order   {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   private Long id;
 
-  @JsonProperty("petId")
+  public static final String JSON_PROPERTY_PET_ID = "petId";
+  @JsonProperty(JSON_PROPERTY_PET_ID)
   private Long petId;
 
-  @JsonProperty("quantity")
+  public static final String JSON_PROPERTY_QUANTITY = "quantity";
+  @JsonProperty(JSON_PROPERTY_QUANTITY)
   private Integer quantity;
 
-  @JsonProperty("shipDate")
+  public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
+  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   private Date shipDate;
 
   /**
@@ -73,10 +86,12 @@ public class Order   {
     }
   }
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @JsonProperty(JSON_PROPERTY_STATUS)
   private StatusEnum status;
 
-  @JsonProperty("complete")
+  public static final String JSON_PROPERTY_COMPLETE = "complete";
+  @JsonProperty(JSON_PROPERTY_COMPLETE)
   private Boolean complete = false;
 
   public Order id(Long id) {

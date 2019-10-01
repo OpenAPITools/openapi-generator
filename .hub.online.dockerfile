@@ -28,7 +28,7 @@ WORKDIR ${TARGET_DIR}
 
 COPY --from=builder ${GEN_DIR}/modules/openapi-generator-online/target/openapi-generator-online.jar ${TARGET_DIR}/openapi-generator-online.jar
 
-ENV GENERATOR_HOST=http://localhost
+ENV GENERATOR_HOST=""
 
 EXPOSE 8080
 

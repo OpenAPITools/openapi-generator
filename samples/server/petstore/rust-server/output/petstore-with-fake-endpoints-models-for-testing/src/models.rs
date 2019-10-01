@@ -1,6 +1,5 @@
 #![allow(unused_imports, unused_qualifications, unused_extern_crates)]
 extern crate chrono;
-extern crate uuid;
 
 use serde_xml_rs;
 use serde::ser::Serializer;
@@ -9,10 +8,11 @@ use std::collections::{HashMap, BTreeMap};
 use models;
 use swagger;
 use std::string::ParseError;
-
+use uuid;
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -43,6 +43,7 @@ impl AdditionalPropertiesClass {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
     pub class_name: String,
@@ -72,6 +73,7 @@ impl Animal {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct AnimalFarm(Vec<Animal>);
 
 impl ::std::convert::From<Vec<Animal>> for AnimalFarm {
@@ -143,6 +145,7 @@ impl AnimalFarm {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -178,6 +181,7 @@ impl ApiResponse {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -203,6 +207,7 @@ impl ArrayOfArrayOfNumberOnly {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -228,6 +233,7 @@ impl ArrayOfNumberOnly {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -269,6 +275,7 @@ impl ArrayTest {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -320,6 +327,7 @@ impl Capitalization {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
     pub class_name: String,
@@ -354,6 +362,7 @@ impl Cat {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct CatAllOf {
     #[serde(rename = "declawed")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -379,6 +388,7 @@ impl CatAllOf {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "Category")]
 pub struct Category {
     #[serde(rename = "id")]
@@ -411,6 +421,7 @@ impl Category {
 
 /// Model for testing model with \"_class\" property
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -436,6 +447,7 @@ impl ClassModel {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -461,6 +473,7 @@ impl Client {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
     pub class_name: String,
@@ -495,6 +508,7 @@ impl Dog {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct DogAllOf {
     #[serde(rename = "breed")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -520,6 +534,7 @@ impl DogAllOf {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct EnumArrays {
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "just_symbol")]
@@ -562,7 +577,8 @@ impl EnumArrays {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGenericEnum))]
 pub enum EnumClass { 
     #[serde(rename = "_abc")]
     _ABC,
@@ -604,6 +620,7 @@ impl EnumClass {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct EnumTest {
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_string")]
@@ -652,6 +669,7 @@ impl EnumTest {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -733,6 +751,7 @@ impl FormatTest {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -763,6 +782,7 @@ impl HasOnlyReadOnly {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -788,6 +808,7 @@ impl List {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -825,6 +846,7 @@ impl MapTest {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -861,6 +883,7 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 
 /// Model for testing model name starting with number
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Model200Response {
     #[serde(rename = "name")]
@@ -893,6 +916,7 @@ impl Model200Response {
 
 /// Model for testing reserved words
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "Return")]
 pub struct ModelReturn {
     #[serde(rename = "return")]
@@ -920,6 +944,7 @@ impl ModelReturn {
 
 /// Model for testing model name same as property name
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Name {
     #[serde(rename = "name")]
@@ -960,6 +985,7 @@ impl Name {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -985,6 +1011,7 @@ impl NumberOnly {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "Order")]
 pub struct Order {
     #[serde(rename = "id")]
@@ -1038,7 +1065,7 @@ impl Order {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct OuterBoolean(bool);
 
 impl ::std::convert::From<bool> for OuterBoolean {
@@ -1078,6 +1105,7 @@ impl OuterBoolean {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -1117,7 +1145,8 @@ impl OuterComposite {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGenericEnum))]
 pub enum OuterEnum { 
     #[serde(rename = "placed")]
     PLACED,
@@ -1159,7 +1188,7 @@ impl OuterEnum {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct OuterNumber(f64);
 
 impl ::std::convert::From<f64> for OuterNumber {
@@ -1199,7 +1228,7 @@ impl OuterNumber {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct OuterString(String);
 
 impl ::std::convert::From<String> for OuterString {
@@ -1245,6 +1274,7 @@ impl OuterString {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "Pet")]
 pub struct Pet {
     #[serde(rename = "id")]
@@ -1296,6 +1326,7 @@ impl Pet {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -1326,6 +1357,7 @@ impl ReadOnlyFirst {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "$special[model.name]")]
 pub struct SpecialModelName {
     #[serde(rename = "$special[property.name]")]
@@ -1352,6 +1384,7 @@ impl SpecialModelName {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "Tag")]
 pub struct Tag {
     #[serde(rename = "id")]
@@ -1383,6 +1416,7 @@ impl Tag {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
     #[serde(rename = "id")]

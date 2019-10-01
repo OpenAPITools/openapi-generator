@@ -1,0 +1,76 @@
+    def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
+        """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
+{{#vars}}{{#-first}}
+{{/-first}}
+        self._{{name}} = None
+{{/vars}}
+        self.discriminator = {{#discriminator}}'{{{discriminatorName}}}'{{/discriminator}}{{^discriminator}}None{{/discriminator}}
+{{#vars}}{{#-first}}
+{{/-first}}
+{{#required}}
+        self.{{name}} = {{name}}
+{{/required}}
+{{^required}}
+{{#isNullable}}
+        self.{{name}} = {{name}}
+{{/isNullable}}
+{{^isNullable}}
+        if {{name}} is not None:
+            self.{{name}} = (
+                {{name}}
+            )
+{{/isNullable}}
+{{/required}}
+{{/vars}}
+{{#vars}}
+
+    @property
+    def {{name}}(self):
+        """Gets the {{name}} of this {{classname}}.  # noqa: E501
+
+{{#description}}
+        {{{description}}}  # noqa: E501
+{{/description}}
+
+        :return: The {{name}} of this {{classname}}.  # noqa: E501
+        :rtype: {{dataType}}
+        """
+        return self._{{name}}
+
+    @{{name}}.setter
+    def {{name}}(self, {{name}}):  # noqa: E501
+        """Sets the {{name}} of this {{classname}}.
+
+{{#description}}
+        {{{description}}}  # noqa: E501
+{{/description}}
+
+        :param {{name}}: The {{name}} of this {{classname}}.  # noqa: E501
+        :type: {{dataType}}
+        """
+{{^isNullable}}
+{{#required}}
+        if {{name}} is None:
+            raise ApiValueError("Invalid value for `{{name}}`, must not be `None`")  # noqa: E501
+{{/required}}
+{{/isNullable}}
+{{#isEnum}}
+        check_allowed_values(
+            self.allowed_values,
+            ('{{name}}',),
+            {{name}},
+            self.validations
+        )
+{{/isEnum}}
+{{#hasValidation}}
+        check_validations(
+            self.validations,
+            ('{{name}}',),
+            {{name}}
+        )
+{{/hasValidation}}
+
+        self._{{name}} = (
+            {{name}}
+        )
+{{/vars}}

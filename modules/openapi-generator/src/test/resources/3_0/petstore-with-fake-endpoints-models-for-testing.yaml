@@ -989,6 +989,57 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
+  /fake/test-query-paramters:
+    put:
+      tags:
+        - fake
+      description: To test the collection format in query parameters
+      operationId: testQueryParameterCollectionFormat
+      parameters:
+        - name: pipe
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ioutil
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: http
+          in: query
+          required: true
+          style: spaceDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: url
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: context
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Success
   '/fake/{petId}/uploadImageWithRequiredFile':
     post:
       tags:
@@ -1580,6 +1631,7 @@ components:
               - fish
               - crab
     OuterEnum:
+      nullable: true
       type: string
       enum:
         - placed

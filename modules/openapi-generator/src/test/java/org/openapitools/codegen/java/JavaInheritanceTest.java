@@ -32,9 +32,10 @@ import org.testng.annotations.Test;
 
 public class JavaInheritanceTest {
 
-    @Test(description = "convert a composed model without discriminator")
+
+    @Test(description = "convert a composed model with parent")
     public void javaInheritanceTest() {
-        final Schema allOfModel = new Schema().name("Base");
+        final Schema parentModel = new Schema().name("Base");
 
         final Schema schema = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref("Base"))
@@ -42,7 +43,7 @@ public class JavaInheritanceTest {
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.setComponents(new Components()
-                .addSchemas(allOfModel.getName(), allOfModel)
+                .addSchemas(parentModel.getName(),parentModel)
                 .addSchemas(schema.getName(), schema)
         );
 
@@ -52,7 +53,7 @@ public class JavaInheritanceTest {
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.parent, null);
+        Assert.assertEquals(cm.parent, "Base");
         Assert.assertEquals(cm.imports, Sets.newHashSet("Base"));
     }
 

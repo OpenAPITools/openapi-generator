@@ -487,6 +487,11 @@ formatTestPasswordL :: Lens_' FormatTest (Text)
 formatTestPasswordL f FormatTest{..} = (\formatTestPassword -> FormatTest { formatTestPassword, ..} ) <$> f formatTestPassword
 {-# INLINE formatTestPasswordL #-}
 
+-- | 'formatTestBigDecimal' Lens
+formatTestBigDecimalL :: Lens_' FormatTest (Maybe Double)
+formatTestBigDecimalL f FormatTest{..} = (\formatTestBigDecimal -> FormatTest { formatTestBigDecimal, ..} ) <$> f formatTestBigDecimal
+{-# INLINE formatTestBigDecimalL #-}
+
 
 
 -- * HasOnlyReadOnly
@@ -779,6 +784,11 @@ typeHolderExampleStringItemL f TypeHolderExample{..} = (\typeHolderExampleString
 typeHolderExampleNumberItemL :: Lens_' TypeHolderExample (Double)
 typeHolderExampleNumberItemL f TypeHolderExample{..} = (\typeHolderExampleNumberItem -> TypeHolderExample { typeHolderExampleNumberItem, ..} ) <$> f typeHolderExampleNumberItem
 {-# INLINE typeHolderExampleNumberItemL #-}
+
+-- | 'typeHolderExampleFloatItem' Lens
+typeHolderExampleFloatItemL :: Lens_' TypeHolderExample (Float)
+typeHolderExampleFloatItemL f TypeHolderExample{..} = (\typeHolderExampleFloatItem -> TypeHolderExample { typeHolderExampleFloatItem, ..} ) <$> f typeHolderExampleFloatItem
+{-# INLINE typeHolderExampleFloatItemL #-}
 
 -- | 'typeHolderExampleIntegerItem' Lens
 typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample (Int)

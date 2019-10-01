@@ -170,17 +170,17 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                        <configuration>
-                            <tags>
-                                <tag>
-                                    <name>http.response.details</name>
-                                    <placement>a</placement>
-                                    <head>Http Response Details:</head>
-                                </tag>
-                 	        </tags>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>http.response.details</name>
+                            <placement>a</placement>
+                            <head>Http Response Details:</head>
+                        </tag>
+                    </tags>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -229,12 +229,26 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
 
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        
         <!-- HTTP client: jersey-client -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+        {{^supportJava6}}
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        {{/supportJava6}}
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>
@@ -261,6 +275,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
         </dependency>
         {{#withXml}}
 
@@ -341,8 +360,9 @@
         <commons_io_version>2.5</commons_io_version>
         <commons_lang3_version>3.6</commons_lang3_version>
         {{/supportJava6}}
-        <jackson-version>2.9.9</jackson-version>
-        <jackson-databind-version>2.9.9</jackson-databind-version>
+        <jackson-version>2.9.10</jackson-version>
+        <jackson-databind-version>2.9.10</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         {{#threetenbp}}
         <threetenbp-version>2.6.4</threetenbp-version>
         {{/threetenbp}}

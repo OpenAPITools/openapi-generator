@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// Foo struct for Foo
 type Foo struct {
 	Bar string `json:"bar,omitempty"`
 }

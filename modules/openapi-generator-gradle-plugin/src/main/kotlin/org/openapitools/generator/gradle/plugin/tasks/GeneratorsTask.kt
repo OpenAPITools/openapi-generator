@@ -17,9 +17,11 @@
 package org.openapitools.generator.gradle.plugin.tasks
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
+import org.gradle.kotlin.dsl.listProperty
 import org.openapitools.codegen.CodegenConfigLoader
 import org.openapitools.codegen.CodegenType
 import org.openapitools.codegen.meta.GeneratorMetadata
@@ -35,6 +37,12 @@ import org.openapitools.codegen.meta.Stability
  * @author Jim Schubert
  */
 open class GeneratorsTask : DefaultTask() {
+    /**
+     * A list of stability indexes to include (value: all,beta,stable,experimental,deprecated). Excludes deprecated by default.
+     */
+    @get:Internal
+    val include = project.objects.listProperty<String>()
+
     @Suppress("unused")
     @TaskAction
     fun doWork() {
@@ -44,6 +52,15 @@ open class GeneratorsTask : DefaultTask() {
 
         StringBuilder().apply {
             val types = CodegenType.values()
+
+            val stabilities = if (include.isPresent) {
+                when {
+                    include.get().contains("all") -> Stability.values().toList()
+                    else -> include.get().map { Stability.forDescription(it) }
+                }
+            } else {
+                Stability.values().filterNot { it == Stability.DEPRECATED }
+            }
 
             append("The following generators are available:")
 
@@ -56,21 +73,23 @@ open class GeneratorsTask : DefaultTask() {
 
                 generators.filter { it.tag == type }
                         .sortedBy { it.name }
-                        .forEach({ generator ->
+                        .forEach { generator ->
 
                             val meta: GeneratorMetadata? = generator.generatorMetadata
+                            val include = stabilities.contains(meta?.stability)
+                            if (include) {
+                                append("    - ")
+                                append(generator.name)
 
-                            append("    - ")
-                            append(generator.name)
-
-                            meta?.stability?.let {
-                                if (it != Stability.STABLE) {
-                                    append(" (${it.value()})")
+                                meta?.stability?.let {
+                                    if (it != Stability.STABLE) {
+                                        append(" (${it.value()})")
+                                    }
                                 }
-                            }
 
-                            append(System.lineSeparator())
-                        })
+                                append(System.lineSeparator())
+                            }
+                        }
 
                 append(System.lineSeparator())
                 append(System.lineSeparator())

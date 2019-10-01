@@ -23,7 +23,7 @@ using namespace org::openapitools::server::model;
 
 StoreApi::StoreApi(std::shared_ptr<Pistache::Rest::Router> rtr) { 
     router = rtr;
-};
+}
 
 void StoreApi::init() {
     setupRoutes();
@@ -51,14 +51,14 @@ void StoreApi::delete_order_handler(const Pistache::Rest::Request &request, Pist
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
     }
 
 }
-void StoreApi::get_inventory_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void StoreApi::get_inventory_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
 
     try {
       this->get_inventory(response);
@@ -66,7 +66,7 @@ void StoreApi::get_inventory_handler(const Pistache::Rest::Request &request, Pis
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -83,7 +83,7 @@ void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request &request, P
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -103,7 +103,7 @@ void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pista
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
         return;
@@ -111,7 +111,7 @@ void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pista
 
 }
 
-void StoreApi::store_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void StoreApi::store_api_default_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
     response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 

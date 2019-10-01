@@ -354,6 +354,7 @@ genFormatTest n =
     <*> arbitraryReducedMaybe n -- formatTestDateTime :: Maybe DateTime
     <*> arbitraryReducedMaybe n -- formatTestUuid :: Maybe Text
     <*> arbitrary -- formatTestPassword :: Text
+    <*> arbitraryReducedMaybe n -- formatTestBigDecimal :: Maybe Double
   
 instance Arbitrary HasOnlyReadOnly where
   arbitrary = sized genHasOnlyReadOnly
@@ -511,6 +512,7 @@ genTypeHolderExample n =
   TypeHolderExample
     <$> arbitrary -- typeHolderExampleStringItem :: Text
     <*> arbitrary -- typeHolderExampleNumberItem :: Double
+    <*> arbitrary -- typeHolderExampleFloatItem :: Float
     <*> arbitrary -- typeHolderExampleIntegerItem :: Int
     <*> arbitrary -- typeHolderExampleBoolItem :: Bool
     <*> arbitrary -- typeHolderExampleArrayItem :: [Int]
