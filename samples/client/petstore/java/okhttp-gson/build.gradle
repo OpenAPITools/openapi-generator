@@ -99,6 +99,7 @@ if(hasProperty('target') && target == 'android') {
 
 dependencies {
     compile 'io.swagger:swagger-annotations:1.5.22'
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile 'com.squareup.okhttp3:okhttp:3.14.2'
     compile 'com.squareup.okhttp3:logging-interceptor:3.14.2'
     compile 'com.google.code.gson:gson:2.8.5'
@@ -107,4 +108,8 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
     compile 'org.threeten:threetenbp:1.3.5'
     testCompile 'junit:junit:4.12'
+}
+
+javadoc {
+    options.tags = [ "http.response.details:a:Http Response Details" ]
 }

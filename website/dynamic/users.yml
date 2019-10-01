@@ -54,6 +54,16 @@
   infoLink: "https://www.klarna.com/us/"
   pinned: false
 -
+  caption: "Kurusugawa Computer Inc."
+  image: "img/companies/kurusugawa.png"
+  infoLink: "https://www.kurusugawa.jp/"
+  pinned: false
+-
+  caption: M3, Inc.
+  image: "img/companies/m3.png"
+  infoLink: "https://jobs.m3.com/engineer/"
+  pinned: false
+-
   caption: Metaswitch
   image: "img/companies/metaswitch.svg"
   infoLink: "https://www.metaswitch.com/"
@@ -112,6 +122,11 @@
   caption: "unblu inc."
   image: "img/companies/unblu.svg"
   infoLink: "https://www.unblu.com/"
+  pinned: true
+-
+  caption: WSO2
+  image: "img/companies/wso2.png"
+  infoLink: "https://wso2.com/"
   pinned: true
 -
   caption: Xero

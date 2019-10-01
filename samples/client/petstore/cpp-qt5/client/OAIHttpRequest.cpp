@@ -10,12 +10,17 @@
  * Do not edit the class manually.
  */
 
-#include "OAIHttpRequest.h"
+
+
 #include <QDateTime>
+#include <QDir>
+#include <QUuid>
 #include <QUrl>
 #include <QFileInfo>
 #include <QBuffer>
 #include <QtGlobal>
+
+#include "OAIHttpRequest.h"
 
 
 namespace OpenAPI {
@@ -41,7 +46,7 @@ void OAIHttpRequestInput::add_var(QString key, QString value) {
 }
 
 void OAIHttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
-    OAIHttpRequestInputFileElement file;
+    OAIHttpFileElement file;
     file.variable_name = variable_name;
     file.local_filename = local_filename;
     file.request_filename = request_filename;
@@ -54,17 +59,63 @@ OAIHttpRequestWorker::OAIHttpRequestWorker(QObject *parent)
     : QObject(parent), manager(nullptr)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
-
+    timeout = 0;
+    timer = new QTimer();
     manager = new QNetworkAccessManager(this);
+    workingDirectory = QDir::currentPath();    
     connect(manager, &QNetworkAccessManager::finished, this, &OAIHttpRequestWorker::on_manager_finished);
 }
 
 OAIHttpRequestWorker::~OAIHttpRequestWorker() {
+    if(timer != nullptr){
+        if(timer->isActive()){
+            timer->stop();
+        }
+        timer->deleteLater();
+    }
+    for (const auto & item: multiPartFields) {
+        if(item != nullptr) {
+            delete item;
+        }
+    }  
 }
 
-QMap<QByteArray, QByteArray> OAIHttpRequestWorker::getResponseHeaders() const {
+QMap<QString, QString> OAIHttpRequestWorker::getResponseHeaders() const {
     return headers;
 }
+
+OAIHttpFileElement OAIHttpRequestWorker::getHttpFileElement(const QString &fieldname){
+    if(!files.isEmpty()){
+        if(fieldname.isEmpty()){
+            return files.first();
+        }else if (files.contains(fieldname)){
+            return files[fieldname];
+        }
+    }
+    return OAIHttpFileElement();
+}
+
+QByteArray *OAIHttpRequestWorker::getMultiPartField(const QString &fieldname){
+    if(!multiPartFields.isEmpty()){
+        if(fieldname.isEmpty()){
+            return multiPartFields.first();
+        }else if (multiPartFields.contains(fieldname)){
+            return multiPartFields[fieldname];
+        }
+    }
+    return nullptr;
+}
+
+void OAIHttpRequestWorker::setTimeOut(int tout){
+    timeout = tout;
+}
+
+void OAIHttpRequestWorker::setWorkingDirectory(const QString &path){
+    if(!path.isEmpty()){
+        workingDirectory = path;
+    }
+}
+
 
 QString OAIHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
     // result structure follows RFC 5987
@@ -117,7 +168,7 @@ QString OAIHttpRequestWorker::http_attribute_encode(QString attribute_name, QStr
 void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
 
     // reset variables
-
+    QNetworkReply* reply = nullptr;
     QByteArray request_content = "";
     response = "";
     error_type = QNetworkReply::NoError;
@@ -194,7 +245,7 @@ void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
         }
 
         // add files
-        for (QList<OAIHttpRequestInputFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
+        for (QList<OAIHttpFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
             QFileInfo fi(file_info->local_filename);
 
             // ensure necessary variables are available
@@ -274,8 +325,13 @@ void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
         request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str());
     }
 
-    if (request_content.size() > 0 && !isFormData) {
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    if (request_content.size() > 0 && !isFormData && (input->var_layout != MULTIPART)) {
+        if(!input->headers.contains("Content-Type")){
+            request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        }
+        else {
+            request.setHeader(QNetworkRequest::ContentTypeHeader, input->headers.value("Content-Type"));
+        }
     }
     else if (input->var_layout == URL_ENCODED) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -285,19 +341,19 @@ void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
     }
 
     if (input->http_method == "GET") {
-        manager->get(request);
+        reply = manager->get(request);
     }
     else if (input->http_method == "POST") {
-        manager->post(request, request_content);
+        reply = manager->post(request, request_content);
     }
     else if (input->http_method == "PUT") {
-        manager->put(request, request_content);
+        reply = manager->put(request, request_content);
     }
     else if (input->http_method == "HEAD") {
-        manager->head(request);
+        reply = manager->head(request);
     }
     else if (input->http_method == "DELETE") {
-        manager->deleteResource(request);
+        reply = manager->deleteResource(request);
     }
     else {
 #if (QT_VERSION >= 0x050800)
@@ -307,11 +363,16 @@ void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
         buffer->setData(request_content);
         buffer->open(QIODevice::ReadOnly);
 
-        QNetworkReply* reply = manager->sendCustomRequest(request, input->http_method.toLatin1(), buffer);
+        reply = manager->sendCustomRequest(request, input->http_method.toLatin1(), buffer);
         buffer->setParent(reply);
 #endif
     }
-
+    if(timeout > 0){
+        timer->setSingleShot(true);
+        timer->setInterval(timeout);
+        connect(timer, &QTimer::timeout, this, [=](){ on_manager_timeout(reply); });
+        timer->start();
+    }
 }
 
 void OAIHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
@@ -324,9 +385,48 @@ void OAIHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
         }
     }
     reply->deleteLater();
-
+    process_form_response();
     emit on_execution_finished(this);
 }
+
+void OAIHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
+    error_type = QNetworkReply::TimeoutError;
+    response = "";
+    error_str = "Timed out waiting for response";
+    disconnect(manager, nullptr, nullptr, nullptr);
+    reply->abort();
+    reply->deleteLater();
+    emit on_execution_finished(this);
+}
+
+void OAIHttpRequestWorker::process_form_response() {
+    if(getResponseHeaders().contains(QString("Content-Disposition")) ) {
+        auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
+        auto contentType = getResponseHeaders().contains(QString("Content-Type")) ? getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), QString::SkipEmptyParts).first() : QString();        
+        if((contentDisposition.count() > 0) && (contentDisposition.first() == QString("attachment"))){
+            QString filename = QUuid::createUuid().toString();
+            for(const auto &file : contentDisposition){                
+                if(file.contains(QString("filename"))){
+                    filename = file.split(QString("="), QString::SkipEmptyParts).at(1);
+                    break;
+                }
+            }
+            OAIHttpFileElement felement;
+            felement.saveToFile(QString(), workingDirectory + QDir::separator() + filename, filename, contentType, response.data());
+            files.insert(filename, felement);               
+        }
+
+    } else if(getResponseHeaders().contains(QString("Content-Type")) ) {
+        auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
+        if((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))){
+
+        }
+        else {
+
+        }
+    }
+}
+
 QSslConfiguration* OAIHttpRequestWorker::sslDefaultConfiguration;
 
 

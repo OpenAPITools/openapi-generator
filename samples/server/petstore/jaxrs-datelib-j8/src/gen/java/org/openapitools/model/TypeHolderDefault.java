@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -28,21 +29,33 @@ import javax.validation.Valid;
 /**
  * TypeHolderDefault
  */
+@JsonPropertyOrder({
+  TypeHolderDefault.JSON_PROPERTY_STRING_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_NUMBER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_INTEGER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
+})
 
 public class TypeHolderDefault  implements Serializable {
-  @JsonProperty("string_item")
+  public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
+  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   private String stringItem = "what";
 
-  @JsonProperty("number_item")
+  public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
+  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   private BigDecimal numberItem;
 
-  @JsonProperty("integer_item")
+  public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
+  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
+  public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
+  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   private Boolean boolItem = true;
 
-  @JsonProperty("array_item")
+  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault stringItem(String stringItem) {

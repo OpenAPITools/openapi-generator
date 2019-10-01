@@ -29,6 +29,7 @@ import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -539,6 +540,16 @@ public class ApiClient {
     }
 
     /**
+     * Expand path template with variables
+     * @param pathTemplate path template with placeholders
+     * @param variables variables to replace
+     * @return path with placeholders replaced by variables
+     */
+    public String expandPath(String pathTemplate, Map<String, Object> variables) {
+        return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
+    }
+
+    /**
      * Invoke API by sending HTTP request with the given options.
      *
      * @param <T> the return type to use
@@ -602,9 +613,6 @@ public class ApiClient {
         if (responseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
             return null;
         } else if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            if (returnType == null) {
-                return null;
-            }
             return responseEntity.getBody();
         } else {
             // The error handler built into the RestTemplate should handle 400 and 500 series errors.
@@ -642,6 +650,7 @@ public class ApiClient {
                 module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
                 module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
                 mapper.registerModule(module);
+                mapper.registerModule(new JsonNullableModule());
             }
         }
         // This allows us to read the response more than once - Necessary for debugging.

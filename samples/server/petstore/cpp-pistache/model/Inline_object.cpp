@@ -47,12 +47,12 @@ void to_json(nlohmann::json& j, const Inline_object& o)
 
 void from_json(const nlohmann::json& j, Inline_object& o)
 {
-    if(j.contains("name"))
+    if(j.find("name") != j.end())
     {
         j.at("name").get_to(o.m_Name);
         o.m_NameIsSet = true;
     } 
-    if(j.contains("status"))
+    if(j.find("status") != j.end())
     {
         j.at("status").get_to(o.m_Status);
         o.m_StatusIsSet = true;

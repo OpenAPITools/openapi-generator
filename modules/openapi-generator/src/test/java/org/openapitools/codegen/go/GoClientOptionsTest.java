@@ -50,6 +50,8 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setWithXml(GoClientOptionsProvider.WITH_XML_VALUE);
             times = 1;
+            clientCodegen.setWithXml(GoClientOptionsProvider.ENUM_CLASS_PREFIX_VALUE);
+            times = 1;
             clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(GoClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
             times = 1;
             clientCodegen.setIsGoSubmodule(Boolean.valueOf(GoClientOptionsProvider.IS_GO_SUBMODULE_VALUE));

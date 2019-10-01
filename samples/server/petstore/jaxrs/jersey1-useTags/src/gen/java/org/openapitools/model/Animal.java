@@ -20,12 +20,17 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * Animal
  */
+@JsonPropertyOrder({
+  Animal.JSON_PROPERTY_CLASS_NAME,
+  Animal.JSON_PROPERTY_COLOR
+})
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
@@ -33,10 +38,12 @@ import javax.validation.Valid;
 })
 
 public class Animal   {
-  @JsonProperty("className")
+  public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   private String className;
 
-  @JsonProperty("color")
+  public static final String JSON_PROPERTY_COLOR = "color";
+  @JsonProperty(JSON_PROPERTY_COLOR)
   private String color = "red";
 
   public Animal className(String className) {

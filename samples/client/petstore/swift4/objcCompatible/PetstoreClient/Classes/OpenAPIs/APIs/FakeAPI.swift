@@ -610,4 +610,52 @@ open class FakeAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
+    /**
+
+     - parameter pipe: (query)  
+     - parameter ioutil: (query)  
+     - parameter http: (query)  
+     - parameter url: (query)  
+     - parameter context: (query)  
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        testQueryParameterCollectionFormatWithRequestBuilder(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context).execute { (response, error) -> Void in
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     - PUT /fake/test-query-paramters
+     - To test the collection format in query parameters
+     - parameter pipe: (query)  
+     - parameter ioutil: (query)  
+     - parameter http: (query)  
+     - parameter url: (query)  
+     - parameter context: (query)  
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testQueryParameterCollectionFormatWithRequestBuilder(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String]) -> RequestBuilder<Void> {
+        let path = "/fake/test-query-paramters"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+        
+        var url = URLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems([
+            "pipe": pipe, 
+            "ioutil": ioutil, 
+            "http": http, 
+            "url": url, 
+            "context": context
+        ])
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
 }

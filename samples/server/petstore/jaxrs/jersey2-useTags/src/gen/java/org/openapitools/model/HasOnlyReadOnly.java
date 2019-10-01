@@ -18,18 +18,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * HasOnlyReadOnly
  */
+@JsonPropertyOrder({
+  HasOnlyReadOnly.JSON_PROPERTY_BAR,
+  HasOnlyReadOnly.JSON_PROPERTY_FOO
+})
 
 public class HasOnlyReadOnly   {
-  @JsonProperty("bar")
+  public static final String JSON_PROPERTY_BAR = "bar";
+  @JsonProperty(JSON_PROPERTY_BAR)
   private String bar;
 
-  @JsonProperty("foo")
+  public static final String JSON_PROPERTY_FOO = "foo";
+  @JsonProperty(JSON_PROPERTY_FOO)
   private String foo;
 
   public HasOnlyReadOnly bar(String bar) {

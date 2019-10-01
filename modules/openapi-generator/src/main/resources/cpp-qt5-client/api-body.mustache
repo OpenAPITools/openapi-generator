@@ -10,7 +10,8 @@ namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
 {{classname}}::{{classname}}() : basePath("{{{basePathWithoutHost}}}"),
-    host("{{#serverHost}}{{#scheme}}{{scheme}}://{{/scheme}}{{serverHost}}{{#serverPort}}:{{serverPort}}{{/serverPort}}{{/serverHost}}") {
+    host("{{#serverHost}}{{#scheme}}{{scheme}}://{{/scheme}}{{serverHost}}{{#serverPort}}:{{serverPort}}{{/serverPort}}{{/serverHost}}"),
+    timeout(0){
 
 }
 
@@ -18,9 +19,10 @@ namespace {{this}} {
 
 }
 
-{{classname}}::{{classname}}(const QString& host, const QString& basePath) {
+{{classname}}::{{classname}}(const QString& host, const QString& basePath, const int tout) {
     this->host = host;
     this->basePath = basePath;
+    this->timeout = tout;
 }
 
 void {{classname}}::setBasePath(const QString& basePath){
@@ -29,6 +31,14 @@ void {{classname}}::setBasePath(const QString& basePath){
 
 void {{classname}}::setHost(const QString& host){
     this->host = host;
+}
+
+void {{classname}}::setApiTimeOutMs(const int tout){
+    timeout = tout;
+}
+
+void {{classname}}::setWorkingDirectory(const QString& path){
+    workingDirectory = path;
 }
 
 void {{classname}}::addHeaders(const QString& key, const QString& value){
@@ -43,7 +53,7 @@ void
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("{{{path}}}");
     {{#pathParams}}
-    QString {{paramName}}PathParam("{"); 
+    QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
     fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
     {{/pathParams}}
@@ -96,21 +106,23 @@ void
       }
     }
     {{/collectionFormat}}{{/queryParams}}
-    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker();
+    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
-    {{#formParams}}
-    if ({{paramName}} != nullptr) {
-        {{^isFile}}input.add_var("{{baseName}}", {{paramName}});{{/isFile}}{{#isFile}}input.add_file("{{baseName}}", (*{{paramName}}).local_filename, (*{{paramName}}).request_filename, (*{{paramName}}).mime_type);{{/isFile}}
-    }
-    {{/formParams}}{{#bodyParams}}
+    {{#formParams}}{{^isFile}}
+    input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));{{/isFile}}{{#isFile}}
+    input.add_file("{{baseName}}", {{paramName}}.local_filename, {{paramName}}.request_filename, {{paramName}}.mime_type);{{/isFile}}{{/formParams}}
+    {{#bodyParams}}
     {{#isContainer}}{{#isListContainer}}
     QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toArray());{{/isListContainer}}{{#isMapContainer}}
     QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toObject());{{/isMapContainer}}
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
     {{/isContainer}}{{^isContainer}}{{#isString}}
-    QString output({{paramName}});{{/isString}}{{#isByteArray}}QString output({{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}
-    QString output = {{paramName}}.asJson();{{/isByteArray}}{{/isString}}
+    QString output({{paramName}});{{/isString}}{{#isByteArray}}QString output({{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}{{^isFile}}
+    QString output = {{paramName}}.asJson();{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
+    QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
     input.request_body.append(output);
     {{/isContainer}}{{/bodyParams}}
     {{#headerParams}}
@@ -159,7 +171,7 @@ void
     {{^isListContainer}}
     {{^isMapContainer}}
     {{#returnTypeIsPrimitive}}
-    {{{returnType}}} output;  
+    {{{returnType}}} output;
     ::{{cppNamespace}}::fromStringValue(QString(worker->response), output);
     {{/returnTypeIsPrimitive}}
     {{/isMapContainer}}
@@ -177,7 +189,7 @@ void
     {{/isMapContainer}}
     {{^isMapContainer}}
     {{^returnTypeIsPrimitive}}
-    {{{returnType}}} output(QString(worker->response));
+    {{{returnType}}} output{{^isResponseFile}}(QString(worker->response)){{/isResponseFile}}{{#isResponseFile}} = worker->getHttpFileElement(){{/isResponseFile}};
     {{/returnTypeIsPrimitive}}
     {{/isMapContainer}}
     {{/isListContainer}}

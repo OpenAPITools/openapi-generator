@@ -16,7 +16,7 @@ class StoreAPITests: XCTestCase {
     let isoDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 
     let testTimeout = 10.0
-    
+
     func test1PlaceOrder() {
         // use explicit naming to reference the enum so that we test we don't regress on enum naming
         let shipDate = Date()
@@ -32,12 +32,12 @@ class StoreAPITests: XCTestCase {
                 expectation.fulfill()
             }.always {
                 // Noop for now
-            }.catch { errorType in
+            }.catch { _ in
                 XCTFail("error placing order")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test2GetOrder() {
         let expectation = self.expectation(description: "testGetOrder")
         StoreAPI.getOrderById(orderId: 1000).then { order -> Void in
@@ -47,19 +47,19 @@ class StoreAPITests: XCTestCase {
             expectation.fulfill()
             }.always {
                 // Noop for now
-            }.catch { errorType in
+            }.catch { _ in
                 XCTFail("error placing order")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test3DeleteOrder() {
         let expectation = self.expectation(description: "testDeleteOrder")
         StoreAPI.deleteOrder(orderId: "1000").then {
             expectation.fulfill()
             }.always {
                 // Noop for now
-            }.catch { (error) in
+            }.catch { (_) in
                 XCTFail("error deleting order")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)

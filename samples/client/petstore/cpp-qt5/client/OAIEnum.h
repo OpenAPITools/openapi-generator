@@ -24,7 +24,7 @@ class OAIEnum {
     OAIEnum() {
 
     }
-    
+
     OAIEnum(QString jsonString) {
         fromJson(jsonString);
     }
@@ -57,7 +57,7 @@ class OAIEnum {
         return true;
     }
 private :
-    QString jstr; 
+    QString jstr;
 };
 
 }

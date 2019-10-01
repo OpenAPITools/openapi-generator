@@ -48,7 +48,7 @@ void to_json(nlohmann::json& j, const Pet& o)
         j["category"] = o.m_Category;
     j["name"] = o.m_Name;
     j["photoUrls"] = o.m_PhotoUrls;
-    if(o.tagsIsSet())
+    if(o.tagsIsSet() || !o.m_Tags.empty())
         j["tags"] = o.m_Tags;
     if(o.statusIsSet())
         j["status"] = o.m_Status;
@@ -56,24 +56,24 @@ void to_json(nlohmann::json& j, const Pet& o)
 
 void from_json(const nlohmann::json& j, Pet& o)
 {
-    if(j.contains("id"))
+    if(j.find("id") != j.end())
     {
         j.at("id").get_to(o.m_Id);
         o.m_IdIsSet = true;
     } 
-    if(j.contains("category"))
+    if(j.find("category") != j.end())
     {
         j.at("category").get_to(o.m_Category);
         o.m_CategoryIsSet = true;
     } 
     j.at("name").get_to(o.m_Name);
     j.at("photoUrls").get_to(o.m_PhotoUrls);
-    if(j.contains("tags"))
+    if(j.find("tags") != j.end())
     {
         j.at("tags").get_to(o.m_Tags);
         o.m_TagsIsSet = true;
     } 
-    if(j.contains("status"))
+    if(j.find("status") != j.end())
     {
         j.at("status").get_to(o.m_Status);
         o.m_StatusIsSet = true;
@@ -121,15 +121,23 @@ std::string Pet::getName() const
 void Pet::setName(std::string const& value)
 {
     m_Name = value;
-    
 }
 std::vector<std::string>& Pet::getPhotoUrls()
 {
     return m_PhotoUrls;
 }
+void Pet::setPhotoUrls(std::vector<std::string> const& value)
+{
+    m_PhotoUrls = value;
+}
 std::vector<Tag>& Pet::getTags()
 {
     return m_Tags;
+}
+void Pet::setTags(std::vector<Tag> const& value)
+{
+    m_Tags = value;
+    m_TagsIsSet = true;
 }
 bool Pet::tagsIsSet() const
 {

@@ -24,48 +24,75 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * NullableClass
  */
+@JsonPropertyOrder({
+  NullableClass.JSON_PROPERTY_INTEGER_PROP,
+  NullableClass.JSON_PROPERTY_NUMBER_PROP,
+  NullableClass.JSON_PROPERTY_BOOLEAN_PROP,
+  NullableClass.JSON_PROPERTY_STRING_PROP,
+  NullableClass.JSON_PROPERTY_DATE_PROP,
+  NullableClass.JSON_PROPERTY_DATETIME_PROP,
+  NullableClass.JSON_PROPERTY_ARRAY_NULLABLE_PROP,
+  NullableClass.JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP,
+  NullableClass.JSON_PROPERTY_ARRAY_ITEMS_NULLABLE,
+  NullableClass.JSON_PROPERTY_OBJECT_NULLABLE_PROP,
+  NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
+  NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
+})
 
 public class NullableClass extends HashMap<String, Object>  {
-  @JsonProperty("integer_prop")
+  public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
+  @JsonProperty(JSON_PROPERTY_INTEGER_PROP)
   private Integer integerProp;
 
-  @JsonProperty("number_prop")
+  public static final String JSON_PROPERTY_NUMBER_PROP = "number_prop";
+  @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
   private BigDecimal numberProp;
 
-  @JsonProperty("boolean_prop")
+  public static final String JSON_PROPERTY_BOOLEAN_PROP = "boolean_prop";
+  @JsonProperty(JSON_PROPERTY_BOOLEAN_PROP)
   private Boolean booleanProp;
 
-  @JsonProperty("string_prop")
+  public static final String JSON_PROPERTY_STRING_PROP = "string_prop";
+  @JsonProperty(JSON_PROPERTY_STRING_PROP)
   private String stringProp;
 
-  @JsonProperty("date_prop")
+  public static final String JSON_PROPERTY_DATE_PROP = "date_prop";
+  @JsonProperty(JSON_PROPERTY_DATE_PROP)
   private Date dateProp;
 
-  @JsonProperty("datetime_prop")
+  public static final String JSON_PROPERTY_DATETIME_PROP = "datetime_prop";
+  @JsonProperty(JSON_PROPERTY_DATETIME_PROP)
   private Date datetimeProp;
 
-  @JsonProperty("array_nullable_prop")
+  public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
+  @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP)
   private List<Object> arrayNullableProp = null;
 
-  @JsonProperty("array_and_items_nullable_prop")
+  public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
+  @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
   private List<Object> arrayAndItemsNullableProp = null;
 
-  @JsonProperty("array_items_nullable")
+  public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   private List<Object> arrayItemsNullable = null;
 
-  @JsonProperty("object_nullable_prop")
+  public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
+  @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
   private Map<String, Object> objectNullableProp = null;
 
-  @JsonProperty("object_and_items_nullable_prop")
+  public static final String JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
+  @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
   private Map<String, Object> objectAndItemsNullableProp = null;
 
-  @JsonProperty("object_items_nullable")
+  public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
+  @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   private Map<String, Object> objectItemsNullable = null;
 
   public NullableClass integerProp(Integer integerProp) {

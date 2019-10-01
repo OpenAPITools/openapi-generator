@@ -19,24 +19,20 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Requirements
 
-Dart 1.20.0 or later OR Flutter 0.0.20 or later
+Dart 2.0 or later
 
 ## Installation & Usage
 
 ### Github
-If this Dart package is published to Github, please include the following in pubspec.yaml
+If this Dart package is published to Github, add the following dependency to your pubspec.yaml
 ```
-name: {{pubName}}
-version: {{pubVersion}}
-description: {{pubDescription}}
 dependencies:
   {{pubName}}:
-    git: https://github.com/{{gitUserId}}/{{gitRepoId}}.git
-      version: 'any'
+    git: https://{{gitHost}}/{{gitUserId}}/{{gitRepoId}}.git
 ```
 
 ### Local
-To use the package in your local drive, please include the following in pubspec.yaml
+To use the package in your local drive, add the following dependency to your pubspec.yaml
 ```
 dependencies:
   {{pubName}}:
@@ -74,9 +70,9 @@ import 'package:{{pubName}}/api.dart';
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-var api_instance = new {{classname}}();
+var api_instance = {{classname}}();
 {{#allParams}}
-var {{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}new {{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; // {{{dataType}}} | {{{description}}}
+var {{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 try {

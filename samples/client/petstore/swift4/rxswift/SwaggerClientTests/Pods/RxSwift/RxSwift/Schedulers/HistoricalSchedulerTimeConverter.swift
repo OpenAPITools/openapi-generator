@@ -11,7 +11,7 @@ import struct Foundation.Date
 /// Converts historical virtual time into real time.
 ///
 /// Since historical virtual time is also measured in `Date`, this converter is identity function.
-public struct HistoricalSchedulerTimeConverter : VirtualTimeConverterType {
+public struct HistoricalSchedulerTimeConverter: VirtualTimeConverterType {
     /// Virtual time unit used that represents ticks of virtual clock.
     public typealias VirtualTimeUnit = RxTime
 

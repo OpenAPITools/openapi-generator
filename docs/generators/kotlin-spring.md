@@ -14,6 +14,7 @@ sidebar_label: kotlin-spring
 |artifactId|Generated artifact id (name of jar).| |openapi-spring|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
@@ -27,4 +28,5 @@ sidebar_label: kotlin-spring
 |serviceImplementation|generate stub service implementations that extends service interfaces. If this is set to true service interfaces will also be generated| |false|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
 |reactive|use coroutines for reactive behavior| |false|
+|interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dl>|spring-boot|

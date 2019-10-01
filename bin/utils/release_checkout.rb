@@ -40,7 +40,8 @@ end
 def check_openapi_generator_online_docker
   print "Checking openapi-generator-online docker ... "
 
-  url = "https://hub.docker.com/r/openapitools/openapi-generator-online/tags/"
+  url = "https://hub.docker.com/v2/repositories/openapitools/openapi-generator-online/tags/?page_size=25&page=1"
+
   docker_tag = "v#{$version}"
   open(url) do |f|
     content = f.read
@@ -56,7 +57,7 @@ end
 def check_openapi_generator_cli_docker
   print "Checking openapi-generator-cli docker ... "
 
-  url = "https://hub.docker.com/r/openapitools/openapi-generator-cli/tags/"
+  url = "https://hub.docker.com/v2/repositories/openapitools/openapi-generator-cli/tags/?page_size=25&page=1"
   docker_tag = "v#{$version}"
   open(url) do |f|
     content = f.read
@@ -202,6 +203,8 @@ $version = ARGV[0]
 
 puts "Running checkout on OpenAPI Generator release #{$version}"
 
+check_openapi_generator_online_docker
+check_openapi_generator_cli_docker
 check_npmjs
 check_homebrew
 check_openapi_generator_jar
@@ -211,5 +214,3 @@ check_openapi_generator_gradle_plugin_jar
 check_openapi_generator_online_jar
 check_openapi_generator_project_pom
 check_readme
-check_openapi_generator_online_docker
-check_openapi_generator_cli_docker

@@ -9,6 +9,7 @@
  */
 
 
+using System;
 using System.Collections.Generic;
 
 namespace Org.OpenAPITools.Client
@@ -52,7 +53,14 @@ namespace Org.OpenAPITools.Client
         /// Gets the default header.
         /// </summary>
         /// <value>Default header.</value>
+        [Obsolete("Use DefaultHeaders instead.")]
         IDictionary<string, string> DefaultHeader { get; }
+
+        /// <summary>
+        /// Gets the default headers.
+        /// </summary>
+        /// <value>Default headers.</value>
+        IDictionary<string, string> DefaultHeaders { get; }
 
         /// <summary>
         /// Gets the temp folder path.

@@ -106,6 +106,12 @@ $router->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
  */
 $router->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
 /**
+ * put testQueryParameterCollectionFormat
+ * Summary: 
+ * Notes: To test the collection format in query parameters
+ */
+$router->put('/v2/fake/test-query-paramters', 'FakeApi@testQueryParameterCollectionFormat');
+/**
  * patch testClassname
  * Summary: To test class name in snake case
  * Notes: To test class name in snake case

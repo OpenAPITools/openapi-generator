@@ -33,20 +33,28 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.openapitools.client.JSON;
-
 import static io.restassured.http.Method.*;
 
 @Api(value = "User")
 public class UserApi {
 
-    private RequestSpecBuilder reqSpec;
+    private Supplier<RequestSpecBuilder> reqSpecSupplier;
+    private Consumer<RequestSpecBuilder> reqSpecCustomizer;
 
-    private UserApi(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
+    private UserApi(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        this.reqSpecSupplier = reqSpecSupplier;
     }
 
-    public static UserApi user(RequestSpecBuilder reqSpec) {
-        return new UserApi(reqSpec);
+    public static UserApi user(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        return new UserApi(reqSpecSupplier);
+    }
+
+    private RequestSpecBuilder createReqSpec() {
+        RequestSpecBuilder reqSpec = reqSpecSupplier.get();
+        if(reqSpecCustomizer != null) {
+            reqSpecCustomizer.accept(reqSpec);
+        }
+        return reqSpec;
     }
 
 
@@ -57,7 +65,7 @@ public class UserApi {
     @ApiResponses(value = { 
             @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUserOper createUser() {
-        return new CreateUserOper(reqSpec);
+        return new CreateUserOper(createReqSpec());
     }
 
     @ApiOperation(value = "Creates list of users with given input array",
@@ -67,7 +75,7 @@ public class UserApi {
     @ApiResponses(value = { 
             @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithArrayInputOper createUsersWithArrayInput() {
-        return new CreateUsersWithArrayInputOper(reqSpec);
+        return new CreateUsersWithArrayInputOper(createReqSpec());
     }
 
     @ApiOperation(value = "Creates list of users with given input array",
@@ -77,7 +85,7 @@ public class UserApi {
     @ApiResponses(value = { 
             @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithListInputOper createUsersWithListInput() {
-        return new CreateUsersWithListInputOper(reqSpec);
+        return new CreateUsersWithListInputOper(createReqSpec());
     }
 
     @ApiOperation(value = "Delete user",
@@ -88,7 +96,7 @@ public class UserApi {
             @ApiResponse(code = 400, message = "Invalid username supplied") ,
             @ApiResponse(code = 404, message = "User not found")  })
     public DeleteUserOper deleteUser() {
-        return new DeleteUserOper(reqSpec);
+        return new DeleteUserOper(createReqSpec());
     }
 
     @ApiOperation(value = "Get user by user name",
@@ -100,7 +108,7 @@ public class UserApi {
             @ApiResponse(code = 400, message = "Invalid username supplied") ,
             @ApiResponse(code = 404, message = "User not found")  })
     public GetUserByNameOper getUserByName() {
-        return new GetUserByNameOper(reqSpec);
+        return new GetUserByNameOper(createReqSpec());
     }
 
     @ApiOperation(value = "Logs user into the system",
@@ -111,7 +119,7 @@ public class UserApi {
             @ApiResponse(code = 200, message = "successful operation") ,
             @ApiResponse(code = 400, message = "Invalid username/password supplied")  })
     public LoginUserOper loginUser() {
-        return new LoginUserOper(reqSpec);
+        return new LoginUserOper(createReqSpec());
     }
 
     @ApiOperation(value = "Logs out current logged in user session",
@@ -121,7 +129,7 @@ public class UserApi {
     @ApiResponses(value = { 
             @ApiResponse(code = 0, message = "successful operation")  })
     public LogoutUserOper logoutUser() {
-        return new LogoutUserOper(reqSpec);
+        return new LogoutUserOper(createReqSpec());
     }
 
     @ApiOperation(value = "Updated user",
@@ -132,16 +140,16 @@ public class UserApi {
             @ApiResponse(code = 400, message = "Invalid user supplied") ,
             @ApiResponse(code = 404, message = "User not found")  })
     public UpdateUserOper updateUser() {
-        return new UpdateUserOper(reqSpec);
+        return new UpdateUserOper(createReqSpec());
     }
 
     /**
-     * Customise request specification
-     * @param consumer consumer
+     * Customize request specification
+     * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
      * @return api
      */
-    public UserApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
-        consumer.accept(reqSpec);
+    public UserApi reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+        this.reqSpecCustomizer = reqSpecCustomizer;
         return this;
     }
 
@@ -186,22 +194,22 @@ public class UserApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public CreateUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public CreateUserOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public CreateUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public CreateUserOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -246,22 +254,22 @@ public class UserApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public CreateUsersWithArrayInputOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public CreateUsersWithArrayInputOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public CreateUsersWithArrayInputOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public CreateUsersWithArrayInputOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -306,22 +314,22 @@ public class UserApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public CreateUsersWithListInputOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public CreateUsersWithListInputOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public CreateUsersWithListInputOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public CreateUsersWithListInputOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -367,22 +375,22 @@ public class UserApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public DeleteUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public DeleteUserOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public DeleteUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public DeleteUserOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -439,22 +447,22 @@ public class UserApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public GetUserByNameOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public GetUserByNameOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public GetUserByNameOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public GetUserByNameOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -523,22 +531,22 @@ public class UserApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public LoginUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public LoginUserOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public LoginUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public LoginUserOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -572,22 +580,22 @@ public class UserApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public LogoutUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public LogoutUserOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public LogoutUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public LogoutUserOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -644,22 +652,22 @@ public class UserApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public UpdateUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public UpdateUserOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public UpdateUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public UpdateUserOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
