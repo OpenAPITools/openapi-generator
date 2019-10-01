@@ -35,54 +35,55 @@ extension ObservableType {
     }
 }
 
-final private class DoSink<O: ObserverType> : Sink<O>, ObserverType {
+final private class DoSink<O: ObserverType>: Sink<O>, ObserverType {
     typealias Element = O.E
     typealias EventHandler = (Event<Element>) throws -> Void
-
+    
     private let _eventHandler: EventHandler
-
+    
     init(eventHandler: @escaping EventHandler, observer: O, cancel: Cancelable) {
-        _eventHandler = eventHandler
+        self._eventHandler = eventHandler
         super.init(observer: observer, cancel: cancel)
     }
-
+    
     func on(_ event: Event<Element>) {
         do {
-            try _eventHandler(event)
-            forwardOn(event)
+            try self._eventHandler(event)
+            self.forwardOn(event)
             if event.isStopEvent {
-                dispose()
+                self.dispose()
             }
-        } catch let error {
-            forwardOn(.error(error))
-            dispose()
+        }
+        catch let error {
+            self.forwardOn(.error(error))
+            self.dispose()
         }
     }
 }
 
-final private class Do<Element> : Producer<Element> {
+final private class Do<Element>: Producer<Element> {
     typealias EventHandler = (Event<Element>) throws -> Void
-
+    
     fileprivate let _source: Observable<Element>
     fileprivate let _eventHandler: EventHandler
     fileprivate let _onSubscribe: (() -> Void)?
     fileprivate let _onSubscribed: (() -> Void)?
     fileprivate let _onDispose: (() -> Void)?
-
+    
     init(source: Observable<Element>, eventHandler: @escaping EventHandler, onSubscribe: (() -> Void)?, onSubscribed: (() -> Void)?, onDispose: (() -> Void)?) {
-        _source = source
-        _eventHandler = eventHandler
-        _onSubscribe = onSubscribe
-        _onSubscribed = onSubscribed
-        _onDispose = onDispose
+        self._source = source
+        self._eventHandler = eventHandler
+        self._onSubscribe = onSubscribe
+        self._onSubscribed = onSubscribed
+        self._onDispose = onDispose
     }
-
+    
     override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
-        _onSubscribe?()
-        let sink = DoSink(eventHandler: _eventHandler, observer: observer, cancel: cancel)
-        let subscription = _source.subscribe(sink)
-        _onSubscribed?()
-        let onDispose = _onDispose
+        self._onSubscribe?()
+        let sink = DoSink(eventHandler: self._eventHandler, observer: observer, cancel: cancel)
+        let subscription = self._source.subscribe(sink)
+        self._onSubscribed?()
+        let onDispose = self._onDispose
         let allSubscriptions = Disposables.create {
             subscription.dispose()
             onDispose?()
