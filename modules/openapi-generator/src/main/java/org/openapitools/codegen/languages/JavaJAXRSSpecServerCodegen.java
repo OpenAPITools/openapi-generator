@@ -125,8 +125,12 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 additionalProperties.remove(RETURN_RESPONSE);
             }
         }
-        if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
-            useSwaggerAnnotations = Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
+        if(QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library)) {
+            useSwaggerAnnotations = false;
+        } else {
+            if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
+                useSwaggerAnnotations = Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
+            }
         }
         writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
