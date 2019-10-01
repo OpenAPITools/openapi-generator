@@ -2,9 +2,12 @@ name: petstore_client
 version: 1.0.0
 description: Petstore client using OpenAPI library
 environment:
-  sdk: '>=2.0.0 <3.0.0'
+  sdk: '>=2.5.0 <3.0.0'
 dependencies:
   openapi:
-    path: ../openapi
+    path: ../petstore_client_lib
 dev_dependencies:
-  test: ^1.6.8
+  test: ^1.8.0
+  mockito: ^4.1.1
+  http: ^0.12.0
+  collection: ^1.14.12
