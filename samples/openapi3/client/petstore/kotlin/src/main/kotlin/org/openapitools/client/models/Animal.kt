@@ -13,16 +13,19 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param className 
  * @param color 
  */
+
 data class Animal (
     @Json(name = "className")
     val className: kotlin.String,
     @Json(name = "color")
     val color: kotlin.String? = null
-)
+) 
+: Serializable 
 
 

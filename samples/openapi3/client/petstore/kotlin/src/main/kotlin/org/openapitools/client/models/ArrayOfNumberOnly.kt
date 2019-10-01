@@ -13,13 +13,16 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param arrayNumber 
  */
+
 data class ArrayOfNumberOnly (
     @Json(name = "ArrayNumber")
     val arrayNumber: kotlin.Array<java.math.BigDecimal>? = null
-)
+) 
+: Serializable 
 
 
