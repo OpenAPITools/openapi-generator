@@ -22,7 +22,7 @@ pub struct PetApiClient {
 impl PetApiClient {
     pub fn new(configuration: Rc<configuration::Configuration>) -> PetApiClient {
         PetApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }

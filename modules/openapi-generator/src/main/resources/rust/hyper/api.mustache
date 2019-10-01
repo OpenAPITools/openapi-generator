@@ -16,7 +16,7 @@ pub struct {{{classname}}}Client<C: hyper::client::Connect> {
 impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
         {{{classname}}}Client {
-            configuration: configuration,
+            configuration,
         }
     }
 }

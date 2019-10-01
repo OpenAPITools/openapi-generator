@@ -25,7 +25,7 @@ pub struct StoreApiClient<C: hyper::client::Connect> {
 impl<C: hyper::client::Connect> StoreApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> StoreApiClient<C> {
         StoreApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }

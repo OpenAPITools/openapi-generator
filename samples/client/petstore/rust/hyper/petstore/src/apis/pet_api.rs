@@ -25,7 +25,7 @@ pub struct PetApiClient<C: hyper::client::Connect> {
 impl<C: hyper::client::Connect> PetApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> PetApiClient<C> {
         PetApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }

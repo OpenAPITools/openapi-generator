@@ -35,8 +35,8 @@ impl Pet {
         Pet {
             id: None,
             category: None,
-            name: name,
-            photo_urls: photo_urls,
+            name,
+            photo_urls,
             tags: None,
             status: None,
         }

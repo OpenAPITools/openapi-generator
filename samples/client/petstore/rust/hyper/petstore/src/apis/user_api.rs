@@ -25,7 +25,7 @@ pub struct UserApiClient<C: hyper::client::Connect> {
 impl<C: hyper::client::Connect> UserApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> UserApiClient<C> {
         UserApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }
