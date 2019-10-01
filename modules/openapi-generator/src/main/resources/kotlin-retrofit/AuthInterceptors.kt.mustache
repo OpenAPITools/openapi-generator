@@ -42,7 +42,7 @@ class QueryParamInterceptor(
 ) : AuthInterceptor(authName, generator) {
 
     override fun handleApiKey(chain: Interceptor.Chain, apiKey: String): Response {
-        val newUrl = chain.request().url()
+        val newUrl = chain.request().url
             .newBuilder()
             .addQueryParameter(paramName, apiKey)
             .build()

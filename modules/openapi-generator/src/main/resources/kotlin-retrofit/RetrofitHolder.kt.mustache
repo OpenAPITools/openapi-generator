@@ -20,7 +20,7 @@ object RetrofitHolder {
                     .build()
                 chain.proceed(newRequest)
             }{{/-first}}{{/authMethods}}
-            .addNetworkInterceptor(HttpLoggingInterceptor().apply {
+            .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.HEADERS
             }){{#authMethods}}
             {{>auth_method}}{{/authMethods}}

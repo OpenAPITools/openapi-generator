@@ -4,17 +4,17 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
     }
     compileOptions {
         targetCompatibility = JavaVersion.VERSION_1_8
         sourceCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
     buildTypes {
         release {
@@ -24,20 +24,27 @@ android {
     }
 }
 
+ext {
+    retrofitVersion = "2.6.2"
+    moshiVersion = "1.8.0"
+    coroutinesVersion = "1.3.2"
+    okHttpVersion = "4.2.0"
+}
+
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
-    api 'com.squareup.retrofit2:retrofit:2.6.0'
+    api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     {{#threetenbp}}
     api 'com.jakewharton.threetenabp:threetenabp:1.2.1'
     {{/threetenbp}}
 
-    implementation 'com.squareup.retrofit2:converter-moshi:2.6.0'
-    api 'com.squareup.moshi:moshi:1.8.0'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.8.0'
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    api "com.squareup.moshi:moshi:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
 }
