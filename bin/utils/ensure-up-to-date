@@ -9,6 +9,10 @@ echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
 
 sleep 5
 
+# Clear all samples before starting to test against no longer existent files.
+echo "Clearing out all samples..."
+rm -r ./samples/*
+
 # LIST OF SCRIPTS:
 declare -a scripts=(
 # SAMPLES

@@ -30,6 +30,9 @@ ags="meta -n myClientCodegen -t DOCUMENTATION -p com.my.company.codegen -o sampl
 
 java $JAVA_OPTS -jar $executable $ags
 
+mkdir -p samples/meta-codegen
+cp CI/samples.ci/meta-codegen/pom.xml samples/meta-codegen/pom.xml
+
 ./mvnw clean package -f samples/meta-codegen/pom.xml
 
 ags2="generate -g myClientCodegen -i modules/openapi-generator/src/test/resources/2_0/petstore.json -o samples/meta-codegen/usage $@"

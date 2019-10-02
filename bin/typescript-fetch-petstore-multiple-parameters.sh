@@ -30,5 +30,9 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-fetch -c bin/typescript-fetch-petstore-multiple-parameters.json -o samples/client/petstore/typescript-fetch/builds/multiple-parameters $@"
 
 java $JAVA_OPTS -jar $executable $ags
+
+mkdir -p samples/client/petstore/typescript-fetch/builds/multiple-parameters/
+mkdir -p samples/client/petstore/typescript-fetch/tests/default/
+
 cp CI/samples.ci/client/petstore/typescript-fetch/builds/multiple-parameters/pom.xml samples/client/petstore/typescript-fetch/builds/multiple-parameters/pom.xml
 cp CI/samples.ci/client/petstore/typescript-fetch/tests/default/pom.xml samples/client/petstore/typescript-fetch/tests/default/pom.xml
