@@ -641,6 +641,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-09-09 - [Cloud-native development - Creating RESTful microservices](https://cloud.ibm.com/docs/cloud-native?topic=cloud-native-rest-api) in [IBM Cloud Docs](https://cloud.ibm.com/docs)
 - 2019-09-14 - [Generating and Configuring a Mastercard API Client](https://developer.mastercard.com/platform/documentation/generating-and-configuring-a-mastercard-api-client/) at [Mastercard Developers Platform](https://developer.mastercard.com/platform/documentation/)
 - 2019-09-15 - [OpenAPI(Swagger)導入下調べ](https://qiita.com/ShoichiKuraoka/items/f1f7a3c2376f7cd9c56a) by [Shoichi Kuraoka](https://qiita.com/ShoichiKuraoka)
+- 2019-09-17 - [Tutorial: Documenting http4k APIs with OpenApi3](https://www.http4k.org/tutorials/documenting_apis_with_openapi/) by [http4k](https://www.http4k.org/)
 - 2019-09-22 - [OpenAPI 3を完全に理解できる本](https://booth.pm/ja/items/1571902) by [@ota42y](https://twitter.com/ota42y)
 - 2019-09-22 - [RESTful APIs: Tutorial of OpenAPI Specification](https://medium.com/@amirm.lavasani/restful-apis-tutorial-of-openapi-specification-eeada0e3901d) by [Amir Lavasani](https://medium.com/@amirm.lavasani)
 - 2019-09-22 - [Redefining SDKs as software diversity kits](https://devrel.net/dev-rel/redefining-sdks-as-software-diversity-kits) by [Sid Maestre (Xero)](https://twitter.com/sidneyallen) at [DevRelCon San Francisco 2019](https://sf2019.devrel.net/)
