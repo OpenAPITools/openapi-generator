@@ -41,7 +41,6 @@ impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/tests/fileResponse".to_string())
         ;
 
-
         req.execute(self.configuration.borrow())
     }
 

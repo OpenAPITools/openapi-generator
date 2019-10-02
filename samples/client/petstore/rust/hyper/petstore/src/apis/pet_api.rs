@@ -51,7 +51,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         req = req.with_body_param(body);
         req = req.returns_nothing();
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -65,7 +64,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         }
         req = req.returns_nothing();
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -73,7 +71,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/pet/findByStatus".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
-
         req = req.with_query_param("status".to_string(), status.join(",").to_string());
 
         req.execute(self.configuration.borrow())
@@ -83,7 +80,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/pet/findByTags".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
-
         req = req.with_query_param("tags".to_string(), tags.join(",").to_string());
 
         req.execute(self.configuration.borrow())
@@ -99,7 +95,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         ;
         req = req.with_path_param("petId".to_string(), pet_id.to_string());
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -109,7 +104,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         ;
         req = req.with_body_param(body);
         req = req.returns_nothing();
-
 
         req.execute(self.configuration.borrow())
     }
@@ -127,7 +121,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         }
         req = req.returns_nothing();
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -142,7 +135,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         if let Some(param_value) = file {
             req = req.with_form_param("file".to_string(), unimplemented!());
         }
-
 
         req.execute(self.configuration.borrow())
     }

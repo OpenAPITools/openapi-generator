@@ -50,7 +50,6 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         req = req.with_body_param(body);
         req = req.returns_nothing();
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -59,7 +58,6 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         ;
         req = req.with_body_param(body);
         req = req.returns_nothing();
-
 
         req.execute(self.configuration.borrow())
     }
@@ -70,7 +68,6 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         req = req.with_body_param(body);
         req = req.returns_nothing();
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -80,7 +77,6 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         req = req.with_path_param("username".to_string(), username.to_string());
         req = req.returns_nothing();
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -89,14 +85,12 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         ;
         req = req.with_path_param("username".to_string(), username.to_string());
 
-
         req.execute(self.configuration.borrow())
     }
 
     fn login_user(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/user/login".to_string())
         ;
-
         req = req.with_query_param("username".to_string(), username.to_string());
         req = req.with_query_param("password".to_string(), password.to_string());
 
@@ -108,7 +102,6 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         ;
         req = req.returns_nothing();
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -118,7 +111,6 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         req = req.with_path_param("username".to_string(), username.to_string());
         req = req.with_body_param(body);
         req = req.returns_nothing();
-
 
         req.execute(self.configuration.borrow())
     }

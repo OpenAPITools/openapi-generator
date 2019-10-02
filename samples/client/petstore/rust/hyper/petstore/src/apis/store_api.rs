@@ -46,7 +46,6 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         req = req.with_path_param("orderId".to_string(), order_id.to_string());
         req = req.returns_nothing();
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -59,7 +58,6 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
             }))
         ;
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -68,7 +66,6 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         ;
         req = req.with_path_param("orderId".to_string(), order_id.to_string());
 
-
         req.execute(self.configuration.borrow())
     }
 
@@ -76,7 +73,6 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/store/order".to_string())
         ;
         req = req.with_body_param(body);
-
 
         req.execute(self.configuration.borrow())
     }

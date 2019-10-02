@@ -41,8 +41,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
 
-    protected boolean generateOptionQueryParams = false;
-
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
@@ -547,9 +545,5 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             return null;
         }
-    }
-
-    public void setGenerateOptionQueryParams(boolean generateOptionQueryParams) {
-        this.generateOptionQueryParams = generateOptionQueryParams;
     }
 }

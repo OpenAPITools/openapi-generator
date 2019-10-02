@@ -26,7 +26,7 @@ impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error<serde_json::Value>>>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error<serde_json::Value>>>;
 {{/operation}}
 {{/operations}}
 }
@@ -34,7 +34,7 @@ pub trait {{{classname}}} {
 impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error = Error<serde_json::Value>>> {
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::{{{httpMethod}}}, "{{{path}}}".to_string())
         {{#hasAuthMethods}}
         {{#authMethods}}
@@ -54,9 +54,35 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{/authMethods}}
         {{/hasAuthMethods}}
         ;
+        {{#queryParams}}
+        {{#required}}
+        {{^isNullable}}
+        req = req.with_query_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { req = req.with_query_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            None => { req = req.with_query_param("{{{baseName}}}".to_string(), "".to_string()); },
+        }
+        {{/isNullable}}
+        {{/required}}
+        {{^required}}
+        if let Some(ref s) = {{{paramName}}} {
+            req = req.with_query_param("{{{baseName}}}".to_string(), s{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        }
+        {{/required}}
+        {{/queryParams}}
         {{#pathParams}}
         {{#required}}
+        {{^isNullable}}
         req = req.with_path_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { req = req.with_path_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            None => { req = req.with_path_param("{{{baseName}}}".to_string(), "".to_string()); },
+        }
+        {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(param_value) = {{{paramName}}} {
@@ -67,7 +93,15 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{#hasHeaderParams}}
         {{#headerParams}}
         {{#required}}
+        {{^isNullable}}
         req = req.with_header_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { req = req.with_header_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            None => { req = req.with_header_param("{{{baseName}}}".to_string(), "".to_string()); },
+        }
+        {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(param_value) = {{{paramName}}} {
@@ -80,7 +114,15 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{#formParams}}
         {{#isFile}}
         {{#required}}
+        {{^isNullable}}
         req = req.with_form_param("{{{baseName}}}".to_string(), unimplemented!());
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { req = req.with_form_param("{{{baseName}}}".to_string(), unimplemented!()); },
+            None => { req = req.with_form_param("{{{baseName}}}".to_string(), unimplemented!()); },
+        }
+        {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(param_value) = {{{paramName}}} {
@@ -90,7 +132,15 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{/isFile}}
         {{^isFile}}
         {{#required}}
+        {{^isNullable}}
         req = req.with_form_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { req = req.with_form_param("{{{baseName}}}".to_string(), param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            None => { req = req.with_form_param("{{{baseName}}}".to_string(), "".to_string()); },
+        }
+        {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(param_value) = {{{paramName}}} {
@@ -108,17 +158,6 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{^returnType}}
         req = req.returns_nothing();
         {{/returnType}}
-
-        {{#queryParams}}
-        {{#required}}
-        req = req.with_query_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
-        {{/required}}
-        {{^required}}
-        if let Some(ref s) = {{{paramName}}} {
-            req = req.with_query_param("{{{baseName}}}".to_string(), s{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
-        }
-        {{/required}}
-        {{/queryParams}}
 
         req.execute(self.configuration.borrow())
     }

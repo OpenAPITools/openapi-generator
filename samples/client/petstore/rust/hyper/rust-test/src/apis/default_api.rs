@@ -42,7 +42,6 @@ impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
         ;
         req = req.returns_nothing();
 
-
         req.execute(self.configuration.borrow())
     }
 
