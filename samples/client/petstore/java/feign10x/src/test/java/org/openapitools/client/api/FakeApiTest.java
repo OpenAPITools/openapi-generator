@@ -9,6 +9,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,6 +28,20 @@ public class FakeApiTest {
     @Before
     public void setup() {
         api = new ApiClient().buildClient(FakeApi.class);
+    }
+
+    
+    /**
+     * creates an XmlItem
+     *
+     * this route creates an XmlItem
+     */
+    @Test
+    public void createXmlItemTest() {
+        XmlItem xmlItem = null;
+        // api.createXmlItem(xmlItem);
+
+        // TODO: test validations
     }
 
     
@@ -51,8 +66,8 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterCompositeSerializeTest() {
-        OuterComposite outerComposite = null;
-        // OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite);
+        OuterComposite body = null;
+        // OuterComposite response = api.fakeOuterCompositeSerialize(body);
 
         // TODO: test validations
     }
@@ -93,8 +108,8 @@ public class FakeApiTest {
      */
     @Test
     public void testBodyWithFileSchemaTest() {
-        FileSchemaTestClass fileSchemaTestClass = null;
-        // api.testBodyWithFileSchema(fileSchemaTestClass);
+        FileSchemaTestClass body = null;
+        // api.testBodyWithFileSchema(body);
 
         // TODO: test validations
     }
@@ -108,8 +123,8 @@ public class FakeApiTest {
     @Test
     public void testBodyWithQueryParamsTest() {
         String query = null;
-        User user = null;
-        // api.testBodyWithQueryParams(query, user);
+        User body = null;
+        // api.testBodyWithQueryParams(query, body);
 
         // TODO: test validations
     }
@@ -124,10 +139,10 @@ public class FakeApiTest {
      */
     @Test
     public void testBodyWithQueryParamsTestQueryMap() {
-        User user = null;
+        User body = null;
         FakeApi.TestBodyWithQueryParamsQueryParams queryParams = new FakeApi.TestBodyWithQueryParamsQueryParams()
             .query(null);
-        // api.testBodyWithQueryParams(user, queryParams);
+        // api.testBodyWithQueryParams(body, queryParams);
 
     // TODO: test validations
     }
@@ -139,8 +154,8 @@ public class FakeApiTest {
      */
     @Test
     public void testClientModelTest() {
-        Client client = null;
-        // Client response = api.testClientModel(client);
+        Client body = null;
+        // Client response = api.testClientModel(body);
 
         // TODO: test validations
     }
@@ -264,8 +279,8 @@ public class FakeApiTest {
      */
     @Test
     public void testInlineAdditionalPropertiesTest() {
-        Map<String, String> requestBody = null;
-        // api.testInlineAdditionalProperties(requestBody);
+        Map<String, String> param = null;
+        // api.testInlineAdditionalProperties(param);
 
         // TODO: test validations
     }
@@ -285,5 +300,43 @@ public class FakeApiTest {
         // TODO: test validations
     }
 
+    
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTest() {
+        List<String> pipe = null;
+        List<String> ioutil = null;
+        List<String> http = null;
+        List<String> url = null;
+        List<String> context = null;
+        // api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+
+        // TODO: test validations
+    }
+
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTestQueryMap() {
+        FakeApi.TestQueryParameterCollectionFormatQueryParams queryParams = new FakeApi.TestQueryParameterCollectionFormatQueryParams()
+            .pipe(null)
+            .ioutil(null)
+            .http(null)
+            .url(null)
+            .context(null);
+        // api.testQueryParameterCollectionFormat(queryParams);
+
+    // TODO: test validations
+    }
     
 }

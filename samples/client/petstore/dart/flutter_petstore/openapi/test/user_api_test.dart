@@ -4,28 +4,28 @@ import 'package:test/test.dart';
 
 /// tests for UserApi
 void main() {
-  var instance = UserApi();
+  var instance = new UserApi();
 
   group('tests for UserApi', () {
     // Create user
     //
     // This can only be done by the logged in user.
     //
-    //Future createUser(User user) async 
+    //Future createUser(User body) async 
     test('test createUser', () async {
       // TODO
     });
 
     // Creates list of users with given input array
     //
-    //Future createUsersWithArrayInput(List<User> user) async 
+    //Future createUsersWithArrayInput(List<User> body) async 
     test('test createUsersWithArrayInput', () async {
       // TODO
     });
 
     // Creates list of users with given input array
     //
-    //Future createUsersWithListInput(List<User> user) async 
+    //Future createUsersWithListInput(List<User> body) async 
     test('test createUsersWithListInput', () async {
       // TODO
     });
@@ -64,7 +64,7 @@ void main() {
     //
     // This can only be done by the logged in user.
     //
-    //Future updateUser(String username, User user) async 
+    //Future updateUser(String username, User body) async 
     test('test updateUser', () async {
       // TODO
     });

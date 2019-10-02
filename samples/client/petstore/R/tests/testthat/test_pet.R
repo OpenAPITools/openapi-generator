@@ -26,15 +26,15 @@ test_that("name", {
   #expect_equal(model.instance$`name`, "EXPECTED_RESULT")
 })
 
-test_that("photo_urls", {
-  # tests for the property `photo_urls` (character)
+test_that("photoUrls", {
+  # tests for the property `photoUrls` (array[character])
 
   # uncomment below to test the property 
-  #expect_equal(model.instance$`photo_urls`, "EXPECTED_RESULT")
+  #expect_equal(model.instance$`photoUrls`, "EXPECTED_RESULT")
 })
 
 test_that("tags", {
-  # tests for the property `tags` (Tag)
+  # tests for the property `tags` (array[Tag])
 
   # uncomment below to test the property 
   #expect_equal(model.instance$`tags`, "EXPECTED_RESULT")

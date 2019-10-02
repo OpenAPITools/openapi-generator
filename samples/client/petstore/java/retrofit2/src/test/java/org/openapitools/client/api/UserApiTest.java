@@ -29,8 +29,8 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest() {
-        User user = null;
-        // api.createUser(user);
+        User body = null;
+        // api.createUser(body);
 
         // TODO: test validations
     }
@@ -41,8 +41,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithArrayInputTest() {
-        List<User> user = null;
-        // api.createUsersWithArrayInput(user);
+        List<User> body = null;
+        // api.createUsersWithArrayInput(body);
 
         // TODO: test validations
     }
@@ -53,8 +53,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithListInputTest() {
-        List<User> user = null;
-        // api.createUsersWithListInput(user);
+        List<User> body = null;
+        // api.createUsersWithListInput(body);
 
         // TODO: test validations
     }
@@ -114,8 +114,8 @@ public class UserApiTest {
     @Test
     public void updateUserTest() {
         String username = null;
-        User user = null;
-        // api.updateUser(username, user);
+        User body = null;
+        // api.updateUser(username, body);
 
         // TODO: test validations
     }

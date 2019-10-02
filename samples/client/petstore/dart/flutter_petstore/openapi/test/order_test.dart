@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 // tests for Order
 void main() {
-  var instance = Order();
+  var instance = new Order();
 
   group('test Order', () {
     // int id (default value: null)

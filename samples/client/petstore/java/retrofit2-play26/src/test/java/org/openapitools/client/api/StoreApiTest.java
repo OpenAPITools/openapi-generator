@@ -1,9 +1,14 @@
 package org.openapitools.client.api;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Order;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * API tests for StoreApi
@@ -55,12 +60,12 @@ public class StoreApiTest {
     /**
      * Place an order for a pet
      *
-     *
+     * 
      */
     @Test
     public void placeOrderTest() {
-        Order order = null;
-        // Order response = api.placeOrder(order);
+        Order body = null;
+        // Order response = api.placeOrder(body);
 
         // TODO: test validations
     }

@@ -68,8 +68,8 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest() {
-        Order order = null;
-        // Order response = api.placeOrder(order);
+        Order body = null;
+        // Order response = api.placeOrder(body);
 
         // TODO: test validations
     }

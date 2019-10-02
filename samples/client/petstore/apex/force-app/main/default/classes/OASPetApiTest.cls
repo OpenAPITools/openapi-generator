@@ -13,7 +13,7 @@ private class OASPetApiTest {
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
-            'oaSPet' => OASPet.getExample()
+            'body' => ''
         };
 
         OASClient client;
@@ -189,7 +189,7 @@ private class OASPetApiTest {
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
-            'oaSPet' => OASPet.getExample()
+            'body' => ''
         };
 
         OASClient client;

@@ -47,7 +47,7 @@
           <stopKey>stopit</stopKey>
           <stopWait>10</stopWait>
           <httpConnector>
-            <port>8080</port>
+            <port>80</port>
             <idleTimeout>60000</idleTimeout>
           </httpConnector>
         </configuration>
@@ -184,7 +184,7 @@
     <beanvalidation-version>1.1.0.Final</beanvalidation-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey2-version>2.22.2</jersey2-version>
-    <jackson-version>2.8.9</jackson-version>
+    <jackson-version>2.9.9</jackson-version>
     <junit-version>4.12</junit-version>
     <logback-version>1.1.7</logback-version>
     <servlet-api-version>2.5</servlet-api-version>

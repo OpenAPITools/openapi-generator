@@ -1,6 +1,0 @@
-framework module Pods_TestClientApp {
-  umbrella header "Pods-TestClientApp-umbrella.h"
-
-  export *
-  module * { export * }
-}

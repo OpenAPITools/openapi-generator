@@ -9,6 +9,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,6 +28,20 @@ public class FakeApiTest {
     @Before
     public void setup() {
         api = new ApiClient().buildClient(FakeApi.class);
+    }
+
+    
+    /**
+     * creates an XmlItem
+     *
+     * this route creates an XmlItem
+     */
+    @Test
+    public void createXmlItemTest() {
+        XmlItem xmlItem = null;
+        // api.createXmlItem(xmlItem);
+
+        // TODO: test validations
     }
 
     
@@ -285,5 +300,43 @@ public class FakeApiTest {
         // TODO: test validations
     }
 
+    
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTest() {
+        List<String> pipe = null;
+        List<String> ioutil = null;
+        List<String> http = null;
+        List<String> url = null;
+        List<String> context = null;
+        // api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+
+        // TODO: test validations
+    }
+
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTestQueryMap() {
+        FakeApi.TestQueryParameterCollectionFormatQueryParams queryParams = new FakeApi.TestQueryParameterCollectionFormatQueryParams()
+            .pipe(null)
+            .ioutil(null)
+            .http(null)
+            .url(null)
+            .context(null);
+        // api.testQueryParameterCollectionFormat(queryParams);
+
+    // TODO: test validations
+    }
     
 }

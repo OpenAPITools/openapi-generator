@@ -7,10 +7,10 @@ api.instance <- StoreApi$new()
 
 test_that("DeleteOrder", {
   # tests for DeleteOrder
+  # base path: http://petstore.swagger.io/v2
   # Delete purchase order by ID
   # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-  # @param order.id ID of the order that needs to be deleted
-  # @param [Hash] opts the optional parameters
+  # @param character  order.id  ID of the order that needs to be deleted 
   # @return [Void]
 
   # uncomment below to test the operation
@@ -19,10 +19,10 @@ test_that("DeleteOrder", {
 
 test_that("GetInventory", {
   # tests for GetInventory
+  # base path: http://petstore.swagger.io/v2
   # Returns pet inventories by status
   # Returns a map of status codes to quantities
-  # @param [Hash] opts the optional parameters
-  # @return [integer]
+  # @return [map(integer)]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
@@ -30,10 +30,10 @@ test_that("GetInventory", {
 
 test_that("GetOrderById", {
   # tests for GetOrderById
+  # base path: http://petstore.swagger.io/v2
   # Find purchase order by ID
   # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-  # @param order.id ID of pet that needs to be fetched
-  # @param [Hash] opts the optional parameters
+  # @param integer  order.id  ID of pet that needs to be fetched 
   # @return [Order]
 
   # uncomment below to test the operation
@@ -42,9 +42,9 @@ test_that("GetOrderById", {
 
 test_that("PlaceOrder", {
   # tests for PlaceOrder
+  # base path: http://petstore.swagger.io/v2
   # Place an order for a pet
-  # @param body order placed for purchasing the pet
-  # @param [Hash] opts the optional parameters
+  # @param Order  body  order placed for purchasing the pet 
   # @return [Order]
 
   # uncomment below to test the operation

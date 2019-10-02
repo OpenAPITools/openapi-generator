@@ -7,10 +7,10 @@ api.instance <- UserApi$new()
 
 test_that("CreateUser", {
   # tests for CreateUser
+  # base path: http://petstore.swagger.io/v2
   # Create user
   # This can only be done by the logged in user.
-  # @param body Created user object
-  # @param [Hash] opts the optional parameters
+  # @param User  body  Created user object 
   # @return [Void]
 
   # uncomment below to test the operation
@@ -19,9 +19,9 @@ test_that("CreateUser", {
 
 test_that("CreateUsersWithArrayInput", {
   # tests for CreateUsersWithArrayInput
+  # base path: http://petstore.swagger.io/v2
   # Creates list of users with given input array
-  # @param body List of user object
-  # @param [Hash] opts the optional parameters
+  # @param array[User]  body  List of user object 
   # @return [Void]
 
   # uncomment below to test the operation
@@ -30,9 +30,9 @@ test_that("CreateUsersWithArrayInput", {
 
 test_that("CreateUsersWithListInput", {
   # tests for CreateUsersWithListInput
+  # base path: http://petstore.swagger.io/v2
   # Creates list of users with given input array
-  # @param body List of user object
-  # @param [Hash] opts the optional parameters
+  # @param array[User]  body  List of user object 
   # @return [Void]
 
   # uncomment below to test the operation
@@ -41,10 +41,10 @@ test_that("CreateUsersWithListInput", {
 
 test_that("DeleteUser", {
   # tests for DeleteUser
+  # base path: http://petstore.swagger.io/v2
   # Delete user
   # This can only be done by the logged in user.
-  # @param username The name that needs to be deleted
-  # @param [Hash] opts the optional parameters
+  # @param character  username  The name that needs to be deleted 
   # @return [Void]
 
   # uncomment below to test the operation
@@ -53,9 +53,9 @@ test_that("DeleteUser", {
 
 test_that("GetUserByName", {
   # tests for GetUserByName
+  # base path: http://petstore.swagger.io/v2
   # Get user by user name
-  # @param username The name that needs to be fetched. Use user1 for testing.
-  # @param [Hash] opts the optional parameters
+  # @param character  username  The name that needs to be fetched. Use user1 for testing. 
   # @return [User]
 
   # uncomment below to test the operation
@@ -64,10 +64,10 @@ test_that("GetUserByName", {
 
 test_that("LoginUser", {
   # tests for LoginUser
+  # base path: http://petstore.swagger.io/v2
   # Logs user into the system
-  # @param username The user name for login
-  # @param password The password for login in clear text
-  # @param [Hash] opts the optional parameters
+  # @param character  username  The user name for login 
+  # @param character  password  The password for login in clear text 
   # @return [character]
 
   # uncomment below to test the operation
@@ -76,8 +76,8 @@ test_that("LoginUser", {
 
 test_that("LogoutUser", {
   # tests for LogoutUser
+  # base path: http://petstore.swagger.io/v2
   # Logs out current logged in user session
-  # @param [Hash] opts the optional parameters
   # @return [Void]
 
   # uncomment below to test the operation
@@ -86,11 +86,11 @@ test_that("LogoutUser", {
 
 test_that("UpdateUser", {
   # tests for UpdateUser
+  # base path: http://petstore.swagger.io/v2
   # Updated user
   # This can only be done by the logged in user.
-  # @param username name that need to be deleted
-  # @param body Updated user object
-  # @param [Hash] opts the optional parameters
+  # @param character  username  name that need to be deleted 
+  # @param User  body  Updated user object 
   # @return [Void]
 
   # uncomment below to test the operation

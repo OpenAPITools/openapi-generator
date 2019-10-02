@@ -275,4 +275,24 @@ public class FakeApiTest {
         // TODO: test validations
     }
     
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTest() throws ApiException {
+        List<String> pipe = null;
+        List<String> ioutil = null;
+        List<String> http = null;
+        List<String> url = null;
+        List<String> context = null;
+        api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+
+        // TODO: test validations
+    }
+    
 }

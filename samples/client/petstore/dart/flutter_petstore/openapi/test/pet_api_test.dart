@@ -4,12 +4,12 @@ import 'package:test/test.dart';
 
 /// tests for PetApi
 void main() {
-  var instance = PetApi();
+  var instance = new PetApi();
 
   group('tests for PetApi', () {
     // Add a new pet to the store
     //
-    //Future addPet(Pet pet) async 
+    //Future addPet(Pet body) async 
     test('test addPet', () async {
       // TODO
     });
@@ -34,7 +34,7 @@ void main() {
     //
     // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     //
-    //Future<List<Pet>> findPetsByTags(List<String> tags, { int maxCount }) async 
+    //Future<List<Pet>> findPetsByTags(List<String> tags) async 
     test('test findPetsByTags', () async {
       // TODO
     });
@@ -50,7 +50,7 @@ void main() {
 
     // Update an existing pet
     //
-    //Future updatePet(Pet pet) async 
+    //Future updatePet(Pet body) async 
     test('test updatePet', () async {
       // TODO
     });

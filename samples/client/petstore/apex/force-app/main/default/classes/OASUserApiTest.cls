@@ -13,7 +13,7 @@ private class OASUserApiTest {
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
-            'oaSUser' => OASUser.getExample()
+            'body' => ''
         };
 
         OASClient client;
@@ -38,7 +38,7 @@ private class OASUserApiTest {
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
-            'oaSUser' => new List<OASUser>{OASUser.getExample()}
+            'body' => new List<OASUser>{OASUser.getExample()}
         };
 
         OASClient client;
@@ -63,7 +63,7 @@ private class OASUserApiTest {
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
-            'oaSUser' => new List<OASUser>{OASUser.getExample()}
+            'body' => new List<OASUser>{OASUser.getExample()}
         };
 
         OASClient client;
@@ -202,7 +202,7 @@ private class OASUserApiTest {
 
         Map<String, Object> params = new Map<String, Object>{
             'username' => 'null',
-            'oaSUser' => OASUser.getExample()
+            'body' => ''
         };
 
         OASClient client;

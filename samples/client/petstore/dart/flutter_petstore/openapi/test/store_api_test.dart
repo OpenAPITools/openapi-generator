@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 /// tests for StoreApi
 void main() {
-  var instance = StoreApi();
+  var instance = new StoreApi();
 
   group('tests for StoreApi', () {
     // Delete purchase order by ID
@@ -36,7 +36,7 @@ void main() {
 
     // Place an order for a pet
     //
-    //Future<Order> placeOrder(Order order) async 
+    //Future<Order> placeOrder(Order body) async 
     test('test placeOrder', () async {
       // TODO
     });

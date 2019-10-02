@@ -15,10 +15,10 @@ dependencies {
     providedCompile 'javax.annotation:javax.annotation-api:1.2'
     providedCompile 'javax:javaee-api:7.0'
     providedCompile 'org.jboss.spec.javax.servlet:jboss-servlet-api_3.0_spec:1.0.0.Final'
-    compile         'io.swagger:swagger-annotations:1.5.10'
+    compile         'io.swagger:swagger-annotations:1.5.22'
     compile         'org.jboss.resteasy:resteasy-jackson2-provider:3.0.11.Final'
     providedCompile 'javax.validation:validation-api:1.1.0.Final'
-    compile         'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.4.1'
+    compile         'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.9'
     compile         'joda-time:joda-time:2.7'
     //TODO: swaggerFeature
     compile 'io.swagger:swagger-jaxrs:1.5.12'

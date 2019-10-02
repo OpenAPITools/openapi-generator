@@ -25,12 +25,12 @@ public class AnotherFakeApiTest {
     /**
      * To test special tags
      *
-     * To test special tags
+     * To test special tags and operation ID starting with number
      */
     @Test
-    public void testSpecialTagsTest() {
-        Client client = null;
-        // Client response = api.testSpecialTags(client);
+    public void call123testSpecialTagsTest() {
+        Client body = null;
+        // Client response = api.call123testSpecialTags(body);
 
         // TODO: test validations
     }

@@ -1,9 +1,14 @@
 package org.openapitools.client.api;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Client;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * API tests for AnotherFakeApi
@@ -24,8 +29,8 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void call123testSpecialTagsTest() {
-        Client client = null;
-        // Client response = api.call123testSpecialTags(client);
+        Client body = null;
+        // Client response = api.call123testSpecialTags(body);
 
         // TODO: test validations
     }
