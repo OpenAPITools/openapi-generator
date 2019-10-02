@@ -12,20 +12,23 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import java.io.Serializable
+		import com.squareup.moshi.Json
+	import java.io.Serializable
 /**
- * 
- * @param id 
- * @param name 
- */
+* 
+	* @param id 
+	* @param name 
+*/
 
 data class Tag (
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "name")
     val name: kotlin.String? = null
-) 
-: Serializable 
-
+) : Serializable 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

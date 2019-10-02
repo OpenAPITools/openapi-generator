@@ -12,14 +12,14 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import java.io.Serializable
+		import com.squareup.moshi.Json
+	import java.io.Serializable
 /**
- * 
- * @param myNumber 
- * @param myString 
- * @param myBoolean 
- */
+* 
+	* @param myNumber 
+	* @param myString 
+	* @param myBoolean 
+*/
 
 data class OuterComposite (
     @Json(name = "my_number")
@@ -28,7 +28,10 @@ data class OuterComposite (
     val myString: kotlin.String? = null,
     @Json(name = "my_boolean")
     val myBoolean: kotlin.Boolean? = null
-) 
-: Serializable 
-
+) : Serializable 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

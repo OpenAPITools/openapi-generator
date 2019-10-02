@@ -12,51 +12,49 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import java.io.Serializable
+		import com.squareup.moshi.Json
+	import java.io.Serializable
 /**
- * 
- * @param justSymbol 
- * @param arrayEnum 
- */
+* 
+	* @param justSymbol 
+	* @param arrayEnum 
+*/
 
 data class EnumArrays (
     @Json(name = "just_symbol")
     val justSymbol: EnumArrays.JustSymbol? = null,
     @Json(name = "array_enum")
     val arrayEnum: kotlin.Array<EnumArrays.ArrayEnum>? = null
-) 
-: Serializable 
-
+) : Serializable 
 {
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
 
-    /**
-    * 
-    * Values: greaterThanEqual,dollar
-    */
-    
-    enum class JustSymbol(val value: kotlin.String){
-    
-        @Json(name = ">=") greaterThanEqual(">="),
-    
-        @Json(name = "$") dollar("$");
-    
+	/**
+	* 
+	* Values: greaterThanEqual,dollar
+	*/
+	
+	enum class JustSymbol(val value: kotlin.String){
+	
+				@Json(name = ">=") greaterThanEqual(">="),
+	
+				@Json(name = "$") dollar("$");
+	
+	}
 
-    }
-
-    /**
-    * 
-    * Values: fish,crab
-    */
-    
-    enum class ArrayEnum(val value: kotlin.String){
-    
-        @Json(name = "fish") fish("fish"),
-    
-        @Json(name = "crab") crab("crab");
-    
-
-    }
-
+	/**
+	* 
+	* Values: fish,crab
+	*/
+	
+	enum class ArrayEnum(val value: kotlin.String){
+	
+				@Json(name = "fish") fish("fish"),
+	
+				@Json(name = "crab") crab("crab");
+	
+	}
 }
 

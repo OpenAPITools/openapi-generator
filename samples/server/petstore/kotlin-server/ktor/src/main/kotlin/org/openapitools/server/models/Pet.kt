@@ -35,8 +35,11 @@ data class Pet (
 ) 
 : Serializable 
 
-{
-
+{ 
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+	
     /**
     * pet status in the store
     * Values: available,pending,sold
@@ -51,5 +54,5 @@ data class Pet (
     
     }
 
-}
+ } 
 

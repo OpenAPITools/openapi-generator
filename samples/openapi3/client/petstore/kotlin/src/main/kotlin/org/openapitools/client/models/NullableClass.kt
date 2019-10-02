@@ -12,23 +12,23 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import java.io.Serializable
+		import com.squareup.moshi.Json
+	import java.io.Serializable
 /**
- * 
- * @param integerProp 
- * @param numberProp 
- * @param booleanProp 
- * @param stringProp 
- * @param dateProp 
- * @param datetimeProp 
- * @param arrayNullableProp 
- * @param arrayAndItemsNullableProp 
- * @param arrayItemsNullable 
- * @param objectNullableProp 
- * @param objectAndItemsNullableProp 
- * @param objectItemsNullable 
- */
+* 
+	* @param integerProp 
+	* @param numberProp 
+	* @param booleanProp 
+	* @param stringProp 
+	* @param dateProp 
+	* @param datetimeProp 
+	* @param arrayNullableProp 
+	* @param arrayAndItemsNullableProp 
+	* @param arrayItemsNullable 
+	* @param objectNullableProp 
+	* @param objectAndItemsNullableProp 
+	* @param objectItemsNullable 
+*/
 
 data class NullableClass (
     @Json(name = "integer_prop")
@@ -55,7 +55,10 @@ data class NullableClass (
     val objectAndItemsNullableProp: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null,
     @Json(name = "object_items_nullable")
     val objectItemsNullable: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
-) 
-: Serializable 
-
+) : Serializable 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

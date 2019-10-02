@@ -12,15 +12,15 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import java.io.Serializable
+		import com.squareup.moshi.Json
+	import java.io.Serializable
 /**
- * 
- * @param mapMapOfString 
- * @param mapOfEnumString 
- * @param directMap 
- * @param indirectMap 
- */
+* 
+	* @param mapMapOfString 
+	* @param mapOfEnumString 
+	* @param directMap 
+	* @param indirectMap 
+*/
 
 data class MapTest (
     @Json(name = "map_map_of_string")
@@ -31,24 +31,23 @@ data class MapTest (
     val directMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null,
     @Json(name = "indirect_map")
     val indirectMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null
-) 
-: Serializable 
-
+) : Serializable 
 {
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
 
-    /**
-    * 
-    * Values: uPPER,lower
-    */
-    
-    enum class MapOfEnumString(val value: kotlin.collections.Map<kotlin.String, kotlin.String>){
-    
-        @Json(name = "UPPER") uPPER("UPPER"),
-    
-        @Json(name = "lower") lower("lower");
-    
-
-    }
-
+	/**
+	* 
+	* Values: uPPER,lower
+	*/
+	
+	enum class MapOfEnumString(val value: kotlin.collections.Map<kotlin.String, kotlin.String>){
+	
+				@Json(name = "UPPER") uPPER("UPPER"),
+	
+				@Json(name = "lower") lower("lower");
+	
+	}
 }
 

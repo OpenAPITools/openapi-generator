@@ -24,8 +24,14 @@ data class {{classname}} (
 ) {{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}
 {{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}
 {{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}
-{
-{{#hasEnums}}{{#vars}}{{#isEnum}}
+{{#needsDataClassBody}}{ {{/needsDataClassBody}}
+{{#serializableModel}}
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+{{/serializableModel}}
+{{#hasEnums}}
+	{{#vars}}{{#isEnum}}
     /**
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
@@ -35,5 +41,6 @@ data class {{classname}} (
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/enumVars}}{{/allowableValues}}
     }
-{{/isEnum}}{{/vars}}{{/hasEnums}}
-}
+{{/isEnum}}{{/vars}}
+{{/hasEnums}}
+{{#needsDataClassBody}} } {{/needsDataClassBody}}

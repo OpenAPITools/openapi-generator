@@ -11,19 +11,19 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override suspend fun deletePet(petId: Long, apiKey: String?): Unit {
+    override suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): Unit {
         TODO("Implement me")
     }
 
-    override fun findPetsByStatus(status: List<String>): Flow<Pet> {
+    override fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): Flow<Pet> {
         TODO("Implement me")
     }
 
-    override fun findPetsByTags(tags: List<String>, maxCount: Int?): Flow<Pet> {
+    override fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): Flow<Pet> {
         TODO("Implement me")
     }
 
-    override suspend fun getPetById(petId: Long): Pet {
+    override suspend fun getPetById(petId: kotlin.Long): Pet {
         TODO("Implement me")
     }
 
@@ -31,11 +31,11 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override suspend fun updatePetWithForm(petId: Long, name: String?, status: String?): Unit {
+    override suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): Unit {
         TODO("Implement me")
     }
 
-    override suspend fun uploadFile(petId: Long, additionalMetadata: String?, file: org.springframework.core.io.Resource?): ModelApiResponse {
+    override suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: org.springframework.core.io.Resource?): ModelApiResponse {
         TODO("Implement me")
     }
 }

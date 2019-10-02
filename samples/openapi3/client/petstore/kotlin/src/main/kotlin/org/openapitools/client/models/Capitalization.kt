@@ -12,17 +12,17 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import java.io.Serializable
+		import com.squareup.moshi.Json
+	import java.io.Serializable
 /**
- * 
- * @param smallCamel 
- * @param capitalCamel 
- * @param smallSnake 
- * @param capitalSnake 
- * @param scAETHFlowPoints 
- * @param ATT_NAME Name of the pet 
- */
+* 
+	* @param smallCamel 
+	* @param capitalCamel 
+	* @param smallSnake 
+	* @param capitalSnake 
+	* @param scAETHFlowPoints 
+	* @param ATT_NAME Name of the pet 
+*/
 
 data class Capitalization (
     @Json(name = "smallCamel")
@@ -38,7 +38,10 @@ data class Capitalization (
     /* Name of the pet  */
     @Json(name = "ATT_NAME")
     val ATT_NAME: kotlin.String? = null
-) 
-: Serializable 
-
+) : Serializable 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 
