@@ -39,15 +39,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String VENDOR_EXTENSION_ESCAPED_NAME = "x-escapedName";
 
     protected static final String JVM = "jvm";
+    protected static final String JVM_OKHTTP4 = "jvm-okhttp4";
+    protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
     protected static final String MULTIPLATFORM = "multiplatform";
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String COLLECTION_TYPE = "collectionType";
-    public static final String HTTP_LIBRARY = "httpLibrary";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String collectionType = CollectionType.ARRAY.value;
-    protected String httpLibrary = HttpLibrary.OKHTTP4.value;
 
     // https://kotlinlang.org/docs/reference/grammar.html#Identifier
     protected static final Pattern IDENTIFIER_PATTERN =
@@ -76,17 +76,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         public final String value;
 
         CollectionType(String value) {
-            this.value = value;
-        }
-    }
-
-    public enum HttpLibrary {
-        OKHTTP3("OkHttp3"),
-        OKHTTP4("OkHttp4");
-
-        public final String value;
-
-        HttpLibrary(String value) {
             this.value = value;
         }
     }
@@ -130,22 +119,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         collectionType.setDefault(this.collectionType);
         cliOptions.add(collectionType);
 
-        CliOption httpLibrary = new CliOption(HTTP_LIBRARY, "Option. Http library type to use");
-        Map<String, String> httpLibraryOptions = new HashMap<>();
-        httpLibraryOptions.put(HttpLibrary.OKHTTP3.value, "OkHttp 3 (Android 2.3+ and Java 7+)");
-        httpLibraryOptions.put(HttpLibrary.OKHTTP4.value, "OkHttp 4 (Android 5.0+ and Java 8+)");
-        httpLibrary.setEnum(httpLibraryOptions);
-        httpLibrary.setDefault(this.httpLibrary);
-        cliOptions.add(httpLibrary);
-
-        supportedLibraries.put(JVM, "Platform: Java Virtual Machine. HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.8.1.");
+        supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
+        supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
-        libraryOption.setDefault(JVM);
+        libraryOption.setDefault(JVM_OKHTTP4);
         cliOptions.add(libraryOption);
-        setLibrary(JVM);
+        setLibrary(JVM_OKHTTP4);
     }
 
     public CodegenType getTag() {
@@ -166,10 +148,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setCollectionType(String collectionType) {
         this.collectionType = collectionType;
-    }
-
-    public void setHttpLibrary(String httpLibrary) {
-        this.httpLibrary = httpLibrary;
     }
 
     @Override
@@ -197,8 +175,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
 
-        if (JVM.equals(getLibrary())) {
+        if (isJVMLibrary()) {
             additionalProperties.put(JVM, true);
+
+            if (JVM_OKHTTP4.equals(getLibrary())) {
+                additionalProperties.put(JVM_OKHTTP4, true);
+            } else if (JVM_OKHTTP3.equals(getLibrary())) {
+                additionalProperties.put(JVM_OKHTTP3, true);
+            }
 
             // jvm specific supporting files
             supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
@@ -277,16 +261,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put("isList", true);
         }
 
-        // Http Client
-        if (additionalProperties.containsKey(HTTP_LIBRARY)) {
-            setHttpLibrary(additionalProperties.get(HTTP_LIBRARY).toString());
-        }
+    }
 
-        if (HttpLibrary.OKHTTP4.value.equals(httpLibrary)) {
-            additionalProperties.put(HttpLibrary.OKHTTP4.value, true);
-        } else if (HttpLibrary.OKHTTP3.value.equals(httpLibrary)) {
-            additionalProperties.put(HttpLibrary.OKHTTP3.value, true);
-        }
+    private boolean isJVMLibrary() {
+        return getLibrary() != null && (getLibrary().contains(JVM_OKHTTP4) || getLibrary().contains(JVM_OKHTTP3));
     }
 
     @Override
