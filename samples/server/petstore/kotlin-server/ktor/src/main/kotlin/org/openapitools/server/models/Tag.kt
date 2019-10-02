@@ -21,12 +21,10 @@ import java.io.Serializable
 data class Tag (
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
-) 
-: Serializable 
-
-{ 
+) : Serializable 
+{
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
- } 
+}
 

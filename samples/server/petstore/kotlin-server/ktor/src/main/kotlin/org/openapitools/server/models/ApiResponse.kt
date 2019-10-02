@@ -23,12 +23,10 @@ data class ApiResponse (
     val code: kotlin.Int? = null,
     val type: kotlin.String? = null,
     val message: kotlin.String? = null
-) 
-: Serializable 
-
-{ 
+) : Serializable 
+{
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
- } 
+}
 
