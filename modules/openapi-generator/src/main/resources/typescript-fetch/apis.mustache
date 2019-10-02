@@ -232,7 +232,7 @@ export class {{classname}} extends runtime.BaseAPI {
         return new runtime.JSONApiResponse<any>(response);
         {{/isListContainer}}
         {{#returnSimpleType}}
-        return new runtime.TextApiResponse(response as any);
+        return new runtime.TextApiResponse(response) as any;
         {{/returnSimpleType}}
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}
