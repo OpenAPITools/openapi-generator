@@ -150,7 +150,11 @@ class ObjectSerializer
      */
     public static function toHeaderValue($value)
     {
-        return json_encode(ObjectSerializer::sanitizeForSerialization($value));
+        if (method_exists($value, 'toHeaderValue')) {
+            return $value->toHeaderValue();
+        }
+
+        return self::toString($value);
     }
 
     /**
