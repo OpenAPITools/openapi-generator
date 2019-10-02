@@ -26,6 +26,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
+  {{#gson}}
+  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
+  {{/gson}}
   {{#withXml}}
   {{#isXmlAttribute}}
   @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
@@ -48,7 +51,6 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{/isXmlAttribute}}
   {{/withXml}}
   {{#gson}}
-  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
   {{#jackson}}
