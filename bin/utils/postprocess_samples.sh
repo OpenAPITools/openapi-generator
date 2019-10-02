@@ -11,6 +11,6 @@ projectDir=$scriptDir/../../
 cd $projectDir
 
 # C# requires a test png to run the appveyor tests.
-cp CI/sample.ci/test-resources/linux-logo.png samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/linux-logo.png
-cp CI/sample.ci/test-resources/linux-logo.png samples/client/petstore/csharp-netcore/OpenAPIClientCore/src/Org.OpenAPITools.Test/linux-logo.png
-cp CI/sample.ci/test-resources/linux-logo.png samples/client/petstore/csharp/OpenAPIClient/src/Org.OpenAPITools.Test/linux-logo.png
+cp CI/samples.ci/test-resources/linux-logo.png samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/linux-logo.png
+cp CI/samples.ci/test-resources/linux-logo.png samples/client/petstore/csharp-netcore/OpenAPIClientCore/src/Org.OpenAPITools.Test/linux-logo.png
+cp CI/samples.ci/test-resources/linux-logo.png samples/client/petstore/csharp/OpenAPIClient/src/Org.OpenAPITools.Test/linux-logo.png
