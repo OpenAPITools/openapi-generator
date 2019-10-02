@@ -150,11 +150,7 @@ class ObjectSerializer
      */
     public static function toHeaderValue($value)
     {
-        if (method_exists($value, 'toHeaderValue')) {
-            return $value->toHeaderValue();
-        }
-
-        return self::toString($value);
+        return str_replace(PHP_EOL, '', (string)$value);
     }
 
     /**

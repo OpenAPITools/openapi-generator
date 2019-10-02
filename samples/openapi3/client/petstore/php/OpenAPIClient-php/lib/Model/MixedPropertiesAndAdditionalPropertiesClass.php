@@ -352,16 +352,6 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
             JSON_PRETTY_PRINT
         );
     }
-
-    /**
-     * Gets a header-safe presentation of the object
-     *
-     * @return string
-     */
-    public function toHeaderValue()
-    {
-        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
-    }
 }
 
 
