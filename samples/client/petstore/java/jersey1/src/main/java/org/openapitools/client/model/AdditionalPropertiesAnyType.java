@@ -37,6 +37,10 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   private String name;
 
 
+  public String name() {
+    return name;
+  }
+
   public AdditionalPropertiesAnyType name(String name) {
     
     this.name = name;

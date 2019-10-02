@@ -55,6 +55,10 @@ public class Capitalization {
   private String ATT_NAME;
 
 
+  public String smallCamel() {
+    return smallCamel;
+  }
+
   public Capitalization smallCamel(String smallCamel) {
     
     this.smallCamel = smallCamel;
@@ -80,6 +84,10 @@ public class Capitalization {
     this.smallCamel = smallCamel;
   }
 
+
+  public String capitalCamel() {
+    return capitalCamel;
+  }
 
   public Capitalization capitalCamel(String capitalCamel) {
     
@@ -107,6 +115,10 @@ public class Capitalization {
   }
 
 
+  public String smallSnake() {
+    return smallSnake;
+  }
+
   public Capitalization smallSnake(String smallSnake) {
     
     this.smallSnake = smallSnake;
@@ -132,6 +144,10 @@ public class Capitalization {
     this.smallSnake = smallSnake;
   }
 
+
+  public String capitalSnake() {
+    return capitalSnake;
+  }
 
   public Capitalization capitalSnake(String capitalSnake) {
     
@@ -159,6 +175,10 @@ public class Capitalization {
   }
 
 
+  public String scAETHFlowPoints() {
+    return scAETHFlowPoints;
+  }
+
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -184,6 +204,10 @@ public class Capitalization {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
+
+  public String ATT_NAME() {
+    return ATT_NAME;
+  }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
     

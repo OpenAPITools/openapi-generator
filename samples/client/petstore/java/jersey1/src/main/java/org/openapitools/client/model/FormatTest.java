@@ -92,6 +92,10 @@ public class FormatTest {
   private BigDecimal bigDecimal;
 
 
+  public Integer integer() {
+    return integer;
+  }
+
   public FormatTest integer(Integer integer) {
     
     this.integer = integer;
@@ -119,6 +123,10 @@ public class FormatTest {
     this.integer = integer;
   }
 
+
+  public Integer int32() {
+    return int32;
+  }
 
   public FormatTest int32(Integer int32) {
     
@@ -148,6 +156,10 @@ public class FormatTest {
   }
 
 
+  public Long int64() {
+    return int64;
+  }
+
   public FormatTest int64(Long int64) {
     
     this.int64 = int64;
@@ -173,6 +185,10 @@ public class FormatTest {
     this.int64 = int64;
   }
 
+
+  public BigDecimal number() {
+    return number;
+  }
 
   public FormatTest number(BigDecimal number) {
     
@@ -200,6 +216,10 @@ public class FormatTest {
     this.number = number;
   }
 
+
+  public Float _float() {
+    return _float;
+  }
 
   public FormatTest _float(Float _float) {
     
@@ -229,6 +249,10 @@ public class FormatTest {
   }
 
 
+  public Double _double() {
+    return _double;
+  }
+
   public FormatTest _double(Double _double) {
     
     this._double = _double;
@@ -257,6 +281,10 @@ public class FormatTest {
   }
 
 
+  public String string() {
+    return string;
+  }
+
   public FormatTest string(String string) {
     
     this.string = string;
@@ -283,6 +311,10 @@ public class FormatTest {
   }
 
 
+  public byte[] _byte() {
+    return _byte;
+  }
+
   public FormatTest _byte(byte[] _byte) {
     
     this._byte = _byte;
@@ -307,6 +339,10 @@ public class FormatTest {
     this._byte = _byte;
   }
 
+
+  public File binary() {
+    return binary;
+  }
 
   public FormatTest binary(File binary) {
     
@@ -334,6 +370,10 @@ public class FormatTest {
   }
 
 
+  public LocalDate date() {
+    return date;
+  }
+
   public FormatTest date(LocalDate date) {
     
     this.date = date;
@@ -358,6 +398,10 @@ public class FormatTest {
     this.date = date;
   }
 
+
+  public OffsetDateTime dateTime() {
+    return dateTime;
+  }
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
     
@@ -385,6 +429,10 @@ public class FormatTest {
   }
 
 
+  public UUID uuid() {
+    return uuid;
+  }
+
   public FormatTest uuid(UUID uuid) {
     
     this.uuid = uuid;
@@ -411,6 +459,10 @@ public class FormatTest {
   }
 
 
+  public String password() {
+    return password;
+  }
+
   public FormatTest password(String password) {
     
     this.password = password;
@@ -435,6 +487,10 @@ public class FormatTest {
     this.password = password;
   }
 
+
+  public BigDecimal bigDecimal() {
+    return bigDecimal;
+  }
 
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
     

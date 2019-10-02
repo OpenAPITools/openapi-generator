@@ -39,6 +39,10 @@ public class ReadOnlyFirst {
   private String baz;
 
 
+  public String bar() {
+    return bar;
+  }
+
    /**
    * Get bar
    * @return bar
@@ -54,6 +58,10 @@ public class ReadOnlyFirst {
 
 
 
+
+  public String baz() {
+    return baz;
+  }
 
   public ReadOnlyFirst baz(String baz) {
     

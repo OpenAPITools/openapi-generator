@@ -41,6 +41,10 @@ public class FileSchemaTestClass {
   private List<java.io.File> files = null;
 
 
+  public java.io.File file() {
+    return file;
+  }
+
   public FileSchemaTestClass file(java.io.File file) {
     
     this.file = file;
@@ -66,6 +70,10 @@ public class FileSchemaTestClass {
     this.file = file;
   }
 
+
+  public List<java.io.File> files() {
+    return files;
+  }
 
   public FileSchemaTestClass files(List<java.io.File> files) {
     

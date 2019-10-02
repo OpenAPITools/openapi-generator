@@ -96,6 +96,10 @@ public class Pet {
   private StatusEnum status;
 
 
+  public Long id() {
+    return id;
+  }
+
   public Pet id(Long id) {
     
     this.id = id;
@@ -121,6 +125,10 @@ public class Pet {
     this.id = id;
   }
 
+
+  public Category category() {
+    return category;
+  }
 
   public Pet category(Category category) {
     
@@ -148,6 +156,10 @@ public class Pet {
   }
 
 
+  public String name() {
+    return name;
+  }
+
   public Pet name(String name) {
     
     this.name = name;
@@ -172,6 +184,10 @@ public class Pet {
     this.name = name;
   }
 
+
+  public List<String> photoUrls() {
+    return photoUrls;
+  }
 
   public Pet photoUrls(List<String> photoUrls) {
     
@@ -202,6 +218,10 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
+
+  public List<Tag> tags() {
+    return tags;
+  }
 
   public Pet tags(List<Tag> tags) {
     
@@ -236,6 +256,10 @@ public class Pet {
     this.tags = tags;
   }
 
+
+  public StatusEnum status() {
+    return status;
+  }
 
   public Pet status(StatusEnum status) {
     

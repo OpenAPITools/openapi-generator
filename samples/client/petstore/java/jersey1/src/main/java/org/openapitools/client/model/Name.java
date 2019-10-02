@@ -48,6 +48,10 @@ public class Name {
   private Integer _123number;
 
 
+  public Integer name() {
+    return name;
+  }
+
   public Name name(Integer name) {
     
     this.name = name;
@@ -73,6 +77,10 @@ public class Name {
   }
 
 
+  public Integer snakeCase() {
+    return snakeCase;
+  }
+
    /**
    * Get snakeCase
    * @return snakeCase
@@ -88,6 +96,10 @@ public class Name {
 
 
 
+
+  public String property() {
+    return property;
+  }
 
   public Name property(String property) {
     
@@ -114,6 +126,10 @@ public class Name {
     this.property = property;
   }
 
+
+  public Integer _123number() {
+    return _123number;
+  }
 
    /**
    * Get _123number

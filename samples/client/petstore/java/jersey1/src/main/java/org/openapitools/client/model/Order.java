@@ -93,6 +93,10 @@ public class Order {
   private Boolean complete = false;
 
 
+  public Long id() {
+    return id;
+  }
+
   public Order id(Long id) {
     
     this.id = id;
@@ -118,6 +122,10 @@ public class Order {
     this.id = id;
   }
 
+
+  public Long petId() {
+    return petId;
+  }
 
   public Order petId(Long petId) {
     
@@ -145,6 +153,10 @@ public class Order {
   }
 
 
+  public Integer quantity() {
+    return quantity;
+  }
+
   public Order quantity(Integer quantity) {
     
     this.quantity = quantity;
@@ -170,6 +182,10 @@ public class Order {
     this.quantity = quantity;
   }
 
+
+  public OffsetDateTime shipDate() {
+    return shipDate;
+  }
 
   public Order shipDate(OffsetDateTime shipDate) {
     
@@ -197,6 +213,10 @@ public class Order {
   }
 
 
+  public StatusEnum status() {
+    return status;
+  }
+
   public Order status(StatusEnum status) {
     
     this.status = status;
@@ -222,6 +242,10 @@ public class Order {
     this.status = status;
   }
 
+
+  public Boolean complete() {
+    return complete;
+  }
 
   public Order complete(Boolean complete) {
     

@@ -47,6 +47,10 @@ public class Animal {
   private String color = "red";
 
 
+  public String className() {
+    return className;
+  }
+
   public Animal className(String className) {
     
     this.className = className;
@@ -71,6 +75,10 @@ public class Animal {
     this.className = className;
   }
 
+
+  public String color() {
+    return color;
+  }
 
   public Animal color(String color) {
     

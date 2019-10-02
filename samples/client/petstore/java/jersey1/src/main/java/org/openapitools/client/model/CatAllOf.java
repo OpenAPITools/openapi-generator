@@ -35,6 +35,10 @@ public class CatAllOf {
   private Boolean declawed;
 
 
+  public Boolean declawed() {
+    return declawed;
+  }
+
   public CatAllOf declawed(Boolean declawed) {
     
     this.declawed = declawed;

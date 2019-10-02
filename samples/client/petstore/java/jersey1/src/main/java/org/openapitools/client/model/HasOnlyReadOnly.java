@@ -39,6 +39,10 @@ public class HasOnlyReadOnly {
   private String foo;
 
 
+  public String bar() {
+    return bar;
+  }
+
    /**
    * Get bar
    * @return bar
@@ -54,6 +58,10 @@ public class HasOnlyReadOnly {
 
 
 
+
+  public String foo() {
+    return foo;
+  }
 
    /**
    * Get foo

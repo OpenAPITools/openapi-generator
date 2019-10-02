@@ -63,6 +63,10 @@ public class User {
   private Integer userStatus;
 
 
+  public Long id() {
+    return id;
+  }
+
   public User id(Long id) {
     
     this.id = id;
@@ -88,6 +92,10 @@ public class User {
     this.id = id;
   }
 
+
+  public String username() {
+    return username;
+  }
 
   public User username(String username) {
     
@@ -115,6 +123,10 @@ public class User {
   }
 
 
+  public String firstName() {
+    return firstName;
+  }
+
   public User firstName(String firstName) {
     
     this.firstName = firstName;
@@ -140,6 +152,10 @@ public class User {
     this.firstName = firstName;
   }
 
+
+  public String lastName() {
+    return lastName;
+  }
 
   public User lastName(String lastName) {
     
@@ -167,6 +183,10 @@ public class User {
   }
 
 
+  public String email() {
+    return email;
+  }
+
   public User email(String email) {
     
     this.email = email;
@@ -192,6 +212,10 @@ public class User {
     this.email = email;
   }
 
+
+  public String password() {
+    return password;
+  }
 
   public User password(String password) {
     
@@ -219,6 +243,10 @@ public class User {
   }
 
 
+  public String phone() {
+    return phone;
+  }
+
   public User phone(String phone) {
     
     this.phone = phone;
@@ -244,6 +272,10 @@ public class User {
     this.phone = phone;
   }
 
+
+  public Integer userStatus() {
+    return userStatus;
+  }
 
   public User userStatus(Integer userStatus) {
     

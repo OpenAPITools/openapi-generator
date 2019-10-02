@@ -36,6 +36,10 @@ public class ClassModel {
   private String propertyClass;
 
 
+  public String propertyClass() {
+    return propertyClass;
+  }
+
   public ClassModel propertyClass(String propertyClass) {
     
     this.propertyClass = propertyClass;

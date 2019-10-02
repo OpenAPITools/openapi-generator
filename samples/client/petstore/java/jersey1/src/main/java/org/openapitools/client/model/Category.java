@@ -39,6 +39,10 @@ public class Category {
   private String name = "default-name";
 
 
+  public Long id() {
+    return id;
+  }
+
   public Category id(Long id) {
     
     this.id = id;
@@ -64,6 +68,10 @@ public class Category {
     this.id = id;
   }
 
+
+  public String name() {
+    return name;
+  }
 
   public Category name(String name) {
     

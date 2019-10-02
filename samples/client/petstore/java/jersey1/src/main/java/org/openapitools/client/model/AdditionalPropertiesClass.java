@@ -79,6 +79,10 @@ public class AdditionalPropertiesClass {
   private Object anytype3;
 
 
+  public Map<String, String> mapString() {
+    return mapString;
+  }
+
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     
     this.mapString = mapString;
@@ -112,6 +116,10 @@ public class AdditionalPropertiesClass {
     this.mapString = mapString;
   }
 
+
+  public Map<String, BigDecimal> mapNumber() {
+    return mapNumber;
+  }
 
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     
@@ -147,6 +155,10 @@ public class AdditionalPropertiesClass {
   }
 
 
+  public Map<String, Integer> mapInteger() {
+    return mapInteger;
+  }
+
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
     
     this.mapInteger = mapInteger;
@@ -180,6 +192,10 @@ public class AdditionalPropertiesClass {
     this.mapInteger = mapInteger;
   }
 
+
+  public Map<String, Boolean> mapBoolean() {
+    return mapBoolean;
+  }
 
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
     
@@ -215,6 +231,10 @@ public class AdditionalPropertiesClass {
   }
 
 
+  public Map<String, List<Integer>> mapArrayInteger() {
+    return mapArrayInteger;
+  }
+
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     
     this.mapArrayInteger = mapArrayInteger;
@@ -248,6 +268,10 @@ public class AdditionalPropertiesClass {
     this.mapArrayInteger = mapArrayInteger;
   }
 
+
+  public Map<String, List<Object>> mapArrayAnytype() {
+    return mapArrayAnytype;
+  }
 
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     
@@ -283,6 +307,10 @@ public class AdditionalPropertiesClass {
   }
 
 
+  public Map<String, Map<String, String>> mapMapString() {
+    return mapMapString;
+  }
+
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
     
     this.mapMapString = mapMapString;
@@ -316,6 +344,10 @@ public class AdditionalPropertiesClass {
     this.mapMapString = mapMapString;
   }
 
+
+  public Map<String, Map<String, Object>> mapMapAnytype() {
+    return mapMapAnytype;
+  }
 
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     
@@ -351,6 +383,10 @@ public class AdditionalPropertiesClass {
   }
 
 
+  public Object anytype1() {
+    return anytype1;
+  }
+
   public AdditionalPropertiesClass anytype1(Object anytype1) {
     
     this.anytype1 = anytype1;
@@ -377,6 +413,10 @@ public class AdditionalPropertiesClass {
   }
 
 
+  public Object anytype2() {
+    return anytype2;
+  }
+
   public AdditionalPropertiesClass anytype2(Object anytype2) {
     
     this.anytype2 = anytype2;
@@ -402,6 +442,10 @@ public class AdditionalPropertiesClass {
     this.anytype2 = anytype2;
   }
 
+
+  public Object anytype3() {
+    return anytype3;
+  }
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
     

@@ -44,6 +44,10 @@ public class OuterComposite {
   private Boolean myBoolean;
 
 
+  public BigDecimal myNumber() {
+    return myNumber;
+  }
+
   public OuterComposite myNumber(BigDecimal myNumber) {
     
     this.myNumber = myNumber;
@@ -70,6 +74,10 @@ public class OuterComposite {
   }
 
 
+  public String myString() {
+    return myString;
+  }
+
   public OuterComposite myString(String myString) {
     
     this.myString = myString;
@@ -95,6 +103,10 @@ public class OuterComposite {
     this.myString = myString;
   }
 
+
+  public Boolean myBoolean() {
+    return myBoolean;
+  }
 
   public OuterComposite myBoolean(Boolean myBoolean) {
     

@@ -43,6 +43,10 @@ public class ModelApiResponse {
   private String message;
 
 
+  public Integer code() {
+    return code;
+  }
+
   public ModelApiResponse code(Integer code) {
     
     this.code = code;
@@ -69,6 +73,10 @@ public class ModelApiResponse {
   }
 
 
+  public String type() {
+    return type;
+  }
+
   public ModelApiResponse type(String type) {
     
     this.type = type;
@@ -94,6 +102,10 @@ public class ModelApiResponse {
     this.type = type;
   }
 
+
+  public String message() {
+    return message;
+  }
 
   public ModelApiResponse message(String message) {
     

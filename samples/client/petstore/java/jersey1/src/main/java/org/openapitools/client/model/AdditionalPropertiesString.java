@@ -37,6 +37,10 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
   private String name;
 
 
+  public String name() {
+    return name;
+  }
+
   public AdditionalPropertiesString name(String name) {
     
     this.name = name;

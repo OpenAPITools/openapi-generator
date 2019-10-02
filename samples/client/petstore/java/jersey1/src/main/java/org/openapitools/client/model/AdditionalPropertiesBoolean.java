@@ -37,6 +37,10 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   private String name;
 
 
+  public String name() {
+    return name;
+  }
+
   public AdditionalPropertiesBoolean name(String name) {
     
     this.name = name;

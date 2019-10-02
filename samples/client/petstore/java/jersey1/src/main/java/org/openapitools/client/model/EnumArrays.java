@@ -111,6 +111,10 @@ public class EnumArrays {
   private List<ArrayEnumEnum> arrayEnum = null;
 
 
+  public JustSymbolEnum justSymbol() {
+    return justSymbol;
+  }
+
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     
     this.justSymbol = justSymbol;
@@ -136,6 +140,10 @@ public class EnumArrays {
     this.justSymbol = justSymbol;
   }
 
+
+  public List<ArrayEnumEnum> arrayEnum() {
+    return arrayEnum;
+  }
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     

@@ -40,6 +40,10 @@ public class Model200Response {
   private String propertyClass;
 
 
+  public Integer name() {
+    return name;
+  }
+
   public Model200Response name(Integer name) {
     
     this.name = name;
@@ -65,6 +69,10 @@ public class Model200Response {
     this.name = name;
   }
 
+
+  public String propertyClass() {
+    return propertyClass;
+  }
 
   public Model200Response propertyClass(String propertyClass) {
     

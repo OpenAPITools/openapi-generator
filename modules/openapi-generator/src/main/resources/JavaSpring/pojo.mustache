@@ -36,6 +36,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
 
   {{/vars}}
   {{#vars}}
+  public {{{datatypeWithEnum}}} {{name}}() {
+    return {{name}};
+  }
+
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
     return this;

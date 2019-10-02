@@ -36,6 +36,10 @@ public class NumberOnly {
   private BigDecimal justNumber;
 
 
+  public BigDecimal justNumber() {
+    return justNumber;
+  }
+
   public NumberOnly justNumber(BigDecimal justNumber) {
     
     this.justNumber = justNumber;

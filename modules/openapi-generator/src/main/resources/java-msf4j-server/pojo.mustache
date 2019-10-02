@@ -30,6 +30,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
   {{/vars}}
   {{#vars}}
+  public {{{datatypeWithEnum}}} {{name}}() {
+    return {{name}};
+  }
+
   {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};

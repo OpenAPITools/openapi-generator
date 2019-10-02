@@ -9,6 +9,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
   {{#vars}}
+  public {{{datatypeWithEnum}}} {{name}}() {
+    return {{name}};
+  }
+
   /**{{#description}}
    * {{{description}}}{{/description}}{{#minimum}}
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}

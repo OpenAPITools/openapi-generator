@@ -37,6 +37,10 @@ public class Cat extends Animal {
   private Boolean declawed;
 
 
+  public Boolean declawed() {
+    return declawed;
+  }
+
   public Cat declawed(Boolean declawed) {
     
     this.declawed = declawed;

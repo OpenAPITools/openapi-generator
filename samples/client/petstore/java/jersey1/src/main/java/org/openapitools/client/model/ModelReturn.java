@@ -36,6 +36,10 @@ public class ModelReturn {
   private Integer _return;
 
 
+  public Integer _return() {
+    return _return;
+  }
+
   public ModelReturn _return(Integer _return) {
     
     this._return = _return;

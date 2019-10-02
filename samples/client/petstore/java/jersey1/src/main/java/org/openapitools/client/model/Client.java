@@ -35,6 +35,10 @@ public class Client {
   private String client;
 
 
+  public String client() {
+    return client;
+  }
+
   public Client client(String client) {
     
     this.client = client;

@@ -38,6 +38,10 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   private String name;
 
 
+  public String name() {
+    return name;
+  }
+
   public AdditionalPropertiesNumber name(String name) {
     
     this.name = name;

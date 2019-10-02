@@ -38,6 +38,10 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
   private String name;
 
 
+  public String name() {
+    return name;
+  }
+
   public AdditionalPropertiesArray name(String name) {
     
     this.name = name;

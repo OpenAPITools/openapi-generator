@@ -38,6 +38,10 @@ public class ArrayOfNumberOnly {
   private List<BigDecimal> arrayNumber = null;
 
 
+  public List<BigDecimal> arrayNumber() {
+    return arrayNumber;
+  }
+
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     
     this.arrayNumber = arrayNumber;

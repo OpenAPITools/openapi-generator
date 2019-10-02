@@ -95,6 +95,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{/parcelableModel}}
   {{#vars}}
 
+  public {{{datatypeWithEnum}}} {{name}}() {
+    return {{name}};
+  }
+
   {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.isJacksonOptionalNullable}}this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});{{/vendorExtensions.isJacksonOptionalNullable}}

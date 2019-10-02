@@ -35,6 +35,10 @@ public class DogAllOf {
   private String breed;
 
 
+  public String breed() {
+    return breed;
+  }
+
   public DogAllOf breed(String breed) {
     
     this.breed = breed;
