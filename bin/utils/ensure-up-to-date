@@ -28,34 +28,21 @@ echo "Clearing out all samples..."
 rm -r ./samples/*
 
 # Lists all samples which are required by pom.xml
-# cat pom.xml | grep -P --only-matching "samples/[A-Za-z0-9-/._]+"
+# cat pom.xml | grep -P --only-matching "samples/[A-Za-z0-9-/._]+" | sort -u
 
 # LIST OF SCRIPTS:
 declare -a scripts=(
-# explicit maven submodules. Those may be duplicated by -all files
+# referenced in pom.xml
 "./bin/c-petstore.sh"
 "./bin/elm-0.18-petstore.sh"
 "./bin/rust-petstore.sh"
 "./bin/php-petstore.sh"
 "./bin/openapi3/php-petstore.sh"
 "./bin/php-slim-server-petstore.sh"
-"./bin/javascript-petstore.sh"
-"./bin/javascript-es6-petstore.sh"
 "./bin/openapi3/javascript-es6-petstore.sh"
-"./bin/javascript-promise-petstore.sh"
-"./bin/javascript-promise-es6-petstore.sh"
 "./bin/javascript-flowtyped-petstore.sh"
-"./bin/python-petstore.sh"
 "./bin/python-experimental-petstore.sh"
-"./bin/python-asyncio-petstore.sh"
-"./bin/python-tornado-petstore.sh"
 "./bin/openapi3/python-petstore.sh"
-"./bin/typescript-node-petstore.sh"
-"./bin/typescript-rxjs-petstore.sh"
-"./bin/typescript-angular-v4-petstore-with-npm.sh"
-"./bin/typescript-angular-v4.3-petstore-with-npm.sh"
-"./bin/typescript-angular-v6-petstore-provided-in-root.sh"
-"./bin/typescript-angular-v7-petstore-provided-in-root.sh"
 "./bin/rust-server-petstore.sh"
 "./bin/python-server-aiohttp-petstore.sh"
 "./bin/python-server-flask-petstore.sh"
