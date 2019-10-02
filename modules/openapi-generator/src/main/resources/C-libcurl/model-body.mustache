@@ -351,7 +351,7 @@ fail:
     {{^isPrimitiveType}}
     cJSON *{{{baseName}}};
     cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON,"{{{baseName}}}");
-    if(!cJSON_IsArray({{{baseName}}}JSON)){
+    if({{{baseName}}}JSON && !cJSON_IsArray({{{baseName}}}JSON)){
         goto end; //nonprimitive container
     }
 

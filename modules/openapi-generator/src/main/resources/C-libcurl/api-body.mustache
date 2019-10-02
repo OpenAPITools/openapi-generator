@@ -123,13 +123,15 @@
     keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, valueQuery_{{{paramName}}});
     list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
     {{/isString}}
-    {{^isString}}
-    //not string
+    {{#isInteger}}
+    //is Integer
     keyQuery_{{{paramName}}} = strdup("{{{paramName}}}");
     valueQuery_{{{paramName}}} = {{{paramName}}};
-    keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, &valueQuery_{{{paramName}}});
+	char localValueQuery_{{{paramName}}}[256];
+	sprintf(localValueQuery_{{{paramName}}}, "%d", valueQuery_Gpgpus);
+    keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, localValueQuery_{{{paramName}}});
     list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
-    {{/isString}}
+    {{/isInteger}}
     {{/isListContainer}}
     }
     {{/queryParams}}
@@ -263,12 +265,12 @@
     {{#returnTypeIsPrimitive}}
     {{#returnSimpleType}}
     //primitive reutrn type simple
-    {{returnType}}* elementToReturn =  strdup(({{returnType}}*)apiClient->dataReceived);
+    {{returnType}}* elementToReturn =  strdup(({{returnType}}*)apiClient->dataReceived.memory);
 
     {{/returnSimpleType}}
     {{^returnSimpleType}}
     //primitive reutrn type not simple
-    cJSON *{{paramName}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+    cJSON *{{paramName}}localVarJSON = cJSON_Parse(apiClient->dataReceived.memory);
     cJSON *{{{paramName}}}VarJSON;
     list_t *elementToReturn = list_create();
     cJSON_ArrayForEach({{{paramName}}}VarJSON, {{paramName}}localVarJSON){
@@ -281,7 +283,7 @@
     {{/returnTypeIsPrimitive}}
     {{^returnTypeIsPrimitive}}
     {{#returnContainer}}
-    cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+    cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived.memory);
     if(!cJSON_IsArray({{classname}}localVarJSON)) {
         return 0;//nonprimitive container
     }
@@ -302,7 +304,7 @@
     {{/returnContainer}}
     {{^returnContainer}}
     //nonprimitive not container
-    {{{returnBaseType}}}_t *elementToReturn = {{{returnBaseType}}}_parseFromJSON(apiClient->dataReceived);
+    {{{returnBaseType}}}_t *elementToReturn = {{{returnBaseType}}}_parseFromJSON(apiClient->dataReceived.memory);
     if(elementToReturn == NULL) {
         // return 0;
     }

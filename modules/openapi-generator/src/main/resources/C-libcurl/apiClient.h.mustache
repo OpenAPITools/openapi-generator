@@ -8,10 +8,16 @@ typedef int bool;
 #define true 1
 #define false 0
 
+struct MemoryStruct {
+  char *memory;
+  size_t size;
+};
+
 typedef struct apiClient_t {
     char *basePath;
-    void *dataReceived;
+    struct MemoryStruct dataReceived;
     long response_code;
+	bool verify;
     // this would only be generated for basic authentication
     #ifdef BASIC_AUTH
     char *username;
