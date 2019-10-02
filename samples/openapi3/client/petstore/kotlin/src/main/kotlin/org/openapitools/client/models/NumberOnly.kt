@@ -12,17 +12,19 @@
 package org.openapitools.client.models
 
 
-		import com.squareup.moshi.Json
-	import java.io.Serializable
+import com.squareup.moshi.Json
+import java.io.Serializable
 /**
-* 
-	* @param justNumber 
-*/
+ * 
+ * @param justNumber 
+ */
 
 data class NumberOnly (
     @Json(name = "JustNumber")
     val justNumber: java.math.BigDecimal? = null
-) : Serializable 
+) 
+: Serializable 
+
 {
 	companion object {
 		private const val serialVersionUID: Long = 123

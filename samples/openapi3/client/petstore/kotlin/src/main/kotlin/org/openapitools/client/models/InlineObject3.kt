@@ -12,37 +12,37 @@
 package org.openapitools.client.models
 
 
-		import com.squareup.moshi.Json
-	import java.io.Serializable
+import com.squareup.moshi.Json
+import java.io.Serializable
 /**
-* 
-	* @param integer None
-	* @param int32 None
-	* @param int64 None
-	* @param number None
-	* @param float None
-	* @param double None
-	* @param string None
-	* @param patternWithoutDelimiter None
-	* @param byte None
-	* @param binary None
-	* @param date None
-	* @param dateTime None
-	* @param password None
-	* @param callback None
-*/
+ * 
+ * @param integer None
+ * @param int32 None
+ * @param int64 None
+ * @param number None
+ * @param float None
+ * @param double None
+ * @param string None
+ * @param patternWithoutDelimiter None
+ * @param byte None
+ * @param binary None
+ * @param date None
+ * @param dateTime None
+ * @param password None
+ * @param callback None
+ */
 
 data class InlineObject3 (
-	    /* None */
+    /* None */
     @Json(name = "number")
     val number: java.math.BigDecimal,
-		    /* None */
+    /* None */
     @Json(name = "double")
     val double: kotlin.Double,
-		    /* None */
+    /* None */
     @Json(name = "pattern_without_delimiter")
     val patternWithoutDelimiter: kotlin.String,
-		    /* None */
+    /* None */
     @Json(name = "byte")
     val byte: kotlin.ByteArray,
     /* None */
@@ -75,7 +75,9 @@ data class InlineObject3 (
     /* None */
     @Json(name = "callback")
     val callback: kotlin.String? = null
-) : Serializable 
+) 
+: Serializable 
+
 {
 	companion object {
 		private const val serialVersionUID: Long = 123

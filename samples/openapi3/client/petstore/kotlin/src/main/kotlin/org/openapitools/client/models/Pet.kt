@@ -14,22 +14,22 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
-		import com.squareup.moshi.Json
-	import java.io.Serializable
+import com.squareup.moshi.Json
+import java.io.Serializable
 /**
-* 
-	* @param id 
-	* @param category 
-	* @param name 
-	* @param photoUrls 
-	* @param tags 
-	* @param status pet status in the store
-*/
+ * 
+ * @param id 
+ * @param category 
+ * @param name 
+ * @param photoUrls 
+ * @param tags 
+ * @param status pet status in the store
+ */
 
 data class Pet (
-	    @Json(name = "name")
+    @Json(name = "name")
     val name: kotlin.String,
-		    @Json(name = "photoUrls")
+    @Json(name = "photoUrls")
     val photoUrls: kotlin.Array<kotlin.String>,
     @Json(name = "id")
     val id: kotlin.Long? = null,
@@ -40,25 +40,30 @@ data class Pet (
     /* pet status in the store */
     @Json(name = "status")
     val status: Pet.Status? = null
-) : Serializable 
+) 
+: Serializable 
+
 {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
 
-	/**
-	* pet status in the store
-	* Values: available,pending,sold
-	*/
-	
-	enum class Status(val value: kotlin.String){
-	
-				@Json(name = "available") available("available"),
-	
-				@Json(name = "pending") pending("pending"),
-	
-				@Json(name = "sold") sold("sold");
-	
-	}
+
+    /**
+    * pet status in the store
+    * Values: available,pending,sold
+    */
+    
+    enum class Status(val value: kotlin.String){
+    
+        @Json(name = "available") available("available"),
+    
+        @Json(name = "pending") pending("pending"),
+    
+        @Json(name = "sold") sold("sold");
+    
+
+    }
+
 }
 
