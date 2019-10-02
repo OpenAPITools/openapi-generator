@@ -51,7 +51,8 @@ import {{packageName}}.auth.*
         mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
                 "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}
                 "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
-                "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{/authMethods}})
+                "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
+                "{{name}}" to OAuth(){{/isOAuth}}{{#hasMore}}, {{/hasMore}}{{/authMethods}})
     }
 
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
@@ -62,7 +63,7 @@ import {{packageName}}.auth.*
             {{classname}}.setMappers(serializer)
             {{/apis}}{{/apiInfo}}
             {{#models}}
-            {{#model}}{{^isAlias}}serializer.setMapper({{classname}}::class, {{classname}}.serializer()){{/isAlias}}{{/model}}
+            {{#model}}{{^isAlias}}serializer.setMapper({{modelPackage}}.{{classname}}::class, {{modelPackage}}.{{classname}}.{{#isEnum}}Serializer{{/isEnum}}{{^isEnum}}serializer(){{/isEnum}}){{/isAlias}}{{/model}}
             {{/models}}
         }
     }
@@ -93,9 +94,10 @@ import {{packageName}}.auth.*
      * Set the API key value for the first API key authentication.
      *
      * @param apiKey API key
+     * @param paramName The name of the API key parameter, or null or set the first key.
      */
-    fun setApiKey(apiKey: String) {
-        val auth = authentications.values.firstOrNull { it is ApiKeyAuth } as ApiKeyAuth?
+    fun setApiKey(apiKey: String, paramName: String? = null) {
+        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKey = apiKey
     }
@@ -104,11 +106,23 @@ import {{packageName}}.auth.*
      * Set the API key prefix for the first API key authentication.
      *
      * @param apiKeyPrefix API key prefix
+     * @param paramName The name of the API key parameter, or null or set the first key.
      */
-    fun setApiKeyPrefix(apiKeyPrefix: String) {
-        val auth = authentications.values.firstOrNull { it is ApiKeyAuth } as ApiKeyAuth?
+    fun setApiKeyPrefix(apiKeyPrefix: String, paramName: String? = null) {
+        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKeyPrefix = apiKeyPrefix
+    }
+
+    /**
+     * Set the access token for the first OAuth2 authentication.
+     *
+     * @param accessToken Access token
+     */
+    fun setAccessToken(accessToken: String) {
+        val auth = authentications.values.firstOrNull { it is OAuth } as OAuth?
+                ?: throw Exception("No OAuth2 authentication configured")
+        auth.accessToken = accessToken
     }
 
     /**
