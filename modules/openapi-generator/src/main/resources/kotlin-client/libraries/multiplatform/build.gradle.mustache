@@ -30,6 +30,7 @@ kotlin {
     jvm()
     iosArm64() { binaries { framework { freeCompilerArgs.add("-Xobjc-generics") } } }
     iosX64() { binaries { framework { freeCompilerArgs.add("-Xobjc-generics") } } }
+    js()
 
     sourceSets {
         commonMain {
@@ -107,6 +108,28 @@ kotlin {
                 implementation "io.ktor:ktor-client-ios-iosx64:$ktor_version"
                 implementation "io.ktor:ktor-client-json-iosx64:$ktor_version"
                 implementation "io.ktor:ktor-client-serialization-iosx64:$ktor_version"
+            }
+        }
+
+        jsMain {
+            dependsOn commonMain
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serialization_version"
+                implementation "io.ktor:ktor-client-js:$ktor_version"
+                implementation "io.ktor:ktor-client-json-js:$ktor_version"
+                implementation "io.ktor:ktor-client-serialization-js:$ktor_version"
+            }
+        }
+
+        jsTest {
+            dependsOn commonTest
+            dependencies {
+                implementation "io.ktor:ktor-client-mock-js:$ktor_version"
+                implementation "io.ktor:ktor-client-js:$ktor_version"
+                implementation "io.ktor:ktor-client-json:$ktor_version"
+                implementation "io.ktor:ktor-client-serialization-js:$ktor_version"
             }
         }
 

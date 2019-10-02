@@ -212,9 +212,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
 
             // multiplatform specific testing files
-            supportingFiles.add(new SupportingFile("commonTest/coroutine.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
-            supportingFiles.add(new SupportingFile("iosTest/coroutine.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
-            supportingFiles.add(new SupportingFile("jvmTest/coroutine.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
+            supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
+            supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
+            supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "src/jsTest/kotlin/util", "Coroutine.kt"));
+            supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
 
             // gradle wrapper supporting files
             supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
