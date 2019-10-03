@@ -1,0 +1,1 @@
+../../../../../../CI/samples.ci/client/petstore/java/test-manual/jersey2/ApiClientTest.java

@@ -30,5 +30,3 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -t modules/openapi-generator/src/main/resources/JavaPlayFramework -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java-play-framework -o samples/server/petstore/java-play-framework-fake-endpoints --additional-properties hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags
-
-cp CI/samples.ci/server/petstore/java-play-framework-fake-endpoints/pom.xml samples/server/petstore/java-play-framework-fake-endpoints/pom.xml

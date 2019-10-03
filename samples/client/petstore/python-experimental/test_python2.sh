@@ -1,0 +1,1 @@
+../../../../CI/samples.ci/client/petstore/python-experimental/test_python2.sh

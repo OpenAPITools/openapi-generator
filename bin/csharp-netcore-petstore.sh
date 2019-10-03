@@ -30,8 +30,3 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -t modules/openapi-generator/src/main/resources/csharp-netcore/ -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g csharp-netcore -o samples/client/petstore/csharp-netcore/OpenAPIClient --additional-properties packageGuid={321C8C3F-0156-40C1-AE42-D59761FB9B6C},useCompareNetObjects=true $@"
 
 java $JAVA_OPTS -jar $executable $ags
-
-# restore csproj file
-echo "restore csproject file: CI/samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj"
-cp ./CI/samples.ci/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj ./samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/
-

@@ -1,0 +1,1 @@
+../../../../CI/samples.ci/server/petstore/php-slim/php_syntax_checker.bash

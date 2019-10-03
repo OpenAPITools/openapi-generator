@@ -1,0 +1,1 @@
+../../../../CI/samples.ci/client/petstore/c/build-and-test.bash

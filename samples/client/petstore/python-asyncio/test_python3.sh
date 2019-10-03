@@ -1,0 +1,1 @@
+../../../../CI/samples.ci/client/petstore/python-asyncio/test_python3.sh

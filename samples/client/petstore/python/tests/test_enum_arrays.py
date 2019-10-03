@@ -1,0 +1,1 @@
+../../../../../CI/samples.ci/client/petstore/python/tests/test_enum_arrays.py

@@ -1,0 +1,1 @@
+../../../../../CI/samples.ci/openapi3/client/petstore/python/test_python2_and_3.sh

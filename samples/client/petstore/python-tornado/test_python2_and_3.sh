@@ -1,0 +1,1 @@
+../../../../CI/samples.ci/client/petstore/python-tornado/test_python2_and_3.sh

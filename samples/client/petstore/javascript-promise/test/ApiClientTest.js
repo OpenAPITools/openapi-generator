@@ -1,0 +1,1 @@
+../../../../../CI/samples.ci/client/petstore/javascript-promise/test/ApiClientTest.js

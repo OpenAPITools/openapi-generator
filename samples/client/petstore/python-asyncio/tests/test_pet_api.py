@@ -1,0 +1,1 @@
+../../../../../CI/samples.ci/client/petstore/python-asyncio/tests/test_pet_api.py

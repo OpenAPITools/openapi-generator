@@ -1,0 +1,1 @@
+../../../../../../CI/samples.ci/openapi3/client/petstore/javascript-es6/test/ApiClientTest.js

@@ -32,7 +32,3 @@ ags="generate -t modules/openapi-generator/src/main/resources/csharp-netcore/ -i
 
 java $JAVA_OPTS -jar $executable $ags
 
-# restore csproj file
-echo "restore csproject file: CI/samples/client/petstore/csharp-netcore/OpenAPIClientCore/src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj"
-cp ./CI/samples.ci/client/petstore/csharp-netcore/OpenAPIClientCore/src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj ./samples/client/petstore/csharp-netcore/OpenAPIClientCore/src/Org.OpenAPITools.Test/
-

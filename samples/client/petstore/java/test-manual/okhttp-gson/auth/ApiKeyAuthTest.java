@@ -1,0 +1,1 @@
+../../../../../../../CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/auth/ApiKeyAuthTest.java

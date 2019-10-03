@@ -1,0 +1,1 @@
+../../../../CI/samples.ci/server/petstore/python-flask/test_python3.sh

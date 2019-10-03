@@ -30,5 +30,3 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -t modules/openapi-generator/src/main/resources/kotlin-server -g kotlin-server --library=ktor -o samples/server/petstore/kotlin-server/ktor --additional-properties hideGenerationTimestamp=true,serializableModel=true $@"
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}
-
-cp CI/samples.ci/server/petstore/kotlin-server/ktor/pom.xml samples/server/petstore/kotlin-server/ktor/pom.xml
