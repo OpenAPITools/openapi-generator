@@ -156,7 +156,7 @@ describe Petstore::ApiClient do
     end
 
     it 'fails for invalid collection format' do
-      expect(api_client.build_collection_param(param, :INVALID)).to raise_error(RuntimeError, 'unknown collection format: :INVALID')
+      expect{api_client.build_collection_param(param, :INVALID)}.to raise_error(RuntimeError, 'unknown collection format: :INVALID')
     end
   end
 

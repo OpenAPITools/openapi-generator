@@ -379,7 +379,7 @@ module Petstore
         # return the array directly as typhoeus will handle it as expected
         param
       else
-        fail "unknown collection format: #{collection_format}"
+        fail "unknown collection format: #{collection_format.inspect}"
       end
     end
   end
