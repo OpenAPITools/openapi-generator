@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // EnumTest struct for EnumTest
 type EnumTest struct {
 	EnumString *string `json:"enum_string,omitempty"`
@@ -144,5 +150,28 @@ func (o *EnumTest) HasOuterEnum() bool {
 // SetOuterEnum gets a reference to the given OuterEnum and assigns it to the OuterEnum field.
 func (o *EnumTest) SetOuterEnum(v OuterEnum) {
 	o.OuterEnum = &v
+}
+
+type NullableEnumTest struct {
+	Value EnumTest
+	ExplicitNull bool
+}
+
+func (v NullableEnumTest) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableEnumTest) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

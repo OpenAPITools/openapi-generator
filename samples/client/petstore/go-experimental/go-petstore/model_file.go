@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // File Must be named `File` for test.
 type File struct {
 	// Test capitalization
@@ -45,5 +51,28 @@ func (o *File) HasSourceURI() bool {
 // SetSourceURI gets a reference to the given string and assigns it to the SourceURI field.
 func (o *File) SetSourceURI(v string) {
 	o.SourceURI = &v
+}
+
+type NullableFile struct {
+	Value File
+	ExplicitNull bool
+}
+
+func (v NullableFile) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableFile) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

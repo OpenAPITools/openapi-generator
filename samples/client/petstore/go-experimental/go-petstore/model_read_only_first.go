@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // ReadOnlyFirst struct for ReadOnlyFirst
 type ReadOnlyFirst struct {
 	Bar *string `json:"bar,omitempty"`
@@ -77,5 +83,28 @@ func (o *ReadOnlyFirst) HasBaz() bool {
 // SetBaz gets a reference to the given string and assigns it to the Baz field.
 func (o *ReadOnlyFirst) SetBaz(v string) {
 	o.Baz = &v
+}
+
+type NullableReadOnlyFirst struct {
+	Value ReadOnlyFirst
+	ExplicitNull bool
+}
+
+func (v NullableReadOnlyFirst) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableReadOnlyFirst) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

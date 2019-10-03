@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // List struct for List
 type List struct {
 	Var123List *string `json:"123-list,omitempty"`
@@ -44,5 +50,28 @@ func (o *List) HasVar123List() bool {
 // SetVar123List gets a reference to the given string and assigns it to the Var123List field.
 func (o *List) SetVar123List(v string) {
 	o.Var123List = &v
+}
+
+type NullableList struct {
+	Value List
+	ExplicitNull bool
+}
+
+func (v NullableList) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableList) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

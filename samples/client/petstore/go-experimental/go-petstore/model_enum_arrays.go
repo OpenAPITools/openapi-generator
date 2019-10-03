@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // EnumArrays struct for EnumArrays
 type EnumArrays struct {
 	JustSymbol *string `json:"just_symbol,omitempty"`
@@ -77,5 +83,28 @@ func (o *EnumArrays) HasArrayEnum() bool {
 // SetArrayEnum gets a reference to the given []string and assigns it to the ArrayEnum field.
 func (o *EnumArrays) SetArrayEnum(v []string) {
 	o.ArrayEnum = &v
+}
+
+type NullableEnumArrays struct {
+	Value EnumArrays
+	ExplicitNull bool
+}
+
+func (v NullableEnumArrays) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableEnumArrays) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

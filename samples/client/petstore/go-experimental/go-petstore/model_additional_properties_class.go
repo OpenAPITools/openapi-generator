@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // AdditionalPropertiesClass struct for AdditionalPropertiesClass
 type AdditionalPropertiesClass struct {
 	MapString *map[string]string `json:"map_string,omitempty"`
@@ -374,5 +380,28 @@ func (o *AdditionalPropertiesClass) HasAnytype3() bool {
 // SetAnytype3 gets a reference to the given map[string]interface{} and assigns it to the Anytype3 field.
 func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{}) {
 	o.Anytype3 = &v
+}
+
+type NullableAdditionalPropertiesClass struct {
+	Value AdditionalPropertiesClass
+	ExplicitNull bool
+}
+
+func (v NullableAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableAdditionalPropertiesClass) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

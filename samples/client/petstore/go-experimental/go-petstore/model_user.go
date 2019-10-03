@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // User struct for User
 type User struct {
 	Id *int64 `json:"id,omitempty"`
@@ -276,5 +282,28 @@ func (o *User) HasUserStatus() bool {
 // SetUserStatus gets a reference to the given int32 and assigns it to the UserStatus field.
 func (o *User) SetUserStatus(v int32) {
 	o.UserStatus = &v
+}
+
+type NullableUser struct {
+	Value User
+	ExplicitNull bool
+}
+
+func (v NullableUser) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableUser) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

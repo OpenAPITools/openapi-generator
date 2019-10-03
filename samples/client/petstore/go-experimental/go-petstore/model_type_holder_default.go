@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // TypeHolderDefault struct for TypeHolderDefault
 type TypeHolderDefault struct {
 	StringItem string `json:"string_item"`
@@ -17,4 +23,27 @@ type TypeHolderDefault struct {
 	ArrayItem []int32 `json:"array_item"`
 }
 
+
+type NullableTypeHolderDefault struct {
+	Value TypeHolderDefault
+	ExplicitNull bool
+}
+
+func (v NullableTypeHolderDefault) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableTypeHolderDefault) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

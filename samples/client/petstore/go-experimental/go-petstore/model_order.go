@@ -8,9 +8,13 @@
  */
 
 package petstore
+
 import (
+	"bytes"
+	"encoding/json"
 	"time"
 )
+
 // Order struct for Order
 type Order struct {
 	Id *int64 `json:"id,omitempty"`
@@ -213,5 +217,28 @@ func (o *Order) HasComplete() bool {
 // SetComplete gets a reference to the given bool and assigns it to the Complete field.
 func (o *Order) SetComplete(v bool) {
 	o.Complete = &v
+}
+
+type NullableOrder struct {
+	Value Order
+	ExplicitNull bool
+}
+
+func (v NullableOrder) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableOrder) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

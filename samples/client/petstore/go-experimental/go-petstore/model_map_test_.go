@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // MapTest struct for MapTest
 type MapTest struct {
 	MapMapOfString *map[string]map[string]string `json:"map_map_of_string,omitempty"`
@@ -143,5 +149,28 @@ func (o *MapTest) HasIndirectMap() bool {
 // SetIndirectMap gets a reference to the given map[string]bool and assigns it to the IndirectMap field.
 func (o *MapTest) SetIndirectMap(v map[string]bool) {
 	o.IndirectMap = &v
+}
+
+type NullableMapTest struct {
+	Value MapTest
+	ExplicitNull bool
+}
+
+func (v NullableMapTest) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableMapTest) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

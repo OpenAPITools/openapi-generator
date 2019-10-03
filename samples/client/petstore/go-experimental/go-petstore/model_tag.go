@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // Tag struct for Tag
 type Tag struct {
 	Id *int64 `json:"id,omitempty"`
@@ -77,5 +83,28 @@ func (o *Tag) HasName() bool {
 // SetName gets a reference to the given string and assigns it to the Name field.
 func (o *Tag) SetName(v string) {
 	o.Name = &v
+}
+
+type NullableTag struct {
+	Value Tag
+	ExplicitNull bool
+}
+
+func (v NullableTag) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableTag) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

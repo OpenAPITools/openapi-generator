@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // Animal struct for Animal
 type Animal struct {
 	ClassName string `json:"className"`
@@ -45,5 +51,28 @@ func (o *Animal) HasColor() bool {
 // SetColor gets a reference to the given string and assigns it to the Color field.
 func (o *Animal) SetColor(v string) {
 	o.Color = &v
+}
+
+type NullableAnimal struct {
+	Value Animal
+	ExplicitNull bool
+}
+
+func (v NullableAnimal) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableAnimal) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

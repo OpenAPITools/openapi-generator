@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // AdditionalPropertiesBoolean struct for AdditionalPropertiesBoolean
 type AdditionalPropertiesBoolean struct {
 	Name *string `json:"name,omitempty"`
@@ -44,5 +50,28 @@ func (o *AdditionalPropertiesBoolean) HasName() bool {
 // SetName gets a reference to the given string and assigns it to the Name field.
 func (o *AdditionalPropertiesBoolean) SetName(v string) {
 	o.Name = &v
+}
+
+type NullableAdditionalPropertiesBoolean struct {
+	Value AdditionalPropertiesBoolean
+	ExplicitNull bool
+}
+
+func (v NullableAdditionalPropertiesBoolean) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableAdditionalPropertiesBoolean) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

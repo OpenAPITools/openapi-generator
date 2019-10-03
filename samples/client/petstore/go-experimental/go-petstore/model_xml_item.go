@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // XmlItem struct for XmlItem
 type XmlItem struct {
 	AttributeString *string `json:"attribute_string,omitempty"`
@@ -968,5 +974,28 @@ func (o *XmlItem) HasPrefixNsWrappedArray() bool {
 // SetPrefixNsWrappedArray gets a reference to the given []int32 and assigns it to the PrefixNsWrappedArray field.
 func (o *XmlItem) SetPrefixNsWrappedArray(v []int32) {
 	o.PrefixNsWrappedArray = &v
+}
+
+type NullableXmlItem struct {
+	Value XmlItem
+	ExplicitNull bool
+}
+
+func (v NullableXmlItem) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableXmlItem) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
@@ -44,5 +50,28 @@ func (o *SpecialModelName) HasSpecialPropertyName() bool {
 // SetSpecialPropertyName gets a reference to the given int64 and assigns it to the SpecialPropertyName field.
 func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
 	o.SpecialPropertyName = &v
+}
+
+type NullableSpecialModelName struct {
+	Value SpecialModelName
+	ExplicitNull bool
+}
+
+func (v NullableSpecialModelName) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableSpecialModelName) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

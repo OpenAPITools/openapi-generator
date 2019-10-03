@@ -66,4 +66,31 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         super.processOpts();
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
     }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        objs = super.postProcessModels(objs);
+
+        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+        for (Map<String, Object> m : models) {
+            Object v = m.get("model");
+            if (v instanceof CodegenModel) {
+                CodegenModel model = (CodegenModel) v;
+                if (model.isEnum) {
+                    continue;
+                }
+
+                for (CodegenProperty param : model.vars) {
+                    if (!param.isNullable) {
+                        continue;
+                    }
+
+                    param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
+                            + param.dataType.substring(1);
+                }
+            }
+        }
+
+        return objs;
+    }
 }

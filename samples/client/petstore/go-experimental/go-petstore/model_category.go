@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // Category struct for Category
 type Category struct {
 	Id *int64 `json:"id,omitempty"`
@@ -45,5 +51,28 @@ func (o *Category) HasId() bool {
 // SetId gets a reference to the given int64 and assigns it to the Id field.
 func (o *Category) SetId(v int64) {
 	o.Id = &v
+}
+
+type NullableCategory struct {
+	Value Category
+	ExplicitNull bool
+}
+
+func (v NullableCategory) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableCategory) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

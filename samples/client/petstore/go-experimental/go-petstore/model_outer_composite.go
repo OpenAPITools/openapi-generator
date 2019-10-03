@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // OuterComposite struct for OuterComposite
 type OuterComposite struct {
 	MyNumber *float32 `json:"my_number,omitempty"`
@@ -110,5 +116,28 @@ func (o *OuterComposite) HasMyBoolean() bool {
 // SetMyBoolean gets a reference to the given bool and assigns it to the MyBoolean field.
 func (o *OuterComposite) SetMyBoolean(v bool) {
 	o.MyBoolean = &v
+}
+
+type NullableOuterComposite struct {
+	Value OuterComposite
+	ExplicitNull bool
+}
+
+func (v NullableOuterComposite) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableOuterComposite) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

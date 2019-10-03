@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // OuterEnum the model 'OuterEnum'
 type OuterEnum string
 
@@ -17,5 +23,22 @@ const (
 	APPROVED OuterEnum = "approved"
 	DELIVERED OuterEnum = "delivered"
 )
+
+type NullableOuterEnum struct {
+	Value OuterEnum
+	ExplicitNull bool
+}
+
+func (v NullableOuterEnum) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull && v.Value:
+        return nil, ErrInvalidNullable
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return []byte(""), nil
+	}	
+}
+
 
 

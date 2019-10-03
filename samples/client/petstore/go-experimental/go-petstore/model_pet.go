@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // Pet struct for Pet
 type Pet struct {
 	Id *int64 `json:"id,omitempty"`
@@ -146,5 +152,28 @@ func (o *Pet) HasStatus() bool {
 // SetStatus gets a reference to the given string and assigns it to the Status field.
 func (o *Pet) SetStatus(v string) {
 	o.Status = &v
+}
+
+type NullablePet struct {
+	Value Pet
+	ExplicitNull bool
+}
+
+func (v NullablePet) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullablePet) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

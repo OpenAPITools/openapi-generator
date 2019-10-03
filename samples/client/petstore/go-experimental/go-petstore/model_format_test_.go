@@ -8,10 +8,14 @@
  */
 
 package petstore
+
 import (
+	"bytes"
+	"encoding/json"
 	"os"
 	"time"
 )
+
 // FormatTest struct for FormatTest
 type FormatTest struct {
 	Integer *int32 `json:"integer,omitempty"`
@@ -349,5 +353,28 @@ func (o *FormatTest) HasBigDecimal() bool {
 // SetBigDecimal gets a reference to the given float64 and assigns it to the BigDecimal field.
 func (o *FormatTest) SetBigDecimal(v float64) {
 	o.BigDecimal = &v
+}
+
+type NullableFormatTest struct {
+	Value FormatTest
+	ExplicitNull bool
+}
+
+func (v NullableFormatTest) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableFormatTest) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

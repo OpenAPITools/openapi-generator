@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // ArrayOfNumberOnly struct for ArrayOfNumberOnly
 type ArrayOfNumberOnly struct {
 	ArrayNumber *[]float32 `json:"ArrayNumber,omitempty"`
@@ -44,5 +50,28 @@ func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
 // SetArrayNumber gets a reference to the given []float32 and assigns it to the ArrayNumber field.
 func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
 	o.ArrayNumber = &v
+}
+
+type NullableArrayOfNumberOnly struct {
+	Value ArrayOfNumberOnly
+	ExplicitNull bool
+}
+
+func (v NullableArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableArrayOfNumberOnly) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

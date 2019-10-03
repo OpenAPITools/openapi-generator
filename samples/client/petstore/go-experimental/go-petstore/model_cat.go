@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // Cat struct for Cat
 type Cat struct {
 	ClassName string `json:"className"`
@@ -78,5 +84,28 @@ func (o *Cat) HasDeclawed() bool {
 // SetDeclawed gets a reference to the given bool and assigns it to the Declawed field.
 func (o *Cat) SetDeclawed(v bool) {
 	o.Declawed = &v
+}
+
+type NullableCat struct {
+	Value Cat
+	ExplicitNull bool
+}
+
+func (v NullableCat) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableCat) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // Capitalization struct for Capitalization
 type Capitalization struct {
 	SmallCamel *string `json:"smallCamel,omitempty"`
@@ -210,5 +216,28 @@ func (o *Capitalization) HasATT_NAME() bool {
 // SetATT_NAME gets a reference to the given string and assigns it to the ATT_NAME field.
 func (o *Capitalization) SetATT_NAME(v string) {
 	o.ATT_NAME = &v
+}
+
+type NullableCapitalization struct {
+	Value Capitalization
+	ExplicitNull bool
+}
+
+func (v NullableCapitalization) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableCapitalization) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

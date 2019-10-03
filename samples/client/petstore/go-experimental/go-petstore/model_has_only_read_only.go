@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // HasOnlyReadOnly struct for HasOnlyReadOnly
 type HasOnlyReadOnly struct {
 	Bar *string `json:"bar,omitempty"`
@@ -77,5 +83,28 @@ func (o *HasOnlyReadOnly) HasFoo() bool {
 // SetFoo gets a reference to the given string and assigns it to the Foo field.
 func (o *HasOnlyReadOnly) SetFoo(v string) {
 	o.Foo = &v
+}
+
+type NullableHasOnlyReadOnly struct {
+	Value HasOnlyReadOnly
+	ExplicitNull bool
+}
+
+func (v NullableHasOnlyReadOnly) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableHasOnlyReadOnly) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

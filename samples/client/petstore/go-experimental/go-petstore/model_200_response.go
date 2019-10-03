@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // Model200Response Model for testing model name starting with number
 type Model200Response struct {
 	Name *int32 `json:"name,omitempty"`
@@ -77,5 +83,28 @@ func (o *Model200Response) HasClass() bool {
 // SetClass gets a reference to the given string and assigns it to the Class field.
 func (o *Model200Response) SetClass(v string) {
 	o.Class = &v
+}
+
+type NullableModel200Response struct {
+	Value Model200Response
+	ExplicitNull bool
+}
+
+func (v NullableModel200Response) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableModel200Response) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

@@ -8,9 +8,13 @@
  */
 
 package petstore
+
 import (
+	"bytes"
+	"encoding/json"
 	"time"
 )
+
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid *string `json:"uuid,omitempty"`
@@ -113,5 +117,28 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasMap() bool {
 // SetMap gets a reference to the given map[string]Animal and assigns it to the Map field.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal) {
 	o.Map = &v
+}
+
+type NullableMixedPropertiesAndAdditionalPropertiesClass struct {
+	Value MixedPropertiesAndAdditionalPropertiesClass
+	ExplicitNull bool
+}
+
+func (v NullableMixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableMixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // Return Model for testing reserved words
 type Return struct {
 	Return *int32 `json:"return,omitempty"`
@@ -44,5 +50,28 @@ func (o *Return) HasReturn() bool {
 // SetReturn gets a reference to the given int32 and assigns it to the Return field.
 func (o *Return) SetReturn(v int32) {
 	o.Return = &v
+}
+
+type NullableReturn struct {
+	Value Return
+	ExplicitNull bool
+}
+
+func (v NullableReturn) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableReturn) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // Name Model for testing model name same as property name
 type Name struct {
 	Name int32 `json:"name"`
@@ -111,5 +117,28 @@ func (o *Name) HasVar123Number() bool {
 // SetVar123Number gets a reference to the given int32 and assigns it to the Var123Number field.
 func (o *Name) SetVar123Number(v int32) {
 	o.Var123Number = &v
+}
+
+type NullableName struct {
+	Value Name
+	ExplicitNull bool
+}
+
+func (v NullableName) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableName) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

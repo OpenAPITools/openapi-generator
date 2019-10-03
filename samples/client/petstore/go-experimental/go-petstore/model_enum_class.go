@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // EnumClass the model 'EnumClass'
 type EnumClass string
 
@@ -17,5 +23,22 @@ const (
 	EFG EnumClass = "-efg"
 	XYZ EnumClass = "(xyz)"
 )
+
+type NullableEnumClass struct {
+	Value EnumClass
+	ExplicitNull bool
+}
+
+func (v NullableEnumClass) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull && v.Value:
+        return nil, ErrInvalidNullable
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return []byte(""), nil
+	}	
+}
+
 
 

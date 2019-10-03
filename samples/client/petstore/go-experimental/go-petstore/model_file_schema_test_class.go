@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // FileSchemaTestClass struct for FileSchemaTestClass
 type FileSchemaTestClass struct {
 	File *File `json:"file,omitempty"`
@@ -77,5 +83,28 @@ func (o *FileSchemaTestClass) HasFiles() bool {
 // SetFiles gets a reference to the given []File and assigns it to the Files field.
 func (o *FileSchemaTestClass) SetFiles(v []File) {
 	o.Files = &v
+}
+
+type NullableFileSchemaTestClass struct {
+	Value FileSchemaTestClass
+	ExplicitNull bool
+}
+
+func (v NullableFileSchemaTestClass) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableFileSchemaTestClass) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

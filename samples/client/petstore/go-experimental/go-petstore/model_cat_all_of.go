@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // CatAllOf struct for CatAllOf
 type CatAllOf struct {
 	Declawed *bool `json:"declawed,omitempty"`
@@ -44,5 +50,28 @@ func (o *CatAllOf) HasDeclawed() bool {
 // SetDeclawed gets a reference to the given bool and assigns it to the Declawed field.
 func (o *CatAllOf) SetDeclawed(v bool) {
 	o.Declawed = &v
+}
+
+type NullableCatAllOf struct {
+	Value CatAllOf
+	ExplicitNull bool
+}
+
+func (v NullableCatAllOf) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableCatAllOf) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 

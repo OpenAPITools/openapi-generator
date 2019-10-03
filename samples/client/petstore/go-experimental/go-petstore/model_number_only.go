@@ -8,6 +8,12 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // NumberOnly struct for NumberOnly
 type NumberOnly struct {
 	JustNumber *float32 `json:"JustNumber,omitempty"`
@@ -44,5 +50,28 @@ func (o *NumberOnly) HasJustNumber() bool {
 // SetJustNumber gets a reference to the given float32 and assigns it to the JustNumber field.
 func (o *NumberOnly) SetJustNumber(v float32) {
 	o.JustNumber = &v
+}
+
+type NullableNumberOnly struct {
+	Value NumberOnly
+	ExplicitNull bool
+}
+
+func (v NullableNumberOnly) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableNumberOnly) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 
