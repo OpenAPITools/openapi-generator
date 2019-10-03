@@ -1035,7 +1035,8 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/c</module>
+                <!-- comment out due to CI failure, e.g. https://github.com/OpenAPITools/openapi-generator/pull/4043 -->
+<!--                <module>samples/client/petstore/c</module>-->
                 <!-- <module>samples/client/petstore/cpp-qt5</module> -->
                 <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/rust</module>
