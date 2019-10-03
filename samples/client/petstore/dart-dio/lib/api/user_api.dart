@@ -16,12 +16,16 @@ class UserApi {
   /// Create user
   ///
   /// This can only be done by the logged in user.
-  Future<Response> createUser(User body, {CancelToken cancelToken}) async {
+  Future<Response> createUser(
+    User body, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/user";
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -50,13 +54,16 @@ class UserApi {
   /// Creates list of users with given input array
   ///
   ///
-  Future<Response> createUsersWithArrayInput(List<User> body,
-      {CancelToken cancelToken}) async {
+  Future<Response> createUsersWithArrayInput(
+    List<User> body, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/user/createWithArray";
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -87,13 +94,16 @@ class UserApi {
   /// Creates list of users with given input array
   ///
   ///
-  Future<Response> createUsersWithListInput(List<User> body,
-      {CancelToken cancelToken}) async {
+  Future<Response> createUsersWithListInput(
+    List<User> body, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/user/createWithList";
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -124,14 +134,17 @@ class UserApi {
   /// Delete user
   ///
   /// This can only be done by the logged in user.
-  Future<Response> deleteUser(String username,
-      {CancelToken cancelToken}) async {
+  Future<Response> deleteUser(
+    String username, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/user/{username}"
         .replaceAll("{" + "username" + "}", username.toString());
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -156,14 +169,17 @@ class UserApi {
   /// Get user by user name
   ///
   ///
-  Future<Response<User>> getUserByName(String username,
-      {CancelToken cancelToken}) async {
+  Future<Response<User>> getUserByName(
+    String username, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/user/{username}"
         .replaceAll("{" + "username" + "}", username.toString());
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -203,13 +219,17 @@ class UserApi {
   /// Logs user into the system
   ///
   ///
-  Future<Response<String>> loginUser(String username, String password,
-      {CancelToken cancelToken}) async {
+  Future<Response<String>> loginUser(
+    String username,
+    String password, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/user/login";
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams["username"] = username;
@@ -252,12 +272,15 @@ class UserApi {
   /// Logs out current logged in user session
   ///
   ///
-  Future<Response> logoutUser({CancelToken cancelToken}) async {
+  Future<Response> logoutUser({
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/user/logout";
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -282,14 +305,18 @@ class UserApi {
   /// Updated user
   ///
   /// This can only be done by the logged in user.
-  Future<Response> updateUser(String username, User body,
-      {CancelToken cancelToken}) async {
+  Future<Response> updateUser(
+    String username,
+    User body, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/user/{username}"
         .replaceAll("{" + "username" + "}", username.toString());
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);

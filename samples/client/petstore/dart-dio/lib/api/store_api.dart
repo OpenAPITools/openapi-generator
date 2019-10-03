@@ -14,15 +14,14 @@ class StoreApi {
     StoreApi(this._dio, this._serializers);
 
         /// Delete purchase order by ID
-        ///
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        Future<Response>deleteOrder(String orderId,{ CancelToken cancelToken}) async {
+    ///
+    /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    Future<Response> deleteOrder(String orderId, { CancelToken cancelToken, Map<String, String> headers,}) async {
+        String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
 
-            String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
-
-            // query params
+        // query params
             Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = {};
+            Map<String, String> headerParams = Map.from(headers);
             Map<String, String> formParams = {};
 
             queryParams.removeWhere((key, value) => value == null);
@@ -46,13 +45,13 @@ class StoreApi {
         /// Returns pet inventories by status
         ///
         /// Returns a map of status codes to quantities
-        Future<Response<Map<String, int>>>getInventory({ CancelToken cancelToken}) async {
+        Future<Response<Map<String, int>>>getInventory({ CancelToken cancelToken, Map<String, String> headers,}) async {
 
             String path = "/store/inventory";
 
             // query params
             Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = {};
+            Map<String, String> headerParams = Map.from(headers);
             Map<String, String> formParams = {};
 
             queryParams.removeWhere((key, value) => value == null);
@@ -90,13 +89,13 @@ class StoreApi {
         /// Find purchase order by ID
         ///
         /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-        Future<Response<Order>>getOrderById(int orderId,{ CancelToken cancelToken}) async {
+        Future<Response<Order>>getOrderById(int orderId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
             String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
 
             // query params
             Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = {};
+            Map<String, String> headerParams = Map.from(headers);
             Map<String, String> formParams = {};
 
             queryParams.removeWhere((key, value) => value == null);
@@ -134,13 +133,13 @@ class StoreApi {
         /// Place an order for a pet
         ///
         /// 
-        Future<Response<Order>>placeOrder(Order body,{ CancelToken cancelToken}) async {
+        Future<Response<Order>>placeOrder(Order body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
             String path = "/store/order";
 
             // query params
             Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = {};
+            Map<String, String> headerParams = Map.from(headers);
             Map<String, String> formParams = {};
 
             queryParams.removeWhere((key, value) => value == null);

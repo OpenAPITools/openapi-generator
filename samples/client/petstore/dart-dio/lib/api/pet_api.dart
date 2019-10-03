@@ -18,12 +18,16 @@ class PetApi {
   /// Add a new pet to the store
   ///
   ///
-  Future<Response> addPet(Pet body, {CancelToken cancelToken}) async {
+  Future<Response> addPet(
+    Pet body, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/pet";
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -52,14 +56,18 @@ class PetApi {
   /// Deletes a pet
   ///
   ///
-  Future<Response> deletePet(int petId,
-      {String apiKey, CancelToken cancelToken}) async {
+  Future<Response> deletePet(
+    int petId, {
+    String apiKey,
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path =
         "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     headerParams["api_key"] = apiKey;
@@ -85,13 +93,16 @@ class PetApi {
   /// Finds Pets by status
   ///
   /// Multiple status values can be provided with comma separated strings
-  Future<Response<List<Pet>>> findPetsByStatus(List<String> status,
-      {CancelToken cancelToken}) async {
+  Future<Response<List<Pet>>> findPetsByStatus(
+    List<String> status, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/pet/findByStatus";
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams["status"] = status;
@@ -135,13 +146,16 @@ class PetApi {
   /// Finds Pets by tags
   ///
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-  Future<Response<List<Pet>>> findPetsByTags(List<String> tags,
-      {CancelToken cancelToken}) async {
+  Future<Response<List<Pet>>> findPetsByTags(
+    List<String> tags, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/pet/findByTags";
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams["tags"] = tags;
@@ -185,13 +199,17 @@ class PetApi {
   /// Find pet by ID
   ///
   /// Returns a single pet
-  Future<Response<Pet>> getPetById(int petId, {CancelToken cancelToken}) async {
+  Future<Response<Pet>> getPetById(
+    int petId, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path =
         "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -231,12 +249,16 @@ class PetApi {
   /// Update an existing pet
   ///
   ///
-  Future<Response> updatePet(Pet body, {CancelToken cancelToken}) async {
+  Future<Response> updatePet(
+    Pet body, {
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/pet";
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -265,14 +287,19 @@ class PetApi {
   /// Updates a pet in the store with form data
   ///
   ///
-  Future<Response> updatePetWithForm(int petId,
-      {String name, String status, CancelToken cancelToken}) async {
+  Future<Response> updatePetWithForm(
+    int petId, {
+    String name,
+    String status,
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path =
         "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -297,16 +324,19 @@ class PetApi {
   /// uploads an image
   ///
   ///
-  Future<Response<ApiResponse>> uploadFile(int petId,
-      {String additionalMetadata,
-      Uint8List file,
-      CancelToken cancelToken}) async {
+  Future<Response<ApiResponse>> uploadFile(
+    int petId, {
+    String additionalMetadata,
+    Uint8List file,
+    CancelToken cancelToken,
+    Map<String, String> headers,
+  }) async {
     String path = "/pet/{petId}/uploadImage"
         .replaceAll("{" + "petId" + "}", petId.toString());
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = {};
+    Map<String, String> headerParams = Map.from(headers);
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);

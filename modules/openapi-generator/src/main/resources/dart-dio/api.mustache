@@ -21,13 +21,13 @@ class {{classname}} {
         /// {{summary}}
         ///
         /// {{notes}}
-        Future<Response{{#returnType}}<{{{returnType}}}>{{/returnType}}>{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}CancelToken cancelToken}) async {
+        Future<Response{{#returnType}}<{{{returnType}}}>{{/returnType}}>{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}CancelToken cancelToken, Map<String, String> headers,}) async {
 
             String path = "{{{path}}}"{{#pathParams}}.replaceAll("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
 
             // query params
             Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = {};
+            Map<String, String> headerParams = Map.from(headers ?? {});
             Map<String, String> formParams = {};
 
         {{#headerParams}}
