@@ -37,7 +37,7 @@ open class ApiClient(val baseUrl: String) {
     protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
         when {
             content is File -> RequestBody.create(
-                 MediaType.parse(mediaType), content
+                MediaType.parse(mediaType), content
             )
             mediaType == FormDataMediaType || mediaType == FormUrlEncMediaType -> {
                 FormBody.Builder().apply {
@@ -49,7 +49,7 @@ open class ApiClient(val baseUrl: String) {
                 }.build()
             }
             mediaType == JsonMediaType -> RequestBody.create(
-                 MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
             )
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
