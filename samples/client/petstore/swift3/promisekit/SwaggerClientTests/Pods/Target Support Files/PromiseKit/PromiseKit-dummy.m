@@ -1,1 +1,5 @@
-../../../../../../../../../CI/samples.ci/client/petstore/swift3/promisekit/SwaggerClientTests/Pods/Target Support Files/PromiseKit/PromiseKit-dummy.m
+#import <Foundation/Foundation.h>
+@interface PodsDummy_PromiseKit : NSObject
+@end
+@implementation PodsDummy_PromiseKit
+@end

@@ -1,1 +1,2 @@
-../../../../CI/samples.ci/client/petstore/erlang-proper/.gitignore
+_build/
+rebar.lock

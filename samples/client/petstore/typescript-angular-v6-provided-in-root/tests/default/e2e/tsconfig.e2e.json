@@ -1,1 +1,13 @@
-../../../../../../../CI/samples.ci/client/petstore/typescript-angular-v6-provided-in-root/tests/default/e2e/tsconfig.e2e.json
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "module": "commonjs",
+    "target": "es5",
+    "types": [
+      "jasmine",
+      "jasminewd2",
+      "node"
+    ]
+  }
+}

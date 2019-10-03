@@ -1,1 +1,14 @@
-../../../../../../../../CI/samples.ci/client/petstore/typescript-angular-v7-provided-in-root/tests/default/e2e/src/app.e2e-spec.ts
+import { AppPage } from './app.po';
+
+describe('workspace-project App', () => {
+  let page: AppPage;
+
+  beforeEach(() => {
+    page = new AppPage();
+  });
+
+  it('should display welcome message', () => {
+    page.navigateTo();
+    expect(page.getParagraphText()).toEqual('Welcome to Typescript Angular v7 (provided in root)!');
+  });
+});

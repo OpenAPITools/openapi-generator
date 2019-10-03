@@ -1,1 +1,16 @@
-../../../../../../../../../CI/samples.ci/client/petstore/swift4/rxswift/SwaggerClientTests/Pods/Target Support Files/RxSwift/RxSwift-umbrella.h
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#else
+#ifndef FOUNDATION_EXPORT
+#if defined(__cplusplus)
+#define FOUNDATION_EXPORT extern "C"
+#else
+#define FOUNDATION_EXPORT extern
+#endif
+#endif
+#endif
+
+
+FOUNDATION_EXPORT double RxSwiftVersionNumber;
+FOUNDATION_EXPORT const unsigned char RxSwiftVersionString[];
+

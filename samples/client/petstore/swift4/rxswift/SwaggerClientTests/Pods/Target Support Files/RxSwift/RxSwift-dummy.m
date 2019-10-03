@@ -1,1 +1,5 @@
-../../../../../../../../../CI/samples.ci/client/petstore/swift4/rxswift/SwaggerClientTests/Pods/Target Support Files/RxSwift/RxSwift-dummy.m
+#import <Foundation/Foundation.h>
+@interface PodsDummy_RxSwift : NSObject
+@end
+@implementation PodsDummy_RxSwift
+@end

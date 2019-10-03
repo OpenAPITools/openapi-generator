@@ -1,1 +1,0 @@
-../../../../../CI/samples.ci/client/petstore/python-experimental/tests/__init__.py

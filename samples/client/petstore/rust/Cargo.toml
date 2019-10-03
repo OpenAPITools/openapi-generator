@@ -1,1 +1,2 @@
-../../../../CI/samples.ci/client/petstore/rust/Cargo.toml
+[workspace]
+members = ["hyper/*", "reqwest/*"]

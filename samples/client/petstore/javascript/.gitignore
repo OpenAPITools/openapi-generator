@@ -1,1 +1,1 @@
-../../../../CI/samples.ci/client/petstore/javascript/.gitignore
+/node_modules/

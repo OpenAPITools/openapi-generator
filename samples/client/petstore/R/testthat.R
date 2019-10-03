@@ -1,1 +1,4 @@
-../../../../CI/samples.ci/client/petstore/R/testthat.R
+library(testthat)
+library(petstore)
+
+test_check("petstore")

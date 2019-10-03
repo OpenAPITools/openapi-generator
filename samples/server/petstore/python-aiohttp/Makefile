@@ -1,1 +1,18 @@
-../../../../CI/samples.ci/server/petstore/python-aiohttp/Makefile
+ #!/bin/bash
+
+REQUIREMENTS_OUT=requirements.txt.log
+VENV=.venv
+
+clean:
+		rm -rf $(REQUIREMENTS_OUT)
+		rm -rf $(VENV)
+		rm -rf .pytest_cache
+		rm -rf .coverage
+		find . -name "*.py[oc]" -delete
+		find . -name "__pycache__" -delete
+
+test: clean
+		bash ./test_python3.sh
+
+test-all: clean
+		bash ./test_python3.sh

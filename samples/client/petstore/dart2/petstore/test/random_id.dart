@@ -1,1 +1,7 @@
-../../../../../../CI/samples.ci/client/petstore/dart2/petstore/test/random_id.dart
+import 'dart:math';
+
+final _random = new Random();
+
+int newId() {
+  return _random.nextInt(999999);
+}

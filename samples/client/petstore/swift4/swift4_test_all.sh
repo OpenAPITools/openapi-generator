@@ -1,1 +1,7 @@
-../../../../CI/samples.ci/client/petstore/swift4/swift4_test_all.sh
+#/bin/bash
+
+set -e
+
+mvn -f default/SwaggerClientTests/pom.xml integration-test
+mvn -f promisekit/SwaggerClientTests/pom.xml integration-test
+mvn -f rxswift/SwaggerClientTests/pom.xml integration-test

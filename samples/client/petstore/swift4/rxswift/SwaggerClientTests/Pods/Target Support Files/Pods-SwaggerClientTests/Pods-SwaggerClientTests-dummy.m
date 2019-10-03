@@ -1,1 +1,5 @@
-../../../../../../../../../CI/samples.ci/client/petstore/swift4/rxswift/SwaggerClientTests/Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests-dummy.m
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_SwaggerClientTests : NSObject
+@end
+@implementation PodsDummy_Pods_SwaggerClientTests
+@end

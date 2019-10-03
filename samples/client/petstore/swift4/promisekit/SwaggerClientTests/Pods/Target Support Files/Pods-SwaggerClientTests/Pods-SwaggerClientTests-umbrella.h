@@ -1,1 +1,16 @@
-../../../../../../../../../CI/samples.ci/client/petstore/swift4/promisekit/SwaggerClientTests/Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests-umbrella.h
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#else
+#ifndef FOUNDATION_EXPORT
+#if defined(__cplusplus)
+#define FOUNDATION_EXPORT extern "C"
+#else
+#define FOUNDATION_EXPORT extern
+#endif
+#endif
+#endif
+
+
+FOUNDATION_EXPORT double Pods_SwaggerClientTestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_SwaggerClientTestsVersionString[];
+

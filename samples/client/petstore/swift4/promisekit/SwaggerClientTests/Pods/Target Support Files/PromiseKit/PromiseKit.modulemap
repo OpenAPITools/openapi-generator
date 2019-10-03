@@ -1,1 +1,6 @@
-../../../../../../../../../CI/samples.ci/client/petstore/swift4/promisekit/SwaggerClientTests/Pods/Target Support Files/PromiseKit/PromiseKit.modulemap
+framework module PromiseKit {
+  umbrella header "PromiseKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,1 +1,3 @@
-../../../../../../../../CI/samples.ci/client/petstore/typescript-angular-v7-provided-in-root/tests/default/src/environments/environment.prod.ts
+export const environment = {
+  production: true
+};

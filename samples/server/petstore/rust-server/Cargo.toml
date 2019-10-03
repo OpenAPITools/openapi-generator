@@ -1,1 +1,2 @@
-../../../../CI/samples.ci/server/petstore/rust-server/Cargo.toml
+[workspace]
+members = ["output/*"]

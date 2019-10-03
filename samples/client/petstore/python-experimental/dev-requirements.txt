@@ -1,1 +1,5 @@
-../../../../CI/samples.ci/client/petstore/python-experimental/dev-requirements.txt
+nose
+tox
+coverage
+randomize
+flake8

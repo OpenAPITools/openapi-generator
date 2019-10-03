@@ -1,1 +1,2 @@
-../../../../CI/samples.ci/server/petstore/rust-server/.gitignore
+target
+Cargo.lock

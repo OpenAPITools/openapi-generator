@@ -1,1 +1,1 @@
-../../../../../CI/samples.ci/client/petstore/javascript/test/mocha.opts
+--timeout 10000

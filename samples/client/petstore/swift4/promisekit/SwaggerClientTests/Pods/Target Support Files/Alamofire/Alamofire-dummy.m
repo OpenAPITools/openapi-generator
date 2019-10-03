@@ -1,1 +1,5 @@
-../../../../../../../../../CI/samples.ci/client/petstore/swift4/promisekit/SwaggerClientTests/Pods/Target Support Files/Alamofire/Alamofire-dummy.m
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Alamofire : NSObject
+@end
+@implementation PodsDummy_Alamofire
+@end

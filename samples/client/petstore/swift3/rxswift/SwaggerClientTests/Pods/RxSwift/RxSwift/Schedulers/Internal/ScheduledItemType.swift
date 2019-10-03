@@ -1,1 +1,13 @@
-../../../../../../../../../../../CI/samples.ci/client/petstore/swift3/rxswift/SwaggerClientTests/Pods/RxSwift/RxSwift/Schedulers/Internal/ScheduledItemType.swift
+//
+//  ScheduledItemType.swift
+//  RxSwift
+//
+//  Created by Krunoslav Zaher on 11/7/15.
+//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
+//
+
+protocol ScheduledItemType
+    : Cancelable
+    , InvocableType {
+    func invoke()
+}

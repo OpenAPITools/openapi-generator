@@ -1,1 +1,27 @@
-../../../../../../../../../CI/samples.ci/client/petstore/swift4/rxswift/SwaggerClientTests/Pods/RxSwift/RxSwift/RxMutableBox.swift
+//
+//  RxMutableBox.swift
+//  RxSwift
+//
+//  Created by Krunoslav Zaher on 5/22/15.
+//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
+//
+
+/// Creates mutable reference wrapper for any type.
+final class RxMutableBox<T> : CustomDebugStringConvertible {
+    /// Wrapped value
+    var value : T
+    
+    /// Creates reference wrapper for `value`.
+    ///
+    /// - parameter value: Value to wrap.
+    init (_ value: T) {
+        self.value = value
+    }
+}
+
+extension RxMutableBox {
+    /// - returns: Box description.
+    var debugDescription: String {
+        return "MutatingBox(\(self.value))"
+    }
+}

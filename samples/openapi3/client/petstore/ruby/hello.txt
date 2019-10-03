@@ -1,1 +1,1 @@
-../../../../../CI/samples.ci/openapi3/client/petstore/ruby/hello.txt
+Hello world!

@@ -1,1 +1,6 @@
-../../../../../../../../../CI/samples.ci/client/petstore/swift3/promisekit/SwaggerClientTests/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.modulemap
+framework module Pods_SwaggerClient {
+  umbrella header "Pods-SwaggerClient-umbrella.h"
+
+  export *
+  module * { export * }
+}

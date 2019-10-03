@@ -1,1 +1,2 @@
-../../../../../CI/samples.ci/client/petstore/dart2/petstore/.analysis_options
+analyzer:
+  strong-mode: true

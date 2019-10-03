@@ -19,6 +19,6 @@ find CI/samples.ci/client/ -type d | sed -n 's|^CI/samples.ci/||p' | xargs -i mk
 find CI/samples.ci/server/ -type d | sed -n 's|^CI/samples.ci/||p' | xargs -i mkdir -p samples/{}
 find CI/samples.ci/openapi3/ -type d | sed -n 's|^CI/samples.ci/||p' | xargs -i mkdir -p samples/{}
 
-find CI/samples.ci/client/ -type f | sed -n 's|^CI/samples.ci/||p' | xargs -i ln -srf CI/samples.ci/{} samples/{}
-find CI/samples.ci/server/ -type f | sed -n 's|^CI/samples.ci/||p' | xargs -i ln -srf CI/samples.ci/{} samples/{}
-find CI/samples.ci/openapi3/ -type f | sed -n 's|^CI/samples.ci/||p' | xargs -i ln -srf CI/samples.ci/{} samples/{}
+find CI/samples.ci/client/ -type f | sed -n 's|^CI/samples.ci/||p' | xargs -i cp -f CI/samples.ci/{} samples/{}
+find CI/samples.ci/server/ -type f | sed -n 's|^CI/samples.ci/||p' | xargs -i cp -f CI/samples.ci/{} samples/{}
+find CI/samples.ci/openapi3/ -type f | sed -n 's|^CI/samples.ci/||p' | xargs -i cp -f CI/samples.ci/{} samples/{}

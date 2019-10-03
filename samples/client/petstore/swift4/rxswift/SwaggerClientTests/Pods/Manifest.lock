@@ -1,1 +1,27 @@
-../../../../../../../CI/samples.ci/client/petstore/swift4/rxswift/SwaggerClientTests/Pods/Manifest.lock
+PODS:
+  - Alamofire (4.9.0)
+  - PetstoreClient (1.0.0):
+    - Alamofire (~> 4.9.0)
+    - RxSwift (~> 4.0)
+  - RxSwift (4.5.0)
+
+DEPENDENCIES:
+  - PetstoreClient (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - RxSwift
+
+EXTERNAL SOURCES:
+  PetstoreClient:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  PetstoreClient: 432f1430feb6f893260645040aa967411fea06d9
+  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
+
+PODFILE CHECKSUM: cedb3058b02f4776d7c31f6d92ae2f674fdf424d
+
+COCOAPODS: 1.6.1

@@ -1,1 +1,4 @@
-../../../../CI/samples.ci/client/petstore/python-asyncio/dev-requirements.txt
+tox
+coverage
+randomize
+flake8

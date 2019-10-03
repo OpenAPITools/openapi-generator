@@ -1,1 +1,11 @@
-../../../../CI/samples.ci/client/petstore/typescript-angularjs/tsconfig.json
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "out": "client.js"
+  },
+  "files": [
+    "./index.ts",
+    "typings/tsd.d.ts"
+  ]
+}
