@@ -6,7 +6,7 @@ import play.api.libs.json._
 import play.api.mvc._
 import model.Order
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-10-03T13:49:17.716+02:00[Europe/Berlin]")
+
 @Singleton
 class StoreApiController @Inject()(cc: ControllerComponents, api: StoreApi) extends AbstractController(cc) {
   /**

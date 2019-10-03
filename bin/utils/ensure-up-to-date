@@ -129,11 +129,11 @@ declare -a scripts=(
 "./bin/dart2-petstore.sh"
 "./bin/java-play-framework-petstore-server-all.sh"
 #"./bin/elm-petstore-all.sh"
-"./bin/meta-codegen.sh"
 # OTHERS
 "./bin/utils/export_docs_generators.sh"
 "./bin/utils/copy-to-website.sh"
-"./bin/utils/export_generators_readme.sh")
+"./bin/utils/export_generators_readme.sh"
+"./bin/meta-codegen.sh")
 
 for script in "${scripts[@]}"; do
   if eval $script > /dev/null 2>&1; then

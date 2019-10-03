@@ -8,7 +8,7 @@ import model.ApiResponse
 import model.Pet
 import play.api.libs.Files.TemporaryFile
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-10-03T13:49:17.716+02:00[Europe/Berlin]")
+
 @Singleton
 class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends AbstractController(cc) {
   /**

@@ -2,7 +2,7 @@ package api
 
 import model.Order
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-10-03T13:49:17.716+02:00[Europe/Berlin]")
+
 trait StoreApi {
   /**
     * Delete purchase order by ID

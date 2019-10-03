@@ -6,7 +6,7 @@ import play.api.libs.json._
   * A pet for sale in the pet store
   * @param status pet status in the store
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-10-03T13:49:17.716+02:00[Europe/Berlin]")
+
 case class Pet(
   id: Option[Long],
   category: Option[Category],
