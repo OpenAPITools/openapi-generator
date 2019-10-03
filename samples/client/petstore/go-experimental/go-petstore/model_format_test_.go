@@ -27,7 +27,7 @@ type FormatTest struct {
 	DateTime *time.Time `json:"dateTime,omitempty"`
 	Uuid *string `json:"uuid,omitempty"`
 	Password string `json:"password"`
-	BigDecimal *BigDecimal `json:"BigDecimal,omitempty"`
+	BigDecimal *float64 `json:"BigDecimal,omitempty"`
 }
 
 // GetInteger returns the Integer field if non-nil, zero value otherwise.
@@ -319,9 +319,9 @@ func (o *FormatTest) SetUuid(v string) {
 	o.Uuid = &v
 }
 // GetBigDecimal returns the BigDecimal field if non-nil, zero value otherwise.
-func (o *FormatTest) GetBigDecimal() BigDecimal {
+func (o *FormatTest) GetBigDecimal() float64 {
 	if o == nil || o.BigDecimal == nil {
-		var ret BigDecimal
+		var ret float64
 		return ret
 	}
 	return *o.BigDecimal
@@ -329,9 +329,9 @@ func (o *FormatTest) GetBigDecimal() BigDecimal {
 
 // GetBigDecimalOk returns a tuple with the BigDecimal field if it's non-nil, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetBigDecimalOk() (BigDecimal, bool) {
+func (o *FormatTest) GetBigDecimalOk() (float64, bool) {
 	if o == nil || o.BigDecimal == nil {
-		var ret BigDecimal
+		var ret float64
 		return ret, false
 	}
 	return *o.BigDecimal, true
@@ -346,8 +346,8 @@ func (o *FormatTest) HasBigDecimal() bool {
 	return false
 }
 
-// SetBigDecimal gets a reference to the given BigDecimal and assigns it to the BigDecimal field.
-func (o *FormatTest) SetBigDecimal(v BigDecimal) {
+// SetBigDecimal gets a reference to the given float64 and assigns it to the BigDecimal field.
+func (o *FormatTest) SetBigDecimal(v float64) {
 	o.BigDecimal = &v
 }
 
