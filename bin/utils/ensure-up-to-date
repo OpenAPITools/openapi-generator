@@ -47,7 +47,6 @@ declare -a scripts=(
 "./bin/python-server-aiohttp-petstore.sh"
 "./bin/python-server-flask-petstore.sh"
 "./bin/python-server-flask-petstore-python2.sh"
-#"./bin/ruby-client-petstore.sh"
 "./bin/scala-httpclient-petstore.sh"
 "./bin/scalaz-petstore.sh"
 "./bin/jaxrs-cxf-client-petstore.sh"
