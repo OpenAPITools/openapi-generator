@@ -176,13 +176,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
 
         if (isJVMLibrary()) {
-            additionalProperties.put(JVM, true);
-
             if (JVM_OKHTTP4.equals(getLibrary())) {
                 additionalProperties.put(JVM_OKHTTP4, true);
             } else if (JVM_OKHTTP3.equals(getLibrary())) {
                 additionalProperties.put(JVM_OKHTTP3, true);
             }
+
+            supportedLibraries.put(JVM, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
+            setLibrary(JVM);
 
             // jvm specific supporting files
             supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
