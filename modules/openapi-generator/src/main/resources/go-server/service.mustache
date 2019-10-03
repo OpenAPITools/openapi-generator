@@ -1,0 +1,21 @@
+{{>partial_header}}
+package {{packageName}}
+
+import (
+    "errors"{{#imports}}
+    "{{import}}"{{/imports}}
+)
+
+// {{classname}}Service is a Servicer that implents the logic for the server
+type {{classname}}Service struct {
+}
+
+// New{{classname}}Service creates a default api service
+func New{{classname}}Service() {{classname}}Servicer {
+    return &{{classname}}Service{}
+}{{#operations}}{{#operation}}
+
+// {{nickname}} - {{{summary}}}
+func (s *{{classname}}Service) {{nickname}}({{#allParams}}{{paramName}} {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) (interface{}, error) {
+    return nil, errors.New("service method '{{nickname}}' not implemented")
+}{{/operation}}{{/operations}}

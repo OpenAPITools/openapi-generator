@@ -1,0 +1,18 @@
+{{>partial_header}}
+package {{packageName}}
+
+import (
+	"net/http"{{#apiInfo}}{{#apis}}{{#imports}}
+    "{{import}}"{{/imports}}{{/apis}}{{/apiInfo}}
+)
+
+{{#apiInfo}}{{#apis}}
+// {{classname}}Router defines the required methods for binding the api requests to a responses for the {{classname}}
+type {{classname}}Router interface { {{#operations}}{{#operation}}
+	{{operationId}}(http.ResponseWriter, *http.Request){{/operation}}{{/operations}}
+}{{/apis}}{{/apiInfo}}{{#apiInfo}}{{#apis}}
+
+// {{classname}}Servicer defines the api actions for the {{classname}} service
+type {{classname}}Servicer interface { {{#operations}}{{#operation}}
+    {{operationId}}({{#allParams}}{{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) (interface{}, error){{/operation}}{{/operations}}
+}{{/apis}}{{/apiInfo}}
