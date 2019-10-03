@@ -1,0 +1,1 @@
+../../../../../../../../../CI/samples.ci/client/petstore/swift3/promisekit/SwaggerClientTests/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-umbrella.h

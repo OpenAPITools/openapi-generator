@@ -1,0 +1,1 @@
+../../../../../../CI/samples.ci/client/petstore/swift3/rxswift/SwaggerClientTests/run_xcodebuild.sh

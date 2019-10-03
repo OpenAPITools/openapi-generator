@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "out": "client.js"
+  },
+  "files": [
+    "./index.ts",
+    "typings/tsd.d.ts"
+  ]
+}

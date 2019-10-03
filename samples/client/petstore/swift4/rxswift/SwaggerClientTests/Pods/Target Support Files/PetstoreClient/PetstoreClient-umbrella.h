@@ -1,0 +1,1 @@
+../../../../../../../../../CI/samples.ci/client/petstore/swift4/rxswift/SwaggerClientTests/Pods/Target Support Files/PetstoreClient/PetstoreClient-umbrella.h

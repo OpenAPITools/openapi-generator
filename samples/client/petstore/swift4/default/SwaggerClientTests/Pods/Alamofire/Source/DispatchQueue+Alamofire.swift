@@ -1,0 +1,1 @@
+../../../../../../../../../CI/samples.ci/client/petstore/swift4/default/SwaggerClientTests/Pods/Alamofire/Source/DispatchQueue+Alamofire.swift

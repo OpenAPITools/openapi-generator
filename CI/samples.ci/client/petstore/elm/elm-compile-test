@@ -1,0 +1,14 @@
+#!/bin/bash -e
+# elm make all elm files under src
+
+for ELM in `find src -name "*.elm"`
+do
+    echo "Compiling $ELM"
+    elm make $ELM --output /dev/null
+    rc=$?
+    if [[ $rc != 0 ]]
+    then
+        echo "ERROR!! FAILED TO COMPILE $ELM"
+        exit $rc;
+    fi
+done

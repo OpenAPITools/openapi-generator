@@ -1,0 +1,1 @@
+../../../../../../../../../../../CI/samples.ci/client/petstore/swift4/rxswift/SwaggerClientTests/Pods/PetstoreClient/Classes/OpenAPIs/Models/Model200Response.swift

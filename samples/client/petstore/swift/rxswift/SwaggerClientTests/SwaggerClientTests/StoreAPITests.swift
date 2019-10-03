@@ -1,0 +1,1 @@
+../../../../../../../CI/samples.ci/client/petstore/swift/rxswift/SwaggerClientTests/SwaggerClientTests/StoreAPITests.swift

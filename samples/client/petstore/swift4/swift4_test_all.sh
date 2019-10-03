@@ -1,0 +1,1 @@
+../../../../CI/samples.ci/client/petstore/swift4/swift4_test_all.sh

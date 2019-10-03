@@ -1,0 +1,26 @@
+{
+  "name": "PetstoreClient",
+  "platforms": {
+    "ios": "9.0",
+    "osx": "10.11",
+    "tvos": "9.0"
+  },
+  "version": "0.0.1",
+  "source": {
+    "git": "git@github.com:openapitools/openapi-generator.git",
+    "tag": "v1.0.0"
+  },
+  "authors": "",
+  "license": "Proprietary",
+  "homepage": "https://github.com/openapitools/openapi-generator",
+  "summary": "PetstoreClient",
+  "source_files": "PetstoreClient/Classes/**/*.swift",
+  "dependencies": {
+    "RxSwift": [
+      "3.6.1"
+    ],
+    "Alamofire": [
+      "~> 4.5.0"
+    ]
+  }
+}

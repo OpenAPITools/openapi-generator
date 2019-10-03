@@ -1,0 +1,1 @@
+../../../../../../../CI/samples.ci/client/petstore/clojure/test/open_api_petstore/api/pet_test.clj
