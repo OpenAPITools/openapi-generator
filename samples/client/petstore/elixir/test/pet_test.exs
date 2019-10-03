@@ -1,0 +1,1 @@
+../../../../../CI/samples.ci/client/petstore/elixir/test/pet_test.exs

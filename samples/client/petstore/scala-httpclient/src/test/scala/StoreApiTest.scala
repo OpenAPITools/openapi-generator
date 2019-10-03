@@ -1,0 +1,1 @@
+../../../../../../../CI/samples.ci/client/petstore/scala-httpclient/src/test/scala/StoreApiTest.scala

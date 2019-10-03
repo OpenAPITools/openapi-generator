@@ -1,0 +1,1 @@
+../../../../../../../CI/samples.ci/client/petstore/groovy/test/groovy/openapitools/PetApiTest.groovy

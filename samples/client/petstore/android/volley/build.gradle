@@ -1,0 +1,97 @@
+group = 'org.openapitools'
+project.version = '1.0.0'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.+'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 25
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    // Rename the aar correctly
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+                def fileName = "${project.name}-${variant.baseName}-${version}.aar"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+
+ext {
+    swagger_annotations_version = "1.5.0"
+    gson_version = "2.3.1"
+    httpmime_version = "4.5.2"
+    httpcore_version = "4.4.4"
+    httpclient_version = "4.3.3"
+    volley_version = "1.0.0"
+    junit_version = "4.12"
+    robolectric_version = "3.0"
+    concurrent_unit_version = "0.4.2"
+}
+
+dependencies {
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.google.code.gson:gson:$gson_version"
+    compile "org.apache.httpcomponents:httpcore:$httpcore_version"
+    compile "org.apache.httpcomponents:httpmime:$httpmime_version"
+    compile "org.apache.httpcomponents:httpclient-android:$httpclient_version"
+    compile "com.android.volley:volley:${volley_version}"
+    testCompile "junit:junit:$junit_version"
+    testCompile "org.robolectric:robolectric:${robolectric_version}"
+    testCompile "net.jodah:concurrentunit:${concurrent_unit_version}"
+}
+
+afterEvaluate {
+    android.libraryVariants.all { variant ->
+        def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
+        task.description = "Create jar artifact for ${variant.name}"
+        task.dependsOn variant.javaCompile
+        task.from variant.javaCompile.destinationDir
+        task.destinationDir = project.file("${project.buildDir}/outputs/jar")
+        task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+        artifacts.add('archives', task);
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}

@@ -1,0 +1,2 @@
+github "Alamofire/Alamofire" ~> 4.5
+github "ReactiveX/RxSwift" "rxswift-3.0"

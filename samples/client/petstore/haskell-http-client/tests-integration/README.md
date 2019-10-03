@@ -1,0 +1,1 @@
+../../../../../CI/samples.ci/client/petstore/haskell-http-client/tests-integration/README.md

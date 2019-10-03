@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: pkmst-microservice
+  profiles:
+    active: test    

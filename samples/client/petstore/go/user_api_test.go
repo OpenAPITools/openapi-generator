@@ -1,0 +1,1 @@
+../../../../CI/samples.ci/client/petstore/go/user_api_test.go

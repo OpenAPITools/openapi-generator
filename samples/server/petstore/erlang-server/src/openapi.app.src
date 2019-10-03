@@ -1,0 +1,19 @@
+{application, openapi, [
+    {description, "This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters."},
+    {vsn, "1.0.0"},
+    {registered, []},
+    {applications, [
+        kernel,
+        stdlib,
+        ssl,
+        inets,
+        jsx,
+        jesse,
+        cowboy
+    ]},
+    {env, [
+    ]},
+    {modules, []},
+    {licenses, ["Apache-2.0"]},
+    {links, []}
+]}.

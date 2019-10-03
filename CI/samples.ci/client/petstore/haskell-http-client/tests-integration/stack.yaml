@@ -1,0 +1,2 @@
+resolver: lts-14.3
+extra-deps: [ '..', katip-0.8.3.0 ]

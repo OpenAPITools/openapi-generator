@@ -1,0 +1,1 @@
+../../../../../../../CI/samples.ci/openapi3/client/petstore/ruby/spec/custom/store_spec.rb
