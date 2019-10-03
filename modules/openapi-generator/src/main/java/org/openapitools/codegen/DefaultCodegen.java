@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
@@ -3092,6 +3091,12 @@ public class DefaultCodegen implements CodegenConfig {
 
             // set default value
             codegenParameter.defaultValue = toDefaultValue(parameterSchema);
+
+            if (parameter.getStyle() != null) {
+                codegenParameter.style = parameter.getStyle().toString();
+            }
+
+            codegenParameter.shouldExplode = parameter.getExplode();
 
             // TDOO revise collectionFormat
             String collectionFormat = null;
