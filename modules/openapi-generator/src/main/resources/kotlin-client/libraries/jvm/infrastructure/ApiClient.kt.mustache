@@ -52,7 +52,7 @@ open class ApiClient(val baseUrl: String) {
         when {
             {{#jvm-okhttp3}}
             content is File -> RequestBody.create(
-                 MediaType.parse(mediaType), content
+                MediaType.parse(mediaType), content
             )
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
@@ -71,7 +71,7 @@ open class ApiClient(val baseUrl: String) {
             }
             {{#jvm-okhttp3}}
             mediaType == JsonMediaType -> RequestBody.create(
-                 MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
             )
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
