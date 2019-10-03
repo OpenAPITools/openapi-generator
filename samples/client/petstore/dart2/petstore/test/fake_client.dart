@@ -1,0 +1,1 @@
+../../../../../../CI/samples.ci/client/petstore/dart2/petstore/test/fake_client.dart
