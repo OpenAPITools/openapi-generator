@@ -639,6 +639,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-08-29 - [OpenAPI初探](https://cloud.tencent.com/developer/article/1495986) by [peakxie](https://cloud.tencent.com/developer/user/1113152) at [腾讯云社区](https://cloud.tencent.com/developer)
 - 2019-08-29 - [全面进化：Kubernetes CRD 1.16 GA前瞻](https://www.servicemesher.com/blog/kubernetes-1.16-crd-ga-preview/) by [Min Kim](https://github.com/yue9944882) at [ServiceMesher Blog](https://www.servicemesher.com/blog/)
 - 2019-09-01 - [Creating a PHP-Slim server using OpenAPI (Youtube video)](https://www.youtube.com/watch?v=5cJtbIrsYkg) by [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA)
+- 2019-09-06 - [Vert.x and OpenAPI](https://wissel.net/blog/2019/09/vertx-and-openapi.html) by [Stephan H Wissel](https://twitter.com/notessensei) at [wissel.net blog](https://wissel.net)
 - 2019-09-09 - [Cloud-native development - Creating RESTful microservices](https://cloud.ibm.com/docs/cloud-native?topic=cloud-native-rest-api) in [IBM Cloud Docs](https://cloud.ibm.com/docs)
 - 2019-09-14 - [Generating and Configuring a Mastercard API Client](https://developer.mastercard.com/platform/documentation/generating-and-configuring-a-mastercard-api-client/) at [Mastercard Developers Platform](https://developer.mastercard.com/platform/documentation/)
 - 2019-09-15 - [OpenAPI(Swagger)導入下調べ](https://qiita.com/ShoichiKuraoka/items/f1f7a3c2376f7cd9c56a) by [Shoichi Kuraoka](https://qiita.com/ShoichiKuraoka)
