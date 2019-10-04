@@ -32,6 +32,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 
 @Component("org.openapitools.client.api.FakeApi")
@@ -59,10 +60,22 @@ public class FakeApi {
      * creates an XmlItem
      * this route creates an XmlItem
      * <p><b>200</b> - successful operation
-     * @param xmlItem XmlItem Body
+     * @param xmlItem XmlItem Body (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void createXmlItem(XmlItem xmlItem) throws RestClientException {
+        createXmlItemWithHttpInfo(xmlItem);
+    }
+
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * <p><b>200</b> - successful operation
+     * @param xmlItem XmlItem Body (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> createXmlItemWithHttpInfo(XmlItem xmlItem) throws RestClientException {
         Object postBody = xmlItem;
         
         // verify the required parameter 'xmlItem' is set
@@ -86,17 +99,29 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
      * Test serialization of outer boolean types
      * <p><b>200</b> - Output boolean
-     * @param body Input boolean as post body
+     * @param body Input boolean as post body (optional)
      * @return Boolean
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws RestClientException {
+        return fakeOuterBooleanSerializeWithHttpInfo(body).getBody();
+    }
+
+    /**
+     * 
+     * Test serialization of outer boolean types
+     * <p><b>200</b> - Output boolean
+     * @param body Input boolean as post body (optional)
+     * @return ResponseEntity&lt;Boolean&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws RestClientException {
         Object postBody = body;
         
         String path = apiClient.expandPath("/fake/outer/boolean", Collections.<String, Object>emptyMap());
@@ -121,11 +146,23 @@ public class FakeApi {
      * 
      * Test serialization of object with outer number type
      * <p><b>200</b> - Output composite
-     * @param body Input composite as post body
+     * @param body Input composite as post body (optional)
      * @return OuterComposite
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws RestClientException {
+        return fakeOuterCompositeSerializeWithHttpInfo(body).getBody();
+    }
+
+    /**
+     * 
+     * Test serialization of object with outer number type
+     * <p><b>200</b> - Output composite
+     * @param body Input composite as post body (optional)
+     * @return ResponseEntity&lt;OuterComposite&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws RestClientException {
         Object postBody = body;
         
         String path = apiClient.expandPath("/fake/outer/composite", Collections.<String, Object>emptyMap());
@@ -150,11 +187,23 @@ public class FakeApi {
      * 
      * Test serialization of outer number types
      * <p><b>200</b> - Output number
-     * @param body Input number as post body
+     * @param body Input number as post body (optional)
      * @return BigDecimal
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws RestClientException {
+        return fakeOuterNumberSerializeWithHttpInfo(body).getBody();
+    }
+
+    /**
+     * 
+     * Test serialization of outer number types
+     * <p><b>200</b> - Output number
+     * @param body Input number as post body (optional)
+     * @return ResponseEntity&lt;BigDecimal&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws RestClientException {
         Object postBody = body;
         
         String path = apiClient.expandPath("/fake/outer/number", Collections.<String, Object>emptyMap());
@@ -179,11 +228,23 @@ public class FakeApi {
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body
+     * @param body Input string as post body (optional)
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public String fakeOuterStringSerialize(String body) throws RestClientException {
+        return fakeOuterStringSerializeWithHttpInfo(body).getBody();
+    }
+
+    /**
+     * 
+     * Test serialization of outer string types
+     * <p><b>200</b> - Output string
+     * @param body Input string as post body (optional)
+     * @return ResponseEntity&lt;String&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(String body) throws RestClientException {
         Object postBody = body;
         
         String path = apiClient.expandPath("/fake/outer/string", Collections.<String, Object>emptyMap());
@@ -208,10 +269,22 @@ public class FakeApi {
      * 
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      * <p><b>200</b> - Success
-     * @param body The body parameter
+     * @param body  (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void testBodyWithFileSchema(FileSchemaTestClass body) throws RestClientException {
+        testBodyWithFileSchemaWithHttpInfo(body);
+    }
+
+    /**
+     * 
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * <p><b>200</b> - Success
+     * @param body  (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass body) throws RestClientException {
         Object postBody = body;
         
         // verify the required parameter 'body' is set
@@ -235,17 +308,30 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
      * 
      * <p><b>200</b> - Success
-     * @param query The query parameter
-     * @param body The body parameter
+     * @param query  (required)
+     * @param body  (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void testBodyWithQueryParams(String query, User body) throws RestClientException {
+        testBodyWithQueryParamsWithHttpInfo(query, body);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - Success
+     * @param query  (required)
+     * @param body  (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testBodyWithQueryParamsWithHttpInfo(String query, User body) throws RestClientException {
         Object postBody = body;
         
         // verify the required parameter 'query' is set
@@ -276,17 +362,29 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
      * <p><b>200</b> - successful operation
-     * @param body client model
+     * @param body client model (required)
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Client testClientModel(Client body) throws RestClientException {
+        return testClientModelWithHttpInfo(body).getBody();
+    }
+
+    /**
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
+     * <p><b>200</b> - successful operation
+     * @param body client model (required)
+     * @return ResponseEntity&lt;Client&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Client> testClientModelWithHttpInfo(Client body) throws RestClientException {
         Object postBody = body;
         
         // verify the required parameter 'body' is set
@@ -319,23 +417,49 @@ public class FakeApi {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
-     * @param number None
-     * @param _double None
-     * @param patternWithoutDelimiter None
-     * @param _byte None
-     * @param integer None
-     * @param int32 None
-     * @param int64 None
-     * @param _float None
-     * @param string None
-     * @param binary None
-     * @param date None
-     * @param dateTime None
-     * @param password None
-     * @param paramCallback None
+     * @param number None (required)
+     * @param _double None (required)
+     * @param patternWithoutDelimiter None (required)
+     * @param _byte None (required)
+     * @param integer None (optional)
+     * @param int32 None (optional)
+     * @param int64 None (optional)
+     * @param _float None (optional)
+     * @param string None (optional)
+     * @param binary None (optional)
+     * @param date None (optional)
+     * @param dateTime None (optional)
+     * @param password None (optional)
+     * @param paramCallback None (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
+        testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+    }
+
+    /**
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * <p><b>400</b> - Invalid username supplied
+     * <p><b>404</b> - User not found
+     * @param number None (required)
+     * @param _double None (required)
+     * @param patternWithoutDelimiter None (required)
+     * @param _byte None (required)
+     * @param integer None (optional)
+     * @param int32 None (optional)
+     * @param int64 None (optional)
+     * @param _float None (optional)
+     * @param string None (optional)
+     * @param binary None (optional)
+     * @param date None (optional)
+     * @param dateTime None (optional)
+     * @param password None (optional)
+     * @param paramCallback None (optional)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'number' is set
@@ -403,24 +527,44 @@ public class FakeApi {
         String[] authNames = new String[] { "http_basic_test" };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * To test enum parameters
      * To test enum parameters
      * <p><b>400</b> - Invalid request
      * <p><b>404</b> - Not found
-     * @param enumHeaderStringArray Header parameter enum test (string array)
-     * @param enumHeaderString Header parameter enum test (string)
-     * @param enumQueryStringArray Query parameter enum test (string array)
-     * @param enumQueryString Query parameter enum test (string)
-     * @param enumQueryInteger Query parameter enum test (double)
-     * @param enumQueryDouble Query parameter enum test (double)
-     * @param enumFormStringArray Form parameter enum test (string array)
-     * @param enumFormString Form parameter enum test (string)
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+     * @param enumQueryInteger Query parameter enum test (double) (optional)
+     * @param enumQueryDouble Query parameter enum test (double) (optional)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
+        testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+    }
+
+    /**
+     * To test enum parameters
+     * To test enum parameters
+     * <p><b>400</b> - Invalid request
+     * <p><b>404</b> - Not found
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+     * @param enumQueryInteger Query parameter enum test (double) (optional)
+     * @param enumQueryDouble Query parameter enum test (double) (optional)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
         Object postBody = null;
         
         String path = apiClient.expandPath("/fake", Collections.<String, Object>emptyMap());
@@ -454,21 +598,38 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
      * <p><b>400</b> - Someting wrong
-     * @param requiredStringGroup Required String in group parameters
-     * @param requiredBooleanGroup Required Boolean in group parameters
-     * @param requiredInt64Group Required Integer in group parameters
-     * @param stringGroup String in group parameters
-     * @param booleanGroup Boolean in group parameters
-     * @param int64Group Integer in group parameters
+     * @param requiredStringGroup Required String in group parameters (required)
+     * @param requiredBooleanGroup Required Boolean in group parameters (required)
+     * @param requiredInt64Group Required Integer in group parameters (required)
+     * @param stringGroup String in group parameters (optional)
+     * @param booleanGroup Boolean in group parameters (optional)
+     * @param int64Group Integer in group parameters (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
+        testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+    }
+
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * <p><b>400</b> - Someting wrong
+     * @param requiredStringGroup Required String in group parameters (required)
+     * @param requiredBooleanGroup Required Boolean in group parameters (required)
+     * @param requiredInt64Group Required Integer in group parameters (required)
+     * @param stringGroup String in group parameters (optional)
+     * @param booleanGroup Boolean in group parameters (optional)
+     * @param int64Group Integer in group parameters (optional)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'requiredStringGroup' is set
@@ -510,16 +671,28 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.DELETE, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.DELETE, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * test inline additionalProperties
      * 
      * <p><b>200</b> - successful operation
-     * @param param request body
+     * @param param request body (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void testInlineAdditionalProperties(Map<String, String> param) throws RestClientException {
+        testInlineAdditionalPropertiesWithHttpInfo(param);
+    }
+
+    /**
+     * test inline additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param param request body (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> param) throws RestClientException {
         Object postBody = param;
         
         // verify the required parameter 'param' is set
@@ -543,17 +716,30 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * test json serialization of form data
      * 
      * <p><b>200</b> - successful operation
-     * @param param field1
-     * @param param2 field2
+     * @param param field1 (required)
+     * @param param2 field2 (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void testJsonFormData(String param, String param2) throws RestClientException {
+        testJsonFormDataWithHttpInfo(param, param2);
+    }
+
+    /**
+     * test json serialization of form data
+     * 
+     * <p><b>200</b> - successful operation
+     * @param param field1 (required)
+     * @param param2 field2 (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'param' is set
@@ -587,20 +773,36 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
      * To test the collection format in query parameters
      * <p><b>200</b> - Success
-     * @param pipe The pipe parameter
-     * @param ioutil The ioutil parameter
-     * @param http The http parameter
-     * @param url The url parameter
-     * @param context The context parameter
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws RestClientException {
+        testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+    }
+
+    /**
+     * 
+     * To test the collection format in query parameters
+     * <p><b>200</b> - Success
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'pipe' is set
@@ -648,6 +850,6 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
 }
