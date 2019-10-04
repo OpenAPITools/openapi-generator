@@ -207,7 +207,7 @@ public class CodegenConstants {
     public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
 
     public static final String API_NAME_SUFFIX = "apiNameSuffix";
-    public static final String API_NAME_SUFFIX_DESC = "Suffix that will be appended to all api names.";
+    public static final String API_NAME_SUFFIX_DESC = "Suffix that will be appended to all API names ('tags'). Default: Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators suppport this feature at the moment.";
 
     public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
     public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names.";
