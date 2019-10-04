@@ -13,12 +13,13 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.io.Serializable
 /**
  * 
  * @param fourthModel 
  */
-
+@JsonClass(generateAdapter = true)
 data class FourthModel (
     @Json(name = "fourthModel")
     val fourthModel: kotlin.String

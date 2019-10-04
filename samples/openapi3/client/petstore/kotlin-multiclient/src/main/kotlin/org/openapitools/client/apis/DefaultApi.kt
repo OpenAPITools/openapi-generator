@@ -12,21 +12,12 @@
 package org.openapitools.client.apis
 
 import org.openapitools.client.models.FirstModel
-import org.openapitools.client.models.FourthModel
-import org.openapitools.client.models.SecondModel
-import org.openapitools.client.models.ThirdModel
 
 import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ClientException
-import org.openapitools.client.infrastructure.ClientError
-import org.openapitools.client.infrastructure.ServerException
-import org.openapitools.client.infrastructure.ServerError
 import org.openapitools.client.infrastructure.MultiValueMap
 import org.openapitools.client.infrastructure.RequestConfig
 import org.openapitools.client.infrastructure.RequestMethod
-import org.openapitools.client.infrastructure.ResponseType
-import org.openapitools.client.infrastructure.Success
-import org.openapitools.client.infrastructure.toMultiValue
+import org.openapitools.client.models.responses.MultiStatusReturnGetResponse
 
 class DefaultApi(basePath: kotlin.String = "http://localhost") : ApiClient(basePath) {
 
@@ -37,7 +28,7 @@ class DefaultApi(basePath: kotlin.String = "http://localhost") : ApiClient(baseP
     * @return FirstModel
     */
     @Suppress("UNCHECKED_CAST")
-    fun multiStatusReturnGet(statuscode: kotlin.String) : FirstModel {
+    fun multiStatusReturnGet(statuscode: kotlin.String) : MultiStatusReturnGetResponse {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("statuscode" to listOf("$statuscode"))
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -47,18 +38,12 @@ class DefaultApi(basePath: kotlin.String = "http://localhost") : ApiClient(baseP
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<FirstModel>(
-            localVariableConfig,
-            localVariableBody
+        val rawResponse = rawRequest(
+                localVariableConfig,
+                localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as FirstModel
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
+        return MultiStatusReturnGetResponse.createFromResponse(response = rawResponse)
     }
 
 }
