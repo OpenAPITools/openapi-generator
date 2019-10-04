@@ -59,7 +59,8 @@ import           Servant.Client                     (ClientEnv, Scheme (Http), C
                                                      mkClientEnv, parseBaseUrl)
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
-import           Servant.Server                     (Handler (..))
+import           Servant.Server                     (Handler (..)){{#serveStatic}}
+import           Servant.Server.StaticFiles         (serveDirectoryFileServer){{/serveStatic}}
 import           Web.FormUrlEncoded
 import           Web.HttpApiData
 
@@ -129,7 +130,8 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 type {{title}}API
     =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-routeType}} -- '{{operationId}}' route{{#hasMore}}
     :<|> {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
-    :<|> {{/hasMore}}{{/apis}}
+    :<|> {{/hasMore}}{{/apis}}{{#serveStatic}}
+    :<|> Raw {{/serveStatic}}
 {{/apiInfo}}
 
 
@@ -181,7 +183,8 @@ create{{title}}Client = {{title}}Backend{..}
   where
     ({{#apis}}{{#operations}}{{#operation}}(coerce -> {{operationId}}){{#hasMore}} :<|>
      {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
-     {{/hasMore}}{{/apis}}) = client (Proxy :: Proxy {{title}}API)
+     {{/hasMore}}{{/apis}}{{#serveStatic}} :<|>
+     _{{/serveStatic}}) = client (Proxy :: Proxy {{title}}API)
 
 -- | Run requests in the {{title}}Client monad.
 run{{title}}Client :: Config -> {{title}}Client a -> ExceptT ClientError IO a
@@ -222,5 +225,6 @@ run{{title}}Server Config{..} backend = do
     serverFromBackend {{title}}Backend{..} =
       ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{#hasMore}} :<|>
        {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
-       {{/hasMore}}{{/apis}})
+       {{/hasMore}}{{/apis}}{{#serveStatic}} :<|>
+       serveDirectoryFileServer "static"{{/serveStatic}})
 {{/apiInfo}}
