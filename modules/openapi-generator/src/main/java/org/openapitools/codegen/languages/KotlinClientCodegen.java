@@ -176,6 +176,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
 
         if (isJVMLibrary()) {
+            additionalProperties.put(JVM, true);
+            
             if (JVM_OKHTTP4.equals(getLibrary())) {
                 additionalProperties.put(JVM_OKHTTP4, true);
             } else if (JVM_OKHTTP3.equals(getLibrary())) {
