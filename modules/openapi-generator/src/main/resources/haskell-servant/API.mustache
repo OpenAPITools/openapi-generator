@@ -51,6 +51,7 @@ import           GHC.Generics                       (Generic)
 import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
+import           Network.Wai                        (Middleware)
 import qualified Network.Wai.Handler.Warp           as Warp
 import           Servant                            (ServerError, serve)
 import           Servant.API
@@ -211,13 +212,13 @@ call{{title}} env f = do
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}Server
   :: (MonadIO m, MonadThrow m)
-  => Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
-run{{title}}Server Config{..} backend = do
+  => Config -> Middleware -> {{title}}Backend (ExceptT ServerError IO) -> m ()
+run{{title}}Server Config{..} middleware backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
   where
     serverFromBackend {{title}}Backend{..} =
       ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{#hasMore}} :<|>

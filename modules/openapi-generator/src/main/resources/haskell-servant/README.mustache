@@ -66,14 +66,26 @@ functions in `{{title}}.Handlers`, you can write:
 {-# LANGUAGE RecordWildCards #-}
 
 import {{title}}.API
+-- required dependency: wai
+import Network.Wai (Middleware)
+-- required dependency: wai-extra
+import Network.Wai.Middleware.RequestLogger (logStdout)
 
 -- A module you wrote yourself, containing all handlers needed for the {{title}}Backend type.
 import {{title}}.Handlers
+
+-- If you would like to not use any middlewares just create an id-middleware implementation
+-- requestMiddlewareId :: Application -> Application
+-- requestMiddlewareId a = a
+
+-- Combined middlewares
+requestMiddlewares :: Middleware
+requestMiddlewares = logStdout
 
 -- Run a {{title}} server on localhost:8080
 main :: IO ()
 main = do
   let server = {{title}}Backend{..}
       config = Config "http://localhost:8080/"
-  run{{title}}Server config server
+  run{{title}}Server config requestMiddlewares server
 ```

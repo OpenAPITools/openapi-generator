@@ -66,14 +66,26 @@ functions in `OpenAPIPetstore.Handlers`, you can write:
 {-# LANGUAGE RecordWildCards #-}
 
 import OpenAPIPetstore.API
+-- required dependency: wai
+import Network.Wai (Middleware)
+-- required dependency: wai-extra
+import Network.Wai.Middleware.RequestLogger (logStdout)
 
 -- A module you wrote yourself, containing all handlers needed for the OpenAPIPetstoreBackend type.
 import OpenAPIPetstore.Handlers
+
+-- If you would like to not use any middlewares just create an id-middleware implementation
+-- requestMiddlewareId :: Application -> Application
+-- requestMiddlewareId a = a
+
+-- Default Requestlogging middleware.
+requestMiddlewares :: Middleware
+requestMiddlewares = logStdout
 
 -- Run a OpenAPIPetstore server on localhost:8080
 main :: IO ()
 main = do
   let server = OpenAPIPetstoreBackend{..}
       config = Config "http://localhost:8080/"
-  runOpenAPIPetstoreServer config server
+  runOpenAPIPetstoreServer config requestMiddlewares server
 ```

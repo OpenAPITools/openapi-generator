@@ -51,6 +51,7 @@ import           GHC.Generics                       (Generic)
 import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
+import           Network.Wai                        (Middleware)
 import qualified Network.Wai.Handler.Warp           as Warp
 import           Servant                            (ServerError, serve)
 import           Servant.API
@@ -263,13 +264,13 @@ callOpenAPIPetstore env f = do
 -- | Run the OpenAPIPetstore server at the provided host and port.
 runOpenAPIPetstoreServer
   :: (MonadIO m, MonadThrow m)
-  => Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
-runOpenAPIPetstoreServer Config{..} backend = do
+  => Config -> Middleware -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
+runOpenAPIPetstoreServer Config{..} middleware backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
   where
     serverFromBackend OpenAPIPetstoreBackend{..} =
       (coerce addPet :<|>
