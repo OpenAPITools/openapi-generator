@@ -1,0 +1,88 @@
+openapi: 3.0.1
+info:
+  title: MultiResponseServer
+  description: |-
+    I am returning multiple statuscodes
+  contact:
+    email: rtiersch@jobware.de
+  version: 3.0.0
+servers:
+  - url: /
+paths:
+  /multiStatusReturn:
+    get:
+      summary: Is able to return a lot of status codes
+      operationId: multiStatusReturnGet
+      parameters:
+        - name: statuscode
+          in: query
+          required: True
+          schema:
+            type: string
+            enum:
+              - 200
+              - 204
+              - 242
+              - 400
+              - 500
+      responses:
+        200:
+          description: normal 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/firstModel'
+        204:
+          description: No Content
+        242:
+          description: custom 200 return code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/secondModel'
+        400:
+          description: Client errors are handled, too
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/thirdModel'
+        500:
+          description: Server errors are handled, too
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fourthModel'
+components:
+  schemas:
+    firstModel:
+      type: object
+      required:
+        - firstModel
+      properties:
+        firstModel:
+          type: string
+          example: Hello World
+    secondModel:
+      type: object
+      required:
+        - secondModel
+      properties:
+        secondModel:
+          type: string
+          example: Hello World
+    thirdModel:
+      type: object
+      required:
+        - thirdModel
+      properties:
+        thirdModel:
+          type: string
+          example: Hello World
+    fourthModel:
+      type: object
+      required:
+        - fourthModel
+      properties:
+        fourthModel:
+          type: string
+          example: Hello World
