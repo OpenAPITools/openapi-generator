@@ -23,7 +23,7 @@ type EnumTest struct {
 	OuterEnum *OuterEnum `json:"outerEnum,omitempty"`
 }
 
-// GetEnumString returns the EnumString field if non-nil, zero value otherwise.
+// GetEnumString returns the EnumString field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumString() string {
 	if o == nil || o.EnumString == nil {
 		var ret string
@@ -32,7 +32,7 @@ func (o *EnumTest) GetEnumString() string {
 	return *o.EnumString
 }
 
-// GetEnumStringOk returns a tuple with the EnumString field if it's non-nil, zero value otherwise
+// GetEnumStringOk returns a tuple with the EnumString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumStringOk() (string, bool) {
 	if o == nil || o.EnumString == nil {
@@ -55,7 +55,23 @@ func (o *EnumTest) HasEnumString() bool {
 func (o *EnumTest) SetEnumString(v string) {
 	o.EnumString = &v
 }
-// GetEnumInteger returns the EnumInteger field if non-nil, zero value otherwise.
+
+// GetEnumStringRequired returns the EnumStringRequired field value
+func (o *EnumTest) GetEnumStringRequired() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.EnumStringRequired
+}
+
+// SetEnumStringRequired sets field value
+func (o *EnumTest) SetEnumStringRequired(v string) {
+	o.EnumStringRequired = v
+}
+
+// GetEnumInteger returns the EnumInteger field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumInteger() int32 {
 	if o == nil || o.EnumInteger == nil {
 		var ret int32
@@ -64,7 +80,7 @@ func (o *EnumTest) GetEnumInteger() int32 {
 	return *o.EnumInteger
 }
 
-// GetEnumIntegerOk returns a tuple with the EnumInteger field if it's non-nil, zero value otherwise
+// GetEnumIntegerOk returns a tuple with the EnumInteger field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumIntegerOk() (int32, bool) {
 	if o == nil || o.EnumInteger == nil {
@@ -87,7 +103,8 @@ func (o *EnumTest) HasEnumInteger() bool {
 func (o *EnumTest) SetEnumInteger(v int32) {
 	o.EnumInteger = &v
 }
-// GetEnumNumber returns the EnumNumber field if non-nil, zero value otherwise.
+
+// GetEnumNumber returns the EnumNumber field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumNumber() float64 {
 	if o == nil || o.EnumNumber == nil {
 		var ret float64
@@ -96,7 +113,7 @@ func (o *EnumTest) GetEnumNumber() float64 {
 	return *o.EnumNumber
 }
 
-// GetEnumNumberOk returns a tuple with the EnumNumber field if it's non-nil, zero value otherwise
+// GetEnumNumberOk returns a tuple with the EnumNumber field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumNumberOk() (float64, bool) {
 	if o == nil || o.EnumNumber == nil {
@@ -119,7 +136,8 @@ func (o *EnumTest) HasEnumNumber() bool {
 func (o *EnumTest) SetEnumNumber(v float64) {
 	o.EnumNumber = &v
 }
-// GetOuterEnum returns the OuterEnum field if non-nil, zero value otherwise.
+
+// GetOuterEnum returns the OuterEnum field value if set, zero value otherwise.
 func (o *EnumTest) GetOuterEnum() OuterEnum {
 	if o == nil || o.OuterEnum == nil {
 		var ret OuterEnum
@@ -128,7 +146,7 @@ func (o *EnumTest) GetOuterEnum() OuterEnum {
 	return *o.OuterEnum
 }
 
-// GetOuterEnumOk returns a tuple with the OuterEnum field if it's non-nil, zero value otherwise
+// GetOuterEnumOk returns a tuple with the OuterEnum field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetOuterEnumOk() (OuterEnum, bool) {
 	if o == nil || o.OuterEnum == nil {

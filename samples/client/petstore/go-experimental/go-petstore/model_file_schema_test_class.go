@@ -20,7 +20,7 @@ type FileSchemaTestClass struct {
 	Files *[]File `json:"files,omitempty"`
 }
 
-// GetFile returns the File field if non-nil, zero value otherwise.
+// GetFile returns the File field value if set, zero value otherwise.
 func (o *FileSchemaTestClass) GetFile() File {
 	if o == nil || o.File == nil {
 		var ret File
@@ -29,7 +29,7 @@ func (o *FileSchemaTestClass) GetFile() File {
 	return *o.File
 }
 
-// GetFileOk returns a tuple with the File field if it's non-nil, zero value otherwise
+// GetFileOk returns a tuple with the File field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *FileSchemaTestClass) GetFileOk() (File, bool) {
 	if o == nil || o.File == nil {
@@ -52,7 +52,8 @@ func (o *FileSchemaTestClass) HasFile() bool {
 func (o *FileSchemaTestClass) SetFile(v File) {
 	o.File = &v
 }
-// GetFiles returns the Files field if non-nil, zero value otherwise.
+
+// GetFiles returns the Files field value if set, zero value otherwise.
 func (o *FileSchemaTestClass) GetFiles() []File {
 	if o == nil || o.Files == nil {
 		var ret []File
@@ -61,7 +62,7 @@ func (o *FileSchemaTestClass) GetFiles() []File {
 	return *o.Files
 }
 
-// GetFilesOk returns a tuple with the Files field if it's non-nil, zero value otherwise
+// GetFilesOk returns a tuple with the Files field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *FileSchemaTestClass) GetFilesOk() ([]File, bool) {
 	if o == nil || o.Files == nil {

@@ -19,7 +19,7 @@ type AdditionalPropertiesObject struct {
 	Name *string `json:"name,omitempty"`
 }
 
-// GetName returns the Name field if non-nil, zero value otherwise.
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesObject) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
@@ -28,7 +28,7 @@ func (o *AdditionalPropertiesObject) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesObject) GetNameOk() (string, bool) {
 	if o == nil || o.Name == nil {

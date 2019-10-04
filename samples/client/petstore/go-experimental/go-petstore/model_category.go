@@ -20,7 +20,7 @@ type Category struct {
 	Name string `json:"name"`
 }
 
-// GetId returns the Id field if non-nil, zero value otherwise.
+// GetId returns the Id field value if set, zero value otherwise.
 func (o *Category) GetId() int64 {
 	if o == nil || o.Id == nil {
 		var ret int64
@@ -29,7 +29,7 @@ func (o *Category) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Category) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
@@ -51,6 +51,21 @@ func (o *Category) HasId() bool {
 // SetId gets a reference to the given int64 and assigns it to the Id field.
 func (o *Category) SetId(v int64) {
 	o.Id = &v
+}
+
+// GetName returns the Name field value
+func (o *Category) GetName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Name
+}
+
+// SetName sets field value
+func (o *Category) SetName(v string) {
+	o.Name = v
 }
 
 type NullableCategory struct {

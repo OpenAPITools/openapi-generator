@@ -21,7 +21,7 @@ type OuterComposite struct {
 	MyBoolean *bool `json:"my_boolean,omitempty"`
 }
 
-// GetMyNumber returns the MyNumber field if non-nil, zero value otherwise.
+// GetMyNumber returns the MyNumber field value if set, zero value otherwise.
 func (o *OuterComposite) GetMyNumber() float32 {
 	if o == nil || o.MyNumber == nil {
 		var ret float32
@@ -30,7 +30,7 @@ func (o *OuterComposite) GetMyNumber() float32 {
 	return *o.MyNumber
 }
 
-// GetMyNumberOk returns a tuple with the MyNumber field if it's non-nil, zero value otherwise
+// GetMyNumberOk returns a tuple with the MyNumber field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *OuterComposite) GetMyNumberOk() (float32, bool) {
 	if o == nil || o.MyNumber == nil {
@@ -53,7 +53,8 @@ func (o *OuterComposite) HasMyNumber() bool {
 func (o *OuterComposite) SetMyNumber(v float32) {
 	o.MyNumber = &v
 }
-// GetMyString returns the MyString field if non-nil, zero value otherwise.
+
+// GetMyString returns the MyString field value if set, zero value otherwise.
 func (o *OuterComposite) GetMyString() string {
 	if o == nil || o.MyString == nil {
 		var ret string
@@ -62,7 +63,7 @@ func (o *OuterComposite) GetMyString() string {
 	return *o.MyString
 }
 
-// GetMyStringOk returns a tuple with the MyString field if it's non-nil, zero value otherwise
+// GetMyStringOk returns a tuple with the MyString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *OuterComposite) GetMyStringOk() (string, bool) {
 	if o == nil || o.MyString == nil {
@@ -85,7 +86,8 @@ func (o *OuterComposite) HasMyString() bool {
 func (o *OuterComposite) SetMyString(v string) {
 	o.MyString = &v
 }
-// GetMyBoolean returns the MyBoolean field if non-nil, zero value otherwise.
+
+// GetMyBoolean returns the MyBoolean field value if set, zero value otherwise.
 func (o *OuterComposite) GetMyBoolean() bool {
 	if o == nil || o.MyBoolean == nil {
 		var ret bool
@@ -94,7 +96,7 @@ func (o *OuterComposite) GetMyBoolean() bool {
 	return *o.MyBoolean
 }
 
-// GetMyBooleanOk returns a tuple with the MyBoolean field if it's non-nil, zero value otherwise
+// GetMyBooleanOk returns a tuple with the MyBoolean field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *OuterComposite) GetMyBooleanOk() (bool, bool) {
 	if o == nil || o.MyBoolean == nil {

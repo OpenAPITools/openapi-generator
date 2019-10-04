@@ -22,7 +22,7 @@ type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Map *map[string]Animal `json:"map,omitempty"`
 }
 
-// GetUuid returns the Uuid field if non-nil, zero value otherwise.
+// GetUuid returns the Uuid field value if set, zero value otherwise.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
 	if o == nil || o.Uuid == nil {
 		var ret string
@@ -31,7 +31,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
 	return *o.Uuid
 }
 
-// GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
+// GetUuidOk returns a tuple with the Uuid field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (string, bool) {
 	if o == nil || o.Uuid == nil {
@@ -54,7 +54,8 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUuid() bool {
 func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v string) {
 	o.Uuid = &v
 }
-// GetDateTime returns the DateTime field if non-nil, zero value otherwise.
+
+// GetDateTime returns the DateTime field value if set, zero value otherwise.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
 	if o == nil || o.DateTime == nil {
 		var ret time.Time
@@ -63,7 +64,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
 	return *o.DateTime
 }
 
-// GetDateTimeOk returns a tuple with the DateTime field if it's non-nil, zero value otherwise
+// GetDateTimeOk returns a tuple with the DateTime field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (time.Time, bool) {
 	if o == nil || o.DateTime == nil {
@@ -86,7 +87,8 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasDateTime() bool {
 func (o *MixedPropertiesAndAdditionalPropertiesClass) SetDateTime(v time.Time) {
 	o.DateTime = &v
 }
-// GetMap returns the Map field if non-nil, zero value otherwise.
+
+// GetMap returns the Map field value if set, zero value otherwise.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal {
 	if o == nil || o.Map == nil {
 		var ret map[string]Animal
@@ -95,7 +97,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal
 	return *o.Map
 }
 
-// GetMapOk returns a tuple with the Map field if it's non-nil, zero value otherwise
+// GetMapOk returns a tuple with the Map field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (map[string]Animal, bool) {
 	if o == nil || o.Map == nil {

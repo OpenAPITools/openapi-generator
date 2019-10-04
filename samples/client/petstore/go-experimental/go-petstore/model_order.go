@@ -26,7 +26,7 @@ type Order struct {
 	Complete *bool `json:"complete,omitempty"`
 }
 
-// GetId returns the Id field if non-nil, zero value otherwise.
+// GetId returns the Id field value if set, zero value otherwise.
 func (o *Order) GetId() int64 {
 	if o == nil || o.Id == nil {
 		var ret int64
@@ -35,7 +35,7 @@ func (o *Order) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
@@ -58,7 +58,8 @@ func (o *Order) HasId() bool {
 func (o *Order) SetId(v int64) {
 	o.Id = &v
 }
-// GetPetId returns the PetId field if non-nil, zero value otherwise.
+
+// GetPetId returns the PetId field value if set, zero value otherwise.
 func (o *Order) GetPetId() int64 {
 	if o == nil || o.PetId == nil {
 		var ret int64
@@ -67,7 +68,7 @@ func (o *Order) GetPetId() int64 {
 	return *o.PetId
 }
 
-// GetPetIdOk returns a tuple with the PetId field if it's non-nil, zero value otherwise
+// GetPetIdOk returns a tuple with the PetId field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetPetIdOk() (int64, bool) {
 	if o == nil || o.PetId == nil {
@@ -90,7 +91,8 @@ func (o *Order) HasPetId() bool {
 func (o *Order) SetPetId(v int64) {
 	o.PetId = &v
 }
-// GetQuantity returns the Quantity field if non-nil, zero value otherwise.
+
+// GetQuantity returns the Quantity field value if set, zero value otherwise.
 func (o *Order) GetQuantity() int32 {
 	if o == nil || o.Quantity == nil {
 		var ret int32
@@ -99,7 +101,7 @@ func (o *Order) GetQuantity() int32 {
 	return *o.Quantity
 }
 
-// GetQuantityOk returns a tuple with the Quantity field if it's non-nil, zero value otherwise
+// GetQuantityOk returns a tuple with the Quantity field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetQuantityOk() (int32, bool) {
 	if o == nil || o.Quantity == nil {
@@ -122,7 +124,8 @@ func (o *Order) HasQuantity() bool {
 func (o *Order) SetQuantity(v int32) {
 	o.Quantity = &v
 }
-// GetShipDate returns the ShipDate field if non-nil, zero value otherwise.
+
+// GetShipDate returns the ShipDate field value if set, zero value otherwise.
 func (o *Order) GetShipDate() time.Time {
 	if o == nil || o.ShipDate == nil {
 		var ret time.Time
@@ -131,7 +134,7 @@ func (o *Order) GetShipDate() time.Time {
 	return *o.ShipDate
 }
 
-// GetShipDateOk returns a tuple with the ShipDate field if it's non-nil, zero value otherwise
+// GetShipDateOk returns a tuple with the ShipDate field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetShipDateOk() (time.Time, bool) {
 	if o == nil || o.ShipDate == nil {
@@ -154,7 +157,8 @@ func (o *Order) HasShipDate() bool {
 func (o *Order) SetShipDate(v time.Time) {
 	o.ShipDate = &v
 }
-// GetStatus returns the Status field if non-nil, zero value otherwise.
+
+// GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Order) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
@@ -163,7 +167,7 @@ func (o *Order) GetStatus() string {
 	return *o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+// GetStatusOk returns a tuple with the Status field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetStatusOk() (string, bool) {
 	if o == nil || o.Status == nil {
@@ -186,7 +190,8 @@ func (o *Order) HasStatus() bool {
 func (o *Order) SetStatus(v string) {
 	o.Status = &v
 }
-// GetComplete returns the Complete field if non-nil, zero value otherwise.
+
+// GetComplete returns the Complete field value if set, zero value otherwise.
 func (o *Order) GetComplete() bool {
 	if o == nil || o.Complete == nil {
 		var ret bool
@@ -195,7 +200,7 @@ func (o *Order) GetComplete() bool {
 	return *o.Complete
 }
 
-// GetCompleteOk returns a tuple with the Complete field if it's non-nil, zero value otherwise
+// GetCompleteOk returns a tuple with the Complete field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetCompleteOk() (bool, bool) {
 	if o == nil || o.Complete == nil {

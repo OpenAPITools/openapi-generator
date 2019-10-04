@@ -20,7 +20,22 @@ type Animal struct {
 	Color *string `json:"color,omitempty"`
 }
 
-// GetColor returns the Color field if non-nil, zero value otherwise.
+// GetClassName returns the ClassName field value
+func (o *Animal) GetClassName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ClassName
+}
+
+// SetClassName sets field value
+func (o *Animal) SetClassName(v string) {
+	o.ClassName = v
+}
+
+// GetColor returns the Color field value if set, zero value otherwise.
 func (o *Animal) GetColor() string {
 	if o == nil || o.Color == nil {
 		var ret string
@@ -29,7 +44,7 @@ func (o *Animal) GetColor() string {
 	return *o.Color
 }
 
-// GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
+// GetColorOk returns a tuple with the Color field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Animal) GetColorOk() (string, bool) {
 	if o == nil || o.Color == nil {

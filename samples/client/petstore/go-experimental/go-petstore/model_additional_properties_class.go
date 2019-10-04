@@ -29,7 +29,7 @@ type AdditionalPropertiesClass struct {
 	Anytype3 *map[string]interface{} `json:"anytype_3,omitempty"`
 }
 
-// GetMapString returns the MapString field if non-nil, zero value otherwise.
+// GetMapString returns the MapString field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapString() map[string]string {
 	if o == nil || o.MapString == nil {
 		var ret map[string]string
@@ -38,7 +38,7 @@ func (o *AdditionalPropertiesClass) GetMapString() map[string]string {
 	return *o.MapString
 }
 
-// GetMapStringOk returns a tuple with the MapString field if it's non-nil, zero value otherwise
+// GetMapStringOk returns a tuple with the MapString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapStringOk() (map[string]string, bool) {
 	if o == nil || o.MapString == nil {
@@ -61,7 +61,8 @@ func (o *AdditionalPropertiesClass) HasMapString() bool {
 func (o *AdditionalPropertiesClass) SetMapString(v map[string]string) {
 	o.MapString = &v
 }
-// GetMapNumber returns the MapNumber field if non-nil, zero value otherwise.
+
+// GetMapNumber returns the MapNumber field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapNumber() map[string]float32 {
 	if o == nil || o.MapNumber == nil {
 		var ret map[string]float32
@@ -70,7 +71,7 @@ func (o *AdditionalPropertiesClass) GetMapNumber() map[string]float32 {
 	return *o.MapNumber
 }
 
-// GetMapNumberOk returns a tuple with the MapNumber field if it's non-nil, zero value otherwise
+// GetMapNumberOk returns a tuple with the MapNumber field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapNumberOk() (map[string]float32, bool) {
 	if o == nil || o.MapNumber == nil {
@@ -93,7 +94,8 @@ func (o *AdditionalPropertiesClass) HasMapNumber() bool {
 func (o *AdditionalPropertiesClass) SetMapNumber(v map[string]float32) {
 	o.MapNumber = &v
 }
-// GetMapInteger returns the MapInteger field if non-nil, zero value otherwise.
+
+// GetMapInteger returns the MapInteger field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapInteger() map[string]int32 {
 	if o == nil || o.MapInteger == nil {
 		var ret map[string]int32
@@ -102,7 +104,7 @@ func (o *AdditionalPropertiesClass) GetMapInteger() map[string]int32 {
 	return *o.MapInteger
 }
 
-// GetMapIntegerOk returns a tuple with the MapInteger field if it's non-nil, zero value otherwise
+// GetMapIntegerOk returns a tuple with the MapInteger field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapIntegerOk() (map[string]int32, bool) {
 	if o == nil || o.MapInteger == nil {
@@ -125,7 +127,8 @@ func (o *AdditionalPropertiesClass) HasMapInteger() bool {
 func (o *AdditionalPropertiesClass) SetMapInteger(v map[string]int32) {
 	o.MapInteger = &v
 }
-// GetMapBoolean returns the MapBoolean field if non-nil, zero value otherwise.
+
+// GetMapBoolean returns the MapBoolean field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapBoolean() map[string]bool {
 	if o == nil || o.MapBoolean == nil {
 		var ret map[string]bool
@@ -134,7 +137,7 @@ func (o *AdditionalPropertiesClass) GetMapBoolean() map[string]bool {
 	return *o.MapBoolean
 }
 
-// GetMapBooleanOk returns a tuple with the MapBoolean field if it's non-nil, zero value otherwise
+// GetMapBooleanOk returns a tuple with the MapBoolean field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapBooleanOk() (map[string]bool, bool) {
 	if o == nil || o.MapBoolean == nil {
@@ -157,7 +160,8 @@ func (o *AdditionalPropertiesClass) HasMapBoolean() bool {
 func (o *AdditionalPropertiesClass) SetMapBoolean(v map[string]bool) {
 	o.MapBoolean = &v
 }
-// GetMapArrayInteger returns the MapArrayInteger field if non-nil, zero value otherwise.
+
+// GetMapArrayInteger returns the MapArrayInteger field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapArrayInteger() map[string][]int32 {
 	if o == nil || o.MapArrayInteger == nil {
 		var ret map[string][]int32
@@ -166,7 +170,7 @@ func (o *AdditionalPropertiesClass) GetMapArrayInteger() map[string][]int32 {
 	return *o.MapArrayInteger
 }
 
-// GetMapArrayIntegerOk returns a tuple with the MapArrayInteger field if it's non-nil, zero value otherwise
+// GetMapArrayIntegerOk returns a tuple with the MapArrayInteger field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapArrayIntegerOk() (map[string][]int32, bool) {
 	if o == nil || o.MapArrayInteger == nil {
@@ -189,7 +193,8 @@ func (o *AdditionalPropertiesClass) HasMapArrayInteger() bool {
 func (o *AdditionalPropertiesClass) SetMapArrayInteger(v map[string][]int32) {
 	o.MapArrayInteger = &v
 }
-// GetMapArrayAnytype returns the MapArrayAnytype field if non-nil, zero value otherwise.
+
+// GetMapArrayAnytype returns the MapArrayAnytype field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]map[string]interface{} {
 	if o == nil || o.MapArrayAnytype == nil {
 		var ret map[string][]map[string]interface{}
@@ -198,7 +203,7 @@ func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]map[string
 	return *o.MapArrayAnytype
 }
 
-// GetMapArrayAnytypeOk returns a tuple with the MapArrayAnytype field if it's non-nil, zero value otherwise
+// GetMapArrayAnytypeOk returns a tuple with the MapArrayAnytype field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapArrayAnytypeOk() (map[string][]map[string]interface{}, bool) {
 	if o == nil || o.MapArrayAnytype == nil {
@@ -221,7 +226,8 @@ func (o *AdditionalPropertiesClass) HasMapArrayAnytype() bool {
 func (o *AdditionalPropertiesClass) SetMapArrayAnytype(v map[string][]map[string]interface{}) {
 	o.MapArrayAnytype = &v
 }
-// GetMapMapString returns the MapMapString field if non-nil, zero value otherwise.
+
+// GetMapMapString returns the MapMapString field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapMapString() map[string]map[string]string {
 	if o == nil || o.MapMapString == nil {
 		var ret map[string]map[string]string
@@ -230,7 +236,7 @@ func (o *AdditionalPropertiesClass) GetMapMapString() map[string]map[string]stri
 	return *o.MapMapString
 }
 
-// GetMapMapStringOk returns a tuple with the MapMapString field if it's non-nil, zero value otherwise
+// GetMapMapStringOk returns a tuple with the MapMapString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapMapStringOk() (map[string]map[string]string, bool) {
 	if o == nil || o.MapMapString == nil {
@@ -253,7 +259,8 @@ func (o *AdditionalPropertiesClass) HasMapMapString() bool {
 func (o *AdditionalPropertiesClass) SetMapMapString(v map[string]map[string]string) {
 	o.MapMapString = &v
 }
-// GetMapMapAnytype returns the MapMapAnytype field if non-nil, zero value otherwise.
+
+// GetMapMapAnytype returns the MapMapAnytype field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]map[string]interface{} {
 	if o == nil || o.MapMapAnytype == nil {
 		var ret map[string]map[string]map[string]interface{}
@@ -262,7 +269,7 @@ func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]map
 	return *o.MapMapAnytype
 }
 
-// GetMapMapAnytypeOk returns a tuple with the MapMapAnytype field if it's non-nil, zero value otherwise
+// GetMapMapAnytypeOk returns a tuple with the MapMapAnytype field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapMapAnytypeOk() (map[string]map[string]map[string]interface{}, bool) {
 	if o == nil || o.MapMapAnytype == nil {
@@ -285,7 +292,8 @@ func (o *AdditionalPropertiesClass) HasMapMapAnytype() bool {
 func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]map[string]interface{}) {
 	o.MapMapAnytype = &v
 }
-// GetAnytype1 returns the Anytype1 field if non-nil, zero value otherwise.
+
+// GetAnytype1 returns the Anytype1 field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetAnytype1() map[string]interface{} {
 	if o == nil || o.Anytype1 == nil {
 		var ret map[string]interface{}
@@ -294,7 +302,7 @@ func (o *AdditionalPropertiesClass) GetAnytype1() map[string]interface{} {
 	return *o.Anytype1
 }
 
-// GetAnytype1Ok returns a tuple with the Anytype1 field if it's non-nil, zero value otherwise
+// GetAnytype1Ok returns a tuple with the Anytype1 field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetAnytype1Ok() (map[string]interface{}, bool) {
 	if o == nil || o.Anytype1 == nil {
@@ -317,7 +325,8 @@ func (o *AdditionalPropertiesClass) HasAnytype1() bool {
 func (o *AdditionalPropertiesClass) SetAnytype1(v map[string]interface{}) {
 	o.Anytype1 = &v
 }
-// GetAnytype2 returns the Anytype2 field if non-nil, zero value otherwise.
+
+// GetAnytype2 returns the Anytype2 field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetAnytype2() map[string]interface{} {
 	if o == nil || o.Anytype2 == nil {
 		var ret map[string]interface{}
@@ -326,7 +335,7 @@ func (o *AdditionalPropertiesClass) GetAnytype2() map[string]interface{} {
 	return *o.Anytype2
 }
 
-// GetAnytype2Ok returns a tuple with the Anytype2 field if it's non-nil, zero value otherwise
+// GetAnytype2Ok returns a tuple with the Anytype2 field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetAnytype2Ok() (map[string]interface{}, bool) {
 	if o == nil || o.Anytype2 == nil {
@@ -349,7 +358,8 @@ func (o *AdditionalPropertiesClass) HasAnytype2() bool {
 func (o *AdditionalPropertiesClass) SetAnytype2(v map[string]interface{}) {
 	o.Anytype2 = &v
 }
-// GetAnytype3 returns the Anytype3 field if non-nil, zero value otherwise.
+
+// GetAnytype3 returns the Anytype3 field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetAnytype3() map[string]interface{} {
 	if o == nil || o.Anytype3 == nil {
 		var ret map[string]interface{}
@@ -358,7 +368,7 @@ func (o *AdditionalPropertiesClass) GetAnytype3() map[string]interface{} {
 	return *o.Anytype3
 }
 
-// GetAnytype3Ok returns a tuple with the Anytype3 field if it's non-nil, zero value otherwise
+// GetAnytype3Ok returns a tuple with the Anytype3 field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetAnytype3Ok() (map[string]interface{}, bool) {
 	if o == nil || o.Anytype3 == nil {

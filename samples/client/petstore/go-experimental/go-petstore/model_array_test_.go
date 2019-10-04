@@ -21,7 +21,7 @@ type ArrayTest struct {
 	ArrayArrayOfModel *[][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
 }
 
-// GetArrayOfString returns the ArrayOfString field if non-nil, zero value otherwise.
+// GetArrayOfString returns the ArrayOfString field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayOfString() []string {
 	if o == nil || o.ArrayOfString == nil {
 		var ret []string
@@ -30,7 +30,7 @@ func (o *ArrayTest) GetArrayOfString() []string {
 	return *o.ArrayOfString
 }
 
-// GetArrayOfStringOk returns a tuple with the ArrayOfString field if it's non-nil, zero value otherwise
+// GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
 	if o == nil || o.ArrayOfString == nil {
@@ -53,7 +53,8 @@ func (o *ArrayTest) HasArrayOfString() bool {
 func (o *ArrayTest) SetArrayOfString(v []string) {
 	o.ArrayOfString = &v
 }
-// GetArrayArrayOfInteger returns the ArrayArrayOfInteger field if non-nil, zero value otherwise.
+
+// GetArrayArrayOfInteger returns the ArrayArrayOfInteger field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 	if o == nil || o.ArrayArrayOfInteger == nil {
 		var ret [][]int64
@@ -62,7 +63,7 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 	return *o.ArrayArrayOfInteger
 }
 
-// GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field if it's non-nil, zero value otherwise
+// GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
 	if o == nil || o.ArrayArrayOfInteger == nil {
@@ -85,7 +86,8 @@ func (o *ArrayTest) HasArrayArrayOfInteger() bool {
 func (o *ArrayTest) SetArrayArrayOfInteger(v [][]int64) {
 	o.ArrayArrayOfInteger = &v
 }
-// GetArrayArrayOfModel returns the ArrayArrayOfModel field if non-nil, zero value otherwise.
+
+// GetArrayArrayOfModel returns the ArrayArrayOfModel field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 	if o == nil || o.ArrayArrayOfModel == nil {
 		var ret [][]ReadOnlyFirst
@@ -94,7 +96,7 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 	return *o.ArrayArrayOfModel
 }
 
-// GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field if it's non-nil, zero value otherwise
+// GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
 	if o == nil || o.ArrayArrayOfModel == nil {

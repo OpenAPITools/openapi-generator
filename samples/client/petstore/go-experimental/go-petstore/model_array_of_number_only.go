@@ -19,7 +19,7 @@ type ArrayOfNumberOnly struct {
 	ArrayNumber *[]float32 `json:"ArrayNumber,omitempty"`
 }
 
-// GetArrayNumber returns the ArrayNumber field if non-nil, zero value otherwise.
+// GetArrayNumber returns the ArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 	if o == nil || o.ArrayNumber == nil {
 		var ret []float32
@@ -28,7 +28,7 @@ func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 	return *o.ArrayNumber
 }
 
-// GetArrayNumberOk returns a tuple with the ArrayNumber field if it's non-nil, zero value otherwise
+// GetArrayNumberOk returns a tuple with the ArrayNumber field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
 	if o == nil || o.ArrayNumber == nil {

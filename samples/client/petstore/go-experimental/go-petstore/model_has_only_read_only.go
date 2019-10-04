@@ -20,7 +20,7 @@ type HasOnlyReadOnly struct {
 	Foo *string `json:"foo,omitempty"`
 }
 
-// GetBar returns the Bar field if non-nil, zero value otherwise.
+// GetBar returns the Bar field value if set, zero value otherwise.
 func (o *HasOnlyReadOnly) GetBar() string {
 	if o == nil || o.Bar == nil {
 		var ret string
@@ -29,7 +29,7 @@ func (o *HasOnlyReadOnly) GetBar() string {
 	return *o.Bar
 }
 
-// GetBarOk returns a tuple with the Bar field if it's non-nil, zero value otherwise
+// GetBarOk returns a tuple with the Bar field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *HasOnlyReadOnly) GetBarOk() (string, bool) {
 	if o == nil || o.Bar == nil {
@@ -52,7 +52,8 @@ func (o *HasOnlyReadOnly) HasBar() bool {
 func (o *HasOnlyReadOnly) SetBar(v string) {
 	o.Bar = &v
 }
-// GetFoo returns the Foo field if non-nil, zero value otherwise.
+
+// GetFoo returns the Foo field value if set, zero value otherwise.
 func (o *HasOnlyReadOnly) GetFoo() string {
 	if o == nil || o.Foo == nil {
 		var ret string
@@ -61,7 +62,7 @@ func (o *HasOnlyReadOnly) GetFoo() string {
 	return *o.Foo
 }
 
-// GetFooOk returns a tuple with the Foo field if it's non-nil, zero value otherwise
+// GetFooOk returns a tuple with the Foo field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *HasOnlyReadOnly) GetFooOk() (string, bool) {
 	if o == nil || o.Foo == nil {

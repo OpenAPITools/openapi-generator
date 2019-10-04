@@ -20,7 +20,7 @@ type Tag struct {
 	Name *string `json:"name,omitempty"`
 }
 
-// GetId returns the Id field if non-nil, zero value otherwise.
+// GetId returns the Id field value if set, zero value otherwise.
 func (o *Tag) GetId() int64 {
 	if o == nil || o.Id == nil {
 		var ret int64
@@ -29,7 +29,7 @@ func (o *Tag) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Tag) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
@@ -52,7 +52,8 @@ func (o *Tag) HasId() bool {
 func (o *Tag) SetId(v int64) {
 	o.Id = &v
 }
-// GetName returns the Name field if non-nil, zero value otherwise.
+
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *Tag) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
@@ -61,7 +62,7 @@ func (o *Tag) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Tag) GetNameOk() (string, bool) {
 	if o == nil || o.Name == nil {

@@ -19,7 +19,7 @@ type Return struct {
 	Return *int32 `json:"return,omitempty"`
 }
 
-// GetReturn returns the Return field if non-nil, zero value otherwise.
+// GetReturn returns the Return field value if set, zero value otherwise.
 func (o *Return) GetReturn() int32 {
 	if o == nil || o.Return == nil {
 		var ret int32
@@ -28,7 +28,7 @@ func (o *Return) GetReturn() int32 {
 	return *o.Return
 }
 
-// GetReturnOk returns a tuple with the Return field if it's non-nil, zero value otherwise
+// GetReturnOk returns a tuple with the Return field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Return) GetReturnOk() (int32, bool) {
 	if o == nil || o.Return == nil {

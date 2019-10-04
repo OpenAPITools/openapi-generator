@@ -20,7 +20,7 @@ type ReadOnlyFirst struct {
 	Baz *string `json:"baz,omitempty"`
 }
 
-// GetBar returns the Bar field if non-nil, zero value otherwise.
+// GetBar returns the Bar field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBar() string {
 	if o == nil || o.Bar == nil {
 		var ret string
@@ -29,7 +29,7 @@ func (o *ReadOnlyFirst) GetBar() string {
 	return *o.Bar
 }
 
-// GetBarOk returns a tuple with the Bar field if it's non-nil, zero value otherwise
+// GetBarOk returns a tuple with the Bar field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBarOk() (string, bool) {
 	if o == nil || o.Bar == nil {
@@ -52,7 +52,8 @@ func (o *ReadOnlyFirst) HasBar() bool {
 func (o *ReadOnlyFirst) SetBar(v string) {
 	o.Bar = &v
 }
-// GetBaz returns the Baz field if non-nil, zero value otherwise.
+
+// GetBaz returns the Baz field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBaz() string {
 	if o == nil || o.Baz == nil {
 		var ret string
@@ -61,7 +62,7 @@ func (o *ReadOnlyFirst) GetBaz() string {
 	return *o.Baz
 }
 
-// GetBazOk returns a tuple with the Baz field if it's non-nil, zero value otherwise
+// GetBazOk returns a tuple with the Baz field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBazOk() (string, bool) {
 	if o == nil || o.Baz == nil {

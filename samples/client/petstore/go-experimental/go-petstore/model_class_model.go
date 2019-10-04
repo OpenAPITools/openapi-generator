@@ -19,7 +19,7 @@ type ClassModel struct {
 	Class *string `json:"_class,omitempty"`
 }
 
-// GetClass returns the Class field if non-nil, zero value otherwise.
+// GetClass returns the Class field value if set, zero value otherwise.
 func (o *ClassModel) GetClass() string {
 	if o == nil || o.Class == nil {
 		var ret string
@@ -28,7 +28,7 @@ func (o *ClassModel) GetClass() string {
 	return *o.Class
 }
 
-// GetClassOk returns a tuple with the Class field if it's non-nil, zero value otherwise
+// GetClassOk returns a tuple with the Class field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ClassModel) GetClassOk() (string, bool) {
 	if o == nil || o.Class == nil {

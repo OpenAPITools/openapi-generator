@@ -19,7 +19,7 @@ type Client struct {
 	Client *string `json:"client,omitempty"`
 }
 
-// GetClient returns the Client field if non-nil, zero value otherwise.
+// GetClient returns the Client field value if set, zero value otherwise.
 func (o *Client) GetClient() string {
 	if o == nil || o.Client == nil {
 		var ret string
@@ -28,7 +28,7 @@ func (o *Client) GetClient() string {
 	return *o.Client
 }
 
-// GetClientOk returns a tuple with the Client field if it's non-nil, zero value otherwise
+// GetClientOk returns a tuple with the Client field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Client) GetClientOk() (string, bool) {
 	if o == nil || o.Client == nil {

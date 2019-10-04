@@ -25,7 +25,7 @@ type Pet struct {
 	Status *string `json:"status,omitempty"`
 }
 
-// GetId returns the Id field if non-nil, zero value otherwise.
+// GetId returns the Id field value if set, zero value otherwise.
 func (o *Pet) GetId() int64 {
 	if o == nil || o.Id == nil {
 		var ret int64
@@ -34,7 +34,7 @@ func (o *Pet) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
@@ -57,7 +57,8 @@ func (o *Pet) HasId() bool {
 func (o *Pet) SetId(v int64) {
 	o.Id = &v
 }
-// GetCategory returns the Category field if non-nil, zero value otherwise.
+
+// GetCategory returns the Category field value if set, zero value otherwise.
 func (o *Pet) GetCategory() Category {
 	if o == nil || o.Category == nil {
 		var ret Category
@@ -66,7 +67,7 @@ func (o *Pet) GetCategory() Category {
 	return *o.Category
 }
 
-// GetCategoryOk returns a tuple with the Category field if it's non-nil, zero value otherwise
+// GetCategoryOk returns a tuple with the Category field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetCategoryOk() (Category, bool) {
 	if o == nil || o.Category == nil {
@@ -89,7 +90,38 @@ func (o *Pet) HasCategory() bool {
 func (o *Pet) SetCategory(v Category) {
 	o.Category = &v
 }
-// GetTags returns the Tags field if non-nil, zero value otherwise.
+
+// GetName returns the Name field value
+func (o *Pet) GetName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Name
+}
+
+// SetName sets field value
+func (o *Pet) SetName(v string) {
+	o.Name = v
+}
+
+// GetPhotoUrls returns the PhotoUrls field value
+func (o *Pet) GetPhotoUrls() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.PhotoUrls
+}
+
+// SetPhotoUrls sets field value
+func (o *Pet) SetPhotoUrls(v []string) {
+	o.PhotoUrls = v
+}
+
+// GetTags returns the Tags field value if set, zero value otherwise.
 func (o *Pet) GetTags() []Tag {
 	if o == nil || o.Tags == nil {
 		var ret []Tag
@@ -98,7 +130,7 @@ func (o *Pet) GetTags() []Tag {
 	return *o.Tags
 }
 
-// GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
+// GetTagsOk returns a tuple with the Tags field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetTagsOk() ([]Tag, bool) {
 	if o == nil || o.Tags == nil {
@@ -121,7 +153,8 @@ func (o *Pet) HasTags() bool {
 func (o *Pet) SetTags(v []Tag) {
 	o.Tags = &v
 }
-// GetStatus returns the Status field if non-nil, zero value otherwise.
+
+// GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Pet) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
@@ -130,7 +163,7 @@ func (o *Pet) GetStatus() string {
 	return *o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+// GetStatusOk returns a tuple with the Status field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetStatusOk() (string, bool) {
 	if o == nil || o.Status == nil {

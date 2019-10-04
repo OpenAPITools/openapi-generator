@@ -22,7 +22,7 @@ type MapTest struct {
 	IndirectMap *map[string]bool `json:"indirect_map,omitempty"`
 }
 
-// GetMapMapOfString returns the MapMapOfString field if non-nil, zero value otherwise.
+// GetMapMapOfString returns the MapMapOfString field value if set, zero value otherwise.
 func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 	if o == nil || o.MapMapOfString == nil {
 		var ret map[string]map[string]string
@@ -31,7 +31,7 @@ func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 	return *o.MapMapOfString
 }
 
-// GetMapMapOfStringOk returns a tuple with the MapMapOfString field if it's non-nil, zero value otherwise
+// GetMapMapOfStringOk returns a tuple with the MapMapOfString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetMapMapOfStringOk() (map[string]map[string]string, bool) {
 	if o == nil || o.MapMapOfString == nil {
@@ -54,7 +54,8 @@ func (o *MapTest) HasMapMapOfString() bool {
 func (o *MapTest) SetMapMapOfString(v map[string]map[string]string) {
 	o.MapMapOfString = &v
 }
-// GetMapOfEnumString returns the MapOfEnumString field if non-nil, zero value otherwise.
+
+// GetMapOfEnumString returns the MapOfEnumString field value if set, zero value otherwise.
 func (o *MapTest) GetMapOfEnumString() map[string]string {
 	if o == nil || o.MapOfEnumString == nil {
 		var ret map[string]string
@@ -63,7 +64,7 @@ func (o *MapTest) GetMapOfEnumString() map[string]string {
 	return *o.MapOfEnumString
 }
 
-// GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field if it's non-nil, zero value otherwise
+// GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetMapOfEnumStringOk() (map[string]string, bool) {
 	if o == nil || o.MapOfEnumString == nil {
@@ -86,7 +87,8 @@ func (o *MapTest) HasMapOfEnumString() bool {
 func (o *MapTest) SetMapOfEnumString(v map[string]string) {
 	o.MapOfEnumString = &v
 }
-// GetDirectMap returns the DirectMap field if non-nil, zero value otherwise.
+
+// GetDirectMap returns the DirectMap field value if set, zero value otherwise.
 func (o *MapTest) GetDirectMap() map[string]bool {
 	if o == nil || o.DirectMap == nil {
 		var ret map[string]bool
@@ -95,7 +97,7 @@ func (o *MapTest) GetDirectMap() map[string]bool {
 	return *o.DirectMap
 }
 
-// GetDirectMapOk returns a tuple with the DirectMap field if it's non-nil, zero value otherwise
+// GetDirectMapOk returns a tuple with the DirectMap field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetDirectMapOk() (map[string]bool, bool) {
 	if o == nil || o.DirectMap == nil {
@@ -118,7 +120,8 @@ func (o *MapTest) HasDirectMap() bool {
 func (o *MapTest) SetDirectMap(v map[string]bool) {
 	o.DirectMap = &v
 }
-// GetIndirectMap returns the IndirectMap field if non-nil, zero value otherwise.
+
+// GetIndirectMap returns the IndirectMap field value if set, zero value otherwise.
 func (o *MapTest) GetIndirectMap() map[string]bool {
 	if o == nil || o.IndirectMap == nil {
 		var ret map[string]bool
@@ -127,7 +130,7 @@ func (o *MapTest) GetIndirectMap() map[string]bool {
 	return *o.IndirectMap
 }
 
-// GetIndirectMapOk returns a tuple with the IndirectMap field if it's non-nil, zero value otherwise
+// GetIndirectMapOk returns a tuple with the IndirectMap field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetIndirectMapOk() (map[string]bool, bool) {
 	if o == nil || o.IndirectMap == nil {

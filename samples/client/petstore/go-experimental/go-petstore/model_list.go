@@ -19,7 +19,7 @@ type List struct {
 	Var123List *string `json:"123-list,omitempty"`
 }
 
-// GetVar123List returns the Var123List field if non-nil, zero value otherwise.
+// GetVar123List returns the Var123List field value if set, zero value otherwise.
 func (o *List) GetVar123List() string {
 	if o == nil || o.Var123List == nil {
 		var ret string
@@ -28,7 +28,7 @@ func (o *List) GetVar123List() string {
 	return *o.Var123List
 }
 
-// GetVar123ListOk returns a tuple with the Var123List field if it's non-nil, zero value otherwise
+// GetVar123ListOk returns a tuple with the Var123List field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *List) GetVar123ListOk() (string, bool) {
 	if o == nil || o.Var123List == nil {

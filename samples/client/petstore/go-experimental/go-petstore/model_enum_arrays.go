@@ -20,7 +20,7 @@ type EnumArrays struct {
 	ArrayEnum *[]string `json:"array_enum,omitempty"`
 }
 
-// GetJustSymbol returns the JustSymbol field if non-nil, zero value otherwise.
+// GetJustSymbol returns the JustSymbol field value if set, zero value otherwise.
 func (o *EnumArrays) GetJustSymbol() string {
 	if o == nil || o.JustSymbol == nil {
 		var ret string
@@ -29,7 +29,7 @@ func (o *EnumArrays) GetJustSymbol() string {
 	return *o.JustSymbol
 }
 
-// GetJustSymbolOk returns a tuple with the JustSymbol field if it's non-nil, zero value otherwise
+// GetJustSymbolOk returns a tuple with the JustSymbol field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetJustSymbolOk() (string, bool) {
 	if o == nil || o.JustSymbol == nil {
@@ -52,7 +52,8 @@ func (o *EnumArrays) HasJustSymbol() bool {
 func (o *EnumArrays) SetJustSymbol(v string) {
 	o.JustSymbol = &v
 }
-// GetArrayEnum returns the ArrayEnum field if non-nil, zero value otherwise.
+
+// GetArrayEnum returns the ArrayEnum field value if set, zero value otherwise.
 func (o *EnumArrays) GetArrayEnum() []string {
 	if o == nil || o.ArrayEnum == nil {
 		var ret []string
@@ -61,7 +62,7 @@ func (o *EnumArrays) GetArrayEnum() []string {
 	return *o.ArrayEnum
 }
 
-// GetArrayEnumOk returns a tuple with the ArrayEnum field if it's non-nil, zero value otherwise
+// GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetArrayEnumOk() ([]string, bool) {
 	if o == nil || o.ArrayEnum == nil {

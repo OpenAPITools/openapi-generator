@@ -19,7 +19,7 @@ type DogAllOf struct {
 	Breed *string `json:"breed,omitempty"`
 }
 
-// GetBreed returns the Breed field if non-nil, zero value otherwise.
+// GetBreed returns the Breed field value if set, zero value otherwise.
 func (o *DogAllOf) GetBreed() string {
 	if o == nil || o.Breed == nil {
 		var ret string
@@ -28,7 +28,7 @@ func (o *DogAllOf) GetBreed() string {
 	return *o.Breed
 }
 
-// GetBreedOk returns a tuple with the Breed field if it's non-nil, zero value otherwise
+// GetBreedOk returns a tuple with the Breed field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *DogAllOf) GetBreedOk() (string, bool) {
 	if o == nil || o.Breed == nil {

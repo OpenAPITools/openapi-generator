@@ -20,7 +20,7 @@ type File struct {
 	SourceURI *string `json:"sourceURI,omitempty"`
 }
 
-// GetSourceURI returns the SourceURI field if non-nil, zero value otherwise.
+// GetSourceURI returns the SourceURI field value if set, zero value otherwise.
 func (o *File) GetSourceURI() string {
 	if o == nil || o.SourceURI == nil {
 		var ret string
@@ -29,7 +29,7 @@ func (o *File) GetSourceURI() string {
 	return *o.SourceURI
 }
 
-// GetSourceURIOk returns a tuple with the SourceURI field if it's non-nil, zero value otherwise
+// GetSourceURIOk returns a tuple with the SourceURI field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *File) GetSourceURIOk() (string, bool) {
 	if o == nil || o.SourceURI == nil {

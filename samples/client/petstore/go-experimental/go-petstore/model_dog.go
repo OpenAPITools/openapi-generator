@@ -21,7 +21,22 @@ type Dog struct {
 	Breed *string `json:"breed,omitempty"`
 }
 
-// GetColor returns the Color field if non-nil, zero value otherwise.
+// GetClassName returns the ClassName field value
+func (o *Dog) GetClassName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ClassName
+}
+
+// SetClassName sets field value
+func (o *Dog) SetClassName(v string) {
+	o.ClassName = v
+}
+
+// GetColor returns the Color field value if set, zero value otherwise.
 func (o *Dog) GetColor() string {
 	if o == nil || o.Color == nil {
 		var ret string
@@ -30,7 +45,7 @@ func (o *Dog) GetColor() string {
 	return *o.Color
 }
 
-// GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
+// GetColorOk returns a tuple with the Color field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Dog) GetColorOk() (string, bool) {
 	if o == nil || o.Color == nil {
@@ -53,7 +68,8 @@ func (o *Dog) HasColor() bool {
 func (o *Dog) SetColor(v string) {
 	o.Color = &v
 }
-// GetBreed returns the Breed field if non-nil, zero value otherwise.
+
+// GetBreed returns the Breed field value if set, zero value otherwise.
 func (o *Dog) GetBreed() string {
 	if o == nil || o.Breed == nil {
 		var ret string
@@ -62,7 +78,7 @@ func (o *Dog) GetBreed() string {
 	return *o.Breed
 }
 
-// GetBreedOk returns a tuple with the Breed field if it's non-nil, zero value otherwise
+// GetBreedOk returns a tuple with the Breed field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Dog) GetBreedOk() (string, bool) {
 	if o == nil || o.Breed == nil {

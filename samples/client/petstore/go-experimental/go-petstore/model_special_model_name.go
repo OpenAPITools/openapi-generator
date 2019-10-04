@@ -19,7 +19,7 @@ type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
 }
 
-// GetSpecialPropertyName returns the SpecialPropertyName field if non-nil, zero value otherwise.
+// GetSpecialPropertyName returns the SpecialPropertyName field value if set, zero value otherwise.
 func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 	if o == nil || o.SpecialPropertyName == nil {
 		var ret int64
@@ -28,7 +28,7 @@ func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 	return *o.SpecialPropertyName
 }
 
-// GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field if it's non-nil, zero value otherwise
+// GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *SpecialModelName) GetSpecialPropertyNameOk() (int64, bool) {
 	if o == nil || o.SpecialPropertyName == nil {

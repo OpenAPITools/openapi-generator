@@ -19,7 +19,7 @@ type NumberOnly struct {
 	JustNumber *float32 `json:"JustNumber,omitempty"`
 }
 
-// GetJustNumber returns the JustNumber field if non-nil, zero value otherwise.
+// GetJustNumber returns the JustNumber field value if set, zero value otherwise.
 func (o *NumberOnly) GetJustNumber() float32 {
 	if o == nil || o.JustNumber == nil {
 		var ret float32
@@ -28,7 +28,7 @@ func (o *NumberOnly) GetJustNumber() float32 {
 	return *o.JustNumber
 }
 
-// GetJustNumberOk returns a tuple with the JustNumber field if it's non-nil, zero value otherwise
+// GetJustNumberOk returns a tuple with the JustNumber field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *NumberOnly) GetJustNumberOk() (float32, bool) {
 	if o == nil || o.JustNumber == nil {

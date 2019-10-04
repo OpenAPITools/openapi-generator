@@ -33,13 +33,22 @@ type Nullable{{{classname}}} struct {
 
 func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
     switch {
-    case v.ExplicitNull && v.Value:
+    case v.ExplicitNull && v.Value != "":
         return nil, ErrInvalidNullable
     case v.ExplicitNull:
         return []byte("null"), nil
     default:
-		return []byte("{{{value}}}"), nil
+		return json.Marshal(v.Value)
 	}	
+}
+
+func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }
 
 {{/isEnum}}
@@ -59,8 +68,25 @@ type {{classname}} struct {
 
 {{^isEnum}}
 {{#vars}}
+{{#required}}
+// Get{{name}} returns the {{name}} field value
+func (o *{{classname}}) Get{{name}}() {{dataType}} {
+	if o == nil {
+		var ret {{dataType}}
+		return ret
+	}
+
+	return o.{{name}}
+}
+
+// Set{{name}} sets field value
+func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
+	o.{{name}} = v
+}
+
+{{/required}}
 {{^required}}
-// Get{{name}} returns the {{name}} field if non-nil, zero value otherwise.
+// Get{{name}} returns the {{name}} field value if set, zero value otherwise.
 func (o *{{classname}}) Get{{name}}() {{dataType}} {
 	if o == nil || o.{{name}} == nil {
 		var ret {{dataType}}
@@ -69,7 +95,7 @@ func (o *{{classname}}) Get{{name}}() {{dataType}} {
 	return *o.{{name}}
 }
 
-// Get{{name}}Ok returns a tuple with the {{name}} field if it's non-nil, zero value otherwise
+// Get{{name}}Ok returns a tuple with the {{name}} field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool) {
 	if o == nil || o.{{name}} == nil {
@@ -92,9 +118,9 @@ func (o *{{classname}}) Has{{name}}() bool {
 func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
 	o.{{name}} = &v
 }
+
 {{/required}}
 {{/vars}}
-
 type Nullable{{{classname}}} struct {
 	Value {{{classname}}}
 	ExplicitNull bool
