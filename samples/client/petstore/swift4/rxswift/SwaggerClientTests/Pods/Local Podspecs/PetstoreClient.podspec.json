@@ -5,7 +5,7 @@
     "osx": "10.11",
     "tvos": "9.0"
   },
-  "version": "0.0.1",
+  "version": "1.0.0",
   "source": {
     "git": "git@github.com:OpenAPITools/openapi-generator.git",
     "tag": "v1.0.0"
@@ -20,7 +20,7 @@
       "~> 4.0"
     ],
     "Alamofire": [
-      "~> 4.7.0"
+      "~> 4.9.0"
     ]
   }
 }

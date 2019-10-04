@@ -117,3 +117,4 @@ org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
 org.openapitools.codegen.languages.AsciidocDocumentationCodegen
+org.openapitools.codegen.languages.FsharpFunctionsServerCodegen

@@ -165,16 +165,16 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.1.2/openapi-generator-cli-4.1.2.jar`
+JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.1.3/openapi-generator-cli-4.1.3.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.1.2/openapi-generator-cli-4.1.2.jar -O openapi-generator-cli.jar
+wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.1.3/openapi-generator-cli-4.1.3.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.1.2/openapi-generator-cli-4.1.2.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.1.3/openapi-generator-cli-4.1.3.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -389,10 +389,10 @@ openapi-generator version
 ```
 
 <!-- RELEASE_VERSION -->
-Or install a particular OpenAPI Generator version (e.g. v4.1.2):
+Or install a particular OpenAPI Generator version (e.g. v4.1.3):
 
 ```sh
-npm install @openapitools/openapi-generator-cli@cli-4.1.2 -g
+npm install @openapitools/openapi-generator-cli@cli-4.1.3 -g
 ```
 
 Or install it as dev-dependency:
@@ -416,7 +416,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.1.2/openapi-generator-cli-4.1.2.jar)
+You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.1.3/openapi-generator-cli-4.1.3.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -455,6 +455,7 @@ NAME
 SYNOPSIS
         openapi-generator-cli generate
                 [(-a <authorization> | --auth <authorization>)]
+                [--api-name-suffix <api name suffix>]
                 [--api-package <api package>] [--artifact-id <artifact id>]
                 [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
@@ -563,6 +564,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Element AI](https://www.elementai.com/)
 - [FormAPI](https://formapi.io/)
 - [Fuse](https://www.fuse.no/)
+- [Gantner](https://www.gantner.com)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [GoDaddy](https://godaddy.com)
@@ -637,8 +639,16 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-08-29 - [OpenAPI初探](https://cloud.tencent.com/developer/article/1495986) by [peakxie](https://cloud.tencent.com/developer/user/1113152) at [腾讯云社区](https://cloud.tencent.com/developer)
 - 2019-08-29 - [全面进化：Kubernetes CRD 1.16 GA前瞻](https://www.servicemesher.com/blog/kubernetes-1.16-crd-ga-preview/) by [Min Kim](https://github.com/yue9944882) at [ServiceMesher Blog](https://www.servicemesher.com/blog/)
 - 2019-09-01 - [Creating a PHP-Slim server using OpenAPI (Youtube video)](https://www.youtube.com/watch?v=5cJtbIrsYkg) by [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA)
+- 2019-09-06 - [Vert.x and OpenAPI](https://wissel.net/blog/2019/09/vertx-and-openapi.html) by [Stephan H Wissel](https://twitter.com/notessensei) at [wissel.net blog](https://wissel.net)
+- 2019-09-09 - [Cloud-native development - Creating RESTful microservices](https://cloud.ibm.com/docs/cloud-native?topic=cloud-native-rest-api) in [IBM Cloud Docs](https://cloud.ibm.com/docs)
 - 2019-09-14 - [Generating and Configuring a Mastercard API Client](https://developer.mastercard.com/platform/documentation/generating-and-configuring-a-mastercard-api-client/) at [Mastercard Developers Platform](https://developer.mastercard.com/platform/documentation/)
 - 2019-09-15 - [OpenAPI(Swagger)導入下調べ](https://qiita.com/ShoichiKuraoka/items/f1f7a3c2376f7cd9c56a) by [Shoichi Kuraoka](https://qiita.com/ShoichiKuraoka)
+- 2019-09-17 - [Tutorial: Documenting http4k APIs with OpenApi3](https://www.http4k.org/tutorials/documenting_apis_with_openapi/) by [http4k](https://www.http4k.org/)
+- 2019-09-22 - [OpenAPI 3を完全に理解できる本](https://booth.pm/ja/items/1571902) by [@ota42y](https://twitter.com/ota42y)
+- 2019-09-22 - [RESTful APIs: Tutorial of OpenAPI Specification](https://medium.com/@amirm.lavasani/restful-apis-tutorial-of-openapi-specification-eeada0e3901d) by [Amir Lavasani](https://medium.com/@amirm.lavasani)
+- 2019-09-22 - [Redefining SDKs as software diversity kits](https://devrel.net/dev-rel/redefining-sdks-as-software-diversity-kits) by [Sid Maestre (Xero)](https://twitter.com/sidneyallen) at [DevRelCon San Francisco 2019](https://sf2019.devrel.net/)
+- 2019-09-23 - [swaggerからOpenApi GeneratorでSpringのコードを自動生成](https://qiita.com/littleFeet/items/492df2ad68a0799a5e5e) by [@littleFeet](https://qiita.com/littleFeet) at [Qiita](https://qiita.com/)
+
 
 ## [6 - About Us](#table-of-contents)
 
@@ -817,7 +827,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Bash      | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
 | C         | @zhemant (2018/11) |
 | C++       | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08) |
-| C#        | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) |
+| C#        | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) @frankyjuang (2019/09) |
 | Clojure   |  |
 | Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @nickmeinhold (2019/09)  |
 | Eiffel    | @jvelilla (2017/09) |
