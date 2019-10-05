@@ -33,6 +33,7 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.DynamicSettings;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -189,6 +190,8 @@ public class GenerateBatch implements Runnable {
         @Override
         public void run() {
             try {
+                GlobalSettings.reset();
+
                 ClientOptInput opts = configurator.toClientOptInput();
                 CodegenConfig config = opts.getConfig();
                 String name = config.getName();
@@ -211,6 +214,8 @@ public class GenerateBatch implements Runnable {
                 if (exitOnError) {
                     System.exit(1);
                 }
+            } finally {
+                GlobalSettings.reset();
             }
         }
     }
