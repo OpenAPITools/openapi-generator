@@ -17,11 +17,11 @@ import (
 
 func main() {
 	log.Printf("Server started")
-	{{#apiInfo}}{{#apis}}
+{{#apiInfo}}{{#apis}}
 	{{classname}}Service := {{packageName}}.New{{classname}}Service()
 	{{classname}}Controller := {{packageName}}.New{{classname}}Controller({{classname}}Service)
-	{{/apis}}{{/apiInfo}}
-    router := {{packageName}}.NewRouter({{#apiInfo}}{{#apis}}{{classname}}Controller{{#hasMore}}, {{/hasMore}}{{/apis}}{{/apiInfo}})
+{{/apis}}{{/apiInfo}}
+	router := {{packageName}}.NewRouter({{#apiInfo}}{{#apis}}{{classname}}Controller{{#hasMore}}, {{/hasMore}}{{/apis}}{{/apiInfo}})
 
 	log.Fatal(http.ListenAndServe(":{{serverPort}}", router))
 }

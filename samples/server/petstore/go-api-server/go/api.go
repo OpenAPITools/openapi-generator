@@ -16,6 +16,8 @@ import (
 
 
 // PetApiRouter defines the required methods for binding the api requests to a responses for the PetApi
+// The PetApiRouter implementation should parse necessary information from the http request, 
+// pass the data to a PetApiServicer to perform the required actions, then write the service results to the http response.
 type PetApiRouter interface { 
 	AddPet(http.ResponseWriter, *http.Request)
 	DeletePet(http.ResponseWriter, *http.Request)
@@ -27,6 +29,8 @@ type PetApiRouter interface {
 	UploadFile(http.ResponseWriter, *http.Request)
 }
 // StoreApiRouter defines the required methods for binding the api requests to a responses for the StoreApi
+// The StoreApiRouter implementation should parse necessary information from the http request, 
+// pass the data to a StoreApiServicer to perform the required actions, then write the service results to the http response.
 type StoreApiRouter interface { 
 	DeleteOrder(http.ResponseWriter, *http.Request)
 	GetInventory(http.ResponseWriter, *http.Request)
@@ -34,6 +38,8 @@ type StoreApiRouter interface {
 	PlaceOrder(http.ResponseWriter, *http.Request)
 }
 // UserApiRouter defines the required methods for binding the api requests to a responses for the UserApi
+// The UserApiRouter implementation should parse necessary information from the http request, 
+// pass the data to a UserApiServicer to perform the required actions, then write the service results to the http response.
 type UserApiRouter interface { 
 	CreateUser(http.ResponseWriter, *http.Request)
 	CreateUsersWithArrayInput(http.ResponseWriter, *http.Request)
@@ -45,7 +51,11 @@ type UserApiRouter interface {
 	UpdateUser(http.ResponseWriter, *http.Request)
 }
 
+
 // PetApiServicer defines the api actions for the PetApi service
+// This interface intended to stay up to date with the openapi yaml used to generate it, 
+// while the service implementation can ignored with the .openapi-generator-ignore file 
+// and updated with the logic required for the API.
 type PetApiServicer interface { 
     AddPet(Pet) (interface{}, error)
     DeletePet(int64, string) (interface{}, error)
@@ -57,7 +67,11 @@ type PetApiServicer interface {
     UploadFile(int64, string, *os.File) (interface{}, error)
 }
 
+
 // StoreApiServicer defines the api actions for the StoreApi service
+// This interface intended to stay up to date with the openapi yaml used to generate it, 
+// while the service implementation can ignored with the .openapi-generator-ignore file 
+// and updated with the logic required for the API.
 type StoreApiServicer interface { 
     DeleteOrder(string) (interface{}, error)
     GetInventory() (interface{}, error)
@@ -65,7 +79,11 @@ type StoreApiServicer interface {
     PlaceOrder(Order) (interface{}, error)
 }
 
+
 // UserApiServicer defines the api actions for the UserApi service
+// This interface intended to stay up to date with the openapi yaml used to generate it, 
+// while the service implementation can ignored with the .openapi-generator-ignore file 
+// and updated with the logic required for the API.
 type UserApiServicer interface { 
     CreateUser(User) (interface{}, error)
     CreateUsersWithArrayInput([]User) (interface{}, error)
