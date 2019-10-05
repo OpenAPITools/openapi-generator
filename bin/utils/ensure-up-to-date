@@ -118,6 +118,7 @@ declare -a scripts=(
 "./bin/csharp-property-changed-petstore.sh"
 "./bin/csharp-petstore-net-standard.sh"
 "./bin/csharp-netcore-petstore-all.sh"
+"./bin/openapi3/csharp-petstore.sh"
 "./bin/elixir-petstore.sh"
 "./bin/openapi3/go-petstore.sh"
 "./bin/go-experimental-petstore.sh"
