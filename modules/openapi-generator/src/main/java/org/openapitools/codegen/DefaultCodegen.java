@@ -4572,7 +4572,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param operation Operation
      * @return a set of MIME types
      */
-    public static Set<String> getProducesInfo(OpenAPI openAPI, Operation operation) {
+    public static Set<String> getProducesInfo(final OpenAPI openAPI, final Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }
