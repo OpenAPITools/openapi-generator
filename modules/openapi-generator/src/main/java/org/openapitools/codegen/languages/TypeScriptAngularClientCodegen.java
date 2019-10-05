@@ -52,7 +52,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
-    protected String ngVersion = "7.0.0";
+    protected String ngVersion = "8.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
