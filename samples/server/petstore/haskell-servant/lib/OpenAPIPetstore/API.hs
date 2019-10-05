@@ -19,6 +19,7 @@ module OpenAPIPetstore.API
   , OpenAPIPetstoreBackend(..)
   , createOpenAPIPetstoreClient
   , runOpenAPIPetstoreServer
+  , runOpenAPIPetstoreMiddlewareServer
   , runOpenAPIPetstoreClient
   , runOpenAPIPetstoreClientWithManager
   , callOpenAPIPetstore
@@ -172,7 +173,7 @@ newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ClientError
 -- | Backend for OpenAPIPetstore.
 -- The backend can be used both for the client and the server. The client generated from the OpenAPIPetstore OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @createOpenAPIPetstoreClient@). Alternatively, provided
--- a backend, the API can be served using @runOpenAPIPetstoreServer@.
+-- a backend, the API can be served using @runOpenAPIPetstoreMiddlewareServer@.
 data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
   { addPet :: Pet -> m (){- ^  -}
   , deletePet :: Integer -> Maybe Text -> m (){- ^  -}
@@ -261,11 +262,21 @@ callOpenAPIPetstore env f = do
     Left err       -> throwM (OpenAPIPetstoreClientError err)
     Right response -> pure response
 
+
+requestMiddlewareId :: Application -> Application
+requestMiddlewareId a = a
+
 -- | Run the OpenAPIPetstore server at the provided host and port.
 runOpenAPIPetstoreServer
+:: (MonadIO m, MonadThrow m)
+=> Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
+runOpenAPIPetstoreServer config backend = runOpenAPIPetstoreMiddlewareServer config requestMiddlewareId backend
+
+-- | Run the OpenAPIPetstore server at the provided host and port.
+runOpenAPIPetstoreMiddlewareServer
   :: (MonadIO m, MonadThrow m)
   => Config -> Middleware -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
-runOpenAPIPetstoreServer Config{..} middleware backend = do
+runOpenAPIPetstoreMiddlewareServer Config{..} middleware backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
