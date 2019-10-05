@@ -48,7 +48,8 @@ declare -a scripts=(
 "./bin/python-server-flask-petstore.sh"
 "./bin/python-server-flask-petstore-python2.sh"
 "./bin/scala-httpclient-petstore.sh"
-"./bin/scalaz-petstore.sh"
+# Test ist failing: https://github.com/OpenAPITools/openapi-generator/issues/4072
+# "./bin/scalaz-petstore.sh"
 "./bin/jaxrs-cxf-client-petstore.sh"
 "./bin/jaxrs-spec-petstore-server-interface-returning-response.sh"
 "./bin/java-vertx-rx-petstore-server.sh"

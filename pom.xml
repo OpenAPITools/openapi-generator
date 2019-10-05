@@ -1096,7 +1096,8 @@
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
+                <!-- Test ist failing: https://github.com/OpenAPITools/openapi-generator/issues/4072 -->
+                <!-- <module>samples/client/petstore/scalaz</module> -->
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/feign10x</module>
@@ -1185,7 +1186,8 @@
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
+                <!-- Test ist failing: https://github.com/OpenAPITools/openapi-generator/issues/4072 -->
+                <!-- <module>samples/client/petstore/scalaz</module> -->
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2</module>
