@@ -25,26 +25,26 @@ final private class DefaultIfEmptySink<O: ObserverType>: Sink<O>, ObserverType {
     typealias E = O.E
     private let _default: E
     private var _isEmpty = true
-
+    
     init(default: E, observer: O, cancel: Cancelable) {
-        _default = `default`
+        self._default = `default`
         super.init(observer: observer, cancel: cancel)
     }
-
+    
     func on(_ event: Event<E>) {
         switch event {
         case .next:
-            _isEmpty = false
-            forwardOn(event)
+            self._isEmpty = false
+            self.forwardOn(event)
         case .error:
-            forwardOn(event)
-            dispose()
+            self.forwardOn(event)
+            self.dispose()
         case .completed:
-            if _isEmpty {
-                forwardOn(.next(_default))
+            if self._isEmpty {
+                self.forwardOn(.next(self._default))
             }
-            forwardOn(.completed)
-            dispose()
+            self.forwardOn(.completed)
+            self.dispose()
         }
     }
 }
@@ -52,15 +52,15 @@ final private class DefaultIfEmptySink<O: ObserverType>: Sink<O>, ObserverType {
 final private class DefaultIfEmpty<SourceType>: Producer<SourceType> {
     private let _source: Observable<SourceType>
     private let _default: SourceType
-
+    
     init(source: Observable<SourceType>, `default`: SourceType) {
-        _source = source
-        _default = `default`
+        self._source = source
+        self._default = `default`
     }
-
+    
     override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == SourceType {
-        let sink = DefaultIfEmptySink(default: _default, observer: observer, cancel: cancel)
-        let subscription = _source.subscribe(sink)
+        let sink = DefaultIfEmptySink(default: self._default, observer: observer, cancel: cancel)
+        let subscription = self._source.subscribe(sink)
         return (sink: sink, subscription: subscription)
     }
 }

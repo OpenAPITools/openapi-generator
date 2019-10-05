@@ -67,11 +67,12 @@ In order to keep Alamofire focused specifically on core networking implementatio
 - [Alamofire 2.0 Migration Guide](https://github.com/Alamofire/Alamofire/blob/master/Documentation/Alamofire%202.0%20Migration%20Guide.md)
 
 ## Communication
-
-- If you **need help**, use [Stack Overflow](https://stackoverflow.com/questions/tagged/alamofire). (Tag 'alamofire')
-- If you'd like to **ask a general question**, use [Stack Overflow](https://stackoverflow.com/questions/tagged/alamofire).
-- If you **found a bug**, open an issue.
-- If you **have a feature request**, open an issue.
+- If you **need help with making network requests**, use [Stack Overflow](https://stackoverflow.com/questions/tagged/alamofire) and tag `alamofire`.
+- If you need to **find or understand an API**, check [our documentation](http://alamofire.github.io/Alamofire/) or [Apple's documentation for `URLSession`](https://developer.apple.com/documentation/foundation/url_loading_system), on top of which Alamofire is built.
+- If you need **help with an Alamofire feature**, use [our forum on swift.org](https://forums.swift.org/c/related-projects/alamofire).
+- If you'd like to **discuss Alamofire best practices**, use [our forum on swift.org](https://forums.swift.org/c/related-projects/alamofire).
+- If you'd like to **discuss a feature request**, use [our forum on swift.org](https://forums.swift.org/c/related-projects/alamofire). 
+- If you **found a bug**, open an issue and follow the guide. The more detail the better!
 - If you **want to contribute**, submit a pull request.
 
 ## Installation
@@ -84,7 +85,7 @@ In order to keep Alamofire focused specifically on core networking implementatio
 $ gem install cocoapods
 ```
 
-> CocoaPods 1.1+ is required to build Alamofire 4.0+.
+> CocoaPods 1.7+ is required to build Alamofire 4.9+.
 
 To integrate Alamofire into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
@@ -94,7 +95,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'Alamofire', '~> 4.7'
+  pod 'Alamofire', '~> 4.9'
 end
 ```
 
@@ -111,14 +112,13 @@ $ pod install
 You can install Carthage with [Homebrew](https://brew.sh/) using the following command:
 
 ```bash
-$ brew update
 $ brew install carthage
 ```
 
 To integrate Alamofire into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Alamofire/Alamofire" ~> 4.7
+github "Alamofire/Alamofire" ~> 4.9
 ```
 
 Run `carthage update` to build the framework and drag the built `Alamofire.framework` into your Xcode project.
@@ -141,7 +141,7 @@ dependencies: [
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.0.0")
+    .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.0")
 ]
 ```
 

@@ -44,7 +44,8 @@ import javax.validation.Valid;
   FormatTest.JSON_PROPERTY_DATE,
   FormatTest.JSON_PROPERTY_DATE_TIME,
   FormatTest.JSON_PROPERTY_UUID,
-  FormatTest.JSON_PROPERTY_PASSWORD
+  FormatTest.JSON_PROPERTY_PASSWORD,
+  FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
 
 public class FormatTest  implements Serializable {
@@ -99,6 +100,10 @@ public class FormatTest  implements Serializable {
   public static final String JSON_PROPERTY_PASSWORD = "password";
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   private String password;
+
+  public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
+  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  private BigDecimal bigDecimal;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -370,6 +375,26 @@ public class FormatTest  implements Serializable {
     this.password = password;
   }
 
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+  /**
+   * Get bigDecimal
+   * @return bigDecimal
+   **/
+  @JsonProperty("BigDecimal")
+  @ApiModelProperty(value = "")
+  
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -392,12 +417,13 @@ public class FormatTest  implements Serializable {
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
   }
 
 
@@ -419,6 +445,7 @@ public class FormatTest  implements Serializable {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

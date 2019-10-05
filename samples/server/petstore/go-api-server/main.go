@@ -25,17 +25,17 @@ import (
 
 func main() {
 	log.Printf("Server started")
-	
+
 	PetApiService := petstoreserver.NewPetApiService()
 	PetApiController := petstoreserver.NewPetApiController(PetApiService)
-	
+
 	StoreApiService := petstoreserver.NewStoreApiService()
 	StoreApiController := petstoreserver.NewStoreApiController(StoreApiService)
-	
+
 	UserApiService := petstoreserver.NewUserApiService()
 	UserApiController := petstoreserver.NewUserApiController(UserApiService)
-	
-    router := petstoreserver.NewRouter(PetApiController, StoreApiController, UserApiController)
+
+	router := petstoreserver.NewRouter(PetApiController, StoreApiController, UserApiController)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

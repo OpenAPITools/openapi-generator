@@ -18,7 +18,7 @@ open class PetAPI {
      */
     open class func addPet( body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        addPetWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -58,7 +58,7 @@ open class PetAPI {
      */
     open class func deletePet( petId: Int64, apiKey: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (response, error) -> Void in
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (_, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -249,7 +249,7 @@ open class PetAPI {
      */
     open class func updatePet( body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        updatePetWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -290,7 +290,7 @@ open class PetAPI {
      */
     open class func updatePetWithForm( petId: Int64, name: String? = nil, status: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (_, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {

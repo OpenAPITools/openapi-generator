@@ -43,5 +43,7 @@ data class User (
     /* User Status */
     @Json(name = "userStatus")
     val userStatus: kotlin.Int? = null
-)
+) 
+
+
 

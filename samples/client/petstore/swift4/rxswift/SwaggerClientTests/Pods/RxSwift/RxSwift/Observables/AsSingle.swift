@@ -15,23 +15,24 @@ fileprivate final class AsSingleSink<O: ObserverType> : Sink<O>, ObserverType {
     func on(_ event: Event<E>) {
         switch event {
         case .next:
-            if _element != nil {
-                forwardOn(.error(RxError.moreThanOneElement))
-                dispose()
+            if self._element != nil {
+                self.forwardOn(.error(RxError.moreThanOneElement))
+                self.dispose()
             }
 
-            _element = event
+            self._element = event
         case .error:
-            forwardOn(event)
-            dispose()
+            self.forwardOn(event)
+            self.dispose()
         case .completed:
-            if let element = _element {
-                forwardOn(element)
-                forwardOn(.completed)
-            } else {
-                forwardOn(.error(RxError.noElements))
+            if let element = self._element {
+                self.forwardOn(element)
+                self.forwardOn(.completed)
             }
-            dispose()
+            else {
+                self.forwardOn(.error(RxError.noElements))
+            }
+            self.dispose()
         }
     }
 }
@@ -40,12 +41,12 @@ final class AsSingle<Element>: Producer<Element> {
     fileprivate let _source: Observable<Element>
 
     init(source: Observable<Element>) {
-        _source = source
+        self._source = source
     }
 
-    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = AsSingleSink(observer: observer, cancel: cancel)
-        let subscription = _source.subscribe(sink)
+        let subscription = self._source.subscribe(sink)
         return (sink: sink, subscription: subscription)
     }
 }

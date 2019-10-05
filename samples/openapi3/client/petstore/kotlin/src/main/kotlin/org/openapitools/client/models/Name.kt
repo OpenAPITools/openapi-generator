@@ -13,13 +13,15 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * Model for testing model name same as property name
  * @param name 
  * @param snakeCase 
  * @param property 
- * @param &#x60;123number&#x60; 
+ * @param ``123number`` 
  */
+
 data class Name (
     @Json(name = "name")
     val name: kotlin.Int,
@@ -28,7 +30,8 @@ data class Name (
     @Json(name = "property")
     val property: kotlin.String? = null,
     @Json(name = "123Number")
-    val `123number`: kotlin.Int? = null
-)
+    val ``123number``: kotlin.Int? = null
+) 
+: Serializable 
 
 

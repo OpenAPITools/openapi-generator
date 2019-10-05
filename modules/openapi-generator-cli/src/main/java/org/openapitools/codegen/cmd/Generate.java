@@ -65,7 +65,7 @@ public class Generate implements Runnable {
     private String templateDir;
 
     @Option(name = {"-e", "--engine"}, title = "templating engine",
-        description = "templating engine: \"mustache\" (default) or \"handlebars\" (beta)")
+            description = "templating engine: \"mustache\" (default) or \"handlebars\" (beta)")
     private String templatingEngine;
 
     @Option(
@@ -108,6 +108,10 @@ public class Generate implements Runnable {
     @Option(name = {"--model-package"}, title = "model package",
             description = CodegenConstants.MODEL_PACKAGE_DESC)
     private String modelPackage;
+
+    @Option(name = {"--api-name-suffix"}, title = "api name suffix",
+            description = CodegenConstants.API_NAME_SUFFIX_DESC)
+    private String apiNameSuffix;
 
     @Option(name = {"--model-name-prefix"}, title = "model name prefix",
             description = CodegenConstants.MODEL_NAME_PREFIX_DESC)
@@ -317,6 +321,10 @@ public class Generate implements Runnable {
 
         if (isNotEmpty(modelPackage)) {
             configurator.setModelPackage(modelPackage);
+        }
+
+        if (isNotEmpty(apiNameSuffix)) {
+            configurator.setApiNameSuffix(apiNameSuffix);
         }
 
         if (isNotEmpty(modelNamePrefix)) {

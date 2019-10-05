@@ -40,8 +40,17 @@ module UserApiHandlerTestsHelper =
   let mutable CreateUsersWithArrayInputExamples = Map.empty
   let mutable CreateUsersWithArrayInputBody = ""
 
-  CreateUsersWithArrayInputBody <- WebUtility.HtmlDecode ""
-  CreateUsersWithArrayInputExamples <- CreateUsersWithArrayInputExamples.Add("", CreateUsersWithArrayInputBody)
+  CreateUsersWithArrayInputBody <- WebUtility.HtmlDecode "{
+  &quot;firstName&quot; : &quot;firstName&quot;,
+  &quot;lastName&quot; : &quot;lastName&quot;,
+  &quot;password&quot; : &quot;password&quot;,
+  &quot;userStatus&quot; : 6,
+  &quot;phone&quot; : &quot;phone&quot;,
+  &quot;id&quot; : 0,
+  &quot;email&quot; : &quot;email&quot;,
+  &quot;username&quot; : &quot;username&quot;
+}"
+  CreateUsersWithArrayInputExamples <- CreateUsersWithArrayInputExamples.Add("application/json", CreateUsersWithArrayInputBody)
 
   let getCreateUsersWithArrayInputExample mediaType =
     CreateUsersWithArrayInputExamples.[mediaType]
@@ -50,8 +59,17 @@ module UserApiHandlerTestsHelper =
   let mutable CreateUsersWithListInputExamples = Map.empty
   let mutable CreateUsersWithListInputBody = ""
 
-  CreateUsersWithListInputBody <- WebUtility.HtmlDecode ""
-  CreateUsersWithListInputExamples <- CreateUsersWithListInputExamples.Add("", CreateUsersWithListInputBody)
+  CreateUsersWithListInputBody <- WebUtility.HtmlDecode "{
+  &quot;firstName&quot; : &quot;firstName&quot;,
+  &quot;lastName&quot; : &quot;lastName&quot;,
+  &quot;password&quot; : &quot;password&quot;,
+  &quot;userStatus&quot; : 6,
+  &quot;phone&quot; : &quot;phone&quot;,
+  &quot;id&quot; : 0,
+  &quot;email&quot; : &quot;email&quot;,
+  &quot;username&quot; : &quot;username&quot;
+}"
+  CreateUsersWithListInputExamples <- CreateUsersWithListInputExamples.Add("application/json", CreateUsersWithListInputBody)
 
   let getCreateUsersWithListInputExample mediaType =
     CreateUsersWithListInputExamples.[mediaType]
