@@ -116,6 +116,7 @@ declare -a scripts=(
 "./bin/haskell-http-client-petstore.sh"
 "./bin/csharp-petstore.sh"
 "./bin/csharp-property-changed-petstore.sh"
+"./bin/csharp-petstore-net-standard.sh"
 "./bin/csharp-netcore-petstore-all.sh"
 "./bin/elixir-petstore.sh"
 "./bin/openapi3/go-petstore.sh"
