@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -38,7 +39,7 @@ data class Order (
     @Json(name = "complete")
     val complete: kotlin.Boolean? = null
 ) 
-
+: Serializable 
 
 {
 

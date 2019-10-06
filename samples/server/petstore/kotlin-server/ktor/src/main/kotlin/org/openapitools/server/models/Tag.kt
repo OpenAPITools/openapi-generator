@@ -12,6 +12,7 @@
 package org.openapitools.server.models
 
 
+import java.io.Serializable
 /**
  * A tag for a pet
  * @param id 
@@ -21,7 +22,7 @@ data class Tag (
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
 ) 
-
+: Serializable 
 
 {
 
