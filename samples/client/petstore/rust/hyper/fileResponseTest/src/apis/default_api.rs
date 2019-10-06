@@ -25,18 +25,18 @@ pub struct DefaultApiClient<C: hyper::client::Connect> {
 impl<C: hyper::client::Connect> DefaultApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> DefaultApiClient<C> {
         DefaultApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }
 
 pub trait DefaultApi {
-    fn fileresponsetest(&self, ) -> Box<Future<Item = std::path::PathBuf, Error = Error<serde_json::Value>>>;
+    fn fileresponsetest(&self, ) -> Box<dyn Future<Item = std::path::PathBuf, Error = Error<serde_json::Value>>>;
 }
 
 
 impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
-    fn fileresponsetest(&self, ) -> Box<Future<Item = std::path::PathBuf, Error = Error<serde_json::Value>>> {
+    fn fileresponsetest(&self, ) -> Box<dyn Future<Item = std::path::PathBuf, Error = Error<serde_json::Value>>> {
         __internal_request::Request::new(hyper::Method::Get, "/tests/fileResponse".to_string())
             .execute(self.configuration.borrow())
     }
