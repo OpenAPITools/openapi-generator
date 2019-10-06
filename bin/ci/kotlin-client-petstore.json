@@ -5,6 +5,7 @@
   "outputDir": "samples/client/petstore/kotlin",
   "templateDir": "modules/openapi-generator/src/main/resources/kotlin-client",
   "additionalProperties": {
-    "dateLibrary": "java8"
+    "dateLibrary": "java8",
+    "serializableModel": "true"
   }
 }

@@ -5,6 +5,7 @@
   "outputDir": "samples/client/petstore/kotlin-string",
   "templateDir": "modules/openapi-generator/src/main/resources/kotlin-client",
   "additionalProperties": {
-    "dateLibrary": "string"
+    "dateLibrary": "string",
+    "serializableModel": "true"
   }
 }

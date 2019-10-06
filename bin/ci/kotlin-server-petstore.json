@@ -5,6 +5,7 @@
   "outputDir": "samples/server/petstore/kotlin-server/ktor",
   "templateDir": "modules/openapi-generator/src/main/resources/kotlin-server",
   "additionalProperties": {
-    "hideGenerationTimestamp": true
+    "hideGenerationTimestamp": true,
+    "serializableModel": "true"
   }
 }
