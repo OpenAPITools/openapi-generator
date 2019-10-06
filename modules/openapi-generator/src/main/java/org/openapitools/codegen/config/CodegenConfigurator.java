@@ -328,6 +328,11 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setApiNameSuffix(String suffix) {
+        generatorSettingsBuilder.withApiNameSuffix(suffix);
+        return this;
+    }
+
     public CodegenConfigurator setModelNamePrefix(String prefix) {
         generatorSettingsBuilder.withModelNamePrefix(prefix);
         return this;

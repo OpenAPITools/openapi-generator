@@ -13,13 +13,16 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param justNumber 
  */
+
 data class NumberOnly (
     @Json(name = "JustNumber")
     val justNumber: java.math.BigDecimal? = null
-)
+) 
+: Serializable 
 
 

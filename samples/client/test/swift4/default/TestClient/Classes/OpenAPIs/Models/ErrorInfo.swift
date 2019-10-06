@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 /** Example Error object */
 
 public struct ErrorInfo: Codable {
@@ -21,4 +22,6 @@ public struct ErrorInfo: Codable {
         self.details = details
     }
 
+
 }
+

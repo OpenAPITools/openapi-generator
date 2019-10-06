@@ -13,13 +13,16 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param client 
  */
+
 data class Client (
     @Json(name = "client")
     val client: kotlin.String? = null
-)
+) 
+: Serializable 
 
 

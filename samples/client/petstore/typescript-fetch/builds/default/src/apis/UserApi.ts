@@ -244,7 +244,7 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.TextApiResponse(response);
+        return new runtime.TextApiResponse(response) as any;
     }
 
     /**

@@ -18,6 +18,7 @@ import com.squareup.moshi.Json
 * 
 * Values: _0,_1,_2
 */
+
 enum class OuterEnumIntegerDefaultValue(val value: kotlin.Int){
 
 
@@ -31,6 +32,7 @@ enum class OuterEnumIntegerDefaultValue(val value: kotlin.Int){
 
     @Json(name = "2")
     _2(2);
+
 
 
 }

@@ -379,10 +379,15 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     @Override
     public String toApiFilename(final String name) {
         // replace - with _ e.g. created-at => created_at
-        String filename = name.replaceAll("-", "_");
+        String filename = name;
+        if (apiNameSuffix != null && apiNameSuffix.length() > 0) {
+            filename = filename + "_"  + apiNameSuffix;
+        }
+
+        filename = filename.replaceAll("-", "_");
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
-        return underscore(filename) + "_api";
+        return underscore(filename);
     }
 
     @Override
@@ -402,11 +407,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
-            return "DefaultApi";
-        }
-        // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "Api";
+        return super.toApiName(name);
     }
 
     @Override

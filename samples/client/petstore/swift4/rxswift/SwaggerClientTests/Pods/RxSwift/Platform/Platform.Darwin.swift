@@ -19,7 +19,8 @@
 
             if let newValue = value {
                 threadDictionary[key] = newValue
-            } else {
+            }
+            else {
                 threadDictionary[key] = nil
             }
         }
@@ -27,7 +28,7 @@
         static func getThreadLocalStorageValueForKey<T>(_ key: NSCopying) -> T? {
             let currentThread = Thread.current
             let threadDictionary = currentThread.threadDictionary
-
+            
             return threadDictionary[key] as? T
         }
     }
