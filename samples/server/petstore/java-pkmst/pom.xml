@@ -3,7 +3,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.prokarma</groupId>
    <artifactId>pkmst-microservice</artifactId>
-   <version></version>
+   <version>1.0.0</version>
    <packaging>jar</packaging>
    <name>pkmst-microservice</name>
    <description>Demo project for Spring Boot Microservices</description>

@@ -128,12 +128,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             // not set, use to be passed to template
             additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         }
-        if (this.additionalProperties.containsKey("artifactVersion")) {
-            this.setArtifactVersion((String) this.additionalProperties.get("artifactVersion"));
-        } else {
-            // not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        }
         if (this.additionalProperties.containsKey("serviceName")) {
             this.setServiceName((String) this.additionalProperties.get("serviceName"));
         } else {
