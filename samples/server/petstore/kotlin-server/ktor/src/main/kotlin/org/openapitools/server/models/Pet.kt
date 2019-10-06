@@ -14,7 +14,6 @@ package org.openapitools.server.models
 import org.openapitools.server.models.Category
 import org.openapitools.server.models.Tag
 
-import java.io.Serializable
 /**
  * A pet for sale in the pet store
  * @param id 
@@ -33,7 +32,7 @@ data class Pet (
     /* pet status in the store */
     val status: Pet.Status? = null
 ) 
-: Serializable 
+
 
 {
 

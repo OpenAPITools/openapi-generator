@@ -15,7 +15,6 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.squareup.moshi.Json
-import java.io.Serializable
 /**
  * A pet for sale in the pet store
  * @param id 
@@ -41,7 +40,7 @@ data class Pet (
     @Json(name = "status")
     val status: Pet.Status? = null
 ) 
-: Serializable 
+
 
 {
 

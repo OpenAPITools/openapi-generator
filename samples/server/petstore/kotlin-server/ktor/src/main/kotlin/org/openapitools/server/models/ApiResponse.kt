@@ -12,7 +12,6 @@
 package org.openapitools.server.models
 
 
-import java.io.Serializable
 /**
  * Describes the result of uploading an image resource
  * @param code 
@@ -24,7 +23,7 @@ data class ApiResponse (
     val type: kotlin.String? = null,
     val message: kotlin.String? = null
 ) 
-: Serializable 
+
 
 {
 
