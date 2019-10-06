@@ -596,6 +596,23 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testMediaTypeRangeInConsumes() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/consumes.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        CodegenOperation codegenOperation = codegen.fromOperation(
+                "/test",
+                "post",
+                openAPI.getPaths().get("/test").getPost(),
+                null
+        );
+
+        Assert.assertNotNull(codegenOperation.consumes);
+        Assert.assertEquals(codegenOperation.consumes.get(0).get("mediaType"), "*/*");
+        Assert.assertNull(codegenOperation.consumes.get(0).get("hasMore"));
+    }
+
+    @Test
     public void testResponseWithNoSchemaInHeaders() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         ApiResponse response2XX = new ApiResponse()
