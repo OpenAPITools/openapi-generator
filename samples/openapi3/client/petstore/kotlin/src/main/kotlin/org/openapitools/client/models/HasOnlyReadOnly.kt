@@ -13,16 +13,19 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param bar 
  * @param foo 
  */
+
 data class HasOnlyReadOnly (
     @Json(name = "bar")
     val bar: kotlin.String? = null,
     @Json(name = "foo")
     val foo: kotlin.String? = null
-)
+) 
+: Serializable 
 
 

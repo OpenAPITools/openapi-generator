@@ -54,6 +54,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String modelDocPath = "docs/";
     protected boolean parcelizeModels = false;
 
+    protected boolean serializableModel = false;
+
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
     protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
 
@@ -215,6 +217,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
 
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
     }
 
     @Override
@@ -411,16 +414,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             LOGGER.warn(CodegenConstants.INVOKER_PACKAGE + " with " + this.getName() + " generator is ignored. Use " + CodegenConstants.PACKAGE_NAME + ".");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
+            this.setSerializableModel(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL)));
+        } else {
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
             this.setParcelizeModels(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
-            LOGGER.info(CodegenConstants.PARCELIZE_MODELS + " depends on the android framework and " +
-                    "experimental parcelize feature. Make sure your build applies the android plugin:\n" +
-                    "apply plugin: 'com.android.library' OR apply plugin: 'com.android.application'.\n" +
-                    "and enables the experimental features:\n" +
-                    "androidExtensions {\n" +
-                    "    experimental = true\n" +
-                    "}"
-            );
         } else {
             additionalProperties.put(CodegenConstants.PARCELIZE_MODELS, parcelizeModels);
         }
@@ -468,6 +469,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         this.parcelizeModels = parcelizeModels;
     }
 
+    public boolean isSerializableModel() {
+        return serializableModel;
+    }
+
+    public void setSerializableModel(boolean serializableModel) {
+        this.serializableModel = serializableModel;
+    }
     /**
      * Return the sanitized variable name for enum
      *

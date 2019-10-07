@@ -377,6 +377,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedOSImport = false;
         boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
+            // import "os" if the operation uses files
+            if (!addedOSImport && "*os.File".equals(operation.returnType)) {
+                imports.add(createMapping("import", "os"));
+                addedOSImport = true;
+            }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
                 if (!addedOSImport && "*os.File".equals(param.dataType)) {
@@ -490,7 +495,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             if (v instanceof CodegenModel) {
                 CodegenModel model = (CodegenModel) v;
                 for (CodegenProperty param : model.vars) {
-                    if (!addedTimeImport && "time.Time".equals(param.baseType)) {
+                    if (!addedTimeImport
+                        && "time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType))) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }

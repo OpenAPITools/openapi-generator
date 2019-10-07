@@ -39,15 +39,15 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FileSchemaTestClass")
 public class FileSchemaTestClass {
-  @XmlElement(name = "file")
   public static final String JSON_PROPERTY_FILE = "file";
+  @XmlElement(name = "file")
   private java.io.File file;
 
+  public static final String JSON_PROPERTY_FILES = "files";
   // Is a container wrapped=false
   // items.name=files items.baseName=files items.xmlName= items.xmlNamespace=
   // items.example= items.type=java.io.File
   @XmlElement(name = "files")
-  public static final String JSON_PROPERTY_FILES = "files";
   private List<java.io.File> files = null;
 
 

@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 public struct PlaceCardAllOf: Codable {
 
     public var placeName: String?
@@ -17,4 +19,6 @@ public struct PlaceCardAllOf: Codable {
         self.placeAddress = placeAddress
     }
 
+
 }
+

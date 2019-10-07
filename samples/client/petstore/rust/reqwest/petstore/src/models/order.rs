@@ -11,6 +11,7 @@
 /// Order : An order for a pets from the pet store
 
 
+
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Order {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
