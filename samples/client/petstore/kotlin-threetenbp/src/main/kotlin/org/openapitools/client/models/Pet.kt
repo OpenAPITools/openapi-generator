@@ -42,7 +42,8 @@ data class Pet (
 ) 
 
 
-{
+
+
 
     /**
     * pet status in the store
@@ -60,5 +61,5 @@ data class Pet (
 
     }
 
-}
+
 

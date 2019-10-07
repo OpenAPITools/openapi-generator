@@ -40,7 +40,8 @@ data class Order (
 ) 
 
 
-{
+
+
 
     /**
     * Order Status
@@ -58,5 +59,5 @@ data class Order (
 
     }
 
-}
+
 

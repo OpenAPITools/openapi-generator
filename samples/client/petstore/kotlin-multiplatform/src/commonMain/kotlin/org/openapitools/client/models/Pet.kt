@@ -37,7 +37,8 @@ data class Pet (
 ) 
 
 
-{
+
+
 
     /**
     * pet status in the store
@@ -56,5 +57,5 @@ data class Pet (
         object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value }.toTypedArray())
     }
 
-}
+
 
