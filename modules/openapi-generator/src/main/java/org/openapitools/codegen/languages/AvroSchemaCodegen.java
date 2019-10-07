@@ -41,6 +41,7 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                 .stability(Stability.BETA)
                 .build();
 
+        outputFolder = "generated-code/avro-schema";
         modelTemplateFiles.put("model.mustache", ".avsc");
         // Force the model package to the package name so import can be fully qualified
         modelPackage = packageName;
