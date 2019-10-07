@@ -38,16 +38,16 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 public class ModelApiResponse {
-  @XmlElement(name = "code")
   public static final String JSON_PROPERTY_CODE = "code";
+  @XmlElement(name = "code")
   private Integer code;
 
-  @XmlElement(name = "type")
   public static final String JSON_PROPERTY_TYPE = "type";
+  @XmlElement(name = "type")
   private String type;
 
-  @XmlElement(name = "message")
   public static final String JSON_PROPERTY_MESSAGE = "message";
+  @XmlElement(name = "message")
   private String message;
 
 

@@ -39,16 +39,16 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "OuterComposite")
 public class OuterComposite {
-  @XmlElement(name = "my_number")
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
+  @XmlElement(name = "my_number")
   private BigDecimal myNumber;
 
-  @XmlElement(name = "my_string")
   public static final String JSON_PROPERTY_MY_STRING = "my_string";
+  @XmlElement(name = "my_string")
   private String myString;
 
-  @XmlElement(name = "my_boolean")
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
+  @XmlElement(name = "my_boolean")
   private Boolean myBoolean;
 
 

@@ -54,60 +54,60 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FormatTest")
 public class FormatTest {
-  @XmlElement(name = "integer")
   public static final String JSON_PROPERTY_INTEGER = "integer";
+  @XmlElement(name = "integer")
   private Integer integer;
 
-  @XmlElement(name = "int32")
   public static final String JSON_PROPERTY_INT32 = "int32";
+  @XmlElement(name = "int32")
   private Integer int32;
 
-  @XmlElement(name = "int64")
   public static final String JSON_PROPERTY_INT64 = "int64";
+  @XmlElement(name = "int64")
   private Long int64;
 
-  @XmlElement(name = "number")
   public static final String JSON_PROPERTY_NUMBER = "number";
+  @XmlElement(name = "number")
   private BigDecimal number;
 
-  @XmlElement(name = "float")
   public static final String JSON_PROPERTY_FLOAT = "float";
+  @XmlElement(name = "float")
   private Float _float;
 
-  @XmlElement(name = "double")
   public static final String JSON_PROPERTY_DOUBLE = "double";
+  @XmlElement(name = "double")
   private Double _double;
 
-  @XmlElement(name = "string")
   public static final String JSON_PROPERTY_STRING = "string";
+  @XmlElement(name = "string")
   private String string;
 
-  @XmlElement(name = "byte")
   public static final String JSON_PROPERTY_BYTE = "byte";
+  @XmlElement(name = "byte")
   private byte[] _byte;
 
-  @XmlElement(name = "binary")
   public static final String JSON_PROPERTY_BINARY = "binary";
+  @XmlElement(name = "binary")
   private File binary;
 
-  @XmlElement(name = "date")
   public static final String JSON_PROPERTY_DATE = "date";
+  @XmlElement(name = "date")
   private LocalDate date;
 
-  @XmlElement(name = "dateTime")
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @XmlElement(name = "dateTime")
   private OffsetDateTime dateTime;
 
-  @XmlElement(name = "uuid")
   public static final String JSON_PROPERTY_UUID = "uuid";
+  @XmlElement(name = "uuid")
   private UUID uuid;
 
-  @XmlElement(name = "password")
   public static final String JSON_PROPERTY_PASSWORD = "password";
+  @XmlElement(name = "password")
   private String password;
 
-  @XmlElement(name = "BigDecimal")
   public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
+  @XmlElement(name = "BigDecimal")
   private BigDecimal bigDecimal;
 
 
