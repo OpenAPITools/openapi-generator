@@ -1,0 +1,2 @@
+github "Alamofire/Alamofire" ~> 4.9.0
+github "mxcl/PromiseKit" ~> 4.4
