@@ -25,7 +25,7 @@ import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.StringDescriptor
 
-class PetApi @UseExperimental(UnstableDefault::class) constructor(
+public class PetApi @UseExperimental(UnstableDefault::class) constructor(
         baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
         serializer: KotlinxSerializer)
@@ -309,7 +309,7 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
 
 
 
-    companion object {
+    public companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
             
             serializer.setMapper(FindPetsByStatusResponse::class, FindPetsByStatusResponse.serializer())

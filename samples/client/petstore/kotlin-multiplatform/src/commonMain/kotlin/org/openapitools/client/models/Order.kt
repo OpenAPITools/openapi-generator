@@ -24,7 +24,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  * @param complete 
  */
 @Serializable
-data class Order (
+public data class Order (
     @SerialName(value = "id") val id: kotlin.Long? = null,
     @SerialName(value = "petId") val petId: kotlin.Long? = null,
     @SerialName(value = "quantity") val quantity: kotlin.Int? = null,
@@ -42,7 +42,7 @@ data class Order (
     * Values: placed,approved,delivered
     */
     @Serializable(with = Status.Serializer::class)
-    enum class Status(val value: kotlin.String){
+    public enum class Status(val value: kotlin.String){
     
         placed("placed"),
     
@@ -51,7 +51,7 @@ data class Order (
         delivered("delivered");
     
 
-        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value }.toTypedArray())
+        public object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value }.toTypedArray())
     }
 
 }

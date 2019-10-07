@@ -20,7 +20,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  * @param name 
  */
 @Serializable
-data class Tag (
+public data class Tag (
     @SerialName(value = "id") val id: kotlin.Long? = null,
     @SerialName(value = "name") val name: kotlin.String? = null
 ) 

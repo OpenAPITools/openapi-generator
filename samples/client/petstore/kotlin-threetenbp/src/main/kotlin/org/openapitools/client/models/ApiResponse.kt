@@ -20,7 +20,7 @@ import com.squareup.moshi.Json
  * @param message 
  */
 
-data class ApiResponse (
+public data class ApiResponse (
     @Json(name = "code")
     val code: kotlin.Int? = null,
     @Json(name = "type")

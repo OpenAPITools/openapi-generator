@@ -3,7 +3,7 @@ package {{packageName}}.infrastructure
 
 import java.lang.RuntimeException
 
-open class ClientException : RuntimeException {
+{{>visibility}} open class ClientException : RuntimeException {
 
     /**
      * Constructs an [ClientException] with no detail message.
@@ -22,7 +22,7 @@ open class ClientException : RuntimeException {
     }
 }
 
-open class ServerException : RuntimeException {
+{{>visibility}} open class ServerException : RuntimeException {
 
     /**
      * Constructs an [ServerException] with no detail message.

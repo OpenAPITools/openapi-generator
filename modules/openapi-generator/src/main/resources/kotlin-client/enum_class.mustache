@@ -16,7 +16,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
 {{#multiplatform}}@Serializable(with = {{classname}}.Serializer::class){{/multiplatform}}
-enum class {{classname}}(val value: {{{dataType}}}){
+{{>visibility}} enum class {{classname}}(val value: {{{dataType}}}){
 
 {{#allowableValues}}{{#enumVars}}
     {{#jvm}}
@@ -42,6 +42,6 @@ enum class {{classname}}(val value: {{{dataType}}}){
 {{/enumVars}}{{/allowableValues}}
 
 {{#multiplatform}}
-    object Serializer : CommonEnumSerializer<{{classname}}>("{{classname}}", values(), values().map { it.value }.toTypedArray())
+    {{>visibility}} object Serializer : CommonEnumSerializer<{{classname}}>("{{classname}}", values(), values().map { it.value }.toTypedArray())
 {{/multiplatform}}
 }

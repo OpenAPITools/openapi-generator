@@ -5,7 +5,7 @@ import com.squareup.moshi.ToJson
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class LocalDateTimeAdapter {
+public class LocalDateTimeAdapter {
     @ToJson
     fun toJson(value: LocalDateTime): String {
         return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(value)

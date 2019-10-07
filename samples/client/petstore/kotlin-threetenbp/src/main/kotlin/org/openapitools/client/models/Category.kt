@@ -19,7 +19,7 @@ import com.squareup.moshi.Json
  * @param name 
  */
 
-data class Category (
+public data class Category (
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "name")
