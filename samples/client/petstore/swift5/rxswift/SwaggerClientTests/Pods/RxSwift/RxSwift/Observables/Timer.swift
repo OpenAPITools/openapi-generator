@@ -6,7 +6,7 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-extension ObservableType where E : RxAbstractInteger {
+extension ObservableType where E: RxAbstractInteger {
     /**
      Returns an observable sequence that produces a value after each period, using the specified scheduler to run timers and to send out observer messages.
 
@@ -49,7 +49,7 @@ extension ObservableType where E: RxAbstractInteger {
 
 import Foundation
 
-final private class TimerSink<O: ObserverType> : Sink<O> where O.E : RxAbstractInteger  {
+final private class TimerSink<O: ObserverType>: Sink<O> where O.E: RxAbstractInteger {
     typealias Parent = Timer<O.E>
 
     private let _parent: Parent
@@ -106,8 +106,7 @@ final private class Timer<E: RxAbstractInteger>: Producer<E> {
             let sink = TimerSink(parent: self, observer: observer, cancel: cancel)
             let subscription = sink.run()
             return (sink: sink, subscription: subscription)
-        }
-        else {
+        } else {
             let sink = TimerOneOffSink(parent: self, observer: observer, cancel: cancel)
             let subscription = sink.run()
             return (sink: sink, subscription: subscription)

@@ -21,43 +21,42 @@ extension ObservableType {
 }
 
 final private class SwitchIfEmpty<Element>: Producer<Element> {
-    
+
     private let _source: Observable<E>
     private let _ifEmpty: Observable<E>
-    
+
     init(source: Observable<E>, ifEmpty: Observable<E>) {
         self._source = source
         self._ifEmpty = ifEmpty
     }
-    
+
     override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = SwitchIfEmptySink(ifEmpty: self._ifEmpty,
                                      observer: observer,
                                      cancel: cancel)
         let subscription = sink.run(self._source.asObservable())
-        
+
         return (sink: sink, subscription: subscription)
     }
 }
 
-final private class SwitchIfEmptySink<O: ObserverType>: Sink<O>
-    , ObserverType {
+final private class SwitchIfEmptySink<O: ObserverType>: Sink<O>, ObserverType {
     typealias E = O.E
-    
+
     private let _ifEmpty: Observable<E>
     private var _isEmpty = true
     private let _ifEmptySubscription = SingleAssignmentDisposable()
-    
+
     init(ifEmpty: Observable<E>, observer: O, cancel: Cancelable) {
         self._ifEmpty = ifEmpty
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func run(_ source: Observable<O.E>) -> Disposable {
         let subscription = source.subscribe(self)
         return Disposables.create(subscription, _ifEmptySubscription)
     }
-    
+
     func on(_ event: Event<E>) {
         switch event {
         case .next:
@@ -78,17 +77,16 @@ final private class SwitchIfEmptySink<O: ObserverType>: Sink<O>
     }
 }
 
-final private class SwitchIfEmptySinkIter<O: ObserverType>
-    : ObserverType {
+final private class SwitchIfEmptySinkIter<O: ObserverType>: ObserverType {
     typealias E = O.E
     typealias Parent = SwitchIfEmptySink<O>
-    
+
     private let _parent: Parent
 
     init(parent: Parent) {
         self._parent = parent
     }
-    
+
     func on(_ event: Event<E>) {
         switch event {
         case .next:

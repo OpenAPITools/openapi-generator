@@ -7,17 +7,16 @@
 //
 
 /// Base class for virtual time schedulers using a priority queue for scheduled items.
-open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
-    : SchedulerType {
+open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>: SchedulerType {
 
     public typealias VirtualTime = Converter.VirtualTimeUnit
     public typealias VirtualTimeInterval = Converter.VirtualTimeIntervalUnit
 
-    private var _running : Bool
+    private var _running: Bool
 
     private var _clock: VirtualTime
 
-    fileprivate var _schedulerQueue : PriorityQueue<VirtualSchedulerItem<VirtualTime>>
+    fileprivate var _schedulerQueue: PriorityQueue<VirtualSchedulerItem<VirtualTime>>
     private var _converter: Converter
 
     private var _nextId = 0
@@ -116,9 +115,9 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
         self._nextId += 1
 
         self._schedulerQueue.enqueue(item)
-        
+
         _ = compositeDisposable.insert(item)
-        
+
         return compositeDisposable
     }
 
@@ -232,10 +231,9 @@ extension VirtualTimeScheduler: CustomDebugStringConvertible {
     }
 }
 
-final class VirtualSchedulerItem<Time>
-    : Disposable {
+final class VirtualSchedulerItem<Time>: Disposable {
     typealias Action = () -> Disposable
-    
+
     let action: Action
     let time: Time
     let id: Int
@@ -243,9 +241,9 @@ final class VirtualSchedulerItem<Time>
     var isDisposed: Bool {
         return self.disposable.isDisposed
     }
-    
+
     var disposable = SingleAssignmentDisposable()
-    
+
     init(action: @escaping Action, time: Time, id: Int) {
         self.action = action
         self.time = time
@@ -255,14 +253,13 @@ final class VirtualSchedulerItem<Time>
     func invoke() {
          self.disposable.setDisposable(self.action())
     }
-    
+
     func dispose() {
         self.disposable.dispose()
     }
 }
 
-extension VirtualSchedulerItem
-    : CustomDebugStringConvertible {
+extension VirtualSchedulerItem: CustomDebugStringConvertible {
     var debugDescription: String {
         return "\(self.time)"
     }

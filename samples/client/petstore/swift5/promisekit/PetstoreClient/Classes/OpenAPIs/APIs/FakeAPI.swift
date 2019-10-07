@@ -19,9 +19,9 @@ open class FakeAPI {
         let deferred = Promise<Bool>.pending()
         fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -56,9 +56,9 @@ open class FakeAPI {
         let deferred = Promise<OuterComposite>.pending()
         fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -93,9 +93,9 @@ open class FakeAPI {
         let deferred = Promise<Double>.pending()
         fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -130,9 +130,9 @@ open class FakeAPI {
         let deferred = Promise<String>.pending()
         fakeOuterStringSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -167,9 +167,9 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testBodyWithFileSchemaWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -203,9 +203,9 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -242,9 +242,9 @@ open class FakeAPI {
         let deferred = Promise<Client>.pending()
         testClientModelWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -294,9 +294,9 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -439,9 +439,9 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -505,9 +505,9 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -558,9 +558,9 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -595,9 +595,9 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise

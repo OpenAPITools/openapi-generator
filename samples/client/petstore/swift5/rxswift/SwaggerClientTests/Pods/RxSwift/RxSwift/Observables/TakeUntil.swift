@@ -49,28 +49,25 @@ public enum TakeUntilBehavior {
 }
 
 // MARK: - TakeUntil Observable
-final private class TakeUntilSinkOther<Other, O: ObserverType>
-    : ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+final private class TakeUntilSinkOther<Other, O: ObserverType>: ObserverType, LockOwnerType, SynchronizedOnType {
     typealias Parent = TakeUntilSink<Other, O>
     typealias E = Other
-    
+
     fileprivate let _parent: Parent
 
     var _lock: RecursiveLock {
         return self._parent._lock
     }
-    
+
     fileprivate let _subscription = SingleAssignmentDisposable()
-    
+
     init(parent: Parent) {
         self._parent = parent
 #if TRACE_RESOURCES
         _ = Resources.incrementTotal()
 #endif
     }
-    
+
     func on(_ event: Event<E>) {
         self.synchronizedOn(event)
     }
@@ -87,7 +84,7 @@ final private class TakeUntilSinkOther<Other, O: ObserverType>
             self._subscription.dispose()
         }
     }
-    
+
 #if TRACE_RESOURCES
     deinit {
         _ = Resources.decrementTotal()
@@ -95,24 +92,19 @@ final private class TakeUntilSinkOther<Other, O: ObserverType>
 #endif
 }
 
-final private class TakeUntilSink<Other, O: ObserverType>
-    : Sink<O>
-    , LockOwnerType
-    , ObserverType
-    , SynchronizedOnType {
+final private class TakeUntilSink<Other, O: ObserverType>: Sink<O>, LockOwnerType, ObserverType, SynchronizedOnType {
     typealias E = O.E
     typealias Parent = TakeUntil<E, Other>
-    
+
     fileprivate let _parent: Parent
- 
+
     let _lock = RecursiveLock()
-    
-    
+
     init(parent: Parent, observer: O, cancel: Cancelable) {
         self._parent = parent
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<E>) {
         self.synchronizedOn(event)
     }
@@ -129,28 +121,28 @@ final private class TakeUntilSink<Other, O: ObserverType>
             self.dispose()
         }
     }
-    
+
     func run() -> Disposable {
         let otherObserver = TakeUntilSinkOther(parent: self)
         let otherSubscription = self._parent._other.subscribe(otherObserver)
         otherObserver._subscription.setDisposable(otherSubscription)
         let sourceSubscription = self._parent._source.subscribe(self)
-        
+
         return Disposables.create(sourceSubscription, otherObserver._subscription)
     }
 }
 
 final private class TakeUntil<Element, Other>: Producer<Element> {
-    
+
     fileprivate let _source: Observable<Element>
     fileprivate let _other: Observable<Other>
-    
+
     init(source: Observable<Element>, other: Observable<Other>) {
         self._source = source
         self._other = other
     }
-    
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = TakeUntilSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)
@@ -158,8 +150,7 @@ final private class TakeUntil<Element, Other>: Producer<Element> {
 }
 
 // MARK: - TakeUntil Predicate
-final private class TakeUntilPredicateSink<O: ObserverType>
-    : Sink<O>, ObserverType {
+final private class TakeUntilPredicateSink<O: ObserverType>: Sink<O>, ObserverType {
     typealias Element = O.E
     typealias Parent = TakeUntilPredicate<Element>
 
@@ -219,7 +210,7 @@ final private class TakeUntilPredicate<Element>: Producer<Element> {
         self._predicate = predicate
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = TakeUntilPredicateSink(parent: self, observer: observer, cancel: cancel)
         let subscription = self._source.subscribe(sink)
         return (sink: sink, subscription: subscription)

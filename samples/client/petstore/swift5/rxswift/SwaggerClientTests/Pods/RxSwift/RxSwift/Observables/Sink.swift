@@ -6,7 +6,7 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-class Sink<O : ObserverType> : Disposable {
+class Sink<O: ObserverType>: Disposable {
     fileprivate let _observer: O
     fileprivate let _cancel: Cancelable
     fileprivate let _disposed = AtomicInt(0)

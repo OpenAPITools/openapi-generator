@@ -97,7 +97,7 @@ extension PrimitiveSequence {
         -> PrimitiveSequence<Trait, Element> {
         return PrimitiveSequence(raw: self.source.delaySubscription(dueTime, scheduler: scheduler))
     }
-    
+
     /**
      Wraps the source sequence in order to run its observer callbacks on the specified scheduler.
 
@@ -201,7 +201,7 @@ extension PrimitiveSequence {
         -> PrimitiveSequence<Trait, Element> {
             return PrimitiveSequence(raw: self.source.debug(identifier, trimOutput: trimOutput, file: file, line: line, function: function))
     }
-    
+
     /**
      Constructs an observable sequence that depends on a resource object, whose lifetime is tied to the resulting observable sequence's lifetime.
      
@@ -231,7 +231,7 @@ extension PrimitiveSequence {
         -> PrimitiveSequence<Trait, Element> {
             return PrimitiveSequence<Trait, Element>(raw: self.primitiveSequence.source.timeout(dueTime, scheduler: scheduler))
     }
-    
+
     /**
      Applies a timeout policy for each element in the observable sequence, using the specified scheduler to run timeout timers. If the next element isn't received within the specified timeout duration starting from its predecessor, the other observable sequence is used to produce future messages from that point on.
      
@@ -249,8 +249,7 @@ extension PrimitiveSequence {
     }
 }
 
-extension PrimitiveSequenceType where ElementType: RxAbstractInteger
-{
+extension PrimitiveSequenceType where ElementType: RxAbstractInteger {
     /**
      Returns an observable sequence that periodically produces a value after the specified initial relative due time has elapsed, using the specified scheduler to run timers.
 
@@ -261,7 +260,7 @@ extension PrimitiveSequenceType where ElementType: RxAbstractInteger
      - returns: An observable sequence that produces a value after due time has elapsed and then each period.
      */
     public static func timer(_ dueTime: RxTimeInterval, scheduler: SchedulerType)
-        -> PrimitiveSequence<TraitType, ElementType>  {
+        -> PrimitiveSequence<TraitType, ElementType> {
         return PrimitiveSequence(raw: Observable<ElementType>.timer(dueTime, scheduler: scheduler))
     }
 }

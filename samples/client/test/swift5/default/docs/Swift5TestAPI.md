@@ -1,10 +1,10 @@
-# Swift4TestAPI
+# Swift5TestAPI
 
 All URIs are relative to *http://api.example.com/basePath*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getAllModels**](Swift4TestAPI.md#getallmodels) | **GET** /allModels | Get all of the models
+[**getAllModels**](Swift5TestAPI.md#getallmodels) | **GET** /allModels | Get all of the models
 
 
 # **getAllModels**
@@ -24,7 +24,7 @@ import TestClient
 let clientId = "clientId_example" // String | id that represent the Api client
 
 // Get all of the models
-Swift4TestAPI.getAllModels(clientId: clientId) { (response, error) in
+Swift5TestAPI.getAllModels(clientId: clientId) { (response, error) in
     guard error == nil else {
         print(error)
         return
