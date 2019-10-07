@@ -388,6 +388,9 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
                 "",
                 "Cartfile"));
+        supportingFiles.add(new SupportingFile("Package.swift.mustache", 
+                "", 
+                "Package.swift"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
                 "APIHelper.swift"));
