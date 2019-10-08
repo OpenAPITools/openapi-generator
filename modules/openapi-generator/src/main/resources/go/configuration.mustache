@@ -2,7 +2,12 @@
 package {{packageName}}
 
 import (
+	"crypto"
+	"crypto/x509"
+	"encoding/pem"
+	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 // contextKeys are used to identify the type of value in the context.
@@ -27,6 +32,9 @@ var (
 
 	// ContextAPIKey takes an APIKey as authentication for the request
 	ContextAPIKey = contextKey("apikey")
+
+	// ContextHttpSignatureAuth takes HttpSignatureAuth as authentication for the request.
+	ContextHttpSignatureAuth = contextKey("httpsignature")
 )
 
 // BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth
@@ -35,10 +43,47 @@ type BasicAuth struct {
 	Password string `json:"password,omitempty"`
 }
 
+type CryptoSignatureAlg int
+
+const (
+	SignHs2019 CryptoSignatureAlg = iota    // RSA-SHA512
+	SignRsaSha256                           // RSA-SHA256, deprecated
+)
+
 // APIKey provides API key based authentication to a request passed via context using ContextAPIKey
 type APIKey struct {
 	Key    string
 	Prefix string
+}
+
+// HttpSignatureAuth provides http message signature authentication to a request passed via context using ContextHttpSignatureAuth
+type HttpSignatureAuth struct {
+	KeyId         string            // A key identifier.
+	PrivateKey    crypto.PrivateKey // The private key used to sign HTTP requests.
+	Algorithm     string            // The signature algorithm. Supported values are rsa-sha256, rsa-sha512, hs2019.
+	SignedHeaders []string          // A list of HTTP headers included when generating the signature for the message.
+}
+
+// LoadPrivateKey reads the private key from the specified file.
+func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
+	var file *os.File
+	file, err = os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		err = file.Close()
+	}()
+	var priv []byte
+	priv, err = ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	privPem, _ := pem.Decode(priv)
+	if h.PrivateKey, err = x509.ParsePKCS1PrivateKey(privPem.Bytes); err != nil {
+		return err
+	}
+	return nil
 }
 
 // Configuration stores the configuration of the API client

@@ -778,10 +778,17 @@ public class ModelUtils {
         if (content == null || content.isEmpty()) {
             return null;
         }
-        if (content.size() > 1) {
-            LOGGER.warn("Multiple schemas found in content, returning only the first one");
+        for (Entry<String, MediaType> e : content.entrySet()) {
+            if (e.getKey().equals("application/json") || e.getKey().equals("application/xml")) {
+                // When there are multiple types, prefer for "application/json" or "application/xml" to make it more deterministic.
+                LOGGER.warn("Multiple schemas found in content, returning: " + e.getKey());
+                return e.getValue().getSchema();
+            }
         }
         MediaType mediaType = content.values().iterator().next();
+        if (content.size() > 1) {
+            LOGGER.warn("Multiple schemas found in content, returning only the first one: " + content.keySet().iterator().next());
+        }
         return mediaType.getSchema();
     }
 
