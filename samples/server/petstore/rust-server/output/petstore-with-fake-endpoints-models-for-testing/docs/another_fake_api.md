@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **test_special_tags**
-> models::Client test_special_tags(body)
+> crate::models::Client test_special_tags(body)
 To test special tags
 
 To test special tags
@@ -21,7 +21,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**models::Client**](Client.md)
+[**crate::models::Client**](Client.md)
 
 ### Authorization
 

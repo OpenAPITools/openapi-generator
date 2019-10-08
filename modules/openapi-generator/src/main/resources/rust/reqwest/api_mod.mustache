@@ -8,6 +8,9 @@ pub enum Error {
     Io(std::io::Error),
 }
 
+impl std::error::Error for Error {
+}
+
 impl From<reqwest::Error> for Error {
     fn from(e: reqwest::Error) -> Self {
         Error::Reqwest(e)
@@ -28,6 +31,16 @@ impl From<std::io::Error> for Error {
 
 pub fn urlencode<T: AsRef<str>>(s: T) -> String {
     ::url::form_urlencoded::byte_serialize(s.as_ref().as_bytes()).collect()
+}
+
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            Error::Reqwest(e) => write!(f, "{}", e),
+            Error::Serde(e) => write!(f, "{}", e),
+            Error::Io(e) => write!(f, "{}", e),
+        }
+    }
 }
 
 {{#apiInfo}}

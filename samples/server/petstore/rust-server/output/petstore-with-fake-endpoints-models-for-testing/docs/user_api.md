@@ -119,7 +119,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getUserByName**
-> models::User getUserByName(username)
+> crate::models::User getUserByName(username)
 Get user by user name
 
 ### Required Parameters
@@ -130,7 +130,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**models::User**](User.md)
+[**crate::models::User**](User.md)
 
 ### Authorization
 

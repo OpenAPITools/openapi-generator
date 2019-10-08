@@ -1,40 +1,11 @@
 //! Main library entry point for {{{externCrateName}}} implementation.
 
-mod server;
+pub mod server;
 
 mod errors {
+    use error_chain::error_chain;
     error_chain!{}
 }
 
 pub use self::errors::*;
-use std::io;
-use std::clone::Clone;
-use std::marker::PhantomData;
-use hyper;
-use {{{externCrateName}}};
-use swagger::{Has, XSpanIdString};
-{{#hasAuthMethods}}
-use swagger::auth::Authorization;
-{{/hasAuthMethods}}
-
-pub struct NewService<C>{
-    marker: PhantomData<C>
-}
-
-impl<C> NewService<C>{
-    pub fn new() -> Self {
-        NewService{marker:PhantomData}
-    }
-}
-
-impl<C> hyper::server::NewService for NewService<C> where C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Clone + 'static {
-    type Request = (hyper::Request, C);
-    type Response = hyper::Response;
-    type Error = hyper::Error;
-    type Instance = {{{externCrateName}}}::server::Service<server::Server<C>, C>;
-
-    /// Instantiate a new server.
-    fn new_service(&self) -> io::Result<Self::Instance> {
-        Ok({{{externCrateName}}}::server::Service::new(server::Server::new()))
-    }
-}
+pub use server::Server;

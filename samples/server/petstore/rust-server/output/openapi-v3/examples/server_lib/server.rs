@@ -1,13 +1,12 @@
 //! Server implementation of openapi_v3.
 
 #![allow(unused_imports)]
-
-use futures::{self, Future};
+use async_trait::async_trait;
 use chrono;
 use std::collections::HashMap;
 use std::marker::PhantomData;
-use swagger;
-use swagger::{Has, XSpanIdString};
+use openapi_context;
+use openapi_context::{Has, XSpanId};
 use uuid;
 
 use openapi_v3::{Api, ApiError,
@@ -23,7 +22,6 @@ use openapi_v3::{Api, ApiError,
                       XmlPostResponse,
                       XmlPutResponse
 };
-use openapi_v3::models;
 
 #[derive(Copy, Clone)]
 pub struct Server<C> {
@@ -36,83 +34,84 @@ impl<C> Server<C> {
     }
 }
 
-impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
+#[async_trait]
+impl<C> Api<C> for Server<C> where C: Has<XSpanId> + Send + Sync {
 
     /// Get some stuff.
-    fn multiget_get(&self, context: &C) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError>> {
+    async fn multiget_get(&mut self, context: &C) -> Result<MultigetGetResponse, ApiError> {
         let context = context.clone();
         println!("multiget_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn multiple_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {
+    async fn multiple_auth_scheme_get(&mut self, context: &C) -> Result<MultipleAuthSchemeGetResponse, ApiError> {
         let context = context.clone();
         println!("multiple_auth_scheme_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn readonly_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>> {
+    async fn readonly_auth_scheme_get(&mut self, context: &C) -> Result<ReadonlyAuthSchemeGetResponse, ApiError> {
         let context = context.clone();
         println!("readonly_auth_scheme_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn required_octet_stream_put(&self, body: swagger::ByteArray, context: &C) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
+    async fn required_octet_stream_put(&mut self, body: openapi_context::ByteArray, context: &C) -> Result<RequiredOctetStreamPutResponse, ApiError> {
         let context = context.clone();
         println!("required_octet_stream_put({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn responses_with_headers_get(&self, context: &C) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>> {
+    async fn responses_with_headers_get(&mut self, context: &C) -> Result<ResponsesWithHeadersGetResponse, ApiError> {
         let context = context.clone();
         println!("responses_with_headers_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn uuid_get(&self, context: &C) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError>> {
+    async fn uuid_get(&mut self, context: &C) -> Result<UuidGetResponse, ApiError> {
         let context = context.clone();
         println!("uuid_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError>> {
+    async fn xml_extra_post(&mut self, duplicate_xml_object: Option<crate::models::DuplicateXmlObject>, context: &C) -> Result<XmlExtraPostResponse, ApiError> {
         let context = context.clone();
         println!("xml_extra_post({:?}) - X-Span-ID: {:?}", duplicate_xml_object, context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>, context: &C) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError>> {
+    async fn xml_other_post(&mut self, another_xml_object: Option<crate::models::AnotherXmlObject>, context: &C) -> Result<XmlOtherPostResponse, ApiError> {
         let context = context.clone();
         println!("xml_other_post({:?}) - X-Span-ID: {:?}", another_xml_object, context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn xml_other_put(&self, another_xml_array: Option<models::AnotherXmlArray>, context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>> {
+    async fn xml_other_put(&mut self, another_xml_array: Option<crate::models::AnotherXmlArray>, context: &C) -> Result<XmlOtherPutResponse, ApiError> {
         let context = context.clone();
-        println!("xml_other_put({:?}) - X-Span-ID: {:?}", another_xml_array, context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        println!("xml_other_put({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
+        Err("Generic failure".into())
     }
 
     /// Post an array
-    fn xml_post(&self, xml_array: Option<models::XmlArray>, context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>> {
+    async fn xml_post(&mut self, xml_array: Option<crate::models::XmlArray>, context: &C) -> Result<XmlPostResponse, ApiError> {
         let context = context.clone();
-        println!("xml_post({:?}) - X-Span-ID: {:?}", xml_array, context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        println!("xml_post({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
+        Err("Generic failure".into())
     }
 
 
-    fn xml_put(&self, xml_object: Option<models::XmlObject>, context: &C) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError>> {
+    async fn xml_put(&mut self, xml_object: Option<crate::models::XmlObject>, context: &C) -> Result<XmlPutResponse, ApiError> {
         let context = context.clone();
         println!("xml_put({:?}) - X-Span-ID: {:?}", xml_object, context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 }

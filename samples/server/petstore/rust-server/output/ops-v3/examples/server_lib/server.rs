@@ -1,13 +1,12 @@
 //! Server implementation of ops_v3.
 
 #![allow(unused_imports)]
-
-use futures::{self, Future};
+use async_trait::async_trait;
 use chrono;
 use std::collections::HashMap;
 use std::marker::PhantomData;
-use swagger;
-use swagger::{Has, XSpanIdString};
+use openapi_context;
+use openapi_context::{Has, XSpanId};
 
 use ops_v3::{Api, ApiError,
                       Op10GetResponse,
@@ -48,7 +47,6 @@ use ops_v3::{Api, ApiError,
                       Op8GetResponse,
                       Op9GetResponse
 };
-use ops_v3::models;
 
 #[derive(Copy, Clone)]
 pub struct Server<C> {
@@ -61,265 +59,266 @@ impl<C> Server<C> {
     }
 }
 
-impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
+#[async_trait]
+impl<C> Api<C> for Server<C> where C: Has<XSpanId> + Send + Sync {
 
 
-    fn op10_get(&self, context: &C) -> Box<dyn Future<Item=Op10GetResponse, Error=ApiError>> {
+    async fn op10_get(&mut self, context: &C) -> Result<Op10GetResponse, ApiError> {
         let context = context.clone();
         println!("op10_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op11_get(&self, context: &C) -> Box<dyn Future<Item=Op11GetResponse, Error=ApiError>> {
+    async fn op11_get(&mut self, context: &C) -> Result<Op11GetResponse, ApiError> {
         let context = context.clone();
         println!("op11_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op12_get(&self, context: &C) -> Box<dyn Future<Item=Op12GetResponse, Error=ApiError>> {
+    async fn op12_get(&mut self, context: &C) -> Result<Op12GetResponse, ApiError> {
         let context = context.clone();
         println!("op12_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op13_get(&self, context: &C) -> Box<dyn Future<Item=Op13GetResponse, Error=ApiError>> {
+    async fn op13_get(&mut self, context: &C) -> Result<Op13GetResponse, ApiError> {
         let context = context.clone();
         println!("op13_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op14_get(&self, context: &C) -> Box<dyn Future<Item=Op14GetResponse, Error=ApiError>> {
+    async fn op14_get(&mut self, context: &C) -> Result<Op14GetResponse, ApiError> {
         let context = context.clone();
         println!("op14_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op15_get(&self, context: &C) -> Box<dyn Future<Item=Op15GetResponse, Error=ApiError>> {
+    async fn op15_get(&mut self, context: &C) -> Result<Op15GetResponse, ApiError> {
         let context = context.clone();
         println!("op15_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op16_get(&self, context: &C) -> Box<dyn Future<Item=Op16GetResponse, Error=ApiError>> {
+    async fn op16_get(&mut self, context: &C) -> Result<Op16GetResponse, ApiError> {
         let context = context.clone();
         println!("op16_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op17_get(&self, context: &C) -> Box<dyn Future<Item=Op17GetResponse, Error=ApiError>> {
+    async fn op17_get(&mut self, context: &C) -> Result<Op17GetResponse, ApiError> {
         let context = context.clone();
         println!("op17_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op18_get(&self, context: &C) -> Box<dyn Future<Item=Op18GetResponse, Error=ApiError>> {
+    async fn op18_get(&mut self, context: &C) -> Result<Op18GetResponse, ApiError> {
         let context = context.clone();
         println!("op18_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op19_get(&self, context: &C) -> Box<dyn Future<Item=Op19GetResponse, Error=ApiError>> {
+    async fn op19_get(&mut self, context: &C) -> Result<Op19GetResponse, ApiError> {
         let context = context.clone();
         println!("op19_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op1_get(&self, context: &C) -> Box<dyn Future<Item=Op1GetResponse, Error=ApiError>> {
+    async fn op1_get(&mut self, context: &C) -> Result<Op1GetResponse, ApiError> {
         let context = context.clone();
         println!("op1_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op20_get(&self, context: &C) -> Box<dyn Future<Item=Op20GetResponse, Error=ApiError>> {
+    async fn op20_get(&mut self, context: &C) -> Result<Op20GetResponse, ApiError> {
         let context = context.clone();
         println!("op20_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op21_get(&self, context: &C) -> Box<dyn Future<Item=Op21GetResponse, Error=ApiError>> {
+    async fn op21_get(&mut self, context: &C) -> Result<Op21GetResponse, ApiError> {
         let context = context.clone();
         println!("op21_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op22_get(&self, context: &C) -> Box<dyn Future<Item=Op22GetResponse, Error=ApiError>> {
+    async fn op22_get(&mut self, context: &C) -> Result<Op22GetResponse, ApiError> {
         let context = context.clone();
         println!("op22_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op23_get(&self, context: &C) -> Box<dyn Future<Item=Op23GetResponse, Error=ApiError>> {
+    async fn op23_get(&mut self, context: &C) -> Result<Op23GetResponse, ApiError> {
         let context = context.clone();
         println!("op23_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op24_get(&self, context: &C) -> Box<dyn Future<Item=Op24GetResponse, Error=ApiError>> {
+    async fn op24_get(&mut self, context: &C) -> Result<Op24GetResponse, ApiError> {
         let context = context.clone();
         println!("op24_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op25_get(&self, context: &C) -> Box<dyn Future<Item=Op25GetResponse, Error=ApiError>> {
+    async fn op25_get(&mut self, context: &C) -> Result<Op25GetResponse, ApiError> {
         let context = context.clone();
         println!("op25_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op26_get(&self, context: &C) -> Box<dyn Future<Item=Op26GetResponse, Error=ApiError>> {
+    async fn op26_get(&mut self, context: &C) -> Result<Op26GetResponse, ApiError> {
         let context = context.clone();
         println!("op26_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op27_get(&self, context: &C) -> Box<dyn Future<Item=Op27GetResponse, Error=ApiError>> {
+    async fn op27_get(&mut self, context: &C) -> Result<Op27GetResponse, ApiError> {
         let context = context.clone();
         println!("op27_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op28_get(&self, context: &C) -> Box<dyn Future<Item=Op28GetResponse, Error=ApiError>> {
+    async fn op28_get(&mut self, context: &C) -> Result<Op28GetResponse, ApiError> {
         let context = context.clone();
         println!("op28_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op29_get(&self, context: &C) -> Box<dyn Future<Item=Op29GetResponse, Error=ApiError>> {
+    async fn op29_get(&mut self, context: &C) -> Result<Op29GetResponse, ApiError> {
         let context = context.clone();
         println!("op29_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op2_get(&self, context: &C) -> Box<dyn Future<Item=Op2GetResponse, Error=ApiError>> {
+    async fn op2_get(&mut self, context: &C) -> Result<Op2GetResponse, ApiError> {
         let context = context.clone();
         println!("op2_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op30_get(&self, context: &C) -> Box<dyn Future<Item=Op30GetResponse, Error=ApiError>> {
+    async fn op30_get(&mut self, context: &C) -> Result<Op30GetResponse, ApiError> {
         let context = context.clone();
         println!("op30_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op31_get(&self, context: &C) -> Box<dyn Future<Item=Op31GetResponse, Error=ApiError>> {
+    async fn op31_get(&mut self, context: &C) -> Result<Op31GetResponse, ApiError> {
         let context = context.clone();
         println!("op31_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op32_get(&self, context: &C) -> Box<dyn Future<Item=Op32GetResponse, Error=ApiError>> {
+    async fn op32_get(&mut self, context: &C) -> Result<Op32GetResponse, ApiError> {
         let context = context.clone();
         println!("op32_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op33_get(&self, context: &C) -> Box<dyn Future<Item=Op33GetResponse, Error=ApiError>> {
+    async fn op33_get(&mut self, context: &C) -> Result<Op33GetResponse, ApiError> {
         let context = context.clone();
         println!("op33_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op34_get(&self, context: &C) -> Box<dyn Future<Item=Op34GetResponse, Error=ApiError>> {
+    async fn op34_get(&mut self, context: &C) -> Result<Op34GetResponse, ApiError> {
         let context = context.clone();
         println!("op34_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op35_get(&self, context: &C) -> Box<dyn Future<Item=Op35GetResponse, Error=ApiError>> {
+    async fn op35_get(&mut self, context: &C) -> Result<Op35GetResponse, ApiError> {
         let context = context.clone();
         println!("op35_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op36_get(&self, context: &C) -> Box<dyn Future<Item=Op36GetResponse, Error=ApiError>> {
+    async fn op36_get(&mut self, context: &C) -> Result<Op36GetResponse, ApiError> {
         let context = context.clone();
         println!("op36_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op37_get(&self, context: &C) -> Box<dyn Future<Item=Op37GetResponse, Error=ApiError>> {
+    async fn op37_get(&mut self, context: &C) -> Result<Op37GetResponse, ApiError> {
         let context = context.clone();
         println!("op37_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op3_get(&self, context: &C) -> Box<dyn Future<Item=Op3GetResponse, Error=ApiError>> {
+    async fn op3_get(&mut self, context: &C) -> Result<Op3GetResponse, ApiError> {
         let context = context.clone();
         println!("op3_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op4_get(&self, context: &C) -> Box<dyn Future<Item=Op4GetResponse, Error=ApiError>> {
+    async fn op4_get(&mut self, context: &C) -> Result<Op4GetResponse, ApiError> {
         let context = context.clone();
         println!("op4_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op5_get(&self, context: &C) -> Box<dyn Future<Item=Op5GetResponse, Error=ApiError>> {
+    async fn op5_get(&mut self, context: &C) -> Result<Op5GetResponse, ApiError> {
         let context = context.clone();
         println!("op5_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op6_get(&self, context: &C) -> Box<dyn Future<Item=Op6GetResponse, Error=ApiError>> {
+    async fn op6_get(&mut self, context: &C) -> Result<Op6GetResponse, ApiError> {
         let context = context.clone();
         println!("op6_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op7_get(&self, context: &C) -> Box<dyn Future<Item=Op7GetResponse, Error=ApiError>> {
+    async fn op7_get(&mut self, context: &C) -> Result<Op7GetResponse, ApiError> {
         let context = context.clone();
         println!("op7_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op8_get(&self, context: &C) -> Box<dyn Future<Item=Op8GetResponse, Error=ApiError>> {
+    async fn op8_get(&mut self, context: &C) -> Result<Op8GetResponse, ApiError> {
         let context = context.clone();
         println!("op8_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn op9_get(&self, context: &C) -> Box<dyn Future<Item=Op9GetResponse, Error=ApiError>> {
+    async fn op9_get(&mut self, context: &C) -> Result<Op9GetResponse, ApiError> {
         let context = context.clone();
         println!("op9_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 }

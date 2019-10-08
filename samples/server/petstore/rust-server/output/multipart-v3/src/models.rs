@@ -1,11 +1,8 @@
 #![allow(unused_imports, unused_qualifications, unused_extern_crates)]
-extern crate chrono;
-
+use serde::{Serialize, Deserialize};
 use serde::ser::Serializer;
 
 use std::collections::HashMap;
-use models;
-use swagger;
 use std::string::ParseError;
 
 
@@ -21,15 +18,15 @@ pub struct MultipartRequest {
 
     #[serde(rename = "object_field")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub object_field: Option<models::MultipartRequestObjectField>,
+    pub object_field: Option<crate::models::MultipartRequestObjectField>,
 
     #[serde(rename = "binary_field")]
-    pub binary_field: swagger::ByteArray,
+    pub binary_field: openapi_context::ByteArray,
 
 }
 
 impl MultipartRequest {
-    pub fn new(string_field: String, binary_field: swagger::ByteArray, ) -> MultipartRequest {
+    pub fn new(string_field: String, binary_field: openapi_context::ByteArray, ) -> MultipartRequest {
         MultipartRequest {
             string_field: string_field,
             optional_string_field: None,

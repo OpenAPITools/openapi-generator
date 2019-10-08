@@ -1,12 +1,9 @@
 #![allow(unused_imports, unused_qualifications, unused_extern_crates)]
-extern crate chrono;
-
+use serde::{Serialize, Deserialize};
 use serde_xml_rs;
 use serde::ser::Serializer;
 
 use std::collections::{HashMap, BTreeMap};
-use models;
-use swagger;
 use std::string::ParseError;
 use uuid;
 
@@ -187,12 +184,12 @@ pub struct DuplicateXmlObject {
 
     #[serde(rename = "inner_array")]
     #[serde(serialize_with = "wrap_in_camelXmlInner")]
-    pub inner_array: models::XmlArray,
+    pub inner_array: crate::models::XmlArray,
 
 }
 
 impl DuplicateXmlObject {
-    pub fn new(inner_array: models::XmlArray, ) -> DuplicateXmlObject {
+    pub fn new(inner_array: crate::models::XmlArray, ) -> DuplicateXmlObject {
         DuplicateXmlObject {
             inner_string: None,
             inner_array: inner_array,

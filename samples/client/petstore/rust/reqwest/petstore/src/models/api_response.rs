@@ -10,6 +10,8 @@
 
 /// ApiResponse : Describes the result of uploading an image resource
 
+use serde::{Deserialize, Serialize};
+
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

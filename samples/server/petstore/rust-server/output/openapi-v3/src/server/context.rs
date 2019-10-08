@@ -1,51 +1,17 @@
+use crate::headers::*;
 use std::io;
 use std::marker::PhantomData;
+use std::future::Future;
+use std::pin::Pin;
 use std::default::Default;
+use futures::FutureExt;
+use headers::{ContentType, HeaderMapExt};
 use hyper;
 use hyper::{Request, Response, Error, StatusCode};
-use server::url::form_urlencoded;
-use swagger::auth::{Authorization, AuthData, Scopes};
-use swagger::{Has, Pop, Push, XSpanIdString};
-use swagger::headers::SafeHeaders;
-use Api;
-
-pub struct NewAddContext<T, A>
-{
-    inner: T,
-    marker: PhantomData<A>,
-}
-
-impl<T, A, B, C, D> NewAddContext<T, A>
-    where
-        A: Default + Push<XSpanIdString, Result=B>,
-        B: Push<Option<AuthData>, Result=C>,
-        C: Push<Option<Authorization>, Result=D>,
-        T: hyper::server::NewService<Request = (Request, D), Response = Response, Error = Error> + 'static,
-{
-    pub fn new(inner: T) -> NewAddContext<T, A> {
-        NewAddContext {
-            inner,
-            marker: PhantomData,
-        }
-    }
-}
-
-impl<T, A, B, C, D> hyper::server::NewService for NewAddContext<T, A>
-    where
-        A: Default + Push<XSpanIdString, Result=B>,
-        B: Push<Option<AuthData>, Result=C>,
-        C: Push<Option<Authorization>, Result=D>,
-        T: hyper::server::NewService<Request = (Request, D), Response = Response, Error = Error> + 'static,
-{
-    type Request = Request;
-    type Response = Response;
-    type Error = Error;
-    type Instance = AddContext<T::Instance, A>;
-
-    fn new_service(&self) -> Result<Self::Instance, io::Error> {
-        self.inner.new_service().map(|s| AddContext::new(s))
-    }
-}
+use url::form_urlencoded;
+use openapi_context::auth::{Authorization, AuthData, Scopes};
+use openapi_context::{ContextualPayload, Has, Pop, Push, XSpanId};
+use crate::Api;
 
 /// Middleware to extract authentication data from request
 pub struct AddContext<T, A>
@@ -56,10 +22,10 @@ pub struct AddContext<T, A>
 
 impl<T, A, B, C, D> AddContext<T, A>
     where
-        A: Default + Push<XSpanIdString, Result=B>,
+        A: Default + Push<XSpanId, Result=B>,
         B: Push<Option<AuthData>, Result=C>,
         C: Push<Option<Authorization>, Result=D>,
-        T: hyper::server::Service<Request = (Request, D), Response = Response, Error = Error>,
+        T: hyper::service::Service<(Request<hyper::Body>, D), Response = Response<hyper::Body>, Error = Error>,
 {
     pub fn new(inner: T) -> AddContext<T, A> {
         AddContext {
@@ -69,26 +35,31 @@ impl<T, A, B, C, D> AddContext<T, A>
     }
 }
 
-impl<T, A, B, C, D> hyper::server::Service for AddContext<T, A>
+impl<T, A, B, C, D> hyper::service::Service<ContextualPayload<C>> for AddContext<T, A>
     where
-        A: Default + Push<XSpanIdString, Result=B>,
+        A: Default + Push<XSpanId, Result=B>,
         B: Push<Option<AuthData>, Result=C>,
-        C: Push<Option<Authorization>, Result=D>,
-        T: hyper::server::Service<Request = (Request, D), Response = Response, Error = Error>,
+        C: Push<Option<Authorization>, Result=D> + Send + Sync,
+        T: hyper::service::Service<(Request<hyper::Body>, D), Response = Response<hyper::Body>, Error = Error>,
 {
-    type Request = Request;
-    type Response = Response;
+    type Response = Response<hyper::Body>;
     type Error = Error;
     type Future = T::Future;
 
-    fn call(&self, req: Self::Request) -> Self::Future {
-        let context = A::default().push(XSpanIdString::get_or_generate(&req));
+    fn poll_ready(&mut self, cx: &mut std::task::Context<'_>) -> std::task::Poll<Result<(), Self::Error>> {
+        std::task::Poll::Ready(Ok(()))
+    }
+
+    fn call(&mut self, req: ContextualPayload<C>) -> Self::Future {
+        let context = A::default().push(XSpanId::get_or_generate(&req.inner));
+        let mut req = req.inner;
 
         {
-            use hyper::header::{Authorization as HyperAuth, Basic, Bearer};
+            use headers::Authorization as HyperAuth;
+            use headers::authorization::Bearer;
             use std::ops::Deref;
-            if let Some(bearer) = req.headers().safe_get::<HyperAuth<Bearer>>() {
-                let auth_data = AuthData::Bearer(bearer.deref().clone());
+            if let Some(ref bearer) = req.headers_mut().typed_get::<HyperAuth<Bearer>>(){
+                let auth_data = AuthData::Bearer(bearer.clone());
                 let context = context.push(Some(auth_data));
                 let context = context.push(None::<Authorization>);
                 return self.inner.call((req, context));

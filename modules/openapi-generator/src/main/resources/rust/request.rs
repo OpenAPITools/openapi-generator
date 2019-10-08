@@ -1,13 +1,11 @@
-use std::borrow::Cow;
 use std::collections::HashMap;
 
 use super::{configuration, Error};
-use futures;
-use futures::{Future, Stream};
+use futures::StreamExt;
 use hyper;
-use hyper::header::UserAgent;
 use serde;
 use serde_json;
+use std::sync::Arc;
 
 pub(crate) struct ApiKey {
     pub in_header: bool,
@@ -95,20 +93,19 @@ impl Request {
         self
     }
 
-    pub fn execute<'a, C, U>(
+    pub async fn execute<'a, C, U>(
         self,
-        conf: &configuration::Configuration<C>,
-    ) -> Box<dyn Future<Item = U, Error = Error<serde_json::Value>> + 'a>
+        conf: Arc<configuration::Configuration<C>>,
+    ) -> Result<U, Error<serde_json::Value>>
     where
-        C: hyper::client::Connect,
+        C: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
         U: Sized + 'a,
         for<'de> U: serde::Deserialize<'de>,
     {
-        let mut query_string = ::url::form_urlencoded::Serializer::new("".to_owned());
-        // raw_headers is for headers we don't know the proper type of (e.g. custom api key
-        // headers); headers is for ones we do know the type of.
-        let mut raw_headers = HashMap::new();
-        let mut headers: hyper::header::Headers = hyper::header::Headers::new();
+        //TODO: Safe replacement for this
+        let mut query_string: Vec<String> = self.query_params.iter().map(|t| {
+            format!("{}={}", t.0, t.1)
+        }).collect();
 
         let mut path = self.path;
         for (k, v) in self.path_params {
@@ -116,12 +113,10 @@ impl Request {
             path = path.replace(&format!("{{{}}}", k), &v);
         }
 
-        for (k, v) in self.header_params {
-            raw_headers.insert(k, v);
-        }
+        let mut req = hyper::Request::builder();
 
-        for (key, val) in self.query_params {
-            query_string.append_pair(&key, &val);
+        for (k, v) in self.header_params {
+            req = req.header(&k, v);
         }
 
         match self.auth {
@@ -129,28 +124,27 @@ impl Request {
                 if let Some(ref key) = conf.api_key {
                     let val = apikey.key(&key.prefix, &key.key);
                     if apikey.in_query {
-                        query_string.append_pair(&apikey.param_name, &val);
+                        query_string.push(format!("{}={}", apikey.param_name, val));
                     }
                     if apikey.in_header {
-                        raw_headers.insert(apikey.param_name, val);
+                        req = req.header(&apikey.param_name, val);
                     }
                 }
             }
             Auth::Basic => {
                 if let Some(ref auth_conf) = conf.basic_auth {
-                    let auth = hyper::header::Authorization(hyper::header::Basic {
-                        username: auth_conf.0.to_owned(),
-                        password: auth_conf.1.to_owned(),
-                    });
-                    headers.set(auth);
+                    let user_pass = if let Some(ref pass) = auth_conf.1 {
+                        format!("{}:{}", auth_conf.0, pass)
+                    } else {
+                        auth_conf.0.clone()
+                    };
+                    let user_pass_b64 = base64::encode(&user_pass);
+                    req = req.header(hyper::header::AUTHORIZATION.as_str(), format!("Basic {}", user_pass_b64));
                 }
             }
             Auth::Oauth => {
                 if let Some(ref token) = conf.oauth_access_token {
-                    let auth = hyper::header::Authorization(hyper::header::Bearer {
-                        token: token.to_owned(),
-                    });
-                    headers.set(auth);
+                    req = req.header(hyper::header::AUTHORIZATION.as_str(), format!("Bearer {}", token));
                 }
             }
             Auth::None => {}
@@ -158,82 +152,65 @@ impl Request {
 
         let mut uri_str = format!("{}{}", conf.base_path, path);
 
-        let query_string_str = query_string.finish();
-        if query_string_str != "" {
+        let query_string = urlencoding::encode(&query_string.join("&"));
+        if !query_string.is_empty() {
             uri_str += "?";
-            uri_str += &query_string_str;
+            uri_str += &query_string;
         }
         let uri: hyper::Uri = match uri_str.parse() {
             Err(e) => {
-                return Box::new(futures::future::err(Error::UriError(e)));
+                return Err(Error::InvalidUriError(e));
             }
             Ok(u) => u,
         };
 
-        let mut req = hyper::Request::new(self.method, uri);
-        {
-            let req_headers = req.headers_mut();
-            if let Some(ref user_agent) = conf.user_agent {
-                req_headers.set(UserAgent::new(Cow::Owned(user_agent.clone())));
-            }
-
-            req_headers.extend(headers.iter());
-
-            for (key, val) in raw_headers {
-                req_headers.set_raw(key, val);
-            }
+        req = req.method(self.method);
+        req = req.uri(uri);
+        if let Some(ref user_agent) = conf.user_agent {
+            req = req.header(hyper::header::USER_AGENT.as_str(), user_agent.clone());
         }
 
-        if self.form_params.len() > 0 {
-            req.headers_mut().set(hyper::header::ContentType::form_url_encoded());
+        let body = if self.form_params.len() > 0 {
+            req = req.header(hyper::header::CONTENT_TYPE.as_str(), "application/x-www-form-urlencoded");
             let mut enc = ::url::form_urlencoded::Serializer::new("".to_owned());
             for (k, v) in self.form_params {
                 enc.append_pair(&k, &v);
             }
-            req.set_body(enc.finish());
-        }
-
-        if let Some(body) = self.serialized_body {
-            req.headers_mut().set(hyper::header::ContentType::json());
-            req.headers_mut()
-                .set(hyper::header::ContentLength(body.len() as u64));
-            req.set_body(body);
-        }
+            hyper::Body::from(enc.finish())
+        } else if let Some(body) = self.serialized_body {
+            req = req.header(hyper::header::CONTENT_TYPE.as_str(), "application/json");
+            req = req.header(hyper::header::CONTENT_LENGTH.as_str(), format!("{}", body.len() as u64));
+            hyper::Body::from(body)
+        } else {
+            hyper::Body::empty()
+        };
 
         let no_ret_type = self.no_return_type;
-        let res = conf.client
+        let req = req.body(body).map_err(Error::from)?;
+        let resp = conf.client
                 .request(req)
-                .map_err(|e| Error::from(e))
-                .and_then(|resp| {
-                    let status = resp.status();
-                    resp.body()
-                        .concat2()
-                        .and_then(move |body| Ok((status, body)))
-                        .map_err(|e| Error::from(e))
-                })
-                .and_then(|(status, body)| {
-                    if status.is_success() {
-                        Ok(body)
-                    } else {
-                        Err(Error::from((status, &*body)))
-                    }
-                });
-        Box::new(
-            res
-                .and_then(move |body| {
-                    let parsed: Result<U, _> = if no_ret_type {
-                        // This is a hack; if there's no_ret_type, U is (), but serde_json gives an
-                        // error when deserializing "" into (), so deserialize 'null' into it
-                        // instead.
-                        // An alternate option would be to require U: Default, and then return
-                        // U::default() here instead since () implements that, but then we'd
-                        // need to impl default for all models.
-                        serde_json::from_str("null")
-                    } else {
-                        serde_json::from_slice(&body)
-                    };
-                    parsed.map_err(|e| Error::from(e))
-                })
-        )
+                .await
+                .map_err(|e| Error::from(e))?;
+        let status = resp.status();
+        let mut bytes = vec![];
+        let mut body = resp.into_body();
+        while let Some(c) = body.next().await {
+            bytes.extend(c?.to_vec());
+        }
+        if !status.is_success() {
+            return Err(Error::from((status, bytes.as_slice())));
+        }
+        let parsed: Result<U, _> = if no_ret_type {
+            // This is a hack; if there's no_ret_type, U is (), but serde_json gives an
+            // error when deserializing "" into (), so deserialize 'null' into it
+            // instead.
+            // An alternate option would be to require U: Default, and then return
+            // U::default() here instead since () implements that, but then we'd
+            // need to impl default for all models.
+            serde_json::from_str("null")
+        } else {
+            serde_json::from_slice(bytes.as_slice())
+        };
+        parsed.map_err(|e| Error::from(e))
     }
 }

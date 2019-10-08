@@ -1,6 +1,5 @@
 #![allow(unused_imports, unused_qualifications, unused_extern_crates)]
-extern crate chrono;
-
+use serde::{Serialize, Deserialize};
 {{#usesXml}}
 use serde_xml_rs;
 {{/usesXml}}
@@ -12,12 +11,12 @@ use std::collections::{HashMap, BTreeMap};
 {{^usesXml}}
 use std::collections::HashMap;
 {{/usesXml}}
-use models;
-use swagger;
 use std::string::ParseError;
 {{#apiUsesUuid}}
 use uuid;
 {{/apiUsesUuid}}
+#[cfg(feature = "conversion")]
+use frunk::LabelledGeneric;
 
 {{#models}}{{#model}}
 {{#description}}/// {{{description}}}
@@ -181,17 +180,17 @@ pub struct {{{classname}}} {
     #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]{{/itemXmlName}}{{/vendorExtensions}}{{#required}}
     pub {{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
 {{/required}}{{^required}}{{#isNullable}}
-    #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
-    #[serde(default = "swagger::nullable_format::default_optional_nullable")]{{/isNullable}}
+    #[serde(deserialize_with = "openapi_context::nullable_format::deserialize_optional_nullable")]
+    #[serde(default = "openapi_context::nullable_format::default_optional_nullable")]{{/isNullable}}
     #[serde(skip_serializing_if="Option::is_none")]
-    pub {{{name}}}: Option<{{#isNullable}}swagger::Nullable<{{/isNullable}}{{#isListContainer}}Vec<{{#items}}{{{dataType}}}{{/items}}>{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}{{#isNullable}}>{{/isNullable}}>,
+    pub {{{name}}}: Option<{{#isNullable}}openapi_context::Nullable<{{/isNullable}}{{#isListContainer}}Vec<{{#items}}{{{dataType}}}{{/items}}>{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}{{#isNullable}}>{{/isNullable}}>,
 {{/required}}
 
 {{/vars}}
 }
 
 impl {{{classname}}} {
-    pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
+    pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{#isNullable}}openapi_context::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
 {{#vars}}            {{{name}}}: {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
 {{/vars}}

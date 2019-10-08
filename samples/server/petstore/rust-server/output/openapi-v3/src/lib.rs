@@ -1,39 +1,7 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
-
-#[macro_use]
-extern crate lazy_static;
-#[macro_use]
-extern crate log;
-#[macro_use]
-extern crate serde_derive;
-
-#[cfg(any(feature = "client", feature = "server"))]
-#[macro_use]
-extern crate hyper;
-#[cfg(any(feature = "client", feature = "server"))]
-#[macro_use]
-extern crate url;
-
-// Crates for conversion support
-#[cfg(feature = "conversion")]
-#[macro_use]
-extern crate frunk_derives;
-#[cfg(feature = "conversion")]
-#[macro_use]
-extern crate frunk_enum_derive;
-#[cfg(feature = "conversion")]
-extern crate frunk_core;
-
-extern crate mime;
-extern crate serde;
-extern crate serde_json;
-extern crate serde_xml_rs;
-extern crate futures;
-extern crate chrono;
-extern crate swagger;
-extern crate uuid;
-
-use futures::Stream;
+use async_trait::async_trait;
+use futures::{FutureExt, Stream, StreamExt, TryStreamExt};
+use openapi_context::ContextWrapper;
 use std::io::Error;
 
 #[allow(unused_imports)]
@@ -42,11 +10,7 @@ use std::collections::HashMap;
 #[cfg(any(feature = "client", feature = "server"))]
 mod mimetypes;
 
-#[deprecated(note = "Import swagger-rs directly")]
-pub use swagger::{ApiError, ContextWrapper};
-#[deprecated(note = "Import futures directly")]
-pub use futures::Future;
-
+pub use openapi_context::ApiError;
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "1.0.7";
 
@@ -55,15 +19,15 @@ pub const API_VERSION: &'static str = "1.0.7";
 pub enum MultigetGetResponse {
     /// JSON rsp
     JSONRsp
-    (models::AnotherXmlObject)
+    (crate::models::AnotherXmlObject)
     ,
     /// XML rsp
     XMLRsp
-    (models::InlineResponse201)
+    (crate::models::InlineResponse201)
     ,
     /// octet rsp
     OctetRsp
-    (swagger::ByteArray)
+    (openapi_context::ByteArray)
     ,
     /// string rsp
     StringRsp
@@ -71,15 +35,15 @@ pub enum MultigetGetResponse {
     ,
     /// Duplicate Response long text. One.
     DuplicateResponseLongText
-    (models::AnotherXmlObject)
+    (crate::models::AnotherXmlObject)
     ,
     /// Duplicate Response long text. Two.
     DuplicateResponseLongText_2
-    (models::AnotherXmlObject)
+    (crate::models::AnotherXmlObject)
     ,
     /// Duplicate Response long text. Three.
     DuplicateResponseLongText_3
-    (models::AnotherXmlObject)
+    (crate::models::AnotherXmlObject)
 }
 
 #[derive(Debug, PartialEq)]
@@ -172,148 +136,165 @@ pub enum XmlPutResponse {
 
 
 /// API
+#[async_trait]
 pub trait Api<C> {
 
     /// Get some stuff.
-    fn multiget_get(&self, context: &C) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError>>;
+    async fn multiget_get(&mut self, context: &C) -> Result<MultigetGetResponse, ApiError>;
 
 
-    fn multiple_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
+    async fn multiple_auth_scheme_get(&mut self, context: &C) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
 
 
-    fn readonly_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>>;
+    async fn readonly_auth_scheme_get(&mut self, context: &C) -> Result<ReadonlyAuthSchemeGetResponse, ApiError>;
 
 
-    fn required_octet_stream_put(&self, body: swagger::ByteArray, context: &C) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
+    async fn required_octet_stream_put(&mut self, body: openapi_context::ByteArray, context: &C) -> Result<RequiredOctetStreamPutResponse, ApiError>;
 
 
-    fn responses_with_headers_get(&self, context: &C) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>>;
+    async fn responses_with_headers_get(&mut self, context: &C) -> Result<ResponsesWithHeadersGetResponse, ApiError>;
 
 
-    fn uuid_get(&self, context: &C) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError>>;
+    async fn uuid_get(&mut self, context: &C) -> Result<UuidGetResponse, ApiError>;
 
 
-    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError>>;
+    async fn xml_extra_post(&mut self, duplicate_xml_object: Option<crate::models::DuplicateXmlObject>, context: &C) -> Result<XmlExtraPostResponse, ApiError>;
 
 
-    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>, context: &C) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError>>;
+    async fn xml_other_post(&mut self, another_xml_object: Option<crate::models::AnotherXmlObject>, context: &C) -> Result<XmlOtherPostResponse, ApiError>;
 
 
-    fn xml_other_put(&self, another_xml_array: Option<models::AnotherXmlArray>, context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>>;
+    async fn xml_other_put(&mut self, another_xml_array: Option<crate::models::AnotherXmlArray>, context: &C) -> Result<XmlOtherPutResponse, ApiError>;
 
     /// Post an array
     fn xml_post(&self, xml_array: Option<models::XmlArray>, context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>>;
 
 
-    fn xml_put(&self, xml_object: Option<models::XmlObject>, context: &C) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError>>;
+    async fn xml_put(&mut self, xml_object: Option<crate::models::XmlObject>, context: &C) -> Result<XmlPutResponse, ApiError>;
 
 }
 
 /// API without a `Context`
+#[async_trait]
 pub trait ApiNoContext {
 
     /// Get some stuff.
-    fn multiget_get(&self) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError>>;
+    async fn multiget_get(&mut self) -> Result<MultigetGetResponse, ApiError>;
 
 
-    fn multiple_auth_scheme_get(&self) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
+    async fn multiple_auth_scheme_get(&mut self) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
 
 
-    fn readonly_auth_scheme_get(&self) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>>;
+    async fn readonly_auth_scheme_get(&mut self) -> Result<ReadonlyAuthSchemeGetResponse, ApiError>;
 
 
-    fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
+    async fn required_octet_stream_put(&mut self, body: openapi_context::ByteArray) -> Result<RequiredOctetStreamPutResponse, ApiError>;
 
 
-    fn responses_with_headers_get(&self) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>>;
+    async fn responses_with_headers_get(&mut self) -> Result<ResponsesWithHeadersGetResponse, ApiError>;
 
 
-    fn uuid_get(&self) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError>>;
+    async fn uuid_get(&mut self) -> Result<UuidGetResponse, ApiError>;
 
 
-    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError>>;
+    async fn xml_extra_post(&mut self, duplicate_xml_object: Option<crate::models::DuplicateXmlObject>) -> Result<XmlExtraPostResponse, ApiError>;
 
 
-    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError>>;
+    async fn xml_other_post(&mut self, another_xml_object: Option<crate::models::AnotherXmlObject>) -> Result<XmlOtherPostResponse, ApiError>;
 
 
-    fn xml_other_put(&self, another_xml_array: Option<models::AnotherXmlArray>) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>>;
+    async fn xml_other_put(&mut self, another_xml_array: Option<crate::models::AnotherXmlArray>) -> Result<XmlOtherPutResponse, ApiError>;
 
     /// Post an array
-    fn xml_post(&self, xml_array: Option<models::XmlArray>) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>>;
+    async fn xml_post(&mut self, xml_array: Option<crate::models::XmlArray>) -> Result<XmlPostResponse, ApiError>;
 
 
-    fn xml_put(&self, xml_object: Option<models::XmlObject>) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError>>;
+    async fn xml_put(&mut self, xml_object: Option<crate::models::XmlObject>) -> Result<XmlPutResponse, ApiError>;
 
 }
 
 /// Trait to extend an API to make it easy to bind it to a context.
-pub trait ContextWrapperExt<'a, C> where Self: Sized {
+pub trait ContextWrapperExt<C> where Self: Sized {
     /// Binds this API to a context.
-    fn with_context(self: &'a Self, context: C) -> ContextWrapper<'a, Self, C>;
+    fn with_context(self, context: C) -> ContextWrapper<Self, C>;
 }
 
-impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
-    fn with_context(self: &'a T, context: C) -> ContextWrapper<'a, T, C> {
+impl<T: Api<C> + Sized, C> ContextWrapperExt<C> for T {
+    fn with_context(self, context: C) -> ContextWrapper<T, C> {
          ContextWrapper::<T, C>::new(self, context)
     }
 }
 
-impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
+#[async_trait]
+impl<T: Api<C>, C> ApiNoContext for ContextWrapper<T, C>
+    where C: Clone + Send + Sync,
+          T: Send + Sync,
+{
 
     /// Get some stuff.
-    fn multiget_get(&self) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError>> {
-        self.api().multiget_get(&self.context())
+    async fn multiget_get(&mut self) -> Result<MultigetGetResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().multiget_get(&ctx).await
     }
 
 
-    fn multiple_auth_scheme_get(&self) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {
-        self.api().multiple_auth_scheme_get(&self.context())
+    async fn multiple_auth_scheme_get(&mut self) -> Result<MultipleAuthSchemeGetResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().multiple_auth_scheme_get(&ctx).await
     }
 
 
-    fn readonly_auth_scheme_get(&self) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>> {
-        self.api().readonly_auth_scheme_get(&self.context())
+    async fn readonly_auth_scheme_get(&mut self) -> Result<ReadonlyAuthSchemeGetResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().readonly_auth_scheme_get(&ctx).await
     }
 
 
-    fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
-        self.api().required_octet_stream_put(body, &self.context())
+    async fn required_octet_stream_put(&mut self, body: openapi_context::ByteArray) -> Result<RequiredOctetStreamPutResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().required_octet_stream_put(body, &ctx).await
     }
 
 
-    fn responses_with_headers_get(&self) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>> {
-        self.api().responses_with_headers_get(&self.context())
+    async fn responses_with_headers_get(&mut self) -> Result<ResponsesWithHeadersGetResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().responses_with_headers_get(&ctx).await
     }
 
 
-    fn uuid_get(&self) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError>> {
-        self.api().uuid_get(&self.context())
+    async fn uuid_get(&mut self) -> Result<UuidGetResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().uuid_get(&ctx).await
     }
 
 
-    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError>> {
-        self.api().xml_extra_post(duplicate_xml_object, &self.context())
+    async fn xml_extra_post(&mut self, duplicate_xml_object: Option<crate::models::DuplicateXmlObject>) -> Result<XmlExtraPostResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().xml_extra_post(duplicate_xml_object, &ctx).await
     }
 
 
-    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError>> {
-        self.api().xml_other_post(another_xml_object, &self.context())
+    async fn xml_other_post(&mut self, another_xml_object: Option<crate::models::AnotherXmlObject>) -> Result<XmlOtherPostResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().xml_other_post(another_xml_object, &ctx).await
     }
 
 
-    fn xml_other_put(&self, another_xml_array: Option<models::AnotherXmlArray>) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>> {
-        self.api().xml_other_put(another_xml_array, &self.context())
+    async fn xml_other_put(&mut self, another_xml_array: Option<crate::models::AnotherXmlArray>) -> Result<XmlOtherPutResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().xml_other_put(string, &ctx).await
     }
 
     /// Post an array
-    fn xml_post(&self, xml_array: Option<models::XmlArray>) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>> {
-        self.api().xml_post(xml_array, &self.context())
+    async fn xml_post(&mut self, xml_array: Option<crate::models::XmlArray>) -> Result<XmlPostResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().xml_post(string, &ctx).await
     }
 
 
-    fn xml_put(&self, xml_object: Option<models::XmlObject>) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError>> {
-        self.api().xml_put(xml_object, &self.context())
+    async fn xml_put(&mut self, xml_object: Option<crate::models::XmlObject>) -> Result<XmlPutResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().xml_put(xml_object, &ctx).await
     }
 
 }
@@ -333,3 +314,5 @@ pub mod server;
 pub use self::server::Service;
 
 pub mod models;
+#[allow(non_upper_case_globals)]
+pub mod headers;

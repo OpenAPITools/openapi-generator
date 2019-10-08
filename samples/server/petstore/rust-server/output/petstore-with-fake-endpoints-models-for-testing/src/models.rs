@@ -1,12 +1,9 @@
 #![allow(unused_imports, unused_qualifications, unused_extern_crates)]
-extern crate chrono;
-
+use serde::{Serialize, Deserialize};
 use serde_xml_rs;
 use serde::ser::Serializer;
 
 use std::collections::{HashMap, BTreeMap};
-use models;
-use swagger;
 use std::string::ParseError;
 use uuid;
 
@@ -245,7 +242,7 @@ pub struct ArrayTest {
 
     #[serde(rename = "array_array_of_model")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub array_array_of_model: Option<Vec<Vec<models::ReadOnlyFirst>>>,
+    pub array_array_of_model: Option<Vec<Vec<crate::models::ReadOnlyFirst>>>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_of_enum")]
@@ -643,7 +640,7 @@ pub struct EnumTest {
 
     #[serde(rename = "outerEnum")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub outer_enum: Option<models::OuterEnum>,
+    pub outer_enum: Option<crate::models::OuterEnum>,
 
 }
 
@@ -699,11 +696,11 @@ pub struct FormatTest {
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
-    pub byte: swagger::ByteArray,
+    pub byte: openapi_context::ByteArray,
 
     #[serde(rename = "binary")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub binary: Option<swagger::ByteArray>,
+    pub binary: Option<openapi_context::ByteArray>,
 
     #[serde(rename = "date")]
     pub date: chrono::DateTime<chrono::Utc>,
@@ -722,7 +719,7 @@ pub struct FormatTest {
 }
 
 impl FormatTest {
-    pub fn new(number: f64, byte: swagger::ByteArray, date: chrono::DateTime<chrono::Utc>, password: String, ) -> FormatTest {
+    pub fn new(number: f64, byte: openapi_context::ByteArray, date: chrono::DateTime<chrono::Utc>, password: String, ) -> FormatTest {
         FormatTest {
             integer: None,
             int32: None,
@@ -858,7 +855,7 @@ pub struct MixedPropertiesAndAdditionalPropertiesClass {
 
     #[serde(rename = "map")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map: Option<HashMap<String, models::Animal>>,
+    pub map: Option<HashMap<String, crate::models::Animal>>,
 
 }
 
@@ -1283,7 +1280,7 @@ pub struct Pet {
 
     #[serde(rename = "category")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub category: Option<models::Category>,
+    pub category: Option<crate::models::Category>,
 
     #[serde(rename = "name")]
     pub name: String,
@@ -1293,7 +1290,7 @@ pub struct Pet {
 
     #[serde(rename = "tags")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub tags: Option<Vec<models::Tag>>,
+    pub tags: Option<Vec<crate::models::Tag>>,
 
     /// pet status in the store
     // Note: inline enums are not fully supported by openapi-generator

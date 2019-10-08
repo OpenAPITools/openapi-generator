@@ -1,32 +1,21 @@
-#![allow(unused_extern_crates)]
-extern crate serde_ignored;
-extern crate tokio_core;
-extern crate native_tls;
-extern crate hyper_tls;
-extern crate openssl;
-extern crate mime;
-extern crate chrono;
-extern crate percent_encoding;
-extern crate url;
-{{#apiUsesUuid}}
-extern crate uuid;
-{{/apiUsesUuid}}
-{{#apiUsesMultipart}}
-extern crate multipart;
-{{/apiUsesMultipart}}
-
+use crate::{mimetypes, headers::*};
+use bytes::{Buf, buf::BufExt};
+use std::future::Future;
+use std::pin::Pin;
 use std::sync::Arc;
 use std::marker::PhantomData;
-use futures::{Future, future, Stream, stream};
+use futures::{future, FutureExt, Stream, stream, TryStreamExt};
+use headers::{ContentType, HeaderMapExt};
 use hyper;
-use hyper::{Request, Response, Error, StatusCode};
-use hyper::header::{Headers, ContentType};
-use self::url::form_urlencoded;
-use mimetypes;
+use hyper::{Body, HeaderMap, Request, Response, StatusCode};
+use lazy_static::lazy_static;
+use log::*;
+use url::form_urlencoded;
+use mime::Mime;
 {{#apiUsesMultipart}}
-use self::multipart::server::Multipart;
-use self::multipart::server::save::SaveResult;
-use std::fs;
+use multipart::server::Multipart;
+use multipart::server::save::SaveResult;
+use std::io::Read;
 {{/apiUsesMultipart}}
 use serde_json;
 {{#usesXml}}
@@ -35,30 +24,34 @@ use serde_xml_rs;
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
-#[allow(unused_imports)]
-use swagger;
 use std::io;
 
 #[allow(unused_imports)]
 use std::collections::BTreeSet;
 
-pub use swagger::auth::Authorization;
-use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
-use swagger::auth::Scopes;
-use swagger::headers::SafeHeaders;
+pub use openapi_context::auth::Authorization;
+use openapi_context::{ApiError, ContextualPayload, XSpanId, Has, RequestParser};
+use openapi_context::auth::Scopes;
 
-use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
-     {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-     };
+use crate::{
+    Api
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+    {{#operation}},
+    {{{operationId}}}Response{{/operation}}
+    {{/operations}}
+    {{/apis}}
+    {{/apiInfo}}
+};
 #[allow(unused_imports)]
-use models;
+use crate::models;
 
 pub mod context;
-
-header! { (Warning, "Warning") => [String] }
+pub mod tls;
 
 mod paths {
-    extern crate regex;
+    use lazy_static::lazy_static;
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
@@ -77,449 +70,335 @@ mod paths {
 {{/pathSet}}
 }
 
-pub struct NewService<T, C> {
-    api_impl: Arc<T>,
-    marker: PhantomData<C>,
-}
-
-impl<T, C> NewService<T, C>
-where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static
-{
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> NewService<T, C> {
-        NewService{api_impl: api_impl.into(), marker: PhantomData}
-    }
-}
-
-impl<T, C> hyper::server::NewService for NewService<T, C>
-where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static
-{
-    type Request = (Request, C);
-    type Response = Response;
-    type Error = Error;
-    type Instance = Service<T, C>;
-
-    fn new_service(&self) -> Result<Self::Instance, io::Error> {
-        Ok(Service::new(self.api_impl.clone()))
-    }
-}
-
 pub struct Service<T, C> {
-    api_impl: Arc<T>,
+    api_impl: T,
     marker: PhantomData<C>,
 }
 
-impl<T, C> Service<T, C>
-where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static {
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> Service<T, C> {
-        Service{api_impl: api_impl.into(), marker: PhantomData}
+impl<T, C> Service<T, C> {
+    pub fn new(api_impl: T) -> Service<T, C> {
+        Service{api_impl: api_impl, marker: PhantomData}
     }
 }
 
-impl<T, C> hyper::server::Service for Service<T, C>
+pub type ServiceRequest<C> = ContextualPayload<C>;
+pub type ServiceResponse = Response<Body>;
+impl<T, C> hyper::service::Service<ServiceRequest<C>> for Service<T, C>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static
+    T: Api<C> + Send + Sync + Clone + 'static,
+    C: Has<XSpanId> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
-    type Request = (Request, C);
-    type Response = Response;
-    type Error = Error;
-    type Future = Box<dyn Future<Item=Response, Error=Error>>;
+    type Response = ServiceResponse;
+    type Error = ApiError;
+    type Future = Pin<Box<dyn Future<Output=Result<Self::Response, Self::Error>> + Send>>;
 
-    fn call(&self, (req, mut context): Self::Request) -> Self::Future {
-        let api_impl = self.api_impl.clone();
-        let (method, uri, _, headers, body) = req.deconstruct();
-        let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
+    fn poll_ready(&mut self, cx: &mut std::task::Context<'_>) -> std::task::Poll<Result<(), Self::Error>> {
+        std::task::Poll::Ready(Ok(()))
+    }
 
-        // This match statement is duplicated below in `parse_operation_id()`.
-        // Please update both places if changing how this code is autogenerated.
-        match &method {
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-            // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            &hyper::Method::{{vendorExtensions.x-http-method}} if path.matched(paths::ID_{{vendorExtensions.x-path-id}}) => {
-{{#hasAuthMethods}}
-                {
-                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
-                        &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
-                    };
-
-                    {{#authMethods}}
-                    {{#isOAuth}}
-                    // Authorization
-                    if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
-                            {{#scopes}}
-                            "{{{scope}}}".to_string(), // {{{description}}}
-                            {{/scopes}}
-                        ].into_iter().collect();
-
-                        if !required_scopes.is_subset(scopes) {
-                            let missing_scopes = required_scopes.difference(scopes);
-                            return Box::new(future::ok(Response::new()
-                                .with_status(StatusCode::Forbidden)
-                                .with_body(missing_scopes.fold(
-                                    "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope)
-                                ))
-                            ));
-                        }
-                    }
-                    {{/isOAuth}}
-                    {{/authMethods}}
-                }
-{{/hasAuthMethods}}
-{{#vendorExtensions}}
-  {{#consumesMultipart}} 
-                let boundary = match multipart_boundary(&headers) {
-                    Some(boundary) => boundary,
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
-                };
-  {{/consumesMultipart}}
-  {{#hasPathParams}}
-                // Path parameters
-                let path = uri.path().to_string();
-                let path_params =
-                    paths::REGEX_{{{PATH_ID}}}
-                    .captures(&path)
-                    .unwrap_or_else(||
-                        panic!("Path {} matched RE {{{PATH_ID}}} in set but failed match against \"{}\"", path, paths::REGEX_{{{PATH_ID}}}.as_str())
-                    );
-  {{/hasPathParams}}
-{{/vendorExtensions}}
-{{#pathParams}}
-                let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{paramName}}}"].as_bytes()).decode_utf8() {
-                    Ok(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
-                        Ok(param_{{{paramName}}}) => param_{{{paramName}}},
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter {{{baseName}}}: {:?}", e)))),
-                    },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{paramName}}}"]))))
-                };
-{{/pathParams}}
-{{#headerParams}}
-  {{#-first}}
-                // Header parameters
-  {{/-first}}
-                header! { (Request{{vendorExtensions.x-type-name}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
-  {{#required}}
-                let param_{{{paramName}}} = match headers.get::<Request{{vendorExtensions.x-type-name}}>() {
-                    Some(param_{{{paramName}}}) => param_{{{paramName}}}.0.clone(),
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing or invalid required header {{{baseName}}}"))),
-                };
-  {{/required}}
-  {{^required}}
-                let param_{{{paramName}}} = headers.safe_get::<Request{{vendorExtensions.x-type-name}}>().map(|header| header.0.clone());
-  {{/required}}
-{{/headerParams}}
-{{#queryParams}}
-  {{#-first}}
-                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
-                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-  {{/-first}}
-                let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.to_owned())
-  {{#isListContainer}}
-                    .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse::<{{{baseType}}}>().ok())
-                    .collect::<Vec<_>>();
-  {{^required}}
-                let param_{{{paramName}}} = if !param_{{{paramName}}}.is_empty() {
-                    Some(param_{{{paramName}}})
-                } else {
-                    None
-                };
-  {{/required}}
-{{/isListContainer}}
-{{^isListContainer}}
-                    .nth(0);
-{{#required}}
-                let param_{{{paramName}}} = match param_{{{paramName}}} {
-                    Some(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
-                        Ok(param_{{{paramName}}}) => param_{{{paramName}}},
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {}", e)))),
-                    },
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required query parameter {{{baseName}}}"))),
-                };
-{{/required}}{{^required}}
-                let param_{{{paramName}}} = param_{{{paramName}}}.and_then(|param_{{{paramName}}}| param_{{{paramName}}}.parse::<{{{baseType}}}>().ok());
-{{/required}}
-{{/isListContainer}}
-{{/queryParams}}
-{{#vendorExtensions}}
-  {{^consumesMultipart}}
-    {{#bodyParams}}
-      {{#-first}}
-                // Body parameters (note that non-required body parameters will ignore garbage
-                // values, rather than causing a 400 response). Produce warning header and logs for
-                // any unused fields.
-                Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
-                        match result {
-                            Ok(body) => {
-        {{#vendorExtensions}}
-          {{^consumesPlainText}}
-                                let mut unused_elements = Vec::new();
-          {{/consumesPlainText}}
-                                let param_{{{paramName}}}: Option<{{{dataType}}}> = if !body.is_empty() {
-          {{#consumesXml}}
-                                    let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-          {{/consumesXml}}
-          {{#consumesJson}}
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-          {{/consumesJson}}
-          {{^consumesPlainText}}
-                                    match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
-                                            unused_elements.push(path.to_string());
-                                    }) {
-                                        Ok(param_{{{paramName}}}) => param_{{{paramName}}},
-            {{#required}}
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {}", e)))),
-            {{/required}}
-            {{^required}}
-                                        Err(_) => None,
-            {{/required}}
-                                    }
-          {{/consumesPlainText}}
-          {{#consumesPlainText}}
-            {{#isByteArray}}
-                                    Some(swagger::ByteArray(body.to_vec()))
-            {{/isByteArray}}
-            {{#isString}}
-                                    Some(String::from_utf8(body.to_vec()).unwrap())
-            {{/isString}}
-          {{/consumesPlainText}}
-        {{/vendorExtensions}}
-                                } else {
-                                    None
-                                };
-        {{#required}}
-                                let param_{{{paramName}}} = match param_{{{paramName}}} {
-                                    Some(param_{{{paramName}}}) => param_{{{paramName}}},
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter {{{baseName}}}"))),
-                                };
-        {{/required}}
-      {{/-first}}
-    {{/bodyParams}}
-  {{/consumesMultipart}}
-  {{#consumesMultipart}}
-    {{^bodyParams}}
-      {{#vendorExtensions}}
-                // Form Body parameters (note that non-required body parameters will ignore garbage
-                // values, rather than causing a 400 response). Produce warning header and logs for
-                // any unused fields.
-                Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
-                        match result {
-                            Ok(body) => {
-                                // Read Form Parameters from body
-                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
-                                    SaveResult::Full(entries) => {
-                                        entries
-                                    },
-                                    _ => {
-                                        return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Unable to process all message parts"))))
-                                    },
-                                };
-                {{#formParams}}{{#-first}}{{/-first}}
-                                {{#isByteArray}}
-                                let file_{{{paramName}}} = entries.files.remove("{{{paramName}}}");
-                                {{#required}}
-                                let param_{{{paramName}}} = match file_{{{paramName}}} {
-                                    Some(file) => {
-                                        let path = &file[0].path;
-                                        let {{{paramName}}}_str = fs::read_to_string(path).unwrap();
-                                        swagger::ByteArray({{{paramName}}}_str.as_bytes().to_vec())
-                                    }
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter {{{paramName}}}")))),
-                                };
-                                {{/required}}
-                                {{^required}}
-                                let param_{{{paramName}}} = match file_{{{paramName}}} {
-                                    Some(file) => {
-                                        let path = &file[0].path;
-                                        let {{{paramName}}}_str = fs::read_to_string(path).unwrap();
-                                        Some(swagger::ByteArray({{{paramName}}}_str.as_bytes().to_vec()))
-                                    }
-                                    None => None,
-                                };
-                                {{/required}}
-                                {{/isByteArray}}
-                                {{^isByteArray}}{{#jsonSchema}}
-                                let file_{{{paramName}}} = entries.files.remove("{{{paramName}}}");
-                                {{#required}}
-                                let param_{{{paramName}}} = match file_{{{paramName}}} {
-                                    Some(file) => {
-                                        let path = &file[0].path;
-                                        let {{{paramName}}}_str = fs::read_to_string(path).expect("Reading saved String should never fail");
-                                        let {{{paramName}}}_model: {{{dataType}}} = match serde_json::from_str(&{{{paramName}}}_str) {
-                                            Ok(model) => model,
-                                            Err(e) => {
-                                                return Box::new(future::ok(
-                                                    Response::new()
-                                                    .with_status(StatusCode::BadRequest)
-                                                    .with_body(format!("{{{paramName}}} data does not match API definition: {}", e))))
-                                            }
-                                        };
-                                        {{{paramName}}}_model
-                                    }
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter {{{paramName}}}")))),
-                                };
-                                {{/required}}
-                                {{^required}}
-                                let param_{{{paramName}}} = match file_{{{paramName}}} {
-                                   Some(file) => {
-                                        let path = &file[0].path;
-                                        let {{{paramName}}}_str = fs::read_to_string(path).unwrap();
-                                        let {{{paramName}}}_model: {{{dataType}}} = serde_json::from_str(&{{{paramName}}}_str).expect("Impossible to fail to serialise");
-                                        Some({{{paramName}}}_model)
-                                    }
-                                    None => None,
-                                };
-                                {{/required}}
-                                {{/jsonSchema}}{{/isByteArray}}
-        {{/formParams}}
-      {{/vendorExtensions}}
-    {{/bodyParams}}
-  {{/consumesMultipart}}
-  {{^consumesMultipart}}
-    {{^bodyParams}}
-      {{#vendorExtensions}}
-                Box::new({
-                        {{
-        {{#formParams}}
-          {{#-first}}
-                                // Form parameters
-          {{/-first}}
-                                let param_{{{paramName}}} = {{^isContainer}}{{#vendorExtensions}}{{{example}}};{{/vendorExtensions}}{{/isContainer}}{{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}{{#isMapContainer}}None;{{/isMapContainer}}
-        {{/formParams}}
-      {{/vendorExtensions}}
-    {{/bodyParams}}
-  {{/consumesMultipart}}
-{{/vendorExtensions}}
-                                Box::new(api_impl.{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}param_{{{paramName}}}{{#isListContainer}}.as_ref(){{/isListContainer}}, {{/allParams}}&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
-{{#bodyParams}}{{#vendorExtensions}}{{^consumesPlainText}}
-                                        if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
-                                        }
-{{/consumesPlainText}}{{/vendorExtensions}}{{/bodyParams}}
-                                        match result {
-                                            Ok(rsp) => match rsp {
-{{#responses}}
-                                                {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}
-{{#dataType}}{{^headers}}
-                                                    (body)
-{{/headers}}{{#headers}}
-{{#-first}}
-                                                    {
-                                                        body,
-{{/-first}}
-                                                        {{{name}}}{{^-last}}, {{/-last}}
-{{#-last}}
-                                                    }
-{{/-last}}
-{{/headers}}{{/dataType}}
-{{^dataType}}{{#headers}}{{#-first}}
-                                                    {
-{{/-first}}
-                                                        {{{name}}}{{^-last}}, {{/-last}}
-{{#-last}}
-                                                    }
-{{/-last}}
-{{/headers}}{{/dataType}}
-                                                => {
-                                                    response.set_status(StatusCode::try_from({{{code}}}).unwrap());
-{{#headers}}
-                                                    header! { (Response{{{nameInCamelCase}}}, "{{{baseName}}}") => [{{{dataType}}}] }
-                                                    response.headers_mut().set(Response{{{nameInCamelCase}}}({{{name}}}));
-{{/headers}}
-{{#produces}}{{#-first}}{{#dataType}}
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::{{#vendorExtensions}}{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}{{/vendorExtensions}}.clone()));
-{{/dataType}}{{/-first}}{{/produces}}
-{{#dataType}}
-{{#vendorExtensions}}
-  {{#producesXml}}
-    {{^has_namespace}}
-                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-    {{/has_namespace}}
-    {{#has_namespace}}
-                                                    let mut namespaces = BTreeMap::new();
-                                                    // An empty string is used to indicate a global namespace in xmltree.
-                                                    namespaces.insert("".to_string(), {{{dataType}}}::NAMESPACE.to_string());
-                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
-    {{/has_namespace}}
-  {{/producesXml}}
-  {{#producesJson}}
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-  {{/producesJson}}
-  {{#producesBytes}}
-                                                    let body = body.0;
-  {{/producesBytes}}
-  {{#producesPlainText}}
-                                                    let body = body;
-  {{/producesPlainText}}
-{{/vendorExtensions}}
-                                                    response.set_body(body);
-{{/dataType}}
-                                                },
-{{/responses}}
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
-                                            },
-                                        }
-
-                                        future::ok(response)
-                                    }
-                                ))
-{{#vendorExtensions}}
-  {{^consumesMultipart}}
-    {{^bodyParams}}
-                        }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
-    {{/bodyParams}}
-  {{/consumesMultipart}}
-{{/vendorExtensions}}
-{{#bodyParams}}
-  {{#-first}}
-                            },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter {{{baseName}}}: {}", e)))),
-                        }
-                    })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
-  {{/-first}}
-{{/bodyParams}}
-{{#vendorExtensions}}
-  {{#consumesMultipart}}
-    {{^bodyParams}}
-                                as Box<dyn Future<Item=Response, Error=Error>>
-                            },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
-                        }
-                    })
-                )
-    {{/bodyParams}}
-  {{/consumesMultipart}}
-{{/vendorExtensions}}
-            },
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<dyn Future<Item=Response, Error=Error>>,
-        }
+    fn call(&mut self, r: ServiceRequest<C>) -> Self::Future {
+        Box::pin(do_call(self.api_impl.clone(), r))
     }
 }
 
-impl<T, C> Clone for Service<T, C>
+async fn do_call<T, C>(api_impl: T, r: ServiceRequest<C>) -> Result<ServiceResponse, ApiError>
+where
+    T: Api<C> + Send + Sync + Clone + 'static,
+    C: Has<XSpanId> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+{
+    let mut api_impl = api_impl;
+    let mut context = r.context;
+    let (parts, body) = r.inner.into_parts();
+    let uri = parts.uri;
+    let method = parts.method;
+    let headers = parts.headers;
+    let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
+
+    // This match statement is duplicated below in `parse_operation_id()`.
+    // Please update both places if changing how this code is autogenerated.
+    match &method {
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+        // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
+        &hyper::Method::{{vendorExtensions.x-http-method}} if path.matched(paths::ID_{{vendorExtensions.PATH_ID}}) => {
+        {{#hasAuthMethods}}
+            let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
+                &Some(ref authorization) => authorization,
+                &None => return Ok(Response::builder().status(StatusCode::FORBIDDEN).body(hyper::Body::from("Unauthenticated")).unwrap()),
+            };
+
+{{#authMethods}}{{#isOAuth}}
+            // Authorization
+            if let Scopes::Some(ref scopes) = authorization.scopes {
+                let required_scopes: BTreeSet<String> = vec![
+                    {{#scopes}}
+                "{{{scope}}}".to_string(), // {{{description}}}
+                    {{/scopes}}
+                ].into_iter().collect();
+
+                if !required_scopes.is_subset(scopes) {
+                    let missing_scopes = required_scopes.difference(scopes);
+                    return Ok(Response::builder()
+                        .status(StatusCode::FORBIDDEN)
+                        .body(hyper::Body::from(missing_scopes.fold(
+                            "Insufficient authorization, missing scopes".to_string(),
+                            |s, scope| format!("{} {}", s, scope)
+                        ))).unwrap())
+                    ;
+                }
+            }
+{{/isOAuth}}{{/authMethods}}{{/hasAuthMethods}}{{#vendorExtensions}}{{#consumesMultipart}}
+            let boundary = match multipart_boundary(&headers) {
+                Some(boundary) => boundary.to_string(),
+                None => return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from("Couldn't find valid multipart body")).unwrap()),
+            };
+{{/consumesMultipart}}{{#hasPathParams}}
+            // Path parameters
+            let path = uri.path().to_string();
+            let path_params = paths::REGEX_{{{PATH_ID}}}
+                .captures(&path)
+                .unwrap_or_else(||
+                    panic!("Path {} matched RE {{{PATH_ID}}} in set but failed match against \"{}\"", path, paths::REGEX_{{{PATH_ID}}}.as_str())
+                );
+{{/hasPathParams}}{{/vendorExtensions}}{{#pathParams}}
+            let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{paramName}}}"].as_bytes()).decode_utf8() {
+                Ok(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
+                    Ok(param_{{{paramName}}}) => param_{{{paramName}}},
+                    Err(e) => return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from(format!("Couldn't parse path parameter {{{baseName}}}: {:?}", e))).unwrap()),
+                },
+                Err(_) => return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{baseName}}}"]))).unwrap())
+            };
+{{/pathParams}}{{#headerParams}}{{#-first}}
+            // Header parameters
+{{/-first}}{{#required}}
+            let param_{{{paramName}}} = match headers.typed_get(Request{{vendorExtensions.typeName}}) {
+                Some(param_{{{paramName}}}) => param_{{{paramName}}}.0.clone(),
+                None => return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from("Missing or invalid required header {{{baseName}}}"))).unwrap()),
+            };
+{{/required}}{{^required}}
+            let param_{{{paramName}}} = headers.typed_get::<Request{{vendorExtensions.typeName}}>().map(|header| header.0.clone());
+{{/required}}{{/headerParams}}{{#queryParams}}{{#-first}}
+            // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+            let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+{{/-first}}
+            let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.to_owned())
+{{#isListContainer}}
+                .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse::<{{{baseType}}}>().ok())
+                .collect::<Vec<_>>();
+{{^required}}
+            let param_{{{paramName}}} = if !param_{{{paramName}}}.is_empty() {
+                Some(param_{{{paramName}}})
+            } else {
+                None
+            };
+{{/required}}{{/isListContainer}}{{^isListContainer}}
+                .nth(0);
+{{#required}}
+            let param_{{{paramName}}} = match param_{{{paramName}}} {
+                Some(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
+                    Ok(param_{{{paramName}}}) => param_{{{paramName}}},
+                    Err(e) => return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {}", e))).unwrap()),
+                },
+                None => return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from("Missing required query parameter {{{baseName}}}")).unwrap()),
+            };
+{{/required}}{{^required}}
+            let param_{{{paramName}}} = param_{{{paramName}}}.and_then(|param_{{{paramName}}}| param_{{{paramName}}}.parse::<{{{baseType}}}>().ok());
+{{/required}}{{/isListContainer}}{{/queryParams}}{{#vendorExtensions}}{{^consumesMultipart}}{{#bodyParams}}{{#-first}}
+            // Body parameters (note that non-required body parameters will ignore garbage
+            // values, rather than causing a 400 response). Produce warning header and logs for
+            // any unused fields
+
+            let body = hyper::body::aggregate(body).await.map_err(|e| ApiError(format!("Error getting response: {}", e)));
+            let body = match body {
+                Err(e) => {
+                    return Ok(
+                        Response::builder()
+                            .status(StatusCode::BAD_REQUEST)
+                            .body(hyper::Body::from(format!("Couldn't receive body parameter body: {}", e)))
+                            .unwrap()
+                    );
+                }
+                Ok(v) => v,
+            };
+{{#vendorExtensions}}{{^consumesPlainText}}
+            let mut unused_elements = Vec::new();
+{{/consumesPlainText}}
+            let param_{{{paramName}}}: Option<{{{dataType}}}> = if body.remaining() > 0 {
+{{#consumesXml}}
+                let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(body.reader());
+{{/consumesXml}}{{#consumesJson}}
+                let deserializer = &mut serde_json::Deserializer::from_reader(body.reader());
+{{/consumesJson}}{{^consumesPlainText}}
+                match serde_ignored::deserialize(deserializer, |path| {
+                    warn!("Ignoring unknown field in body: {}", path);
+                    unused_elements.push(path.to_string());
+                }) {
+                    Ok(param_{{{paramName}}}) => param_{{{paramName}}},
+{{#required}}
+                    Err(e) => return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {}", e))).unwrap()),
+{{/required}}{{^required}}
+                    Err(_) => None,
+{{/required}}
+                }
+{{/consumesPlainText}}{{#consumesPlainText}}{{#isByteArray}}
+                Some(openapi_context::ByteArray(bytes))
+{{/isByteArray}}{{#isString}}
+                Some(String::from_utf8(bytes).unwrap())
+{{/isString}}{{/consumesPlainText}}
+            } else {
+                None
+            };
+{{/vendorExtensions}}{{#required}}
+            let param_{{{paramName}}} = match param_{{{paramName}}} {
+                Some(param_{{{paramName}}}) => param_{{{paramName}}},
+                None => return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from("Missing required body parameter {{{baseName}}}")).unwrap()),
+            };
+{{/required}}{{/-first}}{{/bodyParams}}{{/consumesMultipart}}{{#consumesMultipart}}{{^bodyParams}}{{#vendorExtensions}}
+            // Form Body parameters (note that non-required body parameters will ignore garbage
+            // values, rather than causing a 400 response). Produce warning header and logs for
+            // any unused fields.
+            let body = hyper::body::aggregate(body).await.map_err(|e| ApiError(format!("Error getting response: {}", e)));
+            let body = match body {
+                Err(e) => {
+                    return Ok(
+                        Response::builder()
+                            .status(StatusCode::BAD_REQUEST)
+                            .body(hyper::Body::from(format!("Couldn't receive body parameter body: {}", e)))
+                            .unwrap()
+                    );
+                }
+                Ok(v) => v,
+            };
+            // Read Form Parameters from body
+            let mut entries = match Multipart::with_body(body.reader(), boundary).save().temp() {
+                SaveResult::Full(entries) => {
+                    entries
+                },
+                _ => {
+                    return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from(format!("Unable to process all message parts"))).unwrap())
+                },
+            };
+{{#formParams}}{{#-first}}{{/-first}}{{#isByteArray}}
+            let file_{{{paramName}}} = entries.fields.remove("{{{paramName}}}");
+{{#required}}
+            let param_{{{paramName}}} = match file_{{{paramName}}} {
+                Some(file) => {
+                    let mut reader = file[0].data.readable().unwrap();
+                    let mut {{{paramName}}}_bytes = vec![];
+                    reader.read_to_end(&mut {{{paramName}}}_bytes).unwrap();
+                    openapi_context::ByteArray({{{paramName}}}_bytes)
+                }
+                None => return Ok(Response::new().status(StatusCode::BAD_REQUEST).body(format!("Missing required form parameter {{{paramName}}}")).unwrap()),
+            };
+{{/required}}{{^required}}
+            let param_{{{paramName}}} = match file_{{{paramName}}} {
+                Some(file) => {
+                    let mut reader = file[0].data.readable().unwrap();
+                    let mut {{{paramName}}}_bytes = vec![];
+                    reader.read_to_end(&mut {{{paramName}}}_bytes).unwrap();
+                    Some(openapi_context::ByteArray({{{paramName}}}_bytes))
+                }
+                None => None,
+            };
+{{/required}}{{/isByteArray}}{{^isByteArray}}{{#jsonSchema}}
+            let file_{{{paramName}}} = entries.fields.remove("{{{paramName}}}");
+{{#required}}
+            let param_{{{paramName}}} = match file_{{{paramName}}} {
+                Some(file) => {
+                    let mut reader = file[0].data.readable().unwrap();
+                    let mut {{{paramName}}}_bytes = vec![];
+                    reader.read_to_end(&mut {{{paramName}}}_bytes).unwrap();
+                    let {{{paramName}}}_model: {{{dataType}}} = match serde_json::from_slice(&{{{paramName}}}_bytes.as_slice()) {
+                        Ok(model) => model,
+                        Err(e) => {
+                            return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from(format!("{{{paramName}}} data does not match API definition: {}", e))).unwrap())
+                        }
+                    };
+                    {{{paramName}}}_model
+                }
+                None => return Ok(Response::builder().status(StatusCode::BAD_REQUEST).body(hyper::Body::from(format!("Missing required form parameter {{{paramName}}}"))).unwrap()),
+            };
+{{/required}}{{^required}}
+            let param_{{{paramName}}} = match file_{{{paramName}}} {
+                Some(file) => {
+                    let mut reader = file[0].data.readable().unwrap();
+                    let mut {{{paramName}}}_bytes = vec![];
+                    reader.read_to_end(&mut {{{paramName}}}_bytes).unwrap();
+                    let {{{paramName}}}_model: {{{dataType}}} = serde_json::from_slice(&{{{paramName}}}_bytes.as_slice()).expect("Impossible to fail to serialize");
+                    Some({{{paramName}}}_model)
+                }
+                None => None,
+            };
+{{/required}}{{/jsonSchema}}{{/isByteArray}}{{/formParams}}{{/vendorExtensions}}{{/bodyParams}}{{/consumesMultipart}}
+{{^consumesMultipart}}{{^bodyParams}}{{#vendorExtensions}}{{#formParams}}{{#-first}}
+            // Form parameters
+{{/-first}}
+            let param_{{{paramName}}} = {{^isContainer}}{{#vendorExtensions}}{{{example}}};{{/vendorExtensions}}{{/isContainer}}{{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}{{#isMapContainer}}None;{{/isMapContainer}}
+{{/formParams}}{{/vendorExtensions}}{{/bodyParams}}{{/consumesMultipart}}{{/vendorExtensions}}
+            let result = api_impl.{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}param_{{{paramName}}}{{#isListContainer}}.as_ref(){{/isListContainer}}, {{/allParams}}&context).await;
+            let mut response = Response::builder();
+            response.headers_mut().unwrap().typed_insert(XSpanId( (&context as &dyn Has<XSpanId>).get().0.to_string() ));
+            let result = match result {
+                Err(e) => {
+                    // Application code returned an error. This should not happen, as the implementation should
+                    // return a valid response.
+                    response = response.status(StatusCode::INTERNAL_SERVER_ERROR);
+                    return Ok(response.body(hyper::Body::from("An internal error occurred")).unwrap());
+                }
+                Ok(r) => r,
+            };
+{{#bodyParams}}{{#vendorExtensions}}{{^consumesPlainText}}
+            if !unused_elements.is_empty() {
+                response.headers_mut().unwrap().typed_insert(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+            }
+{{/consumesPlainText}}{{/vendorExtensions}}{{/bodyParams}}
+            match result {
+{{#responses}}
+                {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{#dataType}}{{^headers}}(body){{/headers}}{{#headers}}
+{{#-first}}
+                    {
+                        body,
+                        {{/-first}}{{{name}}}{{^-last}}, {{/-last}}{{#-last}}
+                    }
+{{/-last}}{{/headers}}{{/dataType}}
+{{^dataType}}{{#headers}}{{#-first}}
+                    {
+                        {{/-first}}{{{name}}}{{^-last}}, {{/-last}}{{#-last}}
+                    }
+{{/-last}}{{/headers}}{{/dataType}}
+                => {
+                    response = response.status(hyper::http::StatusCode::from_u16({{{code}}}).unwrap());
+{{#headers}}
+                    response.headers_mut().unwrap().typed_insert(Response{{{nameInCamelCase}}}({{{name}}}));
+{{/headers}}{{#produces}}{{#-first}}{{#dataType}}
+                    let header = headers::ContentType::from(mimetypes::responses::{{#vendorExtensions}}{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}{{/vendorExtensions}}.clone());
+                    response.headers_mut().unwrap().typed_insert(header);
+{{/dataType}}{{/-first}}{{/produces}}{{#dataType}}
+{{#vendorExtensions}}{{#producesXml}}{{^has_namespace}}
+                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+{{/has_namespace}}{{#has_namespace}}
+                    let mut namespaces = BTreeMap::new();
+                    // An empty string is used to indicate a global namespace in xmltree.
+                    namespaces.insert("".to_string(), {{{dataType}}}::NAMESPACE.to_string());
+                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+{{/has_namespace}}{{/producesXml}}{{#producesJson}}
+                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+{{/producesJson}}{{#producesPlainText}}
+                    let body = body.0;
+{{/producesPlainText}}{{/vendorExtensions}}
+                    Ok(response.body(Body::from(body)).unwrap())
+{{/dataType}}{{^dataType}}
+                    Ok(response.body(Body::empty()).unwrap())
+{{/dataType}}
+                },
+{{/responses}}
+            }
+        },
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+        _ => Ok(Response::builder().status(StatusCode::NOT_FOUND).body(Body::empty()).unwrap()),
+    }
+}
+
+impl<T, C> Clone for Service<T, C> where T: Clone
 {
     fn clone(&self) -> Self {
         Service {
@@ -531,11 +410,11 @@ impl<T, C> Clone for Service<T, C>
 
 {{#apiUsesMultipart}}
 /// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary(headers: &Headers) -> Option<String> {
-    headers.safe_get::<ContentType>().and_then(|content_type| {
-        let ContentType(mime) = content_type;
-        if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
-            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str().to_string())
+fn multipart_boundary<'a>(headers: &'a HeaderMap) -> Option<String> {
+    headers.typed_get::<ContentType>().and_then(|content_type| {
+        let mime = Mime::from(content_type);
+        if mime.type_() == mime::MULTIPART && mime.subtype() == mime::FORM_DATA {
+            mime.get_param(mime::BOUNDARY).map(|x| x.as_str().to_owned())
         } else {
             None
         }
@@ -545,8 +424,8 @@ fn multipart_boundary(headers: &Headers) -> Option<String> {
 
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
-impl RequestParser for ApiRequestParser {
-    fn parse_operation_id(request: &Request) -> Result<&'static str, ()> {
+impl RequestParser<Body> for ApiRequestParser {
+    fn parse_operation_id(request: &Request<Body>) -> Result<&'static str, ()> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}

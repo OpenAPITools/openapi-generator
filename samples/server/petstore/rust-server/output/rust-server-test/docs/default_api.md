@@ -59,7 +59,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # ****
-> swagger::ByteArray ()
+> openapi_context::ByteArray ()
 Get a file
 
 ### Required Parameters
@@ -67,7 +67,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**swagger::ByteArray**](file.md)
+[**openapi_context::ByteArray**](file.md)
 
 ### Authorization
 

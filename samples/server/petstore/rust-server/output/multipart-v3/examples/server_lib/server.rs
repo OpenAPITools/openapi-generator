@@ -1,18 +1,16 @@
 //! Server implementation of multipart_v3.
 
 #![allow(unused_imports)]
-
-use futures::{self, Future};
+use async_trait::async_trait;
 use chrono;
 use std::collections::HashMap;
 use std::marker::PhantomData;
-use swagger;
-use swagger::{Has, XSpanIdString};
+use openapi_context;
+use openapi_context::{Has, XSpanId};
 
 use multipart_v3::{Api, ApiError,
                       MultipartRequestPostResponse
 };
-use multipart_v3::models;
 
 #[derive(Copy, Clone)]
 pub struct Server<C> {
@@ -25,13 +23,14 @@ impl<C> Server<C> {
     }
 }
 
-impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
+#[async_trait]
+impl<C> Api<C> for Server<C> where C: Has<XSpanId> + Send + Sync {
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>> {
+    async fn multipart_request_post(&mut self, string_field: String, binary_field: openapi_context::ByteArray, optional_string_field: Option<String>, object_field: Option<crate::models::MultipartRequestObjectField>, context: &C) -> Result<MultipartRequestPostResponse, ApiError> {
         let context = context.clone();
         println!("multipart_request_post(\"{}\", {:?}, {:?}, {:?}) - X-Span-ID: {:?}", string_field, binary_field, optional_string_field, object_field, context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 }

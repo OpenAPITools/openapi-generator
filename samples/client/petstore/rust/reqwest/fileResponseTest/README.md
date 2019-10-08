@@ -24,7 +24,7 @@ All URIs are relative to *http://localhost/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**fileresponsetest**](docs/DefaultApi.md#fileresponsetest) | **get** /tests/fileResponse | 
+*DefaultApi* | [**fileresponsetest**](docs/DefaultApi.md#fileresponsetest) | **GET** /tests/fileResponse | 
 
 
 ## Documentation For Models

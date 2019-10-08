@@ -1,11 +1,8 @@
 #![allow(unused_imports, unused_qualifications, unused_extern_crates)]
-extern crate chrono;
-
+use serde::{Serialize, Deserialize};
 use serde::ser::Serializer;
 
 use std::collections::HashMap;
-use models;
-use swagger;
 use std::string::ParseError;
 
 
@@ -13,10 +10,10 @@ use std::string::ParseError;
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ANullableContainer {
     #[serde(rename = "NullableThing")]
-    #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
-    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+    #[serde(deserialize_with = "openapi_context::nullable_format::deserialize_optional_nullable")]
+    #[serde(default = "openapi_context::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub nullable_thing: Option<swagger::Nullable<String>>,
+    pub nullable_thing: Option<openapi_context::Nullable<String>>,
 
     #[serde(rename = "RequiredNullableThing")]
     pub required_nullable_thing: swagger::Nullable<String>,
@@ -24,7 +21,7 @@ pub struct ANullableContainer {
 }
 
 impl ANullableContainer {
-    pub fn new(required_nullable_thing: swagger::Nullable<String>, ) -> ANullableContainer {
+    pub fn new(required_nullable_thing: openapi_context::Nullable<String>, ) -> ANullableContainer {
         ANullableContainer {
             nullable_thing: None,
             required_nullable_thing: required_nullable_thing,
@@ -94,7 +91,7 @@ impl InlineObject {
 pub struct ObjectOfObjects {
     #[serde(rename = "inner")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub inner: Option<models::ObjectOfObjectsInner>,
+    pub inner: Option<crate::models::ObjectOfObjectsInner>,
 
 }
 

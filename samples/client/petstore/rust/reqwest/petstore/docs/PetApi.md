@@ -4,14 +4,14 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**add_pet**](PetApi.md#add_pet) | **post** /pet | Add a new pet to the store
-[**delete_pet**](PetApi.md#delete_pet) | **delete** /pet/{petId} | Deletes a pet
-[**find_pets_by_status**](PetApi.md#find_pets_by_status) | **get** /pet/findByStatus | Finds Pets by status
-[**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **get** /pet/findByTags | Finds Pets by tags
-[**get_pet_by_id**](PetApi.md#get_pet_by_id) | **get** /pet/{petId} | Find pet by ID
-[**update_pet**](PetApi.md#update_pet) | **put** /pet | Update an existing pet
-[**update_pet_with_form**](PetApi.md#update_pet_with_form) | **post** /pet/{petId} | Updates a pet in the store with form data
-[**upload_file**](PetApi.md#upload_file) | **post** /pet/{petId}/uploadImage | uploads an image
+[**add_pet**](PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
+[**delete_pet**](PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
+[**find_pets_by_status**](PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
+[**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
+[**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
+[**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
+[**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
 

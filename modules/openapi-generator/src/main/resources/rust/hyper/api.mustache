@@ -1,40 +1,41 @@
 {{>partial_header}}
-use std::rc::Rc;
-use std::borrow::Borrow;
+use async_trait::async_trait;
 #[allow(unused_imports)]
 use std::option::Option;
+use std::sync::Arc;
 
 use hyper;
 use serde_json;
-use futures::Future;
 
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct {{{classname}}}Client<C: hyper::client::Connect> {
-    configuration: Rc<configuration::Configuration<C>>,
+pub struct {{{classname}}}Client<C: hyper::client::connect::Connect> {
+    configuration: Arc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
-    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
+impl<C: hyper::client::connect::Connect + 'static> {{{classname}}}Client<C> {
+    pub fn new(configuration: Arc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
         {{{classname}}}Client {
             configuration,
         }
     }
 }
 
+#[async_trait]
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error<serde_json::Value>>>;
+    async fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error<serde_json::Value>>;
 {{/operation}}
 {{/operations}}
 }
 
-impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
+#[async_trait]
+impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static> {{{classname}}} for {{{classname}}}Client<C> {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error = Error<serde_json::Value>>> {
+    async fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error<serde_json::Value>> {
         let mut req = __internal_request::Request::new(hyper::Method::{{{httpMethod}}}, "{{{path}}}".to_string())
         {{#hasAuthMethods}}
         {{#authMethods}}
@@ -159,7 +160,7 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         req = req.returns_nothing();
         {{/returnType}}
 
-        req.execute(self.configuration.borrow())
+        req.execute(Arc::clone(&self.configuration)).await
     }
 
 {{/operation}}

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
   **string_field** | **String**|  | 
-  **binary_field** | **swagger::ByteArray**|  | 
+  **binary_field** | **openapi_context::ByteArray**|  | 
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -25,7 +25,7 @@ Optional parameters are passed through a map[string]interface{}.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **string_field** | **String**|  | 
- **binary_field** | **swagger::ByteArray**|  | 
+ **binary_field** | **openapi_context::ByteArray**|  | 
  **optional_string_field** | **String**|  | 
  **object_field** | [**multipart_request_object_field**](multipart_request_object_field.md)|  | 
 

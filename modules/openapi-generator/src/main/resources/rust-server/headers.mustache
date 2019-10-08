@@ -1,0 +1,178 @@
+use headers::{Header, HeaderName, HeaderValue};
+use lazy_static::lazy_static;
+
+pub struct Warning(pub String);
+
+lazy_static! {
+    static ref WarningHeader: HeaderName = HeaderName::from_static("Warning");
+}
+
+impl Header for Warning {
+    fn name() -> &'static HeaderName {
+        &WarningHeader
+    }
+
+    fn decode<'i, I>(values: &mut I) -> Result<Self, headers::Error>
+        where
+            I: Iterator<Item = &'i HeaderValue>,
+    {
+        let value = values
+            .next()
+            .ok_or_else(headers::Error::invalid)?;
+
+        let value = value.to_str().map_err(|_| headers::Error::invalid())?;
+        Ok(Warning(value.to_owned()))
+    }
+
+    fn encode<E>(&self, values: &mut E)
+        where
+            E: Extend<HeaderValue>,
+    {
+        let value = HeaderValue::from_str(&self.0).unwrap();
+
+        values.extend(std::iter::once(value));
+    }
+}
+
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#responses}}{{#headers}}
+/// Responses Header {{{nameInCamelCase}}}: {{{baseName}}} => {{{datatype}}}
+pub struct Response{{{nameInCamelCase}}}(pub {{{datatype}}});
+
+lazy_static! {
+    static ref Response{{{nameInCamelCase}}}Header: HeaderName = HeaderName::from_static("{{{baseName}}}");
+}
+
+impl Header for Response{{{nameInCamelCase}}} {
+    fn name() -> &'static HeaderName {
+        &Response{{{nameInCamelCase}}}Header
+    }
+
+    fn decode<'i, I>(values: &mut I) -> Result<Self, headers::Error>
+        where
+            I: Iterator<Item = &'i HeaderValue>,
+    {
+        let value = values
+            .next()
+            .ok_or_else(headers::Error::invalid)?;
+
+        let value = value.to_str().map_err(|_| headers::Error::invalid())?;
+        Ok(Response{{{nameInCamelCase}}}(value.parse().map_err(|_| headers::Error::invalid())?))
+    }
+
+    fn encode<E>(&self, values: &mut E)
+        where
+            E: Extend<HeaderValue>,
+    {
+        let value = HeaderValue::from_str(&self.0.to_string()).unwrap();
+
+        values.extend(std::iter::once(value));
+    }
+}
+    {{/headers}}{{/responses}}
+    {{#headerParams}}
+/// Params Header {{vendorExtensions.typeName}}: {{{baseName}}} => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}}
+pub struct Request{{vendorExtensions.typeName}}(pub {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}});
+
+lazy_static! {
+    static ref Request{{{vendorExtensions.typeName}}}Header: HeaderName = HeaderName::from_static("{{{baseName}}}");
+}
+
+impl Header for Request{{{vendorExtensions.typeName}}} {
+    fn name() -> &'static HeaderName {
+        &Request{{{vendorExtensions.typeName}}}Header
+    }
+
+    fn decode<'i, I>(values: &mut I) -> Result<Self, headers::Error>
+        where
+            I: Iterator<Item = &'i HeaderValue>,
+    {
+        let value = values
+            .next()
+            .ok_or_else(headers::Error::invalid)?;
+
+        let value = value.to_str().map_err(|_| headers::Error::invalid())?;
+        Ok(Request{{{vendorExtensions.typeName}}}(value.parse().map_err(|_| headers::Error::invalid())?))
+    }
+
+    fn encode<E>(&self, values: &mut E)
+        where
+            E: Extend<HeaderValue>,
+    {
+        let value = HeaderValue::from_str(&self.0.to_string()).unwrap();
+
+        values.extend(std::iter::once(value));
+    }
+}
+    {{/headerParams}}
+    {{#vendorExtensions.hasHeaderAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}{{#vendorExtensions}}
+/// Vendor Extensions Auth Header {{x-apiKeyName}}{{operationId}}{{-index}}: {{{keyParamName}}} => String
+pub struct {{x-apiKeyName}}{{operationId}}{{-index}}(pub String);
+
+lazy_static! {
+    static ref {{x-apiKeyName}}{{operationId}}{{-index}}Header: HeaderName = HeaderName::from_static("{{{keyParamName}}}");
+}
+
+impl Header for {{x-apiKeyName}}{{operationId}}{{-index}} {
+    fn name() -> &'static HeaderName {
+        &{{x-apiKeyName}}{{operationId}}{{-index}}Header
+    }
+
+    fn decode<'i, I>(values: &mut I) -> Result<Self, headers::Error>
+        where
+            I: Iterator<Item = &'i HeaderValue>,
+    {
+        let value = values
+            .next()
+            .ok_or_else(headers::Error::invalid)?;
+
+        let value = value.to_str().map_err(|_| headers::Error::invalid())?;
+        Ok({{x-apiKeyName}}{{operationId}}{{-index}}(value.to_owned()))
+    }
+
+    fn encode<E>(&self, values: &mut E)
+        where
+            E: Extend<HeaderValue>,
+    {
+        let value = HeaderValue::from_str(&self.0).unwrap();
+
+        values.extend(std::iter::once(value));
+    }
+}
+    {{/vendorExtensions}}{{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}{{/vendorExtensions.hasHeaderAuthMethods}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+/// Auth Methods Indexed Header ApiKey{{-index}}: {{{keyParamName}}} => String
+pub struct ApiKey{{-index}}(pub String);
+
+lazy_static! {
+    static ref ApiKey{{-index}}Header: HeaderName = HeaderName::from_static("{{{keyParamName}}}");
+}
+
+impl Header for ApiKey{{-index}} {
+    fn name() -> &'static HeaderName {
+        &ApiKey{{-index}}Header
+    }
+
+    fn decode<'i, I>(values: &mut I) -> Result<Self, headers::Error>
+        where
+            I: Iterator<Item = &'i HeaderValue>,
+    {
+        let value = values
+            .next()
+            .ok_or_else(headers::Error::invalid)?;
+
+        let value = value.to_str().map_err(|_| headers::Error::invalid())?;
+        Ok(ApiKey{{-index}}(value.to_owned()))
+    }
+
+    fn encode<E>(&self, values: &mut E)
+    where
+    E: Extend<HeaderValue>,
+    {
+        let value = HeaderValue::from_str(&self.0).unwrap();
+
+        values.extend(std::iter::once(value));
+    }
+}
+{{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}

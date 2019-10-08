@@ -4,10 +4,11 @@ use serde_json;
 
 #[derive(Debug)]
 pub enum Error<T> {
-    UriError(hyper::error::UriError),
     Hyper(hyper::Error),
     Serde(serde_json::Error),
     ApiError(ApiError<T>),
+    InvalidUriError(http::uri::InvalidUri),
+    HttpError(http::Error),
 }
 
 #[derive(Debug)]
@@ -46,6 +47,12 @@ impl<T> From<hyper::Error> for Error<T> {
 impl<T> From<serde_json::Error> for Error<T> {
     fn from(e: serde_json::Error) -> Self {
         return Error::Serde(e)
+    }
+}
+
+impl<T> From<http::Error> for Error<T> {
+    fn from(e: http::Error) -> Self {
+        return Error::HttpError(e)
     }
 }
 

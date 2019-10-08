@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **testClassname**
-> models::Client testClassname(ctx, body)
+> crate::models::Client testClassname(ctx, body)
 To test class name in snake case
 
 To test class name in snake case
@@ -22,7 +22,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**models::Client**](Client.md)
+[**crate::models::Client**](Client.md)
 
 ### Authorization
 

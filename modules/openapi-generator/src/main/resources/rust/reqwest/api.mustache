@@ -1,37 +1,54 @@
 {{>partial_header}}
-use std::rc::Rc;
+use async_trait::async_trait;
 use std::borrow::Borrow;
 #[allow(unused_imports)]
 use std::option::Option;
+use std::sync::Arc;
 
 use reqwest;
 
+use bytes::Bytes;
+use futures::{Stream, TryStreamExt};
+use tokio::io::AsyncRead;
+use tokio_util::codec::{BytesCodec, FramedRead};
+
 use super::{Error, configuration};
 
+#[allow(dead_code)]
+fn into_bytes_stream<R>(r: R) -> impl Stream<Item=Result<Bytes, std::io::Error>>
+    where
+        R: AsyncRead,
+{
+    FramedRead::new(r, BytesCodec::new())
+        .map_ok(|bytes| bytes.freeze())
+}
+
 pub struct {{{classname}}}Client {
-    configuration: Rc<configuration::Configuration>,
+    configuration: Arc<configuration::Configuration>,
 }
 
 impl {{{classname}}}Client {
-    pub fn new(configuration: Rc<configuration::Configuration>) -> {{{classname}}}Client {
+    pub fn new(configuration: Arc<configuration::Configuration>) -> {{{classname}}}Client {
         {{{classname}}}Client {
             configuration,
         }
     }
 }
 
+#[async_trait]
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
+    async fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
 {{/operation}}
 {{/operations}}
 }
 
+#[async_trait]
 impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+    async fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -127,18 +144,32 @@ impl {{{classname}}} for {{{classname}}}Client {
         {{#isFile}}
         {{#required}}
         {{^isNullable}}
-        form = form.file("{{{baseName}}}", {{{paramName}}})?;
+        let f = tokio::fs::File::open({{{paramName}}}).await?;
+        let part = reqwest::multipart::Part::stream(
+            reqwest::Body::wrap_stream(into_bytes_stream(f))
+        );
+        form = form.part("{{{baseName}}}", part);
         {{/isNullable}}
         {{#isNullable}}
         match {{{paramName}}} {
-            Some(param_value) => { form = form.file("{{{baseName}}}", param_value)?; },
+            Some(param_value) => {
+                let f = tokio::fs::File::open(param_value).await?;
+                let part = reqwest::multipart::Part::stream(
+                    reqwest::Body::wrap_stream(into_bytes_stream(f))
+                );
+                form = form.part("{{{baseName}}}", part);
+            },
             None => { unimplemented!("Required nullable form file param not supported"); },
         }
         {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(param_value) = {{{paramName}}} {
-            form = form.file("{{{baseName}}}", param_value)?;
+            let f = tokio::fs::File::open(param_value).await?;
+            let part = reqwest::multipart::Part::stream(
+                reqwest::Body::wrap_stream(into_bytes_stream(f))
+            );
+            form = form.part("{{{baseName}}}", part);
         }
         {{/required}}
         {{/isFile}}
@@ -218,11 +249,11 @@ impl {{{classname}}} for {{{classname}}}Client {
         let req = req_builder.build()?;
 
         {{^returnType}}
-        client.execute(req)?.error_for_status()?;
+        client.execute(req).await?.error_for_status()?;
         Ok(())
         {{/returnType}}
         {{#returnType}}
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json().await?)
         {{/returnType}}
     }
 

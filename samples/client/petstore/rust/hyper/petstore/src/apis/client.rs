@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::sync::Arc;
 
 use hyper;
 use super::configuration::Configuration;
@@ -10,13 +10,13 @@ pub struct APIClient {
 }
 
 impl APIClient {
-    pub fn new<C: hyper::client::Connect>(configuration: Configuration<C>) -> APIClient {
-        let rc = Rc::new(configuration);
+    pub fn new<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>(configuration: Configuration<C>) -> APIClient {
+        let rc = Arc::new(configuration);
 
         APIClient {
-            pet_api: Box::new(crate::apis::PetApiClient::new(rc.clone())),
-            store_api: Box::new(crate::apis::StoreApiClient::new(rc.clone())),
-            user_api: Box::new(crate::apis::UserApiClient::new(rc.clone())),
+            pet_api: Box::new(crate::apis::PetApiClient::new(Arc::clone(&rc))),
+            store_api: Box::new(crate::apis::StoreApiClient::new(Arc::clone(&rc))),
+            user_api: Box::new(crate::apis::UserApiClient::new(Arc::clone(&rc))),
         }
     }
 

@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 
 # ****
-> models::AnotherXmlObject ()
+> crate::models::AnotherXmlObject ()
 Get some stuff.
 
 ### Required Parameters
@@ -26,7 +26,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**models::AnotherXmlObject**](anotherXmlObject.md)
+[**crate::models::AnotherXmlObject**](anotherXmlObject.md)
 
 ### Authorization
 
@@ -91,7 +91,7 @@ This endpoint does not need any parameter.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **body** | **swagger::ByteArray**|  | 
+  **body** | **openapi_context::ByteArray**|  | 
 
 ### Return type
 

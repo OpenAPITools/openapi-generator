@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fileresponsetest**](DefaultApi.md#fileresponsetest) | **get** /tests/fileResponse | 
+[**fileresponsetest**](DefaultApi.md#fileresponsetest) | **GET** /tests/fileResponse | 
 
 
 

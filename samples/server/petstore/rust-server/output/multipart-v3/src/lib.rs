@@ -1,38 +1,7 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
-
-#[macro_use]
-extern crate lazy_static;
-#[macro_use]
-extern crate log;
-#[macro_use]
-extern crate serde_derive;
-
-#[cfg(any(feature = "client", feature = "server"))]
-#[macro_use]
-extern crate hyper;
-#[cfg(any(feature = "client", feature = "server"))]
-#[macro_use]
-extern crate url;
-
-// Crates for conversion support
-#[cfg(feature = "conversion")]
-#[macro_use]
-extern crate frunk_derives;
-#[cfg(feature = "conversion")]
-#[macro_use]
-extern crate frunk_enum_derive;
-#[cfg(feature = "conversion")]
-extern crate frunk_core;
-
-extern crate mime;
-extern crate serde;
-extern crate serde_json;
-
-extern crate futures;
-extern crate chrono;
-extern crate swagger;
-
-use futures::Stream;
+use async_trait::async_trait;
+use futures::{FutureExt, Stream, StreamExt, TryStreamExt};
+use openapi_context::ContextWrapper;
 use std::io::Error;
 
 #[allow(unused_imports)]
@@ -41,11 +10,7 @@ use std::collections::HashMap;
 #[cfg(any(feature = "client", feature = "server"))]
 mod mimetypes;
 
-#[deprecated(note = "Import swagger-rs directly")]
-pub use swagger::{ApiError, ContextWrapper};
-#[deprecated(note = "Import futures directly")]
-pub use futures::Future;
-
+pub use openapi_context::ApiError;
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "1.0.7";
 
@@ -58,38 +23,45 @@ pub enum MultipartRequestPostResponse {
 
 
 /// API
+#[async_trait]
 pub trait Api<C> {
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>>;
+    async fn multipart_request_post(&mut self, string_field: String, binary_field: openapi_context::ByteArray, optional_string_field: Option<String>, object_field: Option<crate::models::MultipartRequestObjectField>, context: &C) -> Result<MultipartRequestPostResponse, ApiError>;
 
 }
 
 /// API without a `Context`
+#[async_trait]
 pub trait ApiNoContext {
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>>;
+    async fn multipart_request_post(&mut self, string_field: String, binary_field: openapi_context::ByteArray, optional_string_field: Option<String>, object_field: Option<crate::models::MultipartRequestObjectField>) -> Result<MultipartRequestPostResponse, ApiError>;
 
 }
 
 /// Trait to extend an API to make it easy to bind it to a context.
-pub trait ContextWrapperExt<'a, C> where Self: Sized {
+pub trait ContextWrapperExt<C> where Self: Sized {
     /// Binds this API to a context.
-    fn with_context(self: &'a Self, context: C) -> ContextWrapper<'a, Self, C>;
+    fn with_context(self, context: C) -> ContextWrapper<Self, C>;
 }
 
-impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
-    fn with_context(self: &'a T, context: C) -> ContextWrapper<'a, T, C> {
+impl<T: Api<C> + Sized, C> ContextWrapperExt<C> for T {
+    fn with_context(self, context: C) -> ContextWrapper<T, C> {
          ContextWrapper::<T, C>::new(self, context)
     }
 }
 
-impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
+#[async_trait]
+impl<T: Api<C>, C> ApiNoContext for ContextWrapper<T, C>
+    where C: Clone + Send + Sync,
+          T: Send + Sync,
+{
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>> {
-        self.api().multipart_request_post(string_field, binary_field, optional_string_field, object_field, &self.context())
+    async fn multipart_request_post(&mut self, string_field: String, binary_field: openapi_context::ByteArray, optional_string_field: Option<String>, object_field: Option<crate::models::MultipartRequestObjectField>) -> Result<MultipartRequestPostResponse, ApiError> {
+        let ctx: C = self.context().clone();
+        self.api_mut().multipart_request_post(string_field, binary_field, optional_string_field, object_field, &ctx).await
     }
 
 }
@@ -109,3 +81,5 @@ pub mod server;
 pub use self::server::Service;
 
 pub mod models;
+#[allow(non_upper_case_globals)]
+pub mod headers;

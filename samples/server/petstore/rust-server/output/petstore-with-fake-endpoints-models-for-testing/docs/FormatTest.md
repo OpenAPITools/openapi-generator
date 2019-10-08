@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 **float** | **f32** |  | [optional] [default to None]
 **double** | **f64** |  | [optional] [default to None]
 **string** | **String** |  | [optional] [default to None]
-**byte** | [***swagger::ByteArray**](ByteArray.md) |  | 
-**binary** | [***swagger::ByteArray**](file.md) |  | [optional] [default to None]
+**byte** | [***openapi_context::ByteArray**](ByteArray.md) |  | 
+**binary** | [***openapi_context::ByteArray**](file.md) |  | [optional] [default to None]
 **date** | [***chrono::DateTime<chrono::Utc>**](date.md) |  | 
 **date_time** | [**chrono::DateTime<chrono::Utc>**](DateTime.md) |  | [optional] [default to None]
 **uuid** | [***uuid::Uuid**](UUID.md) |  | [optional] [default to None]

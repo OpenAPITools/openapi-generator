@@ -10,6 +10,8 @@
 
 /// User : A User who is purchasing from the pet store
 
+use serde::{Deserialize, Serialize};
+
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

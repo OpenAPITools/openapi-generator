@@ -24,7 +24,7 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**dummy_get**](docs/DefaultApi.md#dummy_get) | **get** /dummy | A dummy endpoint to make the spec valid.
+*DefaultApi* | [**dummy_get**](docs/DefaultApi.md#dummy_get) | **GET** /dummy | A dummy endpoint to make the spec valid.
 
 
 ## Documentation For Models

@@ -1,13 +1,12 @@
 //! Server implementation of rust_server_test.
 
 #![allow(unused_imports)]
-
-use futures::{self, Future};
+use async_trait::async_trait;
 use chrono;
 use std::collections::HashMap;
 use std::marker::PhantomData;
-use swagger;
-use swagger::{Has, XSpanIdString};
+use openapi_context;
+use openapi_context::{Has, XSpanId};
 
 use rust_server_test::{Api, ApiError,
                       DummyGetResponse,
@@ -16,7 +15,6 @@ use rust_server_test::{Api, ApiError,
                       HtmlPostResponse,
                       RawJsonGetResponse
 };
-use rust_server_test::models;
 
 #[derive(Copy, Clone)]
 pub struct Server<C> {
@@ -29,41 +27,42 @@ impl<C> Server<C> {
     }
 }
 
-impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
+#[async_trait]
+impl<C> Api<C> for Server<C> where C: Has<XSpanId> + Send + Sync {
 
     /// A dummy endpoint to make the spec valid.
-    fn dummy_get(&self, context: &C) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError>> {
+    async fn dummy_get(&mut self, context: &C) -> Result<DummyGetResponse, ApiError> {
         let context = context.clone();
         println!("dummy_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 
-    fn dummy_put(&self, nested_response: models::InlineObject, context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError>> {
+    async fn dummy_put(&mut self, nested_response: crate::models::InlineObject, context: &C) -> Result<DummyPutResponse, ApiError> {
         let context = context.clone();
         println!("dummy_put({:?}) - X-Span-ID: {:?}", nested_response, context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
     /// Get a file
-    fn file_response_get(&self, context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError>> {
+    async fn file_response_get(&mut self, context: &C) -> Result<FileResponseGetResponse, ApiError> {
         let context = context.clone();
         println!("file_response_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
     /// Test HTML handling
-    fn html_post(&self, body: String, context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError>> {
+    async fn html_post(&mut self, body: String, context: &C) -> Result<HtmlPostResponse, ApiError> {
         let context = context.clone();
         println!("html_post(\"{}\") - X-Span-ID: {:?}", body, context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
     /// Get an arbitrary JSON blob.
-    fn raw_json_get(&self, context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError>> {
+    async fn raw_json_get(&mut self, context: &C) -> Result<RawJsonGetResponse, ApiError> {
         let context = context.clone();
         println!("raw_json_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Box::new(futures::failed("Generic failure".into()))
+        Err("Generic failure".into())
     }
 
 }

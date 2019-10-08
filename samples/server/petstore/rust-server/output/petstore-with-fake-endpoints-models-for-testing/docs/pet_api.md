@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByStatus**
-> Vec<models::Pet> findPetsByStatus(ctx, status)
+> Vec<crate::models::Pet> findPetsByStatus(ctx, status)
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
@@ -90,7 +90,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Vec<models::Pet>**](Pet.md)
+[**Vec<crate::models::Pet>**](Pet.md)
 
 ### Authorization
 
@@ -104,7 +104,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByTags**
-> Vec<models::Pet> findPetsByTags(ctx, tags)
+> Vec<crate::models::Pet> findPetsByTags(ctx, tags)
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -118,7 +118,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Vec<models::Pet>**](Pet.md)
+[**Vec<crate::models::Pet>**](Pet.md)
 
 ### Authorization
 
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPetById**
-> models::Pet getPetById(ctx, pet_id)
+> crate::models::Pet getPetById(ctx, pet_id)
 Find pet by ID
 
 Returns a single pet
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**models::Pet**](Pet.md)
+[**crate::models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -222,7 +222,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **uploadFile**
-> models::ApiResponse uploadFile(ctx, pet_id, optional)
+> crate::models::ApiResponse uploadFile(ctx, pet_id, optional)
 uploads an image
 
 ### Required Parameters
@@ -240,11 +240,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **i64**| ID of pet to update | 
  **additional_metadata** | **String**| Additional data to pass to server | 
- **file** | **swagger::ByteArray**| file to upload | 
+ **file** | **openapi_context::ByteArray**| file to upload | 
 
 ### Return type
 
-[**models::ApiResponse**](ApiResponse.md)
+[**crate::models::ApiResponse**](ApiResponse.md)
 
 ### Authorization
 

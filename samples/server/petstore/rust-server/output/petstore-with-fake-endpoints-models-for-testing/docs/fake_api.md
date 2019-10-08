@@ -52,7 +52,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakeOuterCompositeSerialize**
-> models::OuterComposite fakeOuterCompositeSerialize(optional)
+> crate::models::OuterComposite fakeOuterCompositeSerialize(optional)
 
 
 Test serialization of object with outer number type
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**models::OuterComposite**](OuterComposite.md)
+[**crate::models::OuterComposite**](OuterComposite.md)
 
 ### Authorization
 
@@ -207,7 +207,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testClientModel**
-> models::Client testClientModel(body)
+> crate::models::Client testClientModel(body)
 To test \"client\" model
 
 To test \"client\" model
@@ -220,7 +220,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**models::Client**](Client.md)
+[**crate::models::Client**](Client.md)
 
 ### Authorization
 
@@ -247,7 +247,7 @@ Name | Type | Description  | Notes
   **number** | **f64**| None | 
   **double** | **f64**| None | 
   **pattern_without_delimiter** | **String**| None | 
-  **byte** | **swagger::ByteArray**| None | 
+  **byte** | **openapi_context::ByteArray**| None | 
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -258,13 +258,13 @@ Name | Type | Description  | Notes
  **number** | **f64**| None | 
  **double** | **f64**| None | 
  **pattern_without_delimiter** | **String**| None | 
- **byte** | **swagger::ByteArray**| None | 
+ **byte** | **openapi_context::ByteArray**| None | 
  **integer** | **i32**| None | 
  **int32** | **i32**| None | 
  **int64** | **i64**| None | 
  **float** | **f32**| None | 
  **string** | **String**| None | 
- **binary** | **swagger::ByteArray**| None | 
+ **binary** | **openapi_context::ByteArray**| None | 
  **date** | **chrono::DateTime<chrono::Utc>**| None | 
  **date_time** | **chrono::DateTime<chrono::Utc>**| None | 
  **password** | **String**| None | 

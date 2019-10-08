@@ -66,7 +66,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected Map<String, Map<String, String>> pathSetMap = new HashMap<String, Map<String, String>>();
 
     private static final String uuidType = "uuid::Uuid";
-    private static final String bytesType = "swagger::ByteArray";
+    private static final String bytesType = "openapi_context::ByteArray";
 
     private static final String xmlMimeType = "application/xml";
     private static final String textXmlMimeType = "text/xml";
@@ -228,9 +228,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("cargo-config", ".cargo", "config"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
+        supportingFiles.add(new SupportingFile("headers.mustache", "src", "headers.rs"));
         supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
         supportingFiles.add(new SupportingFile("server-context.mustache", "src/server", "context.rs"));
+        supportingFiles.add(new SupportingFile("server-tls.mustache", "src/server", "tls.rs"));
         supportingFiles.add(new SupportingFile("client-mod.mustache", "src/client", "mod.rs"));
         supportingFiles.add(new SupportingFile("mimetypes.mustache", "src", "mimetypes.rs"));
         supportingFiles.add(new SupportingFile("example-server.mustache", "examples", "server.rs"));
@@ -625,7 +627,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         op.vendorExtensions.put("hasPathParams", !op.pathParams.isEmpty()); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-has-path-params", !op.pathParams.isEmpty());
 
-        String vendorExtensionHttpMethod = Character.toUpperCase(op.httpMethod.charAt(0)) + op.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+        String vendorExtensionHttpMethod = Character.toUpperCase(op.httpMethod.charAt(0)) + op.httpMethod.substring(1);
         op.vendorExtensions.put("HttpMethod", vendorExtensionHttpMethod); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-http-method", vendorExtensionHttpMethod);
 
@@ -1008,7 +1010,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
                 if (datatype.indexOf("#/components/schemas/") == 0) {
                     datatype = toModelName(datatype.substring("#/components/schemas/".length()));
-                    datatype = "models::" + datatype;
+                    datatype = "crate::models::" + datatype;
                 }
             } catch (Exception e) {
                 LOGGER.warn("Error obtaining the datatype from schema (model):" + p + ". Datatype default to Object");
@@ -1079,7 +1081,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             if (xmlName != null) {
                 mdl.vendorExtensions.put("itemXmlName", xmlName); // TODO: 5.0 Remove
                 mdl.vendorExtensions.put("x-item-xml-name", xmlName);
-                modelXmlNames.put("models::" + mdl.classname, xmlName);
+                modelXmlNames.put("crate::models::" + mdl.classname, xmlName);
             }
 
             mdl.arrayModelType = toModelName(mdl.arrayModelType);
@@ -1371,7 +1373,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 // Binary primitive types don't implement `Display`.
                 param.vendorExtensions.put("formatString", "{:?}"); // TODO: 5.0 Remove
                 param.vendorExtensions.put("x-format-string", "{:?}");
-                example = "swagger::ByteArray(Vec::from(\"" + ((param.example != null) ? param.example : "") + "\"))";
+                example = bytesType + "(Vec::from(\"" + ((param.example != null) ? param.example : "") + "\"))";
             } else {
                 param.vendorExtensions.put("formatString", "{}"); // TODO: 5.0 Remove
                 param.vendorExtensions.put("x-format-string", "{}");
