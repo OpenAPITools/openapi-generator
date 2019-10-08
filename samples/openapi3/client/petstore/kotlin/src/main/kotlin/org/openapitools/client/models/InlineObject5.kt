@@ -13,11 +13,13 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param additionalMetadata Additional data to pass to server
  * @param requiredFile file to upload
  */
+
 data class InlineObject5 (
     /* file to upload */
     @Json(name = "requiredFile")
@@ -25,6 +27,7 @@ data class InlineObject5 (
     /* Additional data to pass to server */
     @Json(name = "additionalMetadata")
     val additionalMetadata: kotlin.String? = null
-)
+) 
+: Serializable 
 
 

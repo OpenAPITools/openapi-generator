@@ -40,11 +40,23 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
+    def test_fake_outer_enum_serialize(self):
+        """Test case for fake_outer_enum_serialize
+
+        """
+        # verify that the input and output are type OuterEnum
+        endpoint = self.api.fake_outer_enum_serialize
+        assert endpoint.openapi_types['body'] == 'OuterEnum'
+        assert endpoint.settings['response_type'] == 'OuterEnum'
+
     def test_fake_outer_number_serialize(self):
         """Test case for fake_outer_number_serialize
 
         """
-        pass
+        # verify that the input and output are the correct type
+        endpoint = self.api.fake_outer_number_serialize
+        assert endpoint.openapi_types['body'] == 'OuterNumber'
+        assert endpoint.settings['response_type'] == 'OuterNumber'
 
     def test_fake_outer_string_serialize(self):
         """Test case for fake_outer_string_serialize
@@ -70,14 +82,38 @@ class TestFakeApi(unittest.TestCase):
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
         """
-        pass
+        # check that we can access the endpoint's validations
+        endpoint = self.api.test_endpoint_parameters
+        assert endpoint.validations[('number',)] == {
+            'inclusive_maximum': 543.2,
+            'inclusive_minimum': 32.1,
+        }
+        # make sure that an exception is thrown on an invalid value
+        keyword_args = dict(
+            number=544,  # invalid
+            double=100,
+            pattern_without_delimiter="abc",
+            byte='sample string'
+        )
+        with self.assertRaises(petstore_api.ApiValueError):
+            self.api.test_endpoint_parameters(**keyword_args)
 
     def test_test_enum_parameters(self):
         """Test case for test_enum_parameters
 
         To test enum parameters  # noqa: E501
         """
-        pass
+        # check that we can access the endpoint's allowed_values
+        endpoint = self.api.test_enum_parameters
+        assert endpoint.allowed_values[('enum_query_string',)] == {
+            "_ABC": "_abc",
+            "-EFG": "-efg",
+            "(XYZ)": "(xyz)"
+        }
+        # make sure that an exception is thrown on an invalid value
+        keyword_args = dict(enum_query_string="bad value")
+        with self.assertRaises(petstore_api.ApiValueError):
+            self.api.test_enum_parameters(**keyword_args)
 
     def test_test_inline_additional_properties(self):
         """Test case for test_inline_additional_properties

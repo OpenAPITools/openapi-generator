@@ -43,7 +43,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FormatTest.JSON_PROPERTY_DATE,
   FormatTest.JSON_PROPERTY_DATE_TIME,
   FormatTest.JSON_PROPERTY_UUID,
-  FormatTest.JSON_PROPERTY_PASSWORD
+  FormatTest.JSON_PROPERTY_PASSWORD,
+  FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
 
 public class FormatTest {
@@ -85,6 +86,9 @@ public class FormatTest {
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
+
+  public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
+  private BigDecimal bigDecimal;
 
 
   public FormatTest integer(Integer integer) {
@@ -431,6 +435,32 @@ public class FormatTest {
   }
 
 
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+   /**
+   * Get bigDecimal
+   * @return bigDecimal
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+
+
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
+
   @Override
   public boolean equals(java.lang.Object o) {
   if (this == o) {
@@ -452,12 +482,13 @@ public class FormatTest {
     ObjectUtils.equals(this.date, formatTest.date) &&
     ObjectUtils.equals(this.dateTime, formatTest.dateTime) &&
     ObjectUtils.equals(this.uuid, formatTest.uuid) &&
-    ObjectUtils.equals(this.password, formatTest.password);
+    ObjectUtils.equals(this.password, formatTest.password) &&
+    ObjectUtils.equals(this.bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
+    return ObjectUtils.hashCodeMulti(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
   }
 
 
@@ -478,6 +509,7 @@ public class FormatTest {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

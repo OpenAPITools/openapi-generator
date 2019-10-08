@@ -42,13 +42,19 @@ class DeserializationTests(unittest.TestCase):
 
         deserialized = self.deserialize(response, 'dict(str, EnumTest)')
         self.assertTrue(isinstance(deserialized, dict))
-        self.assertTrue(isinstance(deserialized['enum_test'], petstore_api.EnumTest))
-        self.assertEqual(deserialized['enum_test'],
-                         petstore_api.EnumTest(enum_string="UPPER",
-                                               enum_string_required="lower",
-                                               enum_integer=1,
-                                               enum_number=1.1,
-                                               outer_enum=petstore_api.OuterEnum.PLACED))
+        self.assertTrue(
+            isinstance(deserialized['enum_test'], petstore_api.EnumTest))
+        outer_enum_value = (
+            petstore_api.OuterEnum.allowed_values[('value',)]["PLACED"])
+        outer_enum = petstore_api.OuterEnum(outer_enum_value)
+        sample_instance = petstore_api.EnumTest(
+            enum_string="UPPER",
+            enum_string_required="lower",
+            enum_integer=1,
+            enum_number=1.1,
+            outer_enum=outer_enum
+        )
+        self.assertEqual(deserialized['enum_test'], sample_instance)
 
     def test_deserialize_dict_str_pet(self):
         """ deserialize dict(str, Pet) """
@@ -239,3 +245,44 @@ class DeserializationTests(unittest.TestCase):
 
         deserialized = self.deserialize(response, "datetime")
         self.assertIsNone(deserialized)
+
+    def test_deserialize_OuterEnum(self):
+        """ deserialize OuterEnum """
+        # make sure that an exception is thrown on an invalid value
+        with self.assertRaises(petstore_api.ApiValueError):
+            self.deserialize(
+                MockResponse(data=json.dumps("test str")),
+                "OuterEnum"
+            )
+
+        # valid value works
+        placed_str = (
+            petstore_api.OuterEnum.allowed_values[('value',)]["PLACED"]
+        )
+        response = MockResponse(data=json.dumps(placed_str))
+        outer_enum = self.deserialize(response, "OuterEnum")
+        self.assertTrue(isinstance(outer_enum, petstore_api.OuterEnum))
+        self.assertTrue(outer_enum.value == placed_str)
+
+    def test_deserialize_OuterNumber(self):
+        """ deserialize OuterNumber """
+        # make sure that an exception is thrown on an invalid type value
+        with self.assertRaises(petstore_api.ApiValueError):
+            deserialized = self.deserialize(
+                MockResponse(data=json.dumps("test str")),
+                "OuterNumber"
+            )
+
+        # make sure that an exception is thrown on an invalid value
+        with self.assertRaises(petstore_api.ApiValueError):
+            deserialized = self.deserialize(
+                MockResponse(data=json.dumps(21)),
+                "OuterNumber"
+            )
+
+        # valid value works
+        number_val = 11
+        response = MockResponse(data=json.dumps(number_val))
+        outer_number = self.deserialize(response, "OuterNumber")
+        self.assertTrue(isinstance(outer_number, petstore_api.OuterNumber))
+        self.assertTrue(outer_number.value == number_val)

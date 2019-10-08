@@ -20,6 +20,20 @@
         <gradleVersion>4.10.2</gradleVersion>
     </properties>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Gradle Releases</id>
+            <name>Gradle Releases repository</name>
+            <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <dependency>
             <groupId>org.openapitools</groupId>
