@@ -21,10 +21,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * ModelApiResponse
  */
+@JsonPropertyOrder({
+  ModelApiResponse.JSON_PROPERTY_CODE,
+  ModelApiResponse.JSON_PROPERTY_TYPE,
+  ModelApiResponse.JSON_PROPERTY_MESSAGE
+})
 
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";

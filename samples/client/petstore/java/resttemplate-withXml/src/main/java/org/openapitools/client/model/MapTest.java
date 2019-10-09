@@ -24,22 +24,29 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * MapTest
  */
+@JsonPropertyOrder({
+  MapTest.JSON_PROPERTY_MAP_MAP_OF_STRING,
+  MapTest.JSON_PROPERTY_MAP_OF_ENUM_STRING,
+  MapTest.JSON_PROPERTY_DIRECT_MAP,
+  MapTest.JSON_PROPERTY_INDIRECT_MAP
+})
 
 @XmlRootElement(name = "MapTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "MapTest")
 public class MapTest {
+  public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, String&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
@@ -77,25 +84,25 @@ public class MapTest {
     }
   }
 
+  public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   private Map<String, InnerEnum> mapOfEnumString = null;
 
+  public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
   private Map<String, Boolean> directMap = null;
 
+  public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   private Map<String, Boolean> indirectMap = null;
 
 

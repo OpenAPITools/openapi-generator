@@ -21,23 +21,28 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Tag
  */
+@JsonPropertyOrder({
+  Tag.JSON_PROPERTY_ID,
+  Tag.JSON_PROPERTY_NAME
+})
 
 @XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Tag")
 public class Tag {
-  @XmlElement(name = "id")
   public static final String JSON_PROPERTY_ID = "id";
+  @XmlElement(name = "id")
   private Long id;
 
-  @XmlElement(name = "name")
   public static final String JSON_PROPERTY_NAME = "name";
+  @XmlElement(name = "name")
   private String name;
 
 

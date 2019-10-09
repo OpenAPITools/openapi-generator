@@ -45,7 +45,7 @@ compileJava.dependsOn tasks.openApiGenerate
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.1.0"
+  id "org.openapi.generator" version "4.1.1"
 }
 ----
 
@@ -61,7 +61,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:4.1.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.1.1"
   }
 }
 
@@ -201,6 +201,11 @@ apply plugin: 'org.openapi.generator'
 |String
 |None
 |Reference the library template (sub-template) of a generator.
+
+|gitHost
+|String
+|github.com
+|Git user ID, e.g. gitlab.com.
 
 |gitUserId
 |String
@@ -621,7 +626,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:4.1.0') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:4.1.1') {
             exclude group: 'com.google.guava'
         }
     }

@@ -252,7 +252,7 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -319,7 +319,7 @@ public class UserApi {
      </table>
    */
   public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -386,7 +386,7 @@ public class UserApi {
      </table>
    */
   public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -453,7 +453,7 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/user/logout";

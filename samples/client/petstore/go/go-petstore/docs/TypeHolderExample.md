@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **StringItem** | **string** |  | 
 **NumberItem** | **float32** |  | 
+**FloatItem** | **float32** |  | 
 **IntegerItem** | **int32** |  | 
 **BoolItem** | **bool** |  | 
 **ArrayItem** | **[]int32** |  | 

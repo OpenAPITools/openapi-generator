@@ -13,12 +13,12 @@
 
 #include "OAIOrder.h"
 
-#include "OAIHelpers.h"
-
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
+
+#include "OAIHelpers.h"
 
 namespace OpenAPI {
 
@@ -99,22 +99,22 @@ OAIOrder::asJson () const {
 QJsonObject
 OAIOrder::asJsonObject() const {
     QJsonObject obj;
-	if(m_id_isSet){
+    if(m_id_isSet){
         obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-	if(m_pet_id_isSet){
+    if(m_pet_id_isSet){
         obj.insert(QString("petId"), ::OpenAPI::toJsonValue(pet_id));
     }
-	if(m_quantity_isSet){
+    if(m_quantity_isSet){
         obj.insert(QString("quantity"), ::OpenAPI::toJsonValue(quantity));
     }
-	if(m_ship_date_isSet){
+    if(m_ship_date_isSet){
         obj.insert(QString("shipDate"), ::OpenAPI::toJsonValue(ship_date));
     }
-	if(m_status_isSet){
+    if(m_status_isSet){
         obj.insert(QString("status"), ::OpenAPI::toJsonValue(status));
     }
-	if(m_complete_isSet){
+    if(m_complete_isSet){
         obj.insert(QString("complete"), ::OpenAPI::toJsonValue(complete));
     }
     return obj;

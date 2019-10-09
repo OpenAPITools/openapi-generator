@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// ReadOnlyFirst struct for ReadOnlyFirst
 type ReadOnlyFirst struct {
 	Bar string `json:"bar,omitempty"`
 	Baz string `json:"baz,omitempty"`

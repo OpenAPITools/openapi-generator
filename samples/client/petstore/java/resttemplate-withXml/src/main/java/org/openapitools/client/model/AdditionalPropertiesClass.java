@@ -25,83 +25,97 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * AdditionalPropertiesClass
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_NUMBER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_BOOLEAN,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE1,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
+})
 
 @XmlRootElement(name = "AdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesClass")
 public class AdditionalPropertiesClass {
+  public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   private Map<String, String> mapString = null;
 
+  public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=BigDecimal
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   private Map<String, BigDecimal> mapNumber = null;
 
+  public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   private Map<String, Integer> mapInteger = null;
 
+  public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   private Map<String, Boolean> mapBoolean = null;
 
+  public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Integer&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   private Map<String, List<Integer>> mapArrayInteger = null;
 
+  public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Object&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   private Map<String, List<Object>> mapArrayAnytype = null;
 
+  public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, String&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   private Map<String, Map<String, String>> mapMapString = null;
 
+  public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, Object&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
-  @XmlElement(name = "anytype_1")
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
+  @XmlElement(name = "anytype_1")
   private Object anytype1;
 
-  @XmlElement(name = "anytype_2")
   public static final String JSON_PROPERTY_ANYTYPE2 = "anytype_2";
+  @XmlElement(name = "anytype_2")
   private Object anytype2;
 
-  @XmlElement(name = "anytype_3")
   public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
+  @XmlElement(name = "anytype_3")
   private Object anytype3;
 
 

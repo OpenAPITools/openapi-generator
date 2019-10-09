@@ -21,12 +21,29 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * InlineObject3
  */
+@JsonPropertyOrder({
+  InlineObject3.JSON_PROPERTY_INTEGER,
+  InlineObject3.JSON_PROPERTY_INT32,
+  InlineObject3.JSON_PROPERTY_INT64,
+  InlineObject3.JSON_PROPERTY_NUMBER,
+  InlineObject3.JSON_PROPERTY_FLOAT,
+  InlineObject3.JSON_PROPERTY_DOUBLE,
+  InlineObject3.JSON_PROPERTY_STRING,
+  InlineObject3.JSON_PROPERTY_PATTERN_WITHOUT_DELIMITER,
+  InlineObject3.JSON_PROPERTY_BYTE,
+  InlineObject3.JSON_PROPERTY_BINARY,
+  InlineObject3.JSON_PROPERTY_DATE,
+  InlineObject3.JSON_PROPERTY_DATE_TIME,
+  InlineObject3.JSON_PROPERTY_PASSWORD,
+  InlineObject3.JSON_PROPERTY_CALLBACK
+})
 
 public class InlineObject3   {
   public static final String JSON_PROPERTY_INTEGER = "integer";

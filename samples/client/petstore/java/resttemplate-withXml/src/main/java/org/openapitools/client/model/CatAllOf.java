@@ -21,19 +21,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * CatAllOf
  */
+@JsonPropertyOrder({
+  CatAllOf.JSON_PROPERTY_DECLAWED
+})
 
 @XmlRootElement(name = "CatAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "CatAllOf")
 public class CatAllOf {
-  @XmlElement(name = "declawed")
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  @XmlElement(name = "declawed")
   private Boolean declawed;
 
 

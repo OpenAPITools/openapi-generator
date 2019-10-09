@@ -1,0 +1,13 @@
+{
+  "!include": "bin/spring-mvc-petstore-server.json",
+  "generatorName": "spring",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/server/petstore/spring-mvc",
+  "templateDir": "modules/openapi-generator/src/main/resources/JavaSpring",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "java8": false,
+    "serverPort": "8002",
+    "booleanGetterPrefix": "get"
+  }
+}

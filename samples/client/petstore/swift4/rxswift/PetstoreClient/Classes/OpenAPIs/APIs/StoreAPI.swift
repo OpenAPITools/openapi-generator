@@ -18,7 +18,7 @@ open class StoreAPI {
      */
     open class func deleteOrder(orderId: String) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
+            deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {

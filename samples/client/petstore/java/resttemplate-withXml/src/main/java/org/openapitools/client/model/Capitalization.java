@@ -21,39 +21,48 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Capitalization
  */
+@JsonPropertyOrder({
+  Capitalization.JSON_PROPERTY_SMALL_CAMEL,
+  Capitalization.JSON_PROPERTY_CAPITAL_CAMEL,
+  Capitalization.JSON_PROPERTY_SMALL_SNAKE,
+  Capitalization.JSON_PROPERTY_CAPITAL_SNAKE,
+  Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
+  Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
+})
 
 @XmlRootElement(name = "Capitalization")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Capitalization")
 public class Capitalization {
-  @XmlElement(name = "smallCamel")
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
+  @XmlElement(name = "smallCamel")
   private String smallCamel;
 
-  @XmlElement(name = "CapitalCamel")
   public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
+  @XmlElement(name = "CapitalCamel")
   private String capitalCamel;
 
-  @XmlElement(name = "small_Snake")
   public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
+  @XmlElement(name = "small_Snake")
   private String smallSnake;
 
-  @XmlElement(name = "Capital_Snake")
   public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
+  @XmlElement(name = "Capital_Snake")
   private String capitalSnake;
 
-  @XmlElement(name = "SCA_ETH_Flow_Points")
   public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
+  @XmlElement(name = "SCA_ETH_Flow_Points")
   private String scAETHFlowPoints;
 
-  @XmlElement(name = "ATT_NAME")
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
+  @XmlElement(name = "ATT_NAME")
   private String ATT_NAME;
 
 

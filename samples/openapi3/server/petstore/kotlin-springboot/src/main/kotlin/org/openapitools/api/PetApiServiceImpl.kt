@@ -18,7 +18,7 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>, maxCount: kotlin.Int?): List<Pet> {
+    override fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet> {
         TODO("Implement me")
     }
 

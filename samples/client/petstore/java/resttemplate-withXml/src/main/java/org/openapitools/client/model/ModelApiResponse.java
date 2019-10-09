@@ -21,27 +21,33 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * ModelApiResponse
  */
+@JsonPropertyOrder({
+  ModelApiResponse.JSON_PROPERTY_CODE,
+  ModelApiResponse.JSON_PROPERTY_TYPE,
+  ModelApiResponse.JSON_PROPERTY_MESSAGE
+})
 
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 public class ModelApiResponse {
-  @XmlElement(name = "code")
   public static final String JSON_PROPERTY_CODE = "code";
+  @XmlElement(name = "code")
   private Integer code;
 
-  @XmlElement(name = "type")
   public static final String JSON_PROPERTY_TYPE = "type";
+  @XmlElement(name = "type")
   private String type;
 
-  @XmlElement(name = "message")
   public static final String JSON_PROPERTY_MESSAGE = "message";
+  @XmlElement(name = "message")
   private String message;
 
 

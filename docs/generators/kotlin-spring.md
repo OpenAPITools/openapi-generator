@@ -14,7 +14,9 @@ sidebar_label: kotlin-spring
 |artifactId|Generated artifact id (name of jar).| |openapi-spring|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
+|serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |serverPort|configuration the port in which the sever is to run on| |8080|

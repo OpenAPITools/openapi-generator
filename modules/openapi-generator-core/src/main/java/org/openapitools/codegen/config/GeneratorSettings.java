@@ -30,6 +30,7 @@ import java.util.*;
 public final class GeneratorSettings implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneratorSettings.class);
+    private static String DEFAULT_GIT_HOST = "github.com";
     private static String DEFAULT_GIT_USER_ID = "GIT_USER_ID";
     private static String DEFAULT_GIT_REPO_ID = "GIT_REPO_ID";
     private static String DEFAULT_RELEASE_NOTE = "Minor update";
@@ -39,6 +40,7 @@ public final class GeneratorSettings implements Serializable {
     private String modelPackage;
     private String invokerPackage;
     private String packageName;
+    private String apiNameSuffix;
     private String modelNamePrefix;
     private String modelNameSuffix;
     private String groupId;
@@ -54,6 +56,7 @@ public final class GeneratorSettings implements Serializable {
     private ImmutableMap<String, String> reservedWordMappings;
     private ImmutableMap<String, String> serverVariables;
 
+    private String gitHost;
     private String gitUserId;
     private String gitRepoId;
     private String releaseNote;
@@ -102,6 +105,21 @@ public final class GeneratorSettings implements Serializable {
      */
     public String getPackageName() {
         return packageName;
+    }
+
+    /**
+     * Gets a api name suffix for generated models. This name will be appended to a api name.
+     * <p>
+     * This option is often used to circumvent compilation issues where models match keywords.
+     * <p>
+     * Example:
+     * <p>
+     * Suffix <code>Gen</code> applied to <code>Object</code> results in a generated class named <code>ObjectGen</code>.
+     *
+     * @return the model name suffix
+     */
+    public String getApiNameSuffix() {
+        return apiNameSuffix;
     }
 
     /**
@@ -256,6 +274,17 @@ public final class GeneratorSettings implements Serializable {
         return serverVariables;
     }
 
+    /**
+     * Gets git host. e.g. <strong>gitlab.com</strong>.
+     * <p>
+     * Generally used by git_push.sh in generated sources which support it.
+     * This value may also be used by templates in maven style references, READMEs, or other documentation.
+     *
+     * @return the git host
+     */
+    public String getGitHost() {
+        return gitHost;
+    }
 
     /**
      * Gets git user id. e.g. <strong>openapitools</strong>.
@@ -312,6 +341,7 @@ public final class GeneratorSettings implements Serializable {
         modelPackage = builder.modelPackage;
         invokerPackage = builder.invokerPackage;
         packageName = builder.packageName;
+        apiNameSuffix = builder.apiNameSuffix;
         modelNamePrefix = builder.modelNamePrefix;
         modelNameSuffix = builder.modelNameSuffix;
         groupId = builder.groupId;
@@ -324,6 +354,7 @@ public final class GeneratorSettings implements Serializable {
         languageSpecificPrimitives = ImmutableSet.copyOf(builder.languageSpecificPrimitives);
         reservedWordMappings = ImmutableMap.copyOf(builder.reservedWordMappings);
         serverVariables = ImmutableMap.copyOf(builder.serverVariables);
+        gitHost = builder.gitHost;
         gitUserId = builder.gitUserId;
         gitRepoId = builder.gitRepoId;
         releaseNote = builder.releaseNote;
@@ -352,11 +383,17 @@ public final class GeneratorSettings implements Serializable {
         if (isNotEmpty(artifactVersion)) {
             additional.put("artifactVersion", artifactVersion);
         }
+        if (isNotEmpty(apiNameSuffix)) {
+            additional.put("apiNameSuffix", apiNameSuffix);
+        }
         if (isNotEmpty(modelNamePrefix)) {
             additional.put("modelNamePrefix", modelNamePrefix);
         }
         if (isNotEmpty(modelNameSuffix)) {
             additional.put("modelNameSuffix", modelNameSuffix);
+        }
+        if (isNotEmpty(gitHost)) {
+            additional.put("gitHost", gitHost);
         }
         if (isNotEmpty(gitUserId)) {
             additional.put("gitUserId", gitUserId);
@@ -390,6 +427,7 @@ public final class GeneratorSettings implements Serializable {
     }
 
     private void setDefaults() {
+        gitHost = DEFAULT_GIT_HOST;
         gitUserId = DEFAULT_GIT_USER_ID;
         gitRepoId = DEFAULT_GIT_REPO_ID;
         releaseNote = DEFAULT_RELEASE_NOTE;
@@ -415,19 +453,35 @@ public final class GeneratorSettings implements Serializable {
         builder.modelPackage = copy.getModelPackage();
         builder.invokerPackage = copy.getInvokerPackage();
         builder.packageName = copy.getPackageName();
+        builder.apiNameSuffix = copy.getApiNameSuffix();
         builder.modelNamePrefix = copy.getModelNamePrefix();
         builder.modelNameSuffix = copy.getModelNameSuffix();
         builder.groupId = copy.getGroupId();
         builder.artifactId = copy.getArtifactId();
         builder.artifactVersion = copy.getArtifactVersion();
         builder.library = copy.getLibrary();
-        builder.instantiationTypes = new HashMap<>(copy.getInstantiationTypes());
-        builder.typeMappings = new HashMap<>(copy.getTypeMappings());
-        builder.additionalProperties = new HashMap<>(copy.getAdditionalProperties());
-        builder.importMappings = new HashMap<>(copy.getImportMappings());
-        builder.languageSpecificPrimitives = new HashSet<>(copy.getLanguageSpecificPrimitives());
-        builder.reservedWordMappings = new HashMap<>(copy.getReservedWordMappings());
-        builder.serverVariables = new HashMap<>(copy.getServerVariables());
+        if (copy.getInstantiationTypes() != null) {
+            builder.instantiationTypes.putAll(copy.getInstantiationTypes());
+        }
+        if (copy.getTypeMappings() != null) {
+            builder.typeMappings.putAll(copy.getTypeMappings());
+        }
+        if (copy.getAdditionalProperties() != null) {
+            builder.additionalProperties.putAll(copy.getAdditionalProperties());
+        }
+        if (copy.getImportMappings() != null) {
+            builder.importMappings.putAll(copy.getImportMappings());
+        }
+        if (copy.getLanguageSpecificPrimitives() != null) {
+            builder.languageSpecificPrimitives.addAll(copy.getLanguageSpecificPrimitives());
+        }
+        if (copy.getReservedWordMappings() != null) {
+            builder.reservedWordMappings.putAll(copy.getReservedWordMappings());
+        }
+        if (copy.getServerVariables() != null) {
+            builder.serverVariables.putAll(copy.getServerVariables());
+        }
+        builder.gitHost = copy.getGitHost();
         builder.gitUserId = copy.getGitUserId();
         builder.gitRepoId = copy.getGitRepoId();
         builder.releaseNote = copy.getReleaseNote();
@@ -446,6 +500,7 @@ public final class GeneratorSettings implements Serializable {
         private String modelPackage;
         private String invokerPackage;
         private String packageName;
+        private String apiNameSuffix;
         private String modelNamePrefix;
         private String modelNameSuffix;
         private String groupId;
@@ -459,6 +514,7 @@ public final class GeneratorSettings implements Serializable {
         private Set<String> languageSpecificPrimitives;
         private Map<String, String> reservedWordMappings;
         private Map<String, String> serverVariables;
+        private String gitHost;
         private String gitUserId;
         private String gitRepoId;
         private String releaseNote;
@@ -476,6 +532,7 @@ public final class GeneratorSettings implements Serializable {
             reservedWordMappings = new HashMap<>();
             serverVariables = new HashMap<>();
 
+            gitHost = DEFAULT_GIT_HOST;
             gitUserId = DEFAULT_GIT_USER_ID;
             gitRepoId = DEFAULT_GIT_REPO_ID;
             releaseNote = DEFAULT_RELEASE_NOTE;
@@ -533,6 +590,17 @@ public final class GeneratorSettings implements Serializable {
          */
         public Builder withPackageName(String packageName) {
             this.packageName = packageName;
+            return this;
+        }
+
+        /**
+         * Sets the {@code apiNameSuffix} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param apiNameSuffix the {@code apiNameSuffix} to set
+         * @return a reference to this Builder
+         */
+        public Builder withApiNameSuffix(String apiNameSuffix) {
+            this.apiNameSuffix = apiNameSuffix;
             return this;
         }
 
@@ -770,6 +838,17 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code gitHost} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param gitHost the {@code gitHost} to set
+         * @return a reference to this Builder
+         */
+        public Builder withGitHost(String gitHost) {
+            this.gitHost = gitHost;
+            return this;
+        }
+
+        /**
          * Sets the {@code gitUserId} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param gitUserId the {@code gitUserId} to set
@@ -834,6 +913,7 @@ public final class GeneratorSettings implements Serializable {
                 ", modelPackage='" + modelPackage + '\'' +
                 ", invokerPackage='" + invokerPackage + '\'' +
                 ", packageName='" + packageName + '\'' +
+                ", apiNameSuffix='" + apiNameSuffix + '\'' +
                 ", modelNamePrefix='" + modelNamePrefix + '\'' +
                 ", modelNameSuffix='" + modelNameSuffix + '\'' +
                 ", groupId='" + groupId + '\'' +
@@ -846,6 +926,7 @@ public final class GeneratorSettings implements Serializable {
                 ", importMappings=" + importMappings +
                 ", languageSpecificPrimitives=" + languageSpecificPrimitives +
                 ", reservedWordMappings=" + reservedWordMappings +
+                ", gitHost='" + gitHost + '\'' +
                 ", gitUserId='" + gitUserId + '\'' +
                 ", gitRepoId='" + gitRepoId + '\'' +
                 ", releaseNote='" + releaseNote + '\'' +
@@ -863,6 +944,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getModelPackage(), that.getModelPackage()) &&
                 Objects.equals(getInvokerPackage(), that.getInvokerPackage()) &&
                 Objects.equals(getPackageName(), that.getPackageName()) &&
+                Objects.equals(getApiNameSuffix(), that.getApiNameSuffix()) &&
                 Objects.equals(getModelNamePrefix(), that.getModelNamePrefix()) &&
                 Objects.equals(getModelNameSuffix(), that.getModelNameSuffix()) &&
                 Objects.equals(getGroupId(), that.getGroupId()) &&
@@ -875,6 +957,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getImportMappings(), that.getImportMappings()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getReservedWordMappings(), that.getReservedWordMappings()) &&
+                Objects.equals(getGitHost(), that.getGitHost()) &&
                 Objects.equals(getGitUserId(), that.getGitUserId()) &&
                 Objects.equals(getGitRepoId(), that.getGitRepoId()) &&
                 Objects.equals(getReleaseNote(), that.getReleaseNote()) &&
@@ -889,6 +972,7 @@ public final class GeneratorSettings implements Serializable {
                 getModelPackage(),
                 getInvokerPackage(),
                 getPackageName(),
+                getApiNameSuffix(),
                 getModelNamePrefix(),
                 getModelNameSuffix(),
                 getGroupId(),
@@ -901,6 +985,7 @@ public final class GeneratorSettings implements Serializable {
                 getImportMappings(),
                 getLanguageSpecificPrimitives(),
                 getReservedWordMappings(),
+                getGitHost(),
                 getGitUserId(),
                 getGitRepoId(),
                 getReleaseNote(),

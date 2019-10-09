@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -42,6 +43,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -912,6 +914,41 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void arrayInnerReferencedSchemaMarkedAsModel_20() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/arrayRefBody.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Set<String> imports = new HashSet<>();
+
+        RequestBody body = openAPI.getPaths().get("/examples").getPost().getRequestBody();
+
+        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+
+        Assert.assertTrue(codegenParameter.isContainer);
+        Assert.assertTrue(codegenParameter.items.isModel);
+        Assert.assertFalse(codegenParameter.items.isContainer);
+    }
+
+    @Test
+    public void arrayInnerReferencedSchemaMarkedAsModel_30() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/arrayRefBody.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Set<String> imports = new HashSet<>();
+
+        RequestBody body = openAPI.getPaths().get("/examples").getPost().getRequestBody();
+
+        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+
+        Assert.assertTrue(codegenParameter.isContainer);
+        Assert.assertTrue(codegenParameter.items.isModel);
+        Assert.assertFalse(codegenParameter.items.isContainer);
+    }
+
+    @Test
     @SuppressWarnings("unchecked")
     public void commonLambdasRegistrationTest() {
 
@@ -930,6 +967,21 @@ public class DefaultCodegenTest {
         assertTrue(lambdas.get("indented_8") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_12") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_16") instanceof IndentedLambda, "Expecting IndentedLambda class");
+    }
+
+    @Test
+    public void convertApiNameWithEmptySuffix() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        assertEquals(codegen.toApiName("Fake"), "FakeApi");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithSuffix() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setApiNameSuffix("Test");
+        assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
     }
 
 }

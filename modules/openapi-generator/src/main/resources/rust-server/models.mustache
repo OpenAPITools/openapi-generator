@@ -51,9 +51,19 @@ impl ::std::str::FromStr for {{{classname}}} {
         }
     }
 }
-{{/isEnum}}{{^isEnum}}{{#dataType}}{{! newtype}}#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+{{/isEnum}}
+{{^isEnum}}
+{{#dataType}}
+{{#isMapModel}}
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+{{/isMapModel}}
+{{^isMapModel}}
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+{{/isMapModel}}
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-{{#xmlName}}#[serde(rename = "{{{xmlName}}}")]{{/xmlName}}
+{{#xmlName}}
+#[serde(rename = "{{{xmlName}}}")]
+{{/xmlName}}
 pub struct {{{classname}}}({{{dataType}}});
 
 impl ::std::convert::From<{{{dataType}}}> for {{{classname}}} {

@@ -1,0 +1,24 @@
+# Example Logging Configuration File
+# For more information see $JAVA_HOME/jre/lib/logging.properties
+
+# Send messages to the console
+handlers=java.util.logging.ConsoleHandler
+
+# Global default logging level. Can be overriden by specific handlers and loggers
+.level=INFO
+
+# Helidon Web Server has a custom log formatter that extends SimpleFormatter.
+# It replaces "!thread!" with the current thread name
+java.util.logging.ConsoleHandler.level=INFO
+java.util.logging.ConsoleHandler.formatter=io.helidon.webserver.WebServerLogFormatter
+java.util.logging.SimpleFormatter.format=%1$tY.%1$tm.%1$td %1$tH:%1$tM:%1$tS %4$s %3$s !thread!: %5$s%6$s%n
+
+#Component specific log levels
+#io.helidon.webserver.level=INFO
+#io.helidon.config.level=INFO
+#io.helidon.security.level=INFO
+#io.helidon.microprofile.level=INFO
+#io.helidon.common.level=INFO
+#io.netty.level=INFO
+#org.glassfish.jersey.level=INFO
+#org.jboss.weld=INFO

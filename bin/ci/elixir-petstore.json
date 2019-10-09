@@ -1,0 +1,9 @@
+{
+  "generatorName": "elixir",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/client/petstore/elixir/",
+  "templateDir": "modules/openapi-generator/src/main/resources/elixir",
+  "additionalProperties": {
+    "invokerPackage": "OpenapiPetstore"
+  }
+}

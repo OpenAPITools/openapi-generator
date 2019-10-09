@@ -10,7 +10,7 @@
 -}
 
 
-module Data.ApiResponse exposing (ApiResponse, decoder, encode)
+module Data.ApiResponse exposing (ApiResponse, decoder, encode, toString)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -44,5 +44,13 @@ encode model =
         , ( "message", Maybe.withDefault Encode.null (Maybe.map Encode.string model.message) )
 
         ]
+
+
+
+toString : ApiResponse -> String
+toString =
+    Encode.encode 0 << encode
+
+
 
 

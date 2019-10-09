@@ -163,7 +163,8 @@ class PetApiTests(unittest.TestCase):
     def test_async_with_http_info(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id_with_http_info(self.pet.id, async_req=True)
+        thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True,
+                                            _return_http_data_only=False)
         data, status, headers = thread.get()
 
         self.assertIsInstance(data, petstore_api.Pet)
@@ -195,7 +196,10 @@ class PetApiTests(unittest.TestCase):
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         self.pet_api.add_pet(self.pet)
 
-        fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
+        fetched = self.pet_api.get_pet_by_id(
+            pet_id=self.pet.id,
+            _return_http_data_only=False
+        )
         self.assertIsNotNone(fetched)
         self.assertEqual(self.pet.id, fetched[0].id)
         self.assertIsNotNone(fetched[0].category)

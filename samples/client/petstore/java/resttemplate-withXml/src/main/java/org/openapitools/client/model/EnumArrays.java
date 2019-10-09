@@ -23,12 +23,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * EnumArrays
  */
+@JsonPropertyOrder({
+  EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
+  EnumArrays.JSON_PROPERTY_ARRAY_ENUM
+})
 
 @XmlRootElement(name = "EnumArrays")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -69,8 +74,8 @@ public class EnumArrays {
     }
   }
 
-  @XmlElement(name = "just_symbol")
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
+  @XmlElement(name = "just_symbol")
   private JustSymbolEnum justSymbol;
 
   /**
@@ -108,11 +113,11 @@ public class EnumArrays {
     }
   }
 
+  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   // Is a container wrapped=false
   // items.name=arrayEnum items.baseName=arrayEnum items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayEnum")
-  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   private List<ArrayEnumEnum> arrayEnum = null;
 
 

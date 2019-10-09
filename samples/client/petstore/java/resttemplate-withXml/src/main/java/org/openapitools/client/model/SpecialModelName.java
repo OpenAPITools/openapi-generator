@@ -21,19 +21,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * SpecialModelName
  */
+@JsonPropertyOrder({
+  SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
+})
 
 @XmlRootElement(name = "$special[model.name]")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "$special[model.name]")
 public class SpecialModelName {
-  @XmlElement(name = "$special[property.name]")
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
+  @XmlElement(name = "$special[property.name]")
   private Long $specialPropertyName;
 
 

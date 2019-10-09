@@ -4,19 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Integer** | Pointer to **int32** |  | [optional]
-**Int32** | Pointer to **int32** |  | [optional]
-**Int64** | Pointer to **int64** |  | [optional]
+**Integer** | Pointer to **int32** |  | [optional] 
+**Int32** | Pointer to **int32** |  | [optional] 
+**Int64** | Pointer to **int64** |  | [optional] 
 **Number** | Pointer to **float32** |  | 
-**Float** | Pointer to **float32** |  | [optional]
-**Double** | Pointer to **float64** |  | [optional]
-**String** | Pointer to **string** |  | [optional]
+**Float** | Pointer to **float32** |  | [optional] 
+**Double** | Pointer to **float64** |  | [optional] 
+**String** | Pointer to **string** |  | [optional] 
 **Byte** | Pointer to **string** |  | 
-**Binary** | Pointer to [***os.File**](*os.File.md) |  | [optional]
+**Binary** | Pointer to [***os.File**](*os.File.md) |  | [optional] 
 **Date** | Pointer to **string** |  | 
-**DateTime** | Pointer to [**time.Time**](time.Time.md) |  | [optional]
-**Uuid** | Pointer to **string** |  | [optional]
+**DateTime** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
+**Uuid** | Pointer to **string** |  | [optional] 
 **Password** | Pointer to **string** |  | 
+**BigDecimal** | Pointer to **float64** |  | [optional] 
 
 ## Methods
 
@@ -344,6 +345,31 @@ HasPassword returns a boolean if a field has been set.
 `func (o *FormatTest) SetPassword(v string)`
 
 SetPassword gets a reference to the given string and assigns it to the Password field.
+
+### GetBigDecimal
+
+`func (o *FormatTest) GetBigDecimal() float64`
+
+GetBigDecimal returns the BigDecimal field if non-nil, zero value otherwise.
+
+### GetBigDecimalOk
+
+`func (o *FormatTest) GetBigDecimalOk() (float64, bool)`
+
+GetBigDecimalOk returns a tuple with the BigDecimal field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### HasBigDecimal
+
+`func (o *FormatTest) HasBigDecimal() bool`
+
+HasBigDecimal returns a boolean if a field has been set.
+
+### SetBigDecimal
+
+`func (o *FormatTest) SetBigDecimal(v float64)`
+
+SetBigDecimal gets a reference to the given float64 and assigns it to the BigDecimal field.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

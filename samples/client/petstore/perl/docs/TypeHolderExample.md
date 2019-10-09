@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **string_item** | **string** |  | 
 **number_item** | **double** |  | 
+**float_item** | **double** |  | 
 **integer_item** | **int** |  | 
 **bool_item** | **boolean** |  | 
 **array_item** | **ARRAY[int]** |  | 

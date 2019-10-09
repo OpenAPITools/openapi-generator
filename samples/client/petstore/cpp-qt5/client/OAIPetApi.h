@@ -16,7 +16,7 @@
 #include "OAIHttpRequest.h"
 
 #include "OAIApiResponse.h"
-#include "OAIHttpRequest.h"
+#include "OAIHttpFileElement.h"
 #include "OAIPet.h"
 #include <QString>
 
@@ -35,6 +35,7 @@ public:
     void setBasePath(const QString& basePath);
     void setHost(const QString& host);
     void setApiTimeOutMs(const int tout);
+    void setWorkingDirectory(const QString& path);
     void addHeaders(const QString& key, const QString& value);
 
     void addPet(const OAIPet& body);
@@ -44,11 +45,12 @@ public:
     void getPetById(const qint64& pet_id);
     void updatePet(const OAIPet& body);
     void updatePetWithForm(const qint64& pet_id, const QString& name, const QString& status);
-    void uploadFile(const qint64& pet_id, const QString& additional_metadata, const OAIHttpRequestInputFileElement*& file);
+    void uploadFile(const qint64& pet_id, const QString& additional_metadata, const OAIHttpFileElement& file);
     
 private:
     QString basePath;
     QString host;
+    QString workingDirectory;
     int timeout;
     QMap<QString, QString> defaultHeaders;
     void addPetCallback (OAIHttpRequestWorker * worker);

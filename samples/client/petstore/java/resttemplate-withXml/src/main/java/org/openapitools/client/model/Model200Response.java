@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -28,17 +29,21 @@ import javax.xml.bind.annotation.*;
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
+@JsonPropertyOrder({
+  Model200Response.JSON_PROPERTY_NAME,
+  Model200Response.JSON_PROPERTY_PROPERTY_CLASS
+})
 
 @XmlRootElement(name = "Name")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Name")
 public class Model200Response {
-  @XmlElement(name = "name")
   public static final String JSON_PROPERTY_NAME = "name";
+  @XmlElement(name = "name")
   private Integer name;
 
-  @XmlElement(name = "class")
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
+  @XmlElement(name = "class")
   private String propertyClass;
 
 

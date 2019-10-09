@@ -24,19 +24,23 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * AdditionalPropertiesArray
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesArray.JSON_PROPERTY_NAME
+})
 
 @XmlRootElement(name = "AdditionalPropertiesArray")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesArray")
 public class AdditionalPropertiesArray extends HashMap<String, List> {
-  @XmlElement(name = "name")
   public static final String JSON_PROPERTY_NAME = "name";
+  @XmlElement(name = "name")
   private String name;
 
 

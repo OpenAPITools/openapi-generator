@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// Client struct for Client
 type Client struct {
 	Client string `json:"client,omitempty"`
 }

@@ -21,23 +21,28 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * HasOnlyReadOnly
  */
+@JsonPropertyOrder({
+  HasOnlyReadOnly.JSON_PROPERTY_BAR,
+  HasOnlyReadOnly.JSON_PROPERTY_FOO
+})
 
 @XmlRootElement(name = "HasOnlyReadOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "HasOnlyReadOnly")
 public class HasOnlyReadOnly {
-  @XmlElement(name = "bar")
   public static final String JSON_PROPERTY_BAR = "bar";
+  @XmlElement(name = "bar")
   private String bar;
 
-  @XmlElement(name = "foo")
   public static final String JSON_PROPERTY_FOO = "foo";
+  @XmlElement(name = "foo")
   private String foo;
 
 

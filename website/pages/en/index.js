@@ -158,7 +158,7 @@ class Index extends React.Component {
     | \`\`\`bash
     | docker run --rm \\
     | -v \${PWD}:/local openapitools/openapi-generator-cli generate \\
-    | -i petstore.yaml \\
+    | -i /local/petstore.yaml \\
     | -g go \\
     | -o /local/out/go
     | \`\`\`
@@ -233,11 +233,12 @@ class Index extends React.Component {
               '* Gradle Plugin\n' +
               '* CLI via Homebrew\n' +
               '* CLI via Docker\n' +
+              '* CLI via npm\n' +
               '* Generator SaaS\n\n' +
               'For details, see  [Workflow Integrations](' + this.docUrl('integrations.html', this.props.language) + ')\n\n' +
               'Generation also allows for easy customization via options, custom templates, or even custom generators on your classpath. ' +
                'See [Customization](' + this.docUrl('customization.html', this.props.language) + ') for details.\n\n' +
-              'As a very community-oriented project, the core team is also active on the project\'s [Gitter channel](https://gitter.im/OpenAPITools/openapi-generator).',
+              'As a very community-oriented project, the core team is also active on the project\'s [Slack Workspace](https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM).',
             image: `${baseUrl}img/color-logo.svg`,
             imageAlign: 'right',
             title: 'Learn How',

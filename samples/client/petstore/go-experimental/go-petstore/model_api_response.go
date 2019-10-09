@@ -11,7 +11,7 @@ package petstore
 import (
 	"encoding/json"
 )
-
+// ApiResponse struct for ApiResponse
 type ApiResponse struct {
 	Code *int32 `json:"code,omitempty"`
 
@@ -121,6 +121,7 @@ func (o *ApiResponse) SetMessage(v string) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o ApiResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Code != nil {

@@ -21,47 +21,58 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * User
  */
+@JsonPropertyOrder({
+  User.JSON_PROPERTY_ID,
+  User.JSON_PROPERTY_USERNAME,
+  User.JSON_PROPERTY_FIRST_NAME,
+  User.JSON_PROPERTY_LAST_NAME,
+  User.JSON_PROPERTY_EMAIL,
+  User.JSON_PROPERTY_PASSWORD,
+  User.JSON_PROPERTY_PHONE,
+  User.JSON_PROPERTY_USER_STATUS
+})
 
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "User")
 public class User {
-  @XmlElement(name = "id")
   public static final String JSON_PROPERTY_ID = "id";
+  @XmlElement(name = "id")
   private Long id;
 
-  @XmlElement(name = "username")
   public static final String JSON_PROPERTY_USERNAME = "username";
+  @XmlElement(name = "username")
   private String username;
 
-  @XmlElement(name = "firstName")
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
+  @XmlElement(name = "firstName")
   private String firstName;
 
-  @XmlElement(name = "lastName")
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
+  @XmlElement(name = "lastName")
   private String lastName;
 
-  @XmlElement(name = "email")
   public static final String JSON_PROPERTY_EMAIL = "email";
+  @XmlElement(name = "email")
   private String email;
 
-  @XmlElement(name = "password")
   public static final String JSON_PROPERTY_PASSWORD = "password";
+  @XmlElement(name = "password")
   private String password;
 
-  @XmlElement(name = "phone")
   public static final String JSON_PROPERTY_PHONE = "phone";
+  @XmlElement(name = "phone")
   private String phone;
 
-  @XmlElement(name = "userStatus")
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
+  @XmlElement(name = "userStatus")
   private Integer userStatus;
 
 

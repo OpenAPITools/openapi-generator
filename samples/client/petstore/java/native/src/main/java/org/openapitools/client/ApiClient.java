@@ -264,6 +264,17 @@ public class ApiClient {
   }
 
   /**
+   * Set a custom scheme for the target service, for example 'https'.
+   *
+   * @param scheme The scheme of the target service
+   * @return This object.
+   */
+  public ApiClient setScheme(String scheme){
+    this.scheme = scheme;
+    return this;
+  }
+
+  /**
    * Set a custom request interceptor.
    *
    * <p>A request interceptor is a mechanism for altering each request before it

@@ -23,12 +23,17 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Animal
  */
+@JsonPropertyOrder({
+  Animal.JSON_PROPERTY_CLASS_NAME,
+  Animal.JSON_PROPERTY_COLOR
+})
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
@@ -40,12 +45,12 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Animal")
 public class Animal {
-  @XmlElement(name = "className")
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @XmlElement(name = "className")
   private String className;
 
-  @XmlElement(name = "color")
   public static final String JSON_PROPERTY_COLOR = "color";
+  @XmlElement(name = "color")
   private String color = "red";
 
 

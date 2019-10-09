@@ -20,6 +20,7 @@ use tokio_core::reactor;
 use openapi_v3::{ApiNoContext, ContextWrapperExt,
                       ApiError,
                       RequiredOctetStreamPutResponse,
+                      ResponsesWithHeadersGetResponse,
                       UuidGetResponse,
                       XmlExtraPostResponse,
                       XmlOtherPostResponse,
@@ -35,6 +36,7 @@ fn main() {
             .help("Sets the operation to run")
             .possible_values(&[
     "RequiredOctetStreamPut",
+    "ResponsesWithHeadersGet",
     "UuidGet",
     "XmlExtraPost",
     "XmlOtherPost",
@@ -83,6 +85,11 @@ fn main() {
 
         Some("RequiredOctetStreamPut") => {
             let result = core.run(client.required_octet_stream_put(swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"))));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("ResponsesWithHeadersGet") => {
+            let result = core.run(client.responses_with_headers_get());
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 

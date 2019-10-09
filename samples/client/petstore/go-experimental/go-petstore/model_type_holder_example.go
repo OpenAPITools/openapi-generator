@@ -12,11 +12,13 @@ import (
 	"encoding/json"
 	"errors"
 )
-
+// TypeHolderExample struct for TypeHolderExample
 type TypeHolderExample struct {
 	StringItem *string `json:"string_item,omitempty"`
 
 	NumberItem *float32 `json:"number_item,omitempty"`
+
+	FloatItem *float32 `json:"float_item,omitempty"`
 
 	IntegerItem *int32 `json:"integer_item,omitempty"`
 
@@ -90,6 +92,39 @@ func (o *TypeHolderExample) HasNumberItem() bool {
 // SetNumberItem gets a reference to the given float32 and assigns it to the NumberItem field.
 func (o *TypeHolderExample) SetNumberItem(v float32) {
 	o.NumberItem = &v
+}
+
+// GetFloatItem returns the FloatItem field if non-nil, zero value otherwise.
+func (o *TypeHolderExample) GetFloatItem() float32 {
+	if o == nil || o.FloatItem == nil {
+		var ret float32
+		return ret
+	}
+	return *o.FloatItem
+}
+
+// GetFloatItemOk returns a tuple with the FloatItem field if it's non-nil, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *TypeHolderExample) GetFloatItemOk() (float32, bool) {
+	if o == nil || o.FloatItem == nil {
+		var ret float32
+		return ret, false
+	}
+	return *o.FloatItem, true
+}
+
+// HasFloatItem returns a boolean if a field has been set.
+func (o *TypeHolderExample) HasFloatItem() bool {
+	if o != nil && o.FloatItem != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetFloatItem gets a reference to the given float32 and assigns it to the FloatItem field.
+func (o *TypeHolderExample) SetFloatItem(v float32) {
+	o.FloatItem = &v
 }
 
 // GetIntegerItem returns the IntegerItem field if non-nil, zero value otherwise.
@@ -192,6 +227,7 @@ func (o *TypeHolderExample) SetArrayItem(v []int32) {
 }
 
 
+// MarshalJSON returns the JSON representation of the model.
 func (o TypeHolderExample) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.StringItem == nil {
@@ -205,6 +241,12 @@ func (o TypeHolderExample) MarshalJSON() ([]byte, error) {
 	}
 	if o.NumberItem != nil {
 		toSerialize["number_item"] = o.NumberItem
+	}
+	if o.FloatItem == nil {
+		return nil, errors.New("FloatItem is required and not nullable, but was not set on TypeHolderExample")
+	}
+	if o.FloatItem != nil {
+		toSerialize["float_item"] = o.FloatItem
 	}
 	if o.IntegerItem == nil {
 		return nil, errors.New("IntegerItem is required and not nullable, but was not set on TypeHolderExample")

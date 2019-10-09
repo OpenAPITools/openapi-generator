@@ -119,8 +119,9 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.22"
-    jackson_version = "2.9.9"
-    jackson_databind_version = "2.9.9"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10"
+    jackson-databind-nullable-version = "0.2.0"
     {{#supportJava6}}
     jersey_version = "2.6"
     commons_io_version=2.5
@@ -144,6 +145,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson-databind-nullable-version"
     {{#joda}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
