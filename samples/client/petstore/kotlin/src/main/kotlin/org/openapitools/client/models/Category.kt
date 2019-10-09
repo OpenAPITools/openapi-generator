@@ -28,9 +28,9 @@ public data class Category (
 ) 
 : Serializable 
 
-{
+
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
-}
+
 
