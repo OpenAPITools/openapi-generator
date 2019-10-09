@@ -240,6 +240,18 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
         imports.remove(createMapping("import", "github.com/antihax/optional"));
         imports.remove(createMapping("import", "strings"));
 
+        // add fmt if not already imported
+        boolean importsFMT = false;
+        for(Map<String, String> imp : imports) {
+            if (imp.containsKey("import") && imp.get("import").equals("fmt")) {
+                importsFMT = true;
+            }
+        }
+
+        if (!importsFMT) {
+            imports.add(createMapping("import", "fmt"));
+        }
+
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
