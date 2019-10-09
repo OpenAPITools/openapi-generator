@@ -1,30 +1,16 @@
-package {{packageName}}.infrastructure
+package org.openapitools.client.infrastructure
 
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-{{#jvm-okhttp3}}
 import okhttp3.MediaType
-{{/jvm-okhttp3}}
-{{#jvm-okhttp4}}
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-{{/jvm-okhttp4}}
 import okhttp3.FormBody
-{{#jvm-okhttp3}}
 import okhttp3.HttpUrl
-{{/jvm-okhttp3}}
-{{#jvm-okhttp4}}
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-{{/jvm-okhttp4}}
 import okhttp3.ResponseBody
-{{#jvm-okhttp4}}
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-{{/jvm-okhttp4}}
 import okhttp3.Request
 import java.io.File
 
-{{>visibility}} open class ApiClient(val baseUrl: String) {
-    {{>visibility}} companion object {
+open class ApiClient(val baseUrl: String) {
+    companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
         protected const val Authorization = "Authorization"
@@ -50,16 +36,9 @@ import java.io.File
 
     protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
         when {
-            {{#jvm-okhttp3}}
             content is File -> RequestBody.create(
                 MediaType.parse(mediaType), content
             )
-            {{/jvm-okhttp3}}
-            {{#jvm-okhttp4}}
-            content is File -> content.asRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
-            {{/jvm-okhttp4}}
             mediaType == FormDataMediaType || mediaType == FormUrlEncMediaType -> {
                 FormBody.Builder().apply {
                     // content's type *must* be Map<String, Any>
@@ -69,16 +48,9 @@ import java.io.File
                     }
                 }.build()
             }
-            {{#jvm-okhttp3}}
             mediaType == JsonMediaType -> RequestBody.create(
                 MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
             )
-            {{/jvm-okhttp3}}
-            {{#jvm-okhttp4}}
-            mediaType == JsonMediaType -> Serializer.moshi.adapter(T::class.java).toJson(content).toRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
-            {{/jvm-okhttp4}}
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
@@ -98,68 +70,26 @@ import java.io.File
         }
     }
 
-    {{#hasAuthMethods}}
     protected fun updateAuthParams(requestConfig: RequestConfig) {
-        {{#authMethods}}
-        {{#isApiKey}}
-        {{#isKeyInHeader}}
-        if (requestConfig.headers["{{keyParamName}}"].isNullOrEmpty()) {
-        {{/isKeyInHeader}}
-        {{#isKeyInQuery}}
-        if (requestConfig.query["{{keyParamName}}"].isNullOrEmpty()) {
-        {{/isKeyInQuery}}
-            if (apiKey["{{keyParamName}}"] != null) {
-                if (apiKeyPrefix["{{keyParamName}}"] != null) {
-                    {{#isKeyInHeader}}
-                    requestConfig.headers["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!
-                    {{/isKeyInHeader}}
-                    {{#isKeyInQuery}}
-                    requestConfig.query["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!
-                    {{/isKeyInQuery}}
+        if (requestConfig.headers["api_key"].isNullOrEmpty()) {
+            if (apiKey["api_key"] != null) {
+                if (apiKeyPrefix["api_key"] != null) {
+                    requestConfig.headers["api_key"] = apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!
                 } else {
-                    {{#isKeyInHeader}}
-                    requestConfig.headers["{{keyParamName}}"] = apiKey["{{keyParamName}}"]!!
-                    {{/isKeyInHeader}}
-                    {{#isKeyInQuery}}
-                    requestConfig.query["{{keyParamName}}"] = apiKey["{{keyParamName}}"]!!
-                    {{/isKeyInQuery}}
+                    requestConfig.headers["api_key"] = apiKey["api_key"]!!
                 }
             }
         }
-        {{/isApiKey}}
-        {{#isBasic}}
-        {{^isBasicBearer}}
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = Credentials.basic(username, password)
-        }
-        {{/isBasicBearer}}
-        {{#isBasicBearer}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             requestConfig.headers[Authorization] = "Bearer " + accessToken
         }
-        {{/isBasicBearer}}
-        {{/isBasic}}
-        {{#isOAuth}}
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = "Bearer " + accessToken
-        }
-        {{/isOAuth}}
-        {{/authMethods}}
     }
-    {{/hasAuthMethods}}
 
     protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
-        {{#jvm-okhttp3}}
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
-        {{/jvm-okhttp3}}
-        {{#jvm-okhttp4}}
-        val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
-        {{/jvm-okhttp4}}
-        {{#hasAuthMethods}}
 
         // take authMethod from operation
         updateAuthParams(requestConfig)
-        {{/hasAuthMethods}}
 
         val url = httpUrl.newBuilder()
             .addPathSegments(requestConfig.path.trimStart('/'))
@@ -192,7 +122,7 @@ import java.io.File
         val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
 
         val request = when (requestConfig.method) {
-            RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(body, contentType))
+            RequestMethod.DELETE -> Request.Builder().url(url).delete()
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
             RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(body, contentType))
@@ -209,29 +139,29 @@ import java.io.File
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         when {
             response.isRedirect -> return Redirection(
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                    response.code(),
+                    response.headers().toMultimap()
             )
             response.isInformational -> return Informational(
-                    response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                    response.message(),
+                    response.code(),
+                    response.headers().toMultimap()
             )
             response.isSuccessful -> return Success(
-                    responseBody(response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}, accept),
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                    responseBody(response.body(), accept),
+                    response.code(),
+                    response.headers().toMultimap()
             )
             response.isClientError -> return ClientError(
-                    response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                    response.body()?.string(),
+                    response.code(),
+                    response.headers().toMultimap()
             )
             else -> return ServerError(
                     null,
-                    response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                    response.body()?.string(),
+                    response.code(),
+                    response.headers().toMultimap()
             )
         }
     }
