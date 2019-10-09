@@ -31,6 +31,10 @@ data class InlineObject2 (
 : Serializable 
 
 {
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+
 
     /**
     * Form parameter enum test (string array)
