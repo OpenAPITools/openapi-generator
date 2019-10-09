@@ -9,8 +9,8 @@ import okhttp3.ResponseBody
 import okhttp3.Request
 import java.io.File
 
-public open class ApiClient(val baseUrl: String) {
-    public companion object {
+open class ApiClient(val baseUrl: String) {
+    companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
         protected const val Authorization = "Authorization"

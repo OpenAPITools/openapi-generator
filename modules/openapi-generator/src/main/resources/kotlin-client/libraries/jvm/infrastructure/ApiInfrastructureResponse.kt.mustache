@@ -1,38 +1,38 @@
 package {{packageName}}.infrastructure
 
-{{>visibility}} enum class ResponseType {
+{{>visibility}}enum class ResponseType {
     Success, Informational, Redirection, ClientError, ServerError
 }
 
-{{>visibility}} abstract class ApiInfrastructureResponse<T>(val responseType: ResponseType) {
+{{>visibility}}abstract class ApiInfrastructureResponse<T>(val responseType: ResponseType) {
     abstract val statusCode: Int
     abstract val headers: Map<String,List<String>>
 }
 
-{{>visibility}} class Success<T>(
+{{>visibility}}class Success<T>(
     val data: T,
     override val statusCode: Int = -1,
     override val headers: Map<String, List<String>> = mapOf()
 ): ApiInfrastructureResponse<T>(ResponseType.Success)
 
-{{>visibility}} class Informational<T>(
+{{>visibility}}class Informational<T>(
     val statusText: String,
     override val statusCode: Int = -1,
     override val headers: Map<String, List<String>> = mapOf()
 ) : ApiInfrastructureResponse<T>(ResponseType.Informational)
 
-{{>visibility}} class Redirection<T>(
+{{>visibility}}class Redirection<T>(
     override val statusCode: Int = -1,
     override val headers: Map<String, List<String>> = mapOf()
 ) : ApiInfrastructureResponse<T>(ResponseType.Redirection)
 
-{{>visibility}} class ClientError<T>(
+{{>visibility}}class ClientError<T>(
     val body: Any? = null,
     override val statusCode: Int = -1,
     override val headers: Map<String, List<String>> = mapOf()
 ) : ApiInfrastructureResponse<T>(ResponseType.ClientError)
 
-{{>visibility}} class ServerError<T>(
+{{>visibility}}class ServerError<T>(
     val message: String? = null,
     val body: Any? = null,
     override val statusCode: Int = -1,

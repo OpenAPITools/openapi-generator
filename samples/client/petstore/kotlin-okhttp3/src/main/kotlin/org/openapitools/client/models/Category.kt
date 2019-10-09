@@ -23,7 +23,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 
-public data class Category (
+data class Category (
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "name")

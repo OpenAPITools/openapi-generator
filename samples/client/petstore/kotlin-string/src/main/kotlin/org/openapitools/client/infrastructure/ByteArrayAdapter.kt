@@ -3,7 +3,7 @@ package org.openapitools.client.infrastructure
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 
-public class ByteArrayAdapter {
+class ByteArrayAdapter {
     @ToJson
     fun toJson(data: ByteArray): String = String(data)
 

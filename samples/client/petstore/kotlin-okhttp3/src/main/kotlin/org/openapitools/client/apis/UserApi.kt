@@ -25,7 +25,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-public class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
+class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
 
     /**
     * Create user

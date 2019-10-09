@@ -2,7 +2,7 @@ package {{packageName}}.infrastructure
 
 typealias MultiValueMap = Map<String,List<String>>
 
-{{>visibility}} fun collectionDelimiter(collectionFormat: String) = when(collectionFormat) {
+{{>visibility}}fun collectionDelimiter(collectionFormat: String) = when(collectionFormat) {
     "csv" -> ","
     "tsv" -> "\t"
     "pipes" -> "|"
@@ -10,12 +10,12 @@ typealias MultiValueMap = Map<String,List<String>>
     else -> ""
 }
 
-{{>visibility}} val defaultMultiValueConverter: (item: Any?) -> String = { item -> "$item" }
+{{>visibility}}val defaultMultiValueConverter: (item: Any?) -> String = { item -> "$item" }
 
-{{>visibility}} fun <T : Any?> toMultiValue(items: Array<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter)
+{{>visibility}}fun <T : Any?> toMultiValue(items: Array<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter)
         = toMultiValue(items.asIterable(), collectionFormat, map)
 
-{{>visibility}} fun <T : Any?> toMultiValue(items: Iterable<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter): List<String> {
+{{>visibility}}fun <T : Any?> toMultiValue(items: Iterable<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter): List<String> {
     return when(collectionFormat) {
         "multi" -> items.map(map)
         else -> listOf(items.joinToString(separator = collectionDelimiter(collectionFormat), transform = map))

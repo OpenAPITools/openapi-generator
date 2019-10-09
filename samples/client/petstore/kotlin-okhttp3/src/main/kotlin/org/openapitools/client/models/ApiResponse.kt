@@ -24,7 +24,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 
-public data class ApiResponse (
+data class ApiResponse (
     @Json(name = "code")
     val code: kotlin.Int? = null,
     @Json(name = "type")

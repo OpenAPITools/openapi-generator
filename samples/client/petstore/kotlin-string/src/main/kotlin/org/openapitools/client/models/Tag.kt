@@ -20,7 +20,7 @@ import java.io.Serializable
  * @param name 
  */
 
-public data class Tag (
+data class Tag (
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "name")

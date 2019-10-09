@@ -26,7 +26,7 @@ import java.io.Serializable
  * @param userStatus User Status
  */
 
-public data class User (
+data class User (
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "username")

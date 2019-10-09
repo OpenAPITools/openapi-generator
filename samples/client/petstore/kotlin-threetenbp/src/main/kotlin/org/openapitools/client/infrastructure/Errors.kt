@@ -3,7 +3,7 @@ package org.openapitools.client.infrastructure
 
 import java.lang.RuntimeException
 
-public open class ClientException : RuntimeException {
+open class ClientException : RuntimeException {
 
     /**
      * Constructs an [ClientException] with no detail message.
@@ -22,7 +22,7 @@ public open class ClientException : RuntimeException {
     }
 }
 
-public open class ServerException : RuntimeException {
+open class ServerException : RuntimeException {
 
     /**
      * Constructs an [ServerException] with no detail message.

@@ -25,7 +25,7 @@ import com.squareup.moshi.Json
  * @param status pet status in the store
  */
 
-public data class Pet (
+data class Pet (
     @Json(name = "name")
     val name: kotlin.String,
     @Json(name = "photoUrls")
@@ -50,7 +50,7 @@ public data class Pet (
     * Values: available,pending,sold
     */
     
-    public enum class Status(val value: kotlin.String){
+    enum class Status(val value: kotlin.String){
     
         @Json(name = "available") available("available"),
     

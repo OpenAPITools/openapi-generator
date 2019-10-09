@@ -24,7 +24,7 @@ import kotlinx.serialization.json.JsonConfiguration
 import org.openapitools.client.apis.*
 import org.openapitools.client.models.*
 
-public open class ApiClient(
+open class ApiClient(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
         serializer: KotlinxSerializer) {
@@ -46,7 +46,7 @@ public open class ApiClient(
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
 
-    public companion object {
+    companion object {
         protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
 
         private fun setMappers(serializer: KotlinxSerializer) {

@@ -17,7 +17,7 @@ import {{packageName}}.infrastructure.Success
 import {{packageName}}.infrastructure.toMultiValue
 
 {{#operations}}
-{{>visibility}} class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
+{{>visibility}}class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
 
     {{#operation}}
     /**

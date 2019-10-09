@@ -24,7 +24,7 @@ import kotlinx.serialization.json.JsonConfiguration
 import {{apiPackage}}.*
 import {{modelPackage}}.*
 
-{{>visibility}} open class ApiClient(
+{{>visibility}}open class ApiClient(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
         serializer: KotlinxSerializer) {
@@ -46,7 +46,7 @@ import {{modelPackage}}.*
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
 
-    {{>visibility}} companion object {
+    {{>visibility}}companion object {
         protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
 
         private fun setMappers(serializer: KotlinxSerializer) {

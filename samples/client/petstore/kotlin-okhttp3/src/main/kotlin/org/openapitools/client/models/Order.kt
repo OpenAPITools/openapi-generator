@@ -27,7 +27,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 
-public data class Order (
+data class Order (
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "petId")
@@ -52,7 +52,7 @@ public data class Order (
     * Values: placed,approved,delivered
     */
     
-    public enum class Status(val value: kotlin.String){
+    enum class Status(val value: kotlin.String){
     
         @Json(name = "placed") placed("placed"),
     

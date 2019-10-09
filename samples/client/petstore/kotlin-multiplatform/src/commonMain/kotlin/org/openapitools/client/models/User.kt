@@ -26,7 +26,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  * @param userStatus User Status
  */
 @Serializable
-public data class User (
+data class User (
     @SerialName(value = "id") val id: kotlin.Long? = null,
     @SerialName(value = "username") val username: kotlin.String? = null,
     @SerialName(value = "firstName") val firstName: kotlin.String? = null,
