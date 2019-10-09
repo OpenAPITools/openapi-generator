@@ -1,4 +1,5 @@
 // tslint:disable
+// eslint-disable
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -23,7 +24,7 @@ import {
 } from '../models';
 
 export interface AddPetRequest {
-    body: Pet;
+    pet: Pet;
 }
 
 export interface DeletePetRequest {
@@ -44,7 +45,7 @@ export interface GetPetByIdRequest {
 }
 
 export interface UpdatePetRequest {
-    body: Pet;
+    pet: Pet;
 }
 
 export interface UpdatePetWithFormRequest {
@@ -68,8 +69,8 @@ export class PetApi extends runtime.BaseAPI {
      * Add a new pet to the store
      */
     async addPetRaw(requestParameters: AddPetRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling addPet.');
+        if (requestParameters.pet === null || requestParameters.pet === undefined) {
+            throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling addPet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -92,7 +93,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PetToJSON(requestParameters.body),
+            body: PetToJSON(requestParameters.pet),
         });
 
         return new runtime.VoidApiResponse(response);
@@ -167,7 +168,7 @@ export class PetApi extends runtime.BaseAPI {
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
             if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["read:pets"]);
             } else {
                 headerParameters["Authorization"] = this.configuration.accessToken;
             }
@@ -212,7 +213,7 @@ export class PetApi extends runtime.BaseAPI {
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
             if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["read:pets"]);
             } else {
                 headerParameters["Authorization"] = this.configuration.accessToken;
             }
@@ -277,8 +278,8 @@ export class PetApi extends runtime.BaseAPI {
      * Update an existing pet
      */
     async updatePetRaw(requestParameters: UpdatePetRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
+        if (requestParameters.pet === null || requestParameters.pet === undefined) {
+            throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling updatePet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -301,7 +302,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: PetToJSON(requestParameters.body),
+            body: PetToJSON(requestParameters.pet),
         });
 
         return new runtime.VoidApiResponse(response);

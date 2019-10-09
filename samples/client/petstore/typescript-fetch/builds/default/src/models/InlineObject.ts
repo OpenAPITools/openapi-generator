@@ -14,41 +14,41 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * A category for a pet
+ * 
  * @export
- * @interface Category
+ * @interface InlineObject
  */
-export interface Category {
+export interface InlineObject {
     /**
-     * 
-     * @type {number}
-     * @memberof Category
-     */
-    id?: number;
-    /**
-     * 
+     * Updated name of the pet
      * @type {string}
-     * @memberof Category
+     * @memberof InlineObject
      */
     name?: string;
+    /**
+     * Updated status of the pet
+     * @type {string}
+     * @memberof InlineObject
+     */
+    status?: string;
 }
 
-export function CategoryFromJSON(json: any): Category {
-    return CategoryFromJSONTyped(json, false);
+export function InlineObjectFromJSON(json: any): InlineObject {
+    return InlineObjectFromJSONTyped(json, false);
 }
 
-export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): Category {
+export function InlineObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineObject {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
+        'status': !exists(json, 'status') ? undefined : json['status'],
     };
 }
 
-export function CategoryToJSON(value?: Category | null): any {
+export function InlineObjectToJSON(value?: InlineObject | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,8 +57,8 @@ export function CategoryToJSON(value?: Category | null): any {
     }
     return {
         
-        'id': value.id,
         'name': value.name,
+        'status': value.status,
     };
 }
 

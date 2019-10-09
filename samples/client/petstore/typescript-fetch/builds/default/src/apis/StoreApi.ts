@@ -1,4 +1,5 @@
 // tslint:disable
+// eslint-disable
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -28,7 +29,7 @@ export interface GetOrderByIdRequest {
 }
 
 export interface PlaceOrderRequest {
-    body: Order;
+    order: Order;
 }
 
 /**
@@ -135,8 +136,8 @@ export class StoreApi extends runtime.BaseAPI {
      * Place an order for a pet
      */
     async placeOrderRaw(requestParameters: PlaceOrderRequest): Promise<runtime.ApiResponse<Order>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
+        if (requestParameters.order === null || requestParameters.order === undefined) {
+            throw new runtime.RequiredError('order','Required parameter requestParameters.order was null or undefined when calling placeOrder.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -150,7 +151,7 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: OrderToJSON(requestParameters.body),
+            body: OrderToJSON(requestParameters.order),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
