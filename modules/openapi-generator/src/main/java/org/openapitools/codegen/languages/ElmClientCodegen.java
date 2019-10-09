@@ -434,7 +434,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 
-        final Map<String, Set<String>> dependencies = new HashMap<>();
+        final Set<String> dependencies = new HashSet<>();
 
         for (CodegenOperation op : ops) {
             if (ElmVersion.ELM_018.equals(elmVersion)) {
@@ -445,57 +445,38 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
                 op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
             } else {
-                final List<String> paths = Arrays.asList(op.path.substring(1).split("/"));
-                String path = paths.stream()
-                        .map(str -> str.startsWith("{") && str.endsWith("}") ? str : "\"" + str + "\"")
-                        .collect(Collectors.joining(", "));
-                for (CodegenParameter param : op.pathParams) {
-                    String str = paramToString("params", param, false, null);
-                    path = path.replace("{" + param.paramName + "}", str);
-                }
-                op.path = path;
-
-                final String query = op.queryParams.stream()
-                    .map(param -> paramToString("params", param, true, "Url.string \"" + param.baseName + "\""))
-                    .collect(Collectors.joining(", "));
-                op.vendorExtensions.put("query", query);
-
-                final String headers = op.headerParams.stream()
-                    .map(param -> paramToString("headers", param, true, "Http.header \"" + param.baseName + "\""))
-                    .collect(Collectors.joining(", "));
-                op.vendorExtensions.put("headers", headers);
-                // TODO cookies
-                // TODO forms
+                final List<Object> pathParams = Arrays.asList(op.path.substring(1).split("/")).stream()
+                    .map(str -> {
+                        if (str.startsWith("{") && str.endsWith("}")) {
+                          return op.pathParams.stream().filter(p -> str.equals("{" + p.paramName + "}")).findFirst().orElse(null);
+                        } else {
+                          return "\"" + str + "\"";
+                        }
+                    })
+                    .collect(Collectors.toList());
+                op.vendorExtensions.put("pathParams", pathParams);
             }
 
-            if (op.bodyParam != null && !op.bodyParam.isPrimitiveType && !op.bodyParam.isMapContainer) {
-                final String encoder = (String) op.bodyParam.vendorExtensions.get(ENCODER);
-                if (encoder != null) {
-                    if (!dependencies.containsKey(op.bodyParam.dataType)) {
-                        dependencies.put(op.bodyParam.dataType, new TreeSet<String>());
-                    }
-                }
-            }
-            for (CodegenResponse resp : op.responses) {
-                if (resp.primitiveType || resp.isMapContainer) {
+            for (CodegenParameter param : op.allParams) {
+                if (param.isPrimitiveType || param.isContainer || param.isDate || param.isDateTime || param.isUuid) {
                     continue;
                 }
-                final String decoder = (String) resp.vendorExtensions.get(DECODER);
-                if (decoder != null) {
-                    if (!dependencies.containsKey(resp.dataType)) {
-                        dependencies.put(resp.dataType, new TreeSet<String>());
-                    }
+                dependencies.add(param.dataType);
+            }
+            for (CodegenResponse resp : op.responses) {
+                if (resp.primitiveType || resp.isMapContainer || resp.isDate || resp.isDateTime || resp.isUuid) {
+                    continue;
                 }
+                dependencies.add(resp.dataType);
             }
         }
 
         final List<ElmImport> elmImports = new ArrayList<>();
-        for (Map.Entry<String, Set<String>> entry : dependencies.entrySet()) {
+        for (String key : dependencies) {
             final ElmImport elmImport = new ElmImport();
-            final String key = entry.getKey();
             elmImport.moduleName = "Data." + key;
             elmImport.as = key;
-            elmImport.exposures = entry.getValue();
+            elmImport.exposures = new HashSet<>();
             elmImport.exposures.add(key);
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
@@ -589,12 +570,14 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             return Optional.of("String.fromInt");
         } else if (property.isFloat || property.isDouble) {
             return Optional.of("String.fromFloat");
+        } else {
+            return Optional.of(property.dataType + ".toString");
         }
-        throw new RuntimeException("Parameter '" + paramName + "' cannot be converted to a string. Please report the issue.");
     }
 
     private CodegenProperty paramToProperty(final CodegenParameter parameter) {
         final CodegenProperty property = new CodegenProperty();
+        property.dataType = parameter.dataType;
         property.isEnum = parameter.isEnum;
         property.isString = parameter.isString;
         property.isBinary = parameter.isBinary;
