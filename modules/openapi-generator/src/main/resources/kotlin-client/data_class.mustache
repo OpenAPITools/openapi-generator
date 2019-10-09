@@ -37,8 +37,12 @@ import java.io.Serializable
 ) {{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}
 {{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}
 {{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}
-{{#hasEnums}}
-{
+{{#needsDataClassBody}}{{=<% %>=}}{<%={{ }}=%>{{/needsDataClassBody}}
+{{#serializableModel}}
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+{{/serializableModel}}{{#hasEnums}}
 {{#vars}}{{#isEnum}}
     /**
     * {{{description}}}
@@ -65,5 +69,4 @@ import java.io.Serializable
     {{/multiplatform}}
     }
 {{/isEnum}}{{/vars}}
-}
-{{/hasEnums}}
+{{/hasEnums}}{{#needsDataClassBody}}{{=<% %>=}}}<%={{ }}=%>{{/needsDataClassBody}}

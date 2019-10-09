@@ -44,19 +44,19 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "MixedPropertiesAndAdditionalPropertiesClass")
 public class MixedPropertiesAndAdditionalPropertiesClass {
-  @XmlElement(name = "uuid")
   public static final String JSON_PROPERTY_UUID = "uuid";
+  @XmlElement(name = "uuid")
   private UUID uuid;
 
-  @XmlElement(name = "dateTime")
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @XmlElement(name = "dateTime")
   private OffsetDateTime dateTime;
 
+  public static final String JSON_PROPERTY_MAP = "map";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Animal
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP = "map";
   private Map<String, Animal> map = null;
 
 

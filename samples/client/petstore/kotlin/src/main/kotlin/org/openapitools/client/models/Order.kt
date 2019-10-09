@@ -42,6 +42,10 @@ public data class Order (
 : Serializable 
 
 {
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+
 
     /**
     * Order Status

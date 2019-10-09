@@ -35,7 +35,8 @@ public data class Order (
 ) 
 
 
-{
+
+
 
     /**
     * Order Status
@@ -54,5 +55,5 @@ public data class Order (
         public object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value }.toTypedArray())
     }
 
-}
+
 

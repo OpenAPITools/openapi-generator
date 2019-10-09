@@ -29,6 +29,10 @@ data class EnumArrays (
 : Serializable 
 
 {
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+
 
     /**
     * 

@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -31,12 +32,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
 
     public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson'";
+
     public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson}
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
@@ -53,8 +56,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean parcelizeModels = false;
-
     protected boolean serializableModel = false;
+    protected boolean needsDataClassBody = false;
+    protected boolean hasEnums = false;
 
     protected boolean nonPublicApi = false;
 
@@ -434,6 +438,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
         }
 
+        additionalProperties.put(CodegenConstants.NEEDS_DATACLASS_BODY, this.hasEnums || serializableModel);
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
@@ -491,6 +496,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setNonPublicApi(boolean nonPublicApi) {
         this.nonPublicApi = nonPublicApi;
+    }
+
+    public boolean isNeedsDataClassBody() {
+        return needsDataClassBody;
+    }
+
+    public void setNeedsDataClassBody(boolean needsDataClassBody) {
+        this.needsDataClassBody = needsDataClassBody;
     }
 
     /**
@@ -761,6 +774,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // provides extra protection against improperly trying to import language primitives and java types
         boolean imports = !type.startsWith("kotlin.") && !type.startsWith("java.") && !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
         return imports;
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel m = super.fromModel(name, schema);
+        m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
+        m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);
+        this.hasEnums = m.hasEnums;
+        return m;
     }
 
     @Override

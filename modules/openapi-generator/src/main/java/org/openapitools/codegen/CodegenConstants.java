@@ -168,6 +168,9 @@ public class CodegenConstants {
     public static final String OPTIONAL_ASSEMBLY_INFO = "optionalAssemblyInfo";
     public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs.";
 
+    public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
+    public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue.";
+
     public static final String NETCORE_PROJECT_FILE = "netCoreProjectFile";
     public static final String NETCORE_PROJECT_FILE_DESC = "Use the new format (.NET Core) for .NET project files (.csproj).";
 
@@ -247,6 +250,9 @@ public class CodegenConstants {
 
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS_DESC = "Make API response's headers case-insensitive";
+
+    public static final String NEEDS_DATACLASS_BODY = "needsDataClassBody";
+    public static final String NEEDS_DATACLASS_BODY_DESC = "Specifies if the kotlin data class needs a body with curly braces or not.";
 
     // Not user-configurable. System provided for use in templates.
 
