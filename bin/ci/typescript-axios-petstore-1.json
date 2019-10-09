@@ -1,0 +1,6 @@
+{
+  "!include": "bin/typescript-axios-petstore-with-npm-version.json",
+  "generatorName": "typescript-axios",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-axios/builds/with-npm-version"
+}
