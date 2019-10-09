@@ -63,7 +63,7 @@ npm install @openapitools/openapi-generator-cli -D
 <p>To generate code from a valid <a href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml">petstore.yaml</a> doc with this image, you'll need to mount a local location as a volume.</p>
 <pre><code class="hljs css language-bash">docker run --rm \
 -v <span class="hljs-variable">${PWD}</span>:/<span class="hljs-built_in">local</span> openapitools/openapi-generator-cli generate \
--i petstore.yaml \
+-i /<span class="hljs-built_in">local</span>/petstore.yaml \
 -g go \
 -o /<span class="hljs-built_in">local</span>/out/go
 </code></pre>
