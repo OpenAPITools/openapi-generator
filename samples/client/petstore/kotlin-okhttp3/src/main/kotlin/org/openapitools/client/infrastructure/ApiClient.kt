@@ -9,8 +9,8 @@ import okhttp3.ResponseBody
 import okhttp3.Request
 import java.io.File
 
-open class ApiClient(val baseUrl: String) {
-    companion object {
+public open class ApiClient(val baseUrl: String) {
+    public companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
         protected const val Authorization = "Authorization"
@@ -122,7 +122,7 @@ open class ApiClient(val baseUrl: String) {
         val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
 
         val request = when (requestConfig.method) {
-            RequestMethod.DELETE -> Request.Builder().url(url).delete()
+            RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(body, contentType))
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
             RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(body, contentType))

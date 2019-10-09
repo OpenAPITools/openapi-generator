@@ -43,7 +43,7 @@ public data class Pet (
 ) 
 : Serializable 
 
-
+{
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
@@ -65,5 +65,5 @@ public data class Pet (
 
     }
 
-
+}
 

@@ -29,7 +29,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 
-data class User (
+public data class User (
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "username")
@@ -47,5 +47,9 @@ data class User (
     /* User Status */
     @Json(name = "userStatus")
     val userStatus: kotlin.Int? = null
-) : Parcelable
+)  : Parcelable
+
+
+
+
 

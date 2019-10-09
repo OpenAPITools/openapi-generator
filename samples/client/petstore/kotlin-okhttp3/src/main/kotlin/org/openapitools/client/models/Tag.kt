@@ -23,10 +23,14 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 
-data class Tag (
+public data class Tag (
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "name")
     val name: kotlin.String? = null
-) : Parcelable
+)  : Parcelable
+
+
+
+
 

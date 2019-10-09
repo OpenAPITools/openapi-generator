@@ -27,7 +27,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 
-data class Order (
+public data class Order (
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "petId")
@@ -41,15 +41,18 @@ data class Order (
     val status: Order.Status? = null,
     @Json(name = "complete")
     val complete: kotlin.Boolean? = null
-) : Parcelable
-{
+)  : Parcelable
+
+
+
+
 
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
     
-    enum class Status(val value: kotlin.String){
+    public enum class Status(val value: kotlin.String){
     
         @Json(name = "placed") placed("placed"),
     
@@ -60,5 +63,5 @@ data class Order (
 
     }
 
-}
+
 

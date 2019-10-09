@@ -3,7 +3,7 @@ package org.openapitools.client.infrastructure
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-object ApplicationDelegates {
+public object ApplicationDelegates {
     /**
      * Provides a property delegate, allowing the property to be set once and only once.
      *

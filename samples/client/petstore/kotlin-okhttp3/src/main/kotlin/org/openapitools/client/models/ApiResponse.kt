@@ -24,12 +24,16 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 
-data class ApiResponse (
+public data class ApiResponse (
     @Json(name = "code")
     val code: kotlin.Int? = null,
     @Json(name = "type")
     val type: kotlin.String? = null,
     @Json(name = "message")
     val message: kotlin.String? = null
-) : Parcelable
+)  : Parcelable
+
+
+
+
 

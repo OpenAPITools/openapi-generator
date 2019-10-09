@@ -29,7 +29,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 
-data class Pet (
+public data class Pet (
     @Json(name = "name")
     val name: kotlin.String,
     @Json(name = "photoUrls")
@@ -43,15 +43,18 @@ data class Pet (
     /* pet status in the store */
     @Json(name = "status")
     val status: Pet.Status? = null
-) : Parcelable
-{
+)  : Parcelable
+
+
+
+
 
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
     
-    enum class Status(val value: kotlin.String){
+    public enum class Status(val value: kotlin.String){
     
         @Json(name = "available") available("available"),
     
@@ -62,5 +65,5 @@ data class Pet (
 
     }
 
-}
+
 
