@@ -13,16 +13,12 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 /**
  * Describes the result of uploading an image resource
  * @param code 
  * @param type 
  * @param message 
  */
-@Parcelize
 
 data class ApiResponse (
     @Json(name = "code")
@@ -31,5 +27,7 @@ data class ApiResponse (
     val type: kotlin.String? = null,
     @Json(name = "message")
     val message: kotlin.String? = null
-) : Parcelable
+) 
+
+
 
