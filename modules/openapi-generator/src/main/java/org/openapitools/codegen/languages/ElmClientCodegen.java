@@ -441,7 +441,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 String path = op.path;
                 for (CodegenParameter param : op.pathParams) {
                     final String var = paramToString("params", param, false, null);
-                    path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
+                    path = path.replace("{" + param.baseName + "}", "\" ++ " + var + " ++ \"");
                 }
                 op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
             } else { // elm 0.19 or later
