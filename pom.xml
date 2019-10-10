@@ -1245,6 +1245,7 @@
                 <module>samples/client/petstore/erlang-proper</module>
                 <module>samples/client/petstore/kotlin-multiplatform</module>
                 <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-okhttp3/</module>
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
                 <!-- servers -->
