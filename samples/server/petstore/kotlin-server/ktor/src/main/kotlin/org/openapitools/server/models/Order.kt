@@ -35,19 +35,14 @@ data class Order (
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
-	
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
     enum class Status(val value: kotlin.String){
-    
         placed("placed"),
-    
         approved("approved"),
-    
         delivered("delivered");
-    
     }
 }
 
