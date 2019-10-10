@@ -300,9 +300,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * returns the swagger type for the property
+     * returns the OpenAPI type for the property
      *
-     * @param p Swagger property object
+     * @param p OpenAPI property object
      * @return string presentation of the type
      **/
     @Override
@@ -324,7 +324,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     /**
      * Output the type declaration of the property
      *
-     * @param p Swagger Property object
+     * @param p OpenAPI Property object
      * @return a string presentation of the property type
      */
     @Override
