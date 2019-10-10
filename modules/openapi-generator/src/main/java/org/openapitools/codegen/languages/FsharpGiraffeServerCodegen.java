@@ -22,6 +22,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -58,6 +60,10 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     public FsharpGiraffeServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         modelPackage = "Model";
 

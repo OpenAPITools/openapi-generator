@@ -16,13 +16,18 @@ import com.squareup.moshi.Json
 import java.io.Serializable
 /**
  * 
- * @param ``123minusList`` 
+ * @param `123minusList` 
  */
 
 data class List (
     @Json(name = "123-list")
-    val ``123minusList``: kotlin.String? = null
+    val `123minusList`: kotlin.String? = null
 ) 
 : Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

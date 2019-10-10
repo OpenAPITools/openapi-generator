@@ -1,0 +1,6 @@
+{
+  "generatorName": "php-silex",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/server/petstore/php-silex/OpenAPIServer",
+  "templateDir": "modules/openapi-generator/src/main/resources/php-silex"
+}

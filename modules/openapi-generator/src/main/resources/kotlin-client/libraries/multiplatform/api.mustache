@@ -16,7 +16,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.StringDescriptor
 
 {{#operations}}
-class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
         baseUrl: kotlin.String = "{{{basePath}}}",
         httpClientEngine: HttpClientEngine? = null,
         serializer: KotlinxSerializer)
@@ -101,7 +101,7 @@ class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
 
     {{/operation}}
 
-    companion object {
+    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
             {{#operation}}
             {{#hasBodyParam}}

@@ -22,7 +22,7 @@ pub struct PetApiClient {
 impl PetApiClient {
     pub fn new(configuration: Rc<configuration::Configuration>) -> PetApiClient {
         PetApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }
@@ -210,10 +210,10 @@ impl PetApi for PetApiClient {
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        let mut form_params = std::collections::HashMap::new();
-        form_params.insert("additionalMetadata", additional_metadata.to_string());
-        form_params.insert("file", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
-        req_builder = req_builder.form(&form_params);
+        let form = reqwest::multipart::Form::new()
+            .text("additionalMetadata", additional_metadata.to_string())
+            .file("file", file)?;
+        req_builder = req_builder.multipart(form);
 
         // send request
         let req = req_builder.build()?;

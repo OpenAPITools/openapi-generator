@@ -1,0 +1,10 @@
+{
+  "!include": "bin/java-petstore-native.json",
+  "generatorName": "java",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/client/petstore/java/native",
+  "templateDir": "modules/openapi-generator/src/main/resources/Java/libraries/native",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true
+  }
+}

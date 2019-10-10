@@ -13,8 +13,10 @@ sleep 5
 declare -a scripts=(
 # SAMPLES
 "./bin/ruby-client-petstore.sh"
+"./bin/ruby-client-petstore-faraday.sh"
 "./bin/openapi3/ruby-client-petstore.sh"
 "./bin/openapi3/ruby-client-faraday-petstore.sh"
+
 "./bin/java-petstore-all.sh"
 "./bin/java-jaxrs-petstore-server-all.sh"
 "./bin/java-msf4j-petstore-server.sh"
@@ -67,12 +69,14 @@ declare -a scripts=(
 "./bin/dart-petstore.sh"
 "./bin/dart2-petstore.sh"
 "./bin/java-play-framework-petstore-server-all.sh"
-#"./bin/elm-petstore-all.sh"
+"./bin/elm-petstore-all.sh"
 "./bin/meta-codegen.sh"
 # OTHERS
 "./bin/utils/export_docs_generators.sh"
 "./bin/utils/copy-to-website.sh"
 "./bin/utils/export_generators_readme.sh")
+
+export JAVA_OPTS="-Djava.awt.headless=true"
 
 for script in "${scripts[@]}"; do
   if eval $script > /dev/null 2>&1; then

@@ -10,7 +10,7 @@ interface PetApiService {
 
 	fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<Pet>
 
-	fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>, maxCount: kotlin.Int?): List<Pet>
+	fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet>
 
 	fun getPetById(petId: kotlin.Long): Pet
 

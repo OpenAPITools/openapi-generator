@@ -42,7 +42,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     public Response createUser(
-        @ApiParam(value = "Created user object" ,required=true) @NotNull @Valid User body,
+        @ApiParam(value = "Created user object", required = true) @NotNull @Valid  User body,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUser(body,securityContext);
@@ -55,7 +55,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     public Response createUsersWithArrayInput(
-        @ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body,
+        @ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<User> body,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(body,securityContext);
@@ -68,7 +68,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     public Response createUsersWithListInput(
-        @ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body,
+        @ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<User> body,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithListInput(body,securityContext);
@@ -82,7 +82,7 @@ public class UserApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
     public Response deleteUser(
-        @ApiParam(value = "The name that needs to be deleted",required=true) @PathParam("username") String username,
+        @ApiParam(value = "The name that needs to be deleted", required = true) @PathParam("username") @NotNull  String username,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deleteUser(username,securityContext);
@@ -97,7 +97,7 @@ public class UserApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
     public Response getUserByName(
-        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathParam("username") String username,
+        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathParam("username") @NotNull  String username,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getUserByName(username,securityContext);
@@ -111,8 +111,8 @@ public class UserApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = String.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
     public Response loginUser(
-        @ApiParam(value = "The user name for login",required=true)@QueryParam("username") String username,
-        @ApiParam(value = "The password for login in clear text",required=true)@QueryParam("password") String password,
+        @ApiParam(value = "The user name for login", required = true) @QueryParam("username") @NotNull  String username,
+        @ApiParam(value = "The password for login in clear text", required = true) @QueryParam("password") @NotNull  String password,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.loginUser(username,password,securityContext);
@@ -138,8 +138,8 @@ public class UserApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
     public Response updateUser(
-        @ApiParam(value = "name that need to be deleted",required=true) @PathParam("username") String username,
-        @ApiParam(value = "Updated user object" ,required=true) @NotNull @Valid User body,
+        @ApiParam(value = "name that need to be deleted", required = true) @PathParam("username") @NotNull  String username,
+        @ApiParam(value = "Updated user object", required = true) @NotNull @Valid  User body,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updateUser(username,body,securityContext);
