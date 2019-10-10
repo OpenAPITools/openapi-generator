@@ -53,8 +53,7 @@ type Server struct {
 // Run server
 func (o *Server) Run() {
 	addr := fmt.Sprintf(":%d", o.cnf.Port)
-	router := NewRouter(&o.hndsc)
-	router.Use(o.gmdw...)
+	router := NewRouter(&o.hndsc, o.gmdw)
 
 	if o.cnf.ServeReDoc {
 		router = withReDoc(router)
@@ -106,7 +105,7 @@ type Route struct {
 type Routes []Route
 
 // NewRouter returns a new router.
-func NewRouter(h *HandlerCommands) *gin.Engine {
+func NewRouter(h *HandlerCommands, middleware []gin.HandlerFunc) *gin.Engine {
 	routes := Routes{
 		{
 			"Index",
@@ -129,6 +128,8 @@ func NewRouter(h *HandlerCommands) *gin.Engine {
 	}
 
 	router := gin.Default()
+	router.Use(middleware...)
+
 	for _, route := range routes {
 		switch route.Method {
 		case http.MethodGet:
