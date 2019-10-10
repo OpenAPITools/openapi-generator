@@ -64,6 +64,7 @@ The following generators are available:
 * [typescript-inversify](generators/typescript-inversify)  
 * [typescript-jquery](generators/typescript-jquery)  
 * [typescript-node](generators/typescript-node)  
+* [typescript-nestjs](generators/typescript-nestjs)  
 * [typescript-rxjs](generators/typescript-rxjs)  
 
 

@@ -28,6 +28,7 @@ packages/
 .vagrant/
 .vscode/
 **/.vs
+.metals/*
 
 .settings
 
