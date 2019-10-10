@@ -16,26 +16,28 @@ package main
 // )
 
 func main() {
-//     l := logrus.New()
-//     l.SetLevel(logrus.DebugLevel)
+//      l := logrus.New()
+//      middlewareList := make([]gin.HandlerFunc, 0)
+//      l.SetLevel(logrus.DebugLevel)
 
-//     ni := func(data *gin.Context) interface{} { return nil }
-//     hs := sw.HandlerCommands{
- 		{{#apiInfo}}
-        {{#apis}}
-        {{#operations}}
-        {{#operation}}
-//      {{operationId}}: ni,
-        {{/operation}}
-        {{/operations}}
-        {{/apis}}
-        {{/apiInfo}}
+//      ni := func(data *gin.Context) interface{} { return nil }
+//      hs := sw.HandlerCommands{
+            {{#apiInfo}}
+            {{#apis}}
+            {{#operations}}
+            {{#operation}}
+//          {{operationId}}: ni,
+            {{/operation}}
+            {{/operations}}
+            {{/apis}}
+            {{/apiInfo}}
 //     }
 
-//     s := sw.NewServer(
-// 		hs,
-// 		&sw.Configuration{Port: {{serverPort}}, ServeReDoc: true},
-// 		l,
-//     )
-//     s.Run()
+//      s := sw.NewServer(
+//          hs,
+//          middlewareList
+//          &sw.Configuration{Port: {{serverPort}}, ServeReDoc: true},
+//          l,
+//      )
+//      s.Run()
 }

@@ -8,6 +8,7 @@
 ```
 func main() {
     l := logrus.New()
+    middlewareList := make([]gin.HandlerFunc, 0)
     l.SetLevel(logrus.DebugLevel)
 
     ni := func(data interface{}) interface{} { return nil }
@@ -24,9 +25,10 @@ func main() {
     }
 
     s := NewServer(
-         hs,
-         &Configuration{Port: {{serverPort}}},
-         l,
+        hs,
+        middlewareList,
+        &Configuration{Port: {{serverPort}}},
+        l,
     )
     s.Run()
 }

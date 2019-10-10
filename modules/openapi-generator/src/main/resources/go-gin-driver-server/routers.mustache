@@ -46,6 +46,7 @@ type Server struct {
 	log   Logger
 	cnf   *Configuration
 	hndsc HandlerCommands
+    gmdw  []gin.HandlerFunc
 }
 
 
@@ -53,6 +54,7 @@ type Server struct {
 func (o *Server) Run() {
 	addr := fmt.Sprintf(":%d", o.cnf.Port)
 	router := NewRouter(&o.hndsc)
+	router.Use(o.gmdw...)
 
 	if o.cnf.ServeReDoc {
 		router = withReDoc(router)
@@ -68,11 +70,12 @@ func (o *Server) Run() {
 }
 
 // NewServer constructor
-func NewServer(handlersCmd HandlerCommands, config *Configuration, logger Logger) *Server {
+func NewServer(handlersCmd HandlerCommands, middlewareFuncs []gin.HandlerFunc, config *Configuration, logger Logger) *Server {
 	return &Server{
-		log:  logger,
-		cnf:  config,
+		log:   logger,
+		cnf:   config,
 		hndsc: handlersCmd,
+		gmdw:  middlewareFuncs,
 	}
 }
 
