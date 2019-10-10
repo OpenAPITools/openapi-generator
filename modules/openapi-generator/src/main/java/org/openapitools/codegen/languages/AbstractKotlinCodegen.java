@@ -60,6 +60,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected boolean serializableModel = false;
     protected boolean needsDataClassBody = false;
 
+    protected boolean nonPublicApi = false;
+
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
     protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
 
@@ -442,6 +444,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.PARCELIZE_MODELS, parcelizeModels);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
+            this.setNonPublicApi(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.NON_PUBLIC_API)));
+        } else {
+            additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
+        }
+
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
@@ -491,6 +499,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setSerializableModel(boolean serializableModel) {
         this.serializableModel = serializableModel;
+    }
+    
+    public boolean nonPublicApi() {
+        return nonPublicApi;
+    }
+
+    public void setNonPublicApi(boolean nonPublicApi) {
+        this.nonPublicApi = nonPublicApi;
     }
 
     public boolean isNeedsDataClassBody() {
