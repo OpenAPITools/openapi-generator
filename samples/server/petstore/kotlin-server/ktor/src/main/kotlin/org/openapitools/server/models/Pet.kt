@@ -37,19 +37,14 @@ data class Pet (
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
-	
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
     enum class Status(val value: kotlin.String){
-    
         available("available"),
-    
         pending("pending"),
-    
         sold("sold");
-    
     }
 }
 

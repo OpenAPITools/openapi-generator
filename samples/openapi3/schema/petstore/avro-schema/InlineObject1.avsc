@@ -11,7 +11,7 @@
     },
     {
       "name": "file",
-      "type": ["null", ],
+      "type": ["null", "model.File"],
       "doc": "file to upload"
     }
   ]

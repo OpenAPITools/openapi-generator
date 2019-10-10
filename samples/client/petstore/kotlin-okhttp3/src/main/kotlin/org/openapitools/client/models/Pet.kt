@@ -15,9 +15,6 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 /**
  * A pet for sale in the pet store
  * @param id 
@@ -27,7 +24,6 @@ import kotlinx.android.parcel.Parcelize
  * @param tags 
  * @param status pet status in the store
  */
-@Parcelize
 
 data class Pet (
     @Json(name = "name")
@@ -43,27 +39,19 @@ data class Pet (
     /* pet status in the store */
     @Json(name = "status")
     val status: Pet.Status? = null
-)  : Parcelable
+) 
 
 
-
-
-
+{
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
     
     enum class Status(val value: kotlin.String){
-    
         @Json(name = "available") available("available"),
-    
         @Json(name = "pending") pending("pending"),
-    
         @Json(name = "sold") sold("sold");
-    
-
     }
-
-
+}
 

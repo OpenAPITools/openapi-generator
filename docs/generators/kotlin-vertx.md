@@ -16,4 +16,4 @@ sidebar_label: kotlin-vertx
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
 |serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
-|serializableModel|boolean - toggle &quot;implements java.io.Serializable&quot; for generated models| |null|
+|serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|

@@ -1,0 +1,11 @@
+{
+  "artifactId": "jaxrs-spec-interface-petstore-server",
+  "generatorName": "jaxrs-spec",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/server/petstore/jaxrs-spec-interface",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "serializableModel": true,
+    "interfaceOnly": true
+  }
+}
