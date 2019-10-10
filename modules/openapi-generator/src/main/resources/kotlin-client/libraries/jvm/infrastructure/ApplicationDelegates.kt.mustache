@@ -3,7 +3,7 @@ package {{packageName}}.infrastructure
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-{{>visibility}}object ApplicationDelegates {
+{{#nonPublicApi}}internal {{/nonPublicApi}}object ApplicationDelegates {
     /**
      * Provides a property delegate, allowing the property to be set once and only once.
      *

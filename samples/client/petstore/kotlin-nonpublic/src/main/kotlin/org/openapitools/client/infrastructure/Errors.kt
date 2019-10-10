@@ -17,7 +17,7 @@ internal open class ClientException : RuntimeException {
      */
     constructor(message: kotlin.String) : super(message)
 
-    companion object {
+    internal companion object {
         private const val serialVersionUID: Long = 123L
     }
 }
@@ -36,7 +36,7 @@ internal open class ServerException : RuntimeException {
      */
     constructor(message: kotlin.String) : super(message)
 
-    companion object {
+    internal companion object {
         private const val serialVersionUID: Long = 456L
     }
 }
