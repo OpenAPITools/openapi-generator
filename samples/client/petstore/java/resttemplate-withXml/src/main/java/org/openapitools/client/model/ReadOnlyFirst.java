@@ -37,12 +37,12 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ReadOnlyFirst")
 public class ReadOnlyFirst {
-  @XmlElement(name = "bar")
   public static final String JSON_PROPERTY_BAR = "bar";
+  @XmlElement(name = "bar")
   private String bar;
 
-  @XmlElement(name = "baz")
   public static final String JSON_PROPERTY_BAZ = "baz";
+  @XmlElement(name = "baz")
   private String baz;
 
 

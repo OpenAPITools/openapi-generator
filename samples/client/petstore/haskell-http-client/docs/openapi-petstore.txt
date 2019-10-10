@@ -1057,7 +1057,7 @@ mkFileSchemaTestClass :: FileSchemaTestClass
 
 -- | FormatTest
 data FormatTest
-FormatTest :: !Maybe Int -> !Maybe Int -> !Maybe Integer -> !Double -> !Maybe Float -> !Maybe Double -> !Maybe Text -> !ByteArray -> !Maybe FilePath -> !Date -> !Maybe DateTime -> !Maybe Text -> !Text -> FormatTest
+FormatTest :: !Maybe Int -> !Maybe Int -> !Maybe Integer -> !Double -> !Maybe Float -> !Maybe Double -> !Maybe Text -> !ByteArray -> !Maybe FilePath -> !Date -> !Maybe DateTime -> !Maybe Text -> !Text -> !Maybe Double -> FormatTest
 
 -- | "integer"
 [formatTestInteger] :: FormatTest -> !Maybe Int
@@ -1097,6 +1097,9 @@ FormatTest :: !Maybe Int -> !Maybe Int -> !Maybe Integer -> !Double -> !Maybe Fl
 
 -- | <i>Required</i> "password"
 [formatTestPassword] :: FormatTest -> !Text
+
+-- | <a>BigDecimal</a>
+[formatTestBigDecimal] :: FormatTest -> !Maybe Double
 
 -- | Construct a value of type <a>FormatTest</a> (by applying it's required
 --   fields, if any)
@@ -1354,13 +1357,16 @@ mkTypeHolderDefault :: Text -> Double -> Int -> Bool -> [Int] -> TypeHolderDefau
 
 -- | TypeHolderExample
 data TypeHolderExample
-TypeHolderExample :: !Text -> !Double -> !Int -> !Bool -> ![Int] -> TypeHolderExample
+TypeHolderExample :: !Text -> !Double -> !Float -> !Int -> !Bool -> ![Int] -> TypeHolderExample
 
 -- | <i>Required</i> "string_item"
 [typeHolderExampleStringItem] :: TypeHolderExample -> !Text
 
 -- | <i>Required</i> "number_item"
 [typeHolderExampleNumberItem] :: TypeHolderExample -> !Double
+
+-- | <i>Required</i> "float_item"
+[typeHolderExampleFloatItem] :: TypeHolderExample -> !Float
 
 -- | <i>Required</i> "integer_item"
 [typeHolderExampleIntegerItem] :: TypeHolderExample -> !Int
@@ -1373,7 +1379,7 @@ TypeHolderExample :: !Text -> !Double -> !Int -> !Bool -> ![Int] -> TypeHolderEx
 
 -- | Construct a value of type <a>TypeHolderExample</a> (by applying it's
 --   required fields, if any)
-mkTypeHolderExample :: Text -> Double -> Int -> Bool -> [Int] -> TypeHolderExample
+mkTypeHolderExample :: Text -> Double -> Float -> Int -> Bool -> [Int] -> TypeHolderExample
 
 -- | User
 data User
@@ -2931,6 +2937,9 @@ formatTestUuidL :: Lens_' FormatTest (Maybe Text)
 -- | <a>formatTestPassword</a> Lens
 formatTestPasswordL :: Lens_' FormatTest Text
 
+-- | <a>formatTestBigDecimal</a> Lens
+formatTestBigDecimalL :: Lens_' FormatTest (Maybe Double)
+
 -- | <a>hasOnlyReadOnlyBar</a> Lens
 hasOnlyReadOnlyBarL :: Lens_' HasOnlyReadOnly (Maybe Text)
 
@@ -3065,6 +3074,9 @@ typeHolderExampleStringItemL :: Lens_' TypeHolderExample Text
 
 -- | <a>typeHolderExampleNumberItem</a> Lens
 typeHolderExampleNumberItemL :: Lens_' TypeHolderExample Double
+
+-- | <a>typeHolderExampleFloatItem</a> Lens
+typeHolderExampleFloatItemL :: Lens_' TypeHolderExample Float
 
 -- | <a>typeHolderExampleIntegerItem</a> Lens
 typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample Int

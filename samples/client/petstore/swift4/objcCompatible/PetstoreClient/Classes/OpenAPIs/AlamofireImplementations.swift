@@ -283,7 +283,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         let items = contentDisposition.components(separatedBy: ";")
 
-        var filename: String? = nil
+        var filename: String?
 
         for contentItem in items {
 
@@ -294,7 +294,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             filename = contentItem
             return filename?
-                .replacingCharacters(in: range, with:"")
+                .replacingCharacters(in: range, with: "")
                 .replacingOccurrences(of: "\"", with: "")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
         }
@@ -435,7 +435,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     return
                 }
 
-                var responseObj: Response<T>? = nil
+                var responseObj: Response<T>?
 
                 let decodeResult: (decodableObj: T?, error: Error?) = CodableHelper.decode(T.self, from: data)
                 if decodeResult.error == nil {

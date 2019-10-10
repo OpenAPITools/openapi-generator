@@ -1,0 +1,9 @@
+{
+  "!include": "bin/typescript-petstore-npm.json",
+  "generatorName": "typescript-angular",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-angular-v4.3/npm",
+  "additionalProperties": {
+    "ngVersion": "4.3"
+  }
+}

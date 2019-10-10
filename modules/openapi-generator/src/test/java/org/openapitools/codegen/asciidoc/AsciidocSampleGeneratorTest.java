@@ -16,7 +16,10 @@ import org.testng.annotations.Test;
 
 public class AsciidocSampleGeneratorTest {
 
-    /** ensure api-docs.json includes sample and spec files into markup. */
+    /** 
+     * ensure api-docs.json includes sample and spec files into markup.
+     * @throws Exception generic exception
+     */
     @Test
     public void testSampleAsciidocMarkupGenerationFromJsonWithSpecsAndSamples() throws Exception {
 

@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param mapMapOfString 
@@ -20,6 +21,7 @@ import com.squareup.moshi.Json
  * @param directMap 
  * @param indirectMap 
  */
+
 data class MapTest (
     @Json(name = "map_map_of_string")
     val mapMapOfString: kotlin.collections.Map<kotlin.String, kotlin.collections.Map<kotlin.String, kotlin.String>>? = null,
@@ -29,20 +31,28 @@ data class MapTest (
     val directMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null,
     @Json(name = "indirect_map")
     val indirectMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null
-)
+) 
+: Serializable 
 
 {
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+
+
     /**
     * 
     * Values: uPPER,lower
     */
+    
     enum class MapOfEnumString(val value: kotlin.collections.Map<kotlin.String, kotlin.String>){
     
         @Json(name = "UPPER") uPPER("UPPER"),
     
         @Json(name = "lower") lower("lower");
     
-    }
-}
 
+    }
+
+}
 

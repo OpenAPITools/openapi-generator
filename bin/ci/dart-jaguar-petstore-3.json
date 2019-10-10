@@ -1,0 +1,11 @@
+{
+  "generatorName": "dart-jaguar",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-proto.yaml",
+  "outputDir": "samples/client/petstore/dart-jaguar/openapi_proto",
+  "templateDir": "modules/openapi-generator/src/main/resources/dart-jaguar",
+  "additionalProperties": {
+    "serialization": "proto",
+    "hideGenerationTimestamp": true,
+    "pubName": "openapi"
+  }
+}

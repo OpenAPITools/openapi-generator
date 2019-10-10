@@ -43,6 +43,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -966,6 +967,21 @@ public class DefaultCodegenTest {
         assertTrue(lambdas.get("indented_8") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_12") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_16") instanceof IndentedLambda, "Expecting IndentedLambda class");
+    }
+
+    @Test
+    public void convertApiNameWithEmptySuffix() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        assertEquals(codegen.toApiName("Fake"), "FakeApi");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithSuffix() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setApiNameSuffix("Test");
+        assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
     }
 
 }

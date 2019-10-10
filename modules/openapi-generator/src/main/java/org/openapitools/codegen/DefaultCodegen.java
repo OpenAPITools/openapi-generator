@@ -85,6 +85,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> importMapping = new HashMap<String, String>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
+    protected String apiNameSuffix = "Api";
     protected String testPackage = "";
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
@@ -178,6 +179,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS)) {
             this.setAllowUnicodeIdentifiers(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.API_NAME_SUFFIX)) {
+            this.setApiNameSuffix((String) additionalProperties.get(CodegenConstants.API_NAME_SUFFIX));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_NAME_PREFIX)) {
@@ -779,6 +784,14 @@ public class DefaultCodegen implements CodegenConfig {
         this.modelNameSuffix = modelNameSuffix;
     }
 
+    public String getApiNameSuffix() {
+        return apiNameSuffix;
+    }
+
+    public void setApiNameSuffix(String apiNameSuffix) {
+        this.apiNameSuffix = apiNameSuffix;
+    }
+
     public void setApiPackage(String apiPackage) {
         this.apiPackage = apiPackage;
     }
@@ -1068,8 +1081,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "URI");
-        //typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
-
+        typeMapping.put("BigDecimal", "BigDecimal");
 
         instantiationTypes = new HashMap<String, String>();
 
@@ -1693,17 +1705,17 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the API (class) name (capitalized) ending with "Api"
+     * Output the API (class) name (capitalized) ending with the specified or default suffix
      * Return DefaultApi if name is empty
      *
      * @param name the name of the Api
-     * @return capitalized Api name ending with "Api"
+     * @return capitalized Api name
      */
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return camelize(name) + "Api";
+        return camelize(name + "_" + apiNameSuffix);
     }
 
     /**
@@ -1946,6 +1958,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         discriminator.setPropertyName(toVarName(schema.getDiscriminator().getPropertyName()));
+        discriminator.setPropertyBaseName(schema.getDiscriminator().getPropertyName());
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
@@ -2494,6 +2507,76 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Set op's returnBaseType, returnType, examples etc.
+     *
+     * @param operation endpoint Operation
+     * @param schemas a map of the schemas in the openapi spec
+     * @param op endpoint CodegenOperation
+     * @param methodResponse the default ApiResponse for the endpoint
+     */
+    protected void handleMethodResponse(Operation operation,
+                                     Map<String, Schema> schemas,
+                                     CodegenOperation op,
+                                     ApiResponse methodResponse) {
+        Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
+
+        if (responseSchema != null) {
+            CodegenProperty cm = fromProperty("response", responseSchema);
+
+            if (ModelUtils.isArraySchema(responseSchema)) {
+                ArraySchema as = (ArraySchema) responseSchema;
+                CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as));
+                op.returnBaseType = innerProperty.baseType;
+            } else if (ModelUtils.isMapSchema(responseSchema)) {
+                CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema));
+                op.returnBaseType = innerProperty.baseType;
+            } else {
+                if (cm.complexType != null) {
+                    op.returnBaseType = cm.complexType;
+                } else {
+                    op.returnBaseType = cm.baseType;
+                }
+            }
+
+            // generate examples
+            String exampleStatusCode = "200";
+            for (String key : operation.getResponses().keySet()) {
+                if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
+                    exampleStatusCode = key;
+                }
+            }
+            op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
+            op.defaultResponse = toDefaultValue(responseSchema);
+            op.returnType = cm.dataType;
+            op.hasReference = schemas.containsKey(op.returnBaseType);
+
+            // lookup discriminator
+            Schema schema = schemas.get(op.returnBaseType);
+            if (schema != null) {
+                CodegenModel cmod = fromModel(op.returnBaseType, schema);
+                op.discriminator = cmod.discriminator;
+            }
+
+            if (cm.isContainer) {
+                op.returnContainer = cm.containerType;
+                if ("map".equals(cm.containerType)) {
+                    op.isMapContainer = true;
+                } else if ("list".equalsIgnoreCase(cm.containerType)) {
+                    op.isListContainer = true;
+                } else if ("array".equalsIgnoreCase(cm.containerType)) {
+                    op.isListContainer = true;
+                }
+            } else {
+                op.returnSimpleType = true;
+            }
+            if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
+                op.returnTypeIsPrimitive = true;
+            }
+        }
+        addHeaders(methodResponse, op.responseHeaders);
+    }
+
+    /**
      * Convert OAS Operation object to Codegen Operation object
      *
      * @param httpMethod HTTP method
@@ -2585,62 +2668,7 @@ public class DefaultCodegen implements CodegenConfig {
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
-                Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
-
-                if (responseSchema != null) {
-                    CodegenProperty cm = fromProperty("response", responseSchema);
-
-                    if (ModelUtils.isArraySchema(responseSchema)) {
-                        ArraySchema as = (ArraySchema) responseSchema;
-                        CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as));
-                        op.returnBaseType = innerProperty.baseType;
-                    } else if (ModelUtils.isMapSchema(responseSchema)) {
-                        CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema));
-                        op.returnBaseType = innerProperty.baseType;
-                    } else {
-                        if (cm.complexType != null) {
-                            op.returnBaseType = cm.complexType;
-                        } else {
-                            op.returnBaseType = cm.baseType;
-                        }
-                    }
-
-                    // generate examples
-                    String exampleStatusCode = "200";
-                    for (String key : operation.getResponses().keySet()) {
-                        if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
-                            exampleStatusCode = key;
-                        }
-                    }
-                    op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
-                    op.defaultResponse = toDefaultValue(responseSchema);
-                    op.returnType = cm.dataType;
-                    op.hasReference = schemas.containsKey(op.returnBaseType);
-
-                    // lookup discriminator
-                    Schema schema = schemas.get(op.returnBaseType);
-                    if (schema != null) {
-                        CodegenModel cmod = fromModel(op.returnBaseType, schema);
-                        op.discriminator = cmod.discriminator;
-                    }
-
-                    if (cm.isContainer) {
-                        op.returnContainer = cm.containerType;
-                        if ("map".equals(cm.containerType)) {
-                            op.isMapContainer = true;
-                        } else if ("list".equalsIgnoreCase(cm.containerType)) {
-                            op.isListContainer = true;
-                        } else if ("array".equalsIgnoreCase(cm.containerType)) {
-                            op.isListContainer = true;
-                        }
-                    } else {
-                        op.returnSimpleType = true;
-                    }
-                    if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
-                        op.returnTypeIsPrimitive = true;
-                    }
-                }
-                addHeaders(methodResponse, op.responseHeaders);
+                handleMethodResponse(operation, schemas, op, methodResponse);
             }
         }
 
@@ -3511,7 +3539,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param response   API response
      * @param properties list of codegen property
      */
-    private void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
+    protected void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
         if (response.getHeaders() != null) {
             for (Map.Entry<String, Header> headerEntry : response.getHeaders().entrySet()) {
                 String description = headerEntry.getValue().getDescription();
@@ -4316,7 +4344,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
         if (vendorExtensions != null) {
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name");
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription");
@@ -4558,7 +4586,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param operation Operation
      * @return a set of MIME types
      */
-    public static Set<String> getProducesInfo(OpenAPI openAPI, Operation operation) {
+    public static Set<String> getProducesInfo(final OpenAPI openAPI, final Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }

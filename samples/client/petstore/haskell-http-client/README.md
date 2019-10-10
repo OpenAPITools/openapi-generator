@@ -66,6 +66,7 @@ These options allow some customization of the code generation process.
 | configType                      | Set the name of the type used for configuration                                                                               |          | OpenAPIPetstoreConfig                      |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | %Y-%m-%d                      |
 | dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          |                   |
+| dateTimeParseFormat             | overrides the format string used to parse a datetime                                                                          |          |              |
 | generateEnums                   | Generate specific datatypes for OpenAPI enums                                                                                 | true     | true                   |
 | generateFormUrlEncodedInstances | Generate FromForm/ToForm instances for models used by x-www-form-urlencoded operations (model fields must be primitive types) | true     | true |
 | generateLenses                  | Generate Lens optics for Models                                                                                               | true     | true                  |

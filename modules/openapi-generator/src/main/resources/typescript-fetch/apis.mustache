@@ -1,4 +1,5 @@
 // tslint:disable
+// eslint-disable
 {{>licenseInfo}}
 
 import * as runtime from '../runtime';
@@ -150,29 +151,50 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isOAuth}}
         {{/authMethods}}
         {{#hasFormParams}}
-        const formData = new FormData();
-        {{/hasFormParams}}
+        const consumes: runtime.Consume[] = [
+            {{#consumes}}
+            { contentType: '{{{mediaType}}}' },
+            {{/consumes}}
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        {{#formParams}}
+        {{#isFile}}
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        {{/isFile}}
+        {{/formParams}}
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
         {{#formParams}}
         {{#isListContainer}}
         if (requestParameters.{{paramName}}) {
             {{#isCollectionFormatMulti}}
             requestParameters.{{paramName}}.forEach((element) => {
-                formData.append('{{baseName}}', element as any);
+                formParams.append('{{baseName}}', element as any);
             })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formData.append('{{baseName}}', requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+            formParams.append('{{baseName}}', requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
         }
 
         {{/isListContainer}}
         {{^isListContainer}}
         if (requestParameters.{{paramName}} !== undefined) {
-            formData.append('{{baseName}}', requestParameters.{{paramName}} as any);
+            formParams.append('{{baseName}}', requestParameters.{{paramName}} as any);
         }
 
         {{/isListContainer}}
         {{/formParams}}
+        {{/hasFormParams}}
         const response = await this.request({
             path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
@@ -194,7 +216,7 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/bodyParam}}
             {{/hasBodyParam}}
             {{#hasFormParams}}
-            body: formData,
+            body: formParams,
             {{/hasFormParams}}
         });
 
@@ -211,7 +233,7 @@ export class {{classname}} extends runtime.BaseAPI {
         return new runtime.JSONApiResponse<any>(response);
         {{/isListContainer}}
         {{#returnSimpleType}}
-        return new runtime.TextApiResponse(response);
+        return new runtime.TextApiResponse(response) as any;
         {{/returnSimpleType}}
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}
@@ -229,14 +251,14 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/returnType}}
     }
 
-   /**
-    {{#notes}}
-    * {{&notes}}
-    {{/notes}}
-    {{#summary}}
-    * {{&summary}}
-    {{/summary}}
-    */
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     */
     {{^useSingleRequestParameter}}
     async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}

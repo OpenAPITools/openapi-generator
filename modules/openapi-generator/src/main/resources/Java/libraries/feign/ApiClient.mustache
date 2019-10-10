@@ -3,8 +3,11 @@ package {{invokerPackage}};
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+{{#hasOAuthMethods}}
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+{{/hasOAuthMethods}}
+
 {{#threetenbp}}
 import org.threeten.bp.*;
 {{/threetenbp}}

@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 /** This object contains property names which we know will be different from their variable name. Examples of this include snake case property names and property names which are Swift 4 reserved words. */
 
 public struct VariableNameTest: Codable {
@@ -24,10 +25,12 @@ public struct VariableNameTest: Codable {
         self.normalName = normalName
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case exampleName = "example_name"
         case _for = "for"
         case normalName
     }
 
+
 }
+

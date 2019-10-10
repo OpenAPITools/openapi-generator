@@ -1,4 +1,5 @@
 // tslint:disable
+// eslint-disable
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -98,9 +99,9 @@ export class PetApi extends runtime.BaseAPI {
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * Add a new pet to the store
-    */
+    /**
+     * Add a new pet to the store
+     */
     async addPet(requestParameters: PetApiAddPetRequest): Promise<void> {
         await this.addPetRaw(requestParameters);
     }
@@ -140,9 +141,9 @@ export class PetApi extends runtime.BaseAPI {
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * Deletes a pet
-    */
+    /**
+     * Deletes a pet
+     */
     async deletePet(requestParameters: PetApiDeletePetRequest): Promise<void> {
         await this.deletePetRaw(requestParameters);
     }
@@ -183,10 +184,10 @@ export class PetApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
     }
 
-   /**
-    * Multiple status values can be provided with comma separated strings
-    * Finds Pets by status
-    */
+    /**
+     * Multiple status values can be provided with comma separated strings
+     * Finds Pets by status
+     */
     async findPetsByStatus(requestParameters: PetApiFindPetsByStatusRequest): Promise<Array<Pet>> {
         const response = await this.findPetsByStatusRaw(requestParameters);
         return await response.value();
@@ -228,10 +229,10 @@ export class PetApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
     }
 
-   /**
-    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    * Finds Pets by tags
-    */
+    /**
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * Finds Pets by tags
+     */
     async findPetsByTags(requestParameters: PetApiFindPetsByTagsRequest): Promise<Array<Pet>> {
         const response = await this.findPetsByTagsRaw(requestParameters);
         return await response.value();
@@ -264,10 +265,10 @@ export class PetApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => PetFromJSON(jsonValue));
     }
 
-   /**
-    * Returns a single pet
-    * Find pet by ID
-    */
+    /**
+     * Returns a single pet
+     * Find pet by ID
+     */
     async getPetById(requestParameters: PetApiGetPetByIdRequest): Promise<Pet> {
         const response = await this.getPetByIdRaw(requestParameters);
         return await response.value();
@@ -307,9 +308,9 @@ export class PetApi extends runtime.BaseAPI {
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * Update an existing pet
-    */
+    /**
+     * Update an existing pet
+     */
     async updatePet(requestParameters: PetApiUpdatePetRequest): Promise<void> {
         await this.updatePetRaw(requestParameters);
     }
@@ -335,13 +336,26 @@ export class PetApi extends runtime.BaseAPI {
             }
         }
 
-        const formData = new FormData();
+        const consumes: runtime.Consume[] = [
+            { contentType: 'application/x-www-form-urlencoded' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
         if (requestParameters.name !== undefined) {
-            formData.append('name', requestParameters.name as any);
+            formParams.append('name', requestParameters.name as any);
         }
 
         if (requestParameters.status !== undefined) {
-            formData.append('status', requestParameters.status as any);
+            formParams.append('status', requestParameters.status as any);
         }
 
         const response = await this.request({
@@ -349,15 +363,15 @@ export class PetApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: formData,
+            body: formParams,
         });
 
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * Updates a pet in the store with form data
-    */
+    /**
+     * Updates a pet in the store with form data
+     */
     async updatePetWithForm(requestParameters: PetApiUpdatePetWithFormRequest): Promise<void> {
         await this.updatePetWithFormRaw(requestParameters);
     }
@@ -383,13 +397,28 @@ export class PetApi extends runtime.BaseAPI {
             }
         }
 
-        const formData = new FormData();
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
         if (requestParameters.additionalMetadata !== undefined) {
-            formData.append('additionalMetadata', requestParameters.additionalMetadata as any);
+            formParams.append('additionalMetadata', requestParameters.additionalMetadata as any);
         }
 
         if (requestParameters.file !== undefined) {
-            formData.append('file', requestParameters.file as any);
+            formParams.append('file', requestParameters.file as any);
         }
 
         const response = await this.request({
@@ -397,15 +426,15 @@ export class PetApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: formData,
+            body: formParams,
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ModelApiResponseFromJSON(jsonValue));
     }
 
-   /**
-    * uploads an image
-    */
+    /**
+     * uploads an image
+     */
     async uploadFile(requestParameters: PetApiUploadFileRequest): Promise<ModelApiResponse> {
         const response = await this.uploadFileRaw(requestParameters);
         return await response.value();

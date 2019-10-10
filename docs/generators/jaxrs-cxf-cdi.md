@@ -46,7 +46,7 @@ sidebar_label: jaxrs-cxf-cdi
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |serverPort|The port on which the server should be started| |8080|
-|library|library template (sub-template)|<dl><dt>**&lt;default&gt;**</dt><dd>JAXRS</dd><dl>|&lt;default&gt;|
+|library|library template (sub-template)|<dl><dt>**&lt;default&gt;**</dt><dd>JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)</dd><dt>**quarkus**</dt><dd>Server using Quarkus</dd><dt>**thorntail**</dt><dd>Server using Thorntail</dd><dt>**openliberty**</dt><dd>Server using Open Liberty</dd><dt>**helidon**</dt><dd>Server using Helidon</dd><dl>|&lt;default&gt;|
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |returnResponse|Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.| |false|
