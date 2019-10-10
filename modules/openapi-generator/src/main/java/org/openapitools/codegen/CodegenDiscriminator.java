@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class CodegenDiscriminator {
     private String propertyName;
+    private String propertyRawName;
     private Map<String, String> mapping;
     private Set<MappedModel> mappedModels = new LinkedHashSet<>();
 
@@ -18,6 +19,14 @@ public class CodegenDiscriminator {
 
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
+    }
+
+    public String getPropertyRawName() {
+        return propertyRawName;
+    }
+
+    public void setPropertyRawName(String propertyRawName) {
+        this.propertyRawName = propertyRawName;
     }
 
     public Map<String, String> getMapping() {
