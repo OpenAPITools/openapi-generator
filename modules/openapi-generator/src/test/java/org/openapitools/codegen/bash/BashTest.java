@@ -76,7 +76,7 @@ public class BashTest {
                 addPetOperation,
                 null);
 
-        Assert.assertEquals(op.bodyParams.size(), 1);
+        Assert.assertEquals(op.bodyParams.size(), 2);
 
         CodegenParameter p = op.bodyParams.get(0);
 

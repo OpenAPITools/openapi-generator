@@ -158,7 +158,7 @@ public class RubyClientCodegenTest {
         final String path = "/pet";
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
-        Assert.assertEquals(op.bodyParams.size(), 1);
+        Assert.assertEquals(op.bodyParams.size(), 2);
         CodegenParameter bp = op.bodyParams.get(0);
         Assert.assertEquals(bp.example, "OnlinePetstore::Pet.new");
     }
