@@ -188,6 +188,7 @@ samples/openapi3/client/petstore/kotlin/build
 samples/server/petstore/kotlin-server/ktor/build
 samples/server/petstore/kotlin-springboot/build
 samples/client/petstore/kotlin-multiplatform/build/
+samples/client/petstore/kotlin-okhttp3/build/
 \?
 
 # haskell

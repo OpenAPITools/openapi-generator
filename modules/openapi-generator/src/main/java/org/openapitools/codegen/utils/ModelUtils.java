@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,21 +40,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
 
     private static final String URI_FORMAT = "uri";
 
-    // TODO: Use GlobalSettings for all static/global properties in a more thread-safe way.
-    private static boolean generateAliasAsModel = false;
-
+    private static final String generateAliasAsModelKey = "generateAliasAsModel";
     public static void setGenerateAliasAsModel(boolean value) {
-        generateAliasAsModel = value;
+        GlobalSettings.setProperty(generateAliasAsModelKey, Boolean.toString(value));
     }
 
     public static boolean isGenerateAliasAsModel() {
-        return generateAliasAsModel;
+        return Boolean.parseBoolean(GlobalSettings.getProperty(generateAliasAsModelKey, "false"));
     }
 
 
@@ -798,7 +796,7 @@ public class ModelUtils {
                 // top-level enum class
                 return schema;
             } else if (isArraySchema(ref)) {
-                if (generateAliasAsModel) {
+                if (isGenerateAliasAsModel()) {
                     return schema; // generate a model extending array
                 } else {
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
@@ -809,7 +807,7 @@ public class ModelUtils {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
                     return schema; // treat it as model
                 else {
-                    if (generateAliasAsModel) {
+                    if (isGenerateAliasAsModel()) {
                         return schema; // generate a model extending map
                     } else {
                         // treat it as a typical map

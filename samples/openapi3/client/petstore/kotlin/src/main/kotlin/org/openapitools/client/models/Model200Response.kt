@@ -28,4 +28,9 @@ data class Model200Response (
 ) 
 : Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 
