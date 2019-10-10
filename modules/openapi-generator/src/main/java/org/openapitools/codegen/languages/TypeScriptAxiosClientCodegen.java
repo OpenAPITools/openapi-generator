@@ -26,6 +26,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.text.SimpleDateFormat;
@@ -44,6 +45,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
     public TypeScriptAxiosClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment

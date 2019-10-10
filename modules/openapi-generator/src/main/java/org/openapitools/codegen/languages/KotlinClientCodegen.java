@@ -24,6 +24,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
 import java.util.HashMap;
@@ -83,6 +84,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
      */
     public KotlinClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
 
         artifactId = "kotlin-client";
         packageName = "org.openapitools.client";

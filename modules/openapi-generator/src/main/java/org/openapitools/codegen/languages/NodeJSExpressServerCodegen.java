@@ -28,6 +28,7 @@ import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,10 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
     public NodeJSExpressServerCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
             .stability(Stability.BETA)

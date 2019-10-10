@@ -21,6 +21,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,6 +59,11 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
 
     public EiffelClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
+
         uuid = UUID.randomUUID();
         uuidTest = UUID.randomUUID();
         outputFolder = "generated-code/Eiffel";

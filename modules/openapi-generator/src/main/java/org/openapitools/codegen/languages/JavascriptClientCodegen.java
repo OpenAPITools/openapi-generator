@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,6 +91,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public JavascriptClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
+
         outputFolder = "generated-code/js";
         modelTemplateFiles.put("model.mustache", ".js");
         modelTestTemplateFiles.put("model_test.mustache", ".js");

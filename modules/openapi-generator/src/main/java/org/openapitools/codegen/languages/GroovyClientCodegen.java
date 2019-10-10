@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
 import java.util.List;
@@ -30,6 +31,10 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
 
     public GroovyClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
 
         // avoid importing the following as models
         languageSpecificPrimitives.add("Date");

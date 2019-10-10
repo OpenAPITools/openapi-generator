@@ -17,6 +17,7 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,11 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
 
     public PythonBluePlanetServerCodegen() {
         super("python-blueplanet", true);
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
+
         testPackage = "tests";
         embeddedTemplateDir = templateDir = "python-blueplanet";
     }

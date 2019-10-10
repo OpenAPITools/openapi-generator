@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +57,10 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
     public MysqlSchemaCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
 
         // clear import mapping (from default generator) as mysql does not use import directives
         importMapping.clear();

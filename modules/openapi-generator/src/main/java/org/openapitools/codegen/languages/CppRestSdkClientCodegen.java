@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
@@ -78,6 +79,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     public CppRestSdkClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
 
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";

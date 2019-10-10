@@ -24,6 +24,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.JbossFeature;
 import org.openapitools.codegen.languages.features.SwaggerFeatures;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,8 +39,11 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected boolean useSwaggerFeature = false;
 
     public JavaResteasyEapServerCodegen() {
-
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .build();
 
         artifactId = "openapi-jaxrs-resteasy-eap-server";
         useBeanValidation = true;
