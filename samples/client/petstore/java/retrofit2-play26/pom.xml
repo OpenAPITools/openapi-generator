@@ -6,12 +6,12 @@
     <packaging>jar</packaging>
     <name>petstore-java-client-retrofit2-play26</name>
     <version>1.0.0</version>
-    <url>https://github.com/openapitools/openapi-generator</url>
+    <url>https://github.com/galeries-lafayette/openapi-generator</url>
     <description>OpenAPI Java</description>
     <scm>
-        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
-        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
-        <url>https://github.com/openapitools/openapi-generator</url>
+        <connection>scm:git:git@github.com:galerieslafayette/openapi-generator.git</connection>
+        <developerConnection>scm:git:git@github.com:galerieslafayette/openapi-generator.git</developerConnection>
+        <url>https://github.com/galeries-lafayette/openapi-generator</url>
     </scm>
 
     <licenses>

@@ -14,7 +14,7 @@
 
   <artifactId>openapi-generator-core</artifactId>
   <name>openapi-generator-core</name>
-  <url>https://github.com/openapitools/openapi-generator</url>
+  <url>https://github.com/galeries-lafayette/openapi-generator</url>
 
   <dependencies>
     <dependency>

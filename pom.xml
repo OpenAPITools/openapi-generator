@@ -12,11 +12,11 @@
     <!-- RELEASE_VERSION -->
     <version>4.1.1-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
-    <url>https://github.com/openapitools/openapi-generator</url>
+    <url>https://github.com/galeries-lafayette/openapi-generator</url>
     <scm>
-        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
-        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
-        <url>https://github.com/openapitools/openapi-generator</url>
+        <connection>scm:git:git@github.com:galerieslafayette/openapi-generator.git</connection>
+        <developerConnection>scm:git:git@github.com:galerieslafayette/openapi-generator.git</developerConnection>
+        <url>https://github.com/galeries-lafayette/openapi-generator</url>
     </scm>
     <developers>
         <!-- original author of the project -->
@@ -57,7 +57,7 @@
     </developers>
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/openapitools/openapi-generator/issues</url>
+        <url>https://github.com/galeries-lafayette/openapi-generator/issues</url>
     </issueManagement>
     <distributionManagement>
         <snapshotRepository>

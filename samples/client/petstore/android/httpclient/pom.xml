@@ -7,8 +7,8 @@
     <name>openapi-android-client</name>
     <version>1.0.0</version>
     <scm>
-        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
-        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
+        <connection>scm:git:git@github.com:galerieslafayette/openapi-generator.git</connection>
+        <developerConnection>scm:git:git@github.com:galerieslafayette/openapi-generator.git</developerConnection>
         <url>https://openapi-generator.tech</url>
     </scm>
 
