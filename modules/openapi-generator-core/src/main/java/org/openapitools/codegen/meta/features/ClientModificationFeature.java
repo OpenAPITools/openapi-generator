@@ -29,7 +29,7 @@ public enum ClientModificationFeature {
     BasePath,
 
     /**
-     * Supports cutomizing authorizations in generated client output.
+     * Supports customizing authorizations in generated client output.
      */
     @ToolingExtension
     Authorizations,
