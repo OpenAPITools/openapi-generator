@@ -85,6 +85,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> importMapping = new HashMap<String, String>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
+    protected String apiNameSuffix = "Api";
     protected String testPackage = "";
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
@@ -178,6 +179,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS)) {
             this.setAllowUnicodeIdentifiers(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.API_NAME_SUFFIX)) {
+            this.setApiNameSuffix((String) additionalProperties.get(CodegenConstants.API_NAME_SUFFIX));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_NAME_PREFIX)) {
@@ -777,6 +782,14 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setModelNameSuffix(String modelNameSuffix) {
         this.modelNameSuffix = modelNameSuffix;
+    }
+
+    public String getApiNameSuffix() {
+        return apiNameSuffix;
+    }
+
+    public void setApiNameSuffix(String apiNameSuffix) {
+        this.apiNameSuffix = apiNameSuffix;
     }
 
     public void setApiPackage(String apiPackage) {
@@ -1692,17 +1705,17 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the API (class) name (capitalized) ending with "Api"
+     * Output the API (class) name (capitalized) ending with the specified or default suffix
      * Return DefaultApi if name is empty
      *
      * @param name the name of the Api
-     * @return capitalized Api name ending with "Api"
+     * @return capitalized Api name
      */
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return camelize(name) + "Api";
+        return camelize(name + "_" + apiNameSuffix);
     }
 
     /**
@@ -1945,6 +1958,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         discriminator.setPropertyName(toVarName(schema.getDiscriminator().getPropertyName()));
+        discriminator.setPropertyBaseName(schema.getDiscriminator().getPropertyName());
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
@@ -4572,7 +4586,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param operation Operation
      * @return a set of MIME types
      */
-    public static Set<String> getProducesInfo(OpenAPI openAPI, Operation operation) {
+    public static Set<String> getProducesInfo(final OpenAPI openAPI, final Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }

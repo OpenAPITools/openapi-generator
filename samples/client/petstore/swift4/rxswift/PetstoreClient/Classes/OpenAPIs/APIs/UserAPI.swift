@@ -9,8 +9,6 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
-
 open class UserAPI {
     /**
      Create user
@@ -20,7 +18,7 @@ open class UserAPI {
      */
     open class func createUser(body: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
+            createUserWithRequestBuilder(body: body).execute { (_, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -59,7 +57,7 @@ open class UserAPI {
      */
     open class func createUsersWithArrayInput(body: [User]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
+            createUsersWithArrayInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -97,7 +95,7 @@ open class UserAPI {
      */
     open class func createUsersWithListInput(body: [User]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
+            createUsersWithListInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -135,7 +133,7 @@ open class UserAPI {
      */
     open class func deleteUser(username: String) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
+            deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -160,8 +158,8 @@ open class UserAPI {
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -203,8 +201,8 @@ open class UserAPI {
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -246,11 +244,11 @@ open class UserAPI {
     open class func loginUserWithRequestBuilder(username: String, password: String) -> RequestBuilder<String> {
         let path = "/user/login"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": username, 
+            "username": username,
             "password": password
         ])
 
@@ -266,7 +264,7 @@ open class UserAPI {
      */
     open class func logoutUser() -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            logoutUserWithRequestBuilder().execute { (response, error) -> Void in
+            logoutUserWithRequestBuilder().execute { (_, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -286,8 +284,8 @@ open class UserAPI {
     open class func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
         let path = "/user/logout"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -304,7 +302,7 @@ open class UserAPI {
      */
     open class func updateUser(username: String, body: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
+            updateUserWithRequestBuilder(username: username, body: body).execute { (_, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {

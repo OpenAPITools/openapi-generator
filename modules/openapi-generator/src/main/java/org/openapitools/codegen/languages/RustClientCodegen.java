@@ -156,6 +156,45 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         return postProcessModelsEnum(objs);
     }
 
+    @SuppressWarnings({"static-method", "unchecked"})
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        // Index all CodegenModels by model name.
+        Map<String, CodegenModel> allModels = new HashMap<>();
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            String modelName = toModelName(entry.getKey());
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                allModels.put(modelName, cm);
+            }
+        }
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                if (cm.discriminator != null) {
+                    List<Object> discriminatorVars = new ArrayList<>();
+                    for(CodegenDiscriminator.MappedModel mappedModel: cm.discriminator.getMappedModels()) {
+                        CodegenModel model = allModels.get(mappedModel.getModelName());
+                        Map<String, Object> mas = new HashMap<>();
+                        mas.put("modelName", camelize(mappedModel.getModelName()));
+                        mas.put("mappingName", mappedModel.getMappingName());
+                        List<CodegenProperty> vars = model.getVars();
+                        vars.removeIf(p -> p.name.equals(cm.discriminator.getPropertyName()));
+                        mas.put("vars", vars);
+                        discriminatorVars.add(mas);
+                    }
+                    // TODO: figure out how to properly have the original property type that didn't go through toVarName
+                    cm.vendorExtensions.put("tagName", cm.discriminator.getPropertyName().replace("_", ""));
+                    cm.vendorExtensions.put("mappedModels", discriminatorVars);
+                }
+            }
+        }
+        return objs;
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();

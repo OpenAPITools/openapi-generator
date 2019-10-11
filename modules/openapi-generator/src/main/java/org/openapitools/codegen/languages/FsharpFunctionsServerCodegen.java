@@ -1,6 +1,24 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.   x
+ */
+
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
@@ -28,11 +46,15 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
     }
 
     public String getHelp() {
-        return "Generates a fsharp-functions server.";
+        return "Generates a fsharp-functions server (beta).";
     }
 
     public FsharpFunctionsServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         // CLI options
         addOption(CodegenConstants.LICENSE_URL,
@@ -68,10 +90,10 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
                 null);
 
         addOption(CodegenConstants.SOURCE_FOLDER,
-                  CodegenConstants.SOURCE_FOLDER_DESC,
-                  sourceFolder);
+                CodegenConstants.SOURCE_FOLDER_DESC,
+                sourceFolder);
     }
-    
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -79,10 +101,10 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
         modelPackage = "Model";
         embeddedTemplateDir = templateDir = "fsharp-functions-server";
 
-        apiTemplateFiles.put("Handler.mustache", "Handler.fs");    
-        apiTemplateFiles.put("HandlerParams.mustache", "HandlerParams.fs"); 
-        apiTemplateFiles.put("ServiceInterface.mustache", "ServiceInterface.fs"); 
-        apiTemplateFiles.put("ServiceImpl.mustache", "Service.fs"); 
+        apiTemplateFiles.put("Handler.mustache", "Handler.fs");
+        apiTemplateFiles.put("HandlerParams.mustache", "HandlerParams.fs");
+        apiTemplateFiles.put("ServiceInterface.mustache", "ServiceInterface.fs");
+        apiTemplateFiles.put("ServiceImpl.mustache", "Service.fs");
         modelTemplateFiles.put("Model.mustache", ".fs");
 
         String implFolder = sourceFolder + File.separator + "impl";
@@ -99,9 +121,9 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
 
     @Override
     public String modelFileFolder() {
-      return super.modelFileFolder().replace("Model","model");
+        return super.modelFileFolder().replace("Model", "model");
     }
-    
+
     @Override
     public String apiFileFolder() {
         return super.apiFileFolder() + File.separator + "api";
@@ -113,7 +135,7 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
 
     @Override()
     public String toModelImport(String name) {
-      return packageName + "." + modelPackage() + "." + name;
+        return packageName + "." + modelPackage() + "." + name;
     }
 
     @Override

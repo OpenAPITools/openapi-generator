@@ -18,7 +18,7 @@ pub struct {{{classname}}}Client<C: hyper::client::Connect> {
 impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
         {{{classname}}}Client {
-            configuration: configuration,
+            configuration,
         }
     }
 }
@@ -26,7 +26,7 @@ impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error<serde_json::Value>>>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error<serde_json::Value>>>;
 {{/operation}}
 {{/operations}}
 }
@@ -34,7 +34,7 @@ pub trait {{{classname}}} {
 impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error = Error<serde_json::Value>>> {
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::{{{httpMethod}}}, "{{{path}}}".to_string())
         {{#hasAuthMethods}}
         {{#authMethods}}

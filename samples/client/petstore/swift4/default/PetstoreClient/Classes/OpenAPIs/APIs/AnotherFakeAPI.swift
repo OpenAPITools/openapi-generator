@@ -8,8 +8,6 @@
 import Foundation
 import Alamofire
 
-
-
 open class AnotherFakeAPI {
     /**
      To test special tags
@@ -17,7 +15,7 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func call123testSpecialTags(body: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+    open class func call123testSpecialTags(body: Client, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
         call123testSpecialTagsWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(response?.body, error)
         }

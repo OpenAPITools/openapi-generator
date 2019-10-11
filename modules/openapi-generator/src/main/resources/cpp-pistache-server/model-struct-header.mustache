@@ -12,7 +12,7 @@
 {{#imports}}{{{this}}}
 {{/imports}}
 #include <nlohmann/json.hpp>
-#include <pistache/optional.h>
+{{#hasOptional}}#include <pistache/optional.h>{{/hasOptional}}
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {

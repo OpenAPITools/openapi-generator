@@ -27,17 +27,17 @@ pub struct DefaultApiClient<C: hyper::client::Connect> {
 impl<C: hyper::client::Connect> DefaultApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> DefaultApiClient<C> {
         DefaultApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }
 
 pub trait DefaultApi {
-    fn dummy_get(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn dummy_get(&self, ) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
 }
 
 impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
-    fn dummy_get(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn dummy_get(&self, ) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/dummy".to_string())
         ;
         req = req.returns_nothing();

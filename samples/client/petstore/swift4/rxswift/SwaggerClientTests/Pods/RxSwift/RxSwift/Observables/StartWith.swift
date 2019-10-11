@@ -33,10 +33,10 @@ final private class StartWith<Element>: Producer<Element> {
     }
 
     override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
-        for e in elements {
+        for e in self.elements {
             observer.on(.next(e))
         }
 
-        return (sink: Disposables.create(), subscription: source.subscribe(observer))
+        return (sink: Disposables.create(), subscription: self.source.subscribe(observer))
     }
 }

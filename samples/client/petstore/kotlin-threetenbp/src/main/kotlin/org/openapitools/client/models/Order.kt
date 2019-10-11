@@ -37,24 +37,19 @@ data class Order (
     val status: Order.Status? = null,
     @Json(name = "complete")
     val complete: kotlin.Boolean? = null
-)
-{
+) 
 
+
+{
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
     
     enum class Status(val value: kotlin.String){
-    
         @Json(name = "placed") placed("placed"),
-    
         @Json(name = "approved") approved("approved"),
-    
         @Json(name = "delivered") delivered("delivered");
-    
-
     }
-
 }
 

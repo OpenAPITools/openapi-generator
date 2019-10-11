@@ -24,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 
 @Component("org.openapitools.client.api.FakeClassnameTags123Api")
@@ -51,11 +52,23 @@ public class FakeClassnameTags123Api {
      * To test class name in snake case
      * To test class name in snake case
      * <p><b>200</b> - successful operation
-     * @param body client model
+     * @param body client model (required)
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Client testClassname(Client body) throws RestClientException {
+        return testClassnameWithHttpInfo(body).getBody();
+    }
+
+    /**
+     * To test class name in snake case
+     * To test class name in snake case
+     * <p><b>200</b> - successful operation
+     * @param body client model (required)
+     * @return ResponseEntity&lt;Client&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Client> testClassnameWithHttpInfo(Client body) throws RestClientException {
         Object postBody = body;
         
         // verify the required parameter 'body' is set

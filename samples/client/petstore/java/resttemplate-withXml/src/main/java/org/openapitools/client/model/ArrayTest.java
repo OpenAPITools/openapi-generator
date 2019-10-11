@@ -41,25 +41,25 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayTest")
 public class ArrayTest {
+  public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   // Is a container wrapped=false
   // items.name=arrayOfString items.baseName=arrayOfString items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayOfString")
-  public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   private List<String> arrayOfString = null;
 
+  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   // Is a container wrapped=false
   // items.name=arrayArrayOfInteger items.baseName=arrayArrayOfInteger items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Long&gt;
   @XmlElement(name = "arrayArrayOfInteger")
-  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   private List<List<Long>> arrayArrayOfInteger = null;
 
+  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   // Is a container wrapped=false
   // items.name=arrayArrayOfModel items.baseName=arrayArrayOfModel items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;ReadOnlyFirst&gt;
   @XmlElement(name = "arrayArrayOfModel")
-  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
 

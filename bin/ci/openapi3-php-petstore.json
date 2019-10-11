@@ -1,0 +1,6 @@
+{
+  "generatorName": "php",
+  "inputSpec": "modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/openapi3/client/petstore/php/OpenAPIClient-php",
+  "templateDir": "modules/openapi-generator/src/main/resources/php"
+}

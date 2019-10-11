@@ -4,9 +4,9 @@ use hyper;
 use super::configuration::Configuration;
 
 pub struct APIClient {
-    pet_api: Box<crate::apis::PetApi>,
-    store_api: Box<crate::apis::StoreApi>,
-    user_api: Box<crate::apis::UserApi>,
+    pet_api: Box<dyn crate::apis::PetApi>,
+    store_api: Box<dyn crate::apis::StoreApi>,
+    user_api: Box<dyn crate::apis::UserApi>,
 }
 
 impl APIClient {
@@ -20,15 +20,15 @@ impl APIClient {
         }
     }
 
-    pub fn pet_api(&self) -> &crate::apis::PetApi{
+    pub fn pet_api(&self) -> &dyn crate::apis::PetApi{
         self.pet_api.as_ref()
     }
 
-    pub fn store_api(&self) -> &crate::apis::StoreApi{
+    pub fn store_api(&self) -> &dyn crate::apis::StoreApi{
         self.store_api.as_ref()
     }
 
-    pub fn user_api(&self) -> &crate::apis::UserApi{
+    pub fn user_api(&self) -> &dyn crate::apis::UserApi{
         self.user_api.as_ref()
     }
 

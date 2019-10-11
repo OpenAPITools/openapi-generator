@@ -17,7 +17,7 @@ import {{packageName}}.infrastructure.Success
 import {{packageName}}.infrastructure.toMultiValue
 
 {{#operations}}
-class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
 
     {{#operation}}
     /**

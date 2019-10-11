@@ -1,7 +1,7 @@
 //
 //  Validation.swift
 //
-//  Copyright (c) 2014-2018 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -94,7 +94,8 @@ extension Request {
         statusCode acceptableStatusCodes: S,
         response: HTTPURLResponse)
         -> ValidationResult
-        where S.Iterator.Element == Int {
+        where S.Iterator.Element == Int
+    {
         if acceptableStatusCodes.contains(response.statusCode) {
             return .success
         } else {
@@ -110,7 +111,8 @@ extension Request {
         response: HTTPURLResponse,
         data: Data?)
         -> ValidationResult
-        where S.Iterator.Element == String {
+        where S.Iterator.Element == String
+    {
         guard let data = data, data.count > 0 else { return .success }
 
         guard
@@ -217,7 +219,10 @@ extension DataRequest {
     /// - returns: The request.
     @discardableResult
     public func validate() -> Self {
-        return validate(statusCode: self.acceptableStatusCodes).validate(contentType: self.acceptableContentTypes)
+        let contentTypes = { [unowned self] in
+            self.acceptableContentTypes
+        }
+        return validate(statusCode: acceptableStatusCodes).validate(contentType: contentTypes())
     }
 }
 
@@ -308,6 +313,9 @@ extension DownloadRequest {
     /// - returns: The request.
     @discardableResult
     public func validate() -> Self {
-        return validate(statusCode: self.acceptableStatusCodes).validate(contentType: self.acceptableContentTypes)
+        let contentTypes = { [unowned self] in
+            self.acceptableContentTypes
+        }
+        return validate(statusCode: acceptableStatusCodes).validate(contentType: contentTypes())
     }
 }
