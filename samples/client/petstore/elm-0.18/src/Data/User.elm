@@ -21,14 +21,14 @@ import Json.Encode as Encode
 {-| A User who is purchasing from the pet store
 -}
 type alias User =
-    { id : Maybe Int
-    , username : Maybe String
-    , firstName : Maybe String
-    , lastName : Maybe String
-    , email : Maybe String
-    , password : Maybe String
-    , phone : Maybe String
-    , userStatus : Maybe Int
+    { id : Maybe (Int)
+    , username : Maybe (String)
+    , firstName : Maybe (String)
+    , lastName : Maybe (String)
+    , email : Maybe (String)
+    , password : Maybe (String)
+    , phone : Maybe (String)
+    , userStatus : Maybe (Int)
     }
 
 
@@ -45,6 +45,7 @@ decoder =
         |> optional "userStatus" (Decode.nullable Decode.int) Nothing
 
 
+
 encode : User -> Encode.Value
 encode model =
     Encode.object
@@ -56,9 +57,15 @@ encode model =
         , ( "password", Maybe.withDefault Encode.null (Maybe.map Encode.string model.password) )
         , ( "phone", Maybe.withDefault Encode.null (Maybe.map Encode.string model.phone) )
         , ( "userStatus", Maybe.withDefault Encode.null (Maybe.map Encode.int model.userStatus) )
+
         ]
+
 
 
 toString : User -> String
 toString =
     Encode.encode 0 << encode
+
+
+
+
