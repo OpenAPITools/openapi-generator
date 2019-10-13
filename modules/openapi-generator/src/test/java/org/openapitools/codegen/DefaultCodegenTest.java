@@ -43,12 +43,10 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.testng.Assert.*;
 
 
 public class DefaultCodegenTest {
@@ -984,4 +982,35 @@ public class DefaultCodegenTest {
         assertEquals(codegen.toApiName(""), "DefaultApi");
     }
 
+    public static class FromParameter {
+        private CodegenParameter codegenParameter(String path) {
+            final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/fromParameter.yaml");
+            new InlineModelResolver().flatten(openAPI);
+            final DefaultCodegen codegen = new DefaultCodegen();
+            codegen.setOpenAPI(openAPI);
+
+            return codegen
+                    .fromParameter(
+                            openAPI
+                                    .getPaths()
+                                    .get(path)
+                                    .getGet()
+                                    .getParameters()
+                                    .get(0),
+                            new HashSet<>()
+                    );
+        }
+
+        @Test
+        public void setStyle() {
+            CodegenParameter parameter = codegenParameter("/set_style");
+            assertEquals("form", parameter.style);
+        }
+
+        @Test
+        public void setShouldExplode() {
+            CodegenParameter parameter = codegenParameter("/set_should_explode");
+            assertTrue(parameter.shouldExplode);
+        }
+    }
 }
