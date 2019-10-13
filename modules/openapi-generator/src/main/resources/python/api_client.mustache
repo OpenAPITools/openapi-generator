@@ -72,7 +72,8 @@ class ApiClient(object):
         self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/python{{/httpUserAgent}}'
-
+        self.client_side_validation = configuration.client_side_validation
+    
     def __del__(self):
         if self._pool:
             self._pool.close()
