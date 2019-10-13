@@ -93,7 +93,7 @@ To test the templates, please perform the following:
 - Run the Petstore server using
 ```bash
 docker pull swaggerapi/petstore
-docker run -d -e SWAGGER_HOST=http://petstore.swagger.io  -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+docker run -d -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
 ```
 - Run the tests in the sample folder using maven `mvn integration-test -rf :<artifactId>`, e.g. open a shell in `samples/client/petstore/python`, run `mvn integration-test -rf :PythonPetstoreClientTests`. The artifactId of the project can be found in the pom.xml file. (some languages may not contain unit testing for Petstore and we're looking for contribution from the community to implement those tests)
 - Finally, git commit the updated samples files: `git commit -a`
