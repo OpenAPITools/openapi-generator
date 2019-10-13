@@ -42,7 +42,7 @@ class InlineObject(object):
         'status': 'status'
     }
 
-    def __init__(self, name=None, status=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, name=None, status=None, local_vars_configuration=None):  # noqa: E501
         """InlineObject - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None

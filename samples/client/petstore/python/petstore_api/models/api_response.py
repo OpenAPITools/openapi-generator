@@ -44,7 +44,7 @@ class ApiResponse(object):
         'message': 'message'
     }
 
-    def __init__(self, code=None, type=None, message=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, code=None, type=None, message=None, local_vars_configuration=None):  # noqa: E501
         """ApiResponse - a model defined in OpenAPI"""  # noqa: E501
 
         self._code = None

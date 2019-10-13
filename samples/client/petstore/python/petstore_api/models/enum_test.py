@@ -48,7 +48,7 @@ class EnumTest(object):
         'outer_enum': 'outerEnum'
     }
 
-    def __init__(self, enum_string=None, enum_string_required=None, enum_integer=None, enum_number=None, outer_enum=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, enum_string=None, enum_string_required=None, enum_integer=None, enum_number=None, outer_enum=None, local_vars_configuration=None):  # noqa: E501
         """EnumTest - a model defined in OpenAPI"""  # noqa: E501
 
         self._enum_string = None

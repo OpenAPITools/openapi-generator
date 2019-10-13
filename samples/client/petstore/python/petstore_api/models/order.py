@@ -50,7 +50,7 @@ class Order(object):
         'complete': 'complete'
     }
 
-    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=False, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=False, local_vars_configuration=None):  # noqa: E501
         """Order - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None

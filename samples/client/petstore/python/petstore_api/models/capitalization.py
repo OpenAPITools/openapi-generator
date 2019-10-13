@@ -50,7 +50,7 @@ class Capitalization(object):
         'att_name': 'ATT_NAME'
     }
 
-    def __init__(self, small_camel=None, capital_camel=None, small_snake=None, capital_snake=None, sca_eth_flow_points=None, att_name=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, small_camel=None, capital_camel=None, small_snake=None, capital_snake=None, sca_eth_flow_points=None, att_name=None, local_vars_configuration=None):  # noqa: E501
         """Capitalization - a model defined in OpenAPI"""  # noqa: E501
 
         self._small_camel = None

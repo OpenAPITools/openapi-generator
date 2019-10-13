@@ -47,7 +47,7 @@ class Animal(object):
         'Cat': 'Cat'
     }
 
-    def __init__(self, class_name=None, color='red', local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, class_name=None, color='red', local_vars_configuration=None):  # noqa: E501
         """Animal - a model defined in OpenAPI"""  # noqa: E501
 
         self._class_name = None

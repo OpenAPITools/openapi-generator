@@ -46,7 +46,7 @@ class Name(object):
         '_123_number': '123Number'
     }
 
-    def __init__(self, name=None, snake_case=None, _property=None, _123_number=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, name=None, snake_case=None, _property=None, _123_number=None, local_vars_configuration=None):  # noqa: E501
         """Name - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None

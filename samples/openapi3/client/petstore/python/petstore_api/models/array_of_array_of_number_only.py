@@ -40,7 +40,7 @@ class ArrayOfArrayOfNumberOnly(object):
         'array_array_number': 'ArrayArrayNumber'
     }
 
-    def __init__(self, array_array_number=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, array_array_number=None, local_vars_configuration=None):  # noqa: E501
         """ArrayOfArrayOfNumberOnly - a model defined in OpenAPI"""  # noqa: E501
 
         self._array_array_number = None

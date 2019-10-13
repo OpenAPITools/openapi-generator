@@ -48,7 +48,7 @@ class TypeHolderDefault(object):
         'array_item': 'array_item'
     }
 
-    def __init__(self, string_item='what', number_item=None, integer_item=None, bool_item=True, array_item=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, string_item='what', number_item=None, integer_item=None, bool_item=True, array_item=None, local_vars_configuration=None):  # noqa: E501
         """TypeHolderDefault - a model defined in OpenAPI"""  # noqa: E501
 
         self._string_item = None

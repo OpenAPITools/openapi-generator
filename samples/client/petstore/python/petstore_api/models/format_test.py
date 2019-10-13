@@ -66,7 +66,7 @@ class FormatTest(object):
         'big_decimal': 'BigDecimal'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, big_decimal=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, big_decimal=None, local_vars_configuration=None):  # noqa: E501
         """FormatTest - a model defined in OpenAPI"""  # noqa: E501
 
         self._integer = None

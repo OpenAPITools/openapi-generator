@@ -40,7 +40,7 @@ class Dog(object):
         'breed': 'breed'
     }
 
-    def __init__(self, breed=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, breed=None, local_vars_configuration=None):  # noqa: E501
         """Dog - a model defined in OpenAPI"""  # noqa: E501
 
         self._breed = None

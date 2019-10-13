@@ -96,7 +96,7 @@ class XmlItem(object):
         'prefix_ns_wrapped_array': 'prefix_ns_wrapped_array'
     }
 
-    def __init__(self, attribute_string=None, attribute_number=None, attribute_integer=None, attribute_boolean=None, wrapped_array=None, name_string=None, name_number=None, name_integer=None, name_boolean=None, name_array=None, name_wrapped_array=None, prefix_string=None, prefix_number=None, prefix_integer=None, prefix_boolean=None, prefix_array=None, prefix_wrapped_array=None, namespace_string=None, namespace_number=None, namespace_integer=None, namespace_boolean=None, namespace_array=None, namespace_wrapped_array=None, prefix_ns_string=None, prefix_ns_number=None, prefix_ns_integer=None, prefix_ns_boolean=None, prefix_ns_array=None, prefix_ns_wrapped_array=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, attribute_string=None, attribute_number=None, attribute_integer=None, attribute_boolean=None, wrapped_array=None, name_string=None, name_number=None, name_integer=None, name_boolean=None, name_array=None, name_wrapped_array=None, prefix_string=None, prefix_number=None, prefix_integer=None, prefix_boolean=None, prefix_array=None, prefix_wrapped_array=None, namespace_string=None, namespace_number=None, namespace_integer=None, namespace_boolean=None, namespace_array=None, namespace_wrapped_array=None, prefix_ns_string=None, prefix_ns_number=None, prefix_ns_integer=None, prefix_ns_boolean=None, prefix_ns_array=None, prefix_ns_wrapped_array=None, local_vars_configuration=None):  # noqa: E501
         """XmlItem - a model defined in OpenAPI"""  # noqa: E501
 
         self._attribute_string = None

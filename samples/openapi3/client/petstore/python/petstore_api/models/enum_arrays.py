@@ -42,7 +42,7 @@ class EnumArrays(object):
         'array_enum': 'array_enum'
     }
 
-    def __init__(self, just_symbol=None, array_enum=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, just_symbol=None, array_enum=None, local_vars_configuration=None):  # noqa: E501
         """EnumArrays - a model defined in OpenAPI"""  # noqa: E501
 
         self._just_symbol = None

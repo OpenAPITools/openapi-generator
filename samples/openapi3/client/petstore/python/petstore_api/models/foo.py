@@ -40,7 +40,7 @@ class Foo(object):
         'bar': 'bar'
     }
 
-    def __init__(self, bar='bar', local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, bar='bar', local_vars_configuration=None):  # noqa: E501
         """Foo - a model defined in OpenAPI"""  # noqa: E501
 
         self._bar = None

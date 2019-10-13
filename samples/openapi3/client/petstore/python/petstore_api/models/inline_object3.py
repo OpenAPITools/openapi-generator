@@ -66,7 +66,7 @@ class InlineObject3(object):
         'callback': 'callback'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, pattern_without_delimiter=None, byte=None, binary=None, date=None, date_time=None, password=None, callback=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, pattern_without_delimiter=None, byte=None, binary=None, date=None, date_time=None, password=None, callback=None, local_vars_configuration=None):  # noqa: E501
         """InlineObject3 - a model defined in OpenAPI"""  # noqa: E501
 
         self._integer = None

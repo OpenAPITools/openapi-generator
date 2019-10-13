@@ -60,7 +60,7 @@ class AdditionalPropertiesClass(object):
         'anytype_3': 'anytype_3'
     }
 
-    def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, anytype_1=None, anytype_2=None, anytype_3=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, anytype_1=None, anytype_2=None, anytype_3=None, local_vars_configuration=None):  # noqa: E501
         """AdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
 
         self._map_string = None

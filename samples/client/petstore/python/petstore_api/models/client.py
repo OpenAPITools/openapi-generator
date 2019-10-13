@@ -40,7 +40,7 @@ class Client(object):
         'client': 'client'
     }
 
-    def __init__(self, client=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, client=None, local_vars_configuration=None):  # noqa: E501
         """Client - a model defined in OpenAPI"""  # noqa: E501
 
         self._client = None

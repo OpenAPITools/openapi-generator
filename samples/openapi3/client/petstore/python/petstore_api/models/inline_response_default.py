@@ -40,7 +40,7 @@ class InlineResponseDefault(object):
         'string': 'string'
     }
 
-    def __init__(self, string=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, string=None, local_vars_configuration=None):  # noqa: E501
         """InlineResponseDefault - a model defined in OpenAPI"""  # noqa: E501
 
         self._string = None

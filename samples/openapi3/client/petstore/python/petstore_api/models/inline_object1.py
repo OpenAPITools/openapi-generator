@@ -42,7 +42,7 @@ class InlineObject1(object):
         'file': 'file'
     }
 
-    def __init__(self, additional_metadata=None, file=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, additional_metadata=None, file=None, local_vars_configuration=None):  # noqa: E501
         """InlineObject1 - a model defined in OpenAPI"""  # noqa: E501
 
         self._additional_metadata = None

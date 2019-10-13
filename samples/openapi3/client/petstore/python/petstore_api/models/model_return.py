@@ -40,7 +40,7 @@ class ModelReturn(object):
         '_return': 'return'
     }
 
-    def __init__(self, _return=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, _return=None, local_vars_configuration=None):  # noqa: E501
         """ModelReturn - a model defined in OpenAPI"""  # noqa: E501
 
         self.__return = None

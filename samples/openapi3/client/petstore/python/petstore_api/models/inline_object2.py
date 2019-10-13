@@ -42,7 +42,7 @@ class InlineObject2(object):
         'enum_form_string': 'enum_form_string'
     }
 
-    def __init__(self, enum_form_string_array=None, enum_form_string='-efg', local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, enum_form_string_array=None, enum_form_string='-efg', local_vars_configuration=None):  # noqa: E501
         """InlineObject2 - a model defined in OpenAPI"""  # noqa: E501
 
         self._enum_form_string_array = None

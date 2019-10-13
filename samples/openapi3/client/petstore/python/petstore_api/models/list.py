@@ -40,7 +40,7 @@ class List(object):
         '_123_list': '123-list'
     }
 
-    def __init__(self, _123_list=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, _123_list=None, local_vars_configuration=None):  # noqa: E501
         """List - a model defined in OpenAPI"""  # noqa: E501
 
         self.__123_list = None

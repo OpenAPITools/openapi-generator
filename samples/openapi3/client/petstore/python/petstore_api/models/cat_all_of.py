@@ -40,7 +40,7 @@ class CatAllOf(object):
         'declawed': 'declawed'
     }
 
-    def __init__(self, declawed=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, declawed=None, local_vars_configuration=None):  # noqa: E501
         """CatAllOf - a model defined in OpenAPI"""  # noqa: E501
 
         self._declawed = None

@@ -40,7 +40,7 @@ class AdditionalPropertiesNumber(object):
         'name': 'name'
     }
 
-    def __init__(self, name=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, name=None, local_vars_configuration=None):  # noqa: E501
         """AdditionalPropertiesNumber - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None

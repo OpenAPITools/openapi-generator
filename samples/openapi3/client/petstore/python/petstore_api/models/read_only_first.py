@@ -42,7 +42,7 @@ class ReadOnlyFirst(object):
         'baz': 'baz'
     }
 
-    def __init__(self, bar=None, baz=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, bar=None, baz=None, local_vars_configuration=None):  # noqa: E501
         """ReadOnlyFirst - a model defined in OpenAPI"""  # noqa: E501
 
         self._bar = None

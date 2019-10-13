@@ -40,7 +40,7 @@ class SpecialModelName(object):
         'special_property_name': '$special[property.name]'
     }
 
-    def __init__(self, special_property_name=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, special_property_name=None, local_vars_configuration=None):  # noqa: E501
         """SpecialModelName - a model defined in OpenAPI"""  # noqa: E501
 
         self._special_property_name = None

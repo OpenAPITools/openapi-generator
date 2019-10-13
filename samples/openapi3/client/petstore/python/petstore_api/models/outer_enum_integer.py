@@ -45,7 +45,7 @@ class OuterEnumInteger(object):
     attribute_map = {
     }
 
-    def __init__(self, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, local_vars_configuration=None):  # noqa: E501
         """OuterEnumInteger - a model defined in OpenAPI"""  # noqa: E501
         self.discriminator = None
         if local_vars_configuration is None:

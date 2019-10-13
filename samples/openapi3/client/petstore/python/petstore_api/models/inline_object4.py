@@ -42,7 +42,7 @@ class InlineObject4(object):
         'param2': 'param2'
     }
 
-    def __init__(self, param=None, param2=None, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self, param=None, param2=None, local_vars_configuration=None):  # noqa: E501
         """InlineObject4 - a model defined in OpenAPI"""  # noqa: E501
 
         self._param = None
