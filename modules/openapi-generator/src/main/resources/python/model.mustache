@@ -53,7 +53,7 @@ class {{classname}}(object):
     }
 {{/discriminator}}
 
-    def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}, local_varslocal_vars_configuration=None):  # noqa: E501
+    def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}, local_vars_configuration=None):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
 {{#vars}}{{#-first}}
 {{/-first}}
