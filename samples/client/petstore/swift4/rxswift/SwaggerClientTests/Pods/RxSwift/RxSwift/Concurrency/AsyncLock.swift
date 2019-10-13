@@ -16,14 +16,11 @@ and pending work.
 
 That means that enqueued work could possibly be executed later on a different thread.
 */
-final class AsyncLock<I: InvocableType>
-    : Disposable
-    , Lock
-    , SynchronizedDisposeType {
+final class AsyncLock<I: InvocableType>: Disposable, Lock, SynchronizedDisposeType {
     typealias Action = () -> Void
-    
+
     var _lock = SpinLock()
-    
+
     private var _queue: Queue<I> = Queue(capacity: 0)
 
     private var _isExecuting: Bool = false
@@ -60,8 +57,7 @@ final class AsyncLock<I: InvocableType>
         self._lock.lock(); defer { self._lock.unlock() } // {
             if !self._queue.isEmpty {
                 return self._queue.dequeue()
-            }
-            else {
+            } else {
                 self._isExecuting = false
                 return nil
             }
@@ -70,27 +66,25 @@ final class AsyncLock<I: InvocableType>
 
     func invoke(_ action: I) {
         let firstEnqueuedAction = self.enqueue(action)
-        
+
         if let firstEnqueuedAction = firstEnqueuedAction {
             firstEnqueuedAction.invoke()
-        }
-        else {
+        } else {
             // action is enqueued, it's somebody else's concern now
             return
         }
-        
+
         while true {
             let nextAction = self.dequeue()
 
             if let nextAction = nextAction {
                 nextAction.invoke()
-            }
-            else {
+            } else {
                 return
             }
         }
     }
-    
+
     func dispose() {
         self.synchronizedDispose()
     }

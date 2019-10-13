@@ -51,7 +51,6 @@ extension ObservableType {
         return self.enumerated().map { try selector($0.element, $0.index) }
     }
 
-
     /**
 
      Projects each element of an observable sequence to an observable sequence by incorporating the element's index and merges the resulting observable sequences into one observable sequence.
@@ -81,7 +80,6 @@ extension ObservableType {
     public func skipWhileWithIndex(_ predicate: @escaping (E, Int) throws -> Bool) -> Observable<E> {
         return self.enumerated().skipWhile { try predicate($0.element, $0.index) }.map { $0.element }
     }
-
 
     /**
 
@@ -113,7 +111,6 @@ extension Disposable {
     }
 }
 
-
 extension ObservableType {
 
     /**
@@ -131,7 +128,6 @@ extension ObservableType {
         return self.share(replay: 1, scope: .whileConnected)
     }
 }
-
 
 extension ObservableType {
 

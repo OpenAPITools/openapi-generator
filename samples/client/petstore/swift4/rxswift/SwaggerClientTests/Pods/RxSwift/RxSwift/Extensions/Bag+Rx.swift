@@ -6,7 +6,6 @@
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
-
 // MARK: forEach
 
 @inline(__always)

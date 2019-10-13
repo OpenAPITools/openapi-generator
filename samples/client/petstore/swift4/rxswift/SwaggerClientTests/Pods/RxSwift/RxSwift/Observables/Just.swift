@@ -65,7 +65,7 @@ final private class JustScheduled<Element>: Producer<Element> {
         self._element = element
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == E {
         let sink = JustScheduledSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)
@@ -74,11 +74,11 @@ final private class JustScheduled<Element>: Producer<Element> {
 
 final private class Just<Element>: Producer<Element> {
     private let _element: Element
-    
+
     init(element: Element) {
         self._element = element
     }
-    
+
     override func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         observer.on(.next(self._element))
         observer.on(.completed)

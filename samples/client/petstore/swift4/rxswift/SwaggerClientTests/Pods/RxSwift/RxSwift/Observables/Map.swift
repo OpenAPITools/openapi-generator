@@ -42,8 +42,7 @@ final private class MapSink<SourceType, O: ObserverType>: Sink<O>, ObserverType 
             do {
                 let mappedElement = try self._transform(element)
                 self.forwardOn(.next(mappedElement))
-            }
-            catch let e {
+            } catch let e {
                 self.forwardOn(.error(e))
                 self.dispose()
             }
@@ -58,7 +57,7 @@ final private class MapSink<SourceType, O: ObserverType>: Sink<O>, ObserverType 
 }
 
 #if TRACE_RESOURCES
-    fileprivate let _numberOfMapOperators = AtomicInt(0)
+    private let _numberOfMapOperators = AtomicInt(0)
     extension Resources {
         public static var numberOfMapOperators: Int32 {
             return load(_numberOfMapOperators)

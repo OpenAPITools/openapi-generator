@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct SampleSubClassAllOf: Codable {
 
     public var subClassStringProp: String?
@@ -19,6 +17,4 @@ public struct SampleSubClassAllOf: Codable {
         self.subClassIntegerProp = subClassIntegerProp
     }
 
-
 }
-

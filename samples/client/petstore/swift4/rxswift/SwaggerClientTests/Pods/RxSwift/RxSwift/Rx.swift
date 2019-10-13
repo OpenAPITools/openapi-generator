@@ -7,7 +7,7 @@
 //
 
 #if TRACE_RESOURCES
-    fileprivate let resourceCount = AtomicInt(0)
+    private let resourceCount = AtomicInt(0)
 
     /// Resource utilization information
     public struct Resources {
@@ -37,7 +37,7 @@ func rxAbstractMethod(file: StaticString = #file, line: UInt = #line) -> Swift.N
     rxFatalError("Abstract method", file: file, line: line)
 }
 
-func rxFatalError(_ lastMessage: @autoclosure () -> String, file: StaticString = #file, line: UInt = #line) -> Swift.Never  {
+func rxFatalError(_ lastMessage: @autoclosure () -> String, file: StaticString = #file, line: UInt = #line) -> Swift.Never {
     fatalError(lastMessage(), file: file, line: line)
 }
 
@@ -84,7 +84,7 @@ func decrementChecked(_ i: inout Int) throws -> Int {
                 print(message)
             #endif
         }
-        
+
         func register(synchronizationErrorMessage: SynchronizationErrorMessages) {
             self._lock.lock(); defer { self._lock.unlock() }
             let pointer = Unmanaged.passUnretained(Thread.current).toOpaque()
@@ -103,7 +103,7 @@ func decrementChecked(_ i: inout Int) throws -> Int {
                     "    or by enqueuing sequence events in some other way.\n"
                 )
             }
-            
+
             self._threads[pointer] = count
 
             if self._threads.count > 1 {
@@ -134,7 +134,7 @@ func decrementChecked(_ i: inout Int) throws -> Int {
 
 /// RxSwift global hooks
 public enum Hooks {
-    
+
     // Should capture call stack
     public static var recordCallStackOnError: Bool = false
 
