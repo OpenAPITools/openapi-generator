@@ -74,6 +74,13 @@ class {{classname}}(object):
 {{/required}}
 {{/vars}}
 
+{{#allowableValues}}
+    @staticmethod
+    def get_allowed_values():
+        allowed_values = [{{#enumVars}}{{classname}}.{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
+        return allowed_values
+
+{{/allowableValues}}
 {{#vars}}
     @property
     def {{name}}(self):
