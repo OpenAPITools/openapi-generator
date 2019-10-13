@@ -47,6 +47,11 @@ class OuterEnumDefaultValue(object):
         """OuterEnumDefaultValue - a model defined in OpenAPI"""  # noqa: E501
         self.discriminator = None
 
+    @staticmethod
+    def get_allowed_values():
+        allowed_values = [OuterEnumDefaultValue.PLACED, OuterEnumDefaultValue.APPROVED, OuterEnumDefaultValue.DELIVERED]  # noqa: E501
+        return allowed_values
+
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
