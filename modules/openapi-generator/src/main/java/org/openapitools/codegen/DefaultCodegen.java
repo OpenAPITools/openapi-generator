@@ -3097,7 +3097,8 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.style = parameter.getStyle().toString();
             }
 
-            codegenParameter.shouldExplode = parameter.getExplode();
+            // the default value is false
+            codegenParameter.shouldExplode = parameter.getExplode() == null ? false : parameter.getExplode();
 
             // TDOO revise collectionFormat
             String collectionFormat = null;
