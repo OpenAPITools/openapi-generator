@@ -3100,7 +3100,7 @@ public class DefaultCodegen implements CodegenConfig {
             // the default value is false
             codegenParameter.shouldExplode = parameter.getExplode() == null ? false : parameter.getExplode();
 
-            // TDOO revise collectionFormat
+            // TODO revise collectionFormat
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
