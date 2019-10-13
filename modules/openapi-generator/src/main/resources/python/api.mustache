@@ -159,12 +159,12 @@ class {{classname}}(object):
     {{/pattern}}
     {{#maxItems}}
         if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and 
-                                                len(local_var_params['{{paramName}}']) > {{maxItems}}):
+                                                        len(local_var_params['{{paramName}}']) > {{maxItems}}):
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be less than or equal to `{{maxItems}}`")  # noqa: E501
     {{/maxItems}}
     {{#minItems}}
         if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and 
-                                                len(local_var_params['{{paramName}}']) < {{minItems}}):
+                                                        len(local_var_params['{{paramName}}']) < {{minItems}}):
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be greater than or equal to `{{minItems}}`")  # noqa: E501
     {{/minItems}}
 {{/hasValidation}}
