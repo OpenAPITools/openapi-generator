@@ -40,20 +40,20 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Name")
 public class Name {
-  @XmlElement(name = "name")
   public static final String JSON_PROPERTY_NAME = "name";
+  @XmlElement(name = "name")
   private Integer name;
 
-  @XmlElement(name = "snake_case")
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
+  @XmlElement(name = "snake_case")
   private Integer snakeCase;
 
-  @XmlElement(name = "property")
   public static final String JSON_PROPERTY_PROPERTY = "property";
+  @XmlElement(name = "property")
   private String property;
 
-  @XmlElement(name = "123Number")
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
+  @XmlElement(name = "123Number")
   private Integer _123number;
 
 

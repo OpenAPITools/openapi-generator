@@ -38,8 +38,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesAnyType")
 public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
-  @XmlElement(name = "name")
   public static final String JSON_PROPERTY_NAME = "name";
+  @XmlElement(name = "name")
   private String name;
 
 

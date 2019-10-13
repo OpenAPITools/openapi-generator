@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "DogAllOf")
 public class DogAllOf {
-  @XmlElement(name = "breed")
   public static final String JSON_PROPERTY_BREED = "breed";
+  @XmlElement(name = "breed")
   private String breed;
 
 

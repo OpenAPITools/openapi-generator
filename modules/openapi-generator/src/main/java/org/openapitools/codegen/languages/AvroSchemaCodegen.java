@@ -43,8 +43,8 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
         outputFolder = "generated-code/avro-schema";
         modelTemplateFiles.put("model.mustache", ".avsc");
-        apiPackage = "api";
-        modelPackage = "model";
+        // Force the model package to the package name so import can be fully qualified
+        modelPackage = packageName;
         importMapping.clear();
         embeddedTemplateDir = templateDir = AVRO;
 
@@ -81,10 +81,12 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         super.processOpts();
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
+
+            // Force the model package to the package name so import can be fully qualified
+            modelPackage = packageName;
         }
 
         additionalProperties.put("packageName", packageName);
-
     }
 
     @Override
