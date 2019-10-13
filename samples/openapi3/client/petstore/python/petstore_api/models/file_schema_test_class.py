@@ -48,7 +48,6 @@ class FileSchemaTestClass(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._file = None
         self._files = None
         self.discriminator = None

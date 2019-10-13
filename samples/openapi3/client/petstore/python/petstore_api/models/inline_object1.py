@@ -48,7 +48,6 @@ class InlineObject1(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._additional_metadata = None
         self._file = None
         self.discriminator = None

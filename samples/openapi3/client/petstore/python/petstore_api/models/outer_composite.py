@@ -50,7 +50,6 @@ class OuterComposite(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._my_number = None
         self._my_string = None
         self._my_boolean = None

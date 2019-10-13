@@ -48,7 +48,6 @@ class InlineObject2(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._enum_form_string_array = None
         self._enum_form_string = None
         self.discriminator = None
@@ -80,7 +79,7 @@ class InlineObject2(object):
         """
         allowed_values = [">", "$"]  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-             not set(enum_form_string_array).issubset(set(allowed_values))):
+                not set(enum_form_string_array).issubset(set(allowed_values))):
             raise ValueError(
                 "Invalid values for `enum_form_string_array` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(enum_form_string_array) - set(allowed_values))),  # noqa: E501
@@ -110,8 +109,7 @@ class InlineObject2(object):
         :type: str
         """
         allowed_values = ["_abc", "-efg", "(xyz)"]  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-            enum_form_string not in allowed_values):
+        if self.local_vars_configuration.client_side_validation and enum_form_string not in allowed_values:  # noqa: E501
             raise ValueError(
                 "Invalid value for `enum_form_string` ({0}), must be one of {1}"  # noqa: E501
                 .format(enum_form_string, allowed_values)

@@ -48,7 +48,6 @@ class InlineObject5(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._additional_metadata = None
         self._required_file = None
         self.discriminator = None
@@ -100,7 +99,7 @@ class InlineObject5(object):
         :param required_file: The required_file of this InlineObject5.  # noqa: E501
         :type: file
         """
-        if self.local_vars_configuration.client_side_validation and required_file is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and required_file is None:  # noqa: E501
             raise ValueError("Invalid value for `required_file`, must not be `None`")  # noqa: E501
 
         self._required_file = required_file

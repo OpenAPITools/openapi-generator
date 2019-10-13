@@ -48,7 +48,6 @@ class InlineObject4(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._param = None
         self._param2 = None
         self.discriminator = None
@@ -76,7 +75,7 @@ class InlineObject4(object):
         :param param: The param of this InlineObject4.  # noqa: E501
         :type: str
         """
-        if self.local_vars_configuration.client_side_validation and param is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and param is None:  # noqa: E501
             raise ValueError("Invalid value for `param`, must not be `None`")  # noqa: E501
 
         self._param = param
@@ -101,7 +100,7 @@ class InlineObject4(object):
         :param param2: The param2 of this InlineObject4.  # noqa: E501
         :type: str
         """
-        if self.local_vars_configuration.client_side_validation and param2 is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and param2 is None:  # noqa: E501
             raise ValueError("Invalid value for `param2`, must not be `None`")  # noqa: E501
 
         self._param2 = param2

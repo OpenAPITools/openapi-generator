@@ -46,7 +46,6 @@ class NumberOnly(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._just_number = None
         self.discriminator = None
 

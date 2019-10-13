@@ -48,7 +48,6 @@ class EnumArrays(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._just_symbol = None
         self._array_enum = None
         self.discriminator = None
@@ -77,8 +76,7 @@ class EnumArrays(object):
         :type: str
         """
         allowed_values = [">=", "$"]  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-            just_symbol not in allowed_values):
+        if self.local_vars_configuration.client_side_validation and just_symbol not in allowed_values:  # noqa: E501
             raise ValueError(
                 "Invalid value for `just_symbol` ({0}), must be one of {1}"  # noqa: E501
                 .format(just_symbol, allowed_values)
@@ -106,7 +104,7 @@ class EnumArrays(object):
         """
         allowed_values = ["fish", "crab"]  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-             not set(array_enum).issubset(set(allowed_values))):
+                not set(array_enum).issubset(set(allowed_values))):
             raise ValueError(
                 "Invalid values for `array_enum` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(array_enum) - set(allowed_values))),  # noqa: E501

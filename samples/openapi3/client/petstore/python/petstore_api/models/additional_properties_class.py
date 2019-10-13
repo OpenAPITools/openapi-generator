@@ -48,7 +48,6 @@ class AdditionalPropertiesClass(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._map_property = None
         self._map_of_map_property = None
         self.discriminator = None

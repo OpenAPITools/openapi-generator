@@ -54,7 +54,6 @@ class TypeHolderDefault(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._string_item = None
         self._number_item = None
         self._integer_item = None
@@ -86,7 +85,7 @@ class TypeHolderDefault(object):
         :param string_item: The string_item of this TypeHolderDefault.  # noqa: E501
         :type: str
         """
-        if self.local_vars_configuration.client_side_validation and string_item is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and string_item is None:  # noqa: E501
             raise ValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
 
         self._string_item = string_item
@@ -109,7 +108,7 @@ class TypeHolderDefault(object):
         :param number_item: The number_item of this TypeHolderDefault.  # noqa: E501
         :type: float
         """
-        if self.local_vars_configuration.client_side_validation and number_item is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and number_item is None:  # noqa: E501
             raise ValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
 
         self._number_item = number_item
@@ -132,7 +131,7 @@ class TypeHolderDefault(object):
         :param integer_item: The integer_item of this TypeHolderDefault.  # noqa: E501
         :type: int
         """
-        if self.local_vars_configuration.client_side_validation and integer_item is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and integer_item is None:  # noqa: E501
             raise ValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
 
         self._integer_item = integer_item
@@ -155,7 +154,7 @@ class TypeHolderDefault(object):
         :param bool_item: The bool_item of this TypeHolderDefault.  # noqa: E501
         :type: bool
         """
-        if self.local_vars_configuration.client_side_validation and bool_item is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and bool_item is None:  # noqa: E501
             raise ValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
 
         self._bool_item = bool_item
@@ -178,7 +177,7 @@ class TypeHolderDefault(object):
         :param array_item: The array_item of this TypeHolderDefault.  # noqa: E501
         :type: list[int]
         """
-        if self.local_vars_configuration.client_side_validation and array_item is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and array_item is None:  # noqa: E501
             raise ValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501
 
         self._array_item = array_item

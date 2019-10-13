@@ -48,7 +48,6 @@ class ReadOnlyFirst(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._bar = None
         self._baz = None
         self.discriminator = None

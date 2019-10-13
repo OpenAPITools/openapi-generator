@@ -46,7 +46,6 @@ class ModelReturn(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self.__return = None
         self.discriminator = None
 

@@ -46,7 +46,6 @@ class Client(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._client = None
         self.discriminator = None
 

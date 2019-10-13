@@ -103,7 +103,7 @@ class FakeClassnameTags123Api(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'body' is set
-        if self.api_client.client_side_validation and ('body' not in local_var_params or
+        if self.api_client.client_side_validation and ('body' not in local_var_params or  # noqa: E501
                                                         local_var_params['body'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `body` when calling `test_classname`")  # noqa: E501
 

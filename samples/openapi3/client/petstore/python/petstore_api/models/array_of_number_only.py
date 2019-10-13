@@ -46,7 +46,6 @@ class ArrayOfNumberOnly(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._array_number = None
         self.discriminator = None
 

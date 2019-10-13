@@ -46,7 +46,6 @@ class File(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._source_uri = None
         self.discriminator = None
 

@@ -56,7 +56,6 @@ class Capitalization(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._small_camel = None
         self._capital_camel = None
         self._small_snake = None

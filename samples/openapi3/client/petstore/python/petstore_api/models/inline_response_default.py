@@ -46,7 +46,6 @@ class InlineResponseDefault(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._string = None
         self.discriminator = None
 

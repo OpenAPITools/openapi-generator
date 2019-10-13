@@ -46,7 +46,6 @@ class ClassModel(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self.__class = None
         self.discriminator = None
 

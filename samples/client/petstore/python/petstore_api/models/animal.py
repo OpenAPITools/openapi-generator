@@ -53,7 +53,6 @@ class Animal(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._class_name = None
         self._color = None
         self.discriminator = 'class_name'
@@ -80,7 +79,7 @@ class Animal(object):
         :param class_name: The class_name of this Animal.  # noqa: E501
         :type: str
         """
-        if self.local_vars_configuration.client_side_validation and class_name is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and class_name is None:  # noqa: E501
             raise ValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
 
         self._class_name = class_name

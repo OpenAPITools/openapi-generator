@@ -48,7 +48,6 @@ class Model200Response(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._name = None
         self.__class = None
         self.discriminator = None

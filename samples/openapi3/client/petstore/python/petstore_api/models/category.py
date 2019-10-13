@@ -48,7 +48,6 @@ class Category(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._id = None
         self._name = None
         self.discriminator = None
@@ -96,7 +95,7 @@ class Category(object):
         :param name: The name of this Category.  # noqa: E501
         :type: str
         """
-        if self.local_vars_configuration.client_side_validation and name is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name

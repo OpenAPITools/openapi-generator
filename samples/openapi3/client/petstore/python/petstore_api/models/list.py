@@ -46,7 +46,6 @@ class List(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self.__123_list = None
         self.discriminator = None
 

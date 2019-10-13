@@ -633,7 +633,7 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'file_schema_test_class' is set
-        if self.api_client.client_side_validation and ('file_schema_test_class' not in local_var_params or
+        if self.api_client.client_side_validation and ('file_schema_test_class' not in local_var_params or  # noqa: E501
                                                         local_var_params['file_schema_test_class'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `file_schema_test_class` when calling `test_body_with_file_schema`")  # noqa: E501
 
@@ -741,11 +741,11 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'query' is set
-        if self.api_client.client_side_validation and ('query' not in local_var_params or
+        if self.api_client.client_side_validation and ('query' not in local_var_params or  # noqa: E501
                                                         local_var_params['query'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `query` when calling `test_body_with_query_params`")  # noqa: E501
         # verify the required parameter 'user' is set
-        if self.api_client.client_side_validation and ('user' not in local_var_params or
+        if self.api_client.client_side_validation and ('user' not in local_var_params or  # noqa: E501
                                                         local_var_params['user'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `user` when calling `test_body_with_query_params`")  # noqa: E501
 
@@ -855,7 +855,7 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'client' is set
-        if self.api_client.client_side_validation and ('client' not in local_var_params or
+        if self.api_client.client_side_validation and ('client' not in local_var_params or  # noqa: E501
                                                         local_var_params['client'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `client` when calling `test_client_model`")  # noqa: E501
 
@@ -993,19 +993,19 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'number' is set
-        if self.api_client.client_side_validation and ('number' not in local_var_params or
+        if self.api_client.client_side_validation and ('number' not in local_var_params or  # noqa: E501
                                                         local_var_params['number'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `number` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'double' is set
-        if self.api_client.client_side_validation and ('double' not in local_var_params or
+        if self.api_client.client_side_validation and ('double' not in local_var_params or  # noqa: E501
                                                         local_var_params['double'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `double` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'pattern_without_delimiter' is set
-        if self.api_client.client_side_validation and ('pattern_without_delimiter' not in local_var_params or
+        if self.api_client.client_side_validation and ('pattern_without_delimiter' not in local_var_params or  # noqa: E501
                                                         local_var_params['pattern_without_delimiter'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'byte' is set
-        if self.api_client.client_side_validation and ('byte' not in local_var_params or
+        if self.api_client.client_side_validation and ('byte' not in local_var_params or  # noqa: E501
                                                         local_var_params['byte'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
 
@@ -1031,11 +1031,11 @@ class FakeApi(object):
             raise ApiValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
         if self.api_client.client_side_validation and 'string' in local_var_params and not re.search(r'[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
             raise ApiValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
-        if self.api_client.client_side_validation and ('password' in local_var_params and
-                                                        len(local_var_params['password']) > 64):
+        if self.api_client.client_side_validation and ('password' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['password']) > 64):  # noqa: E501
             raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be less than or equal to `64`")  # noqa: E501
-        if self.api_client.client_side_validation and ('password' in local_var_params and
-                                                        len(local_var_params['password']) < 10):
+        if self.api_client.client_side_validation and ('password' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['password']) < 10):  # noqa: E501
             raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be greater than or equal to `10`")  # noqa: E501
         collection_formats = {}
 
@@ -1312,15 +1312,15 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'required_string_group' is set
-        if self.api_client.client_side_validation and ('required_string_group' not in local_var_params or
+        if self.api_client.client_side_validation and ('required_string_group' not in local_var_params or  # noqa: E501
                                                         local_var_params['required_string_group'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `required_string_group` when calling `test_group_parameters`")  # noqa: E501
         # verify the required parameter 'required_boolean_group' is set
-        if self.api_client.client_side_validation and ('required_boolean_group' not in local_var_params or
+        if self.api_client.client_side_validation and ('required_boolean_group' not in local_var_params or  # noqa: E501
                                                         local_var_params['required_boolean_group'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `required_boolean_group` when calling `test_group_parameters`")  # noqa: E501
         # verify the required parameter 'required_int64_group' is set
-        if self.api_client.client_side_validation and ('required_int64_group' not in local_var_params or
+        if self.api_client.client_side_validation and ('required_int64_group' not in local_var_params or  # noqa: E501
                                                         local_var_params['required_int64_group'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
 
@@ -1432,7 +1432,7 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'request_body' is set
-        if self.api_client.client_side_validation and ('request_body' not in local_var_params or
+        if self.api_client.client_side_validation and ('request_body' not in local_var_params or  # noqa: E501
                                                         local_var_params['request_body'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `request_body` when calling `test_inline_additional_properties`")  # noqa: E501
 
@@ -1540,11 +1540,11 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'param' is set
-        if self.api_client.client_side_validation and ('param' not in local_var_params or
+        if self.api_client.client_side_validation and ('param' not in local_var_params or  # noqa: E501
                                                         local_var_params['param'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `param` when calling `test_json_form_data`")  # noqa: E501
         # verify the required parameter 'param2' is set
-        if self.api_client.client_side_validation and ('param2' not in local_var_params or
+        if self.api_client.client_side_validation and ('param2' not in local_var_params or  # noqa: E501
                                                         local_var_params['param2'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
 
@@ -1662,23 +1662,23 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pipe' is set
-        if self.api_client.client_side_validation and ('pipe' not in local_var_params or
+        if self.api_client.client_side_validation and ('pipe' not in local_var_params or  # noqa: E501
                                                         local_var_params['pipe'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `pipe` when calling `test_query_parameter_collection_format`")  # noqa: E501
         # verify the required parameter 'ioutil' is set
-        if self.api_client.client_side_validation and ('ioutil' not in local_var_params or
+        if self.api_client.client_side_validation and ('ioutil' not in local_var_params or  # noqa: E501
                                                         local_var_params['ioutil'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `ioutil` when calling `test_query_parameter_collection_format`")  # noqa: E501
         # verify the required parameter 'http' is set
-        if self.api_client.client_side_validation and ('http' not in local_var_params or
+        if self.api_client.client_side_validation and ('http' not in local_var_params or  # noqa: E501
                                                         local_var_params['http'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `http` when calling `test_query_parameter_collection_format`")  # noqa: E501
         # verify the required parameter 'url' is set
-        if self.api_client.client_side_validation and ('url' not in local_var_params or
+        if self.api_client.client_side_validation and ('url' not in local_var_params or  # noqa: E501
                                                         local_var_params['url'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `url` when calling `test_query_parameter_collection_format`")  # noqa: E501
         # verify the required parameter 'context' is set
-        if self.api_client.client_side_validation and ('context' not in local_var_params or
+        if self.api_client.client_side_validation and ('context' not in local_var_params or  # noqa: E501
                                                         local_var_params['context'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `context` when calling `test_query_parameter_collection_format`")  # noqa: E501
 

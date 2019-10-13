@@ -60,7 +60,6 @@ class User(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._id = None
         self._username = None
         self._first_name = None

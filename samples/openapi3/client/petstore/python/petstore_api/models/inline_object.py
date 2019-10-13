@@ -48,7 +48,6 @@ class InlineObject(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._name = None
         self._status = None
         self.discriminator = None

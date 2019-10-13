@@ -72,7 +72,6 @@ class InlineObject3(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._integer = None
         self._int32 = None
         self._int64 = None
@@ -135,10 +134,10 @@ class InlineObject3(object):
         :type: int
         """
         if (self.local_vars_configuration.client_side_validation and
-            integer is not None and integer > 100):  # noqa: E501
+                integer is not None and integer > 100):  # noqa: E501
             raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-            integer is not None and integer < 10):  # noqa: E501
+                integer is not None and integer < 10):  # noqa: E501
             raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
 
         self._integer = integer
@@ -164,10 +163,10 @@ class InlineObject3(object):
         :type: int
         """
         if (self.local_vars_configuration.client_side_validation and
-            int32 is not None and int32 > 200):  # noqa: E501
+                int32 is not None and int32 > 200):  # noqa: E501
             raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-            int32 is not None and int32 < 20):  # noqa: E501
+                int32 is not None and int32 < 20):  # noqa: E501
             raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
 
         self._int32 = int32
@@ -215,13 +214,13 @@ class InlineObject3(object):
         :param number: The number of this InlineObject3.  # noqa: E501
         :type: float
         """
-        if self.local_vars_configuration.client_side_validation and number is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and number is None:  # noqa: E501
             raise ValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-            number is not None and number > 543.2):  # noqa: E501
+                number is not None and number > 543.2):  # noqa: E501
             raise ValueError("Invalid value for `number`, must be a value less than or equal to `543.2`")  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-            number is not None and number < 32.1):  # noqa: E501
+                number is not None and number < 32.1):  # noqa: E501
             raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
 
         self._number = number
@@ -247,7 +246,7 @@ class InlineObject3(object):
         :type: float
         """
         if (self.local_vars_configuration.client_side_validation and
-            float is not None and float > 987.6):  # noqa: E501
+                float is not None and float > 987.6):  # noqa: E501
             raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
 
         self._float = float
@@ -272,13 +271,13 @@ class InlineObject3(object):
         :param double: The double of this InlineObject3.  # noqa: E501
         :type: float
         """
-        if self.local_vars_configuration.client_side_validation and double is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and double is None:  # noqa: E501
             raise ValueError("Invalid value for `double`, must not be `None`")  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-            double is not None and double > 123.4):  # noqa: E501
+                double is not None and double > 123.4):  # noqa: E501
             raise ValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-            double is not None and double < 67.8):  # noqa: E501
+                double is not None and double < 67.8):  # noqa: E501
             raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
 
         self._double = double
@@ -304,7 +303,7 @@ class InlineObject3(object):
         :type: str
         """
         if (self.local_vars_configuration.client_side_validation and
-             string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE)):  # noqa: E501
+                string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE)):  # noqa: E501
             raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
         self._string = string
@@ -329,10 +328,10 @@ class InlineObject3(object):
         :param pattern_without_delimiter: The pattern_without_delimiter of this InlineObject3.  # noqa: E501
         :type: str
         """
-        if self.local_vars_configuration.client_side_validation and pattern_without_delimiter is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and pattern_without_delimiter is None:  # noqa: E501
             raise ValueError("Invalid value for `pattern_without_delimiter`, must not be `None`")  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-             pattern_without_delimiter is not None and not re.search(r'^[A-Z].*', pattern_without_delimiter)):  # noqa: E501
+                pattern_without_delimiter is not None and not re.search(r'^[A-Z].*', pattern_without_delimiter)):  # noqa: E501
             raise ValueError(r"Invalid value for `pattern_without_delimiter`, must be a follow pattern or equal to `/^[A-Z].*/`")  # noqa: E501
 
         self._pattern_without_delimiter = pattern_without_delimiter
@@ -357,7 +356,7 @@ class InlineObject3(object):
         :param byte: The byte of this InlineObject3.  # noqa: E501
         :type: str
         """
-        if self.local_vars_configuration.client_side_validation and byte is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and byte is None:  # noqa: E501
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
 
         self._byte = byte
@@ -452,10 +451,10 @@ class InlineObject3(object):
         :type: str
         """
         if (self.local_vars_configuration.client_side_validation and
-            password is not None and len(password) > 64):
+                password is not None and len(password) > 64):
             raise ValueError("Invalid value for `password`, length must be less than or equal to `64`")  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-            password is not None and len(password) < 10):
+                password is not None and len(password) < 10):
             raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
 
         self._password = password

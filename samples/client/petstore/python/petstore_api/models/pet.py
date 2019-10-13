@@ -56,7 +56,6 @@ class Pet(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._id = None
         self._category = None
         self._name = None
@@ -136,7 +135,7 @@ class Pet(object):
         :param name: The name of this Pet.  # noqa: E501
         :type: str
         """
-        if self.local_vars_configuration.client_side_validation and name is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
@@ -159,7 +158,7 @@ class Pet(object):
         :param photo_urls: The photo_urls of this Pet.  # noqa: E501
         :type: list[str]
         """
-        if self.local_vars_configuration.client_side_validation and photo_urls is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and photo_urls is None:  # noqa: E501
             raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
 
         self._photo_urls = photo_urls
@@ -206,8 +205,7 @@ class Pet(object):
         :type: str
         """
         allowed_values = ["available", "pending", "sold"]  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-            status not in allowed_values):
+        if self.local_vars_configuration.client_side_validation and status not in allowed_values:  # noqa: E501
             raise ValueError(
                 "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
                 .format(status, allowed_values)

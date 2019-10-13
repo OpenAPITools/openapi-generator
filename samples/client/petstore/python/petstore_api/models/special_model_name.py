@@ -46,7 +46,6 @@ class SpecialModelName(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._special_property_name = None
         self.discriminator = None
 

@@ -102,7 +102,6 @@ class XmlItem(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._attribute_string = None
         self._attribute_number = None
         self._attribute_integer = None

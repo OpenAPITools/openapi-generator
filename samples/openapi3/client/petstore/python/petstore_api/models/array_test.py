@@ -50,7 +50,6 @@ class ArrayTest(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._array_of_string = None
         self._array_array_of_integer = None
         self._array_array_of_model = None

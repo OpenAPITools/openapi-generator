@@ -50,7 +50,6 @@ class ApiResponse(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._code = None
         self._type = None
         self._message = None

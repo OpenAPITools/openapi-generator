@@ -46,7 +46,6 @@ class HealthCheckResult(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._nullable_message = None
         self.discriminator = None
 

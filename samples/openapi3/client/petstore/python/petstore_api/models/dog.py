@@ -46,7 +46,6 @@ class Dog(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._breed = None
         self.discriminator = None
 

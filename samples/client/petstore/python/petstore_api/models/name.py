@@ -52,7 +52,6 @@ class Name(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._name = None
         self._snake_case = None
         self.__property = None
@@ -85,7 +84,7 @@ class Name(object):
         :param name: The name of this Name.  # noqa: E501
         :type: int
         """
-        if self.local_vars_configuration.client_side_validation and name is None: # noqa: E501
+        if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name

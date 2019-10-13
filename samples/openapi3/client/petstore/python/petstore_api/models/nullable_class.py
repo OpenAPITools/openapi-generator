@@ -68,7 +68,6 @@ class NullableClass(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._integer_prop = None
         self._number_prop = None
         self._boolean_prop = None

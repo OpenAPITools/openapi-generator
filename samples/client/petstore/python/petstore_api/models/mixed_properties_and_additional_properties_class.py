@@ -50,7 +50,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
-
         self._uuid = None
         self._date_time = None
         self._map = None
