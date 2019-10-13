@@ -44,6 +44,10 @@ class InlineObject2(object):
 
     def __init__(self, enum_form_string_array=None, enum_form_string='-efg', local_vars_configuration=None):  # noqa: E501
         """InlineObject2 - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._enum_form_string_array = None
         self._enum_form_string = None
@@ -53,9 +57,6 @@ class InlineObject2(object):
             self.enum_form_string_array = enum_form_string_array
         if enum_form_string is not None:
             self.enum_form_string = enum_form_string
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def enum_form_string_array(self):

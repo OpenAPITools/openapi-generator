@@ -98,6 +98,10 @@ class XmlItem(object):
 
     def __init__(self, attribute_string=None, attribute_number=None, attribute_integer=None, attribute_boolean=None, wrapped_array=None, name_string=None, name_number=None, name_integer=None, name_boolean=None, name_array=None, name_wrapped_array=None, prefix_string=None, prefix_number=None, prefix_integer=None, prefix_boolean=None, prefix_array=None, prefix_wrapped_array=None, namespace_string=None, namespace_number=None, namespace_integer=None, namespace_boolean=None, namespace_array=None, namespace_wrapped_array=None, prefix_ns_string=None, prefix_ns_number=None, prefix_ns_integer=None, prefix_ns_boolean=None, prefix_ns_array=None, prefix_ns_wrapped_array=None, local_vars_configuration=None):  # noqa: E501
         """XmlItem - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._attribute_string = None
         self._attribute_number = None
@@ -188,9 +192,6 @@ class XmlItem(object):
             self.prefix_ns_array = prefix_ns_array
         if prefix_ns_wrapped_array is not None:
             self.prefix_ns_wrapped_array = prefix_ns_wrapped_array
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def attribute_string(self):

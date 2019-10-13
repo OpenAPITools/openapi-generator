@@ -47,10 +47,11 @@ class OuterEnumInteger(object):
 
     def __init__(self, local_vars_configuration=None):  # noqa: E501
         """OuterEnumInteger - a model defined in OpenAPI"""  # noqa: E501
-        self.discriminator = None
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
+
+        self.discriminator = None
 
     def to_dict(self):
         """Returns the model properties as a dict"""

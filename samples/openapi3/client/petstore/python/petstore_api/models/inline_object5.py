@@ -44,6 +44,10 @@ class InlineObject5(object):
 
     def __init__(self, additional_metadata=None, required_file=None, local_vars_configuration=None):  # noqa: E501
         """InlineObject5 - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._additional_metadata = None
         self._required_file = None
@@ -52,9 +56,6 @@ class InlineObject5(object):
         if additional_metadata is not None:
             self.additional_metadata = additional_metadata
         self.required_file = required_file
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def additional_metadata(self):

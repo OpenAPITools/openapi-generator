@@ -46,6 +46,10 @@ class OuterComposite(object):
 
     def __init__(self, my_number=None, my_string=None, my_boolean=None, local_vars_configuration=None):  # noqa: E501
         """OuterComposite - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._my_number = None
         self._my_string = None
@@ -58,9 +62,6 @@ class OuterComposite(object):
             self.my_string = my_string
         if my_boolean is not None:
             self.my_boolean = my_boolean
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def my_number(self):

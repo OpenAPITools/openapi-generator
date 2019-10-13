@@ -42,15 +42,16 @@ class ArrayOfNumberOnly(object):
 
     def __init__(self, array_number=None, local_vars_configuration=None):  # noqa: E501
         """ArrayOfNumberOnly - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._array_number = None
         self.discriminator = None
 
         if array_number is not None:
             self.array_number = array_number
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def array_number(self):

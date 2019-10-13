@@ -42,15 +42,16 @@ class InlineResponseDefault(object):
 
     def __init__(self, string=None, local_vars_configuration=None):  # noqa: E501
         """InlineResponseDefault - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._string = None
         self.discriminator = None
 
         if string is not None:
             self.string = string
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def string(self):

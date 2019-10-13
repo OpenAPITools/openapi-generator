@@ -42,15 +42,16 @@ class AdditionalPropertiesArray(object):
 
     def __init__(self, name=None, local_vars_configuration=None):  # noqa: E501
         """AdditionalPropertiesArray - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._name = None
         self.discriminator = None
 
         if name is not None:
             self.name = name
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def name(self):

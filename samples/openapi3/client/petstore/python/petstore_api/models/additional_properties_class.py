@@ -44,6 +44,10 @@ class AdditionalPropertiesClass(object):
 
     def __init__(self, map_property=None, map_of_map_property=None, local_vars_configuration=None):  # noqa: E501
         """AdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._map_property = None
         self._map_of_map_property = None
@@ -53,9 +57,6 @@ class AdditionalPropertiesClass(object):
             self.map_property = map_property
         if map_of_map_property is not None:
             self.map_of_map_property = map_of_map_property
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def map_property(self):

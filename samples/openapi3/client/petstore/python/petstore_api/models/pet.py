@@ -52,6 +52,10 @@ class Pet(object):
 
     def __init__(self, id=None, category=None, name=None, photo_urls=None, tags=None, status=None, local_vars_configuration=None):  # noqa: E501
         """Pet - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._id = None
         self._category = None
@@ -71,9 +75,6 @@ class Pet(object):
             self.tags = tags
         if status is not None:
             self.status = status
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def id(self):

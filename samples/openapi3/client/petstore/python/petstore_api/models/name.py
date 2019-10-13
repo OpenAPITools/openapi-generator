@@ -48,6 +48,10 @@ class Name(object):
 
     def __init__(self, name=None, snake_case=None, _property=None, _123_number=None, local_vars_configuration=None):  # noqa: E501
         """Name - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._name = None
         self._snake_case = None
@@ -62,9 +66,6 @@ class Name(object):
             self._property = _property
         if _123_number is not None:
             self._123_number = _123_number
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def name(self):

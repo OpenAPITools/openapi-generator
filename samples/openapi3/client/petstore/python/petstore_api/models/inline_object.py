@@ -44,6 +44,10 @@ class InlineObject(object):
 
     def __init__(self, name=None, status=None, local_vars_configuration=None):  # noqa: E501
         """InlineObject - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._name = None
         self._status = None
@@ -53,9 +57,6 @@ class InlineObject(object):
             self.name = name
         if status is not None:
             self.status = status
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def name(self):

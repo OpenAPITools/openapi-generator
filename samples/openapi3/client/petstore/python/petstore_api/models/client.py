@@ -42,15 +42,16 @@ class Client(object):
 
     def __init__(self, client=None, local_vars_configuration=None):  # noqa: E501
         """Client - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._client = None
         self.discriminator = None
 
         if client is not None:
             self.client = client
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def client(self):

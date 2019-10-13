@@ -42,15 +42,16 @@ class List(object):
 
     def __init__(self, _123_list=None, local_vars_configuration=None):  # noqa: E501
         """List - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self.__123_list = None
         self.discriminator = None
 
         if _123_list is not None:
             self._123_list = _123_list
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def _123_list(self):

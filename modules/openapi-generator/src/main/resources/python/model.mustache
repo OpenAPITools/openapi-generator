@@ -55,6 +55,10 @@ class {{classname}}(object):
 
     def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}, local_vars_configuration=None):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 {{#vars}}{{#-first}}
 {{/-first}}
         self._{{name}} = None
@@ -75,9 +79,6 @@ class {{classname}}(object):
 {{/isNullable}}
 {{/required}}
 {{/vars}}
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
 {{#vars}}
     @property

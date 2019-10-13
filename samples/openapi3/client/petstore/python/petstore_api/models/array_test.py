@@ -46,6 +46,10 @@ class ArrayTest(object):
 
     def __init__(self, array_of_string=None, array_array_of_integer=None, array_array_of_model=None, local_vars_configuration=None):  # noqa: E501
         """ArrayTest - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._array_of_string = None
         self._array_array_of_integer = None
@@ -58,9 +62,6 @@ class ArrayTest(object):
             self.array_array_of_integer = array_array_of_integer
         if array_array_of_model is not None:
             self.array_array_of_model = array_array_of_model
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def array_of_string(self):

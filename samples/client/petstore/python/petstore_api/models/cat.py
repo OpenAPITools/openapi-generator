@@ -42,15 +42,16 @@ class Cat(object):
 
     def __init__(self, declawed=None, local_vars_configuration=None):  # noqa: E501
         """Cat - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._declawed = None
         self.discriminator = None
 
         if declawed is not None:
             self.declawed = declawed
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def declawed(self):

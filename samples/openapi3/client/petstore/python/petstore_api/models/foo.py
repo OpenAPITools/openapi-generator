@@ -42,15 +42,16 @@ class Foo(object):
 
     def __init__(self, bar='bar', local_vars_configuration=None):  # noqa: E501
         """Foo - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._bar = None
         self.discriminator = None
 
         if bar is not None:
             self.bar = bar
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def bar(self):

@@ -42,15 +42,16 @@ class SpecialModelName(object):
 
     def __init__(self, special_property_name=None, local_vars_configuration=None):  # noqa: E501
         """SpecialModelName - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._special_property_name = None
         self.discriminator = None
 
         if special_property_name is not None:
             self.special_property_name = special_property_name
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def special_property_name(self):

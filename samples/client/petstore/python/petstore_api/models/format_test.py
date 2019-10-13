@@ -68,6 +68,10 @@ class FormatTest(object):
 
     def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, big_decimal=None, local_vars_configuration=None):  # noqa: E501
         """FormatTest - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._integer = None
         self._int32 = None
@@ -109,9 +113,6 @@ class FormatTest(object):
         self.password = password
         if big_decimal is not None:
             self.big_decimal = big_decimal
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def integer(self):

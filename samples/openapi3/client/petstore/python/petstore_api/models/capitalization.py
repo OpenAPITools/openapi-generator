@@ -52,6 +52,10 @@ class Capitalization(object):
 
     def __init__(self, small_camel=None, capital_camel=None, small_snake=None, capital_snake=None, sca_eth_flow_points=None, att_name=None, local_vars_configuration=None):  # noqa: E501
         """Capitalization - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._small_camel = None
         self._capital_camel = None
@@ -73,9 +77,6 @@ class Capitalization(object):
             self.sca_eth_flow_points = sca_eth_flow_points
         if att_name is not None:
             self.att_name = att_name
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def small_camel(self):

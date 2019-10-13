@@ -48,6 +48,10 @@ class MapTest(object):
 
     def __init__(self, map_map_of_string=None, map_of_enum_string=None, direct_map=None, indirect_map=None, local_vars_configuration=None):  # noqa: E501
         """MapTest - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._map_map_of_string = None
         self._map_of_enum_string = None
@@ -63,9 +67,6 @@ class MapTest(object):
             self.direct_map = direct_map
         if indirect_map is not None:
             self.indirect_map = indirect_map
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def map_map_of_string(self):

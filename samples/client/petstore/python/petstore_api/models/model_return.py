@@ -42,15 +42,16 @@ class ModelReturn(object):
 
     def __init__(self, _return=None, local_vars_configuration=None):  # noqa: E501
         """ModelReturn - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self.__return = None
         self.discriminator = None
 
         if _return is not None:
             self._return = _return
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def _return(self):

@@ -44,6 +44,10 @@ class HasOnlyReadOnly(object):
 
     def __init__(self, bar=None, foo=None, local_vars_configuration=None):  # noqa: E501
         """HasOnlyReadOnly - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._bar = None
         self._foo = None
@@ -53,9 +57,6 @@ class HasOnlyReadOnly(object):
             self.bar = bar
         if foo is not None:
             self.foo = foo
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def bar(self):

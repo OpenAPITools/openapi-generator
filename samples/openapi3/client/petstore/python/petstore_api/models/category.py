@@ -44,6 +44,10 @@ class Category(object):
 
     def __init__(self, id=None, name='default-name', local_vars_configuration=None):  # noqa: E501
         """Category - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._id = None
         self._name = None
@@ -52,9 +56,6 @@ class Category(object):
         if id is not None:
             self.id = id
         self.name = name
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def id(self):

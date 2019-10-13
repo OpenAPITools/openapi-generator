@@ -42,15 +42,16 @@ class Dog(object):
 
     def __init__(self, breed=None, local_vars_configuration=None):  # noqa: E501
         """Dog - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._breed = None
         self.discriminator = None
 
         if breed is not None:
             self.breed = breed
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def breed(self):

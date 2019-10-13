@@ -56,6 +56,10 @@ class User(object):
 
     def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None, local_vars_configuration=None):  # noqa: E501
         """User - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._id = None
         self._username = None
@@ -83,9 +87,6 @@ class User(object):
             self.phone = phone
         if user_status is not None:
             self.user_status = user_status
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def id(self):

@@ -56,6 +56,10 @@ class EnumTest(object):
 
     def __init__(self, enum_string=None, enum_string_required=None, enum_integer=None, enum_number=None, outer_enum=None, outer_enum_integer=None, outer_enum_default_value=None, outer_enum_integer_default_value=None, local_vars_configuration=None):  # noqa: E501
         """EnumTest - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._enum_string = None
         self._enum_string_required = None
@@ -81,9 +85,6 @@ class EnumTest(object):
             self.outer_enum_default_value = outer_enum_default_value
         if outer_enum_integer_default_value is not None:
             self.outer_enum_integer_default_value = outer_enum_integer_default_value
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def enum_string(self):

@@ -52,6 +52,10 @@ class TypeHolderExample(object):
 
     def __init__(self, string_item=None, number_item=None, float_item=None, integer_item=None, bool_item=None, array_item=None, local_vars_configuration=None):  # noqa: E501
         """TypeHolderExample - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
 
         self._string_item = None
         self._number_item = None
@@ -67,9 +71,6 @@ class TypeHolderExample(object):
         self.integer_item = integer_item
         self.bool_item = bool_item
         self.array_item = array_item
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
-        self.local_vars_configuration = local_vars_configuration
 
     @property
     def string_item(self):
