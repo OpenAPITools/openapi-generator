@@ -108,7 +108,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, bod
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

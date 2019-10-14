@@ -23,12 +23,12 @@ import Json.Encode as Encode
 {-| A pet for sale in the pet store
 -}
 type alias Pet =
-    { id : Maybe Int
-    , category : Maybe Category
+    { id : Maybe (Int)
+    , category : Maybe (Category)
     , name : String
-    , photoUrls : List String
-    , tags : Maybe (List Tag)
-    , status : Maybe Status
+    , photoUrls : (List String)
+    , tags : Maybe ((List Tag))
+    , status : Maybe (Status)
     }
 
 
@@ -36,6 +36,7 @@ type Status
     = Available
     | Pending
     | Sold
+
 
 
 decoder : Decoder Pet
@@ -49,21 +50,26 @@ decoder =
         |> optional "status" (Decode.nullable statusDecoder) Nothing
 
 
+
 encode : Pet -> Encode.Value
 encode model =
     Encode.object
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
         , ( "category", Maybe.withDefault Encode.null (Maybe.map Category.encode model.category) )
         , ( "name", Encode.string model.name )
-        , ( "photoUrls", Encode.list Encode.string model.photoUrls )
+        , ( "photoUrls", (Encode.list Encode.string) model.photoUrls )
         , ( "tags", Maybe.withDefault Encode.null (Maybe.map (Encode.list Tag.encode) model.tags) )
         , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
+
         ]
+
 
 
 toString : Pet -> String
 toString =
     Encode.encode 0 << encode
+
+
 
 
 statusDecoder : Decoder Status
@@ -86,6 +92,7 @@ statusDecoder =
             )
 
 
+
 encodeStatus : Status -> Encode.Value
 encodeStatus model =
     case model of
@@ -97,3 +104,7 @@ encodeStatus model =
 
         Sold ->
             Encode.string "sold"
+
+
+
+
