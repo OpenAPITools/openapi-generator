@@ -49,8 +49,7 @@ class OuterEnumIntegerDefaultValue(object):
 
     @staticmethod
     def get_allowed_values():
-        allowed_values = [OuterEnumIntegerDefaultValue._0, OuterEnumIntegerDefaultValue._1, OuterEnumIntegerDefaultValue._2]  # noqa: E501
-        return allowed_values
+        return [OuterEnumIntegerDefaultValue._0, OuterEnumIntegerDefaultValue._1, OuterEnumIntegerDefaultValue._2]  # noqa: E501
 
     def to_dict(self):
         """Returns the model properties as a dict"""

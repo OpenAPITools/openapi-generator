@@ -49,8 +49,7 @@ class OuterEnum(object):
 
     @staticmethod
     def get_allowed_values():
-        allowed_values = [OuterEnum.PLACED, OuterEnum.APPROVED, OuterEnum.DELIVERED]  # noqa: E501
-        return allowed_values
+        return [OuterEnum.PLACED, OuterEnum.APPROVED, OuterEnum.DELIVERED]  # noqa: E501
 
     def to_dict(self):
         """Returns the model properties as a dict"""
