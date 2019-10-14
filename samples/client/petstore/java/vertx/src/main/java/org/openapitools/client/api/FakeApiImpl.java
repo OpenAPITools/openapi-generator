@@ -69,6 +69,9 @@ public class FakeApiImpl implements FakeApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -77,7 +80,7 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * 
@@ -97,6 +100,9 @@ public class FakeApiImpl implements FakeApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -105,7 +111,7 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Boolean> localVarReturnType = new TypeReference<Boolean>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
      * 
@@ -125,6 +131,9 @@ public class FakeApiImpl implements FakeApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -133,7 +142,7 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<OuterComposite> localVarReturnType = new TypeReference<OuterComposite>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
      * 
@@ -153,6 +162,9 @@ public class FakeApiImpl implements FakeApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -161,7 +173,7 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<BigDecimal> localVarReturnType = new TypeReference<BigDecimal>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
      * 
@@ -181,6 +193,9 @@ public class FakeApiImpl implements FakeApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -189,7 +204,7 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<String> localVarReturnType = new TypeReference<String>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
      * 
@@ -215,6 +230,9 @@ public class FakeApiImpl implements FakeApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -223,7 +241,7 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * 
@@ -257,6 +275,9 @@ public class FakeApiImpl implements FakeApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -265,7 +286,7 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * To test \&quot;client\&quot; model
@@ -291,6 +312,9 @@ public class FakeApiImpl implements FakeApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -299,7 +323,7 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
-        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -356,6 +380,9 @@ public class FakeApiImpl implements FakeApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -378,7 +405,7 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] { "http_basic_test" };
 
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * To test enum parameters
@@ -413,6 +440,9 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
 if (enumHeaderString != null)
         localVarHeaderParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
 
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -423,7 +453,7 @@ if (enumFormString != null) localVarFormParams.put("enum_form_string", enumFormS
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * Fake endpoint to test group parameters (optional)
@@ -474,6 +504,9 @@ if (enumFormString != null) localVarFormParams.put("enum_form_string", enumFormS
 if (booleanGroup != null)
         localVarHeaderParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
 
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -482,7 +515,7 @@ if (booleanGroup != null)
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * test inline additionalProperties
@@ -508,6 +541,9 @@ if (booleanGroup != null)
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -516,7 +552,7 @@ if (booleanGroup != null)
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * test json serialization of form data
@@ -549,6 +585,9 @@ if (booleanGroup != null)
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -559,7 +598,7 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * 
@@ -618,6 +657,9 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -626,6 +668,6 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
 }

@@ -72,6 +72,12 @@ public class {{classname}}Impl implements {{classname}} {
         localVarHeaderParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));
         {{/headerParams}}
 
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        {{#cookieParams}}if ({{paramName}} != null)
+        localVarCookieParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));
+        {{/cookieParams}}
+
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -83,8 +89,8 @@ public class {{classname}}Impl implements {{classname}} {
         String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
         {{#returnType}}
         TypeReference<{{{returnType}}}> localVarReturnType = new TypeReference<{{{returnType}}}>() {};
-        apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);{{/returnType}}{{^returnType}}
-        apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);{{/returnType}}
+        apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);{{/returnType}}{{^returnType}}
+        apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);{{/returnType}}
     }
     {{/operation}}
 }

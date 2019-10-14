@@ -36,6 +36,8 @@ public class ApiKeyAuth implements RequestInterceptor {
             template.query(paramName, apiKey);
         } else if ("header".equals(location)) {
             template.header(paramName, apiKey);
+        } else if ("cookie".equals(location)) {
+            template.header(String.format("Cookie: %s=%s", paramName, apiKey));
         }
     }
 }
