@@ -1,5 +1,6 @@
 #!/bin/sh
 
+./bin/kotlin-client-nonpublic.sh
 ./bin/kotlin-client-okhttp3.sh
 ./bin/kotlin-client-petstore-multiplatform.sh
 ./bin/kotlin-client-petstore.sh
