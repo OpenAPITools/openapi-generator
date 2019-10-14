@@ -21,6 +21,7 @@ sidebar_label: csharp
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|
 |optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
+|optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
 |optionalProjectFile|Generate {PackageName}.csproj.| |true|
 |generatePropertyChanged|Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|

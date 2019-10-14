@@ -13,13 +13,21 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * Model for testing reserved words
- * @param &#x60;return&#x60; 
+ * @param `return` 
  */
+
 data class Return (
     @Json(name = "return")
     val `return`: kotlin.Int? = null
-)
+) 
+: Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

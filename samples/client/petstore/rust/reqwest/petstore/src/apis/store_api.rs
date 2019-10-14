@@ -22,7 +22,7 @@ pub struct StoreApiClient {
 impl StoreApiClient {
     pub fn new(configuration: Rc<configuration::Configuration>) -> StoreApiClient {
         StoreApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }

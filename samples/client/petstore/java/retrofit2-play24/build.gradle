@@ -119,7 +119,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    compile "org.openapitools:jackson-databind-nullable:$jackson-databind-nullable-version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
 
     testCompile "junit:junit:$junit_version"

@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Category exposing (Category, decoder, encode)
+module Data.Category exposing (Category, decoder, encode, toString)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -21,8 +21,8 @@ import Json.Encode as Encode
 {-| A category for a pet
 -}
 type alias Category =
-    { id : Maybe (Int)
-    , name : Maybe (String)
+    { id : Maybe Int
+    , name : Maybe String
     }
 
 
@@ -33,13 +33,14 @@ decoder =
         |> optional "name" (Decode.nullable Decode.string) Nothing
 
 
-
 encode : Category -> Encode.Value
 encode model =
     Encode.object
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
         , ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
-
         ]
 
 
+toString : Category -> String
+toString =
+    Encode.encode 0 << encode

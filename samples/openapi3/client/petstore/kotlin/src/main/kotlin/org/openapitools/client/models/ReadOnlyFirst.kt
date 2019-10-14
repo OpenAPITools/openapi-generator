@@ -13,16 +13,24 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param bar 
  * @param baz 
  */
+
 data class ReadOnlyFirst (
     @Json(name = "bar")
     val bar: kotlin.String? = null,
     @Json(name = "baz")
     val baz: kotlin.String? = null
-)
+) 
+: Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

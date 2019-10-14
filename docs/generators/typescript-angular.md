@@ -20,7 +20,7 @@ sidebar_label: typescript-angular
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
 |providedInRoot|Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).| |false|
-|ngVersion|The version of Angular.| |7.0.0|
+|ngVersion|The version of Angular.| |8.0.0|
 |serviceSuffix|The suffix of the generated service.| |Service|
 |serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| |.service|
 |modelSuffix|The suffix of the generated model.| |null|

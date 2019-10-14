@@ -19,7 +19,7 @@ extension ObservableType {
     }
 }
 
-final private class EmptyProducer<Element> : Producer<Element> {
+final private class EmptyProducer<Element>: Producer<Element> {
     override func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         observer.on(.completed)
         return Disposables.create()

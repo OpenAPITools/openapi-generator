@@ -19,27 +19,21 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
-    protected static final String VENDOR_EXTENSION_ESCAPED_NAME = "x-escapedName";
-
     protected static final String JVM = "jvm";
+    protected static final String JVM_OKHTTP4 = "jvm-okhttp4";
+    protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
     protected static final String MULTIPLATFORM = "multiplatform";
 
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -47,14 +41,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String collectionType = CollectionType.ARRAY.value;
-
-    // https://kotlinlang.org/docs/reference/grammar.html#Identifier
-    protected static final Pattern IDENTIFIER_PATTERN =
-            Pattern.compile("[\\p{Ll}\\p{Lm}\\p{Lo}\\p{Lt}\\p{Lu}\\p{Nl}_][\\p{Ll}\\p{Lm}\\p{Lo}\\p{Lt}\\p{Lu}\\p{Nl}\\p{Nd}_]*");
-
-    // https://kotlinlang.org/docs/reference/grammar.html#Identifier
-    protected static final String IDENTIFIER_REPLACEMENTS =
-            "[.;:/\\[\\]<>]";
 
     public enum DateLibrary {
         STRING("string"),
@@ -146,14 +132,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         collectionType.setDefault(this.collectionType);
         cliOptions.add(collectionType);
 
-        supportedLibraries.put(JVM, "Platform: Java Virtual Machine. HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.8.1.");
+        supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
+        supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
-        libraryOption.setDefault(JVM);
+        libraryOption.setDefault(JVM_OKHTTP4);
         cliOptions.add(libraryOption);
-        setLibrary(JVM);
+        setLibrary(JVM_OKHTTP4);
     }
 
     public CodegenType getTag() {
@@ -201,8 +188,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
 
-        if (JVM.equals(getLibrary())) {
+        if (isJVMLibrary()) {
             additionalProperties.put(JVM, true);
+            
+            if (JVM_OKHTTP4.equals(getLibrary())) {
+                additionalProperties.put(JVM_OKHTTP4, true);
+            } else if (JVM_OKHTTP3.equals(getLibrary())) {
+                additionalProperties.put(JVM_OKHTTP3, true);
+            }
+
+            supportedLibraries.put(JVM, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
+            setLibrary(JVM);
 
             // jvm specific supporting files
             supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
@@ -241,7 +237,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
 
             // multiplatform specific testing files
-            final String testFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
             supportingFiles.add(new SupportingFile("commonTest/coroutine.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
             supportingFiles.add(new SupportingFile("iosTest/coroutine.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
             supportingFiles.add(new SupportingFile("jvmTest/coroutine.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
@@ -280,58 +275,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("list", "kotlin.collections.List");
             additionalProperties.put("isList", true);
         }
+
     }
 
-    @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        objs = super.postProcessModels(objs);
-        return postProcessModelsEscapeNames(objs);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> postProcessModelsEscapeNames(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-
-            if (cm.vars != null) {
-                for (CodegenProperty var : cm.vars) {
-                    var.vendorExtensions.put(VENDOR_EXTENSION_ESCAPED_NAME, escapeIdentifier(var.name));
-                }
-            }
-            if (cm.requiredVars != null) {
-                for (CodegenProperty var : cm.requiredVars) {
-                    var.vendorExtensions.put(VENDOR_EXTENSION_ESCAPED_NAME, escapeIdentifier(var.name));
-                }
-            }
-            if (cm.optionalVars != null) {
-                for (CodegenProperty var : cm.optionalVars) {
-                    var.vendorExtensions.put(VENDOR_EXTENSION_ESCAPED_NAME, escapeIdentifier(var.name));
-                }
-            }
-        }
-        return objs;
-    }
-
-    private static String escapeIdentifier(String identifier) {
-
-        // the kotlin grammar permits a wider set of characters in their identifiers that all target
-        // platforms permit (namely jvm). in order to remain compatible with target platforms, we
-        // initially replace all illegal target characters before escaping the identifier if required.
-        identifier = identifier.replaceAll(IDENTIFIER_REPLACEMENTS, "_");
-        if (IDENTIFIER_PATTERN.matcher(identifier).matches()) return identifier;
-        return '`' + identifier + '`';
-    }
-
-    private static void removeDuplicates(List<CodegenProperty> list) {
-        Set<String> set = new HashSet<>();
-        Iterator<CodegenProperty> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            CodegenProperty item = iterator.next();
-            if (set.contains(item.name)) iterator.remove();
-            else set.add(item.name);
-        }
+    private boolean isJVMLibrary() {
+        return getLibrary() != null && (getLibrary().contains(JVM_OKHTTP4) || getLibrary().contains(JVM_OKHTTP3));
     }
 
     @Override

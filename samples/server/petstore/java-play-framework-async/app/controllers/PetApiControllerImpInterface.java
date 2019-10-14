@@ -8,6 +8,8 @@ import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.CompletableFuture;
 
 import javax.validation.constraints.*;
 
@@ -17,16 +19,16 @@ public interface PetApiControllerImpInterface {
 
     void deletePet(Long petId, String apiKey) throws Exception;
 
-    List<Pet> findPetsByStatus( @NotNull List<String> status) throws Exception;
+    CompletionStage<List<Pet>> findPetsByStatus( @NotNull List<String> status) throws Exception;
 
-    List<Pet> findPetsByTags( @NotNull List<String> tags) throws Exception;
+    CompletionStage<List<Pet>> findPetsByTags( @NotNull List<String> tags) throws Exception;
 
-    Pet getPetById(Long petId) throws Exception;
+    CompletionStage<Pet> getPetById(Long petId) throws Exception;
 
     void updatePet(Pet body) throws Exception;
 
     void updatePetWithForm(Long petId, String name, String status) throws Exception;
 
-    ModelApiResponse uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception;
+    CompletionStage<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception;
 
 }

@@ -77,6 +77,7 @@ public class CodegenConfiguratorTest {
                 .setGitHost("test.com")
                 .setGroupId("group")
                 .setHttpUserAgent("agent")
+                .setApiNameSuffix("api-suffix")
                 .setModelNamePrefix("model-prefix")
                 .setModelNameSuffix("model-suffix")
                 .setModelPackage("model-package")
@@ -100,6 +101,7 @@ public class CodegenConfiguratorTest {
         want(props, CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, false);
         want(props, CodegenConstants.ENSURE_UNIQUE_PARAMS, true);
         want(props, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, true);
+        want(props, CodegenConstants.API_NAME_SUFFIX, "api-suffix");
         want(props, CodegenConstants.MODEL_NAME_PREFIX, "model-prefix");
         want(props, CodegenConstants.MODEL_NAME_SUFFIX, "model-suffix");
         want(props, CodegenConstants.REMOVE_OPERATION_ID_PREFIX, false);

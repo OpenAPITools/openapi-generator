@@ -25,7 +25,6 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +38,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String JACKSON = "jackson";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
+
+    public static final String QUARKUS_LIBRARY = "quarkus";
+    public static final String THORNTAIL_LIBRARY = "thorntail";
+    public static final String OPEN_LIBERTY_LIBRARY = "openliberty";
+    public static final String HELIDON_LIBRARY = "helidon";
 
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
@@ -90,8 +94,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         removeOption(CodegenConstants.LIBRARY);
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_LIBRARY);
-        Map<String, String> supportedLibraries = new LinkedHashMap<>();
-        supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS");
+        supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)");
+        supportedLibraries.put(QUARKUS_LIBRARY, "Server using Quarkus");
+        supportedLibraries.put(THORNTAIL_LIBRARY, "Server using Thorntail");
+        supportedLibraries.put(OPEN_LIBERTY_LIBRARY, "Server using Open Liberty");
+        supportedLibraries.put(HELIDON_LIBRARY, "Server using Helidon");
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
@@ -119,12 +126,20 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 additionalProperties.remove(RETURN_RESPONSE);
             }
         }
-        if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
-            useSwaggerAnnotations = Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
+        if(QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library)) {
+            useSwaggerAnnotations = false;
+        } else {
+            if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
+                useSwaggerAnnotations = Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
+            }
         }
         writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
+        } else if(QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library)) {
+            openApiSpecFileLocation = "src/main/resources/META-INF/openapi.yaml";
+        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
+            openApiSpecFileLocation = "src/main/webapp/META-INF/openapi.yaml";
         }
         additionalProperties.put(OPEN_API_SPEC_FILE_LOCATION, openApiSpecFileLocation);
 
@@ -160,6 +175,26 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             }
             supportingFiles.add(new SupportingFile("openapi.mustache", fileFolder, fileName));
         }
+
+        if(QUARKUS_LIBRARY.equals(library)) {
+            writeOptional(outputFolder, new SupportingFile("application.properties.mustache", "src/main/resources", "application.properties"));
+
+            writeOptional(outputFolder, new SupportingFile("Dockerfile.jvm.mustache", "src/main/docker", "Dockerfile.jvm"));
+            writeOptional(outputFolder, new SupportingFile("Dockerfile.native.mustache", "src/main/docker", "Dockerfile.native"));
+            writeOptional(outputFolder, new SupportingFile("dockerignore.mustache", "", ".dockerignore"));
+        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
+            writeOptional(outputFolder, new SupportingFile("server.xml.mustache", "src/main/liberty/config", "server.xml"));
+
+            writeOptional(outputFolder, new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml"));
+            writeOptional(outputFolder, new SupportingFile("MANIFEST.MF.mustache", "src/main/webapp/META-INF", "MANIFEST.MF"));
+            writeOptional(outputFolder, new SupportingFile("microprofile-config.properties.mustache", "src/main/webapp/META-INF", "microprofile-config.properties"));
+
+            writeOptional(outputFolder, new SupportingFile("ibm-web-ext.xml.mustache", "src/main/webapp/WEB-INF", "ibm-web-ext.xml"));
+        } else if(HELIDON_LIBRARY.equals(library)) {
+            writeOptional(outputFolder, new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties"));
+            writeOptional(outputFolder, new SupportingFile("microprofile-config.properties.mustache", "src/main/resources/META-INF", "microprofile-config.properties"));
+            writeOptional(outputFolder, new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml"));
+        } 
     }
 
     @Override

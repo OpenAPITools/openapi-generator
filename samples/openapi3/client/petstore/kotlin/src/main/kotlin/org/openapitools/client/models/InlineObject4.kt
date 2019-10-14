@@ -13,11 +13,13 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param param field1
  * @param param2 field2
  */
+
 data class InlineObject4 (
     /* field1 */
     @Json(name = "param")
@@ -25,6 +27,12 @@ data class InlineObject4 (
     /* field2 */
     @Json(name = "param2")
     val param2: kotlin.String
-)
+) 
+: Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

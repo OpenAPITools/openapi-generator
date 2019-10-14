@@ -13,13 +13,21 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * Model for testing model with \"_class\" property
  * @param propertyClass 
  */
+
 data class ClassModel (
     @Json(name = "_class")
     val propertyClass: kotlin.String? = null
-)
+) 
+: Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

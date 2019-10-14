@@ -16,7 +16,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUser(body: User, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        createUserWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -51,7 +51,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUsersWithArrayInput(body: [User], completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -85,7 +85,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUsersWithListInput(body: [User], completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        createUsersWithListInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -119,7 +119,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deleteUser(username: String, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
+        deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -226,7 +226,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func logoutUser(completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
+        logoutUserWithRequestBuilder().execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -260,7 +260,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func updateUser(username: String, body: User, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
+        updateUserWithRequestBuilder(username: username, body: body).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {

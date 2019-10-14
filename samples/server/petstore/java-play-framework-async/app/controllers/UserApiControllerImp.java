@@ -32,15 +32,19 @@ public class UserApiControllerImp implements UserApiControllerImpInterface {
     }
 
     @Override
-    public User getUserByName(String username) throws Exception {
+    public CompletionStage<User> getUserByName(String username) throws Exception {
         //Do your magic!!!
-        return new User();
+        return CompletableFuture.supplyAsync(() -> {
+           return new User();
+        });
     }
 
     @Override
-    public String loginUser( @NotNull String username,  @NotNull String password) throws Exception {
+    public CompletionStage<String> loginUser( @NotNull String username,  @NotNull String password) throws Exception {
         //Do your magic!!!
-        return new String();
+        return CompletableFuture.supplyAsync(() -> {
+           return new String();
+        });
     }
 
     @Override

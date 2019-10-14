@@ -7,17 +7,17 @@ interface PetApiService {
 
 	suspend fun addPet(pet: Pet): Unit
 
-	suspend fun deletePet(petId: Long, apiKey: String?): Unit
+	suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): Unit
 
-	fun findPetsByStatus(status: List<String>): Flow<Pet>
+	fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): Flow<Pet>
 
-	fun findPetsByTags(tags: List<String>, maxCount: Int?): Flow<Pet>
+	fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): Flow<Pet>
 
-	suspend fun getPetById(petId: Long): Pet
+	suspend fun getPetById(petId: kotlin.Long): Pet
 
 	suspend fun updatePet(pet: Pet): Unit
 
-	suspend fun updatePetWithForm(petId: Long, name: String?, status: String?): Unit
+	suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): Unit
 
-	suspend fun uploadFile(petId: Long, additionalMetadata: String?, file: org.springframework.core.io.Resource?): ModelApiResponse
+	suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: org.springframework.core.io.Resource?): ModelApiResponse
 }

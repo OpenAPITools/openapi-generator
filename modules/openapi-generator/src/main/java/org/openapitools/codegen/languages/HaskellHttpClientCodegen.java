@@ -64,6 +64,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String PROP_CABAL_VERSION = "cabalVersion";
     public static final String PROP_CONFIG_TYPE = "configType";
     public static final String PROP_DATETIME_FORMAT = "dateTimeFormat";
+    public static final String PROP_DATETIME_PARSE_FORMAT = "dateTimeParseFormat";
     public static final String PROP_CUSTOM_TEST_INSTANCE_MODULE = "customTestInstanceModule";
     public static final String PROP_DATE_FORMAT = "dateFormat";
     public static final String PROP_GENERATE_ENUMS = "generateEnums";
@@ -227,6 +228,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "Double");
+        typeMapping.put("BigDecimal", "Double");
         typeMapping.put("integer", "Int");
         typeMapping.put("file", "FilePath");
         // lib
@@ -275,6 +277,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         cliOptions.add(CliOption.newBoolean(PROP_USE_KATIP, "Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger").defaultValue((Boolean.TRUE.toString())));
 
         cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parse/render a datetime"));
+        cliOptions.add(CliOption.newString(PROP_DATETIME_PARSE_FORMAT, "overrides the format string used to parse a datetime"));
         cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
 
         cliOptions.add(CliOption.newString(PROP_CUSTOM_TEST_INSTANCE_MODULE, "test module used to provide typeclass instances for types not known by the generator"));
@@ -325,9 +328,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
     }
 
-    public void setDateTimeFormat(String value) {
-        setStringProp(PROP_DATETIME_FORMAT, value);
-    }
+    public void setDateTimeFormat(String value) { setStringProp(PROP_DATETIME_FORMAT, value); }
+
+    public void setDateTimeParseFormat(String value) { setStringProp(PROP_DATETIME_PARSE_FORMAT, value); }
 
     public void setDateFormat(String value) { setStringProp(PROP_DATE_FORMAT, value); }
 
@@ -440,6 +443,12 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             setDateTimeFormat(additionalProperties.get(PROP_DATETIME_FORMAT).toString());
         } else {
             setDateTimeFormat(null); // default should be null
+        }
+
+        if (additionalProperties.containsKey(PROP_DATETIME_PARSE_FORMAT)) {
+            setDateTimeParseFormat(additionalProperties.get(PROP_DATETIME_PARSE_FORMAT).toString());
+        } else {
+            setDateTimeParseFormat(null); // default should be null
         }
 
         if (additionalProperties.containsKey(PROP_DATE_FORMAT)) {

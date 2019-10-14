@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **date_time** | **DateTime** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
+**big_decimal** | [**BigDecimal**](BigDecimal.md) |  | [optional] 
 
 ## Code Sample
 
@@ -35,7 +36,8 @@ instance = Petstore::FormatTest.new(integer: null,
                                  date: null,
                                  date_time: null,
                                  uuid: 72f98069-206d-4f12-9f12-3d1e525a8e84,
-                                 password: null)
+                                 password: null,
+                                 big_decimal: null)
 ```
 
 

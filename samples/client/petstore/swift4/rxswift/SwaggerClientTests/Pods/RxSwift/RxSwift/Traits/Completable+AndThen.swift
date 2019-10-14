@@ -60,7 +60,7 @@ extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType
     }
 }
 
-final private class ConcatCompletable<Element> : Producer<Element> {
+final private class ConcatCompletable<Element>: Producer<Element> {
     fileprivate let _completable: Observable<Never>
     fileprivate let _second: Observable<Element>
 
@@ -69,7 +69,7 @@ final private class ConcatCompletable<Element> : Producer<Element> {
         self._second = second
     }
 
-    override func run<O>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O: ObserverType, O.E == Element {
+    override func run<O>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O : ObserverType, O.E == Element {
         let sink = ConcatCompletableSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)
@@ -77,13 +77,14 @@ final private class ConcatCompletable<Element> : Producer<Element> {
 }
 
 final private class ConcatCompletableSink<O: ObserverType>
-    : Sink<O>, ObserverType {
+    : Sink<O>
+    , ObserverType {
     typealias E = Never
     typealias Parent = ConcatCompletable<O.E>
 
     private let _parent: Parent
     private let _subscription = SerialDisposable()
-
+    
     init(parent: Parent, observer: O, cancel: Cancelable) {
         self._parent = parent
         super.init(observer: observer, cancel: cancel)
@@ -98,15 +99,15 @@ final private class ConcatCompletableSink<O: ObserverType>
             break
         case .completed:
             let otherSink = ConcatCompletableSinkOther(parent: self)
-            _subscription.disposable = _parent._second.subscribe(otherSink)
+            self._subscription.disposable = self._parent._second.subscribe(otherSink)
         }
     }
 
     func run() -> Disposable {
         let subscription = SingleAssignmentDisposable()
-        _subscription.disposable = subscription
-        subscription.setDisposable(_parent._completable.subscribe(self))
-        return _subscription
+        self._subscription.disposable = subscription
+        subscription.setDisposable(self._parent._completable.subscribe(self))
+        return self._subscription
     }
 }
 
@@ -115,7 +116,7 @@ final private class ConcatCompletableSinkOther<O: ObserverType>
     typealias E = O.E
 
     typealias Parent = ConcatCompletableSink<O>
-
+    
     private let _parent: Parent
 
     init(parent: Parent) {
@@ -123,9 +124,9 @@ final private class ConcatCompletableSinkOther<O: ObserverType>
     }
 
     func on(_ event: Event<O.E>) {
-        _parent.forwardOn(event)
+        self._parent.forwardOn(event)
         if event.isStopEvent {
-            _parent.dispose()
+            self._parent.dispose()
         }
     }
 }
