@@ -549,6 +549,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [BIMData.io](https://bimdata.io)
 - [Bithost GmbH](https://www.bithost.ch)
 - [Boxever](https://www.boxever.com/)
+- [California State University, Northridge](https://www.csun.edu)
 - [CAM](https://www.cam-inc.co.jp/)
 - [Camptocamp](https://www.camptocamp.com/en)
 - [codecentric AG](https://www.codecentric.de/)
