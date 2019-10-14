@@ -20,7 +20,7 @@ open class UserAPI {
      */
     open class func createUser( body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUserWithRequestBuilder(body: body).execute { (_, error) -> Void in
+        createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -57,7 +57,7 @@ open class UserAPI {
      */
     open class func createUsersWithArrayInput( body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -93,7 +93,7 @@ open class UserAPI {
      */
     open class func createUsersWithListInput( body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithListInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
+        createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -129,7 +129,7 @@ open class UserAPI {
      */
     open class func deleteUser( username: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
+        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -254,7 +254,7 @@ open class UserAPI {
      */
     open class func logoutUser() -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        logoutUserWithRequestBuilder().execute { (_, error) -> Void in
+        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -290,7 +290,7 @@ open class UserAPI {
      */
     open class func updateUser( username: String,  body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updateUserWithRequestBuilder(username: username, body: body).execute { (_, error) -> Void in
+        updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {

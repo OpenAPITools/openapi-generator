@@ -20,7 +20,7 @@ open class PetAPI {
      */
     open class func addPet(body: Pet) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            addPetWithRequestBuilder(body: body).execute { (_, error) -> Void in
+            addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -62,7 +62,7 @@ open class PetAPI {
      */
     open class func deletePet(petId: Int64, apiKey: String? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (_, error) -> Void in
+            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -261,7 +261,7 @@ open class PetAPI {
      */
     open class func updatePet(body: Pet) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithRequestBuilder(body: body).execute { (_, error) -> Void in
+            updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {
@@ -304,7 +304,7 @@ open class PetAPI {
      */
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (_, error) -> Void in
+            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
                 if let error = error {
                     observer.onError(error)
                 } else {

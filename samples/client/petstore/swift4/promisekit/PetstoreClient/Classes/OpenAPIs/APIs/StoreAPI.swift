@@ -20,7 +20,7 @@ open class StoreAPI {
      */
     open class func deleteOrder( orderId: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
