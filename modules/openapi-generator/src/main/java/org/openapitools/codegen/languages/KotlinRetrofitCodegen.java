@@ -50,7 +50,7 @@ public class KotlinRetrofitCodegen extends DefaultCodegen implements CodegenConf
 
     protected boolean parcelizeModels = false;
     protected String dateLibrary = DateLibrary.STRING.value;
-    protected String collectionType = CollectionType.ARRAY.value;
+    protected String collectionType = CollectionType.LIST.value;
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     public enum DateLibrary {
@@ -407,6 +407,7 @@ public class KotlinRetrofitCodegen extends DefaultCodegen implements CodegenConf
 
         supportingFiles.add(new SupportingFile("AuthInterceptors.kt.mustache", infrastructureFolder, "AuthInterceptors.kt"));
         supportingFiles.add(new SupportingFile("RetrofitHolder.kt.mustache", infrastructureFolder, "RetrofitHolder.kt"));
+        supportingFiles.add(new SupportingFile("EnumUtils.kt.mustache", infrastructureFolder, "EnumUtils.kt"));
 
         supportingFiles.add(new SupportingFile("proguard-rules.pro.mustache", "", "proguard-rules.pro"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));

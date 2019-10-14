@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 * {{{description}}}
 * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
-enum class {{classname}}(val value: {{dataType}}){
+enum class {{classname}}(override val value: {{dataType}}) : {{packageName}}.EnumWithValue<{{dataType}}> {
 {{#allowableValues}}{{#enumVars}}
     @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{^isString}}{{nameInCamelCase}}{{/isString}}{{&name}}({{{value}}}){{^-last}},

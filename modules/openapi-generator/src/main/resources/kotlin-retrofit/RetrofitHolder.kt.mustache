@@ -20,20 +20,22 @@ object RetrofitHolder {
                     .build()
                 chain.proceed(newRequest)
             }{{/-first}}{{/authMethods}}
+            {{#authMethods}}
+            {{>auth_method}}{{/authMethods}}
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.HEADERS
-            }){{#authMethods}}
-            {{>auth_method}}{{/authMethods}}
+            })
     }
 
     val retrofitBuilder: Retrofit.Builder by lazy {
         val moshi = Moshi.Builder()
-            //.add(OffsetDateTimeAdapter())
+            .add(EnumJsonAdapterFactory)
             .build()
 
         Retrofit.Builder()
             .client(clientBuilder.build())
             .baseUrl(BASE_URL)
+            .addConverterFactory(EnumRetrofitConverterFactory)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
     }
 
@@ -66,7 +68,7 @@ object RetrofitHolder {
 
 
     private fun requestHasAuth(request: Request, authName: String): Boolean {
-        val headers = request.headers(AUTH_NAME_HEADER) ?: return false
+        val headers = request.headers(AUTH_NAME_HEADER)
         return headers.contains(authName)
     }
 
