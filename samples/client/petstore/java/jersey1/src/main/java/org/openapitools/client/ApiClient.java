@@ -235,57 +235,27 @@ public class ApiClient {
    * @param apiKey the API key
    */
   public void setApiKey(String apiKey) {
-      for (Authentication auth : authentications.values()) {
-          if (auth instanceof ApiKeyAuth) {
-              ((ApiKeyAuth) auth).setApiKey(apiKey);
-              return;
-          }
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof ApiKeyAuth) {
+        ((ApiKeyAuth) auth).setApiKey(apiKey);
+        return;
       }
-      throw new RuntimeException("No API key authentication configured!");
+    }
+    throw new RuntimeException("No API key authentication configured!");
   }
-
-  /**
-   * Helper method to set API key value for an API key authentication in the specified location.
-   * @param apiKey the API key
-   * @param apiKeyLocation the location of the API key. Valid values are "query", "header", or "cookie"
-   */
-  public void setApiKey(String apiKey, String apiKeyLocation) {
-      for (Authentication auth : authentications.values()) {
-          if (auth instanceof ApiKeyAuth && ((ApiKeyAuth) auth).getLocation().equalsIgnoreCase(apiKeyLocation)) {
-              ((ApiKeyAuth) auth).setApiKey(apiKey);
-              return;
-          }
-      }
-      throw new RuntimeException("No API key authentication configured in the specified location!");
-  }
-
+  
   /**
    * Helper method to set API key prefix for the first API key authentication.
-   * @param apiKeyPrefix the API key prefix
+   * @param apiKeyPrefix API key prefix
    */
   public void setApiKeyPrefix(String apiKeyPrefix) {
-      for (Authentication auth : authentications.values()) {
-          if (auth instanceof ApiKeyAuth) {
-              ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
-              return;
-          }
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof ApiKeyAuth) {
+        ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
+        return;
       }
-      throw new RuntimeException("No API key authentication configured!");
-  }
-
-  /**
-   * Helper method to set API key prefix for an API key authentication in the specified location.
-   * @param apiKeyPrefix the API key prefix
-   * @param apiKeyLocation the location of the API key. Valid values are "query", "header", or "cookie"
-   */
-  public void setApiKeyPrefix(String apiKeyPrefix, String apiKeyLocation) {
-      for (Authentication auth : authentications.values()) {
-          if (auth instanceof ApiKeyAuth && ((ApiKeyAuth) auth).getLocation().equalsIgnoreCase(apiKeyLocation)) {
-              ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
-              return;
-          }
-      }
-      throw new RuntimeException("No API key authentication configured!");
+    }
+    throw new RuntimeException("No API key authentication configured!");
   }
 
   /**

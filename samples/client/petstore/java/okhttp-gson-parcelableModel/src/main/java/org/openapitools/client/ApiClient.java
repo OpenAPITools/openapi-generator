@@ -1194,17 +1194,16 @@ public class ApiClient {
     /**
      * Set cookie parameters to the request builder, including default cookies.
      *
-     * @param headerParams Cookie parameters in the form of Map
+     * @param cookieParams Cookie parameters in the form of Map
      * @param reqBuilder Request.Builder
      */
     public void processCookieParams(Map<String, String> cookieParams, Request.Builder reqBuilder) {
-        final String cookieTemplate = "%s=%s";
         for (Entry<String, String> param : cookieParams.entrySet()) {
-            reqBuilder.addHeader("Cookie", String.format(cookieTemplate, param.getKey(), param.getValue()));
+            reqBuilder.addHeader("Cookie", String.format("%s=%s", param.getKey(), param.getValue()));
         }
-        for (Entry<String, String> cookie : defaultCookieMap.entrySet()) {
-            if (!cookieParams.containsKey(cookie.getKey())) {
-                reqBuilder.addHeader("Cookie", String.format(cookieTemplate, param.getKey(), param.getValue()));
+        for (Entry<String, String> param : defaultCookieMap.entrySet()) {
+            if (!cookieParams.containsKey(param.getKey())) {
+                reqBuilder.addHeader("Cookie", String.format("%s=%s", param.getKey(), param.getValue()));
             }
         }
     }

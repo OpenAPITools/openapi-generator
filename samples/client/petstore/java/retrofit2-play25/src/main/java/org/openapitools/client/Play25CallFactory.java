@@ -32,9 +32,12 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
     /** Extra headers to add to request */
     private Map<String, String> extraHeaders = new HashMap<>();
 
+    /** Extra cookies to add to request */
+    private Map<String, String> extraCookies = new HashMap<>();
+
     /** Extra query parameters to add to request */
     private List<Pair> extraQueryParams = new ArrayList<>();
-    
+
     /** Filters (interceptors) */
     private List<WSRequestFilter> filters = new ArrayList<>();
 
@@ -48,10 +51,12 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
     }
 
     public Play25CallFactory(WSClient wsClient, Map<String, String> extraHeaders,
+        Map<String, String> extraCookies,
         List<Pair> extraQueryParams) {
         this.wsClient = wsClient;
 
         this.extraHeaders.putAll(extraHeaders);
+        this.extraCookies.putAll(extraCookies);
         this.extraQueryParams.addAll(extraQueryParams);
     }
 
@@ -61,6 +66,9 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
         Request.Builder rb = request.newBuilder();
         for (Map.Entry<String, String> header : this.extraHeaders.entrySet()) {
             rb.addHeader(header.getKey(), header.getValue());
+        }
+        for (Map.Entry<String, String> cookie : this.extraCookies.entrySet()) {
+            rb.addHeader("Cookie", String.format("%s=%s", header.getKey(), header.getValue()));
         }
 
         // add extra query params
@@ -143,6 +151,7 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
             try {
                 wsRequest = wsClient.url(request.url().uri().toString());
                 addHeaders(wsRequest);
+                addCookies(wsRequest);
                 if (request.body() != null) {
                     addBody(wsRequest);
                 }
@@ -159,6 +168,19 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
                 List<String> values = entry.getValue();
                 for (String value : values) {
                     wsRequest.setHeader(entry.getKey(), value);
+                }
+            }
+        }
+
+        private void addCookies(WSRequest wsRequest) {
+            for(Map.Entry<String, List<String>> entry : request.headers("Cookie").toMultimap().entrySet()) {
+                List<String> values = entry.getValue();
+                for (String value : values) {
+                    final WSCookie cookie = new WSCookieBuilder()
+                        .setName(entry.getKey())
+                        .setValue(value)
+                        .build();
+                    wsRequest.addCookie(cookie);
                 }
             }
         }
@@ -198,12 +220,18 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
                        }
 
                    });
-                   
+
             for (Map.Entry<String, List<String>> entry : r.getAllHeaders().entrySet()) {
                 for (String value : entry.getValue()) {
                     builder.addHeader(entry.getKey(), value);
                 }
             }
+            for (Map.Entry<String, List<String>> entry : r.getCookies().entrySet()) {
+                for (String value : entry.getValue()) {
+                    builder.addHeader("Cookie", String.format("%s=%s", entry.getKey(), value));
+                }
+            }
+
 
             builder.protocol(Protocol.HTTP_1_1);
             return builder.build();

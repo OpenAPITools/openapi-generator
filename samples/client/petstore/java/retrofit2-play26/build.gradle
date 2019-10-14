@@ -99,7 +99,7 @@ ext {
     retrofit_version = "2.3.0"
     jackson_version = "2.9.10"
     jackson_databind_version = "2.9.10"
-    jackson_databind_nullable_version = "0.2.0"
+    jackson-databind-nullable-version = "0.2.0"
     play_version = "2.6.7"
     swagger_annotations_version = "1.5.22"
     junit_version = "4.12"
@@ -124,7 +124,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson-databind-nullable-version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
 
     testCompile "junit:junit:$junit_version"
