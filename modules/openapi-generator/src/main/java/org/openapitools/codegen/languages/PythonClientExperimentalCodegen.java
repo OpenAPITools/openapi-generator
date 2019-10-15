@@ -214,6 +214,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public void addModelImport(Map<String, Object> objs, CodegenModel cm, String otherModelName) {
         // adds the absolute path to otherModelName as an import in CodegenModel cm
         HashMap referencedModel = (HashMap) objs.get(otherModelName);
+        if (referencedModel == null) {
+            // this happens with a model where type=string and format=number which is a non-standard format
+            return;
+        }
         ArrayList myModel = (ArrayList) referencedModel.get("models");
         HashMap modelData = (HashMap) myModel.get(0);
         String importPath = (String) modelData.get("importPath");
