@@ -80,6 +80,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
         supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, PREFIX + "HttpFileElement.cpp"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
         supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, PREFIX + "Enum.h"));
+        supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));       
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "client.pri"));
         }
@@ -107,6 +108,8 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
             supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.cpp"));           
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
             supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));
+            supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
+           
 
             typeMapping.put("file", modelNamePrefix + "HttpFileElement");
             importMapping.put(modelNamePrefix + "HttpFileElement", "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
