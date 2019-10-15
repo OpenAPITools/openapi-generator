@@ -426,17 +426,22 @@ public class InlineModelResolver {
      * Generates a unique model name. Non-alphanumeric characters will be replaced
      * with underscores
      *
+     * e.g. io.schema.User_name => io_schema_User_name
+     * 
      * @param title String title field in the schema if present
      * @param key String model name
+     *
+     * @return if provided the sanitized {@code title}, else the sanitized {@code key}
      */
     private String resolveModelName(String title, String key) {
         if (title == null) {
-            // for auto-generated schema name, replace non-alphanumeric characters with underscore
-            // to avoid bugs with schema look up with inline schema created on the fly
-            // e.g. io.schema.User_name => io_schema_User_name
-            return uniqueName(key).replaceAll("[^A-Za-z0-9]", "_");
+            if (key == null) {
+                LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused throughout the spec.");
+                return uniqueName("InlineObject");
+            }
+            return uniqueName(sanitizeName(key));
         } else {
-            return uniqueName(title);
+            return uniqueName(sanitizeName(title));
         }
     }
 
@@ -452,29 +457,31 @@ public class InlineModelResolver {
         generatedSignature.put(Json.pretty(model), name);
     }
 
-    private String uniqueName(String key) {
-        if (key == null) {
-            key = "InlineObject";
-            LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused throughout the spec.");
+    /**
+     * Sanitizes the input so that it's valid name for a class or interface
+     *
+     * e.g. 12.schema.User name => _2_schema_User_name
+     */
+    private String sanitizeName(final String name) {
+        return name
+            .replaceAll("^[0-9]", "_") // e.g. 12object => _2object
+            .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
+    }
+
+    private String uniqueName(final String name) {
+        if (openapi.getComponents().getSchemas() == null) {
+            return name;
         }
+
+        String uniqueName = name;
         int count = 0;
-        boolean done = false;
-        key = key.replaceAll("/", "_"); // e.g. /me/videos => _me_videos
-        key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", ""); // FIXME: a parameter
-        // should not be assigned. Also declare the methods parameters as 'final'.
-        while (!done) {
-            String name = key;
-            if (count > 0) {
-                name = key + "_" + count;
+        while (true) {
+            if (!openapi.getComponents().getSchemas().containsKey(uniqueName)) {
+                return uniqueName;
             }
-            if (openapi.getComponents().getSchemas() == null) {
-                return name;
-            } else if (!openapi.getComponents().getSchemas().containsKey(name)) {
-                return name;
-            }
-            count += 1;
+            uniqueName = name + "_" + ++count;
         }
-        return key;
+        // TODO it would probably be a good idea to check against a list of used uniqueNames to make sure there are no collisions
     }
 
     private void flattenProperties(Map<String, Schema> properties, String path) {
