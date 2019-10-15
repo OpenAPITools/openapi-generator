@@ -681,6 +681,7 @@ Here is a list of template creators:
    * Dart (refactor): @joernahrens
    * Dart 2: @swipesight
    * Dart (Jaguar): @jaumard
+   * Dart (Dio): @athornz
    * Elixir: @niku
    * Elm: @eriktim
    * Eiffel: @jvelilla
