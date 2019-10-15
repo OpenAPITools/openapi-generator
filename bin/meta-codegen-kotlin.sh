@@ -3,6 +3,11 @@
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"
 
+if ! command -v gradle > /dev/null; then
+		echo "[WARN] This script requires a system gradle to be installed. Not treating this as an error."
+		exit 0
+fi
+
 while [ -h "$SCRIPT" ] ; do
   ls=`ls -ld "$SCRIPT"`
   link=`expr "$ls" : '.*-> \(.*\)$'`
