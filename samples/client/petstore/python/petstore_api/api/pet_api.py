@@ -324,7 +324,7 @@ class PetApi(object):
         path_params = {}
 
         query_params = []
-        if 'status' in local_var_params:
+        if 'status' in local_var_params and local_var_params['status'] is not None:  # noqa: E501
             query_params.append(('status', local_var_params['status']))  # noqa: E501
             collection_formats['status'] = 'csv'  # noqa: E501
 
@@ -433,7 +433,7 @@ class PetApi(object):
         path_params = {}
 
         query_params = []
-        if 'tags' in local_var_params:
+        if 'tags' in local_var_params and local_var_params['tags'] is not None:  # noqa: E501
             query_params.append(('tags', local_var_params['tags']))  # noqa: E501
             collection_formats['tags'] = 'csv'  # noqa: E501
 

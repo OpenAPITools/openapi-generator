@@ -634,9 +634,9 @@ class UserApi(object):
         path_params = {}
 
         query_params = []
-        if 'username' in local_var_params:
+        if 'username' in local_var_params and local_var_params['username'] is not None:  # noqa: E501
             query_params.append(('username', local_var_params['username']))  # noqa: E501
-        if 'password' in local_var_params:
+        if 'password' in local_var_params and local_var_params['password'] is not None:  # noqa: E501
             query_params.append(('password', local_var_params['password']))  # noqa: E501
 
         header_params = {}

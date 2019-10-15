@@ -182,7 +182,7 @@ class {{classname}}(object):
 
         query_params = []
 {{#queryParams}}
-        if '{{paramName}}' in local_var_params:
+        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] is not None:  # noqa: E501
             query_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{#isListContainer}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
 {{/queryParams}}
