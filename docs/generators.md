@@ -6,6 +6,7 @@ title: Generators List
 The following generators are available:
 
 ## CLIENT generators
+
 * [ada](generators/ada)  
 * [android](generators/android)  
 * [apex](generators/apex)  
