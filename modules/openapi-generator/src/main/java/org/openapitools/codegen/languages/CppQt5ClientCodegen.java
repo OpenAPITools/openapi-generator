@@ -103,6 +103,8 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
             supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, modelNamePrefix + "Helpers.cpp"));
             supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, modelNamePrefix + "HttpRequest.h"));
             supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, modelNamePrefix + "HttpRequest.cpp"));
+            supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.h"));
+            supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.cpp"));           
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
             supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));
 

@@ -8,18 +8,19 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // Tag struct for Tag
 type Tag struct {
 	Id *int64 `json:"id,omitempty"`
-
 	Name *string `json:"name,omitempty"`
-
 }
 
-// GetId returns the Id field if non-nil, zero value otherwise.
+// GetId returns the Id field value if set, zero value otherwise.
 func (o *Tag) GetId() int64 {
 	if o == nil || o.Id == nil {
 		var ret int64
@@ -28,7 +29,7 @@ func (o *Tag) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Tag) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
@@ -52,7 +53,7 @@ func (o *Tag) SetId(v int64) {
 	o.Id = &v
 }
 
-// GetName returns the Name field if non-nil, zero value otherwise.
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *Tag) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
@@ -61,7 +62,7 @@ func (o *Tag) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Tag) GetNameOk() (string, bool) {
 	if o == nil || o.Name == nil {
@@ -85,17 +86,26 @@ func (o *Tag) SetName(v string) {
 	o.Name = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Tag) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	return json.Marshal(toSerialize)
+type NullableTag struct {
+	Value Tag
+	ExplicitNull bool
 }
 
+func (v NullableTag) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableTag) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 
