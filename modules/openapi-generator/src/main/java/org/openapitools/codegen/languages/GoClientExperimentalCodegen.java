@@ -36,14 +36,12 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         outputFolder = "generated-code/go-experimental";
         embeddedTemplateDir = templateDir = "go-experimental";
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.EXPERIMENTAL)
-                .build();
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the
+     * generator to select the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -53,7 +51,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
+     * Returns human-friendly help for the generator. Provide the consumer with help
      * tips, parameters here
      *
      * @return A string value for the help message
@@ -70,24 +68,25 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     }
 
     @Override
-     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModels(objs);
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
 
-        boolean addedErrorsImport = false;
         List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
         for (Map<String, Object> m : models) {
             Object v = m.get("model");
             if (v instanceof CodegenModel) {
                 CodegenModel model = (CodegenModel) v;
-                if (!model.isEnum) {
-                    imports.add(createMapping("import", "encoding/json"));
+                if (model.isEnum) {
+                    continue;
                 }
+
                 for (CodegenProperty param : model.vars) {
-                    if (!addedErrorsImport && param.required) {
-                        imports.add(createMapping("import", "errors"));
-                        addedErrorsImport = true;
+                    if (!param.isNullable) {
+                        continue;
                     }
+
+                    param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
+                            + param.dataType.substring(1);
                 }
             }
         }
