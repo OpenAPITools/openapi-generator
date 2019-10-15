@@ -24,6 +24,7 @@ Method | HTTP request | Description
 ## FakeHealthGet
 
 > HealthCheckResult FakeHealthGet(ctx, )
+
 Health check endpoint
 
 ### Required Parameters
@@ -51,6 +52,7 @@ No authorization required
 ## FakeOuterBooleanSerialize
 
 > bool FakeOuterBooleanSerialize(ctx, optional)
+
 
 
 Test serialization of outer boolean types
@@ -95,6 +97,7 @@ No authorization required
 > OuterComposite FakeOuterCompositeSerialize(ctx, optional)
 
 
+
 Test serialization of object with outer number type
 
 ### Required Parameters
@@ -135,6 +138,7 @@ No authorization required
 ## FakeOuterNumberSerialize
 
 > float32 FakeOuterNumberSerialize(ctx, optional)
+
 
 
 Test serialization of outer number types
@@ -179,6 +183,7 @@ No authorization required
 > string FakeOuterStringSerialize(ctx, optional)
 
 
+
 Test serialization of outer string types
 
 ### Required Parameters
@@ -221,6 +226,7 @@ No authorization required
 > TestBodyWithFileSchema(ctx, fileSchemaTestClass)
 
 
+
 For this test, the body for this request much reference a schema named `File`.
 
 ### Required Parameters
@@ -254,6 +260,7 @@ No authorization required
 > TestBodyWithQueryParams(ctx, query, user)
 
 
+
 ### Required Parameters
 
 
@@ -284,6 +291,7 @@ No authorization required
 ## TestClientModel
 
 > Client TestClientModel(ctx, client)
+
 To test \"client\" model
 
 To test \"client\" model
@@ -317,6 +325,7 @@ No authorization required
 ## TestEndpointParameters
 
 > TestEndpointParameters(ctx, number, double, patternWithoutDelimiter, byte_, optional)
+
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -376,6 +385,7 @@ Name | Type | Description  | Notes
 ## TestEnumParameters
 
 > TestEnumParameters(ctx, optional)
+
 To test enum parameters
 
 To test enum parameters
@@ -425,6 +435,7 @@ No authorization required
 ## TestGroupParameters
 
 > TestGroupParameters(ctx, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, optional)
+
 Fake endpoint to test group parameters (optional)
 
 Fake endpoint to test group parameters (optional)
@@ -475,6 +486,7 @@ Name | Type | Description  | Notes
 ## TestInlineAdditionalProperties
 
 > TestInlineAdditionalProperties(ctx, requestBody)
+
 test inline additionalProperties
 
 ### Required Parameters
@@ -506,6 +518,7 @@ No authorization required
 ## TestJsonFormData
 
 > TestJsonFormData(ctx, param, param2)
+
 test json serialization of form data
 
 ### Required Parameters
@@ -538,6 +551,7 @@ No authorization required
 ## TestQueryParameterCollectionFormat
 
 > TestQueryParameterCollectionFormat(ctx, pipe, ioutil, http, url, context)
+
 
 
 To test the collection format in query parameters
