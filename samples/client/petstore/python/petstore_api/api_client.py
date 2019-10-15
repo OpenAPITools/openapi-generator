@@ -372,10 +372,8 @@ class ApiClient(object):
             return self.rest_client.OPTIONS(url,
                                             query_params=query_params,
                                             headers=headers,
-                                            post_params=post_params,
                                             _preload_content=_preload_content,
-                                            _request_timeout=_request_timeout,
-                                            body=body)
+                                            _request_timeout=_request_timeout)
         elif method == "POST":
             return self.rest_client.POST(url,
                                          query_params=query_params,
