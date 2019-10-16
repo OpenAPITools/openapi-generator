@@ -5,6 +5,8 @@ title: Using Templates
 
 It's easy to work with templates for codegen!
 
+For maybe 90% of use cases, you will only need to modify the mustache template files to create your own custom generated code. If you need to include additional files in your generated output, manipulate the OpenAPI document inputs, or implement your own vendor extensions or other logic, you'll want to read [customization](./customization.md) after you read this document. Be sure to start here first, because templating is the easier concept and you'll need it for more advanced use cases.
+
 The generator workflow has [transforming logic](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages) as well as templates for each generation of code.
 
 Each generator will create a data structure from the OpenAPI document; OpenAPI 2.0 and OpenAPI 3.x documents are normalized into the same API model within the generator. This model is then applied to the templates.  While generators do not need to perform transformations, it's often necessary in order to add more advanced support for your language or framework. You may need to refer to the generator implementation to understand some of the logic while creating or customizing templates (see [ScalaFinchServerCodegen.java](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/ScalaFinchServerCodegen.java) for an advanced example).

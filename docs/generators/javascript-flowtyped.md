@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-javascript-flowtyped
 title: Config Options for javascript-flowtyped
 sidebar_label: javascript-flowtyped
 ---

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-documentation-openapi
 title: Config Options for openapi
 sidebar_label: openapi
 ---
