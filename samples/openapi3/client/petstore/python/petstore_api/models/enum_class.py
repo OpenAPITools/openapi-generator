@@ -30,6 +30,8 @@ class EnumClass(object):
     _EFG = "-efg"
     _XYZ_ = "(xyz)"
 
+    allowable_values = [EnumClass._ABC, EnumClass._EFG, EnumClass._XYZ_]  # noqa: E501
+
     """
     Attributes:
       openapi_types (dict): The key is attribute name
@@ -46,10 +48,6 @@ class EnumClass(object):
     def __init__(self):  # noqa: E501
         """EnumClass - a model defined in OpenAPI"""  # noqa: E501
         self.discriminator = None
-
-    @staticmethod
-    def get_allowed_values():
-        return [EnumClass._ABC, EnumClass._EFG, EnumClass._XYZ_]  # noqa: E501
 
     def to_dict(self):
         """Returns the model properties as a dict"""

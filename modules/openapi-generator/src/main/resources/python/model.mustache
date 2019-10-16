@@ -25,6 +25,10 @@ class {{classname}}(object):
 {{/-last}}
 {{/enumVars}}{{/allowableValues}}
 
+{{#allowableValues}}
+    allowable_values = [{{#enumVars}}{{classname}}.{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
+
+{{/allowableValues}}
     """
     Attributes:
       openapi_types (dict): The key is attribute name
@@ -74,12 +78,6 @@ class {{classname}}(object):
 {{/required}}
 {{/vars}}
 
-{{#allowableValues}}
-    @staticmethod
-    def get_allowed_values():
-        return [{{#enumVars}}{{classname}}.{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
-
-{{/allowableValues}}
 {{#vars}}
     @property
     def {{name}}(self):

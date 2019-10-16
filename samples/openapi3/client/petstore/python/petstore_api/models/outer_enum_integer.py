@@ -30,6 +30,8 @@ class OuterEnumInteger(object):
     _1 = "1"
     _2 = "2"
 
+    allowable_values = [OuterEnumInteger._0, OuterEnumInteger._1, OuterEnumInteger._2]  # noqa: E501
+
     """
     Attributes:
       openapi_types (dict): The key is attribute name
@@ -46,10 +48,6 @@ class OuterEnumInteger(object):
     def __init__(self):  # noqa: E501
         """OuterEnumInteger - a model defined in OpenAPI"""  # noqa: E501
         self.discriminator = None
-
-    @staticmethod
-    def get_allowed_values():
-        return [OuterEnumInteger._0, OuterEnumInteger._1, OuterEnumInteger._2]  # noqa: E501
 
     def to_dict(self):
         """Returns the model properties as a dict"""
