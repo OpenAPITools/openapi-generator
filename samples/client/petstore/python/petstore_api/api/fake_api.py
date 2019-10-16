@@ -748,7 +748,7 @@ class FakeApi(object):
         path_params = {}
 
         query_params = []
-        if 'query' in local_var_params:
+        if 'query' in local_var_params and local_var_params['query'] is not None:  # noqa: E501
             query_params.append(('query', local_var_params['query']))  # noqa: E501
 
         header_params = {}
@@ -1180,14 +1180,14 @@ class FakeApi(object):
         path_params = {}
 
         query_params = []
-        if 'enum_query_string_array' in local_var_params:
+        if 'enum_query_string_array' in local_var_params and local_var_params['enum_query_string_array'] is not None:  # noqa: E501
             query_params.append(('enum_query_string_array', local_var_params['enum_query_string_array']))  # noqa: E501
             collection_formats['enum_query_string_array'] = 'csv'  # noqa: E501
-        if 'enum_query_string' in local_var_params:
+        if 'enum_query_string' in local_var_params and local_var_params['enum_query_string'] is not None:  # noqa: E501
             query_params.append(('enum_query_string', local_var_params['enum_query_string']))  # noqa: E501
-        if 'enum_query_integer' in local_var_params:
+        if 'enum_query_integer' in local_var_params and local_var_params['enum_query_integer'] is not None:  # noqa: E501
             query_params.append(('enum_query_integer', local_var_params['enum_query_integer']))  # noqa: E501
-        if 'enum_query_double' in local_var_params:
+        if 'enum_query_double' in local_var_params and local_var_params['enum_query_double'] is not None:  # noqa: E501
             query_params.append(('enum_query_double', local_var_params['enum_query_double']))  # noqa: E501
 
         header_params = {}
@@ -1323,13 +1323,13 @@ class FakeApi(object):
         path_params = {}
 
         query_params = []
-        if 'required_string_group' in local_var_params:
+        if 'required_string_group' in local_var_params and local_var_params['required_string_group'] is not None:  # noqa: E501
             query_params.append(('required_string_group', local_var_params['required_string_group']))  # noqa: E501
-        if 'required_int64_group' in local_var_params:
+        if 'required_int64_group' in local_var_params and local_var_params['required_int64_group'] is not None:  # noqa: E501
             query_params.append(('required_int64_group', local_var_params['required_int64_group']))  # noqa: E501
-        if 'string_group' in local_var_params:
+        if 'string_group' in local_var_params and local_var_params['string_group'] is not None:  # noqa: E501
             query_params.append(('string_group', local_var_params['string_group']))  # noqa: E501
-        if 'int64_group' in local_var_params:
+        if 'int64_group' in local_var_params and local_var_params['int64_group'] is not None:  # noqa: E501
             query_params.append(('int64_group', local_var_params['int64_group']))  # noqa: E501
 
         header_params = {}
@@ -1681,19 +1681,19 @@ class FakeApi(object):
         path_params = {}
 
         query_params = []
-        if 'pipe' in local_var_params:
+        if 'pipe' in local_var_params and local_var_params['pipe'] is not None:  # noqa: E501
             query_params.append(('pipe', local_var_params['pipe']))  # noqa: E501
             collection_formats['pipe'] = 'csv'  # noqa: E501
-        if 'ioutil' in local_var_params:
+        if 'ioutil' in local_var_params and local_var_params['ioutil'] is not None:  # noqa: E501
             query_params.append(('ioutil', local_var_params['ioutil']))  # noqa: E501
             collection_formats['ioutil'] = 'csv'  # noqa: E501
-        if 'http' in local_var_params:
+        if 'http' in local_var_params and local_var_params['http'] is not None:  # noqa: E501
             query_params.append(('http', local_var_params['http']))  # noqa: E501
             collection_formats['http'] = 'space'  # noqa: E501
-        if 'url' in local_var_params:
+        if 'url' in local_var_params and local_var_params['url'] is not None:  # noqa: E501
             query_params.append(('url', local_var_params['url']))  # noqa: E501
             collection_formats['url'] = 'csv'  # noqa: E501
-        if 'context' in local_var_params:
+        if 'context' in local_var_params and local_var_params['context'] is not None:  # noqa: E501
             query_params.append(('context', local_var_params['context']))  # noqa: E501
             collection_formats['context'] = 'multi'  # noqa: E501
 
