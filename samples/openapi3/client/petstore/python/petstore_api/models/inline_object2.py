@@ -79,7 +79,7 @@ class InlineObject2(object):
         """
         allowed_values = [">", "$"]  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-                not set(enum_form_string_array).issubset(set(allowed_values))):
+                not set(enum_form_string_array).issubset(set(allowed_values))):  # noqa: E501
             raise ValueError(
                 "Invalid values for `enum_form_string_array` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(enum_form_string_array) - set(allowed_values))),  # noqa: E501
