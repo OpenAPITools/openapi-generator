@@ -19,6 +19,7 @@ Method | HTTP request | Description
 ## AddPet
 
 > AddPet(ctx, body)
+
 Add a new pet to the store
 
 ### Required Parameters
@@ -50,6 +51,7 @@ Name | Type | Description  | Notes
 ## DeletePet
 
 > DeletePet(ctx, petId, optional)
+
 Deletes a pet
 
 ### Required Parameters
@@ -92,6 +94,7 @@ Name | Type | Description  | Notes
 ## FindPetsByStatus
 
 > []Pet FindPetsByStatus(ctx, status)
+
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
@@ -125,6 +128,7 @@ Name | Type | Description  | Notes
 ## FindPetsByTags
 
 > []Pet FindPetsByTags(ctx, tags)
+
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -158,6 +162,7 @@ Name | Type | Description  | Notes
 ## GetPetById
 
 > Pet GetPetById(ctx, petId)
+
 Find pet by ID
 
 Returns a single pet
@@ -191,6 +196,7 @@ Name | Type | Description  | Notes
 ## UpdatePet
 
 > UpdatePet(ctx, body)
+
 Update an existing pet
 
 ### Required Parameters
@@ -222,6 +228,7 @@ Name | Type | Description  | Notes
 ## UpdatePetWithForm
 
 > UpdatePetWithForm(ctx, petId, optional)
+
 Updates a pet in the store with form data
 
 ### Required Parameters
@@ -265,6 +272,7 @@ Name | Type | Description  | Notes
 ## UploadFile
 
 > ApiResponse UploadFile(ctx, petId, optional)
+
 uploads an image
 
 ### Required Parameters
@@ -308,6 +316,7 @@ Name | Type | Description  | Notes
 ## UploadFileWithRequiredFile
 
 > ApiResponse UploadFileWithRequiredFile(ctx, petId, requiredFile, optional)
+
 uploads an image (required)
 
 ### Required Parameters
