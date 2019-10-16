@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-csharp-netcore
 title: Config Options for csharp-netcore
 sidebar_label: csharp-netcore
 ---

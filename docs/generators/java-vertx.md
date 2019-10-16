@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-java-vertx
 title: Config Options for java-vertx
 sidebar_label: java-vertx
 ---

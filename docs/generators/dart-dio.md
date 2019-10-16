@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-dart-dio
 title: Config Options for dart-dio
 sidebar_label: dart-dio
 ---

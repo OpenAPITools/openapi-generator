@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-fetch
 title: Config Options for typescript-fetch
 sidebar_label: typescript-fetch
 ---
