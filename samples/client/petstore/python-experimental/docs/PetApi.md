@@ -464,7 +464,7 @@ configuration.host = "http://petstore.swagger.io:80/v2"
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
-file = '/path/to/file' # file_type | file to upload (optional)
+file = open('/path/to/file', 'rb') # file_type | file to upload (optional)
 
 try:
     # uploads an image
@@ -525,7 +525,7 @@ configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
-required_file = '/path/to/file' # file_type | file to upload
+required_file = open('/path/to/file', 'rb') # file_type | file to upload
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 
 try:

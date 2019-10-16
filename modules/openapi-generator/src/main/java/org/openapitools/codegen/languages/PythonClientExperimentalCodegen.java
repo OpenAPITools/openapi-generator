@@ -718,4 +718,72 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             addParentContainer(codegenModel, codegenModel.name, schema);
         }
     }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        // we have a custom version of this function so we can set the file
+        // type example value
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            p.example = p.defaultValue;
+            return;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("Integer".equals(type) || "int".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "True";
+            }
+        } else if ("file".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "open('"+example+"', 'rb')";
+        } else if ("Date".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("DateTime".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = this.packageName + "." + type + "()";
+        } else {
+            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+        }
+
+        if (example == null) {
+            example = "None";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "[" + example + "]";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "{'key': " + example + "}";
+        }
+
+        p.example = example;
+    }
 }
