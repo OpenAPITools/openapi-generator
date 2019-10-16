@@ -26,7 +26,7 @@ class {{classname}}(object):
 {{/enumVars}}{{/allowableValues}}
 
 {{#allowableValues}}
-    allowable_values = [{{#enumVars}}{{classname}}.{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
+    allowable_values = [{{#enumVars}}{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
 
 {{/allowableValues}}
     """

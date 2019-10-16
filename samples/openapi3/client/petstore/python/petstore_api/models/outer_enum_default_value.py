@@ -30,7 +30,7 @@ class OuterEnumDefaultValue(object):
     APPROVED = "approved"
     DELIVERED = "delivered"
 
-    allowable_values = [OuterEnumDefaultValue.PLACED, OuterEnumDefaultValue.APPROVED, OuterEnumDefaultValue.DELIVERED]  # noqa: E501
+    allowable_values = [PLACED, APPROVED, DELIVERED]  # noqa: E501
 
     """
     Attributes:

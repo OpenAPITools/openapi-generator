@@ -30,7 +30,7 @@ class EnumClass(object):
     _EFG = "-efg"
     _XYZ_ = "(xyz)"
 
-    allowable_values = [EnumClass._ABC, EnumClass._EFG, EnumClass._XYZ_]  # noqa: E501
+    allowable_values = [_ABC, _EFG, _XYZ_]  # noqa: E501
 
     """
     Attributes:

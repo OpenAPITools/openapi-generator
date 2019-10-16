@@ -30,7 +30,7 @@ class OuterEnum(object):
     APPROVED = "approved"
     DELIVERED = "delivered"
 
-    allowable_values = [OuterEnum.PLACED, OuterEnum.APPROVED, OuterEnum.DELIVERED]  # noqa: E501
+    allowable_values = [PLACED, APPROVED, DELIVERED]  # noqa: E501
 
     """
     Attributes:

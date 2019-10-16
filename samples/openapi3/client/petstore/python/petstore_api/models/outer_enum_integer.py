@@ -30,7 +30,7 @@ class OuterEnumInteger(object):
     _1 = "1"
     _2 = "2"
 
-    allowable_values = [OuterEnumInteger._0, OuterEnumInteger._1, OuterEnumInteger._2]  # noqa: E501
+    allowable_values = [_0, _1, _2]  # noqa: E501
 
     """
     Attributes:
