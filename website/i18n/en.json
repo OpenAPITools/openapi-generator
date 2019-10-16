@@ -112,6 +112,9 @@
       "generators/dart-jaguar": {
         "title": "generators/dart-jaguar"
       },
+      "generators/dart-dio": {
+        "title": "generators/dart-dio"
+      },
       "generators/dart": {
         "title": "generators/dart"
       },
