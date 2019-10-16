@@ -104,7 +104,7 @@ class EnumArrays(object):
         """
         allowed_values = ["fish", "crab"]  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-                not set(array_enum).issubset(set(allowed_values))):
+                not set(array_enum).issubset(set(allowed_values))):  # noqa: E501
             raise ValueError(
                 "Invalid values for `array_enum` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(array_enum) - set(allowed_values))),  # noqa: E501
