@@ -86,7 +86,7 @@ export class {{classname}} extends BaseAPI {
 
         {{/hasHttpHeaders}}
         {{#hasQueryParams}}
-        const query: HttpQuery = {
+        const query: HttpQuery = <HttpQuery>{
             {{#queryParams}}
             {{#isListContainer}}
             {{#isCollectionFormatMulti}}
