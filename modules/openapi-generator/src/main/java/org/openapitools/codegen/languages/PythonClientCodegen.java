@@ -127,8 +127,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
                         "assert", "else", "if", "pass", "yield", "break", "except", "import",
                         "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True", 
-                        "False", "async", "await"));
+                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True", "False"));
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IGNORECASE");
@@ -190,7 +189,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
+        } 
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
@@ -532,7 +531,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("-", "_");
 
         // e.g. PhoneNumberApi.py => phone_number_api.py
-        return underscore(name+ "_" + apiNameSuffix);
+        return underscore(name) + "_api";
     }
 
     @Override
@@ -542,7 +541,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toApiName(String name) {
-        return super.toApiName(name);
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        // e.g. phone_number_api => PhoneNumberApi
+        return camelize(name) + "Api";
     }
 
     @Override
@@ -550,7 +553,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "default_api";
         }
-        return underscore(name+ "_" + apiNameSuffix);
+        return underscore(name) + "_api";
     }
 
     @Override
