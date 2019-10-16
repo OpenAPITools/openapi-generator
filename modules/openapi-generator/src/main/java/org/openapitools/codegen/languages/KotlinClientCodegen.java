@@ -71,7 +71,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public KotlinClientCodegen() {
         super();
 
-        /**
+        /*
          * OAuth flows supported _only_ by client explicitly setting bearer token. The "flows" are not supported.
          */
         featureSet = getFeatureSet().modify()

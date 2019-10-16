@@ -23,7 +23,7 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,8 +35,35 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
     public AdaServerCodegen() {
         super();
 
+        // TODO: Ada maintainer review.
         featureSet = getFeatureSet().modify()
                 .includeDocumentationFeature(DocumentationFeature.Readme)
+                .excludeWireFormatFeatures(
+                        WireFormatFeature.XML,
+                        WireFormatFeature.PROTOBUF
+                )
+                .excludeSecurityFeatures(
+                        SecurityFeature.OpenIDConnect,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_AuthorizationCode,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BearerToken
+                )
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeature(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Header,
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeature(ClientModificationFeature.BasePath)
                 .build();
     }
 
