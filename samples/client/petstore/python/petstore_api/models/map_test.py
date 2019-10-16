@@ -108,7 +108,7 @@ class MapTest(object):
         """
         allowed_values = ["UPPER", "lower"]  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
-                not set(map_of_enum_string.keys()).issubset(set(allowed_values))):
+                not set(map_of_enum_string.keys()).issubset(set(allowed_values))): # noqa: E501
             raise ValueError(
                 "Invalid keys in `map_of_enum_string` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(map_of_enum_string.keys()) - set(allowed_values))),  # noqa: E501
