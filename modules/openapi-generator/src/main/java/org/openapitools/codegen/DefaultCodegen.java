@@ -1958,6 +1958,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         discriminator.setPropertyName(toVarName(schema.getDiscriminator().getPropertyName()));
+        discriminator.setPropertyBaseName(schema.getDiscriminator().getPropertyName());
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
@@ -2664,6 +2665,11 @@ public class DefaultCodegen implements CodegenConfig {
                     op.isResponseFile = Boolean.TRUE;
                 }
             }
+            op.responses.sort((a, b) -> {
+                int aDefault = "0".equals(a.code) ? 1 : 0;
+                int bDefault = "0".equals(b.code) ? 1 : 0;
+                return aDefault - bDefault;
+            });
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
@@ -4585,7 +4591,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param operation Operation
      * @return a set of MIME types
      */
-    public static Set<String> getProducesInfo(OpenAPI openAPI, Operation operation) {
+    public static Set<String> getProducesInfo(final OpenAPI openAPI, final Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }

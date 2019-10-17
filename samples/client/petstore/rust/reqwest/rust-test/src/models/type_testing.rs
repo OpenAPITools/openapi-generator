@@ -11,6 +11,7 @@
 /// TypeTesting : Test handling of differing types (see \\#3463)
 
 
+
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct TypeTesting {
     #[serde(rename = "integer", skip_serializing_if = "Option::is_none")]

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-elixir
 title: Config Options for elixir
 sidebar_label: elixir
 ---

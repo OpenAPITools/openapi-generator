@@ -65,7 +65,7 @@ public class ElmClientCodegenTest {
         assertTrue(result.containsKey("operations"));
         assertTrue(result.containsKey("elmImports"));
 
-        assertEquals(rootOp.path, "\"\"");
+        assertEquals(rootOp.path, "/");
     }
 
     @Test

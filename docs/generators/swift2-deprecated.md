@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-swift2-deprecated
 title: Config Options for swift2-deprecated
 sidebar_label: swift2-deprecated
 ---

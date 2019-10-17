@@ -11,6 +11,7 @@
 /// Tag : A tag for a pet
 
 
+
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Tag {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]

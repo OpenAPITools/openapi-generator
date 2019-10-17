@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-haskell
 title: Config Options for haskell
 sidebar_label: haskell
 ---

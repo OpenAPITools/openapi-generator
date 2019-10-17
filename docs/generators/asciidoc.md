@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-documentation-asciidoc
 title: Config Options for asciidoc
 sidebar_label: asciidoc
 ---

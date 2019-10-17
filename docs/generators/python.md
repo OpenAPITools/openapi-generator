@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-python
 title: Config Options for python
 sidebar_label: python
 ---

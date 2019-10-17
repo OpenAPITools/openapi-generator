@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-java-undertow-server
 title: Config Options for java-undertow-server
 sidebar_label: java-undertow-server
 ---

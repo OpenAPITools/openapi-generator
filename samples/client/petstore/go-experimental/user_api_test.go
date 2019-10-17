@@ -14,7 +14,7 @@ func TestCreateUser(t *testing.T) {
 		Id:         sw.PtrInt64(1000),
 		FirstName:  sw.PtrString("gopher"),
 		LastName:   sw.PtrString("lang"),
-        Username:   sw.PtrString("gopher"),
+		Username:   sw.PtrString("gopher"),
 		Password:   sw.PtrString("lang"),
 		Email:      sw.PtrString("lang@test.com"),
 		Phone:      sw.PtrString("5101112222"),

@@ -28,8 +28,8 @@ func TestMain(m *testing.M) {
 }
 
 func TestAddPet(t *testing.T) {
-	newPet := (sw.Pet{Id: sw.PtrInt64(12830), Name: sw.PtrString("gopher"),
-		PhotoUrls: &[]string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+	newPet := (sw.Pet{Id: sw.PtrInt64(12830), Name: "gopher",
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
@@ -286,7 +286,7 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 		t.Fatalf("Error while getting pet by id: %v", err)
 	} else {
 		assert.Equal(*resp.Id, int64(id), "Pet id should be equal")
-		assert.Equal(*resp.Name, name, fmt.Sprintf("Pet name should be %s", name))
+		assert.Equal(resp.Name, name, fmt.Sprintf("Pet name should be %s", name))
 		assert.Equal(*resp.Status, status, fmt.Sprintf("Pet status should be %s", status))
 
 		//t.Log(resp)

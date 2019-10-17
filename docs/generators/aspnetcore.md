@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-aspnetcore
 title: Config Options for aspnetcore
 sidebar_label: aspnetcore
 ---

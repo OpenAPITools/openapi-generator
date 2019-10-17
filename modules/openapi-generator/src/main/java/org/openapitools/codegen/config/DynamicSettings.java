@@ -36,9 +36,14 @@ public class DynamicSettings {
      */
     public GeneratorSettings getGeneratorSettings() {
         excludeSettingsFromDynamicProperties();
-        return GeneratorSettings.newBuilder(generatorSettings)
-                .withAdditionalProperties(dynamicProperties)
-                .build();
+        GeneratorSettings.Builder builder = GeneratorSettings.newBuilder(generatorSettings);
+
+        // This allows us to put any unknown top-level properties into additionalProperties of the generator object.
+        for (Map.Entry<String, Object> entry : dynamicProperties.entrySet()) {
+            builder.withAdditionalProperty(entry.getKey(), entry.getValue());
+        }
+
+        return builder.build();
     }
 
     /**

@@ -3,17 +3,10 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages:
-- completed:
-    hackage: katip-0.8.3.0@sha256:8a67c0aec3ba1f0eabcfae443cb909e4cf9405e29bac99ccf1420f1f1bbda9c4,4097
-    pantry-tree:
-      size: 1140
-      sha256: cad8c67256ec85819309d77bdcbc15b67885940ef76f2b850c8be20c2efd0149
-  original:
-    hackage: katip-0.8.3.0
+packages: []
 snapshots:
 - completed:
-    size: 523878
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/3.yaml
-    sha256: 470c46c27746a48c7c50f829efc0cf00112787a7804ee4ac7a27754658f6d92c
-  original: lts-14.3
+    size: 523700
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/7.yaml
+    sha256: 8e3f3c894be74d71fa4bf085e0a8baae7e4d7622d07ea31a52736b80f8b9bb1a
+  original: lts-14.7

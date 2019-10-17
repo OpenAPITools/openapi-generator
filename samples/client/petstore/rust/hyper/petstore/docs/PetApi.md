@@ -25,7 +25,7 @@ Add a new pet to the store
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | Required | 
+**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
 
 ### Return type
 
@@ -53,8 +53,8 @@ Deletes a pet
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**pet_id** | **i64** | Pet id to delete | Required | 
-**api_key** | **String** |  |  | 
+**pet_id** | **i64** | Pet id to delete | [required] |
+**api_key** | Option<**String**> |  |  |
 
 ### Return type
 
@@ -84,7 +84,7 @@ Multiple status values can be provided with comma separated strings
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**status** | [**Vec<String>**](String.md) | Status values that need to be considered for filter | Required | 
+**status** | [**Vec<String>**](String.md) | Status values that need to be considered for filter | [required] |
 
 ### Return type
 
@@ -114,7 +114,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**tags** | [**Vec<String>**](String.md) | Tags to filter by | Required | 
+**tags** | [**Vec<String>**](String.md) | Tags to filter by | [required] |
 
 ### Return type
 
@@ -144,7 +144,7 @@ Returns a single pet
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**pet_id** | **i64** | ID of pet to return | Required | 
+**pet_id** | **i64** | ID of pet to return | [required] |
 
 ### Return type
 
@@ -172,7 +172,7 @@ Update an existing pet
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | Required | 
+**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
 
 ### Return type
 
@@ -200,9 +200,9 @@ Updates a pet in the store with form data
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**pet_id** | **i64** | ID of pet that needs to be updated | Required | 
-**name** | **String** | Updated name of the pet |  | 
-**status** | **String** | Updated status of the pet |  | 
+**pet_id** | **i64** | ID of pet that needs to be updated | [required] |
+**name** | Option<**String**> | Updated name of the pet |  |
+**status** | Option<**String**> | Updated status of the pet |  |
 
 ### Return type
 
@@ -230,9 +230,9 @@ uploads an image
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**pet_id** | **i64** | ID of pet to update | Required | 
-**additional_metadata** | **String** | Additional data to pass to server |  | 
-**file** | **std::path::PathBuf** | file to upload |  | 
+**pet_id** | **i64** | ID of pet to update | [required] |
+**additional_metadata** | Option<**String**> | Additional data to pass to server |  |
+**file** | Option<**std::path::PathBuf**> | file to upload |  |
 
 ### Return type
 

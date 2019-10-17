@@ -2,17 +2,11 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`4.1.3-SNAPSHOT`): [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`4.2.0-SNAPSHOT`): [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=master)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
 [![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
-
-[`4.2.x`](https://github.com/OpenAPITools/openapi-generator/tree/4.2.x) branch: [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/4.2.x.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
-[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/4.2.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
-[![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=4.2.x)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=4.2.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
-[![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/4.2.x)](https://cloud.drone.io/OpenAPITools/openapi-generator)
 
 [`5.0.x`](https://github.com/OpenAPITools/openapi-generator/tree/5.0.x) branch: [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/5.0.x.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/5.0.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
@@ -108,8 +102,7 @@ OpenAPI Generator Version    | Release Date | Notes
 ---------------------------- | ------------ | -----
 5.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.0.0-SNAPSHOT/)| 13.05.2020 | Major release with breaking changes (no fallback)
 4.2.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.2.0-SNAPSHOT/)| 09.10.2019 | Minor release (breaking changes with fallbacks)
-4.1.3 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.1.3-SNAPSHOT/)| 30.09.2019 | Patch release (bug fixes, enhancements)
-[4.1.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.1.2) (latest stable release) | 12.09.2019 | Patch release (bug fixes, enhancements)
+[4.1.3](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.1.3) (latest stable release) | 04.10.2019 | Patch release (bug fixes, enhancements)
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
 
@@ -552,9 +545,11 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Angular.Schule](https://angular.schule/)
 - [ASKUL](https://www.askul.co.jp)
 - [b<>com](https://b-com.com/en)
+- [Banzai Cloud](https://banzaicloud.com)
 - [BIMData.io](https://bimdata.io)
 - [Bithost GmbH](https://www.bithost.ch)
 - [Boxever](https://www.boxever.com/)
+- [California State University, Northridge](https://www.csun.edu)
 - [CAM](https://www.cam-inc.co.jp/)
 - [Camptocamp](https://www.camptocamp.com/en)
 - [codecentric AG](https://www.codecentric.de/)
@@ -648,6 +643,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-09-22 - [RESTful APIs: Tutorial of OpenAPI Specification](https://medium.com/@amirm.lavasani/restful-apis-tutorial-of-openapi-specification-eeada0e3901d) by [Amir Lavasani](https://medium.com/@amirm.lavasani)
 - 2019-09-22 - [Redefining SDKs as software diversity kits](https://devrel.net/dev-rel/redefining-sdks-as-software-diversity-kits) by [Sid Maestre (Xero)](https://twitter.com/sidneyallen) at [DevRelCon San Francisco 2019](https://sf2019.devrel.net/)
 - 2019-09-23 - [swaggerからOpenApi GeneratorでSpringのコードを自動生成](https://qiita.com/littleFeet/items/492df2ad68a0799a5e5e) by [@littleFeet](https://qiita.com/littleFeet) at [Qiita](https://qiita.com/)
+- 2019-10-09 - [openapi-generator で生成した Go クライアントで Bearer 認証をする](https://autopp-tech.hatenablog.com/entry/2019/10/09/222039) by [Akira Tanimura](https://github.com/autopp)
+- 2019-10-12 - [OpenApi自动生成client](https://blog.csdn.net/wxid2798226/article/details/102527467) by [郑泽洲](https://me.csdn.net/wxid2798226)
 
 
 ## [6 - About Us](#table-of-contents)
@@ -685,6 +682,7 @@ Here is a list of template creators:
    * Dart (refactor): @joernahrens
    * Dart 2: @swipesight
    * Dart (Jaguar): @jaumard
+   * Dart (Dio): @athornz
    * Elixir: @niku
    * Elm: @eriktim
    * Eiffel: @jvelilla

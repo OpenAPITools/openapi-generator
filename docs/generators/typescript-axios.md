@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-axios
 title: Config Options for typescript-axios
 sidebar_label: typescript-axios
 ---

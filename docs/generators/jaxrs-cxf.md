@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-jaxrs-cxf
 title: Config Options for jaxrs-cxf
 sidebar_label: jaxrs-cxf
 ---
