@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-jaxrs-jersey
 title: Config Options for jaxrs-jersey
 sidebar_label: jaxrs-jersey
 ---

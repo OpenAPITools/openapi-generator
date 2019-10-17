@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-r
 title: Config Options for r
 sidebar_label: r
 ---

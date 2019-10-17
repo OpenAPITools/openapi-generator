@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-php-ze-ph
 title: Config Options for php-ze-ph
 sidebar_label: php-ze-ph
 ---

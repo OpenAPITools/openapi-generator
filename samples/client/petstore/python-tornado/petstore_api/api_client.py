@@ -78,6 +78,7 @@ class ApiClient(object):
         self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
+        self.client_side_validation = configuration.client_side_validation
 
     def __del__(self):
         if self._pool:
@@ -374,10 +375,8 @@ class ApiClient(object):
             return self.rest_client.OPTIONS(url,
                                             query_params=query_params,
                                             headers=headers,
-                                            post_params=post_params,
                                             _preload_content=_preload_content,
-                                            _request_timeout=_request_timeout,
-                                            body=body)
+                                            _request_timeout=_request_timeout)
         elif method == "POST":
             return self.rest_client.POST(url,
                                          query_params=query_params,

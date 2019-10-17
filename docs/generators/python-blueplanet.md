@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-python-blueplanet
 title: Config Options for python-blueplanet
 sidebar_label: python-blueplanet
 ---

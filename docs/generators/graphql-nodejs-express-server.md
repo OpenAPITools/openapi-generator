@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-graphql-nodejs-express-server
 title: Config Options for graphql-nodejs-express-server
 sidebar_label: graphql-nodejs-express-server
 ---
