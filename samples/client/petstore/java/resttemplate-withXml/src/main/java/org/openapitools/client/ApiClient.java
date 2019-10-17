@@ -642,14 +642,21 @@ public class ApiClient {
      * @param requestBuilder The current request
      */
     protected void addCookiesToRequest(MultiValueMap<String, String> cookies, BodyBuilder requestBuilder) {
-        for (Entry<String, List<String>> entry : cookies.entrySet()) {
-            List<String> values = entry.getValue();
-            for(String value : values) {
-                if (value != null) {
-                    requestBuilder.cookie(entry.getKey(), value);
-                }
+        if (!cookies.isEmpty()) {
+            requestBuilder.header("Cookie", buildCookieHeader(cookies));
+        }
+    }
+
+    private String buildCookieHeader(MultiValueMap<String, String> cookies) {
+        final StringBuilder cookieValue = new StringBuilder();
+        String delimiter = "";
+        for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
+            for (String value : entry.getValue()) {
+                cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
+                delimiter = "; ";
             }
         }
+        return cookieValue.toString();
     }
 
     /**
@@ -689,13 +696,13 @@ public class ApiClient {
      * @param queryParams The query parameters
      * @param headerParams The header parameters
      */
-    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams) {
+    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
                 throw new RestClientException("Authentication undefined: " + authName);
             }
-            auth.applyToParams(queryParams, headerParams);
+            auth.applyToParams(queryParams, headerParams, cookieParams);
         }
     }
 

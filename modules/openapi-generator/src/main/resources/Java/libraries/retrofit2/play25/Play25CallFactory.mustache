@@ -9,6 +9,7 @@ import play.libs.ws.WSClient;
 import play.libs.ws.WSRequest;
 import play.libs.ws.WSResponse;
 import play.libs.ws.WSRequestFilter;
+import play.libs.ws.WSCookie;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -68,7 +69,7 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
             rb.addHeader(header.getKey(), header.getValue());
         }
         for (Map.Entry<String, String> cookie : this.extraCookies.entrySet()) {
-            rb.addHeader("Cookie", String.format("%s=%s", header.getKey(), header.getValue()));
+            rb.addHeader("Cookie", String.format("%s=%s", cookie.getKey(), cookie.getValue()));
         }
 
         // add extra query params
@@ -173,15 +174,15 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
         }
 
         private void addCookies(WSRequest wsRequest) {
-            for(Map.Entry<String, List<String>> entry : request.headers("Cookie").toMultimap().entrySet()) {
-                List<String> values = entry.getValue();
-                for (String value : values) {
-                    final WSCookie cookie = new WSCookieBuilder()
-                        .setName(entry.getKey())
-                        .setValue(value)
-                        .build();
-                    wsRequest.addCookie(cookie);
+            final List<String> cookies = request.headers("Cookie");
+            if (!cookies.isEmpty()) {
+                String delimiter = "";
+                final StringBuilder cookieHeader = new StringBuilder();
+                for (final String cookie : cookies) {
+                    cookieHeader.append(String.format("%s%s", delimiter, cookie));
+                    delimiter = "; ";
                 }
+                wsRequest.setHeader("Cookie", cookieHeader.toString());
             }
         }
 
@@ -226,10 +227,8 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
                     builder.addHeader(entry.getKey(), value);
                 }
             }
-            for (Map.Entry<String, List<String>> entry : r.getCookies().entrySet()) {
-                for (String value : entry.getValue()) {
-                    builder.addHeader("Cookie", String.format("%s=%s", entry.getKey(), value));
-                }
+            for (final WSCookie cookie : r.getCookies()) {
+                builder.addHeader("Cookie", String.format("%s=%s", cookie.getName(), cookie.getValue()));
             }
 
 

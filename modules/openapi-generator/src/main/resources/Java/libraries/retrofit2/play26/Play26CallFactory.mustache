@@ -9,6 +9,8 @@ import play.libs.ws.WSClient;
 import play.libs.ws.WSRequest;
 import play.libs.ws.WSResponse;
 import play.libs.ws.WSRequestFilter;
+import play.libs.ws.WSCookie;
+import play.libs.ws.WSCookieBuilder;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -75,8 +77,8 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
         for (Map.Entry<String, String> header : this.extraHeaders.entrySet()) {
             rb.addHeader(header.getKey(), header.getValue());
         }
-        for (Map.Entry<String, String> cookie : this.extraHeaders.entrySet()) {
-            rb.addHeader("Cookie", String.format("%s=%s", header.getKey(), header.getValue()));
+        for (Map.Entry<String, String> cookie : this.extraCookies.entrySet()) {
+            rb.addHeader("Cookie", String.format("%s=%s", cookie.getKey(), cookie.getValue()));
         }
 
         // add extra query params
@@ -190,16 +192,29 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
         }
 
         private void addCookies(WSRequest wsRequest) {
-            for(Map.Entry<String, List<String>> entry : request.headers("Cookie").toMultimap().entrySet()) {
-                List<String> values = entry.getValue();
-                for (String value : values) {
-                    final WSCookie cookie = new WSCookieBuilder()
-                        .setName(entry.getKey())
-                        .setValue(value)
-                        .build();
-                    wsRequest.addCookie(cookie);
+            for (final WSCookie cookie : getCookies()) {
+                wsRequest.addCookie(cookie);
+            }
+        }
+
+        List<WSCookie> getCookies() {
+            final List<WSCookie> cookies = new ArrayList<>();
+            for (final String cookieString : request.headers("Cookie")) {
+                for (String cookie : cookieString.split(";")) {
+                    cookie = cookie.trim();
+                    final String[] nameAndValue = cookie.split("=");
+                    if (nameAndValue.length != 2) {
+                        continue;
+                    }
+                    cookies.add(
+                        new WSCookieBuilder()
+                            .setName(nameAndValue[0])
+                            .setValue(nameAndValue[1])
+                            .build()
+                    );
                 }
             }
+            return cookies;
         }
 
         private void addBody(WSRequest wsRequest) throws IOException {
@@ -242,10 +257,8 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
                     builder.addHeader(entry.getKey(), value);
                 }
             }
-            for (Map.Entry<String, List<String>> entry : r.getCookies().entrySet()) {
-                for (String value : entry.getValue()) {
-                    builder.addHeader("Cookie", String.format("%s=%s", entry.getKey(), value));
-                }
+            for (final WSCookie cookie : r.getCookies()) {
+                builder.addHeader("Cookie", String.format("%s=%s", cookie.getName(), cookie.getValue()));
             }
 
             builder.message(r.getStatusText());
