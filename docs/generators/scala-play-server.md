@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-scala-play-server
 title: Config Options for scala-play-server
 sidebar_label: scala-play-server
 ---

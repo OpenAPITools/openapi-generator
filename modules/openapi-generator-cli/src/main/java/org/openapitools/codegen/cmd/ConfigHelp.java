@@ -148,16 +148,13 @@ public class ConfigHelp implements Runnable {
     }
 
     private void generateMarkdownHelp(StringBuilder sb, CodegenConfig config) {
-        sb.append(newline);
-
         if (Boolean.TRUE.equals(markdownHeader)) {
             sb.append("---").append(newline);
-            sb.append("id: generator-opts-").append(config.getTag().toValue()).append("-")
-                    .append(config.getName()).append(newline);
             sb.append("title: Config Options for ").append(generatorName).append(newline);
             sb.append("sidebar_label: ").append(generatorName).append(newline);
             sb.append("---").append(newline);
         } else {
+            sb.append(newline);
             sb.append("## CONFIG OPTIONS");
 
             if (Boolean.TRUE.equals(namedHeader)) {

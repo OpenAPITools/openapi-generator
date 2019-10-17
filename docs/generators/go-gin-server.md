@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-go-gin-server
 title: Config Options for go-gin-server
 sidebar_label: go-gin-server
 ---

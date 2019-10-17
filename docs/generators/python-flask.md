@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-python-flask
 title: Config Options for python-flask
 sidebar_label: python-flask
 ---

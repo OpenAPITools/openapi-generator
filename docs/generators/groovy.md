@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-groovy
 title: Config Options for groovy
 sidebar_label: groovy
 ---

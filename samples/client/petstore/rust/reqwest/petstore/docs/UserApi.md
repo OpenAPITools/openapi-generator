@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**User**](User.md) | Created user object | Required | 
+**body** | [**User**](User.md) | Created user object | [required] |
 
 ### Return type
 
@@ -55,7 +55,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Vec<crate::models::User>**](User.md) | List of user object | Required | 
+**body** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
 
 ### Return type
 
@@ -83,7 +83,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Vec<crate::models::User>**](User.md) | List of user object | Required | 
+**body** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
 
 ### Return type
 
@@ -113,7 +113,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**username** | **String** | The name that needs to be deleted | Required | 
+**username** | **String** | The name that needs to be deleted | [required] |
 
 ### Return type
 
@@ -141,7 +141,7 @@ Get user by user name
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**username** | **String** | The name that needs to be fetched. Use user1 for testing. | Required | 
+**username** | **String** | The name that needs to be fetched. Use user1 for testing. | [required] |
 
 ### Return type
 
@@ -169,8 +169,8 @@ Logs user into the system
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**username** | **String** | The user name for login | Required | 
-**password** | **String** | The password for login in clear text | Required | 
+**username** | **String** | The user name for login | [required] |
+**password** | **String** | The password for login in clear text | [required] |
 
 ### Return type
 
@@ -225,8 +225,8 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**username** | **String** | name that need to be deleted | Required | 
-**body** | [**User**](User.md) | Updated user object | Required | 
+**username** | **String** | name that need to be deleted | [required] |
+**body** | [**User**](User.md) | Updated user object | [required] |
 
 ### Return type
 

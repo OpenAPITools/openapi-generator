@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-nim
 title: Config Options for nim
 sidebar_label: nim
 ---

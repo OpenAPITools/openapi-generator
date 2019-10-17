@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-nodejs-express-server
 title: Config Options for nodejs-express-server
 sidebar_label: nodejs-express-server
 ---

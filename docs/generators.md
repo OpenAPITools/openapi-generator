@@ -19,6 +19,7 @@ The following generators are available:
 * [csharp-dotnet2 (deprecated)](generators/csharp-dotnet2.md)  
 * [csharp-netcore](generators/csharp-netcore.md)  
 * [dart](generators/dart.md)  
+* [dart-dio](generators/dart-dio.md)  
 * [dart-jaguar](generators/dart-jaguar.md)  
 * [eiffel](generators/eiffel.md)  
 * [elixir](generators/elixir.md)  

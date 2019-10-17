@@ -13,6 +13,7 @@ Method | HTTP request | Description
 > InlineResponseDefault FooGet(ctx, )
 
 
+
 ### Required Parameters
 
 This endpoint does not need any parameter.

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-csharp
 title: Config Options for csharp
 sidebar_label: csharp
 ---

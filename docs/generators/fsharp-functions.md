@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-fsharp-functions
 title: Config Options for fsharp-functions
 sidebar_label: fsharp-functions
 ---
