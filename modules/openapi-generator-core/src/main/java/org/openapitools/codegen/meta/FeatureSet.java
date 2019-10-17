@@ -224,7 +224,7 @@ public class FeatureSet {
          *
          * @return a reference to this Builder
          */
-        public Builder includeClientModificationFeature(ClientModificationFeature... clientModificationFeature) {
+        public Builder includeClientModificationFeatures(ClientModificationFeature... clientModificationFeature) {
             this.clientModificationFeatures.addAll(Arrays.stream(clientModificationFeature).collect(Collectors.toList()));
             return this;
         }
@@ -236,7 +236,7 @@ public class FeatureSet {
          *
          * @return a reference to this Builder
          */
-        public Builder excludeClientModificationFeature(ClientModificationFeature... clientModificationFeature) {
+        public Builder excludeClientModificationFeatures(ClientModificationFeature... clientModificationFeature) {
             this.clientModificationFeatures.removeAll(Arrays.stream(clientModificationFeature).collect(Collectors.toList()));
             return this;
         }
@@ -263,7 +263,7 @@ public class FeatureSet {
          *
          * @return a reference to this Builder
          */
-        public Builder includeDataTypeFeature(DataTypeFeature... dataTypeFeature) {
+        public Builder includeDataTypeFeatures(DataTypeFeature... dataTypeFeature) {
             this.dataTypeFeatures.addAll(Arrays.stream(dataTypeFeature).collect(Collectors.toList()));
             return this;
         }
@@ -275,7 +275,7 @@ public class FeatureSet {
          *
          * @return a reference to this Builder
          */
-        public Builder excludeDataTypeFeature(DataTypeFeature... dataTypeFeature) {
+        public Builder excludeDataTypeFeatures(DataTypeFeature... dataTypeFeature) {
             this.dataTypeFeatures.removeAll(Arrays.stream(dataTypeFeature).collect(Collectors.toList()));
             return this;
         }
@@ -302,7 +302,7 @@ public class FeatureSet {
          *
          * @return a reference to this Builder
          */
-        public Builder includeDocumentationFeature(DocumentationFeature... documentationFeature) {
+        public Builder includeDocumentationFeatures(DocumentationFeature... documentationFeature) {
             this.documentationFeatures.addAll(Arrays.stream(documentationFeature).collect(Collectors.toList()));
             return this;
         }
@@ -314,7 +314,7 @@ public class FeatureSet {
          *
          * @return a reference to this Builder
          */
-        public Builder excludeDocumentationFeature(DocumentationFeature... documentationFeature) {
+        public Builder excludeDocumentationFeatures(DocumentationFeature... documentationFeature) {
             this.documentationFeatures.removeAll(Arrays.stream(documentationFeature).collect(Collectors.toList()));
             return this;
         }
@@ -341,7 +341,7 @@ public class FeatureSet {
          *
          * @return a reference to this Builder
          */
-        public Builder includeSchemaSupportFeature(SchemaSupportFeature... schemaSupportFeature) {
+        public Builder includeSchemaSupportFeatures(SchemaSupportFeature... schemaSupportFeature) {
             this.schemaSupportFeatures.addAll(Arrays.stream(schemaSupportFeature).collect(Collectors.toList()));
             return this;
         }
@@ -353,7 +353,7 @@ public class FeatureSet {
          *
          * @return a reference to this Builder
          */
-        public Builder excludeSchemaSupportFeature(SchemaSupportFeature... schemaSupportFeature) {
+        public Builder excludeSchemaSupportFeatures(SchemaSupportFeature... schemaSupportFeature) {
             this.schemaSupportFeatures.removeAll(Arrays.stream(schemaSupportFeature).collect(Collectors.toList()));
             return this;
         }

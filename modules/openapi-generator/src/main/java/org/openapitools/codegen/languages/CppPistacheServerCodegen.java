@@ -22,18 +22,15 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.net.URL;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -70,7 +67,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         if (StringUtils.isEmpty(modelNamePrefix)) {

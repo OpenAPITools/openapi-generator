@@ -45,7 +45,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         this.outputFolder = "generated-code/typescript-inversify";

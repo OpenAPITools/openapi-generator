@@ -78,7 +78,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         outputFolder = "generated-code" + File.separator + "swift";

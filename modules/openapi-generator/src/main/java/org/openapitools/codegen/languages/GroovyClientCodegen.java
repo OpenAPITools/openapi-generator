@@ -33,7 +33,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // avoid importing the following as models

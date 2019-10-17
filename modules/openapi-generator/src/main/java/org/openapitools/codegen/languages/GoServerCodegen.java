@@ -42,7 +42,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // set the output folder here

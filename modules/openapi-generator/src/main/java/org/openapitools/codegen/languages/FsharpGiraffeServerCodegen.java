@@ -62,7 +62,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     public FsharpGiraffeServerCodegen() {
         super();
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)

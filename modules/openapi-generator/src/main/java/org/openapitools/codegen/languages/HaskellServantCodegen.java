@@ -77,7 +77,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // override the mapping to keep the original mapping in Haskell

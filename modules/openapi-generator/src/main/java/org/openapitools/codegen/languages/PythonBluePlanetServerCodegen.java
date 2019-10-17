@@ -33,7 +33,7 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
         super("python-blueplanet", true);
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         testPackage = "tests";

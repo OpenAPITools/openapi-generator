@@ -75,7 +75,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         outputFolder = "generated-code/ocaml";

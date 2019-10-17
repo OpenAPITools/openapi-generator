@@ -70,7 +70,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // Show the generation timestamp by default

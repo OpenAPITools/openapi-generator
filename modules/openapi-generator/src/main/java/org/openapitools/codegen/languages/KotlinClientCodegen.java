@@ -75,7 +75,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
          * OAuth flows supported _only_ by client explicitly setting bearer token. The "flows" are not supported.
          */
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(WireFormatFeature.XML, WireFormatFeature.PROTOBUF)
                 .excludeSecurityFeatures(
                         SecurityFeature.OpenIDConnect,
@@ -90,13 +90,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
-                .excludeSchemaSupportFeature(
+                .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .includeClientModificationFeature(ClientModificationFeature.BasePath)
+                .includeClientModificationFeatures(ClientModificationFeature.BasePath)
                 .build();
 
         artifactId = "kotlin-client";

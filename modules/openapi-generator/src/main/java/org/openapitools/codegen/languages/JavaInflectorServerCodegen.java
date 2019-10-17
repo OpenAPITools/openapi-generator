@@ -42,7 +42,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         sourceFolder = "src/gen/java";

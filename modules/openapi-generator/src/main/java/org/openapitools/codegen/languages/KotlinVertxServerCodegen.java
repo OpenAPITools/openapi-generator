@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Locale;
 
 public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
 
@@ -55,7 +54,7 @@ public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)

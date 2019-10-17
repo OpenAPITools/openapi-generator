@@ -51,7 +51,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // add multiple inheritance support (beta)

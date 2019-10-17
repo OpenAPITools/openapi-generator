@@ -59,7 +59,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         browserClient = false;

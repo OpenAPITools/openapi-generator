@@ -89,7 +89,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         outputFolder = "generated-code" + File.separator + getName();

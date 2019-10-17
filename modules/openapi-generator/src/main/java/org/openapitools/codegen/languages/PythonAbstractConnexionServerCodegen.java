@@ -63,7 +63,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         fixBodyName = fixBodyNameValue;

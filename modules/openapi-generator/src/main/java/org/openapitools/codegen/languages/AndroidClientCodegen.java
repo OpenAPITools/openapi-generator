@@ -62,7 +62,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
         // TODO: Android client maintainer review.
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(
                         WireFormatFeature.PROTOBUF
                 )
@@ -80,13 +80,13 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
-                .includeSchemaSupportFeature(
+                .includeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .includeClientModificationFeature(ClientModificationFeature.BasePath)
+                .includeClientModificationFeatures(ClientModificationFeature.BasePath)
                 .build();
 
         outputFolder = "generated-code/android";

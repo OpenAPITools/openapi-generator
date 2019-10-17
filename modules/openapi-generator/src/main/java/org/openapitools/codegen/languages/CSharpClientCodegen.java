@@ -81,7 +81,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         supportsInheritance = true;

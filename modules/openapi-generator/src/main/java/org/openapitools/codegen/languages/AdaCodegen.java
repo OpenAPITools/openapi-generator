@@ -58,7 +58,7 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
         // TODO: Ada maintainer review.
         featureSet = getFeatureSet().modify()
-                .excludeDocumentationFeature(DocumentationFeature.Readme)
+                .excludeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(
                         WireFormatFeature.XML,
                         WireFormatFeature.PROTOBUF
@@ -78,14 +78,14 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
-                .excludeSchemaSupportFeature(
+                .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Header,
                         ParameterFeature.Cookie
                 )
-                .includeClientModificationFeature(ClientModificationFeature.BasePath)
+                .includeClientModificationFeatures(ClientModificationFeature.BasePath)
                 .build();
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {

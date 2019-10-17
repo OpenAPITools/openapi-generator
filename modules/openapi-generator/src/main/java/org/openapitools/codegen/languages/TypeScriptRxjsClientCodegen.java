@@ -25,12 +25,9 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.TreeSet;
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -44,7 +41,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         outputFolder = "generated-code/typescript-rxjs";

@@ -38,7 +38,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         outputFolder = "generated-code/finch";

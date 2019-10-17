@@ -37,7 +37,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -57,7 +56,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)

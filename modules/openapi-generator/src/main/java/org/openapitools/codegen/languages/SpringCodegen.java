@@ -101,7 +101,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         outputFolder = "generated-code/javaSpring";

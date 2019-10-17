@@ -66,7 +66,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         supportsInheritance = true;

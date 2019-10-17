@@ -62,7 +62,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // mark the generator as deprecated in the documentation

@@ -60,7 +60,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         artifactId = "kotlin-server";

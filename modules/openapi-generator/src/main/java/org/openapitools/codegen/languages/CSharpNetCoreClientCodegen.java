@@ -85,7 +85,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // mapped non-nullable type without ?

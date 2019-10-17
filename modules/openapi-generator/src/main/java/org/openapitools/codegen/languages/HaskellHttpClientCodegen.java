@@ -147,7 +147,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         this.prependFormOrBodyParameters = true;

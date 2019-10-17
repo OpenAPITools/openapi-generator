@@ -61,7 +61,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         uuid = UUID.randomUUID();

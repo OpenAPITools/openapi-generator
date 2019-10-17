@@ -32,7 +32,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
@@ -81,7 +80,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         apiPackage = "org.openapitools.client.api";

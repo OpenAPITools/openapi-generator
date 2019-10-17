@@ -57,7 +57,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // clear import mapping (from default generator) as dart does not use it

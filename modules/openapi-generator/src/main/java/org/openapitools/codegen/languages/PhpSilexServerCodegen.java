@@ -40,7 +40,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         invokerPackage = camelize("OpenAPIServer");

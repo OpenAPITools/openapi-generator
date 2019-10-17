@@ -43,7 +43,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // set the output folder here

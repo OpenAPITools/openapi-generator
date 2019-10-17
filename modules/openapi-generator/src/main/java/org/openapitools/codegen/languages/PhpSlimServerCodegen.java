@@ -48,7 +48,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // clear import mapping (from default generator) as slim does not use it

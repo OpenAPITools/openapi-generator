@@ -42,7 +42,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         embeddedTemplateDir = templateDir = "java-undertow-server";

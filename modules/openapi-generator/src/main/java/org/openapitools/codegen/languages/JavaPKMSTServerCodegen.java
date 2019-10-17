@@ -55,7 +55,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         groupId = "com.prokarma";

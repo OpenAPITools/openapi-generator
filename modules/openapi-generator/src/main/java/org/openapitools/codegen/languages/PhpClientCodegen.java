@@ -39,7 +39,7 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // clear import mapping (from default generator) as php does not use it

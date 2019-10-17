@@ -49,7 +49,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         // clear import mapping (from default generator) as TS does not use it

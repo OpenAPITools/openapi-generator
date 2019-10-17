@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -71,7 +70,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         supportsInheritance = true;

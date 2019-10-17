@@ -28,8 +28,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
-
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CppRestbedServerCodegen.class);
@@ -45,7 +43,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         apiPackage = "org.openapitools.server.api";

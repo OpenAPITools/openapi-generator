@@ -56,7 +56,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         outputFolder = "generated-code/javaPlayFramework";

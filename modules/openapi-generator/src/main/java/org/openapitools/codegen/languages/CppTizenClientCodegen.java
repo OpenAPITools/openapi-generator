@@ -42,7 +42,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         outputFolder = "";

@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
@@ -80,7 +79,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
-                .includeDataTypeFeature(
+                .includeDataTypeFeatures(
                         DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
                         DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
                         DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
@@ -91,7 +90,7 @@ public class DefaultCodegen implements CodegenConfig {
                         DataTypeFeature.MapOfCollectionOfModel, DataTypeFeature.MapOfCollectionOfEnum
                         // Custom types are template specific
                 )
-                .includeDocumentationFeature(
+                .includeDocumentationFeatures(
                         DocumentationFeature.Api, DocumentationFeature.Model
                         // README is template specific
                 )
@@ -101,7 +100,7 @@ public class DefaultCodegen implements CodegenConfig {
                         GlobalFeature.Callbacks
                         // TODO: xml structures, styles, link objects, parameterized servers, full schemes for OAS 2.0
                 )
-                .includeSchemaSupportFeature(
+                .includeSchemaSupportFeatures(
                         SchemaSupportFeature.Simple, SchemaSupportFeature.Composite,
                         SchemaSupportFeature.Polymorphism
                         // Union (OneOf) not 100% yet.

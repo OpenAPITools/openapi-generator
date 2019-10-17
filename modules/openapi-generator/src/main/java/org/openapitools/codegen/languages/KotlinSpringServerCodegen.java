@@ -83,7 +83,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         super();
 
         featureSet = getFeatureSet().modify()
-                .includeDocumentationFeature(DocumentationFeature.Readme)
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .build();
 
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
