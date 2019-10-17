@@ -24,9 +24,11 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -179,6 +181,15 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
     public AsciidocDocumentationCodegen() {
         super();
+
+        // TODO: Asciidoc maintainer review.
+        featureSet = getFeatureSet().modify()
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
+                .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
+                .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
+                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
+                .build();
 
         LOGGER.trace("start asciidoc codegen");
 
