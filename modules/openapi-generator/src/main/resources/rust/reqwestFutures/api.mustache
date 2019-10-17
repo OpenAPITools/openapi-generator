@@ -1,0 +1,233 @@
+{{>partial_header}}
+use std::sync::Arc;
+use std::borrow::Borrow;
+#[allow(unused_imports)]
+use std::option::Option;
+use futures::{Future};
+use reqwest;
+
+use super::{Error, configuration};
+
+pub struct {{{classname}}}Client {
+    configuration: Arc<configuration::Configuration>,
+}
+
+impl {{{classname}}}Client {
+    pub fn new(configuration: Arc<configuration::Configuration>) -> {{{classname}}}Client {
+        {{{classname}}}Client {
+            configuration,
+        }
+    }
+}
+
+pub trait {{{classname}}} {
+{{#operations}}
+{{#operation}}
+    fn {{{interfacePrefix}}}{{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error> + Send>;
+{{/operation}}
+{{/operations}}
+}
+
+impl {{{classname}}} for {{{classname}}}Client {
+{{#operations}}
+{{#operation}}
+    fn {{{interfacePrefix}}}{{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error> + Send> {
+        let configuration: &configuration::Configuration = self.configuration.borrow();
+        let client = &configuration.client;
+
+        let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{#isString}}){{/isString}}{{/pathParams}});
+        let mut req_builder = client.{{{httpMethod}}}(uri_str.as_str());
+
+        {{#queryParams}}
+        {{#required}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string())]);
+        {{/required}}
+        {{^required}}
+        if let Some(ref s) = {{{paramName}}} {
+            req_builder = req_builder.query(&[("{{{baseName}}}", &s{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string())]);
+        }
+        {{/required}}
+        {{/queryParams}}
+        {{#hasAuthMethods}}
+        {{#authMethods}}
+        {{#isApiKey}}
+        {{#isKeyInQuery}}
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            req_builder = req_builder.query(&[("{{{keyParamName}}}", val)]);
+        }
+        {{/isKeyInQuery}}
+        {{/isApiKey}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+        if let Some(ref user_agent) = configuration.user_agent {
+            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+        }
+        {{#hasHeaderParams}}
+        {{#headerParams}}
+        {{#required}}
+        {{^isNullable}}
+        req_builder = req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { req_builder = req_builder.header("{{{baseName}}}", param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            None => { req_builder = req_builder.header("{{{baseName}}}", ""); },
+        }
+        {{/isNullable}}
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            req_builder = req_builder.header("{{{baseName}}}", param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        }
+        {{/required}}
+        {{/headerParams}}
+        {{/hasHeaderParams}}
+        {{#hasAuthMethods}}
+        {{#authMethods}}
+        {{#isApiKey}}
+        {{#isKeyInHeader}}
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            req_builder = req_builder.header("{{{keyParamName}}}", val);
+        };
+        {{/isKeyInHeader}}
+        {{/isApiKey}}
+        {{#isBasic}}
+        {{^isBasicBearer}}
+        if let Some(ref auth_conf) = configuration.basic_auth {
+            req_builder = req_builder.basic_auth(auth_conf.0.to_owned(), auth_conf.1.to_owned());
+        };
+        {{/isBasicBearer}}
+        {{#isBasicBearer}}
+        if let Some(ref token) = configuration.bearer_access_token {
+            req_builder = req_builder.bearer_auth(token.to_owned());
+        };
+        {{/isBasicBearer}}
+        {{/isBasic}}
+        {{#isOAuth}}
+        if let Some(ref token) = configuration.oauth_access_token {
+            req_builder = req_builder.bearer_auth(token.to_owned());
+        };
+        {{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+        {{#isMultipart}}
+        {{#hasFormParams}}
+        let mut form = reqwest::multipart::Form::new();
+        {{#formParams}}
+        {{#isFile}}
+        {{#required}}
+        {{^isNullable}}
+        form = form.file("{{{baseName}}}", {{{paramName}}})?;
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { form = form.file("{{{baseName}}}", param_value)?; },
+            None => { unimplemented!("Required nullable form file param not supported"); },
+        }
+        {{/isNullable}}
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            form = form.file("{{{baseName}}}", param_value)?;
+        }
+        {{/required}}
+        {{/isFile}}
+        {{^isFile}}
+        {{#required}}
+        {{^isNullable}}
+        form = form.text("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { form = form.text("{{{baseName}}}", param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            None => { form = form.text("{{{baseName}}}", ""); },
+        }
+        {{/isNullable}}
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            form = form.text("{{{baseName}}}", param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        }
+        {{/required}}
+        {{/isFile}}
+        {{/formParams}}
+        req_builder = req_builder.multipart(form);
+        {{/hasFormParams}}
+        {{/isMultipart}}
+        {{^isMultipart}}
+        {{#hasFormParams}}
+        let mut form_params = std::collections::HashMap::new();
+        {{#formParams}}
+        {{#isFile}}
+        {{#required}}
+        {{^isNullable}}
+        form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content")); },
+            None => { unimplemented!("Required nullable file form param not supported with x-www-form-urlencoded content"); },
+        }
+        {{/isNullable}}
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
+        }
+        {{/required}}
+        {{/isFile}}
+        {{^isFile}}
+        {{#required}}
+        {{^isNullable}}
+        form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isNullable}}
+        {{#isNullable}}
+        match {{{paramName}}} {
+            Some(param_value) => { form_params.insert("{{{baseName}}}", param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string()); },
+            None => { form_params.insert("{{{baseName}}}", ""); },
+        }
+        {{/isNullable}}
+        {{/required}}
+        {{^required}}
+        if let Some(param_value) = {{{paramName}}} {
+            form_params.insert("{{{baseName}}}", param_value{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        }
+        {{/required}}
+        {{/isFile}}
+        {{/formParams}}
+        req_builder = req_builder.form(&form_params);
+        {{/hasFormParams}}
+        {{/isMultipart}}
+        {{#hasBodyParam}}
+        {{#bodyParams}}
+        req_builder = req_builder.json(&{{{paramName}}});
+        {{/bodyParams}}
+        {{/hasBodyParam}}
+
+        // send request
+        Box::new(req_builder.send()
+            {{^returnType}}
+            .and_then(|i| i.error_for_status())
+            .map(|_| ())
+            {{/returnType}}
+            {{#returnType}}
+            .and_then(|i| i.error_for_status())
+            .and_then(|mut i| i.json())
+            {{/returnType}}
+            .from_err()
+        )
+    }
+
+{{/operation}}
+{{/operations}}
+}

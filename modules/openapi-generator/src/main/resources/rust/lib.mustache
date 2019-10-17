@@ -11,6 +11,10 @@ extern crate futures;
 {{#reqwest}}
 extern crate reqwest;
 {{/reqwest}}
+{{#reqwestFutures}}
+extern crate reqwest;
+extern crate futures;
+{{/reqwestFutures}}
 
 pub mod apis;
 pub mod models;

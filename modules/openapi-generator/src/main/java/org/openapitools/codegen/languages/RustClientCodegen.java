@@ -40,6 +40,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
+    public static final String REQWEST_FUTURES_LIBRARY = "reqwestFutures";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -136,11 +137,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("openapi"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Rust package version.")
                 .defaultValue("1.0.0"));
+        cliOptions.add(new CliOption(CodegenConstants.INTERFACE_PREFIX, "Method prefix.")
+            .defaultValue(""));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
+        supportedLibraries.put(REQWEST_FUTURES_LIBRARY, "HTTP client: Reqwest (futures).");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
@@ -221,6 +225,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put(HYPER_LIBRARY, "true");
         } else if (REQWEST_LIBRARY.equals(getLibrary())) {
             additionalProperties.put(REQWEST_LIBRARY, "true");
+        } else if (REQWEST_FUTURES_LIBRARY.equals(getLibrary())) {
+            additionalProperties.put("reqwestFutures", "true");
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
@@ -431,7 +437,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
-            } else if (REQWEST_LIBRARY.equals(getLibrary())) {
+            } else if (REQWEST_LIBRARY.equals(getLibrary()) || REQWEST_FUTURES_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
             }
 
