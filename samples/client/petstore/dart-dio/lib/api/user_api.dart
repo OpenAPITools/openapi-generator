@@ -25,7 +25,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -63,7 +63,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -103,7 +103,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -144,7 +144,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -179,7 +179,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -229,7 +229,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams["username"] = username;
@@ -280,7 +280,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -316,7 +316,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);

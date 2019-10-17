@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-rxjs
 title: Config Options for typescript-rxjs
 sidebar_label: typescript-rxjs
 ---

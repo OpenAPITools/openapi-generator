@@ -14,14 +14,15 @@ class StoreApi {
     StoreApi(this._dio, this._serializers);
 
         /// Delete purchase order by ID
-    ///
-    /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-    Future<Response> deleteOrder(String orderId, { CancelToken cancelToken, Map<String, String> headers,}) async {
-        String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
+        ///
+        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        Future<Response>deleteOrder(String orderId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        // query params
+            String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
+
+            // query params
             Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers);
+            Map<String, String> headerParams = Map.from(headers ?? {});
             Map<String, String> formParams = {};
 
             queryParams.removeWhere((key, value) => value == null);
@@ -51,7 +52,7 @@ class StoreApi {
 
             // query params
             Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers);
+            Map<String, String> headerParams = Map.from(headers ?? {});
             Map<String, String> formParams = {};
 
             queryParams.removeWhere((key, value) => value == null);
@@ -95,7 +96,7 @@ class StoreApi {
 
             // query params
             Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers);
+            Map<String, String> headerParams = Map.from(headers ?? {});
             Map<String, String> formParams = {};
 
             queryParams.removeWhere((key, value) => value == null);
@@ -139,7 +140,7 @@ class StoreApi {
 
             // query params
             Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers);
+            Map<String, String> headerParams = Map.from(headers ?? {});
             Map<String, String> formParams = {};
 
             queryParams.removeWhere((key, value) => value == null);

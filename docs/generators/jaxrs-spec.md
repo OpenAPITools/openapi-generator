@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-jaxrs-spec
 title: Config Options for jaxrs-spec
 sidebar_label: jaxrs-spec
 ---

@@ -115,7 +115,7 @@ class {{classname}}(object):
         allowed_values = [{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#values}}{{#items.isString}}"{{/items.isString}}{{{this}}}{{#items.isString}}"{{/items.isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
 {{#isListContainer}}
         if (self.local_vars_configuration.client_side_validation and
-                not set({{{name}}}).issubset(set(allowed_values))):
+                not set({{{name}}}).issubset(set(allowed_values))):  # noqa: E501
             raise ValueError(
                 "Invalid values for `{{{name}}}` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set({{{name}}}) - set(allowed_values))),  # noqa: E501
@@ -124,7 +124,7 @@ class {{classname}}(object):
 {{/isListContainer}}
 {{#isMapContainer}}
         if (self.local_vars_configuration.client_side_validation and
-                not set({{{name}}}.keys()).issubset(set(allowed_values))):
+                not set({{{name}}}.keys()).issubset(set(allowed_values))):  # noqa: E501
             raise ValueError(
                 "Invalid keys in `{{{name}}}` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set({{{name}}}.keys()) - set(allowed_values))),  # noqa: E501

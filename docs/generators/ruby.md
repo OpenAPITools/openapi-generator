@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-ruby
 title: Config Options for ruby
 sidebar_label: ruby
 ---

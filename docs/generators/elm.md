@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-elm
 title: Config Options for elm
 sidebar_label: elm
 ---

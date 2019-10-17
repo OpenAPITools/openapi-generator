@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-kotlin-vertx
 title: Config Options for kotlin-vertx
 sidebar_label: kotlin-vertx
 ---

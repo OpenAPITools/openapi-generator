@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-kotlin
 title: Config Options for kotlin
 sidebar_label: kotlin
 ---
