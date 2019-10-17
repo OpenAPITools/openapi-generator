@@ -26,7 +26,7 @@ import java.util.Objects;
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
-            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, shouldExplode;
+            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
 

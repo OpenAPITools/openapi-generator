@@ -3099,7 +3099,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // the default value is false
             // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
-            codegenParameter.shouldExplode = parameter.getExplode() == null ? false : parameter.getExplode();
+            codegenParameter.isExplode = parameter.getExplode() == null ? false : parameter.getExplode();
 
             // TODO revise collectionFormat
             String collectionFormat = null;
