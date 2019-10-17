@@ -276,7 +276,7 @@ export class PetService {
             formData.append('status', <any>status);
         }
 
-        const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, body, headers);
+        const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, formData, headers);
         if (observe == 'body') {
                return response.pipe(
                    map(httpResponse => <any>(httpResponse.response))
@@ -311,7 +311,7 @@ export class PetService {
         headers['Accept'] = 'application/json';
 
         let formData: FormData = new FormData();
-        headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+        headers['Content-Type'] = 'multipart/form-data';
         if (additionalMetadata !== undefined) {
             formData.append('additionalMetadata', <any>additionalMetadata);
         }
@@ -319,7 +319,7 @@ export class PetService {
             formData.append('file', <any>file);
         }
 
-        const response: Observable<HttpResponse<ApiResponse>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, body, headers);
+        const response: Observable<HttpResponse<ApiResponse>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, formData, headers);
         if (observe == 'body') {
                return response.pipe(
                    map(httpResponse => <ApiResponse>(httpResponse.response))
