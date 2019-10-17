@@ -619,7 +619,7 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
-                // Retained for backwards-compataibility with configOptions -> import-mappings
+                // Retained for backwards-compatibility with configOptions -> import-mappings
                 if (importMappings == null && configOptions.containsKey("import-mappings")) {
                     applyImportMappingsKvp(configOptions.get("import-mappings").toString(),
                             configurator);
@@ -850,6 +850,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
         }
     }
+
     /**
      * This method enables conversion of true/false strings in
      * config.additionalProperties (configuration/configOptions) to proper booleans.

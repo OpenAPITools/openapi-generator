@@ -524,11 +524,61 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cm.getClassname(), "OtherObj");
     }
 
+    /**
+     * Test to reproduce broken importMapping, see
+     * https://github.com/OpenAPITools/openapi-generator/issues/3589
+     */
+    @Test
+    public void testImportMapping() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        Map<String, String> importMappings = new HashMap<>();
+        importMappings.put("TypeAlias", "foo.bar.TypeAlias");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTEASY)
+                .setAdditionalProperties(properties)
+                .setImportMappings(importMappings)
+                .setInputSpec("src/test/resources/3_0/issue_3589.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        Assert.assertEquals(clientOptInput.getConfig().importMapping().get("TypeAlias"), "foo.bar.TypeAlias");
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 1);
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/org/openapitools/client/model/ParentType.java");
+
+        final String parentTypeContents = generatedFiles.values().iterator().next();
+
+        final Pattern FIELD_PATTERN = Pattern.compile(".* private (.*?) typeAlias;.*", Pattern.DOTALL);
+        Matcher fieldMatcher = FIELD_PATTERN.matcher(parentTypeContents);
+        Assert.assertTrue(fieldMatcher.matches());
+
+        // this is the type of the field 'typeAlias'. With a working importMapping it should
+        // be 'foo.bar.TypeAlias' or just 'TypeAlias', but currently it's just 'Object'
+        Assert.assertEquals(fieldMatcher.group(1), "Object");
+    }
+
     @Test
     public void testBearerAuth() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/pingBearerAuth.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
-        
+
         List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
         Assert.assertEquals(security.size(), 1);
         Assert.assertEquals(security.get(0).isBasic, Boolean.TRUE);

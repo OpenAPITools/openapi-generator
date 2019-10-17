@@ -23,4 +23,4 @@ components:
         typeAlias:
           $ref: '#/components/schemas/TypeAlias'
     TypeAlias:
-      type: string
+      type: object
