@@ -28,13 +28,13 @@ or create a new one in its place.
 In case explicit disposal is necessary, there is also `CompositeDisposable`.
 */
 public final class DisposeBag: DisposeBase {
-    
+
     private var _lock = SpinLock()
-    
+
     // state
     fileprivate var _disposables = [Disposable]()
     fileprivate var _isDisposed = false
-    
+
     /// Constructs new empty dispose bag.
     public override init() {
         super.init()
@@ -46,7 +46,7 @@ public final class DisposeBag: DisposeBase {
     public func insert(_ disposable: Disposable) {
         self._insert(disposable)?.dispose()
     }
-    
+
     private func _insert(_ disposable: Disposable) -> Disposable? {
         self._lock.lock(); defer { self._lock.unlock() }
         if self._isDisposed {
@@ -71,13 +71,13 @@ public final class DisposeBag: DisposeBase {
         self._lock.lock(); defer { self._lock.unlock() }
 
         let disposables = self._disposables
-        
+
         self._disposables.removeAll(keepingCapacity: false)
         self._isDisposed = true
-        
+
         return disposables
     }
-    
+
     deinit {
         self.dispose()
     }

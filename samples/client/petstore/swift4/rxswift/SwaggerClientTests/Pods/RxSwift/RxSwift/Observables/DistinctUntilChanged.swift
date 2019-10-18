@@ -65,15 +65,15 @@ extension ObservableType {
 
 final private class DistinctUntilChangedSink<O: ObserverType, Key>: Sink<O>, ObserverType {
     typealias E = O.E
-    
+
     private let _parent: DistinctUntilChanged<E, Key>
     private var _currentKey: Key?
-    
+
     init(parent: DistinctUntilChanged<E, Key>, observer: O, cancel: Cancelable) {
         self._parent = parent
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<E>) {
         switch event {
         case .next(let value):
@@ -83,16 +83,15 @@ final private class DistinctUntilChangedSink<O: ObserverType, Key>: Sink<O>, Obs
                 if let currentKey = self._currentKey {
                     areEqual = try self._parent._comparer(currentKey, key)
                 }
-                
+
                 if areEqual {
                     return
                 }
-                
+
                 self._currentKey = key
-                
+
                 self.forwardOn(event)
-            }
-            catch let error {
+            } catch let error {
                 self.forwardOn(.error(error))
                 self.dispose()
             }
@@ -106,17 +105,17 @@ final private class DistinctUntilChangedSink<O: ObserverType, Key>: Sink<O>, Obs
 final private class DistinctUntilChanged<Element, Key>: Producer<Element> {
     typealias KeySelector = (Element) throws -> Key
     typealias EqualityComparer = (Key, Key) throws -> Bool
-    
+
     fileprivate let _source: Observable<Element>
     fileprivate let _selector: KeySelector
     fileprivate let _comparer: EqualityComparer
-    
+
     init(source: Observable<Element>, selector: @escaping KeySelector, comparer: @escaping EqualityComparer) {
         self._source = source
         self._selector = selector
         self._comparer = comparer
     }
-    
+
     override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = DistinctUntilChangedSink(parent: self, observer: observer, cancel: cancel)
         let subscription = self._source.subscribe(sink)

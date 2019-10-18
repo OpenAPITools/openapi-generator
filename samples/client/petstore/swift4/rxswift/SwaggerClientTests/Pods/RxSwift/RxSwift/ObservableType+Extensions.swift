@@ -24,8 +24,7 @@ extension ObservableType {
             }
             return self.asObservable().subscribe(observer)
     }
-    
-    
+
     /**
      Subscribes an element handler, an error handler, a completion handler and disposed handler to an observable sequence.
      
@@ -39,35 +38,33 @@ extension ObservableType {
     public func subscribe(onNext: ((E) -> Void)? = nil, onError: ((Swift.Error) -> Void)? = nil, onCompleted: (() -> Void)? = nil, onDisposed: (() -> Void)? = nil)
         -> Disposable {
             let disposable: Disposable
-            
+
             if let disposed = onDisposed {
                 disposable = Disposables.create(with: disposed)
-            }
-            else {
+            } else {
                 disposable = Disposables.create()
             }
-            
+
             #if DEBUG
                 let synchronizationTracker = SynchronizationTracker()
             #endif
-            
+
             let callStack = Hooks.recordCallStackOnError ? Hooks.customCaptureSubscriptionCallstack() : []
-            
+
             let observer = AnonymousObserver<E> { event in
-                
+
                 #if DEBUG
                     synchronizationTracker.register(synchronizationErrorMessage: .default)
                     defer { synchronizationTracker.unregister() }
                 #endif
-                
+
                 switch event {
                 case .next(let value):
                     onNext?(value)
                 case .error(let error):
                     if let onError = onError {
                         onError(error)
-                    }
-                    else {
+                    } else {
                         Hooks.defaultErrorHandler(callStack, error)
                     }
                     disposable.dispose()
@@ -115,7 +112,7 @@ extension Hooks {
             _defaultErrorHandler = newValue
         }
     }
-    
+
     /// Subscription callstack block to fetch custom callstack information.
     public static var customCaptureSubscriptionCallstack: CustomCaptureSubscriptionCallstack {
         get {
@@ -128,4 +125,3 @@ extension Hooks {
         }
     }
 }
-

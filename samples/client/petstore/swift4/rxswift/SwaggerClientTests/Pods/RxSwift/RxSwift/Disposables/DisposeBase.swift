@@ -13,7 +13,7 @@ public class DisposeBase {
     _ = Resources.incrementTotal()
 #endif
     }
-    
+
     deinit {
 #if TRACE_RESOURCES
     _ = Resources.decrementTotal()

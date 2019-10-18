@@ -18,7 +18,7 @@ extension ObservableType {
     public func asSingle() -> Single<E> {
         return PrimitiveSequence(raw: AsSingle(source: self.asObservable()))
     }
-    
+
     /**
      The `first` operator emits only the very first item emitted by this Observable,
      or nil if this Observable completes without emitting anything.
