@@ -1371,6 +1371,10 @@
       "matches": [
         "Client: TypeScript"
       ]
+    },
+    {
+      "input": "Should not auto-label for typescript outside of brackets.",
+      "matches": []
     }
   ]
 }
