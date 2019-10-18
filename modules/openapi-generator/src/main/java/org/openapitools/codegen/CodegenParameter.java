@@ -26,9 +26,9 @@ import java.util.Objects;
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
-            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel;
+            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
-            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
+            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
 
     public String example; // example value (x-example)
     public String jsonSchema;
@@ -173,6 +173,7 @@ public class CodegenParameter {
         output.isFreeFormObject = this.isFreeFormObject;
         output.isListContainer = this.isListContainer;
         output.isMapContainer = this.isMapContainer;
+        output.isExplode = this.isExplode;
 
         return output;
     }
@@ -247,7 +248,8 @@ public class CodegenParameter {
             Objects.equals(maxItems, that.maxItems) &&
             Objects.equals(minItems, that.minItems) &&
             Objects.equals(uniqueItems, that.uniqueItems) &&
-            Objects.equals(multipleOf, that.multipleOf);
+            Objects.equals(multipleOf, that.multipleOf) &&
+            Objects.equals(isExplode, that.isExplode);
     }
 
     @Override
@@ -316,7 +318,8 @@ public class CodegenParameter {
             maxItems,
             minItems,
             uniqueItems,
-            multipleOf);
+            multipleOf,
+            isExplode);
     }
 
     @java.lang.Override
@@ -386,6 +389,7 @@ public class CodegenParameter {
                 ", minItems=" + minItems +
                 ", uniqueItems=" + uniqueItems +
                 ", multipleOf=" + multipleOf +
+                ", isExplode=" + isExplode +
                 '}';
     }
 }

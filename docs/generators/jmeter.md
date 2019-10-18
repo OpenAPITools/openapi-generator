@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-jmeter
 title: Config Options for jmeter
 sidebar_label: jmeter
 ---

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-c
 title: Config Options for c
 sidebar_label: c
 ---

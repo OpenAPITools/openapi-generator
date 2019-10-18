@@ -6,17 +6,15 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-protocol CombineLatestProtocol : class {
+protocol CombineLatestProtocol: class {
     func next(_ index: Int)
     func fail(_ error: Swift.Error)
     func done(_ index: Int)
 }
 
-class CombineLatestSink<O: ObserverType>
-    : Sink<O>
-    , CombineLatestProtocol {
+class CombineLatestSink<O: ObserverType>: Sink<O>, CombineLatestProtocol {
     typealias Element = O.E
-   
+
     let _lock = RecursiveLock()
 
     private let _arity: Int
@@ -24,19 +22,19 @@ class CombineLatestSink<O: ObserverType>
     private var _numberOfDone = 0
     private var _hasValue: [Bool]
     private var _isDone: [Bool]
-   
+
     init(arity: Int, observer: O, cancel: Cancelable) {
         self._arity = arity
         self._hasValue = [Bool](repeating: false, count: arity)
         self._isDone = [Bool](repeating: false, count: arity)
-        
+
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func getResult() throws -> Element {
         rxAbstractMethod()
     }
-    
+
     func next(_ index: Int) {
         if !self._hasValue[index] {
             self._hasValue[index] = true
@@ -47,13 +45,11 @@ class CombineLatestSink<O: ObserverType>
             do {
                 let result = try self.getResult()
                 self.forwardOn(.next(result))
-            }
-            catch let e {
+            } catch let e {
                 self.forwardOn(.error(e))
                 self.dispose()
             }
-        }
-        else {
+        } else {
             var allOthersDone = true
 
             for i in 0 ..< self._arity {
@@ -62,19 +58,19 @@ class CombineLatestSink<O: ObserverType>
                     break
                 }
             }
-            
+
             if allOthersDone {
                 self.forwardOn(.completed)
                 self.dispose()
             }
         }
     }
-    
+
     func fail(_ error: Swift.Error) {
         self.forwardOn(.error(error))
         self.dispose()
     }
-    
+
     func done(_ index: Int) {
         if self._isDone[index] {
             return
@@ -90,20 +86,17 @@ class CombineLatestSink<O: ObserverType>
     }
 }
 
-final class CombineLatestObserver<ElementType>
-    : ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+final class CombineLatestObserver<ElementType>: ObserverType, LockOwnerType, SynchronizedOnType {
     typealias Element = ElementType
     typealias ValueSetter = (Element) -> Void
-    
+
     private let _parent: CombineLatestProtocol
-    
+
     let _lock: RecursiveLock
     private let _index: Int
     private let _this: Disposable
     private let _setLatestValue: ValueSetter
-    
+
     init(lock: RecursiveLock, parent: CombineLatestProtocol, index: Int, setLatestValue: @escaping ValueSetter, this: Disposable) {
         self._lock = lock
         self._parent = parent
@@ -111,7 +104,7 @@ final class CombineLatestObserver<ElementType>
         self._this = this
         self._setLatestValue = setLatestValue
     }
-    
+
     func on(_ event: Event<Element>) {
         self.synchronizedOn(event)
     }

@@ -21,7 +21,7 @@ Main scheduler is a specialization of `SerialDispatchQueueScheduler`.
 This scheduler is optimized for `observeOn` operator. To ensure observable sequence is subscribed on main thread using `subscribeOn`
 operator please use `ConcurrentMainScheduler` because it is more optimized for that purpose.
 */
-public final class MainScheduler : SerialDispatchQueueScheduler {
+public final class MainScheduler: SerialDispatchQueueScheduler {
 
     private let _mainQueue: DispatchQueue
 

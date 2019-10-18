@@ -6,7 +6,7 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-class ObserverBase<ElementType> : Disposable, ObserverType {
+class ObserverBase<ElementType>: Disposable, ObserverType {
     typealias E = ElementType
 
     private let _isStopped = AtomicInt(0)

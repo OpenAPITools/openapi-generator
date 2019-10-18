@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-clojure
 title: Config Options for clojure
 sidebar_label: clojure
 ---

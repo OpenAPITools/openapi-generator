@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-kotlin-server
 title: Config Options for kotlin-server
 sidebar_label: kotlin-server
 ---

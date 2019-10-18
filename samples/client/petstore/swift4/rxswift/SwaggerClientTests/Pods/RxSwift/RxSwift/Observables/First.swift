@@ -6,7 +6,7 @@
 //  Copyright © 2017 Krunoslav Zaher. All rights reserved.
 //
 
-fileprivate final class FirstSink<Element, O: ObserverType> : Sink<O>, ObserverType where O.E == Element? {
+fileprivate final class FirstSink<Element, O: ObserverType>: Sink<O>, ObserverType where O.E == Element? {
     typealias E = Element
     typealias Parent = First<E>
 
@@ -34,7 +34,7 @@ final class First<Element>: Producer<Element?> {
         self._source = source
     }
 
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element? {
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element? {
         let sink = FirstSink(observer: observer, cancel: cancel)
         let subscription = self._source.subscribe(sink)
         return (sink: sink, subscription: subscription)

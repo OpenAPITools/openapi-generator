@@ -103,8 +103,8 @@ class AnotherFakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'client' is set
-        if ('client' not in local_var_params or
-                local_var_params['client'] is None):
+        if self.api_client.client_side_validation and ('client' not in local_var_params or  # noqa: E501
+                                                        local_var_params['client'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `client` when calling `call_123_test_special_tags`")  # noqa: E501
 
         collection_formats = {}

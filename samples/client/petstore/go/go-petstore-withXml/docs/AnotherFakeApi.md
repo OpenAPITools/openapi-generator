@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ## Call123TestSpecialTags
 
 > Client Call123TestSpecialTags(ctx, body)
+
 To test special tags
 
 To test special tags and operation ID starting with number

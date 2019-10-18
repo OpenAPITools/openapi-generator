@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-config-graphql-schema
 title: Config Options for graphql-schema
 sidebar_label: graphql-schema
 ---

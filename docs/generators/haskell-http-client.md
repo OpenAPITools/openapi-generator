@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-haskell-http-client
 title: Config Options for haskell-http-client
 sidebar_label: haskell-http-client
 ---

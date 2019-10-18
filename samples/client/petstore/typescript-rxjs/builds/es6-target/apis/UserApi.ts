@@ -139,7 +139,7 @@ export class UserApi extends BaseAPI {
         throwIfRequired(requestParameters, 'username', 'loginUser');
         throwIfRequired(requestParameters, 'password', 'loginUser');
 
-        const query: HttpQuery = {
+        const query: HttpQuery = <HttpQuery>{
             ...(requestParameters.username && { 'username': requestParameters.username }),
             ...(requestParameters.password && { 'password': requestParameters.password }),
         };

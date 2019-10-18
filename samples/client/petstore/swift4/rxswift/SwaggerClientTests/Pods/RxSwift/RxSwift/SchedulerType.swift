@@ -19,7 +19,7 @@ public typealias RxTime = Date
 public protocol SchedulerType: ImmediateSchedulerType {
 
     /// - returns: Current time.
-    var now : RxTime {
+    var now: RxTime {
         get
     }
 
@@ -32,7 +32,7 @@ public protocol SchedulerType: ImmediateSchedulerType {
     - returns: The disposable object used to cancel the scheduled action (best effort).
     */
     func scheduleRelative<StateType>(_ state: StateType, dueTime: RxTimeInterval, action: @escaping (StateType) -> Disposable) -> Disposable
- 
+
     /**
     Schedules a periodic piece of work.
     
@@ -57,15 +57,15 @@ extension SchedulerType {
     */
     public func schedulePeriodic<StateType>(_ state: StateType, startAfter: RxTimeInterval, period: RxTimeInterval, action: @escaping (StateType) -> StateType) -> Disposable {
         let schedule = SchedulePeriodicRecursive(scheduler: self, startAfter: startAfter, period: period, action: action, state: state)
-            
+
         return schedule.start()
     }
 
     func scheduleRecursive<State>(_ state: State, dueTime: RxTimeInterval, action: @escaping (State, AnyRecursiveScheduler<State>) -> Void) -> Disposable {
         let scheduler = AnyRecursiveScheduler(scheduler: self, action: action)
-         
+
         scheduler.schedule(state, dueTime: dueTime)
-            
+
         return Disposables.create(with: scheduler.dispose)
     }
 }

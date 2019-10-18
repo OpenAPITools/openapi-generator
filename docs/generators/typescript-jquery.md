@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-jquery
 title: Config Options for typescript-jquery
 sidebar_label: typescript-jquery
 ---

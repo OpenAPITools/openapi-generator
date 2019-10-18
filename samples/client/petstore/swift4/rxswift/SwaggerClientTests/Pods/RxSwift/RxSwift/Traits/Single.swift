@@ -18,14 +18,14 @@ public typealias Single<Element> = PrimitiveSequence<SingleTrait, Element>
 public enum SingleEvent<Element> {
     /// One and only sequence element is produced. (underlying observable sequence emits: `.next(Element)`, `.completed`)
     case success(Element)
-    
+
     /// Sequence terminated with an error. (underlying observable sequence emits: `.error(Error)`)
     case error(Swift.Error)
 }
 
 extension PrimitiveSequenceType where TraitType == SingleTrait {
     public typealias SingleObserver = (SingleEvent<ElementType>) -> Void
-    
+
     /**
      Creates an observable sequence from a specified subscribe method implementation.
      
@@ -46,11 +46,10 @@ extension PrimitiveSequenceType where TraitType == SingleTrait {
                 }
             }
         }
-        
+
         return PrimitiveSequence(raw: source)
     }
-    
-    
+
     /**
      Subscribes `observer` to receive events for this sequence.
      
@@ -61,7 +60,7 @@ extension PrimitiveSequenceType where TraitType == SingleTrait {
         return self.primitiveSequence.asObservable().subscribe { event in
             if stopped { return }
             stopped = true
-            
+
             switch event {
             case .next(let element):
                 observer(.success(element))
@@ -72,7 +71,7 @@ extension PrimitiveSequenceType where TraitType == SingleTrait {
             }
         }
     }
-    
+
     /**
      Subscribes a success handler, and an error handler for this sequence.
      
@@ -86,7 +85,7 @@ extension PrimitiveSequenceType where TraitType == SingleTrait {
         #else
             let callStack = [String]()
         #endif
-    
+
         return self.primitiveSequence.subscribe { event in
             switch event {
             case .success(let element):
@@ -114,7 +113,7 @@ extension PrimitiveSequenceType where TraitType == SingleTrait {
     public static func just(_ element: ElementType) -> Single<ElementType> {
         return Single(raw: Observable.just(element))
     }
-    
+
     /**
      Returns an observable sequence that contains a single element.
      
@@ -207,7 +206,7 @@ extension PrimitiveSequenceType where TraitType == SingleTrait {
                 onDispose: onDispose
             )
     }
-    
+
     /**
      Filters the elements of an observable sequence based on a predicate.
      
@@ -220,8 +219,7 @@ extension PrimitiveSequenceType where TraitType == SingleTrait {
         -> Maybe<ElementType> {
             return Maybe(raw: self.primitiveSequence.source.filter(predicate))
     }
-    
-    
+
     /**
      Projects each element of an observable sequence into a new form.
      
@@ -235,7 +233,7 @@ extension PrimitiveSequenceType where TraitType == SingleTrait {
         -> Single<R> {
             return Single(raw: self.primitiveSequence.source.map(transform))
     }
-    
+
     /**
      Projects each element of an observable sequence to an observable sequence and merges the resulting observable sequences into one observable sequence.
      
@@ -282,28 +280,28 @@ extension PrimitiveSequenceType where TraitType == SingleTrait {
      - returns: An observable sequence containing the result of combining elements of the sources using the specified result selector function.
      */
     public static func zip<C: Collection, R>(_ collection: C, _ resultSelector: @escaping ([ElementType]) throws -> R) -> PrimitiveSequence<TraitType, R> where C.Iterator.Element == PrimitiveSequence<TraitType, ElementType> {
-        
+
         if collection.isEmpty {
             return PrimitiveSequence<TraitType, R>.deferred {
                 return PrimitiveSequence<TraitType, R>(raw: .just(try resultSelector([])))
             }
         }
-        
+
         let raw = Observable.zip(collection.map { $0.asObservable() }, resultSelector)
         return PrimitiveSequence<TraitType, R>(raw: raw)
     }
-    
+
     /**
      Merges the specified observable sequences into one observable sequence all of the observable sequences have produced an element at a corresponding index.
      
      - returns: An observable sequence containing the result of combining elements of the sources.
      */
     public static func zip<C: Collection>(_ collection: C) -> PrimitiveSequence<TraitType, [ElementType]> where C.Iterator.Element == PrimitiveSequence<TraitType, ElementType> {
-        
+
         if collection.isEmpty {
             return PrimitiveSequence<TraitType, [ElementType]>(raw: .just([]))
         }
-        
+
         let raw = Observable.zip(collection.map { $0.asObservable() })
         return PrimitiveSequence(raw: raw)
     }

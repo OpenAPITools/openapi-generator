@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-ocaml
 title: Config Options for ocaml
 sidebar_label: ocaml
 ---
