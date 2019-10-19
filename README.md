@@ -569,6 +569,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Metaswitch](https://www.metaswitch.com/)
 - [Myworkout](https://myworkout.com)
 - [Paxos](https://www.paxos.com)
+- [Ponicode](https://ponicode.dev/)
 - [Pricefx](https://www.pricefx.com/)
 - [Prometheus/Alertmanager](https://github.com/prometheus/alertmanager)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
