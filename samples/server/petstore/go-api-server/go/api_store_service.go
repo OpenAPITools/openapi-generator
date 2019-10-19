@@ -10,7 +10,7 @@
 package petstoreserver
 
 import (
-    "errors"
+	"errors"
 )
 
 // StoreApiService is a service that implents the logic for the StoreApiServicer
@@ -21,33 +21,33 @@ type StoreApiService struct {
 
 // NewStoreApiService creates a default api service
 func NewStoreApiService() StoreApiServicer {
-    return &StoreApiService{}
+	return &StoreApiService{}
 }
 
 // DeleteOrder - Delete purchase order by ID
 func (s *StoreApiService) DeleteOrder(orderId string) (interface{}, error) {
-    // TODO - update DeleteOrder with the required logic for this service method.
-    // Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-    return nil, errors.New("service method 'DeleteOrder' not implemented")
+	// TODO - update DeleteOrder with the required logic for this service method.
+	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+	return nil, errors.New("service method 'DeleteOrder' not implemented")
 }
 
 // GetInventory - Returns pet inventories by status
 func (s *StoreApiService) GetInventory() (interface{}, error) {
-    // TODO - update GetInventory with the required logic for this service method.
-    // Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-    return nil, errors.New("service method 'GetInventory' not implemented")
+	// TODO - update GetInventory with the required logic for this service method.
+	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+	return nil, errors.New("service method 'GetInventory' not implemented")
 }
 
 // GetOrderById - Find purchase order by ID
 func (s *StoreApiService) GetOrderById(orderId int64) (interface{}, error) {
-    // TODO - update GetOrderById with the required logic for this service method.
-    // Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-    return nil, errors.New("service method 'GetOrderById' not implemented")
+	// TODO - update GetOrderById with the required logic for this service method.
+	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+	return nil, errors.New("service method 'GetOrderById' not implemented")
 }
 
 // PlaceOrder - Place an order for a pet
 func (s *StoreApiService) PlaceOrder(body Order) (interface{}, error) {
-    // TODO - update PlaceOrder with the required logic for this service method.
-    // Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-    return nil, errors.New("service method 'PlaceOrder' not implemented")
+	// TODO - update PlaceOrder with the required logic for this service method.
+	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+	return nil, errors.New("service method 'PlaceOrder' not implemented")
 }

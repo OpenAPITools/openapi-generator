@@ -19,12 +19,12 @@ import (
 
 // A UserApiController binds http requests to an api service and writes the service results to the http response
 type UserApiController struct {
-    service UserApiServicer
+	service UserApiServicer
 }
 
 // NewUserApiController creates a default api controller
 func NewUserApiController(s UserApiServicer) UserApiRouter {
-    return &UserApiController{ service: s }
+	return &UserApiController{ service: s }
 }
 
 // Routes returns all of the api route for the UserApiController
@@ -83,121 +83,121 @@ func (c *UserApiController) Routes() Routes {
 
 // CreateUser - Create user
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) { 
-    body := &User{}
-    if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	body := &User{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    result, err := c.service.CreateUser(*body)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.CreateUser(*body)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) { 
-    body := &[]User{}
-    if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	body := &[]User{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    result, err := c.service.CreateUsersWithArrayInput(*body)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.CreateUsersWithArrayInput(*body)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) { 
-    body := &[]User{}
-    if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	body := &[]User{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    result, err := c.service.CreateUsersWithListInput(*body)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.CreateUsersWithListInput(*body)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // DeleteUser - Delete user
 func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) { 
-    params := mux.Vars(r)
+	params := mux.Vars(r)
 	username := params["username"]
-    result, err := c.service.DeleteUser(username)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.DeleteUser(username)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // GetUserByName - Get user by user name
 func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) { 
-    params := mux.Vars(r)
+	params := mux.Vars(r)
 	username := params["username"]
-    result, err := c.service.GetUserByName(username)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.GetUserByName(username)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // LoginUser - Logs user into the system
 func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) { 
-    query := r.URL.Query()
-    username := query.Get("username")
-    password := query.Get("password")
-    result, err := c.service.LoginUser(username, password)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	query := r.URL.Query()
+	username := query.Get("username")
+	password := query.Get("password")
+	result, err := c.service.LoginUser(username, password)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // LogoutUser - Logs out current logged in user session
 func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) { 
-    result, err := c.service.LogoutUser()
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.LogoutUser()
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // UpdateUser - Updated user
 func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) { 
-    params := mux.Vars(r)
+	params := mux.Vars(r)
 	username := params["username"]
-    body := &User{}
-    if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	body := &User{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    result, err := c.service.UpdateUser(username, *body)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.UpdateUser(username, *body)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }

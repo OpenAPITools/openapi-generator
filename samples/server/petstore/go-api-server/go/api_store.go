@@ -19,12 +19,12 @@ import (
 
 // A StoreApiController binds http requests to an api service and writes the service results to the http response
 type StoreApiController struct {
-    service StoreApiServicer
+	service StoreApiServicer
 }
 
 // NewStoreApiController creates a default api controller
 func NewStoreApiController(s StoreApiServicer) StoreApiRouter {
-    return &StoreApiController{ service: s }
+	return &StoreApiController{ service: s }
 }
 
 // Routes returns all of the api route for the StoreApiController
@@ -59,59 +59,59 @@ func (c *StoreApiController) Routes() Routes {
 
 // DeleteOrder - Delete purchase order by ID
 func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) { 
-    params := mux.Vars(r)
+	params := mux.Vars(r)
 	orderId := params["orderId"]
-    result, err := c.service.DeleteOrder(orderId)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.DeleteOrder(orderId)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // GetInventory - Returns pet inventories by status
 func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) { 
-    result, err := c.service.GetInventory()
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.GetInventory()
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // GetOrderById - Find purchase order by ID
 func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) { 
-    params := mux.Vars(r)
+	params := mux.Vars(r)
 	orderId, err := parseIntParameter(params["orderId"])
 	if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+		w.WriteHeader(500)
+		return
+	}
 	
-    result, err := c.service.GetOrderById(orderId)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.GetOrderById(orderId)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // PlaceOrder - Place an order for a pet
 func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) { 
-    body := &Order{}
-    if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	body := &Order{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    result, err := c.service.PlaceOrder(*body)
-    if err != nil {
-        w.WriteHeader(500)
-        return
-    }
+	result, err := c.service.PlaceOrder(*body)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	
-    EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil,  w)
 }

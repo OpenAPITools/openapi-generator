@@ -11,7 +11,7 @@ package petstoreserver
 
 import (
 	"net/http"
-    "os"
+	"os"
 )
 
 
@@ -57,14 +57,14 @@ type UserApiRouter interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type PetApiServicer interface { 
-    AddPet(Pet) (interface{}, error)
-    DeletePet(int64, string) (interface{}, error)
-    FindPetsByStatus([]string) (interface{}, error)
-    FindPetsByTags([]string) (interface{}, error)
-    GetPetById(int64) (interface{}, error)
-    UpdatePet(Pet) (interface{}, error)
-    UpdatePetWithForm(int64, string, string) (interface{}, error)
-    UploadFile(int64, string, *os.File) (interface{}, error)
+	AddPet(Pet) (interface{}, error)
+	DeletePet(int64, string) (interface{}, error)
+	FindPetsByStatus([]string) (interface{}, error)
+	FindPetsByTags([]string) (interface{}, error)
+	GetPetById(int64) (interface{}, error)
+	UpdatePet(Pet) (interface{}, error)
+	UpdatePetWithForm(int64, string, string) (interface{}, error)
+	UploadFile(int64, string, *os.File) (interface{}, error)
 }
 
 
@@ -73,10 +73,10 @@ type PetApiServicer interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type StoreApiServicer interface { 
-    DeleteOrder(string) (interface{}, error)
-    GetInventory() (interface{}, error)
-    GetOrderById(int64) (interface{}, error)
-    PlaceOrder(Order) (interface{}, error)
+	DeleteOrder(string) (interface{}, error)
+	GetInventory() (interface{}, error)
+	GetOrderById(int64) (interface{}, error)
+	PlaceOrder(Order) (interface{}, error)
 }
 
 
@@ -85,12 +85,12 @@ type StoreApiServicer interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type UserApiServicer interface { 
-    CreateUser(User) (interface{}, error)
-    CreateUsersWithArrayInput([]User) (interface{}, error)
-    CreateUsersWithListInput([]User) (interface{}, error)
-    DeleteUser(string) (interface{}, error)
-    GetUserByName(string) (interface{}, error)
-    LoginUser(string, string) (interface{}, error)
-    LogoutUser() (interface{}, error)
-    UpdateUser(string, User) (interface{}, error)
+	CreateUser(User) (interface{}, error)
+	CreateUsersWithArrayInput([]User) (interface{}, error)
+	CreateUsersWithListInput([]User) (interface{}, error)
+	DeleteUser(string) (interface{}, error)
+	GetUserByName(string) (interface{}, error)
+	LoginUser(string, string) (interface{}, error)
+	LogoutUser() (interface{}, error)
+	UpdateUser(string, User) (interface{}, error)
 }
