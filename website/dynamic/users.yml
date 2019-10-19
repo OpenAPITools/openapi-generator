@@ -1,4 +1,9 @@
 -
+  caption: "Adaptant Solutions AG"
+  image: "img/companies/adaptant.png"
+  infoLink: "https://www.adaptant.io/"
+  pinned: false
+-
   caption: "Angular.Schule"
   image: "img/companies/angular-schule.svg"
   infoLink: "https://angular.schule/"
@@ -14,6 +19,16 @@
   infoLink: "https://b-com.com/en"
   pinned: false
 -
+  caption: "Banzai Cloud"
+  image: "img/companies/banzai_cloud.png"
+  infoLink: "https://banzaicloud.com/"
+  pinned: false
+-
+  caption: "BIMData.io"
+  image: "img/companies/bimdataio.png"
+  infoLink: "https://bimdata.io/"
+  pinned: false
+-
   caption: "Bithost GmbH"
   image: "img/companies/bithost.svg"
   infoLink: "https://www.bithost.ch/"
@@ -24,14 +39,64 @@
   infoLink: "https://www.boxever.com/"
   pinned: false
 -
+  caption: "California State University, Northridge"
+  image: "img/companies/CSUNS.png"
+  infoLink: "https://www.csun.edu/"
+  pinned: false
+-
   caption: CAM
   image: "img/companies/cam.png"
   infoLink: "https://www.cam-inc.co.jp"
   pinned: false
 -
+  caption: Camptocamp
+  image: "img/companies/camptocamp.png"
+  infoLink: "https://www.camptocamp.com/en"
+  pinned: false
+-
+  caption: "codecentric AG"
+  image: "img/companies/codecentric.png"
+  infoLink: "https://www.codecentric.de/"
+  pinned: false
+-
   caption: FiNC Technologies
   image: "img/companies/finc-technologies.png"
   infoLink: "https://company.finc.com/"
+  pinned: false
+-
+  caption: Commencis
+  image: "img/companies/commencis.png"
+  infoLink: "https://www.commencis.com/"
+  pinned: false
+-
+  caption: Cupix
+  image: "img/companies/cupix.png"
+  infoLink: "https://www.cupix.com/"
+  pinned: false
+-
+  caption: "DB Systel"
+  image: "img/companies/db-systel.png"
+  infoLink: "https://www.cupix.com/"
+  pinned: false
+-
+  caption: "Element AI"
+  image: "img/companies/element_ai.png"
+  infoLink: "https://www.elementai.com/"
+  pinned: false
+-
+  caption: "FormAPI"
+  image: "img/companies/formapi.png"
+  infoLink: "https://formapi.io/"
+  pinned: false
+-
+  caption: "Fuse"
+  image: "img/companies/fuseno.png"
+  infoLink: "https://www.fuse.no/"
+  pinned: false
+-
+  caption: "Gantner"
+  image: "img/companies/gantner.png"
+  infoLink: "https://www.gantner.com/"
   pinned: false
 -
   caption: "GMO Pepabo"
@@ -52,6 +117,11 @@
   caption: Klarna
   image: "img/companies/klarna.svg"
   infoLink: "https://www.klarna.com/us/"
+  pinned: false
+-
+  caption: "Médiavision"
+  image: "img/companies/mediavision.jpeg"
+  infoLink: "https://www.mediavision.fr/"
   pinned: false
 -
   caption: "Kurusugawa Computer Inc."
@@ -82,6 +152,26 @@
   caption: OPTiM
   image: "img/companies/optim.png"
   infoLink: "https://www.optim.co.jp/"
+  pinned: false
+-
+  caption: Paxos
+  image: "img/companies/paxos.png"
+  infoLink: "https://www.paxos.com/"
+  pinned: false
+-
+  caption: Ponicode
+  image: "img/companies/ponicode.png"
+  infoLink: "https://ponicode.dev/"
+  pinned: false
+-
+  caption: Pricefx
+  image: "img/companies/pricefx.png"
+  infoLink: "https://www.pricefx.com/"
+  pinned: false
+-
+  caption: "Prometheus/Alertmanager"
+  image: "img/companies/prometheus.png"
+  infoLink: "https://github.com/prometheus/alertmanager"
   pinned: false
 -
   caption: "Raiffeisen Schweiz Genossenschaft"
@@ -124,10 +214,20 @@
   infoLink: "https://www.unblu.com/"
   pinned: true
 -
+  caption: "Veamly"
+  image: "img/companies/veamly.svg"
+  infoLink: "https://www.veamly.com/"
+  pinned: false
+-
   caption: WSO2
   image: "img/companies/wso2.png"
   infoLink: "https://wso2.com/"
   pinned: true
+-
+  caption: Vouchery.io
+  image: "img/companies/voucheryio.png"
+  infoLink: "https://vouchery.io"
+  pinned: false
 -
   caption: Xero
   image: "img/companies/xero.png"
