@@ -24,7 +24,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,8 +66,23 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public CppPistacheServerCodegen() {
         super();
 
+        // TODO: cpp-pistache-server maintainer review
         featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.MultiServer
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
                 .build();
 
         if (StringUtils.isEmpty(modelNamePrefix)) {
