@@ -30,6 +30,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class AbstractJavaCodegenTest {
 
@@ -53,6 +54,15 @@ public class AbstractJavaCodegenTest {
     public void toModelNameShouldUseProvidedMapping() throws Exception {
         fakeJavaCodegen.importMapping().put("json_myclass", "com.test.MyClass");
         Assert.assertEquals("com.test.MyClass", fakeJavaCodegen.toModelName("json_myclass"));
+    }
+
+    @Test
+    public void aliasedTypeCanHaveCustomMapping() throws Exception {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        Schema schema = new ObjectSchema().type("customtype");
+        codegen.addTypeAlias("customtype", "string");
+        codegen.typeMapping().put("customtype", "my.CustomType");
+        Assert.assertEquals("my.CustomType", codegen.getSchemaType(schema));
     }
 
     @Test
@@ -402,6 +412,13 @@ public class AbstractJavaCodegenTest {
          */
         public String getArtifactVersion() {
             return this.artifactVersion;
+        }
+
+        private void addTypeAlias(String name, String alias) {
+            if (typeAliases == null) {
+                typeAliases = new HashMap<>();
+            }
+            typeAliases.put(name, alias);
         }
     }
 }
