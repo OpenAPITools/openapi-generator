@@ -37,7 +37,7 @@ public class HttpBearerAuth implements Authentication {
   }
 
   @Override
-  public void applyToParams(List<Pair> queryParams, MultiMap headerParams) {
+  public void applyToParams(List<Pair> queryParams, MultiMap headerParams, MultiMap cookieParams) {
     if (bearerToken == null) {
       return;
     }
