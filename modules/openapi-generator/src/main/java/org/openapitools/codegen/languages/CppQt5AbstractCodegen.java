@@ -32,7 +32,6 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         super();
 
         featureSet = getFeatureSet().modify()
-                .excludeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
