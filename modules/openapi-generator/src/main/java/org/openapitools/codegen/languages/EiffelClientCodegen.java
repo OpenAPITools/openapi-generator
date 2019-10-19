@@ -77,7 +77,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
                 .includeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-                .includeParameterFeatures(
+                .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
                 .includeClientModificationFeatures(

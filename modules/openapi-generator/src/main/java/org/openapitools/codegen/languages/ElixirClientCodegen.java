@@ -76,7 +76,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-                .includeParameterFeatures(
+                .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
                 .includeClientModificationFeatures(
