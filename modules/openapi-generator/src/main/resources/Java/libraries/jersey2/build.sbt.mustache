@@ -17,13 +17,13 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.9.10" % "compile",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.9.10" % "compile",
       {{#joda}}
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.9.9" % "compile",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.9.10" % "compile",
       {{/joda}}
       {{#java8}}
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.9.9" % "compile",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.9.10" % "compile",
       {{/java8}}
       {{#threetenbp}}
-      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.6.4" % "compile",
+      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
       {{/threetenbp}}
       {{^java8}}
       "com.brsanthu" % "migbase64" % "2.2",
