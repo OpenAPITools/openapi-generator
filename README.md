@@ -566,6 +566,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [GMO Pepabo](https://pepabo.com/en/)
 - [GoDaddy](https://godaddy.com)
 - [Here](https://developer.here.com/)
+- [IBM](https://www.ibm.com/)
 - [JustStar](https://www.juststarinfo.com)
 - [Klarna](https://www.klarna.com/)
 - [Médiavision](https://www.mediavision.fr/)
