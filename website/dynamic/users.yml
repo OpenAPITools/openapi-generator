@@ -79,9 +79,19 @@
   infoLink: "https://www.cupix.com/"
   pinned: false
 -
+  caption: "Edge Impulse"
+  image: "img/companies/edge_impulse.png"
+  infoLink: "https://www.edgeimpulse.com/"
+  pinned: false
+-
   caption: "Element AI"
   image: "img/companies/element_ai.png"
   infoLink: "https://www.elementai.com/"
+  pinned: false
+-
+  caption: "Fenergo"
+  image: "img/companies/fenergo.png"
+  infoLink: "https://www.fenergo.com/"
   pinned: false
 -
   caption: "FormAPI"
@@ -107,6 +117,11 @@
   caption: "GoDaddy"
   image: "img/companies/godaddy.png"
   infoLink: "https://www.godaddy.com/"
+  pinned: false
+-
+  caption: "Here"
+  image: "img/companies/here.png"
+  infoLink: "https://developer.here.com/"
   pinned: false
 -
   caption: JustStar
