@@ -8,21 +8,22 @@
  */
 
 package openapi
+
 import (
-	"os"
+	"bytes"
 	"encoding/json"
+	"os"
 )
+
 // InlineObject1 struct for InlineObject1
 type InlineObject1 struct {
 	// Additional data to pass to server
 	AdditionalMetadata *string `json:"additionalMetadata,omitempty"`
-
 	// file to upload
 	File **os.File `json:"file,omitempty"`
-
 }
 
-// GetAdditionalMetadata returns the AdditionalMetadata field if non-nil, zero value otherwise.
+// GetAdditionalMetadata returns the AdditionalMetadata field value if set, zero value otherwise.
 func (o *InlineObject1) GetAdditionalMetadata() string {
 	if o == nil || o.AdditionalMetadata == nil {
 		var ret string
@@ -31,7 +32,7 @@ func (o *InlineObject1) GetAdditionalMetadata() string {
 	return *o.AdditionalMetadata
 }
 
-// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field if it's non-nil, zero value otherwise
+// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *InlineObject1) GetAdditionalMetadataOk() (string, bool) {
 	if o == nil || o.AdditionalMetadata == nil {
@@ -55,7 +56,7 @@ func (o *InlineObject1) SetAdditionalMetadata(v string) {
 	o.AdditionalMetadata = &v
 }
 
-// GetFile returns the File field if non-nil, zero value otherwise.
+// GetFile returns the File field value if set, zero value otherwise.
 func (o *InlineObject1) GetFile() *os.File {
 	if o == nil || o.File == nil {
 		var ret *os.File
@@ -64,7 +65,7 @@ func (o *InlineObject1) GetFile() *os.File {
 	return *o.File
 }
 
-// GetFileOk returns a tuple with the File field if it's non-nil, zero value otherwise
+// GetFileOk returns a tuple with the File field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *InlineObject1) GetFileOk() (*os.File, bool) {
 	if o == nil || o.File == nil {
@@ -88,17 +89,26 @@ func (o *InlineObject1) SetFile(v *os.File) {
 	o.File = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o InlineObject1) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.AdditionalMetadata != nil {
-		toSerialize["additionalMetadata"] = o.AdditionalMetadata
-	}
-	if o.File != nil {
-		toSerialize["file"] = o.File
-	}
-	return json.Marshal(toSerialize)
+type NullableInlineObject1 struct {
+	Value InlineObject1
+	ExplicitNull bool
 }
 
+func (v NullableInlineObject1) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableInlineObject1) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 
