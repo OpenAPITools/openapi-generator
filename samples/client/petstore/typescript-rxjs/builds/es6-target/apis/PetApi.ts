@@ -123,7 +123,7 @@ export class PetApi extends BaseAPI {
             }),
         };
 
-        const query: HttpQuery = <HttpQuery>{
+        const query: HttpQuery = {
             ...(requestParameters.status && { 'status': requestParameters.status.join(COLLECTION_FORMATS['csv']) }),
         };
 
@@ -151,7 +151,7 @@ export class PetApi extends BaseAPI {
             }),
         };
 
-        const query: HttpQuery = <HttpQuery>{
+        const query: HttpQuery = {
             ...(requestParameters.tags && { 'tags': requestParameters.tags.join(COLLECTION_FORMATS['csv']) }),
         };
 
