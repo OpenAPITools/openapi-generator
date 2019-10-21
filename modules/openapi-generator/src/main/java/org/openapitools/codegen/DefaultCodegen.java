@@ -3091,7 +3091,7 @@ public class DefaultCodegen implements CodegenConfig {
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             }
 
-            if (Boolean.TRUE.equals(parameterSchema.getNullable()))){ // use nullable defined in the spec
+            if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
                 codegenParameter.isNullable = true;
             }
 
