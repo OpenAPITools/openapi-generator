@@ -23,7 +23,7 @@ type StoreApiController struct {
 }
 
 // NewStoreApiController creates a default api controller
-func NewStoreApiController(s StoreApiServicer) StoreApiRouter {
+func NewStoreApiController(s StoreApiServicer) Router {
 	return &StoreApiController{ service: s }
 }
 

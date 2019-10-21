@@ -23,7 +23,7 @@ type PetApiController struct {
 }
 
 // NewPetApiController creates a default api controller
-func NewPetApiController(s PetApiServicer) PetApiRouter {
+func NewPetApiController(s PetApiServicer) Router {
 	return &PetApiController{ service: s }
 }
 
