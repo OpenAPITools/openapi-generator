@@ -564,6 +564,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [GenFlow](https://github.com/RepreZen/GenFlow)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [GoDaddy](https://godaddy.com)
+- [Here](https://developer.here.com/)
 - [JustStar](https://www.juststarinfo.com)
 - [Klarna](https://www.klarna.com/)
 - [Médiavision](https://www.mediavision.fr/)
