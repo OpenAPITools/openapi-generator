@@ -1666,7 +1666,11 @@ public class DefaultCodegen implements CodegenConfig {
      * @return The alias of the given type, if it exists. If there is no alias
      * for this type, then returns the input type name.
      */
-    public String getAlias(String name) {
+    private String getAlias(String name) {
+        if (typeMapping != null && typeMapping.containsKey(name)) {
+            // allow aliased types to have custom mappings, the mapping will be resolved later
+            return name;
+        }
         if (typeAliases != null && typeAliases.containsKey(name)) {
             return typeAliases.get(name);
         }

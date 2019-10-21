@@ -703,18 +703,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String getAlias(String name) {
-        if (typeMapping != null && typeMapping.containsKey(name)) {
-            // allow aliased types to have custom mappings, the mapping will be resolved later
-            return name;
-        }
-        if (typeAliases != null && typeAliases.containsKey(name)) {
-            return typeAliases.get(name);
-        }
-        return name;
-    }
-
-    @Override
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isArraySchema(p)) {

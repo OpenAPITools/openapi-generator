@@ -207,14 +207,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String getAlias(String name) {
-        if (typeAliases != null && typeAliases.containsKey(name)) {
-            return typeAliases.get(name);
-        }
-        return name;
-    }
-
-    @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             final ArraySchema ap = (ArraySchema) p;
@@ -399,8 +391,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-
-        schemaType = getAlias(schemaType);
 
         // don't apply renaming on types from the typeMapping
         if (typeMapping.containsKey(schemaType)) {

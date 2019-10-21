@@ -284,7 +284,6 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        openAPIType = getAlias(openAPIType);
 
         // don't apply renaming on types from the typeMapping
         if (typeMapping.containsKey(openAPIType)) {
