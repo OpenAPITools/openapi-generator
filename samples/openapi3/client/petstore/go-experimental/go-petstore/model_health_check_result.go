@@ -8,29 +8,31 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // HealthCheckResult Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 type HealthCheckResult struct {
-	NullableMessage *string `json:"NullableMessage,omitempty"`
-	isExplicitNullNullableMessage bool `json:"-"`
+	NullableMessage *NullableString `json:"NullableMessage,omitempty"`
 }
 
-// GetNullableMessage returns the NullableMessage field if non-nil, zero value otherwise.
-func (o *HealthCheckResult) GetNullableMessage() string {
+// GetNullableMessage returns the NullableMessage field value if set, zero value otherwise.
+func (o *HealthCheckResult) GetNullableMessage() NullableString {
 	if o == nil || o.NullableMessage == nil {
-		var ret string
+		var ret NullableString
 		return ret
 	}
 	return *o.NullableMessage
 }
 
-// GetNullableMessageOk returns a tuple with the NullableMessage field if it's non-nil, zero value otherwise
+// GetNullableMessageOk returns a tuple with the NullableMessage field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthCheckResult) GetNullableMessageOk() (string, bool) {
+func (o *HealthCheckResult) GetNullableMessageOk() (NullableString, bool) {
 	if o == nil || o.NullableMessage == nil {
-		var ret string
+		var ret NullableString
 		return ret, false
 	}
 	return *o.NullableMessage, true
@@ -45,30 +47,31 @@ func (o *HealthCheckResult) HasNullableMessage() bool {
 	return false
 }
 
-// SetNullableMessage gets a reference to the given string and assigns it to the NullableMessage field.
-func (o *HealthCheckResult) SetNullableMessage(v string) {
+// SetNullableMessage gets a reference to the given NullableString and assigns it to the NullableMessage field.
+func (o *HealthCheckResult) SetNullableMessage(v NullableString) {
 	o.NullableMessage = &v
 }
 
-// SetNullableMessageExplicitNull (un)sets NullableMessage to be considered as explicit "null" value
-// when serializing to JSON (pass true as argument to set this, false to unset)
-// The NullableMessage value is set to nil even if false is passed
-func (o *HealthCheckResult) SetNullableMessageExplicitNull(b bool) {
-	o.NullableMessage = nil
-	o.isExplicitNullNullableMessage = b
+type NullableHealthCheckResult struct {
+	Value HealthCheckResult
+	ExplicitNull bool
 }
 
-// MarshalJSON returns the JSON representation of the model.
-func (o HealthCheckResult) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.NullableMessage == nil {
-		if o.isExplicitNullNullableMessage {
-			toSerialize["NullableMessage"] = o.NullableMessage
-		}
-	} else {
-		toSerialize["NullableMessage"] = o.NullableMessage
+func (v NullableHealthCheckResult) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableHealthCheckResult) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
 	}
-	return json.Marshal(toSerialize)
-}
 
+	return json.Unmarshal(src, &v.Value)
+}
 
