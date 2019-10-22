@@ -196,6 +196,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             // multiplatform type mapping
             typeMapping.put("number", "kotlin.Double");
             typeMapping.put("file", "InputProvider");
+            typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
 
             // multiplatform import mapping
             importMapping.put("BigDecimal", "kotlin.Double");
