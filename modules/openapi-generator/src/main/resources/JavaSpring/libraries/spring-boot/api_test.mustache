@@ -1,0 +1,52 @@
+package {{package}};
+{{#imports}}import {{import}};
+{{/imports}}
+{{#jackson}}
+import com.fasterxml.jackson.databind.ObjectMapper;
+{{/jackson}}
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest
+class {{classname}}Test {
+
+    @Autowired
+    private MockMvc mockmvc;
+{{#operations}}
+    {{#operation}}
+    {{#responses}}
+    {{#produces}}
+
+    @Test
+    void {{operationId}}{{code}}Test() throws Exception {
+    {{#allParams}}
+    {{^isFile}}
+        {{{dataType}}} {{paramName}} = {{{example}}};
+    {{/isFile}}
+    {{#isFile}}
+        org.springframework.web.multipart.MultipartFile {{paramName}} = null;
+    {{/isFile}}
+    {{/allParams}}
+        mockmvc.perform(
+                {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{{path}}}"{{#allParams}}{{^isBodyParam}}, {{paramName}}{{/isBodyParam}}{{/allParams}}){{#hasBodyParam}}
+                    .contentType(MediaType.valueOf("{{{mediaType}}}"))
+                    .content({{#gson}}new Gson().toJson({{paramName}}{{/gson}}{{#jackson}}new ObjectMapper().writeValueAsString({{#bodyParams}}{{paramName}}{{/bodyParams}}){{/jackson}}){{/hasBodyParam}}
+            )
+            .andExpect(status().is({{code}}));
+    }
+    {{/produces}}
+    {{/responses}}
+    {{/operation}}
+{{/operations}}
+}

@@ -112,8 +112,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
-        apiTestTemplateFiles.clear(); // TODO: add test template
-
         // spring uses the jackson lib
         additionalProperties.put("jackson", "true");
         additionalProperties.put("openbrace", OPEN_BRACE);
@@ -176,8 +174,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
-
-        List<Pair<String, String>> configOptions = additionalProperties.entrySet().stream()
+        List<Pair<String,String>> configOptions = additionalProperties.entrySet().stream()
                 .filter(e -> !Arrays.asList(API_FIRST, "hideGenerationTimestamp").contains(e.getKey()))
                 .filter(e -> cliOptions.stream().map(CliOption::getOpt).anyMatch(opt -> opt.equals(e.getKey())))
                 .map(e -> Pair.of(e.getKey(), e.getValue().toString()))
@@ -204,6 +201,9 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         super.processOpts();
 
+        if (library.equals(SPRING_CLOUD_LIBRARY)) {
+            apiTestTemplateFiles.clear();
+        }
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
         //TODO: add doc templates
@@ -414,12 +414,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put("jdk8", true);
             if (this.async) {
                 additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
+                additionalProperties.put("RESPONSE_WRAPPER_RESULT_ACCESSOR", ".get()");
             }
             if (this.reactive) {
                 additionalProperties.put(RESPONSE_WRAPPER, "Mono");
+                additionalProperties.put("RESPONSE_WRAPPER_RESULT_ACCESSOR", ".block()");
             }
         } else if (this.async) {
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
+            additionalProperties.put("RESPONSE_WRAPPER_RESULT_ACCESSOR", ".call()");
         }
 
 
@@ -433,27 +436,37 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put("jdk8", false);
             additionalProperties.put("jdk8-default-interface", false);
             switch (this.responseWrapper) {
-                case "Future":
                 case "Callable":
+                    additionalProperties.put(RESPONSE_WRAPPER, "java.util.concurrent." + this.responseWrapper);
+                    additionalProperties.put("RESPONSE_WRAPPER_RESULT_ACCESSOR", ".call()");
+                    break;
+                case "Future":
                 case "CompletableFuture":
                     additionalProperties.put(RESPONSE_WRAPPER, "java.util.concurrent." + this.responseWrapper);
+                    additionalProperties.put("RESPONSE_WRAPPER_RESULT_ACCESSOR", ".get()");
                     break;
                 case "ListenableFuture":
                     additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.util.concurrent.ListenableFuture");
+                    additionalProperties.put("RESPONSE_WRAPPER_RESULT_ACCESSOR", ".get()");
                     break;
                 case "DeferredResult":
                     additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.web.context.request.async.DeferredResult");
+                    apiTestTemplateFiles.clear(); // TODO the result of wrapper need to be cast
                     break;
                 case "HystrixCommand":
                     additionalProperties.put(RESPONSE_WRAPPER, "com.netflix.hystrix.HystrixCommand");
+                    additionalProperties.put("RESPONSE_WRAPPER_RESULT_ACCESSOR", ".execute()");
                     break;
                 case "RxObservable":
                     additionalProperties.put(RESPONSE_WRAPPER, "rx.Observable");
+                    additionalProperties.put("RESPONSE_WRAPPER_RESULT_ACCESSOR", ".toBlocking().first()");
                     break;
                 case "RxSingle":
                     additionalProperties.put(RESPONSE_WRAPPER, "rx.Single");
+                    additionalProperties.put("RESPONSE_WRAPPER_RESULT_ACCESSOR", ".toBlocking().value()");
                     break;
                 default:
+                    apiTestTemplateFiles.clear();
                     break;
             }
         }
@@ -463,6 +476,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
+
     }
 
     @Override

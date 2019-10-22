@@ -1,0 +1,67 @@
+package {{package}};
+{{#imports}}import {{import}};
+{{/imports}}
+{{#jackson}}
+import com.fasterxml.jackson.databind.ObjectMapper;
+{{/jackson}}
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import {{configPackage}}.OpenAPIUiConfiguration;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration(classes = OpenAPIUiConfiguration.class)
+public class {{classname}}Test {
+
+    @Autowired
+    private WebApplicationContext webAppContext;
+    private MockMvc mockmvc;
+
+    @Before
+    public void setup() {
+        mockmvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+    }
+{{#operations}}
+    {{#operation}}
+    {{#responses}}
+    {{#produces}}
+
+    @Test
+    public void {{operationId}}{{code}}Test() throws Exception {
+    {{#allParams}}
+    {{^isFile}}
+        {{{dataType}}} {{paramName}} = {{{example}}};
+    {{/isFile}}
+    {{#isFile}}
+        org.springframework.web.multipart.MultipartFile {{paramName}} = null;
+    {{/isFile}}
+    {{/allParams}}
+        mockmvc.perform(
+                {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{{path}}}"{{#allParams}}{{^isBodyParam}}, {{paramName}}{{/isBodyParam}}{{/allParams}}){{#hasBodyParam}}
+                    .contentType(MediaType.valueOf("{{{mediaType}}}"))
+                    .content({{#gson}}new Gson().toJson({{paramName}}{{/gson}}{{#jackson}}new ObjectMapper().writeValueAsString({{#bodyParams}}{{paramName}}{{/bodyParams}}){{/jackson}}){{/hasBodyParam}}
+            )
+            .andExpect(status().is({{code}}));
+    }
+    {{/produces}}
+    {{/responses}}
+    {{/operation}}
+{{/operations}}
+}
