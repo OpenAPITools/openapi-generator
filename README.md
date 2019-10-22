@@ -84,6 +84,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
     - [3.2 - Workflow Integration](#32---workflow-integration-maven-gradle-github-cicd)
     - [3.3 - Online Generators](#33---online-openapi-generator)
     - [3.4 - License Information on Generated Code](#34---license-information-on-generated-code)
+    - [3.5 - IDE Integration](#35---ide-integration)
   - [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
   - [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
   - [6 - About Us](#6---about-us)
@@ -537,6 +538,18 @@ The OpenAPI Generator project is intended as a benefit for users of the Open API
 * Generated code is intentionally _not_ subject to the parent project license
 
 When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
+
+### [3.5 - IDE Integration](#table-of-contents)
+
+Here is a list of community-conitributed IDE plug-ins that integrate with OpenAPI Generator:
+
+- Eclipse: [Codewind OpenAPI Tools for Eclipse](https://www.eclipse.org/codewind/open-api-tools-for-eclipse.html) by [IBM](https://www.ibm.com)
+- IntelliJ IDEA: [OpenAPI Generator](https://plugins.jetbrains.com/plugin/8433-openapi-generator) by [Jim Schubert](https://jimschubert.us/#/)
+- IntelliJ IDEA: [Senya Editor](https://plugins.jetbrains.com/plugin/10690-senya-editor) by [senya.io](https://senya.io)
+- [RepreZen API Studio](https://www.reprezen.com/)
+- Visual Studio: [REST API Client Code Generator](https://marketplace.visualstudio.com/items?itemName=ChristianResmaHelle.ApiClientCodeGenerator) by [Christian Resma Helle](https://christian-helle.blogspot.com/)
+- Visual Studio Code: [Codewind OpenAPI Tools](https://marketplace.visualstudio.com/items?itemName=IBM.codewind-openapi-tools) by [IBM](https://marketplace.visualstudio.com/publishers/IBM)
+
  
 ## [4 - Companies/Projects using OpenAPI Generator](#table-of-contents)
 Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
