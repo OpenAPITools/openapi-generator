@@ -89,6 +89,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
           supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
           supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
           supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
+          supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+          supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
         }
 
         // default this to true so the python ModelSimple models will be generated
