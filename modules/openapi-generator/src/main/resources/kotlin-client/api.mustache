@@ -33,9 +33,21 @@ import {{packageName}}.infrastructure.toMultiValue
 {{/hasQueryParams}}{{#hasQueryParams}}mutableMapOf<kotlin.String, List<kotlin.String>>()
             .apply {
                 {{#queryParams}}
-                {{^required}}if ({{paramName}} != null) {
+                {{^required}}
+                if ({{paramName}} != null) {
                     put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
-                }{{/required}}{{#required}}put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}}){{/required}}
+                }
+                {{/required}}
+                {{#required}}
+                {{#isNullable}}
+                if ({{paramName}} != null) {
+                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                }
+                {{/isNullable}}
+                {{^isNullable}}
+                put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                {{/isNullable}}
+                {{/required}}
                 {{/queryParams}}
             }
             {{/hasQueryParams}}
