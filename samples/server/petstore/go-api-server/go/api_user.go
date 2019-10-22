@@ -23,7 +23,7 @@ type UserApiController struct {
 }
 
 // NewUserApiController creates a default api controller
-func NewUserApiController(s UserApiServicer) UserApiRouter {
+func NewUserApiController(s UserApiServicer) Router {
 	return &UserApiController{ service: s }
 }
 
