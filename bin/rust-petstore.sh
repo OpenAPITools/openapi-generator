@@ -35,7 +35,7 @@ for spec_path in \
   ; do
   spec=$(basename "$spec_path" | sed 's/.yaml//' | sed 's/.json//' )
 
-  for library in hyper reqwest; do
+  for library in hyper reqwest reqwestFutures; do
     args="generate --template-dir modules/openapi-generator/src/main/resources/rust
                    --input-spec $spec_path
                    --generator-name rust
