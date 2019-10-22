@@ -583,6 +583,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Stingray](http://www.stingray.com)
 - [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
+- [TravelTime platform](https://www.traveltimeplatform.com/)
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)

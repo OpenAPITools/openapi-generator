@@ -224,6 +224,11 @@
   infoLink: "https://dev.telstra.com/"
   pinned: true
 -
+  caption: "TravelTime platform"
+  image: "img/companies/traveltime.jpg"
+  infoLink: "https://www.traveltimeplatform.com/"
+  pinned: false
+-
   caption: "TUI InfoTec GmbH"
   image: "img/companies/infotec.png"
   infoLink: "http://www.tui-infotec.com/"
