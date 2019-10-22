@@ -21,6 +21,7 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
@@ -192,10 +193,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
             // multiplatform default includes
             defaultIncludes.add("io.ktor.client.request.forms.InputProvider");
+            defaultIncludes.add(packageName + ".infrastructure.Base64ByteArray");
+            defaultIncludes.add(packageName + ".infrastructure.OctetByteArray");
 
             // multiplatform type mapping
             typeMapping.put("number", "kotlin.Double");
-            typeMapping.put("file", "InputProvider");
+            typeMapping.put("file", "OctetByteArray");
+            typeMapping.put("binary", "OctetByteArray");
+            typeMapping.put("ByteArray", "Base64ByteArray");
             typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
 
             // multiplatform import mapping
@@ -203,14 +208,19 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             importMapping.put("UUID", "kotlin.String");
             importMapping.put("URI", "kotlin.String");
             importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
-            importMapping.put("File", "io.ktor.client.request.forms.InputProvider");
+            importMapping.put("File", packageName + ".infrastructure.OctetByteArray");
             importMapping.put("Timestamp", "kotlin.String");
             importMapping.put("LocalDateTime", "kotlin.String");
             importMapping.put("LocalDate", "kotlin.String");
             importMapping.put("LocalTime", "kotlin.String");
+            importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
+            importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
 
             // multiplatform specific supporting files
+            supportingFiles.add(new SupportingFile("infrastructure/Base64ByteArray.kt.mustache", infrastructureFolder, "Base64ByteArray.kt"));
+            supportingFiles.add(new SupportingFile("infrastructure/Bytes.kt.mustache", infrastructureFolder, "Bytes.kt"));
             supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
+            supportingFiles.add(new SupportingFile("infrastructure/OctetByteArray.kt.mustache", infrastructureFolder, "OctetByteArray.kt"));
 
             // multiplatform specific testing files
             supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
@@ -292,9 +302,20 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
+
+                // set multipart against all relevant operations
                 if (operation.hasConsumes == Boolean.TRUE) {
                     if (isMultipartType(operation.consumes)) {
                         operation.isMultipart = Boolean.TRUE;
+                    }
+                }
+
+                // modify the data type of binary form parameters to a more friendly type for multiplatform builds
+                if (MULTIPLATFORM.equals(getLibrary()) && operation.allParams != null) {
+                    for (CodegenParameter param : operation.allParams) {
+                        if (param.dataFormat != null && param.dataFormat.equals("binary")) {
+                            param.baseType = param.dataType = "io.ktor.client.request.forms.InputProvider";
+                        }
                     }
                 }
             }
