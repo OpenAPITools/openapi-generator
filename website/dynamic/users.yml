@@ -169,6 +169,11 @@
   infoLink: "https://myworkout.com/"
   pinned: false
 -
+  caption: Openet
+  image: "img/companies/openet.jpg"
+  infoLink: "https://www.openet.com/"
+  pinned: false
+-
   caption: OPTiM
   image: "img/companies/optim.png"
   infoLink: "https://www.optim.co.jp/"
