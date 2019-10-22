@@ -111,7 +111,7 @@ func NewRouter(h *HandlerCommands, middleware []gin.HandlerFunc) *gin.Engine {
 			"Index",
 			http.MethodGet,
 			"{{{basePathWithoutHost}}}/",
-			func (c *gin.Context) { c.String(http.StatusOK, "Hello World!") },
+			func (c *gin.Context) { c.String(http.StatusOK, "OK") },
 		},
 		{{#apis}}
 		{{#operations}}
@@ -127,7 +127,9 @@ func NewRouter(h *HandlerCommands, middleware []gin.HandlerFunc) *gin.Engine {
 		{{/apis}}
 	}
 
-	router := gin.Default()
+    // add recovery middleware
+    middleware = append(middleware, gin.Recovery())
+	router := gin.New()
 	router.Use(middleware...)
 
 	for _, route := range routes {
