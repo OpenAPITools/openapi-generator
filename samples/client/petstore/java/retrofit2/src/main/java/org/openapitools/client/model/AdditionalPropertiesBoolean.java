@@ -54,7 +54,6 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }

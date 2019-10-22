@@ -72,7 +72,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
@@ -97,7 +96,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
-
 
 
   public void setDateTime(OffsetDateTime dateTime) {
@@ -132,7 +130,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public Map<String, Animal> getMap() {
     return map;
   }
-
 
 
   public void setMap(Map<String, Animal> map) {
