@@ -1,46 +1,19 @@
 {{>partial_header}}
-use std::sync::Arc;
+use std::rc::Rc;
 use std::borrow::Borrow;
 #[allow(unused_imports)]
 use std::option::Option;
-use futures::{Future, future};
-use reqwest;
-use mime_guess::{self, Mime};
-use reqwest::async::multipart::Part;
-use super::{Error, configuration};
-use std::path::Path;
-use std::io;
-use std::io::Read;
-use std::fs::{File};
 
-fn part_from_file<T: AsRef<Path>>(path: T) -> io::Result<Part> {
-    let path = path.as_ref();
-    let file_name = path.file_name().and_then(|filename| {
-        Some(filename.to_string_lossy().into_owned())
-    });
-    let ext = path.extension()
-        .and_then(|ext| ext.to_str())
-        .unwrap_or("");
-    let mime = mime_guess::from_ext(ext).first_or_octet_stream();
-    let mut file = File::open(path)?;
-    let mut buffer = vec![];
-    let bytes_read = file.read_to_end(&mut buffer)?;
-    let field = Part::bytes(buffer)
-        .mime_str(&mime.to_string())
-            .map_err(|e| io::Error::new(io::ErrorKind::NotFound, "Invalid/unknown mime type"))?;
-    Ok(if let Some(file_name) = file_name {
-        field.file_name(file_name)
-    } else {
-        field
-    })
-}
+use reqwest;
+
+use super::{Error, configuration};
 
 pub struct {{{classname}}}Client {
-    configuration: Arc<configuration::Configuration>,
+    configuration: Rc<configuration::Configuration>,
 }
 
 impl {{{classname}}}Client {
-    pub fn new(configuration: Arc<configuration::Configuration>) -> {{{classname}}}Client {
+    pub fn new(configuration: Rc<configuration::Configuration>) -> {{{classname}}}Client {
         {{{classname}}}Client {
             configuration,
         }
@@ -50,7 +23,7 @@ impl {{{classname}}}Client {
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
-    fn {{{interfacePrefix}}}{{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error> + Send>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
 {{/operation}}
 {{/operations}}
 }
@@ -58,7 +31,7 @@ pub trait {{{classname}}} {
 impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
-    fn {{{interfacePrefix}}}{{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error> + Send> {
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -149,35 +122,23 @@ impl {{{classname}}} for {{{classname}}}Client {
         {{/hasAuthMethods}}
         {{#isMultipart}}
         {{#hasFormParams}}
-        let mut form = reqwest::async::multipart::Form::new();
+        let mut form = reqwest::multipart::Form::new();
         {{#formParams}}
         {{#isFile}}
         {{#required}}
         {{^isNullable}}
-        match part_from_file({{{paramName}}}) {
-            Ok(part) => form = form.part("{{{baseName}}}", part),
-            Err(e) => return Box::new(future::err(e.into()))
-        }
-        // form = form.part("{{{baseName}}}", part_from_file({{{paramName}}}));
+        form = form.file("{{{baseName}}}", {{{paramName}}})?;
         {{/isNullable}}
         {{#isNullable}}
         match {{{paramName}}} {
-            Some(param_value) => {
-                match part_from_file(param_value) {
-                    Ok(part) => { form = form.part("{{{baseName}}}", part); },
-                    Err(e) => { return Box::new(future::err(e.into())); }
-                }
-            },
+            Some(param_value) => { form = form.file("{{{baseName}}}", param_value)?; },
             None => { unimplemented!("Required nullable form file param not supported"); },
         }
         {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(param_value) = {{{paramName}}} {
-            match part_from_file(param_value) {
-                Ok(part) => { form = form.part("{{{baseName}}}", part); },
-                Err(e) => { return Box::new(future::err(e.into())); }
-            }
+            form = form.file("{{{baseName}}}", param_value)?;
         }
         {{/required}}
         {{/isFile}}
@@ -254,17 +215,15 @@ impl {{{classname}}} for {{{classname}}}Client {
         {{/hasBodyParam}}
 
         // send request
-        Box::new(req_builder.send()
-            {{^returnType}}
-            .and_then(|i| i.error_for_status())
-            .map(|_| ())
-            {{/returnType}}
-            {{#returnType}}
-            .and_then(|i| i.error_for_status())
-            .and_then(|mut i| i.json())
-            {{/returnType}}
-            .from_err()
-        )
+        let req = req_builder.build()?;
+
+        {{^returnType}}
+        client.execute(req)?.error_for_status()?;
+        Ok(())
+        {{/returnType}}
+        {{#returnType}}
+        Ok(client.execute(req)?.error_for_status()?.json()?)
+        {{/returnType}}
     }
 
 {{/operation}}

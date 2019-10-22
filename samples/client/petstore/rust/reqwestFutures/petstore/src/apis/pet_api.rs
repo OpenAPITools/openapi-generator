@@ -12,10 +12,37 @@ use std::sync::Arc;
 use std::borrow::Borrow;
 #[allow(unused_imports)]
 use std::option::Option;
-use futures::{Future};
+use futures::{Future, future};
 use reqwest;
-
+use mime_guess::{self, Mime};
+use reqwest::async::multipart::Part;
 use super::{Error, configuration};
+use std::path::Path;
+use std::io;
+use std::io::Read;
+use std::fs::{File};
+
+fn part_from_file<T: AsRef<Path>>(path: T) -> io::Result<Part> {
+    let path = path.as_ref();
+    let file_name = path.file_name().and_then(|filename| {
+        Some(filename.to_string_lossy().into_owned())
+    });
+    let ext = path.extension()
+        .and_then(|ext| ext.to_str())
+        .unwrap_or("");
+    let mime = mime_guess::from_ext(ext).first_or_octet_stream();
+    let mut file = File::open(path)?;
+    let mut buffer = vec![];
+    let bytes_read = file.read_to_end(&mut buffer)?;
+    let field = Part::bytes(buffer)
+        .mime_str(&mime.to_string())
+            .map_err(|e| io::Error::new(io::ErrorKind::NotFound, "Invalid/unknown mime type"))?;
+    Ok(if let Some(file_name) = file_name {
+        field.file_name(file_name)
+    } else {
+        field
+    })
+}
 
 pub struct PetApiClient {
     configuration: Arc<configuration::Configuration>,
@@ -228,12 +255,15 @@ impl PetApi for PetApiClient {
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        let mut form = reqwest::multipart::Form::new();
+        let mut form = reqwest::async::multipart::Form::new();
         if let Some(param_value) = additional_metadata {
             form = form.text("additionalMetadata", param_value.to_string());
         }
         if let Some(param_value) = file {
-            form = form.file("file", param_value)?;
+            match part_from_file(param_value) {
+                Ok(part) => { form = form.part("file", part); },
+                Err(e) => { return Box::new(future::err(e.into())); }
+            }
         }
         req_builder = req_builder.multipart(form);
 

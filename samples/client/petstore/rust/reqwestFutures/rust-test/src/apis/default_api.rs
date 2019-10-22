@@ -12,10 +12,37 @@ use std::sync::Arc;
 use std::borrow::Borrow;
 #[allow(unused_imports)]
 use std::option::Option;
-use futures::{Future};
+use futures::{Future, future};
 use reqwest;
-
+use mime_guess::{self, Mime};
+use reqwest::async::multipart::Part;
 use super::{Error, configuration};
+use std::path::Path;
+use std::io;
+use std::io::Read;
+use std::fs::{File};
+
+fn part_from_file<T: AsRef<Path>>(path: T) -> io::Result<Part> {
+    let path = path.as_ref();
+    let file_name = path.file_name().and_then(|filename| {
+        Some(filename.to_string_lossy().into_owned())
+    });
+    let ext = path.extension()
+        .and_then(|ext| ext.to_str())
+        .unwrap_or("");
+    let mime = mime_guess::from_ext(ext).first_or_octet_stream();
+    let mut file = File::open(path)?;
+    let mut buffer = vec![];
+    let bytes_read = file.read_to_end(&mut buffer)?;
+    let field = Part::bytes(buffer)
+        .mime_str(&mime.to_string())
+            .map_err(|e| io::Error::new(io::ErrorKind::NotFound, "Invalid/unknown mime type"))?;
+    Ok(if let Some(file_name) = file_name {
+        field.file_name(file_name)
+    } else {
+        field
+    })
+}
 
 pub struct DefaultApiClient {
     configuration: Arc<configuration::Configuration>,

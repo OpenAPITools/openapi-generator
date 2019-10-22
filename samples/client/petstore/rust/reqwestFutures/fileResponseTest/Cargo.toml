@@ -10,5 +10,6 @@ serde_json = "^1.0"
 url = "1.5"
 reqwest = "~0.9"
 futures = "0.1.23"
+mime_guess = "2.0.1"
 
 [dev-dependencies]

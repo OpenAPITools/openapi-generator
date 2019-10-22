@@ -24,26 +24,26 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **post** /pet | Add a new pet to the store
-*PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **delete** /pet/{petId} | Deletes a pet
-*PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **get** /pet/findByStatus | Finds Pets by status
-*PetApi* | [**find_pets_by_tags**](docs/PetApi.md#find_pets_by_tags) | **get** /pet/findByTags | Finds Pets by tags
-*PetApi* | [**get_pet_by_id**](docs/PetApi.md#get_pet_by_id) | **get** /pet/{petId} | Find pet by ID
-*PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **put** /pet | Update an existing pet
-*PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **post** /pet/{petId} | Updates a pet in the store with form data
-*PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **post** /pet/{petId}/uploadImage | uploads an image
-*StoreApi* | [**delete_order**](docs/StoreApi.md#delete_order) | **delete** /store/order/{orderId} | Delete purchase order by ID
-*StoreApi* | [**get_inventory**](docs/StoreApi.md#get_inventory) | **get** /store/inventory | Returns pet inventories by status
-*StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **get** /store/order/{orderId} | Find purchase order by ID
-*StoreApi* | [**place_order**](docs/StoreApi.md#place_order) | **post** /store/order | Place an order for a pet
-*UserApi* | [**create_user**](docs/UserApi.md#create_user) | **post** /user | Create user
-*UserApi* | [**create_users_with_array_input**](docs/UserApi.md#create_users_with_array_input) | **post** /user/createWithArray | Creates list of users with given input array
-*UserApi* | [**create_users_with_list_input**](docs/UserApi.md#create_users_with_list_input) | **post** /user/createWithList | Creates list of users with given input array
-*UserApi* | [**delete_user**](docs/UserApi.md#delete_user) | **delete** /user/{username} | Delete user
-*UserApi* | [**get_user_by_name**](docs/UserApi.md#get_user_by_name) | **get** /user/{username} | Get user by user name
-*UserApi* | [**login_user**](docs/UserApi.md#login_user) | **get** /user/login | Logs user into the system
-*UserApi* | [**logout_user**](docs/UserApi.md#logout_user) | **get** /user/logout | Logs out current logged in user session
-*UserApi* | [**update_user**](docs/UserApi.md#update_user) | **put** /user/{username} | Updated user
+*PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **Post** /pet | Add a new pet to the store
+*PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **Delete** /pet/{petId} | Deletes a pet
+*PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **Get** /pet/findByStatus | Finds Pets by status
+*PetApi* | [**find_pets_by_tags**](docs/PetApi.md#find_pets_by_tags) | **Get** /pet/findByTags | Finds Pets by tags
+*PetApi* | [**get_pet_by_id**](docs/PetApi.md#get_pet_by_id) | **Get** /pet/{petId} | Find pet by ID
+*PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **Put** /pet | Update an existing pet
+*PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **Post** /pet/{petId} | Updates a pet in the store with form data
+*PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
+*StoreApi* | [**delete_order**](docs/StoreApi.md#delete_order) | **Delete** /store/order/{orderId} | Delete purchase order by ID
+*StoreApi* | [**get_inventory**](docs/StoreApi.md#get_inventory) | **Get** /store/inventory | Returns pet inventories by status
+*StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **Get** /store/order/{orderId} | Find purchase order by ID
+*StoreApi* | [**place_order**](docs/StoreApi.md#place_order) | **Post** /store/order | Place an order for a pet
+*UserApi* | [**create_user**](docs/UserApi.md#create_user) | **Post** /user | Create user
+*UserApi* | [**create_users_with_array_input**](docs/UserApi.md#create_users_with_array_input) | **Post** /user/createWithArray | Creates list of users with given input array
+*UserApi* | [**create_users_with_list_input**](docs/UserApi.md#create_users_with_list_input) | **Post** /user/createWithList | Creates list of users with given input array
+*UserApi* | [**delete_user**](docs/UserApi.md#delete_user) | **Delete** /user/{username} | Delete user
+*UserApi* | [**get_user_by_name**](docs/UserApi.md#get_user_by_name) | **Get** /user/{username} | Get user by user name
+*UserApi* | [**login_user**](docs/UserApi.md#login_user) | **Get** /user/login | Logs user into the system
+*UserApi* | [**logout_user**](docs/UserApi.md#logout_user) | **Get** /user/logout | Logs out current logged in user session
+*UserApi* | [**update_user**](docs/UserApi.md#update_user) | **Put** /user/{username} | Updated user
 
 
 ## Documentation For Models

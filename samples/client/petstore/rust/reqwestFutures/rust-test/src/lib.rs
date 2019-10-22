@@ -6,6 +6,7 @@ extern crate serde_json;
 extern crate url;
 extern crate reqwest;
 extern crate futures;
+extern crate mime_guess;
 
 pub mod apis;
 pub mod models;
