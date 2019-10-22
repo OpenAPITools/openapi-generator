@@ -1,0 +1,14 @@
+[package]
+name = "fileResponseTest-reqwestFutures"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+
+[dependencies]
+serde = "^1.0"
+serde_derive = "^1.0"
+serde_json = "^1.0"
+url = "1.5"
+reqwest = "~0.9"
+futures = "0.1.23"
+
+[dev-dependencies]
