@@ -307,7 +307,6 @@ class PetApiTests(unittest.TestCase):
             getheaders=get_headers,
             getheader=get_header
         )
-        # response which is deserialized to a file
         mock_response = RESTResponse(http_response)
         try:
             file1 = open(file_path1, "rb")
