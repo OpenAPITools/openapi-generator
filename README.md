@@ -586,6 +586,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Metaswitch](https://www.metaswitch.com/)
 - [Myworkout](https://myworkout.com)
 - [NamSor](https://www.namsor.com/)
+- [Openet](https://www.openet.com/)
 - [Paxos](https://www.paxos.com)
 - [Ponicode](https://ponicode.dev/)
 - [Pricefx](https://www.pricefx.com/)
