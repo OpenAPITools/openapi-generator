@@ -268,6 +268,8 @@ class Endpoint(object):
 
         for param_name, param_value in six.iteritems(kwargs):
             param_location = self.location_map.get(param_name)
+            if param_location is None:
+                continue
             if param_location:
                 if param_location == 'body':
                     params['body'] = param_value
@@ -275,8 +277,11 @@ class Endpoint(object):
                 base_name = self.attribute_map[param_name]
                 if (param_location == 'form' and
                         self.openapi_types[param_name] == (file_type,)):
-                    param_location = 'file'
-                    params[param_location][param_name] = param_value
+                    params['file'][param_name] = [param_value]
+                elif (param_location == 'form' and
+                        self.openapi_types[param_name] == ([file_type],)):
+                    # param_value is already a list
+                    params['file'][param_name] = param_value
                 elif param_location in {'form', 'query'}:
                     param_value_full = (base_name, param_value)
                     params[param_location].append(param_value_full)

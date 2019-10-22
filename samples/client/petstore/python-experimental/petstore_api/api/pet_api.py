@@ -839,6 +839,7 @@ class PetApi(object):
             :param int pet_id: ID of pet to update (required)
             :param str additional_metadata: Additional data to pass to server
             :param file_type file: file to upload
+            :param [file_type] files: files to upload
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -899,6 +900,7 @@ class PetApi(object):
                     'pet_id',
                     'additional_metadata',
                     'file',
+                    'files',
                 ],
                 'required': [
                     'pet_id',
@@ -919,18 +921,22 @@ class PetApi(object):
                     'pet_id': (int,),
                     'additional_metadata': (str,),
                     'file': (file_type,),
+                    'files': ([file_type],),
                 },
                 'attribute_map': {
                     'pet_id': 'petId',
                     'additional_metadata': 'additionalMetadata',
                     'file': 'file',
+                    'files': 'files',
                 },
                 'location_map': {
                     'pet_id': 'path',
                     'additional_metadata': 'form',
                     'file': 'form',
+                    'files': 'form',
                 },
                 'collection_format_map': {
+                    'files': 'csv',
                 }
             },
             headers_map={
@@ -1179,6 +1185,8 @@ class Endpoint(object):
 
         for param_name, param_value in six.iteritems(kwargs):
             param_location = self.location_map.get(param_name)
+            if param_location is None:
+                continue
             if param_location:
                 if param_location == 'body':
                     params['body'] = param_value
@@ -1186,8 +1194,11 @@ class Endpoint(object):
                 base_name = self.attribute_map[param_name]
                 if (param_location == 'form' and
                         self.openapi_types[param_name] == (file_type,)):
-                    param_location = 'file'
-                    params[param_location][param_name] = param_value
+                    params['file'][param_name] = [param_value]
+                elif (param_location == 'form' and
+                        self.openapi_types[param_name] == ([file_type],)):
+                    # param_value is already a list
+                    params['file'][param_name] = param_value
                 elif param_location in {'form', 'query'}:
                     param_value_full = (base_name, param_value)
                     params[param_location].append(param_value_full)

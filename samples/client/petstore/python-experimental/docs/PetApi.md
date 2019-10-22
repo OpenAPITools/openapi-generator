@@ -465,10 +465,11 @@ api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 file = open('/path/to/file', 'rb') # file_type | file to upload (optional)
+files = open('/path/to/file', 'rb') # [file_type] | files to upload (optional)
 
 try:
     # uploads an image
-    api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
+    api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file, files=files)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->upload_file: %s\n" % e)
@@ -481,6 +482,7 @@ Name | Type | Description  | Notes
  **pet_id** | **int**| ID of pet to update |
  **additional_metadata** | **str**| Additional data to pass to server | [optional]
  **file** | **file_type**| file to upload | [optional]
+ **files** | [**[file_type]**](file_type.md)| files to upload | [optional]
 
 ### Return type
 

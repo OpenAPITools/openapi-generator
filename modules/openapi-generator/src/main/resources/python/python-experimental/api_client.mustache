@@ -315,8 +315,8 @@ class ApiClient(object):
             (float, none_type)
             ([int, none_type],)
             ({str: (bool, str, int, float, date, datetime, str, none_type)},)
-        :param files dict: key -> filename, value -> filepath,
-            for `multipart/form-data`.
+        :param files dict: key -> field name, value -> a list of open file
+            objects for `multipart/form-data`.
         :param async_req bool: execute request asynchronously
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -453,29 +453,34 @@ class ApiClient(object):
     def files_parameters(self, files=None):
         """Builds form parameters.
 
-        :param files: None or a dict with key=param_name and value=file_object
+        :param files: None or a dict with key=param_name and
+            value is a list of open file objects
         :return: List of tuples of form parameters with file data
         """
         if files is None:
             return []
 
         params = []
-        for param_name, file_instance in six.iteritems(files):
-            if file_instance is None:
+        for param_name, file_instances in six.iteritems(files):
+            if file_instances is None:
                 # if the file field is nullable, skip None values
                 continue
-            if file_instance.closed is True:
-                raise ApiValueError(
-                    "Cannot read a closed file. The passed in file_type for "
-                    "%s must be open." % param_name
-                )
-            filename = os.path.basename(file_instance.name)
-            filedata = file_instance.read()
-            mimetype = (mimetypes.guess_type(filename)[0] or
-                        'application/octet-stream')
-            params.append(
-                tuple([param_name, tuple([filename, filedata, mimetype])]))
-            file_instance.close()
+            for file_instance in file_instances:
+                if file_instance is None:
+                    # if the file field is nullable, skip None values
+                    continue
+                if file_instance.closed is True:
+                    raise ApiValueError(
+                        "Cannot read a closed file. The passed in file_type "
+                        "for %s must be open." % param_name
+                    )
+                filename = os.path.basename(file_instance.name)
+                filedata = file_instance.read()
+                mimetype = (mimetypes.guess_type(filename)[0] or
+                            'application/octet-stream')
+                params.append(
+                    tuple([param_name, tuple([filename, filedata, mimetype])]))
+                file_instance.close()
 
         return params
 
