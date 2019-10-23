@@ -68,7 +68,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
-    public static final String USE_DOCUMENTATION_ANNOTATIONS = "useDocumentationAnnotations";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -96,7 +95,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
-    protected boolean useDocumentationAnnotations = true;
 
     public SpringCodegen() {
         super();
@@ -308,12 +306,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setUnhandledException(Boolean.valueOf(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
         } else {
             additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
-        }
-
-        if (additionalProperties.containsKey(USE_DOCUMENTATION_ANNOTATIONS)) {
-            this.setUseDocumentationAnnotations(Boolean.valueOf(additionalProperties.get(USE_DOCUMENTATION_ANNOTATIONS).toString()));
-        } else {
-            additionalProperties.put(USE_DOCUMENTATION_ANNOTATIONS, this.isUseDocumentationAnnotations());
         }
 
         typeMapping.put("file", "Resource");
@@ -796,14 +788,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.unhandledException = unhandledException;
     }
 
-    public void setUseDocumentationAnnotations(boolean useDocumentationAnnotations) {
-        this.useDocumentationAnnotations = useDocumentationAnnotations;
-    }
-
-    public boolean isUseDocumentationAnnotations() {
-        return useDocumentationAnnotations;
-    }
-
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
@@ -825,28 +809,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonCreator");
             }
         }
-    }
-
-    @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessModels(objs);
-        // bad hack :/
-        if (!isUseDocumentationAnnotations()) {
-            result.put("imports", removeSwaggerImports((List<HashMap<String, String>>) result.get("imports")));
-        }
-        return super.postProcessModels(objs);
-    }
-
-    private List<HashMap<String, String>> removeSwaggerImports(List<HashMap<String, String>> imports) {
-        List<HashMap<String, String>> resultImports = new ArrayList<>();
-        for (HashMap<String, String> importMap : imports) {
-            String imp = importMap.get("import");
-            if (imp.startsWith("io.swagger")) {
-                continue;
-            }
-            resultImports.add(importMap);
-        }
-        return resultImports;
     }
 
     @Override
