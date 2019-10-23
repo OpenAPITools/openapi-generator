@@ -1575,9 +1575,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -1648,9 +1648,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2149,9 +2149,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "enum_query_string_array", enumQueryStringArray))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2159,9 +2159,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2169,9 +2169,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2179,9 +2179,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2267,9 +2267,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "enum_query_string_array", enumQueryStringArray))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2277,9 +2277,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2287,9 +2287,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2297,9 +2297,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2390,9 +2390,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2400,9 +2400,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2410,9 +2410,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2420,9 +2420,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2507,9 +2507,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2517,9 +2517,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2527,9 +2527,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2537,9 +2537,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2878,9 +2878,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "pipe", pipe))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2888,9 +2888,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "ioutil", ioutil))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2898,9 +2898,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("space", "http", http))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2908,9 +2908,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "url", url))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -2918,9 +2918,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "context", context))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -3007,9 +3007,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "pipe", pipe))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -3017,9 +3017,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "ioutil", ioutil))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -3027,9 +3027,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("space", "http", http))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -3037,9 +3037,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "url", url))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -3047,9 +3047,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "context", context))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
