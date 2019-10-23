@@ -255,7 +255,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
         
-        boolean hasRequiredParameters = false;
+        boolean hasRequiredParams = false;
         boolean hasListContainers = false;
         boolean hasHttpHeaders = false;
         boolean hasQueryParams = false;
@@ -263,7 +263,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
         for (ExtendedCodegenOperation op : operationList) {
             if (op.getHasRequiredParams()) {
-                hasRequiredParameters = true;
+                hasRequiredParams = true;
             }
             
             for (CodegenParameter param : op.headerParams) {
@@ -275,7 +275,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             for (CodegenParameter param : op.queryParams) {
                 if (param.isListContainer && !param.isCollectionFormatMulti) {
                     hasListContainers = true;
-                    break;
+                }
+
+                if (param.required) {
+                    op.hasRequiredQueryParams = true;
                 }
             }
             for (CodegenParameter param : op.formParams) {
@@ -294,13 +297,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             if (op.getHasPathParams()) {
                 hasPathParams = true;
             }
-
-            if(hasRequiredParameters && hasListContainers && hasHttpHeaders && hasQueryParams && hasPathParams){
-                break;
-            }
         }
 
-        operations.put("hasRequiredParameters", hasRequiredParameters);
+        operations.put("hasRequiredParams", hasRequiredParams);
         operations.put("hasListContainers", hasListContainers);
         operations.put("hasHttpHeaders", hasHttpHeaders);
         operations.put("hasQueryParams", hasQueryParams);
@@ -330,6 +329,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     class ExtendedCodegenOperation extends CodegenOperation {
         public boolean hasHttpHeaders;
+        public boolean hasRequiredQueryParams;
 
         public ExtendedCodegenOperation(CodegenOperation o) {
             super();
@@ -403,6 +403,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
             // new fields
             this.hasHttpHeaders = o.getHasHeaderParams() || o.getHasBodyParam() || o.hasAuthMethods;
+            this.hasRequiredQueryParams = false; // will be updated within addConditionalImportInformation
         }
     }
 }

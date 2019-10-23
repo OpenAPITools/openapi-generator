@@ -1,7 +1,7 @@
 // tslint:disable
 {{>licenseInfo}}
 import { Observable } from 'rxjs';
-import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParameters}}, throwIfNullOrUndefined{{/hasRequiredParameters}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
+import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParams}}, throwIfNullOrUndefined{{/hasRequiredParams}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
 {{#imports.0}}
 import {
     {{#imports}}
@@ -87,12 +87,12 @@ export class {{classname}} extends BaseAPI {
 
         {{/hasHttpHeaders}}
         {{#hasQueryParams}}
-        {{^hasRequiredParameters}}
+        {{^hasRequiredQueryParams}}
         const query: HttpQuery = {};
 
-        {{/hasRequiredParameters}}
-        {{#hasRequiredParameters}}
-        const query: HttpQuery = {
+        {{/hasRequiredQueryParams}}
+        {{#hasRequiredQueryParams}}
+        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
             {{#queryParams}}
             {{#required}}
             {{#isListContainer}}
@@ -120,7 +120,7 @@ export class {{classname}} extends BaseAPI {
             {{/queryParams}}
         };
 
-        {{/hasRequiredParameters}}
+        {{/hasRequiredQueryParams}}
         {{#queryParams}}
         {{^required}}
         {{#isListContainer}}
