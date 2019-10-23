@@ -76,9 +76,9 @@ export class {{classname}} extends BaseAPI {
             {{#isOAuth}}
             // oauth required
             ...(this.configuration.accessToken && {
-                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+                Authorization: typeof this.configuration.accessToken === 'function'
                     ? this.configuration.accessToken('{{name}}', [{{#scopes}}'{{{scope}}}'{{^-last}}, {{/-last}}{{/scopes}}])
-                    : this.configuration.accessToken)
+                    : this.configuration.accessToken
             }),
             {{/isOAuth}}
             {{/authMethods}}
