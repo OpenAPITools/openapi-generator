@@ -9,6 +9,11 @@
   infoLink: "https://angular.schule/"
   pinned: false
 -
+  caption: "ANZ"
+  image: "img/companies/anz.png"
+  infoLink: "https://www.anz.com/"
+  pinned: false
+-
   caption: ASKUL
   image: "img/companies/logo-askul-01.gif"
   infoLink: "https://www.askul.co.jp/"
