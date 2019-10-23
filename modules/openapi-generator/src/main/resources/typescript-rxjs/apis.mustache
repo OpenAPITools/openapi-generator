@@ -158,7 +158,7 @@ export class {{classname}} extends BaseAPI {
         const formData = new FormData();
         {{#formParams}}
         {{#isListContainer}}
-        if ({{paramName}} != null) {
+        if ({{paramName}} !== undefined) {
             {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => formData.append('{{baseName}}', element as any))
             {{/isCollectionFormatMulti}}
@@ -169,7 +169,7 @@ export class {{classname}} extends BaseAPI {
 
         {{/isListContainer}}
         {{^isListContainer}}
-        if ({{paramName}} != null) { formData.append('{{baseName}}', {{paramName}} as any); }
+        if ({{paramName}} !== undefined) { formData.append('{{baseName}}', {{paramName}} as any); }
         {{/isListContainer}}
         {{/formParams}}
 
