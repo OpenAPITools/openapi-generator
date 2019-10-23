@@ -72,17 +72,17 @@ export class BaseAPI {
         this.middleware = configuration.middleware;
     }
 
-    withMiddleware = <T extends BaseAPI>(middlewares: Middleware[]) => {
-        const next = this.clone<T>();
+    withMiddleware = (middlewares: Middleware[]) => {
+        const next = this.clone();
         next.middleware = next.middleware.concat(middlewares);
         return next;
     };
 
-    withPreMiddleware = <T extends BaseAPI>(preMiddlewares: Array<Middleware['pre']>) =>
-        this.withMiddleware<T>(preMiddlewares.map((pre) => ({ pre })));
+    withPreMiddleware = (preMiddlewares: Array<Middleware['pre']>) =>
+        this.withMiddleware(preMiddlewares.map((pre) => ({ pre })));
 
-    withPostMiddleware = <T extends BaseAPI>(postMiddlewares: Array<Middleware['post']>) =>
-        this.withMiddleware<T>(postMiddlewares.map((post) => ({ post })));
+    withPostMiddleware = (postMiddlewares: Array<Middleware['post']>) =>
+        this.withMiddleware(postMiddlewares.map((post) => ({ post })));
 
     protected request = <T>(requestOpts: RequestOpts): Observable<T> =>
         this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
@@ -132,7 +132,7 @@ export class BaseAPI {
      * Create a shallow clone of `this` by constructing a new instance
      * and then shallow cloning data members.
      */
-    private clone = <T extends BaseAPI>(): T => 
+    private clone = (): BaseAPI =>
         Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 }
 

@@ -63,7 +63,7 @@ export class PetApi extends BaseAPI {
     /**
      * Add a new pet to the store
      */
-    addPet = ({ body, }: AddPetRequest): Observable<void> => {
+    addPet = ({ body }: AddPetRequest): Observable<void> => {
         throwIfNullOrUndefined(body, 'addPet');
 
         const headers: HttpHeaders = {
@@ -88,7 +88,7 @@ export class PetApi extends BaseAPI {
     /**
      * Deletes a pet
      */
-    deletePet = ({ petId, apiKey, }: DeletePetRequest): Observable<void> => {
+    deletePet = ({ petId, apiKey }: DeletePetRequest): Observable<void> => {
         throwIfNullOrUndefined(petId, 'deletePet');
 
         const headers: HttpHeaders = {
@@ -113,7 +113,7 @@ export class PetApi extends BaseAPI {
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    findPetsByStatus = ({ status, }: FindPetsByStatusRequest): Observable<Array<Pet>> => {
+    findPetsByStatus = ({ status }: FindPetsByStatusRequest): Observable<Array<Pet>> => {
         throwIfNullOrUndefined(status, 'findPetsByStatus');
 
         const headers: HttpHeaders = {
@@ -126,7 +126,7 @@ export class PetApi extends BaseAPI {
             ),
         };
 
-        const query: HttpQuery = {
+        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
             'status': status.join(COLLECTION_FORMATS['csv']),
         };
 
@@ -142,7 +142,7 @@ export class PetApi extends BaseAPI {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    findPetsByTags = ({ tags, }: FindPetsByTagsRequest): Observable<Array<Pet>> => {
+    findPetsByTags = ({ tags }: FindPetsByTagsRequest): Observable<Array<Pet>> => {
         throwIfNullOrUndefined(tags, 'findPetsByTags');
 
         const headers: HttpHeaders = {
@@ -155,7 +155,7 @@ export class PetApi extends BaseAPI {
             ),
         };
 
-        const query: HttpQuery = {
+        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
             'tags': tags.join(COLLECTION_FORMATS['csv']),
         };
 
@@ -171,7 +171,7 @@ export class PetApi extends BaseAPI {
      * Returns a single pet
      * Find pet by ID
      */
-    getPetById = ({ petId, }: GetPetByIdRequest): Observable<Pet> => {
+    getPetById = ({ petId }: GetPetByIdRequest): Observable<Pet> => {
         throwIfNullOrUndefined(petId, 'getPetById');
 
         const headers: HttpHeaders = {
@@ -188,7 +188,7 @@ export class PetApi extends BaseAPI {
     /**
      * Update an existing pet
      */
-    updatePet = ({ body, }: UpdatePetRequest): Observable<void> => {
+    updatePet = ({ body }: UpdatePetRequest): Observable<void> => {
         throwIfNullOrUndefined(body, 'updatePet');
 
         const headers: HttpHeaders = {
@@ -213,7 +213,7 @@ export class PetApi extends BaseAPI {
     /**
      * Updates a pet in the store with form data
      */
-    updatePetWithForm = ({ petId, name, status, }: UpdatePetWithFormRequest): Observable<void> => {
+    updatePetWithForm = ({ petId, name, status }: UpdatePetWithFormRequest): Observable<void> => {
         throwIfNullOrUndefined(petId, 'updatePetWithForm');
 
         const headers: HttpHeaders = {
@@ -241,7 +241,7 @@ export class PetApi extends BaseAPI {
     /**
      * uploads an image
      */
-    uploadFile = ({ petId, additionalMetadata, file, }: UploadFileRequest): Observable<ApiResponse> => {
+    uploadFile = ({ petId, additionalMetadata, file }: UploadFileRequest): Observable<ApiResponse> => {
         throwIfNullOrUndefined(petId, 'uploadFile');
 
         const headers: HttpHeaders = {

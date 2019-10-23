@@ -56,7 +56,7 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Create user
      */
-    createUser = ({ body, }: CreateUserRequest): Observable<void> => {
+    createUser = ({ body }: CreateUserRequest): Observable<void> => {
         throwIfNullOrUndefined(body, 'createUser');
 
         const headers: HttpHeaders = {
@@ -74,7 +74,7 @@ export class UserApi extends BaseAPI {
     /**
      * Creates list of users with given input array
      */
-    createUsersWithArrayInput = ({ body, }: CreateUsersWithArrayInputRequest): Observable<void> => {
+    createUsersWithArrayInput = ({ body }: CreateUsersWithArrayInputRequest): Observable<void> => {
         throwIfNullOrUndefined(body, 'createUsersWithArrayInput');
 
         const headers: HttpHeaders = {
@@ -92,7 +92,7 @@ export class UserApi extends BaseAPI {
     /**
      * Creates list of users with given input array
      */
-    createUsersWithListInput = ({ body, }: CreateUsersWithListInputRequest): Observable<void> => {
+    createUsersWithListInput = ({ body }: CreateUsersWithListInputRequest): Observable<void> => {
         throwIfNullOrUndefined(body, 'createUsersWithListInput');
 
         const headers: HttpHeaders = {
@@ -111,7 +111,7 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Delete user
      */
-    deleteUser = ({ username, }: DeleteUserRequest): Observable<void> => {
+    deleteUser = ({ username }: DeleteUserRequest): Observable<void> => {
         throwIfNullOrUndefined(username, 'deleteUser');
 
         return this.request<void>({
@@ -123,7 +123,7 @@ export class UserApi extends BaseAPI {
     /**
      * Get user by user name
      */
-    getUserByName = ({ username, }: GetUserByNameRequest): Observable<User> => {
+    getUserByName = ({ username }: GetUserByNameRequest): Observable<User> => {
         throwIfNullOrUndefined(username, 'getUserByName');
 
         return this.request<User>({
@@ -135,11 +135,11 @@ export class UserApi extends BaseAPI {
     /**
      * Logs user into the system
      */
-    loginUser = ({ username, password, }: LoginUserRequest): Observable<string> => {
+    loginUser = ({ username, password }: LoginUserRequest): Observable<string> => {
         throwIfNullOrUndefined(username, 'loginUser');
         throwIfNullOrUndefined(password, 'loginUser');
 
-        const query: HttpQuery = {
+        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
             'username': username,
             'password': password,
         };
@@ -165,7 +165,7 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Updated user
      */
-    updateUser = ({ username, body, }: UpdateUserRequest): Observable<void> => {
+    updateUser = ({ username, body }: UpdateUserRequest): Observable<void> => {
         throwIfNullOrUndefined(username, 'updateUser');
         throwIfNullOrUndefined(body, 'updateUser');
 

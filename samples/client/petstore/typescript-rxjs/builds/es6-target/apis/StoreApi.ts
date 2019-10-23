@@ -38,7 +38,7 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    deleteOrder = ({ orderId, }: DeleteOrderRequest): Observable<void> => {
+    deleteOrder = ({ orderId }: DeleteOrderRequest): Observable<void> => {
         throwIfNullOrUndefined(orderId, 'deleteOrder');
 
         return this.request<void>({
@@ -67,7 +67,7 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    getOrderById = ({ orderId, }: GetOrderByIdRequest): Observable<Order> => {
+    getOrderById = ({ orderId }: GetOrderByIdRequest): Observable<Order> => {
         throwIfNullOrUndefined(orderId, 'getOrderById');
 
         return this.request<Order>({
@@ -79,7 +79,7 @@ export class StoreApi extends BaseAPI {
     /**
      * Place an order for a pet
      */
-    placeOrder = ({ body, }: PlaceOrderRequest): Observable<Order> => {
+    placeOrder = ({ body }: PlaceOrderRequest): Observable<Order> => {
         throwIfNullOrUndefined(body, 'placeOrder');
 
         const headers: HttpHeaders = {
