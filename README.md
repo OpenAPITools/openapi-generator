@@ -556,6 +556,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 
 - [Adaptant Solutions AG](https://www.adaptant.io/)
 - [Angular.Schule](https://angular.schule/)
+- [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [ASKUL](https://www.askul.co.jp)
 - [b<>com](https://b-com.com/en)
 - [Banzai Cloud](https://banzaicloud.com)
