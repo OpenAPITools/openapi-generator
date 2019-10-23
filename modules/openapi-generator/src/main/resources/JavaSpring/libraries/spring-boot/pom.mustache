@@ -9,9 +9,11 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+ {{#useDocumentationAnnotations}}
         {{#useSpringfox}}
         <springfox-version>2.8.0</springfox-version>
         {{/useSpringfox}}
+ {{/useDocumentationAnnotations}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -82,6 +84,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}</artifactId>
         </dependency>
+{{#useDocumentationAnnotations}}
         {{#useSpringfox}}
         <!--SpringFox dependencies -->
         <dependency>
@@ -100,7 +103,9 @@
             <version>2.2.11</version>
         </dependency>
         {{/useSpringfox}}
+{{/useDocumentationAnnotations}}
         {{^useSpringfox}}
+{{#useDocumentationAnnotations}}
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
@@ -111,6 +116,7 @@
             <artifactId>swagger-annotations</artifactId>
             <version>1.5.14</version>
         </dependency>
+{{/useDocumentationAnnotations}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
