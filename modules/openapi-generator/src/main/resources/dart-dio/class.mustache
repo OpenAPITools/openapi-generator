@@ -15,7 +15,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     @BuiltValueField(wireName: '{{baseName}}')
     {{{dataType}}} get {{name}};
     {{#allowableValues}}
-        {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{
+        {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}
     {{/allowableValues}}
 {{/vars}}
 
