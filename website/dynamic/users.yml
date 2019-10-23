@@ -209,6 +209,11 @@
   infoLink: "https://www.raiffeisen.ch/"
   pinned: false
 -
+  caption: "RedHat"
+  image: "img/companies/redhat.png"
+  infoLink: "https://www.redhat.com"
+  pinned: false
+-
   caption: "RepreZen API Studio"
   image: "img/companies/reprezen.png"
   infoLink: "https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development"
