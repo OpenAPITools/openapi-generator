@@ -865,9 +865,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -939,9 +939,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -1011,9 +1011,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -1085,9 +1085,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
