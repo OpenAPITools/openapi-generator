@@ -601,4 +601,42 @@ public class CodegenModel {
             }
         }
     }
+
+    /**
+     * Remove the discriminator property, so it is not serialized twice
+     */
+    public void removeDiscriminatorProperty() {
+        String discriminatorName = getDiscriminatorName();
+
+        if (discriminatorName != null) {
+            removeSingleProperty(vars, discriminatorName);
+            removeSingleProperty(optionalVars, discriminatorName);
+            removeSingleProperty(requiredVars, discriminatorName);
+            removeSingleProperty(parentVars, discriminatorName);
+            removeSingleProperty(allVars, discriminatorName);
+            removeSingleProperty(readOnlyVars, discriminatorName);
+            removeSingleProperty(readWriteVars, discriminatorName);
+
+            // update property list's "hasMore"
+            updatePropertyListHasMore(vars);
+            updatePropertyListHasMore(optionalVars);
+            updatePropertyListHasMore(requiredVars);
+            updatePropertyListHasMore(parentVars);
+            updatePropertyListHasMore(allVars);
+            updatePropertyListHasMore(readOnlyVars);
+            updatePropertyListHasMore(readWriteVars);
+        }
+    }
+
+    private void removeSingleProperty(List<CodegenProperty> vars, String nameToRemove) {
+        ListIterator<CodegenProperty> iterator = vars.listIterator();
+        while (iterator.hasNext()) {
+            CodegenProperty element = iterator.next();
+
+            if (nameToRemove.equals(element.baseName)) {
+                iterator.remove();
+                break;
+            }
+        }
+    }
 }
