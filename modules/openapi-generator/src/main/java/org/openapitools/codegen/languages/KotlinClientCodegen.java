@@ -19,7 +19,9 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 
@@ -37,6 +39,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String COLLECTION_TYPE = "collectionType";
+
+    protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String collectionType = CollectionType.ARRAY.value;
@@ -251,6 +255,31 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     private boolean isJVMLibrary() {
         return getLibrary() != null && (getLibrary().contains(JVM_OKHTTP4) || getLibrary().contains(JVM_OKHTTP3));
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        Map<String, Object> objects = super.postProcessModels(objs);
+        @SuppressWarnings("unchecked") List<Object> models = (List<Object>) objs.get("models");
+
+        for (Object model : models) {
+            @SuppressWarnings("unchecked") Map<String, Object> mo = (Map<String, Object>) model;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // escape the variable base name for use as a string literal
+            if (cm.requiredVars != null) {
+                for (CodegenProperty var : cm.requiredVars) {
+                    var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
+                }
+            }
+            if (cm.optionalVars != null) {
+                for (CodegenProperty var : cm.optionalVars) {
+                    var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
+                }
+            }
+        }
+
+        return objects;
     }
 
     @Override
