@@ -279,6 +279,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
                 if (param.required) {
                     op.hasRequiredQueryParams = true;
+                } else {
+                    op.hasOptionalQueryParams = true;
                 }
             }
             for (CodegenParameter param : op.formParams) {
@@ -330,6 +332,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     class ExtendedCodegenOperation extends CodegenOperation {
         public boolean hasHttpHeaders;
         public boolean hasRequiredQueryParams;
+        public boolean hasOptionalQueryParams;
 
         public ExtendedCodegenOperation(CodegenOperation o) {
             super();
@@ -404,6 +407,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             // new fields
             this.hasHttpHeaders = o.getHasHeaderParams() || o.getHasBodyParam() || o.hasAuthMethods;
             this.hasRequiredQueryParams = false; // will be updated within addConditionalImportInformation
+            this.hasOptionalQueryParams = false; // will be updated within addConditionalImportInformation
         }
     }
 }

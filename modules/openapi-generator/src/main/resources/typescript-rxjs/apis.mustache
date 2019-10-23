@@ -37,7 +37,7 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}, {{/allParams}}}: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
+    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
         {{#hasParams}}
         {{#allParams}}
         {{#required}}
@@ -89,7 +89,6 @@ export class {{classname}} extends BaseAPI {
         {{#hasQueryParams}}
         {{^hasRequiredQueryParams}}
         const query: HttpQuery = {};
-
         {{/hasRequiredQueryParams}}
         {{#hasRequiredQueryParams}}
         const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
@@ -119,8 +118,9 @@ export class {{classname}} extends BaseAPI {
             {{/required}}
             {{/queryParams}}
         };
-
         {{/hasRequiredQueryParams}}
+        {{#hasOptionalQueryParams}}
+
         {{#queryParams}}
         {{^required}}
         {{#isListContainer}}
@@ -146,6 +146,7 @@ export class {{classname}} extends BaseAPI {
         {{/isListContainer}}
         {{/required}}
         {{/queryParams}}
+        {{/hasOptionalQueryParams}}
         {{#authMethods}}
         {{#isApiKey}}
         {{#isKeyInQuery}}
@@ -153,6 +154,7 @@ export class {{classname}} extends BaseAPI {
         {{/isKeyInQuery}}
         {{/isApiKey}}
         {{/authMethods}}
+
         {{/hasQueryParams}}
         {{#hasFormParams}}
         const formData = new FormData();
