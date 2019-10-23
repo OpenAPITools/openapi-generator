@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, HttpHeaders, throwIfRequired, encodeURI } from '../runtime';
+import { BaseAPI, HttpHeaders, throwIfNullOrUndefined, encodeURI } from '../runtime';
 import {
     Order,
 } from '../models';
@@ -38,11 +38,11 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    deleteOrder = (requestParameters: DeleteOrderRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'orderId', 'deleteOrder');
+    deleteOrder = ({ orderId, }: DeleteOrderRequest): Observable<void> => {
+        throwIfNullOrUndefined(orderId, 'deleteOrder');
 
         return this.request<void>({
-            path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(requestParameters.orderId)),
+            path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
             method: 'DELETE',
         });
     };
@@ -67,11 +67,11 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    getOrderById = (requestParameters: GetOrderByIdRequest): Observable<Order> => {
-        throwIfRequired(requestParameters, 'orderId', 'getOrderById');
+    getOrderById = ({ orderId, }: GetOrderByIdRequest): Observable<Order> => {
+        throwIfNullOrUndefined(orderId, 'getOrderById');
 
         return this.request<Order>({
-            path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(requestParameters.orderId)),
+            path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
             method: 'GET',
         });
     };
@@ -79,8 +79,8 @@ export class StoreApi extends BaseAPI {
     /**
      * Place an order for a pet
      */
-    placeOrder = (requestParameters: PlaceOrderRequest): Observable<Order> => {
-        throwIfRequired(requestParameters, 'body', 'placeOrder');
+    placeOrder = ({ body, }: PlaceOrderRequest): Observable<Order> => {
+        throwIfNullOrUndefined(body, 'placeOrder');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export class StoreApi extends BaseAPI {
             path: '/store/order',
             method: 'POST',
             headers,
-            body: requestParameters.body,
+            body: body,
         });
     };
 
