@@ -61,6 +61,7 @@ public class PetApiTest {
         ApiClient oldClient = api.getApiClient();
 
         ApiClient newClient = new ApiClient();
+        newClient.setVerifyingSsl(true);
         newClient.setBasePath("http://example.com");
         newClient.setDebugging(true);
 
