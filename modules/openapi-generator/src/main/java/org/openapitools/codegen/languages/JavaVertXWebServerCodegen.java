@@ -71,11 +71,10 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         modelTemplateFiles.put("model.mustache", ".java");
 
         apiTemplateFiles.clear();
-        apiTemplateFiles.put("api.mustache", ".java");
-        apiTemplateFiles.put("apiVerticle.mustache", "Verticle.java");
+        //apiTemplateFiles.put("api.mustache", ".java");
         apiTemplateFiles.put("apiException.mustache", "Exception.java");
 
-        embeddedTemplateDir = templateDir = "JavaVertXServer";
+        embeddedTemplateDir = templateDir = "JavaVertXWebServer";
 
         apiPackage = rootPackage + ".verticle";
         modelPackage = rootPackage + ".model";
@@ -144,23 +143,21 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
-        importMapping.put("MainApiException", rootPackage + ".MainApiException");
+        //importMapping.put("MainApiException", rootPackage + ".MainApiException");
 
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
 
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("openapi.mustache", resourceFolder, "openapi.json"));
-        supportingFiles.add(new SupportingFile("MainApiVerticle.mustache",
+        supportingFiles.add(new SupportingFile("openapi.mustache", resourceFolder, "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("supportFiles/HttpServerVerticle.mustache",
                 sourceFolder + File.separator + rootPackage.replace(".", File.separator),
-                "MainApiVerticle.java"));
-        supportingFiles.add(new SupportingFile("MainApiException.mustache",
+                "HttpServerVerticle.java"));
+        supportingFiles.add(new SupportingFile("supportFiles/MainVerticle.mustache",
                 sourceFolder + File.separator + rootPackage.replace(".", File.separator),
-                "MainApiException.java"));
+                "MainVerticle.java"));
 
-        writeOptional(outputFolder, new SupportingFile("vertx-default-jul-logging.mustache",
-                resourceFolder, "vertx-default-jul-logging.properties"));
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+        writeOptional(outputFolder, new SupportingFile("supportFiles/pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
     }
 
@@ -210,7 +207,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation codegenOperation =
                 super.fromOperation(path, httpMethod, operation, servers);
-        codegenOperation.imports.add("MainApiException");
+        //codegenOperation.imports.add("MainApiException");
         return codegenOperation;
     }
 

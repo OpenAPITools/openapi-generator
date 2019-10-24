@@ -1,0 +1,63 @@
+package {{rootPackage}};
+
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.http.HttpServerOptions;
+import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.api.contract.RouterFactoryOptions;
+import io.vertx.reactivex.core.AbstractVerticle;
+import io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class HttpServerVerticle extends AbstractVerticle {
+    
+    private static final Logger logger = LoggerFactory.getLogger(HttpServerVerticle.class);
+
+    private static String specFile = "src/main/resources/openapi.yaml";
+
+    private Map<String, Handler<RoutingContext>> operationHandlers = new HashMap<>();
+    private PetHandler petHandler;
+
+    @Override
+    public void start(Future<Void> fut) {
+        petHandler = new PetHandler(operationHandlers);
+
+        OpenAPI3RouterFactory.rxCreate(vertx, specFile)
+                .doOnSuccess(factory -> {
+                    factory.setOptions(new RouterFactoryOptions()
+                            .setMountNotImplementedHandler(false));
+                    factory.addSecurityHandler( "petstore_auth", io.vertx.reactivex.ext.web.RoutingContext::next);
+                    factory.addSecurityHandler( "api_key", io.vertx.reactivex.ext.web.RoutingContext::next);
+                    factory.setValidationFailureHandler( rc ->
+                            rc.response()
+                                    .setStatusCode(400)
+                                    .end("Bad Request : " + rc.failure().getMessage())
+                    );
+                    operationHandlers.forEach(factory.getDelegate()::addHandlerByOperationId);
+                })
+                .map(OpenAPI3RouterFactory::getRouter)
+                .doOnSuccess(router -> router.route().last().handler( rc ->
+                        rc.response()
+                                .setStatusCode(404)
+                                .end("Method '" + rc.request().path() + "' Not Found")
+                ))
+                .map(router ->
+                        vertx.createHttpServer(new HttpServerOptions()
+                                .setPort(8080)
+                                .setHost("localhost"))
+                                .requestHandler(router)
+                                .listen()
+                )
+                .subscribe( httpServer -> {
+                    logger.info("MyVerticle deployed successful");
+                    fut.complete();
+                }, error -> {
+                    logger.info("MyVerticle failed to deployed ", error);
+                    fut.fail(error.getCause());
+                });
+    }
+}
