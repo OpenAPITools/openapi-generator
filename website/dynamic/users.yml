@@ -84,6 +84,11 @@
   infoLink: "https://www.cupix.com/"
   pinned: false
 -
+  caption: "dwango"
+  image: "img/companies/dwango.png"
+  infoLink: "https://dwango.co.jp/"
+  pinned: false
+-
   caption: "Edge Impulse"
   image: "img/companies/edge_impulse.png"
   infoLink: "https://www.edgeimpulse.com/"
