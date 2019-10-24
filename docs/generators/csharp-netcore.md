@@ -18,8 +18,6 @@ sidebar_label: csharp-netcore
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|
-|optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
-|optionalProjectFile|Generate {PackageName}.csproj.| |true|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
