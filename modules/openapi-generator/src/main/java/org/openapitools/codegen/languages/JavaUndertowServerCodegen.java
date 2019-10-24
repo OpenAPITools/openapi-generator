@@ -59,7 +59,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         apiDocTemplateFiles.remove("api_doc.mustache");
 
         if(GlobalSettings.getProperty("swagger.codegen.undertow.apipackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.apipackage") == null) {
-            LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'swagger.codegen.undertow.apipackage'");
+            LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'openapi.codegen.undertow.apipackage'");
             apiPackage = GlobalSettings.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
         } else {
             apiPackage = GlobalSettings.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
