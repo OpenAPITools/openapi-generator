@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -100,7 +101,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
         // keep the yaml in config folder for framework validation.
         supportingFiles.add(new SupportingFile("openapi.mustache", ("src.main.resources.config").replace(".", java.io.File.separator), "openapi.json"));
-        supportingFiles.add(new SupportingFile("handler.mustache", ("src.main.java.org.openapitools.handler").replace(".", java.io.File.separator), "PathHandlerProvider.java"));
+        supportingFiles.add(new SupportingFile("handler.mustache", (String.format(Locale.ROOT, "src.main.java.%s", apiPackage)).replace(".", java.io.File.separator), "PathHandlerProvider.java"));
         supportingFiles.add(new SupportingFile("service.mustache", ("src.main.resources.META-INF.services").replace(".", java.io.File.separator), "com.networknt.server.HandlerProvider"));
 
         // configuration files
