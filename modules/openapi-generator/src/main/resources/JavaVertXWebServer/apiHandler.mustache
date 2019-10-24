@@ -1,0 +1,33 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import io.vertx.core.Handler;
+import io.vertx.core.http.HttpServerResponse;
+import io.vertx.ext.web.RoutingContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+
+public class {{classname}}Handler {
+
+    public {{classname}}Handler(Map<String, Handler<RoutingContext>> operationHandlers) {
+{{#operations}}
+{{#operation}}
+        operationHandlers.put("{{operationId}}", this::{{operationId}});
+{{/operation}}
+{{/operations}}
+    }
+{{#operations}}
+{{#operation}}
+
+    private void {{operationId}}(RoutingContext routingContext) {
+        HttpServerResponse response = routingContext.response();
+        response.setStatusCode(501).end("Not Implemented");
+    }
+
+{{/operation}}
+{{/operations}}
+}

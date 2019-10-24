@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+{{#apiInfo}}{{#apis}}
+import {{apiPackage}}.{{classname}}Handler;{{/apis}}{{/apiInfo}}
 
 public class HttpServerVerticle extends AbstractVerticle {
     
@@ -20,17 +22,18 @@ public class HttpServerVerticle extends AbstractVerticle {
     private static String specFile = "src/main/resources/openapi.yaml";
 
     private Map<String, Handler<RoutingContext>> operationHandlers = new HashMap<>();
-    private PetHandler petHandler;
 
     @Override
     public void start(Future<Void> fut) {
-        petHandler = new PetHandler(operationHandlers);
+        {{#apiInfo}}{{#apis}}
+        new {{classname}}Handler(operationHandlers);{{/apis}}{{/apiInfo}}
 
         OpenAPI3RouterFactory.rxCreate(vertx, specFile)
                 .doOnSuccess(factory -> {
                     factory.setOptions(new RouterFactoryOptions()
                             .setMountNotImplementedHandler(false));
                     factory.addSecurityHandler( "petstore_auth", io.vertx.reactivex.ext.web.RoutingContext::next);
+                    factory.addSecurityHandler( "auth_cookie", io.vertx.reactivex.ext.web.RoutingContext::next);
                     factory.addSecurityHandler( "api_key", io.vertx.reactivex.ext.web.RoutingContext::next);
                     factory.setValidationFailureHandler( rc ->
                             rc.response()

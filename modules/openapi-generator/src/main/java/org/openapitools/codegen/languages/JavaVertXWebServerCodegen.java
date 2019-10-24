@@ -71,14 +71,13 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         modelTemplateFiles.put("model.mustache", ".java");
 
         apiTemplateFiles.clear();
-        //apiTemplateFiles.put("api.mustache", ".java");
-        apiTemplateFiles.put("apiException.mustache", "Exception.java");
+        apiTemplateFiles.put("apiHandler.mustache", "Handler.java");
 
         embeddedTemplateDir = templateDir = "JavaVertXWebServer";
 
-        apiPackage = rootPackage + ".verticle";
+        apiPackage = rootPackage + ".handler";
         modelPackage = rootPackage + ".model";
-        artifactId = "openapi-java-vertx-server";
+        artifactId = "openapi-java-vertx-web-server";
         artifactVersion = apiVersion;
         this.setDateLibrary("java8");
 
@@ -148,14 +147,11 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
 
+        String sourcePackageFolder = sourceFolder + File.separator + rootPackage.replace(".", File.separator);
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("openapi.mustache", resourceFolder, "openapi.yaml"));
-        supportingFiles.add(new SupportingFile("supportFiles/HttpServerVerticle.mustache",
-                sourceFolder + File.separator + rootPackage.replace(".", File.separator),
-                "HttpServerVerticle.java"));
-        supportingFiles.add(new SupportingFile("supportFiles/MainVerticle.mustache",
-                sourceFolder + File.separator + rootPackage.replace(".", File.separator),
-                "MainVerticle.java"));
+        supportingFiles.add(new SupportingFile("supportFiles/HttpServerVerticle.mustache", sourcePackageFolder, "HttpServerVerticle.java"));
+        supportingFiles.add(new SupportingFile("supportFiles/MainVerticle.mustache", sourcePackageFolder, "MainVerticle.java"));
 
         writeOptional(outputFolder, new SupportingFile("supportFiles/pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
