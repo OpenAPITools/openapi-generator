@@ -1,12 +1,24 @@
 package org.openapitools.codegen.kotlin;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
 import static org.testng.Assert.*;
@@ -196,5 +208,39 @@ public class AbstractKotlinCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, 42L);
         codegen.processOpts();
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void handleInheritance() {
+        Schema parent = new ObjectSchema()
+                .addProperties("a", new StringSchema())
+                .addProperties("b", new StringSchema())
+                .addRequiredItem("a")
+                .name("Parent");
+        Schema child = new ComposedSchema()
+                .addAllOfItem(new Schema().$ref("Parent"))
+                .addAllOfItem(new ObjectSchema()
+                        .addProperties("c", new StringSchema())
+                        .addProperties("d", new StringSchema()))
+                .name("Child")
+                .addRequiredItem("a")
+                .addRequiredItem("c");
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas(parent.getName(), parent);
+        openAPI.getComponents().addSchemas(child.getName(), child);
+
+        final DefaultCodegen codegen = new P_AbstractKotlinCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel pm = codegen
+                .fromModel("Child", child);
+        Map<String, CodegenProperty> allVarsMap = pm.allVars.stream()
+                .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
+        for (CodegenProperty p : pm.requiredVars) {
+            Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
+        }
+        for (CodegenProperty p : pm.optionalVars) {
+            Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
+        }
     }
 }
