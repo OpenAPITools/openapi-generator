@@ -103,6 +103,7 @@ samples/client/petstore/java/feign/hello.txt
 samples/client/petstore/java/jersey2-java6/project/
 samples/client/petstore/java/jersey2-java8/project/
 samples/client/petstore/java/jersey2/project/
+temp/
 
 # Perl
 samples/client/petstore/perl/deep_module_test/

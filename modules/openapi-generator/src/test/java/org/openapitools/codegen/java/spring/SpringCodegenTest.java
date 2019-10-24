@@ -349,4 +349,68 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
     }
+
+    @Test
+    public void testNoSwaggerAnnotations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_1085.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseDocumentationAnnotations(false);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/Monkey.java",  "@Api");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/MonkeyList.java",  "@Api");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/Monkey.java",  "io.swagger");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/MonkeyList.java",  "io.swagger");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeyApi.java",  "@Api");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeyApi.java",  "io.swagger");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeyApiController.java",  "@Api");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeyApiController.java",  "io.swagger");
+        checkFileNotContains(generator, outputPath + "/pom.xml",  "<groupId>io.springfox</groupId>");
+        checkFileNotContains(generator, outputPath + "/pom.xml",  "<artifactId>springfox-swagger2</artifactId>");
+        checkFileNotContains(generator, outputPath + "/pom.xml",  "<artifactId>springfox-swagger-ui</artifactId>");
+    }
+
+    @Test
+    public void testSwaggerAnnotations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_1085.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseDocumentationAnnotations(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/Monkey.java",  "@Api");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/MonkeyList.java",  "@Api");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/Monkey.java",  "io.swagger");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/MonkeyList.java",  "io.swagger");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeyApi.java",  "@Api");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeyApi.java",  "io.swagger");
+        checkFileContains(generator, outputPath + "/pom.xml",  "<groupId>io.springfox</groupId>");
+        checkFileContains(generator, outputPath + "/pom.xml",  "<artifactId>springfox-swagger2</artifactId>");
+        checkFileContains(generator, outputPath + "/pom.xml",  "<artifactId>springfox-swagger-ui</artifactId>");
+    }
 }

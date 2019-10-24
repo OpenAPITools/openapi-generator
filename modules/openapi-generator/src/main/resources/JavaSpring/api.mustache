@@ -7,7 +7,9 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
+{{#useDocumentationAnnotations}}
 import io.swagger.annotations.*;
+{{/useDocumentationAnnotations}}
 {{#jdk8-no-delegate}}
 {{#virtualService}}
 import io.virtualan.annotation.ApiVirtual;
@@ -60,7 +62,9 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
+{{#useDocumentationAnnotations}}
 @Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
+{{/useDocumentationAnnotations}}
 {{#operations}}
 {{#virtualService}}
 @VirtualService
@@ -71,6 +75,7 @@ public interface {{classname}} {
         {{^reactive}}
 
     default Optional<NativeWebRequest> getRequest() {
+
         return Optional.empty();
     }
         {{/reactive}}
@@ -84,6 +89,7 @@ public interface {{classname}} {
 {{/jdk8-default-interface}}
 {{#operation}}
 
+    {{#useDocumentationAnnotations}}
     {{#virtualService}}
     @ApiVirtual
     {{/virtualService}}
@@ -103,6 +109,7 @@ public interface {{classname}} {
     {{/headerParams}}
     })
     {{/implicitHeaders}}
+    {{/useDocumentationAnnotations}}
     @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}{{#hasProduces}}
         produces = "{{{vendorExtensions.x-accepts}}}", {{/hasProduces}}{{#hasConsumes}}
         consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}

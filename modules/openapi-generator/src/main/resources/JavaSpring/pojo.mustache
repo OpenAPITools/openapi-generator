@@ -1,7 +1,10 @@
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
-@ApiModel(description = "{{{description}}}"){{/description}}
+{{#useDocumentationAnnotations}}
+@ApiModel(description = "{{{description}}}")
+{{/useDocumentationAnnotations}}
+{{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends ResourceSupport {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
@@ -83,7 +86,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
  {{#vendorExtensions.extraAnnotation}}
   {{{vendorExtensions.extraAnnotation}}}
   {{/vendorExtensions.extraAnnotation}}
+  {{#useDocumentationAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
+  {{/useDocumentationAnnotations}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>nullableDataType}} {{getter}}() {
     return {{name}};
   }

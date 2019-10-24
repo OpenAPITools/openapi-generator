@@ -141,6 +141,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
+        cliOptions.add(CliOption.newBoolean(USE_DOCUMENTATION_ANNOTATIONS, "Whether to generate classes with swagger annotations.", useDocumentationAnnotations));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
