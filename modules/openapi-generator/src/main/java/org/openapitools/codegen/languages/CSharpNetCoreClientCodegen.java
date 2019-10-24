@@ -181,14 +181,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 "C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).",
                 this.optionalMethodArgumentFlag);
 
-        addSwitch(CodegenConstants.OPTIONAL_ASSEMBLY_INFO,
-                CodegenConstants.OPTIONAL_ASSEMBLY_INFO_DESC,
-                this.optionalAssemblyInfoFlag);
-
-        addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
-                CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
-                this.optionalProjectFileFlag);
-
         // NOTE: This will reduce visibility of all public members in templates. Users can use InternalsVisibleTo
         // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.internalsvisibletoattribute(v=vs.110).aspx
         // to expose to shared code if the generated code is not embedded into another project. Otherwise, users of codegen
@@ -496,7 +488,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         setSupportsAsync(Boolean.TRUE);
         setNetStandard(strategy.isNetStandard);
-        setNetCoreProjectFileFlag(!strategy.isNetStandard);
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
             LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in the .NET Standard generator.");
@@ -517,9 +508,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
-        syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_FILE, this::setOptionalProjectFileFlag, optionalProjectFileFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
-        syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_ASSEMBLY_INFO, this::setOptionalAssemblyInfoFlag, optionalAssemblyInfoFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
 
         final String testPackageName = testPackageName();
@@ -553,10 +542,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
         supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
 
-        if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("project.json.mustache", packageFolder + File.separator, "project.json"));
-        }
-
         supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
                 clientPackageDir, "IReadableConfiguration.cs"));
         supportingFiles.add(new SupportingFile("GlobalConfiguration.mustache",
@@ -572,30 +557,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        if (optionalAssemblyInfoFlag && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
-        }
+        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
 
-        if (optionalProjectFileFlag) {
-            supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-
-            if (Boolean.TRUE.equals(this.netCoreProjectFileFlag)) {
-                supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
-            } else {
-                supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, packageName + ".csproj"));
-                if (Boolean.FALSE.equals(this.netStandard)) {
-                    supportingFiles.add(new SupportingFile("nuspec.mustache", packageFolder, packageName + ".nuspec"));
-                }
-            }
-
-            if (Boolean.FALSE.equals(excludeTests.get())) {
-                // NOTE: This exists here rather than previous excludeTests block because the test project is considered an optional project file.
-                if (Boolean.TRUE.equals(this.netCoreProjectFileFlag)) {
-                    supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
-                } else {
-                    supportingFiles.add(new SupportingFile("TestProject.mustache", testPackageFolder, testPackageName + ".csproj"));
-                }
-            }
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
         }
 
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -604,14 +570,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setNetStandard(Boolean netStandard) {
         this.netStandard = netStandard;
-    }
-
-    public void setOptionalAssemblyInfoFlag(boolean flag) {
-        this.optionalAssemblyInfoFlag = flag;
-    }
-
-    public void setOptionalProjectFileFlag(boolean flag) {
-        this.optionalProjectFileFlag = flag;
     }
 
     public void setPackageGuid(String packageGuid) {
