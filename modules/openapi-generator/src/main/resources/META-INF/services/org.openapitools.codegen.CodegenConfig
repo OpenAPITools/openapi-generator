@@ -47,6 +47,7 @@ org.openapitools.codegen.languages.JavaPKMSTServerCodegen
 org.openapitools.codegen.languages.JavaPlayFrameworkCodegen
 org.openapitools.codegen.languages.JavaUndertowServerCodegen
 org.openapitools.codegen.languages.JavaVertXServerCodegen
+org.openapitools.codegen.languages.JavaVertXWebServerCodegen
 org.openapitools.codegen.languages.JavaCXFServerCodegen
 org.openapitools.codegen.languages.JavaCXFExtServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen

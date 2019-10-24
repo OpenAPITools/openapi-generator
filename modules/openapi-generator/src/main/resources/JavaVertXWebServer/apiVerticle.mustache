@@ -1,0 +1,129 @@
+package {{package}};
+
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import java.util.List;
+import java.util.Map;
+
+public class {{classname}}Verticle extends AbstractVerticle {
+    final static Logger LOGGER = LoggerFactory.getLogger({{classname}}Verticle.class); 
+    
+    {{#operations}}{{#operation}}{{#vendorExtensions}}final static String {{x-serviceid-varname}} = "{{x-serviceid}}";
+    {{/vendorExtensions}}{{/operation}}{{/operations}}
+    final {{classname}} service;
+
+    public {{classname}}Verticle() {
+        try {
+            Class serviceImplClass = getClass().getClassLoader().loadClass("{{package}}.{{classname}}Impl");
+            service = ({{classname}})serviceImplClass.newInstance();
+        } catch (Exception e) {
+            logUnexpectedError("{{classname}}Verticle constructor", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void start() throws Exception {
+        {{#operations}}{{#operation}}
+        //Consumer for {{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}
+        vertx.eventBus().<JsonObject> consumer({{#vendorExtensions}}{{x-serviceid-varname}}{{/vendorExtensions}}).handler(message -> {
+            try {
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}";
+                {{#hasParams}}
+                    {{#allParams}}
+                        {{#isListContainer}}
+                JsonArray {{paramName}}Param = message.body().getJsonArray("{{baseName}}");
+                {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
+                    return;
+                }
+                {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param.encode(),
+                    Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
+                {{/required}}
+                {{^required}}
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param.encode(),
+                    Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
+                {{/required}}
+                        {{/isListContainer}}
+                        {{^isListContainer}}
+                            {{#isPrimitiveType}}
+                                {{#isString}}
+                String {{paramName}}Param = message.body().getString("{{baseName}}");
+                {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
+                    return;
+                }
+                {{{dataType}}} {{paramName}} = {{paramName}}Param;
+                {{/required}}
+                {{^required}}
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{#isEnum}}"{{/isEnum}}{{{defaultValue}}}{{#isEnum}}"{{/isEnum}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : {{paramName}}Param;
+                {{/required}}
+                                {{/isString}}
+                                {{^isString}}
+                String {{paramName}}Param = message.body().getString("{{baseName}}");
+                {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
+                    return;
+                }
+                {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
+                {{/required}}
+                {{^required}}
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
+                {{/required}}
+                                {{/isString}}
+                            {{/isPrimitiveType}}
+                            {{^isPrimitiveType}}
+                JsonObject {{paramName}}Param = message.body().getJsonObject("{{baseName}}");
+                if ({{paramName}}Param == null) {
+                    manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
+                    return;
+                }
+                {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param.encode(), {{{dataType}}}.class);
+                            {{/isPrimitiveType}}
+                        {{/isListContainer}}
+                    {{/allParams}}
+                {{/hasParams}}
+                {{#rxInterface}}
+{{>RxCall}}
+                {{/rxInterface}}
+                {{^rxInterface}}
+{{>AsyncCall}}
+                {{/rxInterface}}
+            } catch (Exception e) {
+                logUnexpectedError("{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}", e);
+                message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
+            }
+        });
+        {{/operation}}{{/operations}}
+    }
+    
+    private void manageError(Message<JsonObject> message, Throwable cause, String serviceName) {
+        int code = MainApiException.INTERNAL_SERVER_ERROR.getStatusCode();
+        String statusMessage = MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage();
+        if (cause instanceof MainApiException) {
+            code = ((MainApiException)cause).getStatusCode();
+            statusMessage = ((MainApiException)cause).getStatusMessage();
+        } else {
+            logUnexpectedError(serviceName, cause); 
+        }
+            
+        message.fail(code, statusMessage);
+    }
+    
+    private void logUnexpectedError(String serviceName, Throwable cause) {
+        LOGGER.error("Unexpected error in "+ serviceName, cause);
+    }
+}
