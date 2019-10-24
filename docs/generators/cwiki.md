@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-documentation-cwiki
 title: Config Options for cwiki
 sidebar_label: cwiki
 ---

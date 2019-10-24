@@ -9,27 +9,27 @@
 /// A type-erased `ObservableType`. 
 ///
 /// It represents a push style sequence.
-public class Observable<Element> : ObservableType {
+public class Observable<Element>: ObservableType {
     /// Type of elements in sequence.
     public typealias E = Element
-    
+
     init() {
 #if TRACE_RESOURCES
-        let _ = Resources.incrementTotal()
+        _ = Resources.incrementTotal()
 #endif
     }
-    
+
     public func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == E {
         rxAbstractMethod()
     }
-    
+
     public func asObservable() -> Observable<E> {
         return self
     }
-    
+
     deinit {
 #if TRACE_RESOURCES
-        let _ = Resources.decrementTotal()
+        _ = Resources.decrementTotal()
 #endif
     }
 
@@ -41,4 +41,3 @@ public class Observable<Element> : ObservableType {
         return _map(source: self, transform: transform)
     }
 }
-

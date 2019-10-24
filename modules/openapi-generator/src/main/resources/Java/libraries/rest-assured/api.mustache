@@ -2,7 +2,9 @@
 
 package {{package}};
 
+{{#gson}}
 import com.google.gson.reflect.TypeToken;
+{{/gson}}
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -15,6 +17,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+{{#jackson}}
+import io.restassured.common.mapper.TypeRef;
+{{/jackson}}
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.swagger.annotations.*;
@@ -24,8 +29,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 {{/fullJavaUtil}}
+{{#gson}}
 import {{invokerPackage}}.JSON;
-
+{{/gson}}
 import static io.restassured.http.Method.*;
 
 @Api(value = "{{{baseName}}}")
@@ -139,8 +145,9 @@ public class {{classname}} {
          * @return {{returnType}}
          */
         public {{{returnType}}} executeAs(Function<Response, Response> handler) {
-            Type type = new TypeToken<{{{returnType}}}>(){}.getType();
-            return execute(handler).as(type);
+            {{#gson}}Type type = new TypeToken<{{{returnType}}}>(){}.getType();
+            {{/gson}}{{#jackson}}TypeRef<{{{returnType}}}> type = new TypeRef<{{{returnType}}}>(){};
+            {{/jackson}}return execute(handler).as(type);
         }
         {{/returnType}}
         {{#bodyParams}}

@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -35,6 +36,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
+    private static String CLASS_NAME_PREFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
@@ -43,25 +45,31 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
+    public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
     public static final String MODEL_SUFFIX = "modelSuffix";
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
+    public static final String STRING_ENUMS = "stringEnums";
+    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
-    protected String ngVersion = "7.0.0";
+    protected String ngVersion = "8.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
+    protected Boolean stringEnums = false;
 
     private boolean taggedUnions = false;
 
     public TypeScriptAngularClientCodegen() {
         super();
         this.outputFolder = "generated-code/typescript-angular";
+
+        supportsMultipleInheritance = true;
 
         embeddedTemplateDir = templateDir = "typescript-angular";
         modelTemplateFiles.put("model.mustache", ".ts");
@@ -83,11 +91,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
                 false));
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular.").defaultValue(this.ngVersion));
+        this.cliOptions.add(new CliOption(API_MODULE_PREFIX, "The prefix of the generated ApiModule."));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
+        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
     }
 
     @Override
@@ -136,6 +146,15 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             addNpmPackageGeneration(ngVersion);
         }
 
+        if (additionalProperties.containsKey(STRING_ENUMS)) {
+            setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
+            additionalProperties.put("stringEnums", getStringEnums());
+            if (getStringEnums()) {
+                enumSuffix = "";
+                classEnumSeparator = "";
+            }
+        }
+
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
             boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
             if (withInterfaces) {
@@ -151,8 +170,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)) {
                 additionalProperties.put(PROVIDED_IN_ROOT, true);
             } else {
-                additionalProperties.put(PROVIDED_IN_ROOT, Boolean.valueOf(
-                        (String) additionalProperties.get(PROVIDED_IN_ROOT)));
+                additionalProperties.put(PROVIDED_IN_ROOT, Boolean.parseBoolean(
+                    additionalProperties.get(PROVIDED_IN_ROOT).toString()
+                ));
             }
         } else {
             additionalProperties.put(PROVIDED_IN_ROOT, false);
@@ -165,6 +185,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("useRxJS6", ngVersion.atLeast("6.0.0"));
         if (!ngVersion.atLeast("4.3.0")) {
             supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
+        }
+        if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
+            String apiModulePrefix = additionalProperties.get(API_MODULE_PREFIX).toString();
+            validateClassPrefixArgument("ApiModule", apiModulePrefix);
+
+            additionalProperties.put("apiModuleClassName", apiModulePrefix + "ApiModule");
+        } else {
+            additionalProperties.put("apiModuleClassName", "ApiModule");
         }
         if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
             serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
@@ -194,8 +222,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("7.0.0")) {
-            // Angular v7 requires typescript ">=3.1.1 <3.2.0"
+        if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("tsVersion", ">=3.4.0 <3.6.0");
+        } else if (ngVersion.atLeast("7.0.0")) {
             additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
         } else if (ngVersion.atLeast("6.0.0")) {
             additionalProperties.put("tsVersion", ">=2.7.2 and <2.10.0");
@@ -207,7 +236,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the rxJS version compatible to the Angular version
-        if (ngVersion.atLeast("7.0.0")) {
+        if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.5.0");
+        } else if (ngVersion.atLeast("7.0.0")) {
             additionalProperties.put("rxjsVersion", "6.3.0");
         } else if (ngVersion.atLeast("6.0.0")) {
             additionalProperties.put("rxjsVersion", "6.1.0");
@@ -235,7 +266,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("useOldNgPackagr", !ngVersion.atLeast("5.0.0"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("7.0.0")) {
+        if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "5.4.0");
+            additionalProperties.put("tsickleVersion", "0.35.0");
+        } else if (ngVersion.atLeast("7.0.0")) {
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "5.1.0");
             additionalProperties.put("tsickleVersion", "0.34.0");
@@ -253,7 +287,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // set zone.js version
-        if (ngVersion.atLeast("5.0.0")) {
+        if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.9.1");
+        } else if (ngVersion.atLeast("5.0.0")) {
             // compatible versions to Angular 5+
             additionalProperties.put("zonejsVersion", "0.8.26");
         } else {
@@ -269,6 +305,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private String getIndexDirectory() {
         String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
         return indexPackage.replace('.', File.separatorChar);
+    }
+
+    public void setStringEnums(boolean value) {
+        stringEnums = value;
+    }
+
+    public Boolean getStringEnums() {
+        return stringEnums;
     }
 
     @Override
@@ -330,7 +374,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
 
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+        boolean hasSomeFormParams = false;
         for (CodegenOperation op : ops) {
+            if (op.getHasFormParams()) {
+                hasSomeFormParams = true;
+            }
             if ((boolean) additionalProperties.get("useHttpClient")) {
                 op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
             } else {
@@ -406,6 +454,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             op.path = pathBuffer.toString();
         }
 
+        operations.put("hasSomeFormParams", hasSomeFormParams);
+
         // Add additional filename information for model imports in the services
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
@@ -458,10 +508,31 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                     }
                 }
                 // Add additional filename information for imports
-                mo.put("tsImports", toTsImports(cm, cm.imports));
+                Set<String> parsedImports = parseImports(cm);
+                mo.put("tsImports", toTsImports(cm, parsedImports));
             }
         }
         return result;
+    }
+
+    /**
+     * Parse imports
+     */
+    private Set<String> parseImports(CodegenModel cm) {
+        Set<String> newImports = new HashSet<String>();
+        if (cm.imports.size() > 0) {
+            for (String name : cm.imports) {
+                if (name.indexOf(" | ") >= 0) {
+                    String[] parts = name.split(" \\| ");
+                    for (String s : parts) {
+                        newImports.add(s);
+                    }
+                } else {
+                    newImports.add(name);
+                }
+            }
+        }
+        return newImports;
     }
 
     private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
@@ -559,6 +630,21 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (!value.matches(FILE_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
                     String.format(Locale.ROOT, "%s file suffix only allows '.', '-' and alphanumeric characters.", argument)
+            );
+        }
+    }
+
+    /**
+     * Validates that the given string value only contains alpha numeric characters.
+     * Throws an IllegalArgumentException, if the string contains any other characters.
+     *
+     * @param argument The name of the argument being validated. This is only used for displaying an error message.
+     * @param value    The value that is being validated.
+     */
+    private void validateClassPrefixArgument(String argument, String value) {
+        if (!value.matches(CLASS_NAME_PREFIX_PATTERN)) {
+            throw new IllegalArgumentException(
+                    String.format(Locale.ROOT, "%s class prefix only allows alphanumeric characters.", argument)
             );
         }
     }

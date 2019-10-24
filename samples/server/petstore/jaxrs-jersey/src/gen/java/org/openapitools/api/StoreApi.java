@@ -65,7 +65,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathParam("order_id") String orderId
+    public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathParam("order_id") @NotNull  String orderId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deleteOrder(orderId, securityContext);
@@ -94,7 +94,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("order_id") Long orderId
+    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathParam("order_id") @NotNull  @Min(1L) @Max(5L) Long orderId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getOrderById(orderId, securityContext);
@@ -108,7 +108,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) @NotNull @Valid Order order
+    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true) @NotNull @Valid  Order order
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.placeOrder(order, securityContext);

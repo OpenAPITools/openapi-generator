@@ -791,6 +791,7 @@ paths:
               properties:
                 integer:
                   description: None
+                  format: int32
                   maximum: 100
                   minimum: 10
                   type: integer
@@ -1100,6 +1101,59 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
+  /fake/test-query-paramters:
+    put:
+      description: To test the collection format in query parameters
+      operationId: testQueryParameterCollectionFormat
+      parameters:
+      - explode: false
+        in: query
+        name: pipe
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - in: query
+        name: ioutil
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      - in: query
+        name: http
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: spaceDelimited
+      - explode: false
+        in: query
+        name: url
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: context
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        200:
+          content: {}
+          description: Success
+      tags:
+      - fake
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       operationId: uploadFileWithRequiredFile
@@ -1436,6 +1490,9 @@ components:
           format: password
           maxLength: 64
           minLength: 10
+          type: string
+        BigDecimal:
+          format: number
           type: string
       required:
       - byte
@@ -1815,6 +1872,10 @@ components:
         number_item:
           example: 1.234
           type: number
+        float_item:
+          example: 1.234
+          format: float
+          type: number
         integer_item:
           example: -2
           type: integer
@@ -1833,6 +1894,7 @@ components:
       required:
       - array_item
       - bool_item
+      - float_item
       - integer_item
       - number_item
       - string_item

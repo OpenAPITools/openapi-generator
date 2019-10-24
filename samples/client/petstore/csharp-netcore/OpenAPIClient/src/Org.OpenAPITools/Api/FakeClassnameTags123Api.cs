@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PetApi"/> class
+        /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class
         /// using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
@@ -246,9 +246,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }
@@ -316,9 +316,9 @@ namespace Org.OpenAPITools.Api
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var kvpValue in kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        requestOptions.QueryParameters.Add(kvp.Key, kvpValue);
                     }
                 }
             }

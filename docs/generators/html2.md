@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-documentation-html2
 title: Config Options for html2
 sidebar_label: html2
 ---

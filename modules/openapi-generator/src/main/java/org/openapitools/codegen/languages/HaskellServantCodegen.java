@@ -171,6 +171,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("file", "FilePath");
         typeMapping.put("binary", "FilePath");
         typeMapping.put("number", "Double");
+        typeMapping.put("BigDecimal", "Double");
         typeMapping.put("any", "Value");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "Text");
@@ -549,6 +550,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 return "(QueryList 'CommaSeparated (" + type + "))";
             case "tsv":
                 return "(QueryList 'TabSeparated (" + type + "))";
+            case "space":
             case "ssv":
                 return "(QueryList 'SpaceSeparated (" + type + "))";
             case "pipes":
@@ -556,7 +558,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             case "multi":
                 return "(QueryList 'MultiParamArray (" + type + "))";
             default:
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException(collectionFormat + " (collection format) not supported");
         }
     }
 

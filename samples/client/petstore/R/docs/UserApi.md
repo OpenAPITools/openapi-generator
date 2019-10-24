@@ -51,7 +51,10 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **0** | successful operation |  -  |
 
 # **CreateUsersWithArrayInput**
 > CreateUsersWithArrayInput(body)
@@ -73,7 +76,7 @@ api.instance$CreateUsersWithArrayInput(var.body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**array[User]**](User.md)| List of user object | 
+ **body** | list( [**User**](User.md) )| List of user object | 
 
 ### Return type
 
@@ -88,7 +91,10 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **0** | successful operation |  -  |
 
 # **CreateUsersWithListInput**
 > CreateUsersWithListInput(body)
@@ -110,7 +116,7 @@ api.instance$CreateUsersWithListInput(var.body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**array[User]**](User.md)| List of user object | 
+ **body** | list( [**User**](User.md) )| List of user object | 
 
 ### Return type
 
@@ -125,7 +131,10 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **0** | successful operation |  -  |
 
 # **DeleteUser**
 > DeleteUser(username)
@@ -164,7 +173,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid username supplied |  -  |
+| **404** | User not found |  -  |
 
 # **GetUserByName**
 > User GetUserByName(username)
@@ -202,7 +215,12 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid username supplied |  -  |
+| **404** | User not found |  -  |
 
 # **LoginUser**
 > character LoginUser(username, password)
@@ -242,7 +260,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when toekn expires <br>  |
+| **400** | Invalid username/password supplied |  -  |
 
 # **LogoutUser**
 > LogoutUser()
@@ -275,7 +297,10 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **0** | successful operation |  -  |
 
 # **UpdateUser**
 > UpdateUser(username, body)
@@ -316,5 +341,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid user supplied |  -  |
+| **404** | User not found |  -  |
 

@@ -1,20 +1,18 @@
 {{>partial_header}}
 package {{packageName}}
+
 {{#models}}
-{{#imports}}
-{{#-first}}
 import (
-{{/-first}}
+	"bytes"
+	"encoding/json"
+{{#imports}}
 	"{{import}}"
-{{#-last}}
-)
-{{/-last}}
 {{/imports}}
+)
+
 {{#model}}
 {{#isEnum}}
-{{#description}}
-// {{{classname}}} : {{{description}}}
-{{/description}}
+// {{{classname}}} {{#description}}{{{.}}}{{/description}}{{^description}}the model '{{{classname}}}'{{/description}}
 type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
 
 // List of {{{name}}}
@@ -23,11 +21,39 @@ const (
 	{{#enumVars}}
 	{{^-first}}
 	{{/-first}}
-	{{name}} {{{classname}}} = "{{{value}}}"
+	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
-){{/isEnum}}{{^isEnum}}{{#description}}
-// {{{description}}}{{/description}}
+)
+
+type Nullable{{{classname}}} struct {
+	Value {{{classname}}}
+	ExplicitNull bool
+}
+
+func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull && v.Value != "":
+        return nil, ErrInvalidNullable
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
+
+{{/isEnum}}
+{{^isEnum}}
+// {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 {{#vars}}
 {{^-first}}
@@ -35,15 +61,32 @@ type {{classname}} struct {
 {{#description}}
 	// {{{description}}}
 {{/description}}
-	{{name}} *{{{dataType}}} `json:"{{baseName}},omitempty"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
-{{#isNullable}}    isExplicitNull{{name}} bool `json:"-"{{#withXml}} xml:"-"{{/withXml}}`{{/isNullable}}
+	{{name}} {{^required}}*{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 }
 {{/isEnum}}
 
 {{^isEnum}}
 {{#vars}}
-// Get{{name}} returns the {{name}} field if non-nil, zero value otherwise.
+{{#required}}
+// Get{{name}} returns the {{name}} field value
+func (o *{{classname}}) Get{{name}}() {{dataType}} {
+	if o == nil {
+		var ret {{dataType}}
+		return ret
+	}
+
+	return o.{{name}}
+}
+
+// Set{{name}} sets field value
+func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
+	o.{{name}} = v
+}
+
+{{/required}}
+{{^required}}
+// Get{{name}} returns the {{name}} field value if set, zero value otherwise.
 func (o *{{classname}}) Get{{name}}() {{dataType}} {
 	if o == nil || o.{{name}} == nil {
 		var ret {{dataType}}
@@ -52,7 +95,7 @@ func (o *{{classname}}) Get{{name}}() {{dataType}} {
 	return *o.{{name}}
 }
 
-// Get{{name}}Ok returns a tuple with the {{name}} field if it's non-nil, zero value otherwise
+// Get{{name}}Ok returns a tuple with the {{name}} field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool) {
 	if o == nil || o.{{name}} == nil {
@@ -76,53 +119,30 @@ func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
 	o.{{name}} = &v
 }
 
-{{#isNullable}}
-// Set{{name}}ExplicitNull (un)sets {{name}} to be considered as explicit "null" value
-// when serializing to JSON (pass true as argument to set this, false to unset)
-// The {{name}} value is set to nil even if false is passed
-func (o *{{classname}}) Set{{name}}ExplicitNull(b bool) {
-	o.{{name}} = nil
-	o.isExplicitNull{{name}} = b
-}
-{{/isNullable}}
+{{/required}}
 {{/vars}}
-
-func (o {{classname}}) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	{{#vars}}
-	{{#required}}
-	{{! if argument is required and not nullable, it can't be nil}}
-	{{^isNullable}}
-	if o.{{name}} == nil {
-		return nil, errors.New("{{name}} is required and not nullable, but was not set on {{classname}}")
-	}{{/isNullable}}
-	{{! if argument is required and nullable, it *must* have isExplicitNull<name> set to true when it's nil}}
-	{{#isNullable}}
-	if o.{{name}} == nil && !o.isExplicitNull{{name}} {
-		return nil, errors.New("{{name}} is required and nullable, but it wasn't set to be explicit null")
-	}
-	{{/isNullable}}
-	{{/required}}
-	{{! if argument is nullable, only serialize it if it is nil *and* was explicitly set to nil}}
-	{{#isNullable}}
-	if o.{{name}} == nil {
-		if o.isExplicitNull{{name}} {
-			toSerialize["{{baseName}}"] = o.{{name}}
-		}
-	} else {
-		toSerialize["{{baseName}}"] = o.{{name}}
-	}
-	{{/isNullable}}
-	{{! if argument is not nullable, don't set it if it is nil}}
-	{{^isNullable}}
-	if o.{{name}} != nil {
-		toSerialize["{{baseName}}"] = o.{{name}}
-	}
-	{{/isNullable}}
-	{{/vars}}
-	return json.Marshal(toSerialize)
+type Nullable{{{classname}}} struct {
+	Value {{{classname}}}
+	ExplicitNull bool
 }
 
+func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 {{/isEnum}}
 
 {{/model}}

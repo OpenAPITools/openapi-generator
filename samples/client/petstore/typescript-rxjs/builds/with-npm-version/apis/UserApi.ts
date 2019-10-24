@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, throwIfRequired, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, HttpHeaders, HttpQuery, throwIfRequired, encodeURI } from '../runtime';
 import {
     User,
 } from '../models';
@@ -63,17 +63,13 @@ export class UserApi extends BaseAPI {
             'Content-Type': 'application/json',
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user`,
+            path: '/user',
             method: 'POST',
             headers,
-            query,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * Creates list of users with given input array
@@ -85,17 +81,13 @@ export class UserApi extends BaseAPI {
             'Content-Type': 'application/json',
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user/createWithArray`,
+            path: '/user/createWithArray',
             method: 'POST',
             headers,
-            query,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * Creates list of users with given input array
@@ -107,17 +99,13 @@ export class UserApi extends BaseAPI {
             'Content-Type': 'application/json',
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user/createWithList`,
+            path: '/user/createWithList',
             method: 'POST',
             headers,
-            query,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * This can only be done by the logged in user.
@@ -126,19 +114,11 @@ export class UserApi extends BaseAPI {
     deleteUser = (requestParameters: DeleteUserRequest): Observable<void> => {
         throwIfRequired(requestParameters, 'username', 'deleteUser');
 
-        const headers: HttpHeaders = {
-        };
-
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user/{username}`.replace(`{username}`, encodeURIComponent(String(requestParameters.username))),
+            path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
             method: 'DELETE',
-            headers,
-            query,
         });
-    }
+    };
 
     /**
      * Get user by user name
@@ -146,19 +126,11 @@ export class UserApi extends BaseAPI {
     getUserByName = (requestParameters: GetUserByNameRequest): Observable<User> => {
         throwIfRequired(requestParameters, 'username', 'getUserByName');
 
-        const headers: HttpHeaders = {
-        };
-
-        const query: HttpQuery = {
-        };
-
         return this.request<User>({
-            path: `/user/{username}`.replace(`{username}`, encodeURIComponent(String(requestParameters.username))),
+            path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
             method: 'GET',
-            headers,
-            query,
         });
-    }
+    };
 
     /**
      * Logs user into the system
@@ -167,40 +139,27 @@ export class UserApi extends BaseAPI {
         throwIfRequired(requestParameters, 'username', 'loginUser');
         throwIfRequired(requestParameters, 'password', 'loginUser');
 
-        const headers: HttpHeaders = {
-        };
-
         const query: HttpQuery = {
             ...(requestParameters.username && { 'username': requestParameters.username }),
             ...(requestParameters.password && { 'password': requestParameters.password }),
         };
 
         return this.request<string>({
-            path: `/user/login`,
+            path: '/user/login',
             method: 'GET',
-            headers,
             query,
         });
-    }
+    };
 
     /**
      * Logs out current logged in user session
      */
     logoutUser = (): Observable<void> => {
-
-        const headers: HttpHeaders = {
-        };
-
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user/logout`,
+            path: '/user/logout',
             method: 'GET',
-            headers,
-            query,
         });
-    }
+    };
 
     /**
      * This can only be done by the logged in user.
@@ -214,16 +173,12 @@ export class UserApi extends BaseAPI {
             'Content-Type': 'application/json',
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user/{username}`.replace(`{username}`, encodeURIComponent(String(requestParameters.username))),
+            path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
             method: 'PUT',
             headers,
-            query,
             body: requestParameters.body,
         });
-    }
+    };
 
 }

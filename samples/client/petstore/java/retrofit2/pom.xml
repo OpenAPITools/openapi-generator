@@ -191,6 +191,12 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>converter-gson</artifactId>
@@ -243,7 +249,7 @@
         <gson-fire-version>1.8.3</gson-fire-version>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <retrofit-version>2.5.0</retrofit-version>
-        <threetenbp-version>1.3.8</threetenbp-version>
+        <threetenbp-version>1.4.0</threetenbp-version>
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.12</junit-version>
     </properties>

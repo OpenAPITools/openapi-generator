@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-angularjs
 title: Config Options for typescript-angularjs
 sidebar_label: typescript-angularjs
 ---

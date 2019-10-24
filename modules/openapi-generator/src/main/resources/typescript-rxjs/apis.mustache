@@ -1,7 +1,7 @@
 // tslint:disable
 {{>licenseInfo}}
 import { Observable } from 'rxjs';
-import { BaseAPI, throwIfRequired, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParameters}}, throwIfRequired{{/hasRequiredParameters}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
 {{#imports.0}}
 import {
     {{#imports}}
@@ -38,12 +38,15 @@ export class {{classname}} extends BaseAPI {
      {{/summary}}
      */
     {{nickname}} = ({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
+        {{#hasParams}}
         {{#allParams}}
         {{#required}}
         throwIfRequired(requestParameters, '{{paramName}}', '{{nickname}}');
         {{/required}}
         {{/allParams}}
 
+        {{/hasParams}}
+        {{#hasHttpHeaders}}
         const headers: HttpHeaders = {
             {{#bodyParam}}
             {{^consumes}}
@@ -81,6 +84,8 @@ export class {{classname}} extends BaseAPI {
             {{/authMethods}}
         };
 
+        {{/hasHttpHeaders}}
+        {{#hasQueryParams}}
         const query: HttpQuery = {
             {{#queryParams}}
             {{#isListContainer}}
@@ -114,6 +119,7 @@ export class {{classname}} extends BaseAPI {
             {{/authMethods}}
         };
 
+        {{/hasQueryParams}}
         {{#hasFormParams}}
         const formData = new FormData();
         {{/hasFormParams}}
@@ -139,10 +145,14 @@ export class {{classname}} extends BaseAPI {
         {{/isListContainer}}
         {{/formParams}}
         return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
-            path: `{{{path}}}`{{#pathParams}}.replace({{=<% %>=}}`{<%baseName%>}`<%={{ }}=%>, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI(requestParameters.{{paramName}})){{/pathParams}},
             method: '{{httpMethod}}',
+            {{#hasHttpHeaders}}
             headers,
+            {{/hasHttpHeaders}}
+            {{#hasQueryParams}}
             query,
+            {{/hasQueryParams}}
             {{#hasBodyParam}}
             {{#bodyParam}}
             {{#isContainer}}
@@ -161,8 +171,11 @@ export class {{classname}} extends BaseAPI {
             {{#hasFormParams}}
             body: formData,
             {{/hasFormParams}}
+{{#isResponseFile}}
+            responseType: 'blob'
+{{/isResponseFile}}
         });
-    }
+    };
 
     {{/operation}}
 }

@@ -906,6 +906,23 @@ paths:
           description: Output composite
           schema:
             $ref: '#/definitions/OuterComposite'
+  /fake/outer/enum:
+    post:
+      tags:
+        - fake
+      description: Test serialization of outer enum
+      operationId: fakeOuterEnumSerialize
+      parameters:
+        - name: body
+          in: body
+          description: Input enum as post body
+          schema:
+            $ref: '#/definitions/OuterEnum'
+      responses:
+        '200':
+          description: Output enum
+          schema:
+            $ref: '#/definitions/OuterEnum'
   /fake/jsonFormData:
     get:
       tags:
@@ -1036,6 +1053,50 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/FileSchemaTestClass'
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
+  /fake/enums-of-length-one/{path_string}/{path_integer}:
+    put:
+      tags:
+        - fake
+      description: 'This route has required values with enums of 1'
+      operationId: testEndpointEnumsLengthOne
+      parameters:
+        - in: query
+          name: query_integer
+          required: true
+          type: integer
+          format: int32
+          enum:
+            -  3
+        - in: query
+          name: query_string
+          required: true
+          type: string
+          enum:
+            -  brillig
+        - in: path
+          name: path_string
+          required: true
+          type: string
+          enum:
+            -  hello
+        - in: path
+          name: path_integer
+          required: true
+          type: integer
+          enum:
+            -  34
+        - in: header
+          name: header_number
+          required: true
+          type: number
+          format: double
+          enum:
+            -  1.234
       consumes:
         - application/json
       responses:
@@ -1334,7 +1395,7 @@ definitions:
         minimum: 67.8
       string:
         type: string
-        pattern: /[a-z]/i
+        pattern: /^[a-z]+$/i
       byte:
         type: string
         format: byte
@@ -1677,6 +1738,8 @@ definitions:
         $ref: '#/definitions/OuterBoolean'
   OuterNumber:
     type: number
+    minimum: 10
+    maximum: 20
   OuterString:
     type: string
   OuterBoolean:
@@ -1703,6 +1766,7 @@ definitions:
         type: string
   TypeHolderDefault:
     type: object
+    description: a model to test optional properties with server defaults
     required:
       - string_item
       - number_item
@@ -1716,12 +1780,25 @@ definitions:
       number_item:
         type: number
         default: 1.234
+        format: double
       integer_item:
         type: integer
+        format: int32
         default: -2
       bool_item:
         type: boolean
         default: true
+      # swagger-parser does not see date defaults yet: https://github.com/swagger-api/swagger-parser/issues/971
+      date_item:
+        type: string
+        format: date
+        default: 2017-07-21
+      # swagger-parser does not see date-time defaults yet: https://github.com/swagger-api/swagger-parser/issues/971
+      datetime_item:
+        type: string
+        format: date-time
+        default: 2017-07-21T17:32:28Z
+      # swagger-parser does not see array defaults yet: https://github.com/swagger-api/swagger-parser/issues/971
       array_item:
           type: array
           items:
@@ -1733,22 +1810,30 @@ definitions:
             - 3
   TypeHolderExample:
     type: object
+    description: a model to test required properties with an example and length one enum
     required:
       - string_item
       - number_item
       - integer_item
       - bool_item
       - array_item
+      # - date_item/datetime_item  adding date and datetime enums will be a future task, this does not yet work in many languages
     properties:
       string_item:
         type: string
         example: what
+        enum: [what]
       number_item:
         type: number
+        format: double
         example: 1.234
+        enum: [1.234]
       integer_item:
         type: integer
+        format: int32
+        enum: [-2]
         example: -2
+      # swagger-parser does not see bool enums yet https://github.com/swagger-api/swagger-parser/issues/985
       bool_item:
         type: boolean
         example: true
@@ -1757,10 +1842,17 @@ definitions:
           items:
             type: integer
           example:
-            - 0
-            - 1
-            - 2
-            - 3
+            -
+              - 0
+              - 1
+              - 2
+              - 3
+          enum:
+            -
+              - 0
+              - 1
+              - 2
+              - 3
   XmlItem:
     type: object
     xml:

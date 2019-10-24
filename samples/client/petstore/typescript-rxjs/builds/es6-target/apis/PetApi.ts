@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, throwIfRequired, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, HttpHeaders, HttpQuery, throwIfRequired, encodeURI, COLLECTION_FORMATS } from '../runtime';
 import {
     ApiResponse,
     Pet,
@@ -76,17 +76,13 @@ export class PetApi extends BaseAPI {
             }),
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/pet`,
+            path: '/pet',
             method: 'POST',
             headers,
-            query,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * Deletes a pet
@@ -104,16 +100,12 @@ export class PetApi extends BaseAPI {
             }),
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/pet/{petId}`.replace(`{petId}`, encodeURIComponent(String(requestParameters.petId))),
+            path: '/pet/{petId}'.replace('{petId}', encodeURI(requestParameters.petId)),
             method: 'DELETE',
             headers,
-            query,
         });
-    }
+    };
 
     /**
      * Multiple status values can be provided with comma separated strings
@@ -136,12 +128,12 @@ export class PetApi extends BaseAPI {
         };
 
         return this.request<Array<Pet>>({
-            path: `/pet/findByStatus`,
+            path: '/pet/findByStatus',
             method: 'GET',
             headers,
             query,
         });
-    }
+    };
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -164,12 +156,12 @@ export class PetApi extends BaseAPI {
         };
 
         return this.request<Array<Pet>>({
-            path: `/pet/findByTags`,
+            path: '/pet/findByTags',
             method: 'GET',
             headers,
             query,
         });
-    }
+    };
 
     /**
      * Returns a single pet
@@ -182,16 +174,12 @@ export class PetApi extends BaseAPI {
             ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<Pet>({
-            path: `/pet/{petId}`.replace(`{petId}`, encodeURIComponent(String(requestParameters.petId))),
+            path: '/pet/{petId}'.replace('{petId}', encodeURI(requestParameters.petId)),
             method: 'GET',
             headers,
-            query,
         });
-    }
+    };
 
     /**
      * Update an existing pet
@@ -209,17 +197,13 @@ export class PetApi extends BaseAPI {
             }),
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/pet`,
+            path: '/pet',
             method: 'PUT',
             headers,
-            query,
             body: requestParameters.body,
         });
-    }
+    };
 
     /**
      * Updates a pet in the store with form data
@@ -236,9 +220,6 @@ export class PetApi extends BaseAPI {
             }),
         };
 
-        const query: HttpQuery = {
-        };
-
         const formData = new FormData();
         if (requestParameters.name !== undefined) {
             formData.append('name', requestParameters.name as any);
@@ -249,13 +230,12 @@ export class PetApi extends BaseAPI {
         }
 
         return this.request<void>({
-            path: `/pet/{petId}`.replace(`{petId}`, encodeURIComponent(String(requestParameters.petId))),
+            path: '/pet/{petId}'.replace('{petId}', encodeURI(requestParameters.petId)),
             method: 'POST',
             headers,
-            query,
             body: formData,
         });
-    }
+    };
 
     /**
      * uploads an image
@@ -272,9 +252,6 @@ export class PetApi extends BaseAPI {
             }),
         };
 
-        const query: HttpQuery = {
-        };
-
         const formData = new FormData();
         if (requestParameters.additionalMetadata !== undefined) {
             formData.append('additionalMetadata', requestParameters.additionalMetadata as any);
@@ -285,13 +262,12 @@ export class PetApi extends BaseAPI {
         }
 
         return this.request<ApiResponse>({
-            path: `/pet/{petId}/uploadImage`.replace(`{petId}`, encodeURIComponent(String(requestParameters.petId))),
+            path: '/pet/{petId}/uploadImage'.replace('{petId}', encodeURI(requestParameters.petId)),
             method: 'POST',
             headers,
-            query,
             body: formData,
         });
-    }
+    };
 
 }
 

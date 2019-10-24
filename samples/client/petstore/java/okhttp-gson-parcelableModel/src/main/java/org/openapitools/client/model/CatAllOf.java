@@ -37,7 +37,9 @@ public class CatAllOf implements Parcelable {
 
   public CatAllOf() {
   }
+
   public CatAllOf declawed(Boolean declawed) {
+    
     this.declawed = declawed;
     return this;
   }
@@ -46,10 +48,13 @@ public class CatAllOf implements Parcelable {
    * Get declawed
    * @return declawed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Boolean getDeclawed() {
     return declawed;
   }
+
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;

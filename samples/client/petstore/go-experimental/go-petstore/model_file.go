@@ -8,18 +8,19 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
 
-// Must be named `File` for test.
+// File Must be named `File` for test.
 type File struct {
 	// Test capitalization
 	SourceURI *string `json:"sourceURI,omitempty"`
-
 }
 
-// GetSourceURI returns the SourceURI field if non-nil, zero value otherwise.
+// GetSourceURI returns the SourceURI field value if set, zero value otherwise.
 func (o *File) GetSourceURI() string {
 	if o == nil || o.SourceURI == nil {
 		var ret string
@@ -28,7 +29,7 @@ func (o *File) GetSourceURI() string {
 	return *o.SourceURI
 }
 
-// GetSourceURIOk returns a tuple with the SourceURI field if it's non-nil, zero value otherwise
+// GetSourceURIOk returns a tuple with the SourceURI field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *File) GetSourceURIOk() (string, bool) {
 	if o == nil || o.SourceURI == nil {
@@ -52,13 +53,26 @@ func (o *File) SetSourceURI(v string) {
 	o.SourceURI = &v
 }
 
-
-func (o File) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.SourceURI != nil {
-		toSerialize["sourceURI"] = o.SourceURI
-	}
-	return json.Marshal(toSerialize)
+type NullableFile struct {
+	Value File
+	ExplicitNull bool
 }
 
+func (v NullableFile) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableFile) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

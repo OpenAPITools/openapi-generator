@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// ApiResponse struct for ApiResponse
 type ApiResponse struct {
 	Code int32 `json:"code,omitempty"`
 	Type string `json:"type,omitempty"`

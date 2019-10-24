@@ -118,6 +118,15 @@ public interface FakeApiDelegate {
         String param2);
 
     /**
+     * @see FakeApi#testQueryParameterCollectionFormat
+     */
+    ResponseEntity<Void> testQueryParameterCollectionFormat(List<String> pipe,
+        List<String> ioutil,
+        List<String> http,
+        List<String> url,
+        List<String> context);
+
+    /**
      * @see FakeApi#uploadFileWithRequiredFile
      */
     ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,

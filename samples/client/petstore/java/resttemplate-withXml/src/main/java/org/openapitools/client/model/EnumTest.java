@@ -15,18 +15,27 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.OuterEnum;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * EnumTest
  */
+@JsonPropertyOrder({
+  EnumTest.JSON_PROPERTY_ENUM_STRING,
+  EnumTest.JSON_PROPERTY_ENUM_STRING_REQUIRED,
+  EnumTest.JSON_PROPERTY_ENUM_INTEGER,
+  EnumTest.JSON_PROPERTY_ENUM_NUMBER,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM
+})
 
 @XmlRootElement(name = "EnumTest")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -69,8 +78,7 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_string")
-  @JacksonXmlProperty(localName = "enum_string")
+  public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
   @XmlElement(name = "enum_string")
   private EnumStringEnum enumString;
 
@@ -111,8 +119,7 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_string_required")
-  @JacksonXmlProperty(localName = "enum_string_required")
+  public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
   @XmlElement(name = "enum_string_required")
   private EnumStringRequiredEnum enumStringRequired;
 
@@ -151,8 +158,7 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_integer")
-  @JacksonXmlProperty(localName = "enum_integer")
+  public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
   @XmlElement(name = "enum_integer")
   private EnumIntegerEnum enumInteger;
 
@@ -191,17 +197,17 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_number")
-  @JacksonXmlProperty(localName = "enum_number")
+  public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
   @XmlElement(name = "enum_number")
   private EnumNumberEnum enumNumber;
 
-  @JsonProperty("outerEnum")
-  @JacksonXmlProperty(localName = "outerEnum")
+  public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
   @XmlElement(name = "outerEnum")
   private OuterEnum outerEnum;
 
+
   public EnumTest enumString(EnumStringEnum enumString) {
+    
     this.enumString = enumString;
     return this;
   }
@@ -210,16 +216,24 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "enum_string")
+
   public EnumStringEnum getEnumString() {
     return enumString;
   }
+
 
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
+
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+    
     this.enumStringRequired = enumStringRequired;
     return this;
   }
@@ -229,15 +243,22 @@ public class EnumTest {
    * @return enumStringRequired
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "enum_string_required")
+
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
+
 
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
+
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
+    
     this.enumInteger = enumInteger;
     return this;
   }
@@ -246,16 +267,24 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "enum_integer")
+
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
+
 
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
+
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
+    
     this.enumNumber = enumNumber;
     return this;
   }
@@ -264,16 +293,24 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "enum_number")
+
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
+
 
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
+
   public EnumTest outerEnum(OuterEnum outerEnum) {
+    
     this.outerEnum = outerEnum;
     return this;
   }
@@ -282,10 +319,16 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "outerEnum")
+
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
+
 
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;

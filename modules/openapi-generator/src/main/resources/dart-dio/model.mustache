@@ -1,0 +1,8 @@
+{{#models}}
+    {{#model}}
+        {{#imports}}
+            import 'package:{{.}}.dart';
+        {{/imports}}
+        {{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
+    {{/model}}
+{{/models}}

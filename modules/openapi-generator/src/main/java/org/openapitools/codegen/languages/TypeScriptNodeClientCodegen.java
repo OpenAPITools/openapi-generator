@@ -17,8 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
+    private static final String DEFAULT_IMPORT_PREFIX = "./";
 
     protected String npmRepository = null;
     protected String apiSuffix = "Api";
@@ -40,8 +42,12 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     public TypeScriptNodeClientCodegen() {
         super();
 
-        typeMapping.put("file", "Buffer");
+        typeMapping.put("file", "RequestFile");
+        // RequestFile is defined as: `type RequestFile = string | Buffer | ReadStream | RequestDetailedFile;`
         languageSpecificPrimitives.add("Buffer");
+        languageSpecificPrimitives.add("ReadStream");
+        languageSpecificPrimitives.add("RequestDetailedFile");
+        languageSpecificPrimitives.add("RequestFile");
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -70,19 +76,35 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return "Buffer".equals(dataType);
+        return dataType != null && dataType.equals("RequestFile");
     }
 
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isFileSchema(p)) {
-            return "Buffer";
+            // There are two file types:
+            // 1) RequestFile: the parameter for the request lib when uploading a file
+            // (https://github.com/request/request#multipartform-data-multipart-form-uploads)
+            // 2) Buffer: for downloading files.
+            // Use RequestFile as a default. The return type is fixed to Buffer in handleMethodResponse.
+            return "RequestFile";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Buffer";
         }
         return super.getTypeDeclaration(p);
     }
-    
+
+    @Override
+    protected void handleMethodResponse(Operation operation, Map<String, Schema> schemas, CodegenOperation op,
+                                        ApiResponse methodResponse) {
+        super.handleMethodResponse(operation, schemas, op, methodResponse);
+
+        // see comment in getTypeDeclaration
+        if (op.isResponseFile) {
+            op.returnType = "Buffer";
+        }
+    }
+
     @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
@@ -96,22 +118,37 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (name.length() == 0) {
             return "default" + apiSuffix;
         }
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
         return camelize(name, true) + apiSuffix;
     }
 
     @Override
     public String toApiImport(String name) {
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
         return apiPackage() + "/" + toApiFilename(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name), true);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
+        return DEFAULT_IMPORT_PREFIX + camelize(toModelName(name), true);
     }
 
     @Override
     public String toModelImport(String name) {
-        return modelPackage() + "/" + toModelFilename(name);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
+        return modelPackage() + "/" + camelize(toModelName(name), true);
     }
     
     @Override
@@ -224,13 +261,12 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
             return openAPIType;
         }
-        applyLocalTypeMapping(openAPIType);
-        return openAPIType;
+        return applyLocalTypeMapping(openAPIType);
     }
 
     private String applyLocalTypeMapping(String type) {
         if (typeMapping.containsKey(type)) {
-            type = typeMapping.get(type);
+            return typeMapping.get(type);
         }
         return type;
     }

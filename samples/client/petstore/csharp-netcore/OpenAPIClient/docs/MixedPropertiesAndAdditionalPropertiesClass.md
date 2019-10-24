@@ -3,7 +3,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Uuid** | [**Guid**](Guid.md) |  | [optional] 
+**Uuid** | **Guid** |  | [optional] 
 **DateTime** | **DateTime** |  | [optional] 
 **Map** | [**Dictionary&lt;string, Animal&gt;**](Animal.md) |  | [optional] 
 

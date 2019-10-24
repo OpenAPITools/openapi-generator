@@ -22,21 +22,17 @@ import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
 
 import static java.util.UUID.randomUUID;
 
@@ -64,6 +60,10 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     public FsharpGiraffeServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         modelPackage = "Model";
 
@@ -165,7 +165,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
     }
@@ -193,7 +193,6 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
             LOGGER.warn("Library flag not currently supported.");
 
         String authFolder = sourceFolder + File.separator + "auth";
-        String serviceFolder = sourceFolder + File.separator + "services";
         String implFolder = sourceFolder + File.separator + "impl";
         String helperFolder = sourceFolder + File.separator + "helpers";
 

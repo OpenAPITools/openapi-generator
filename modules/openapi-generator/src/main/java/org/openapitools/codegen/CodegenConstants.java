@@ -168,6 +168,9 @@ public class CodegenConstants {
     public static final String OPTIONAL_ASSEMBLY_INFO = "optionalAssemblyInfo";
     public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs.";
 
+    public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
+    public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue.";
+
     public static final String NETCORE_PROJECT_FILE = "netCoreProjectFile";
     public static final String NETCORE_PROJECT_FILE_DESC = "Use the new format (.NET Core) for .NET project files (.csproj).";
 
@@ -202,11 +205,21 @@ public class CodegenConstants {
     public static final String ENUM_PROPERTY_NAMING = "enumPropertyNaming";
     public static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'";
 
+    // Allow different language generators to offer an option of serialization library. Each language specific
+    // Codegen constants should define a description and provide proper input validation for the value of serializationLibrary
+    public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
+
+    public static final String API_NAME_SUFFIX = "apiNameSuffix";
+    public static final String API_NAME_SUFFIX_DESC = "Suffix that will be appended to all API names ('tags'). Default: Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators suppport this feature at the moment.";
+
     public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
-    public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names. Default is the empty string.";
+    public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names.";
 
     public static final String MODEL_NAME_SUFFIX = "modelNameSuffix";
-    public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names. Default is the empty string.";
+    public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names.";
+
+    public static final String GIT_HOST = "gitHost";
+    public static final String GIT_HOST_DESC = "Git host, e.g. gitlab.com.";
 
     public static final String GIT_USER_ID = "gitUserId";
     public static final String GIT_USER_ID_DESC = "Git user ID, e.g. openapitools.";
@@ -308,4 +321,7 @@ public class CodegenConstants {
 
     public static final String EXCEPTION_ON_FAILURE = "returnExceptionOnFailure";
     public static final String EXCEPTION_ON_FAILURE_DESC = "Throw an exception on non success response codes";
+
+    public static final String ENUM_CLASS_PREFIX = "enumClassPrefix";
+    public static final String ENUM_CLASS_PREFIX_DESC = "Prefix enum with class name";
 }

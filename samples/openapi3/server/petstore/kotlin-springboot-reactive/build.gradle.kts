@@ -43,9 +43,11 @@ dependencies {
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    testCompile("org.jetbrains.kotlin:kotlin-test-junit5")
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
+	testCompile("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
 }
 
 repositories {

@@ -22,52 +22,86 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * FormatTest
  */
+@JsonPropertyOrder({
+  FormatTest.JSON_PROPERTY_INTEGER,
+  FormatTest.JSON_PROPERTY_INT32,
+  FormatTest.JSON_PROPERTY_INT64,
+  FormatTest.JSON_PROPERTY_NUMBER,
+  FormatTest.JSON_PROPERTY_FLOAT,
+  FormatTest.JSON_PROPERTY_DOUBLE,
+  FormatTest.JSON_PROPERTY_STRING,
+  FormatTest.JSON_PROPERTY_BYTE,
+  FormatTest.JSON_PROPERTY_BINARY,
+  FormatTest.JSON_PROPERTY_DATE,
+  FormatTest.JSON_PROPERTY_DATE_TIME,
+  FormatTest.JSON_PROPERTY_UUID,
+  FormatTest.JSON_PROPERTY_PASSWORD,
+  FormatTest.JSON_PROPERTY_BIG_DECIMAL
+})
 
 public class FormatTest   {
-  @JsonProperty("integer")
+  public static final String JSON_PROPERTY_INTEGER = "integer";
+  @JsonProperty(JSON_PROPERTY_INTEGER)
   private Integer integer;
 
-  @JsonProperty("int32")
+  public static final String JSON_PROPERTY_INT32 = "int32";
+  @JsonProperty(JSON_PROPERTY_INT32)
   private Integer int32;
 
-  @JsonProperty("int64")
+  public static final String JSON_PROPERTY_INT64 = "int64";
+  @JsonProperty(JSON_PROPERTY_INT64)
   private Long int64;
 
-  @JsonProperty("number")
+  public static final String JSON_PROPERTY_NUMBER = "number";
+  @JsonProperty(JSON_PROPERTY_NUMBER)
   private BigDecimal number;
 
-  @JsonProperty("float")
+  public static final String JSON_PROPERTY_FLOAT = "float";
+  @JsonProperty(JSON_PROPERTY_FLOAT)
   private Float _float;
 
-  @JsonProperty("double")
+  public static final String JSON_PROPERTY_DOUBLE = "double";
+  @JsonProperty(JSON_PROPERTY_DOUBLE)
   private Double _double;
 
-  @JsonProperty("string")
+  public static final String JSON_PROPERTY_STRING = "string";
+  @JsonProperty(JSON_PROPERTY_STRING)
   private String string;
 
-  @JsonProperty("byte")
+  public static final String JSON_PROPERTY_BYTE = "byte";
+  @JsonProperty(JSON_PROPERTY_BYTE)
   private byte[] _byte;
 
-  @JsonProperty("binary")
+  public static final String JSON_PROPERTY_BINARY = "binary";
+  @JsonProperty(JSON_PROPERTY_BINARY)
   private File binary;
 
-  @JsonProperty("date")
+  public static final String JSON_PROPERTY_DATE = "date";
+  @JsonProperty(JSON_PROPERTY_DATE)
   private Date date;
 
-  @JsonProperty("dateTime")
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
   private Date dateTime;
 
-  @JsonProperty("uuid")
+  public static final String JSON_PROPERTY_UUID = "uuid";
+  @JsonProperty(JSON_PROPERTY_UUID)
   private UUID uuid;
 
-  @JsonProperty("password")
+  public static final String JSON_PROPERTY_PASSWORD = "password";
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
   private String password;
+
+  public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
+  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  private BigDecimal bigDecimal;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -339,6 +373,26 @@ public class FormatTest   {
     this.password = password;
   }
 
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+  /**
+   * Get bigDecimal
+   * @return bigDecimal
+   **/
+  @JsonProperty("BigDecimal")
+  @ApiModelProperty(value = "")
+  
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -361,12 +415,13 @@ public class FormatTest   {
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
   }
 
 
@@ -388,6 +443,7 @@ public class FormatTest   {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

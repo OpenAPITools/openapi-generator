@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -25,83 +26,93 @@ import java.math.BigDecimal;
 import java.util.UUID;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * FormatTest
  */
+@JsonPropertyOrder({
+  FormatTest.JSON_PROPERTY_INTEGER,
+  FormatTest.JSON_PROPERTY_INT32,
+  FormatTest.JSON_PROPERTY_INT64,
+  FormatTest.JSON_PROPERTY_NUMBER,
+  FormatTest.JSON_PROPERTY_FLOAT,
+  FormatTest.JSON_PROPERTY_DOUBLE,
+  FormatTest.JSON_PROPERTY_STRING,
+  FormatTest.JSON_PROPERTY_BYTE,
+  FormatTest.JSON_PROPERTY_BINARY,
+  FormatTest.JSON_PROPERTY_DATE,
+  FormatTest.JSON_PROPERTY_DATE_TIME,
+  FormatTest.JSON_PROPERTY_UUID,
+  FormatTest.JSON_PROPERTY_PASSWORD,
+  FormatTest.JSON_PROPERTY_BIG_DECIMAL
+})
 
 @XmlRootElement(name = "FormatTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FormatTest")
 public class FormatTest {
-  @JsonProperty("integer")
-  @JacksonXmlProperty(localName = "integer")
+  public static final String JSON_PROPERTY_INTEGER = "integer";
   @XmlElement(name = "integer")
   private Integer integer;
 
-  @JsonProperty("int32")
-  @JacksonXmlProperty(localName = "int32")
+  public static final String JSON_PROPERTY_INT32 = "int32";
   @XmlElement(name = "int32")
   private Integer int32;
 
-  @JsonProperty("int64")
-  @JacksonXmlProperty(localName = "int64")
+  public static final String JSON_PROPERTY_INT64 = "int64";
   @XmlElement(name = "int64")
   private Long int64;
 
-  @JsonProperty("number")
-  @JacksonXmlProperty(localName = "number")
+  public static final String JSON_PROPERTY_NUMBER = "number";
   @XmlElement(name = "number")
   private BigDecimal number;
 
-  @JsonProperty("float")
-  @JacksonXmlProperty(localName = "float")
+  public static final String JSON_PROPERTY_FLOAT = "float";
   @XmlElement(name = "float")
   private Float _float;
 
-  @JsonProperty("double")
-  @JacksonXmlProperty(localName = "double")
+  public static final String JSON_PROPERTY_DOUBLE = "double";
   @XmlElement(name = "double")
   private Double _double;
 
-  @JsonProperty("string")
-  @JacksonXmlProperty(localName = "string")
+  public static final String JSON_PROPERTY_STRING = "string";
   @XmlElement(name = "string")
   private String string;
 
-  @JsonProperty("byte")
-  @JacksonXmlProperty(localName = "byte")
+  public static final String JSON_PROPERTY_BYTE = "byte";
   @XmlElement(name = "byte")
   private byte[] _byte;
 
-  @JsonProperty("binary")
-  @JacksonXmlProperty(localName = "binary")
+  public static final String JSON_PROPERTY_BINARY = "binary";
   @XmlElement(name = "binary")
   private File binary;
 
-  @JsonProperty("date")
-  @JacksonXmlProperty(localName = "date")
+  public static final String JSON_PROPERTY_DATE = "date";
   @XmlElement(name = "date")
   private LocalDate date;
 
-  @JsonProperty("dateTime")
-  @JacksonXmlProperty(localName = "dateTime")
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   @XmlElement(name = "dateTime")
   private OffsetDateTime dateTime;
 
-  @JsonProperty("uuid")
-  @JacksonXmlProperty(localName = "uuid")
+  public static final String JSON_PROPERTY_UUID = "uuid";
   @XmlElement(name = "uuid")
   private UUID uuid;
 
-  @JsonProperty("password")
-  @JacksonXmlProperty(localName = "password")
+  public static final String JSON_PROPERTY_PASSWORD = "password";
   @XmlElement(name = "password")
   private String password;
 
+  public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
+  @XmlElement(name = "BigDecimal")
+  private BigDecimal bigDecimal;
+
+
   public FormatTest integer(Integer integer) {
+    
     this.integer = integer;
     return this;
   }
@@ -112,16 +123,24 @@ public class FormatTest {
    * maximum: 100
    * @return integer
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "integer")
+
   public Integer getInteger() {
     return integer;
   }
+
 
   public void setInteger(Integer integer) {
     this.integer = integer;
   }
 
+
   public FormatTest int32(Integer int32) {
+    
     this.int32 = int32;
     return this;
   }
@@ -132,16 +151,24 @@ public class FormatTest {
    * maximum: 200
    * @return int32
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "int32")
+
   public Integer getInt32() {
     return int32;
   }
+
 
   public void setInt32(Integer int32) {
     this.int32 = int32;
   }
 
+
   public FormatTest int64(Long int64) {
+    
     this.int64 = int64;
     return this;
   }
@@ -150,16 +177,24 @@ public class FormatTest {
    * Get int64
    * @return int64
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "int64")
+
   public Long getInt64() {
     return int64;
   }
+
 
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
 
+
   public FormatTest number(BigDecimal number) {
+    
     this.number = number;
     return this;
   }
@@ -171,15 +206,22 @@ public class FormatTest {
    * @return number
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "number")
+
   public BigDecimal getNumber() {
     return number;
   }
+
 
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
 
+
   public FormatTest _float(Float _float) {
+    
     this._float = _float;
     return this;
   }
@@ -190,16 +232,24 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "float")
+
   public Float getFloat() {
     return _float;
   }
+
 
   public void setFloat(Float _float) {
     this._float = _float;
   }
 
+
   public FormatTest _double(Double _double) {
+    
     this._double = _double;
     return this;
   }
@@ -210,16 +260,24 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "double")
+
   public Double getDouble() {
     return _double;
   }
+
 
   public void setDouble(Double _double) {
     this._double = _double;
   }
 
+
   public FormatTest string(String string) {
+    
     this.string = string;
     return this;
   }
@@ -228,16 +286,24 @@ public class FormatTest {
    * Get string
    * @return string
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "string")
+
   public String getString() {
     return string;
   }
+
 
   public void setString(String string) {
     this.string = string;
   }
 
+
   public FormatTest _byte(byte[] _byte) {
+    
     this._byte = _byte;
     return this;
   }
@@ -247,15 +313,22 @@ public class FormatTest {
    * @return _byte
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "byte")
+
   public byte[] getByte() {
     return _byte;
   }
+
 
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
 
+
   public FormatTest binary(File binary) {
+    
     this.binary = binary;
     return this;
   }
@@ -264,16 +337,24 @@ public class FormatTest {
    * Get binary
    * @return binary
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "binary")
+
   public File getBinary() {
     return binary;
   }
+
 
   public void setBinary(File binary) {
     this.binary = binary;
   }
 
+
   public FormatTest date(LocalDate date) {
+    
     this.date = date;
     return this;
   }
@@ -283,15 +364,22 @@ public class FormatTest {
    * @return date
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "date")
+
   public LocalDate getDate() {
     return date;
   }
+
 
   public void setDate(LocalDate date) {
     this.date = date;
   }
 
+
   public FormatTest dateTime(OffsetDateTime dateTime) {
+    
     this.dateTime = dateTime;
     return this;
   }
@@ -300,16 +388,24 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "dateTime")
+
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
+
 
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
+
   public FormatTest uuid(UUID uuid) {
+    
     this.uuid = uuid;
     return this;
   }
@@ -318,16 +414,24 @@ public class FormatTest {
    * Get uuid
    * @return uuid
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "uuid")
+
   public UUID getUuid() {
     return uuid;
   }
+
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
+
   public FormatTest password(String password) {
+    
     this.password = password;
     return this;
   }
@@ -337,12 +441,43 @@ public class FormatTest {
    * @return password
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "password")
+
   public String getPassword() {
     return password;
   }
 
+
   public void setPassword(String password) {
     this.password = password;
+  }
+
+
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+   /**
+   * Get bigDecimal
+   * @return bigDecimal
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "BigDecimal")
+
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
   }
 
 
@@ -367,12 +502,13 @@ public class FormatTest {
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
   }
 
 
@@ -393,6 +529,7 @@ public class FormatTest {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

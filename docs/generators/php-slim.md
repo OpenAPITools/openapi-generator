@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-php-slim
 title: Config Options for php-slim
 sidebar_label: php-slim
 ---

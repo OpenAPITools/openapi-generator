@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-scalaz
 title: Config Options for scalaz
 sidebar_label: scalaz
 ---

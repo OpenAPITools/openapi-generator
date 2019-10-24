@@ -3,14 +3,13 @@ use std::rc::Rc;
 use hyper;
 use super::configuration::Configuration;
 
-pub struct APIClient<C: hyper::client::Connect> {
-    configuration: Rc<Configuration<C>>,
+pub struct APIClient {
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
     {{#-last}}
-    {{{classFilename}}}: Box<crate::apis::{{{classname}}}>,
+    {{{classFilename}}}: Box<dyn crate::apis::{{{classname}}}>,
     {{/-last}}
 {{/operation}}
 {{/operations}}
@@ -18,12 +17,11 @@ pub struct APIClient<C: hyper::client::Connect> {
 {{/apiInfo}}
 }
 
-impl<C: hyper::client::Connect> APIClient<C> {
-    pub fn new(configuration: Configuration<C>) -> APIClient<C> {
+impl APIClient {
+    pub fn new<C: hyper::client::Connect>(configuration: Configuration<C>) -> APIClient {
         let rc = Rc::new(configuration);
 
         APIClient {
-            configuration: rc.clone(),
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
@@ -43,7 +41,7 @@ impl<C: hyper::client::Connect> APIClient<C> {
 {{#operations}}
 {{#operation}}
 {{#-last}}
-    pub fn {{{classFilename}}}(&self) -> &crate::apis::{{{classname}}}{
+    pub fn {{{classFilename}}}(&self) -> &dyn crate::apis::{{{classname}}}{
         self.{{{classFilename}}}.as_ref()
     }
 

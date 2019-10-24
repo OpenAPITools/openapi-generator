@@ -21,7 +21,7 @@ public enum Event<Element> {
     case completed
 }
 
-extension Event : CustomDebugStringConvertible {
+extension Event: CustomDebugStringConvertible {
     /// Description of event.
     public var debugDescription: String {
         switch self {
@@ -82,8 +82,7 @@ extension Event {
             case .completed:
                 return .completed
             }
-        }
-        catch let e {
+        } catch let e {
             return .error(e)
         }
     }
@@ -98,7 +97,7 @@ public protocol EventConvertible {
     var event: Event<ElementType> { get }
 }
 
-extension Event : EventConvertible {
+extension Event: EventConvertible {
     /// Event representation of this instance
     public var event: Event<Element> {
         return self

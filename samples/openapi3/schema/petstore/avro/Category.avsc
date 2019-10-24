@@ -1,0 +1,18 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "A category for a pet",
+  "name": "Category",
+  "fields": [
+    {
+      "name": "id",
+      "type": ["null", "long"],
+      "doc": ""
+    },
+    {
+      "name": "name",
+      "type": ["null", "string"],
+      "doc": ""
+    }
+  ]
+}

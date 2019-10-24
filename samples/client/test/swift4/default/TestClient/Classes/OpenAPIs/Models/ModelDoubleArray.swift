@@ -7,6 +7,5 @@
 
 import Foundation
 
-
 /** This defines an array of doubles. */
 public typealias ModelDoubleArray = [Double]

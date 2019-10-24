@@ -17,18 +17,18 @@ import { {{classname}} } from './{{importPath}}';
     {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}},
     {{/hasMore}}{{/apis}}{{/apiInfo}} ]
 })
-export class ApiModule {
+export class {{apiModuleClassName}} {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {
         return {
-            ngModule: ApiModule,
+            ngModule: {{apiModuleClassName}},
             providers: [ { provide: Configuration, useFactory: configurationFactory } ]
         };
     }
 
-    constructor( @Optional() @SkipSelf() parentModule: ApiModule,
+    constructor( @Optional() @SkipSelf() parentModule: {{apiModuleClassName}},
                  @Optional() http: {{#useHttpClient}}HttpClient{{/useHttpClient}}{{^useHttpClient}}Http{{/useHttpClient}}) {
         if (parentModule) {
-            throw new Error('ApiModule is already loaded. Import in your base AppModule only.');
+            throw new Error('{{apiModuleClassName}} is already loaded. Import in your base AppModule only.');
         }
         if (!http) {
             throw new Error('You need to import the {{#useHttpClient}}HttpClientModule{{/useHttpClient}}{{^useHttpClient}}HttpModule{{/useHttpClient}} in your AppModule! \n' +

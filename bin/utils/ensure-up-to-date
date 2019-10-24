@@ -12,14 +12,18 @@ sleep 5
 # LIST OF SCRIPTS:
 declare -a scripts=(
 # SAMPLES
-"./bin/openapi3/ruby-client-petstore.sh"
 "./bin/ruby-client-petstore.sh"
+"./bin/ruby-client-petstore-faraday.sh"
+"./bin/openapi3/ruby-client-petstore.sh"
+"./bin/openapi3/ruby-client-faraday-petstore.sh"
+
 "./bin/java-petstore-all.sh"
 "./bin/java-jaxrs-petstore-server-all.sh"
 "./bin/java-msf4j-petstore-server.sh"
 "./bin/openapi3/jaxrs-jersey-petstore.sh"
 "./bin/spring-all-petstore.sh"
 "./bin/javascript-petstore-all.sh"
+"./bin/kotlin-client-petstore-multiplatform.sh"
 "./bin/kotlin-client-petstore.sh"
 "./bin/kotlin-client-string.sh"
 "./bin/kotlin-client-threetenbp.sh"
@@ -27,6 +31,7 @@ declare -a scripts=(
 "./bin/kotlin-springboot-petstore-server.sh"
 "./bin/kotlin-springboot-petstore-server-reactive.sh"
 "./bin/mysql-schema-petstore.sh"
+"./bin/nim-client-petstore.sh"
 "./bin/python-petstore-all.sh"
 "./bin/openapi3/python-petstore.sh"
 "./bin/php-petstore.sh"
@@ -34,6 +39,7 @@ declare -a scripts=(
 "./bin/php-symfony-petstore.sh"
 "./bin/php-lumen-petstore-server.sh"
 "./bin/php-slim-server-petstore.sh"
+"./bin/php-slim4-server-petstore.sh"
 "./bin/php-ze-ph-petstore-server.sh"
 "./bin/openapi3/php-petstore.sh"
 "./bin/typescript-angularjs-petstore.sh"
@@ -51,19 +57,27 @@ declare -a scripts=(
 "./bin/csharp-petstore.sh"
 "./bin/csharp-netcore-petstore-all.sh"
 "./bin/elixir-petstore.sh"
+"./bin/openapi3/go-petstore.sh"
+"./bin/go-experimental-petstore.sh"
 "./bin/go-petstore.sh"
 "./bin/go-petstore-withxml.sh"
 "./bin/go-gin-petstore-server.sh"
 "./bin/groovy-petstore.sh"
 "./bin/apex-petstore.sh"
 "./bin/perl-petstore-all.sh"
-#"./bin/elm-petstore-all.sh"
+"./bin/dart-jaguar-petstore.sh"
+#"./bin/dart-dio-petstore.sh"
+"./bin/dart-petstore.sh"
+"./bin/dart2-petstore.sh"
+"./bin/java-play-framework-petstore-server-all.sh"
+"./bin/elm-petstore-all.sh"
 "./bin/meta-codegen.sh"
 # OTHERS
 "./bin/utils/export_docs_generators.sh"
-"./bin/utils/export_generators_docusaurus_index.sh"
 "./bin/utils/copy-to-website.sh"
 "./bin/utils/export_generators_readme.sh")
+
+export JAVA_OPTS="-Djava.awt.headless=true"
 
 for script in "${scripts[@]}"; do
   if eval $script > /dev/null 2>&1; then

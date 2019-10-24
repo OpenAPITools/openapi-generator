@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-cpp-restbed-server
 title: Config Options for cpp-restbed-server
 sidebar_label: cpp-restbed-server
 ---

@@ -110,7 +110,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         */
 
         if (!this.additionalProperties.containsKey(SERVER_PORT)) {
-            URL url = URLPathUtils.getServerURL(openAPI);
+            URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
             // 8080 is the default value for a JEE Server:
             this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, serverPort));
         }
@@ -244,11 +244,10 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     @Override
     public String toApiName(final String name) {
         String computed = name;
-        if (computed.length() == 0) {
-            return "DefaultApi";
+        if (computed.length() > 0) {
+            computed = sanitizeName(computed);
         }
-        computed = sanitizeName(computed);
-        return camelize(computed) + "Api";
+         return super.toApiName(computed);
     }
 
     @Override

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-inversify
 title: Config Options for typescript-inversify
 sidebar_label: typescript-inversify
 ---

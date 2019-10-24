@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -22,10 +23,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Animal
  */
+@JsonPropertyOrder({
+  Animal.JSON_PROPERTY_CLASS_NAME,
+  Animal.JSON_PROPERTY_COLOR
+})
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
@@ -34,13 +40,15 @@ import io.swagger.annotations.ApiModelProperty;
 })
 
 public class Animal {
-  @JsonProperty("className")
+  public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
-  @JsonProperty("color")
+  public static final String JSON_PROPERTY_COLOR = "color";
   private String color = "red";
 
+
   public Animal className(String className) {
+    
     this.className = className;
     return this;
   }
@@ -50,15 +58,21 @@ public class Animal {
    * @return className
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public String getClassName() {
     return className;
   }
+
 
   public void setClassName(String className) {
     this.className = className;
   }
 
+
   public Animal color(String color) {
+    
     this.color = color;
     return this;
   }
@@ -67,10 +81,15 @@ public class Animal {
    * Get color
    * @return color
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getColor() {
     return color;
   }
+
 
   public void setColor(String color) {
     this.color = color;

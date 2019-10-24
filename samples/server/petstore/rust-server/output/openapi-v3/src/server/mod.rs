@@ -5,11 +5,10 @@ extern crate native_tls;
 extern crate hyper_tls;
 extern crate openssl;
 extern crate mime;
-extern crate uuid;
 extern crate chrono;
 extern crate percent_encoding;
 extern crate url;
-
+extern crate uuid;
 
 use std::sync::Arc;
 use std::marker::PhantomData;
@@ -19,7 +18,6 @@ use hyper::{Request, Response, Error, StatusCode};
 use hyper::header::{Headers, ContentType};
 use self::url::form_urlencoded;
 use mimetypes;
-
 use serde_json;
 use serde_xml_rs;
 
@@ -38,6 +36,8 @@ use swagger::auth::Scopes;
 
 use {Api,
      RequiredOctetStreamPutResponse,
+     ResponsesWithHeadersGetResponse,
+     UuidGetResponse,
      XmlExtraPostResponse,
      XmlOtherPostResponse,
      XmlOtherPutResponse,
@@ -55,17 +55,21 @@ mod paths {
     extern crate regex;
 
     lazy_static! {
-        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
+        pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/required_octet_stream$",
+            r"^/responses_with_headers$",
+            r"^/uuid$",
             r"^/xml$",
             r"^/xml_extra$",
             r"^/xml_other$"
         ]).unwrap();
     }
     pub static ID_REQUIRED_OCTET_STREAM: usize = 0;
-    pub static ID_XML: usize = 1;
-    pub static ID_XML_EXTRA: usize = 2;
-    pub static ID_XML_OTHER: usize = 3;
+    pub static ID_RESPONSES_WITH_HEADERS: usize = 1;
+    pub static ID_UUID: usize = 2;
+    pub static ID_XML: usize = 3;
+    pub static ID_XML_EXTRA: usize = 4;
+    pub static ID_XML_OTHER: usize = 5;
 }
 
 pub struct NewService<T, C> {
@@ -133,12 +137,6 @@ where
 
             // RequiredOctetStreamPut - PUT /required_octet_stream
             &hyper::Method::Put if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -147,9 +145,7 @@ where
                         match result {
                             Ok(body) => {
                                 let param_body: Option<swagger::ByteArray> = if !body.is_empty() {
-
                                     Some(swagger::ByteArray(body.to_vec()))
-
                                 } else {
                                     None
                                 };
@@ -157,8 +153,6 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
-
-
                                 Box::new(api_impl.required_octet_stream_put(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -185,25 +179,120 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
 
+            // ResponsesWithHeadersGet - GET /responses_with_headers
+            &hyper::Method::Get if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
+                Box::new({
+                        {{
+                                Box::new(api_impl.responses_with_headers_get(&context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                ResponsesWithHeadersGetResponse::Success
+
+                                                    {
+                                                        body,
+                                                        success_info
+                                                    }
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    header! { (ResponseSuccessInfo, "Success-Info") => [String] }
+                                                    response.headers_mut().set(ResponseSuccessInfo(success_info));
+
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::RESPONSES_WITH_HEADERS_GET_SUCCESS.clone()));
+
+
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+
+                                                    response.set_body(body);
+                                                },
+                                                ResponsesWithHeadersGetResponse::PreconditionFailed
+
+
+                                                    {
+                                                        further_info, 
+                                                        failure_info
+                                                    }
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(412).unwrap());
+                                                    header! { (ResponseFurtherInfo, "Further-Info") => [String] }
+                                                    response.headers_mut().set(ResponseFurtherInfo(further_info));
+                                                    header! { (ResponseFailureInfo, "Failure-Info") => [String] }
+                                                    response.headers_mut().set(ResponseFailureInfo(failure_info));
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.set_status(StatusCode::InternalServerError);
+                                                response.set_body("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Box<Future<Item=Response, Error=Error>>
+            },
+
+            // UuidGet - GET /uuid
+            &hyper::Method::Get if path.matched(paths::ID_UUID) => {
+                Box::new({
+                        {{
+                                Box::new(api_impl.uuid_get(&context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                UuidGetResponse::DuplicateResponseLongText
+
+                                                    (body)
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::UUID_GET_DUPLICATE_RESPONSE_LONG_TEXT.clone()));
+
+
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+
+                                                    response.set_body(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.set_status(StatusCode::InternalServerError);
+                                                response.set_body("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Box<Future<Item=Response, Error=Error>>
+            },
 
             // XmlExtraPost - POST /xml_extra
             &hyper::Method::Post if path.matched(paths::ID_XML_EXTRA) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -211,25 +300,19 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_duplicate_xml_object: Option<models::DuplicateXmlObject> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_duplicate_xml_object) => param_duplicate_xml_object,
-
                                         Err(_) => None,
                                     }
-
                                 } else {
                                     None
                                 };
-
-
                                 Box::new(api_impl.xml_extra_post(param_duplicate_xml_object, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -267,25 +350,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter DuplicateXmlObject: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // XmlOtherPost - POST /xml_other
             &hyper::Method::Post if path.matched(paths::ID_XML_OTHER) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -293,25 +366,19 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_another_xml_object: Option<models::AnotherXmlObject> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_another_xml_object) => param_another_xml_object,
-
                                         Err(_) => None,
                                     }
-
                                 } else {
                                     None
                                 };
-
-
                                 Box::new(api_impl.xml_other_post(param_another_xml_object, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -349,25 +416,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter AnotherXmlObject: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // XmlOtherPut - PUT /xml_other
             &hyper::Method::Put if path.matched(paths::ID_XML_OTHER) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -375,25 +432,19 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_string: Option<models::AnotherXmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_string) => param_string,
-
                                         Err(_) => None,
                                     }
-
                                 } else {
                                     None
                                 };
-
-
                                 Box::new(api_impl.xml_other_put(param_string, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -431,25 +482,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter string: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // XmlPost - POST /xml
             &hyper::Method::Post if path.matched(paths::ID_XML) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -457,25 +498,19 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_string: Option<models::XmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_string) => param_string,
-
                                         Err(_) => None,
                                     }
-
                                 } else {
                                     None
                                 };
-
-
                                 Box::new(api_impl.xml_post(param_string, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -513,25 +548,15 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter string: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             // XmlPut - PUT /xml
             &hyper::Method::Put if path.matched(paths::ID_XML) => {
-
-
-
-
-
-
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -539,25 +564,19 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
                                 let mut unused_elements = Vec::new();
                                 let param_xml_object: Option<models::XmlObject> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_xml_object) => param_xml_object,
-
                                         Err(_) => None,
                                     }
-
                                 } else {
                                     None
                                 };
-
-
                                 Box::new(api_impl.xml_put(param_xml_object, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -595,16 +614,12 @@ where
                                         future::ok(response)
                                     }
                                 ))
-
-
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter XmlObject: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
-
             },
-
 
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
         }
@@ -621,6 +636,7 @@ impl<T, C> Clone for Service<T, C>
     }
 }
 
+
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl RequestParser for ApiRequestParser {
@@ -630,6 +646,12 @@ impl RequestParser for ApiRequestParser {
 
             // RequiredOctetStreamPut - PUT /required_octet_stream
             &hyper::Method::Put if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Ok("RequiredOctetStreamPut"),
+
+            // ResponsesWithHeadersGet - GET /responses_with_headers
+            &hyper::Method::Get if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Ok("ResponsesWithHeadersGet"),
+
+            // UuidGet - GET /uuid
+            &hyper::Method::Get if path.matched(paths::ID_UUID) => Ok("UuidGet"),
 
             // XmlExtraPost - POST /xml_extra
             &hyper::Method::Post if path.matched(paths::ID_XML_EXTRA) => Ok("XmlExtraPost"),

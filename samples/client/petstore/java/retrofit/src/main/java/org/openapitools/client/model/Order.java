@@ -89,7 +89,7 @@ public class Order {
 
       @Override
       public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return StatusEnum.fromValue(value);
       }
     }
@@ -103,7 +103,9 @@ public class Order {
   @SerializedName(SERIALIZED_NAME_COMPLETE)
   private Boolean complete = false;
 
+
   public Order id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -112,16 +114,21 @@ public class Order {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Long getId() {
     return id;
   }
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public Order petId(Long petId) {
+    
     this.petId = petId;
     return this;
   }
@@ -130,16 +137,21 @@ public class Order {
    * Get petId
    * @return petId
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Long getPetId() {
     return petId;
   }
+
 
   public void setPetId(Long petId) {
     this.petId = petId;
   }
 
+
   public Order quantity(Integer quantity) {
+    
     this.quantity = quantity;
     return this;
   }
@@ -148,16 +160,21 @@ public class Order {
    * Get quantity
    * @return quantity
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer getQuantity() {
     return quantity;
   }
+
 
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
+
   public Order shipDate(DateTime shipDate) {
+    
     this.shipDate = shipDate;
     return this;
   }
@@ -166,16 +183,21 @@ public class Order {
    * Get shipDate
    * @return shipDate
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public DateTime getShipDate() {
     return shipDate;
   }
+
 
   public void setShipDate(DateTime shipDate) {
     this.shipDate = shipDate;
   }
 
+
   public Order status(StatusEnum status) {
+    
     this.status = status;
     return this;
   }
@@ -184,16 +206,21 @@ public class Order {
    * Order Status
    * @return status
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "Order Status")
+
   public StatusEnum getStatus() {
     return status;
   }
+
 
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
+
   public Order complete(Boolean complete) {
+    
     this.complete = complete;
     return this;
   }
@@ -202,10 +229,13 @@ public class Order {
    * Get complete
    * @return complete
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Boolean getComplete() {
     return complete;
   }
+
 
   public void setComplete(Boolean complete) {
     this.complete = complete;

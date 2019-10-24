@@ -46,6 +46,10 @@ void OAIStoreApi::setApiTimeOutMs(const int tout){
     timeout = tout;
 }
 
+void OAIStoreApi::setWorkingDirectory(const QString& path){
+    workingDirectory = path;
+}
+
 void OAIStoreApi::addHeaders(const QString& key, const QString& value){
     defaultHeaders.insert(key, value);
 }
@@ -55,13 +59,15 @@ void
 OAIStoreApi::deleteOrder(const QString& order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
-    QString order_idPathParam("{"); 
+    QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "DELETE");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -104,9 +110,11 @@ OAIStoreApi::getInventory() {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/inventory");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -158,13 +166,15 @@ void
 OAIStoreApi::getOrderById(const qint64& order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
-    QString order_idPathParam("{"); 
+    QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "GET");
+    
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -208,10 +218,11 @@ OAIStoreApi::placeOrder(const OAIOrder& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
-    worker->setTimeOut(timeout);    
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    worker->setTimeOut(timeout);
+    worker->setWorkingDirectory(workingDirectory);    
     OAIHttpRequestInput input(fullPath, "POST");
-
+    
     
     QString output = body.asJson();
     input.request_body.append(output);

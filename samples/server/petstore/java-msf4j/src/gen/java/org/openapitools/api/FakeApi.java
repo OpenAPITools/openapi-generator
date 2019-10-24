@@ -230,6 +230,22 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testJsonFormData(param,param2);
     }
+    @PUT
+    @Path("/test-query-paramters")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
+    public Response testQueryParameterCollectionFormat(@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("pipe") List<String> pipe
+,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("ioutil") List<String> ioutil
+,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("http") List<String> http
+,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("url") List<String> url
+,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("context") List<String> context
+)
+    throws NotFoundException {
+        return delegate.testQueryParameterCollectionFormat(pipe,ioutil,http,url,context);
+    }
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })

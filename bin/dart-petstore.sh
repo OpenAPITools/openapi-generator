@@ -39,6 +39,7 @@ java $JAVA_OPTS -jar $executable $ags
 ags="generate -t modules/openapi-generator/src/main/resources/dart -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/openapi-browser-client --additional-properties hideGenerationTimestamp=true,browserClient=true,supportDart2=false $@"
 java $JAVA_OPTS -jar $executable $ags
 
+# TODO: Remove this as it duplicate output from the first example in this file.
 # Generate non-browserClient and put it to the flutter sample app
 ags="generate -t modules/openapi-generator/src/main/resources/dart -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/flutter_petstore/openapi --additional-properties hideGenerationTimestamp=true,browserClient=false,supportDart2=false $@"
 java $JAVA_OPTS -jar $executable $ags

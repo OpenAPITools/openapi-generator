@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
@@ -85,6 +84,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> importMapping = new HashMap<String, String>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
+    protected String apiNameSuffix = "Api";
     protected String testPackage = "";
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
@@ -97,6 +97,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String embeddedTemplateDir;
     protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
@@ -110,7 +111,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
     protected Boolean allowUnicodeIdentifiers = false;
-    protected String gitUserId, gitRepoId, releaseNote;
+    protected String gitHost, gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
     // How to encode special characters like $
@@ -179,6 +180,10 @@ public class DefaultCodegen implements CodegenConfig {
                     .get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS).toString()));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.API_NAME_SUFFIX)) {
+            this.setApiNameSuffix((String) additionalProperties.get(CodegenConstants.API_NAME_SUFFIX));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.MODEL_NAME_PREFIX)) {
             this.setModelNamePrefix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_PREFIX));
         }
@@ -240,13 +245,10 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey("lambda")) {
-            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
-                    "You'll likely need to use a custom template, " +
-                    "see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/templating.md. ");
-            additionalProperties.put("_lambda", lambdas);
-        } else {
-            additionalProperties.put("lambda", lambdas);
+            LOGGER.error("A property called 'lambda' already exists in additionalProperties");
+            throw new RuntimeException("A property called 'lambda' already exists in additionalProperties");
         }
+        additionalProperties.put("lambda", lambdas);
     }
 
     // override with any special post-processing for all models
@@ -506,12 +508,12 @@ public class DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
     }
 
-    //override with any special handling of the entire swagger spec
+    //override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
     }
 
-    // override with any special handling of the entire swagger spec
+    // override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void processOpenAPI(OpenAPI openAPI) {
     }
@@ -725,6 +727,10 @@ public class DefaultCodegen implements CodegenConfig {
         return additionalProperties;
     }
 
+    public Map<String, String> serverVariableOverrides() {
+        return serverVariables;
+    }
+
     public Map<String, Object> vendorExtensions() {
         return vendorExtensions;
     }
@@ -775,6 +781,14 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setModelNameSuffix(String modelNameSuffix) {
         this.modelNameSuffix = modelNameSuffix;
+    }
+
+    public String getApiNameSuffix() {
+        return apiNameSuffix;
+    }
+
+    public void setApiNameSuffix(String apiNameSuffix) {
+        this.apiNameSuffix = apiNameSuffix;
     }
 
     public void setApiPackage(String apiPackage) {
@@ -1066,8 +1080,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "URI");
-        //typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
-
+        typeMapping.put("BigDecimal", "BigDecimal");
 
         instantiationTypes = new HashMap<String, String>();
 
@@ -1245,7 +1258,7 @@ public class DefaultCodegen implements CodegenConfig {
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
-            String inner = getSchemaType(arraySchema.getItems());
+            String inner = getSchemaType(getSchemaItems(arraySchema));
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;
@@ -1460,6 +1473,15 @@ public class DefaultCodegen implements CodegenConfig {
 
     }
 
+    protected Schema<?> getSchemaItems(ArraySchema schema) {
+        if (schema.getItems() != null) {
+            return schema.getItems();
+        } else {
+            LOGGER.error("Undefined array inner type for `{}`. Default to String.", schema.getName());
+            return new StringSchema().description("TODO default missing array inner type to string");
+        }
+    }
+
     /**
      * Return the name of the allOf schema
      *
@@ -1572,7 +1594,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isURISchema(schema)) {
             return "URI";
         } else if (ModelUtils.isStringSchema(schema)) {
-            if(typeMapping.containsKey(schema.getFormat())) {
+            if (typeMapping.containsKey(schema.getFormat())) {
                 // If the format matches a typeMapping (supplied with the --typeMappings flag)
                 // then treat the format as a primitive type.
                 // This allows the typeMapping flag to add a new custom type which can then
@@ -1682,17 +1704,17 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the API (class) name (capitalized) ending with "Api"
+     * Output the API (class) name (capitalized) ending with the specified or default suffix
      * Return DefaultApi if name is empty
      *
      * @param name the name of the Api
-     * @return capitalized Api name ending with "Api"
+     * @return capitalized Api name
      */
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return camelize(name) + "Api";
+        return camelize(name + "_" + apiNameSuffix);
     }
 
     /**
@@ -1825,6 +1847,7 @@ public class DefaultCodegen implements CodegenConfig {
                         } else {
                             // composition
                             addProperties(properties, required, refSchema);
+                            addProperties(allProperties, allRequired, refSchema);
                         }
                     }
 
@@ -1870,6 +1893,9 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            if (composed.getRequired() != null) {
+                required.addAll(composed.getRequired());
+            }
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
             // end of code block for composed schema
@@ -1884,14 +1910,28 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMapModel = true;
-            }
-            if (ModelUtils.isIntegerSchema(schema)) { // integer type
-                if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
+            } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
+                m.isNumeric = Boolean.TRUE;
+                if (ModelUtils.isLongSchema(schema)) { // int64/long format
+                    m.isLong = Boolean.TRUE;
+                } else { // int32 format
                     m.isInteger = Boolean.TRUE;
                 }
-            }
-            if (ModelUtils.isStringSchema(schema)) {
+            } else if (ModelUtils.isStringSchema(schema)) {
                 m.isString = Boolean.TRUE;
+            } else if (ModelUtils.isNumberSchema(schema)) {
+                m.isNumeric = Boolean.TRUE;
+                if (ModelUtils.isFloatSchema(schema)) { // float
+                    m.isFloat = Boolean.TRUE;
+                } else if (ModelUtils.isDoubleSchema(schema)) { // double
+                    m.isDouble = Boolean.TRUE;
+                } else { // type is number and without format
+                    m.isNumber = Boolean.TRUE;
+                }
+            }
+
+            if (Boolean.TRUE.equals(schema.getNullable())) {
+                m.isNullable = Boolean.TRUE;
             }
 
             // passing null to allProperties and allRequired as there's no parent
@@ -1917,6 +1957,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         discriminator.setPropertyName(toVarName(schema.getDiscriminator().getPropertyName()));
+        discriminator.setPropertyBaseName(schema.getDiscriminator().getPropertyName());
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
@@ -1959,6 +2000,10 @@ public class DefaultCodegen implements CodegenConfig {
 
             for (Schema component : composedSchema.getAllOf()) {
                 addProperties(properties, required, component);
+            }
+
+            if (schema.getRequired() != null) {
+                required.addAll(schema.getRequired());
             }
 
             if (composedSchema.getOneOf() != null) {
@@ -2059,7 +2104,7 @@ public class DefaultCodegen implements CodegenConfig {
         String type = getSchemaType(p);
         if (ModelUtils.isIntegerSchema(p)) { // integer type
             property.isNumeric = Boolean.TRUE;
-            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) { // int64/long format
+            if (ModelUtils.isLongSchema(p)) { // int64/long format
                 property.isLong = Boolean.TRUE;
             } else { // int32 format
                 property.isInteger = Boolean.TRUE;
@@ -2156,11 +2201,10 @@ public class DefaultCodegen implements CodegenConfig {
             property.isFreeFormObject = true;
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
-            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ((ArraySchema) p).getItems());
-            if (innerSchema == null) {
-                LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
-                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                ((ArraySchema) p).setItems(innerSchema);
+            ArraySchema arraySchema = (ArraySchema) p;
+            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getSchemaItems(arraySchema));
+            if (arraySchema.getItems() == null) {
+                arraySchema.setItems(innerSchema);
             }
         } else if (ModelUtils.isMapSchema(p)) {
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getAdditionalProperties(p));
@@ -2238,11 +2282,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (itemName == null) {
                 itemName = property.name;
             }
-            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ((ArraySchema) p).getItems());
-            if (innerSchema == null) {
-                LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
-                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                ((ArraySchema) p).setItems(innerSchema);
+            ArraySchema arraySchema = (ArraySchema) p;
+            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getSchemaItems(arraySchema));
+            if (arraySchema.getItems() == null) {
+                arraySchema.setItems(innerSchema);
             }
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
@@ -2272,8 +2315,9 @@ public class DefaultCodegen implements CodegenConfig {
             //    property.baseType = getSimpleRef(p.get$ref());
             //}
             // --END of revision
-            property.isModel = ModelUtils.isModel(p);
             setNonArrayMapProperty(property, type);
+            Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
+            property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
         }
 
         LOGGER.debug("debugging from property return: " + property);
@@ -2462,6 +2506,76 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Set op's returnBaseType, returnType, examples etc.
+     *
+     * @param operation      endpoint Operation
+     * @param schemas        a map of the schemas in the openapi spec
+     * @param op             endpoint CodegenOperation
+     * @param methodResponse the default ApiResponse for the endpoint
+     */
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse) {
+        Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
+
+        if (responseSchema != null) {
+            CodegenProperty cm = fromProperty("response", responseSchema);
+
+            if (ModelUtils.isArraySchema(responseSchema)) {
+                ArraySchema as = (ArraySchema) responseSchema;
+                CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as));
+                op.returnBaseType = innerProperty.baseType;
+            } else if (ModelUtils.isMapSchema(responseSchema)) {
+                CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema));
+                op.returnBaseType = innerProperty.baseType;
+            } else {
+                if (cm.complexType != null) {
+                    op.returnBaseType = cm.complexType;
+                } else {
+                    op.returnBaseType = cm.baseType;
+                }
+            }
+
+            // generate examples
+            String exampleStatusCode = "200";
+            for (String key : operation.getResponses().keySet()) {
+                if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
+                    exampleStatusCode = key;
+                }
+            }
+            op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
+            op.defaultResponse = toDefaultValue(responseSchema);
+            op.returnType = cm.dataType;
+            op.hasReference = schemas.containsKey(op.returnBaseType);
+
+            // lookup discriminator
+            Schema schema = schemas.get(op.returnBaseType);
+            if (schema != null) {
+                CodegenModel cmod = fromModel(op.returnBaseType, schema);
+                op.discriminator = cmod.discriminator;
+            }
+
+            if (cm.isContainer) {
+                op.returnContainer = cm.containerType;
+                if ("map".equals(cm.containerType)) {
+                    op.isMapContainer = true;
+                } else if ("list".equalsIgnoreCase(cm.containerType)) {
+                    op.isListContainer = true;
+                } else if ("array".equalsIgnoreCase(cm.containerType)) {
+                    op.isListContainer = true;
+                }
+            } else {
+                op.returnSimpleType = true;
+            }
+            if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
+                op.returnTypeIsPrimitive = true;
+            }
+        }
+        addHeaders(methodResponse, op.responseHeaders);
+    }
+
+    /**
      * Convert OAS Operation object to Codegen Operation object
      *
      * @param httpMethod HTTP method
@@ -2550,65 +2664,15 @@ public class DefaultCodegen implements CodegenConfig {
                     op.isResponseFile = Boolean.TRUE;
                 }
             }
+            op.responses.sort((a, b) -> {
+                int aDefault = "0".equals(a.code) ? 1 : 0;
+                int bDefault = "0".equals(b.code) ? 1 : 0;
+                return aDefault - bDefault;
+            });
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
-                Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
-
-                if (responseSchema != null) {
-                    CodegenProperty cm = fromProperty("response", responseSchema);
-
-                    if (ModelUtils.isArraySchema(responseSchema)) {
-                        ArraySchema as = (ArraySchema) responseSchema;
-                        CodegenProperty innerProperty = fromProperty("response", as.getItems());
-                        op.returnBaseType = innerProperty.baseType;
-                    } else if (ModelUtils.isMapSchema(responseSchema)) {
-                        CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema));
-                        op.returnBaseType = innerProperty.baseType;
-                    } else {
-                        if (cm.complexType != null) {
-                            op.returnBaseType = cm.complexType;
-                        } else {
-                            op.returnBaseType = cm.baseType;
-                        }
-                    }
-
-                    // generate examples
-                    String exampleStatusCode = "200";
-                    for (String key : operation.getResponses().keySet()) {
-                        if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
-                            exampleStatusCode = key;
-                        }
-                    }
-                    op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
-                    op.defaultResponse = toDefaultValue(responseSchema);
-                    op.returnType = cm.dataType;
-                    op.hasReference = schemas.containsKey(op.returnBaseType);
-
-                    // lookup discriminator
-                    Schema schema = schemas.get(op.returnBaseType);
-                    if (schema != null) {
-                        CodegenModel cmod = fromModel(op.returnBaseType, schema);
-                        op.discriminator = cmod.discriminator;
-                    }
-
-                    if (cm.isContainer) {
-                        op.returnContainer = cm.containerType;
-                        if ("map".equals(cm.containerType)) {
-                            op.isMapContainer = true;
-                        } else if ("list".equalsIgnoreCase(cm.containerType)) {
-                            op.isListContainer = true;
-                        } else if ("array".equalsIgnoreCase(cm.containerType)) {
-                            op.isListContainer = true;
-                        }
-                    } else {
-                        op.returnSimpleType = true;
-                    }
-                    if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
-                        op.returnTypeIsPrimitive = true;
-                    }
-                }
-                addHeaders(methodResponse, op.responseHeaders);
+                handleMethodResponse(operation, schemas, op, methodResponse);
             }
         }
 
@@ -2635,11 +2699,13 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
-            if (getContentType(requestBody) != null &&
-                    (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data"))) {
+            String contentType = getContentType(requestBody);
+            if (contentType != null &&
+                    (contentType.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                            contentType.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
+                op.isMultipart = contentType.toLowerCase(Locale.ROOT).startsWith("multipart");
                 for (CodegenParameter cp : formParams) {
                     postProcessParameter(cp);
                 }
@@ -2828,7 +2894,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (ModelUtils.isArraySchema(responseSchema)) {
                 ArraySchema as = (ArraySchema) responseSchema;
-                CodegenProperty innerProperty = fromProperty("response", as.getItems());
+                CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as));
                 CodegenProperty innerCp = innerProperty;
                 while (innerCp != null) {
                     r.baseType = innerCp.baseType;
@@ -3005,7 +3071,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema s;
-        if(parameter.getSchema() != null) {
+        if (parameter.getSchema() != null) {
             s = parameter.getSchema();
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
@@ -3032,14 +3098,20 @@ public class DefaultCodegen implements CodegenConfig {
             // set default value
             codegenParameter.defaultValue = toDefaultValue(parameterSchema);
 
-            // TDOO revise collectionFormat
+            if (parameter.getStyle() != null) {
+                codegenParameter.style = parameter.getStyle().toString();
+            }
+
+            // the default value is false
+            // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
+            codegenParameter.isExplode = parameter.getExplode() == null ? false : parameter.getExplode();
+
+            // TODO revise collectionFormat
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
-                Schema inner = arraySchema.getItems();
-                if (inner == null) {
-                    LOGGER.warn("warning! No inner type supplied for array parameter \"" + parameter.getName() + "\", using String");
-                    inner = new StringSchema().description("//TODO automatically added by openapi-generator due to missing iner type definition in the spec");
+                Schema inner = getSchemaItems(arraySchema);
+                if (arraySchema.getItems() == null) {
                     arraySchema.setItems(inner);
                 }
 
@@ -3479,7 +3551,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param response   API response
      * @param properties list of codegen property
      */
-    private void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
+    protected void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
         if (response.getHeaders() != null) {
             for (Map.Entry<String, Header> headerEntry : response.getHeaders().entrySet()) {
                 String description = headerEntry.getValue().getDescription();
@@ -3876,6 +3948,24 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Set Git host.
+     *
+     * @param gitHost Git host
+     */
+    public void setGitHost(String gitHost) {
+        this.gitHost = gitHost;
+    }
+
+    /**
+     * Git host.
+     *
+     * @return Git host
+     */
+    public String getGitHost() {
+        return gitHost;
+    }
+
+    /**
      * Set Git user ID.
      *
      * @param gitUserId Git user ID
@@ -4003,6 +4093,19 @@ public class DefaultCodegen implements CodegenConfig {
      * @return sanitized string
      */
     public String sanitizeName(String name, String removeCharRegEx) {
+        return sanitizeName(name, removeCharRegEx, new ArrayList<String>());
+    }
+
+    /**
+     * Sanitize name (parameter, property, method, etc)
+     *
+     * @param name            string to be sanitize
+     * @param removeCharRegEx a regex containing all char that will be removed
+     * @param exceptionList   a list of matches which should not be sanitized (i.e expections)
+     * @return sanitized string
+     */
+    @SuppressWarnings("static-method")
+    public String sanitizeName(String name, String removeCharRegEx, ArrayList<String> exceptionList) {
         // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
         // character with _ or empty character. Below aims to spell out different cases we've
         // encountered so far and hopefully make it easier for others to add more special
@@ -4020,27 +4123,27 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // input[] => input
-        name = name.replaceAll("\\[\\]", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = this.sanitizeValue(name, "\\[\\]", "", exceptionList);
 
         // input[a][b] => input_a_b
-        name = name.replaceAll("\\[", "_");
-        name = name.replaceAll("\\]", "");
+        name = this.sanitizeValue(name, "\\[", "_", exceptionList);
+        name = this.sanitizeValue(name, "\\]", "", exceptionList);
 
         // input(a)(b) => input_a_b
-        name = name.replaceAll("\\(", "_");
-        name = name.replaceAll("\\)", "");
+        name = this.sanitizeValue(name, "\\(", "_", exceptionList);
+        name = this.sanitizeValue(name, "\\)", "", exceptionList);
 
         // input.name => input_name
-        name = name.replaceAll("\\.", "_");
+        name = this.sanitizeValue(name, "\\.", "_", exceptionList);
 
         // input-name => input_name
-        name = name.replaceAll("-", "_");
+        name = this.sanitizeValue(name, "-", "_", exceptionList);
 
         // a|b => a_b
-        name = name.replace("|", "_");
+        name = this.sanitizeValue(name, "\\|", "_", exceptionList);
 
         // input name and age => input_name_and_age
-        name = name.replaceAll(" ", "_");
+        name = this.sanitizeValue(name, " ", "_", exceptionList);
 
         // /api/films/get => _api_films_get
         // \api\films\get => _api_films_get
@@ -4056,6 +4159,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return name;
+    }
+
+    private String sanitizeValue(String value, String replaceMatch, String replaceValue, ArrayList<String> exceptionList) {
+        if (exceptionList.size() == 0 || !exceptionList.contains(replaceMatch)) {
+            return value.replaceAll(replaceMatch, replaceValue);
+        }
+        return value;
     }
 
     /**
@@ -4246,7 +4356,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
         if (vendorExtensions != null) {
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name");
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription");
@@ -4419,8 +4529,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         for (String consume : consumesInfo) {
             if (consume != null &&
-                    consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                    consume.toLowerCase(Locale.ROOT).startsWith("multipart/form-data")) {
+                    (consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                            consume.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
                 return true;
             }
         }
@@ -4488,7 +4598,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param operation Operation
      * @return a set of MIME types
      */
-    public static Set<String> getProducesInfo(OpenAPI openAPI, Operation operation) {
+    public static Set<String> getProducesInfo(final OpenAPI openAPI, final Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }
@@ -4552,10 +4662,8 @@ public class DefaultCodegen implements CodegenConfig {
                 // array of schema
                 if (ModelUtils.isArraySchema(s)) {
                     final ArraySchema arraySchema = (ArraySchema) s;
-                    Schema inner = arraySchema.getItems();
-                    if (inner == null) {
-                        LOGGER.error("No inner type supplied for array parameter `{}`. Default to type:string", s.getName());
-                        inner = new StringSchema().description("//TODO automatically added by openapi-generator due to missing inner type definition in the spec");
+                    Schema inner = getSchemaItems(arraySchema);
+                    if (arraySchema.getItems() == null) {
                         arraySchema.setItems(inner);
                     }
 
@@ -4752,10 +4860,8 @@ public class DefaultCodegen implements CodegenConfig {
             setParameterNullable(codegenParameter, codegenProperty);
         } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
-            Schema inner = arraySchema.getItems();
-            if (inner == null) {
-                LOGGER.error("No inner type supplied for array parameter `{}`. Default to type:string", schema.getName());
-                inner = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
+            Schema inner = getSchemaItems(arraySchema);
+            if (arraySchema.getItems() == null) {
                 arraySchema.setItems(inner);
             }
             CodegenProperty codegenProperty = fromProperty("property", arraySchema);
@@ -4840,41 +4946,54 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenParameter.baseType);
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
-                if (ModelUtils.getAdditionalProperties(schema) != null) {// http body is map
-                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
-                } else if (codegenProperty != null) {
-                    String codegenModelName, codegenModelDescription;
 
-                    if (codegenModel != null) {
-                        codegenModelName = codegenModel.classname;
-                        codegenModelDescription = codegenModel.description;
-                    } else {
-                        LOGGER.warn("The following schema has undefined (null) baseType. " +
-                                "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
-                                "A correct 'consumes' for form parameters should be " +
-                                "'application/x-www-form-urlencoded' or 'multipart/form-data'");
-                        LOGGER.warn("schema: " + schema);
-                        LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
-                        codegenModelName = "UNKNOWN_BASE_TYPE";
-                        codegenModelDescription = "UNKNOWN_DESCRIPTION";
-                    }
-
-                    if (StringUtils.isEmpty(bodyParameterName)) {
-                        codegenParameter.baseName = codegenModelName;
-                    } else {
-                        codegenParameter.baseName = bodyParameterName;
-                    }
-
+                if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+                    List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
+                    imports.addAll(parts);
+                    String codegenModelName = codegenProperty.getComplexType();
+                    codegenParameter.baseName = codegenModelName;
                     codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                    codegenParameter.baseType = codegenModelName;
+                    codegenParameter.baseType = codegenParameter.baseName;
                     codegenParameter.dataType = getTypeDeclaration(codegenModelName);
-                    codegenParameter.description = codegenModelDescription;
-                    imports.add(codegenParameter.baseType);
+                    codegenParameter.description = codegenProperty.getDescription();
+                } else {
+                    if (ModelUtils.getAdditionalProperties(schema) != null) {// http body is map
+                        LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
+                    } else if (codegenProperty != null) {
+                        String codegenModelName, codegenModelDescription;
 
-                    if (codegenProperty.complexType != null) {
-                        imports.add(codegenProperty.complexType);
+                        if (codegenModel != null) {
+                            codegenModelName = codegenModel.classname;
+                            codegenModelDescription = codegenModel.description;
+                        } else {
+                            LOGGER.warn("The following schema has undefined (null) baseType. " +
+                                    "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
+                                    "A correct 'consumes' for form parameters should be " +
+                                    "'application/x-www-form-urlencoded' or 'multipart/?'");
+                            LOGGER.warn("schema: " + schema);
+                            LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
+                            codegenModelName = "UNKNOWN_BASE_TYPE";
+                            codegenModelDescription = "UNKNOWN_DESCRIPTION";
+                        }
+
+                        if (StringUtils.isEmpty(bodyParameterName)) {
+                            codegenParameter.baseName = codegenModelName;
+                        } else {
+                            codegenParameter.baseName = bodyParameterName;
+                        }
+
+                        codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                        codegenParameter.baseType = codegenModelName;
+                        codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                        codegenParameter.description = codegenModelDescription;
+                        imports.add(codegenParameter.baseType);
+
+                        if (codegenProperty.complexType != null) {
+                            imports.add(codegenProperty.complexType);
+                        }
                     }
                 }
+
                 setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
                 // set nullable
                 setParameterNullable(codegenParameter, codegenProperty);
@@ -4894,6 +5013,14 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.dataType = codegenProperty.dataType;
                 codegenParameter.description = codegenProperty.description;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.minimum = codegenProperty.minimum;
+                codegenParameter.maximum = codegenProperty.maximum;
+                codegenParameter.exclusiveMinimum = codegenProperty.exclusiveMinimum;
+                codegenParameter.exclusiveMaximum = codegenProperty.exclusiveMaximum;
+                codegenParameter.minLength = codegenProperty.minLength;
+                codegenParameter.maxLength = codegenProperty.maxLength;
+                codegenParameter.pattern = codegenProperty.pattern;
+
 
                 if (codegenProperty.complexType != null) {
                     imports.add(codegenProperty.complexType);
@@ -4929,7 +5056,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void removeOption(String key) {
-        for(int i = 0; i < cliOptions.size(); i++) {
+        for (int i = 0; i < cliOptions.size(); i++) {
             if (key.equals(cliOptions.get(i).getOpt())) {
                 cliOptions.remove(i);
                 break;
@@ -4952,11 +5079,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void generateJSONSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if (openAPI != null) {
-            try {
-                objs.put("openapi-json", Json.pretty().writeValueAsString(openAPI).replace("\r\n", "\n"));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
+            objs.put("openapi-json", SerializerUtils.toJsonString(openAPI));
         }
     }
 
@@ -5006,14 +5129,34 @@ public class DefaultCodegen implements CodegenConfig {
         if (variables == null) {
             return Collections.emptyList();
         }
+
+        Map<String, String> variableOverrides = serverVariableOverrides();
+
         List<CodegenServerVariable> codegenServerVariables = new LinkedList<>();
         for (Entry<String, ServerVariable> variableEntry : variables.entrySet()) {
             CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
             ServerVariable variable = variableEntry.getValue();
+            List<String> enums = variable.getEnum();
+
             codegenServerVariable.defaultValue = variable.getDefault();
             codegenServerVariable.description = escapeText(variable.getDescription());
-            codegenServerVariable.enumValues = variable.getEnum();
+            codegenServerVariable.enumValues = enums;
             codegenServerVariable.name = variableEntry.getKey();
+
+            // Sets the override value for a server variable pattern.
+            // NOTE: OpenAPI Specification doesn't prevent multiple server URLs with variables. If multiple objects have the same
+            //       variables pattern, user overrides will apply to _all_ of these patterns. We may want to consider indexed overrides.
+            if (variableOverrides != null && !variableOverrides.isEmpty()) {
+                String value = variableOverrides.getOrDefault(variableEntry.getKey(), variable.getDefault());
+                codegenServerVariable.value = value;
+
+                if (enums != null && !enums.isEmpty() && !enums.contains(value)) {
+                    LOGGER.warn("Variable override of '{}' is not listed in the enum of allowed values ({}).", value, StringUtils.join(enums, ","));
+                }
+            } else {
+                codegenServerVariable.value = variable.getDefault();
+            }
+
             codegenServerVariables.add(codegenServerVariable);
         }
         return codegenServerVariables;
