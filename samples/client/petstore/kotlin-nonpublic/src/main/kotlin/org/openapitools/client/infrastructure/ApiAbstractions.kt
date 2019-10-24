@@ -5,8 +5,8 @@ typealias MultiValueMap = MutableMap<String,List<String>>
 internal fun collectionDelimiter(collectionFormat: String) = when(collectionFormat) {
     "csv" -> ","
     "tsv" -> "\t"
-    "pipes" -> "|"
-    "ssv" -> " "
+    "pipe" -> "|"
+    "space" -> " "
     else -> ""
 }
 
