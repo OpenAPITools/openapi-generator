@@ -81,7 +81,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "is", "library", "new", "null", "operator", "part", "rethrow",
                         "return", "set", "static", "super", "switch", "sync*", "this",
                         "throw", "true", "try", "typedef", "var", "void", "while",
-                        "with", "yield", "yield*")
+                        "with", "yield", "yield*", "hide", "interface", "mixin", "on",
+                        "show", "async")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
