@@ -91,12 +91,12 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public String getName() {
-        return "php-slim";
+        return "php-slim-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a PHP Slim Framework server library.";
+        return "Generates a PHP Slim Framework server library. IMPORTANT NOTE: this generator (Slim 3.x)  is no longer actively maintained so please use 'php-slim4' generator instead.";
     }
 
     @Override

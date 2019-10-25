@@ -103,7 +103,7 @@ The following generators are available:
 * [php-laravel](generators/php-laravel.md)  
 * [php-lumen](generators/php-lumen.md)  
 * [php-silex](generators/php-silex.md)  
-* [php-slim (deprecated)](generators/php-slim.md)  
+* [php-slim-deprecated (deprecated)](generators/php-slim-deprecated.md)  
 * [php-slim4](generators/php-slim4.md)  
 * [php-symfony](generators/php-symfony.md)  
 * [php-ze-ph](generators/php-ze-ph.md)  
