@@ -11,38 +11,41 @@ import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/tag.dart';
 import 'package:openapi/model/user.dart';
 
+
 part 'serializers.g.dart';
 
 @SerializersFor(const [
-  ApiResponse,
-  Category,
-  Order,
-  Pet,
-  Tag,
-  User,
+ApiResponse,
+Category,
+Order,
+Pet,
+Tag,
+User,
+
 ])
 
 //allow all models to be serialized within a list
 Serializers serializers = (_$serializers.toBuilder()
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(ApiResponse)]),
-          () => new ListBuilder<ApiResponse>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Category)]),
-          () => new ListBuilder<Category>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Order)]),
-          () => new ListBuilder<Order>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Pet)]),
-          () => new ListBuilder<Pet>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Tag)]),
-          () => new ListBuilder<Tag>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(User)]),
-          () => new ListBuilder<User>()))
-    .build();
+..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(ApiResponse)]),
+() => new ListBuilder<ApiResponse>())
+..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(Category)]),
+() => new ListBuilder<Category>())
+..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(Order)]),
+() => new ListBuilder<Order>())
+..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(Pet)]),
+() => new ListBuilder<Pet>())
+..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(Tag)]),
+() => new ListBuilder<Tag>())
+..addBuilderFactory(
+const FullType(BuiltList, const [const FullType(User)]),
+() => new ListBuilder<User>())
+
+).build();
 
 Serializers standardSerializers =
-    (serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
+(serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
