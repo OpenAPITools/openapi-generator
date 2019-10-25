@@ -59,6 +59,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
         apiTemplateFiles.clear();
         apiTemplateFiles.put("api.mustache", ".java");
+        apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
         apiTemplateFiles.put("apiHandler.mustache", "Handler.java");
 
         embeddedTemplateDir = templateDir = "JavaVertXWebServer";
@@ -130,6 +131,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         supportingFiles.add(new SupportingFile("supportFiles/openapi.mustache", resourceFolder, "openapi.yaml"));
         supportingFiles.add(new SupportingFile("supportFiles/HttpServerVerticle.mustache", sourcePackageFolder, "HttpServerVerticle.java"));
         supportingFiles.add(new SupportingFile("supportFiles/MainVerticle.mustache", sourcePackageFolder, "MainVerticle.java"));
+        supportingFiles.add(new SupportingFile("supportFiles/ParameterCast.mustache", sourcePackageFolder, "ParameterCast.java"));
         supportingFiles.add(new SupportingFile("supportFiles/pom.mustache", "", "pom.xml"));
 
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));

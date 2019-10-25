@@ -3,6 +3,10 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
+import {{rootPackage}}.ParameterCast;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import io.vertx.core.json.Json;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
@@ -17,7 +21,7 @@ import java.util.Map;
 
 public class {{classname}}Handler {
 
-    private {{classname}} apiImpl;
+    private {{classname}} apiImpl = new {{classname}}Impl();
 
     public {{classname}}Handler(Map<String, Handler<RoutingContext>> operationHandlers) {
 {{#operations}}
@@ -33,19 +37,38 @@ public class {{classname}}Handler {
         HttpServerResponse response = routingContext.response();
 
         {{#returnType}}Single{{/returnType}}{{^returnType}}Completable{{/returnType}}.defer( () -> {
-            {{#allParams}}
-            {{{dataType}}} {{paramName}} = null; // TODO
-            {{/allParams}}
-
+{{#allParams}}
+{{^isBodyParam}}
+{{^isListContainer}}
+{{#isHeaderParam}}
+            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.request().getHeader("{{baseName}}"));
+{{/isHeaderParam}}
+{{#isPathParam}}
+            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.pathParams().get("{{baseName}}"));
+{{/isPathParam}}
+{{#isQueryParam}}
+            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.queryParams().get("{{baseName}}"));
+{{/isQueryParam}}
+{{/isListContainer}}
+{{#isListContainer}}
+            {{{dataType}}} {{paramName}} = routingContext.request().params().getAll("{{baseName}}");
+{{/isListContainer}}
+{{/isBodyParam}}
+{{/allParams}}
+{{#allParams}}
+{{#isBodyParam}}
+            String jsonString = routingContext.getBodyAsString();
+            {{{dataType}}} {{paramName}} = jsonString == null ? null : Json.decodeValue(jsonString, new TypeReference<{{{dataType}}}>(){});
+{{/isBodyParam}}
+{{/allParams}}
             return apiImpl.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         })
-        .doOnError( error -> {
-            response.setStatusCode(500).end(error.getMessage());
-        })
-        {{#returnType}}.doOnSuccess( output -> { {{/returnType}}{{^returnType}}.doOnComplete( () -> { {{/returnType}}
-            response.setStatusCode(204).end();
-        })
-        .subscribe();
+        .subscribe(
+            {{#returnType}}output -> { {{/returnType}}{{^returnType}}() -> { {{/returnType}}
+                response.setStatusCode(204).end();
+            }, error -> {
+                response.setStatusCode(500).end(error.getMessage());
+            });
     }
 
 {{/operation}}

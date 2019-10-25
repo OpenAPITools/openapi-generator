@@ -1,0 +1,26 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import io.reactivex.Completable;
+import io.reactivex.Single;
+
+import java.util.List;
+import java.util.Map;
+
+public class {{classname}}Impl implements {{classname}} {
+{{#operations}}
+{{#operation}}
+    public {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Completable{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
+{{#returnType}}
+        return Single.error(new RuntimeException("Not Implemented"));
+{{/returnType}}
+{{^returnType}}
+        return Completable.error(new RuntimeException("Not Implemented"));
+{{/returnType}}
+    }
+
+{{/operation}}
+{{/operations}}
+}
