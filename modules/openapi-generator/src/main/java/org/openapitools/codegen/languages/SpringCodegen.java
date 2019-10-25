@@ -56,6 +56,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
+    public static final String USE_CLASS_LEVEL_BEANVALIDATION = "useClassLevelBeanValidation";
 
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
@@ -89,6 +90,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean skipDefaultInterface = false;
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
+    protected boolean useClassLevelBeanValidation = true;
     protected boolean performBeanValidation = false;
     protected boolean implicitHeaders = false;
     protected boolean openapiDocketConfig = false;
@@ -163,6 +165,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki"));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(USE_CLASS_LEVEL_BEANVALIDATION, "Add @Validated to class-level Api interfaces", useClassLevelBeanValidation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
         cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG, "Generate Spring OpenAPI Docket configuration class.", openapiDocketConfig));
@@ -301,6 +304,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(USE_CLASS_LEVEL_BEANVALIDATION)) {
+            this.setUseClassLevelBeanValidation(convertPropertyToBoolean(USE_CLASS_LEVEL_BEANVALIDATION));
+        }
+        writePropertyBack(USE_CLASS_LEVEL_BEANVALIDATION, useClassLevelBeanValidation);
 
         if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
             this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEANVALIDATION));
@@ -867,6 +875,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public void setUseClassLevelBeanValidation(boolean useClassLevelBeanValidation) {
+        this.useClassLevelBeanValidation = useClassLevelBeanValidation;
     }
 
     public void setPerformBeanValidation(boolean performBeanValidation) {
