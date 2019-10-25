@@ -1,0 +1,18 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import io.reactivex.Completable;
+import io.reactivex.Single;
+
+import java.util.List;
+import java.util.Map;
+
+public interface {{classname}}  {
+{{#operations}}
+{{#operation}}
+    {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Completable{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+{{/operation}}
+{{/operations}}
+}

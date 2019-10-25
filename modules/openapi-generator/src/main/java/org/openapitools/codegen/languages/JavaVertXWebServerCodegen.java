@@ -23,7 +23,6 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
-import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -44,23 +43,11 @@ import java.util.regex.Pattern;
 public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
     protected String resourceFolder = "src/main/resources";
-    protected String rootPackage = "org.openapitools.server.api";
+    protected String rootPackage = "org.openapitools.server";
     protected String apiVersion = "1.0.0-SNAPSHOT";
 
     public static final String ROOT_PACKAGE = "rootPackage";
 
-    public static final String RX_INTERFACE_OPTION = "rxInterface";
-    public static final String RX_VERSION_2_OPTION = "rxVersion2";
-    public static final String VERTX_SWAGGER_ROUTER_VERSION_OPTION = "vertxSwaggerRouterVersion";
-
-    /**
-     * A Java Vert.X generator. It uses java8 date API. It can be configured with 2 CLI options :
-     * <p>
-     * rxInterface : type Boolean if true, API interfaces are generated with RX and methods return
-     * Single and Comparable. default : false
-     * <p>
-     * vertxSwaggerRouterVersion : type String Specify the version of the swagger router library
-     */
     public JavaVertXWebServerCodegen() {
         super();
 
@@ -71,11 +58,12 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         modelTemplateFiles.put("model.mustache", ".java");
 
         apiTemplateFiles.clear();
+        apiTemplateFiles.put("api.mustache", ".java");
         apiTemplateFiles.put("apiHandler.mustache", "Handler.java");
 
         embeddedTemplateDir = templateDir = "JavaVertXWebServer";
 
-        apiPackage = rootPackage + ".handler";
+        apiPackage = rootPackage + ".api";
         modelPackage = rootPackage + ".model";
         artifactId = "openapi-java-vertx-web-server";
         artifactVersion = apiVersion;
@@ -89,16 +77,6 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         updateOption(this.DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
-
-        cliOptions.add(CliOption.newBoolean(RX_INTERFACE_OPTION,
-                "When specified, API interfaces are generated with RX "
-                        + "and methods return Single<> and Comparable."));
-        cliOptions.add(CliOption.newBoolean(RX_VERSION_2_OPTION,
-                "When specified in combination with rxInterface, "
-                        + "API interfaces are generated with RxJava2."));
-        cliOptions.add(CliOption.newString(VERTX_SWAGGER_ROUTER_VERSION_OPTION,
-                "Specify the version of the swagger router library"));
-
     }
 
     /**
@@ -149,11 +127,11 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
         String sourcePackageFolder = sourceFolder + File.separator + rootPackage.replace(".", File.separator);
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("openapi.mustache", resourceFolder, "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("supportFiles/openapi.mustache", resourceFolder, "openapi.yaml"));
         supportingFiles.add(new SupportingFile("supportFiles/HttpServerVerticle.mustache", sourcePackageFolder, "HttpServerVerticle.java"));
         supportingFiles.add(new SupportingFile("supportFiles/MainVerticle.mustache", sourcePackageFolder, "MainVerticle.java"));
+        supportingFiles.add(new SupportingFile("supportFiles/pom.mustache", "", "pom.xml"));
 
-        writeOptional(outputFolder, new SupportingFile("supportFiles/pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
     }
 
@@ -194,7 +172,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        generateJSONSpecFile(objs);
+        generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
 

@@ -25,8 +25,12 @@ then
   mvn -B clean package
 fi
 
+SPEC="modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
+GENERATOR="java-vertx-web"
+STUB_DIR="samples/server/petstore/java-vertx-web/rx"
+
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g java-vertx-web --artifact-id java-vertx-web-rx-server -o samples/server/petstore/java-vertx-web/rx --additional-properties vertxSwaggerRouterVersion=1.4.0,rxInterface=true --additional-properties hideGenerationTimestamp=true $@"
+ags="generate -i $SPEC -g $GENERATOR --artifact-id java-vertx-web-rx-server -o $STUB_DIR --additional-properties hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags
