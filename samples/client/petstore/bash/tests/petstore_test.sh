@@ -20,13 +20,13 @@ export PETSTORE_HOST="http://petstore.swagger.io"
     unset PETSTORE_HOST
     run bash $PETSTORE_CLI -ac xml -ct json \
         addPet id:=123321 name==lucky status==available
-    [[ "$output" =~ "Error: No hostname provided!!!" ]]
+    [[ "$output" =~ "ERROR: No hostname provided!!!" ]]
 }
 
 @test "addPet without content type" {
     run bash $PETSTORE_CLI  -ac xml --host $PETSTORE_HOST \
         addPet id:=123321 name==lucky status==available
-    [[ "$output" =~ "Error: Request's content-type not specified!" ]]
+    [[ "$output" =~ "ERROR: Request's content-type not specified!" ]]
 }
 
 @test "addPet abbreviated content type" {
@@ -44,7 +44,7 @@ export PETSTORE_HOST="http://petstore.swagger.io"
 @test "fakeOperation invalid operation name" {
     run bash \
         -c "bash $PETSTORE_CLI --host http://petstore.swagger.io fakeOperation"
-    [[ "$output" =~ "Error: No operation specified!" ]]
+    [[ "$output" =~ "ERROR: No operation specified!!!" ]]
 }
 
 @test "findPetsByStatus basic auth" {
@@ -53,9 +53,10 @@ export PETSTORE_HOST="http://petstore.swagger.io"
     [[ "$output" =~ "-u alice:secret" ]]
 }
 
-@test "findPetsByStatus api key" {
+
+@test "getPetById api key" {
     run bash \
-        -c "bash $PETSTORE_CLI --host http://petstore.swagger.io findPetsByStatus status=s1 api_key:1234 --dry-run"
+        -c "bash $PETSTORE_CLI --host http://petstore.swagger.io getPetById petId=51 api_key:1234 --dry-run"
     [[ "$output" =~ "-H \"api_key: 1234\""  ]]
 }
 
@@ -74,13 +75,13 @@ export PETSTORE_HOST="http://petstore.swagger.io"
 @test "findPetsByStatus too few values" {
     run bash \
         -c "bash $PETSTORE_CLI --host http://petstore.swagger.io findPetsByStatus"
-    [[ "$output" =~ "Error: Too few values" ]]
+    [[ "$output" =~ "ERROR: Too few values" ]]
 }
 
 @test "findPetsByTags too few values" {
     run bash \
         -c "bash $PETSTORE_CLI --host http://petstore.swagger.io findPetsByTags"
-    [[ "$output" =~ "Error: Too few values" ]]
+    [[ "$output" =~ "ERROR: Too few values" ]]
 }
 
 @test "findPetsByStatus status with space" {
@@ -100,7 +101,7 @@ export PETSTORE_HOST="http://petstore.swagger.io"
 @test "findPetsByStatus collection csv with space and question mark" {
     run bash \
         -c "bash $PETSTORE_CLI --host http://petstore.swagger.io findPetsByTags \
-            tags=TAG1 tags=\"TAG2 TEST\" tags=TAG3?TEST --dry-run"
+            tags=TAG1 tags=\"TAG2 TEST\" tags=\"TAG3?TEST\" --dry-run"
     [[ "$output" =~ "tags=TAG1,TAG2%20TEST,TAG3%3FTEST" ]]
 }
 
