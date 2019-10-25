@@ -6,7 +6,7 @@ steps:
 - name: bash-client-test
   image: bats/bats
   commands:
-  - (cd samples/client/petstore/haskell-http-client/ && bats --tap tests/petstore_test.sh)
+  - (cd samples/client/petstore/bash/ && bats --tap tests/petstore_test.sh)
 # test haskell client
 - name: haskell-client-test
   image: haskell:8.6.5
