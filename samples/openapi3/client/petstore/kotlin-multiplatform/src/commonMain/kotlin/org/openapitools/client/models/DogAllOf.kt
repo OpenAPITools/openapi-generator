@@ -21,5 +21,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class DogAllOf (
     @SerialName(value = "breed") val breed: kotlin.String? = null
-)
+) 
+
+
 

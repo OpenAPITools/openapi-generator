@@ -23,8 +23,10 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class ArrayTest (
-    @SerialName(value = "arrayOfString") val arrayOfString: kotlin.Array<kotlin.String>? = null,
-    @SerialName(value = "arrayArrayOfInteger") val arrayArrayOfInteger: kotlin.Array<kotlin.Array<kotlin.Long>>? = null,
-    @SerialName(value = "arrayArrayOfModel") val arrayArrayOfModel: kotlin.Array<kotlin.Array<ReadOnlyFirst>>? = null
-)
+    @SerialName(value = "array_of_string") val arrayOfString: kotlin.Array<kotlin.String>? = null,
+    @SerialName(value = "array_array_of_integer") val arrayArrayOfInteger: kotlin.Array<kotlin.Array<kotlin.Long>>? = null,
+    @SerialName(value = "array_array_of_model") val arrayArrayOfModel: kotlin.Array<kotlin.Array<ReadOnlyFirst>>? = null
+) 
+
+
 

@@ -35,7 +35,7 @@ class DefaultApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") :
     @Suppress("UNCHECKED_CAST")
     fun fooGet() : InlineResponseDefault {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
