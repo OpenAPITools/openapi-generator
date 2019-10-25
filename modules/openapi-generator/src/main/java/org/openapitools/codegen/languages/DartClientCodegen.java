@@ -300,6 +300,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
         // camelize the model name
         // phone_number => PhoneNumber
         return camelize(name);
