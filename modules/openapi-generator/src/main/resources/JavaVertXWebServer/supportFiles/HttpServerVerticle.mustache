@@ -35,19 +35,11 @@ public class HttpServerVerticle extends AbstractVerticle {
                     factory.addSecurityHandler( "petstore_auth", io.vertx.reactivex.ext.web.RoutingContext::next);
                     factory.addSecurityHandler( "auth_cookie", io.vertx.reactivex.ext.web.RoutingContext::next);
                     factory.addSecurityHandler( "api_key", io.vertx.reactivex.ext.web.RoutingContext::next);
-                    factory.setValidationFailureHandler( rc ->
-                            rc.response()
-                                    .setStatusCode(400)
-                                    .end("Bad Request : " + rc.failure().getMessage())
-                    );
+                    factory.setValidationFailureHandler(this::validationFailureHandler);
                     operationHandlers.forEach(factory.getDelegate()::addHandlerByOperationId);
                 })
                 .map(OpenAPI3RouterFactory::getRouter)
-                .doOnSuccess(router -> router.route().last().handler( rc ->
-                        rc.response()
-                                .setStatusCode(404)
-                                .end("Method '" + rc.request().path() + "' Not Found")
-                ))
+                .doOnSuccess(router -> router.route().last().handler(this::methodNotFoundHandler))
                 .map(router ->
                         vertx.createHttpServer(new HttpServerOptions()
                                 .setPort(8080)
@@ -56,11 +48,21 @@ public class HttpServerVerticle extends AbstractVerticle {
                                 .listen()
                 )
                 .subscribe( httpServer -> {
-                    logger.info("MyVerticle deployed successful");
+                    logger.info("Http verticle deployed successful");
                     fut.complete();
                 }, error -> {
-                    logger.info("MyVerticle failed to deployed ", error);
+                    logger.info("Http verticle failed to deployed", error);
                     fut.fail(error.getCause());
                 });
     }
+
+    private void validationFailureHandler(io.vertx.reactivex.ext.web.RoutingContext rc) {
+         rc.response().setStatusCode(400)
+                 .end("Bad Request : " + rc.failure().getMessage());
+    }
+
+     private void methodNotFoundHandler(io.vertx.reactivex.ext.web.RoutingContext rc) {
+         rc.response().setStatusCode(404)
+                 .end("Method '" + rc.request().path() + "' Not Found");
+     }
 }

@@ -9,9 +9,15 @@ import io.vertx.ext.web.RoutingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
+
+import java.util.List;
 import java.util.Map;
 
 public class {{classname}}Handler {
+
+    private {{classname}} apiImpl;
 
     public {{classname}}Handler(Map<String, Handler<RoutingContext>> operationHandlers) {
 {{#operations}}
@@ -25,7 +31,21 @@ public class {{classname}}Handler {
 
     private void {{operationId}}(RoutingContext routingContext) {
         HttpServerResponse response = routingContext.response();
-        response.setStatusCode(501).end("Not Implemented");
+
+        {{#returnType}}Single{{/returnType}}{{^returnType}}Completable{{/returnType}}.defer( () -> {
+            {{#allParams}}
+            {{{dataType}}} {{paramName}} = null; // TODO
+            {{/allParams}}
+
+            return apiImpl.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        })
+        .doOnError( error -> {
+            response.setStatusCode(500).end(error.getMessage());
+        })
+        {{#returnType}}.doOnSuccess( output -> { {{/returnType}}{{^returnType}}.doOnComplete( () -> { {{/returnType}}
+            response.setStatusCode(204).end();
+        })
+        .subscribe();
     }
 
 {{/operation}}
