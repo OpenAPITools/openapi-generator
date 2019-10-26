@@ -49,6 +49,14 @@ public class {{classname}}Handler {
 {{#isQueryParam}}
             {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.queryParams().get("{{baseName}}"));
 {{/isQueryParam}}
+{{#isFormParam}}
+{{^isFile}}
+            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.request().getFormAttribute("{{baseName}}"));
+{{/isFile}}
+{{#isFile}}
+            {{{dataType}}} {{paramName}} = routingContext.fileUploads().iterator().next();
+{{/isFile}}
+{{/isFormParam}}
 {{/isListContainer}}
 {{#isListContainer}}
             {{{dataType}}} {{paramName}} = routingContext.request().params().getAll("{{baseName}}");
@@ -68,7 +76,7 @@ public class {{classname}}Handler {
                 response.setStatusCode(204).end();
             }, error -> {
                 response.setStatusCode(500).end(error.getMessage());
-            });
+            }).dispose();
     }
 
 {{/operation}}

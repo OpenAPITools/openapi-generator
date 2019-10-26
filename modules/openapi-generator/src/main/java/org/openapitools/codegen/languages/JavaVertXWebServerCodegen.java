@@ -17,26 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
-import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -121,7 +116,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
-        //importMapping.put("MainApiException", rootPackage + ".MainApiException");
+        importMapping.put("FileUpload", "io.vertx.ext.web.FileUpload");
 
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
@@ -147,7 +142,6 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
                 model.imports.add("JsonValue");
             }
         }
-
     }
 
     @Override
@@ -166,7 +160,6 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
                 if (operation.getHasPathParams()) {
                     operation.path = camelizePath(operation.path);
                 }
-
             }
         }
         return newObjs;
@@ -183,7 +176,14 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation codegenOperation =
                 super.fromOperation(path, httpMethod, operation, servers);
-        //codegenOperation.imports.add("MainApiException");
+
+        for (CodegenParameter codegenParameter : codegenOperation.allParams) {
+            if (codegenParameter.dataType.equals("File")) {
+                codegenParameter.dataType = "FileUpload";
+                codegenOperation.imports.remove("File");
+                codegenOperation.imports.add("FileUpload");
+            }
+        }
         return codegenOperation;
     }
 
@@ -193,67 +193,6 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         codegenModel.imports.remove("ApiModel");
         codegenModel.imports.remove("ApiModelProperty");
         return codegenModel;
-    }
-
-    @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        super.preprocessOpenAPI(openAPI);
-
-        // add server port from the swagger file, 8080 by default
-        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
-        this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
-
-        // retrieve api version from swagger file, 1.0.0-SNAPSHOT by default
-        // set in super.preprocessOpenAPI
-        /*
-        if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
-            artifactVersion = apiVersion = openAPI.getInfo().getVersion();
-        } else {
-            artifactVersion = apiVersion;
-        }*/
-
-        /*
-         * manage operation & custom serviceId because operationId field is not
-         * required and may be empty
-         */
-        Map<String, PathItem> paths = openAPI.getPaths();
-        if (paths != null) {
-            for (Entry<String, PathItem> entry : paths.entrySet()) {
-                manageOperationNames(entry.getValue(), entry.getKey());
-            }
-        }
-        this.additionalProperties.remove("gson");
-    }
-
-    private void manageOperationNames(PathItem path, String pathname) {
-        String serviceIdTemp;
-
-        Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
-        if (operationMap != null) {
-            for (Entry<HttpMethod, Operation> entry : operationMap.entrySet()) {
-                serviceIdTemp = computeServiceId(pathname, entry);
-                entry.getValue().addExtension("x-serviceid", serviceIdTemp);
-                entry.getValue().addExtension("x-serviceid-varname",
-                        serviceIdTemp.toUpperCase(Locale.ROOT) + "_SERVICE_ID");
-            }
-        }
-    }
-
-    private String computeServiceId(String pathname, Entry<HttpMethod, Operation> entry) {
-        String operationId = entry.getValue().getOperationId();
-        return (operationId != null) ? operationId
-                : entry.getKey().name()
-                + pathname.replaceAll("-", "_").replaceAll("/", "_").replaceAll("[{}]", "");
-    }
-
-    protected String extractPortFromHost(String host) {
-        if (host != null) {
-            int portSeparatorIndex = host.indexOf(':');
-            if (portSeparatorIndex >= 0 && portSeparatorIndex + 1 < host.length()) {
-                return host.substring(portSeparatorIndex + 1);
-            }
-        }
-        return "8080";
     }
 
     private String camelizePath(String path) {

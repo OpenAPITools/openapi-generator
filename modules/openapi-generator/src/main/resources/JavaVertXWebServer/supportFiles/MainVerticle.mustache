@@ -18,7 +18,7 @@ public class MainVerticle extends AbstractVerticle {
 
         vertx.deployVerticle(HttpServerVerticle.class.getName(), options, res -> {
             if (!res.succeeded()) {
-                logger.error("Deployment fail reason: {}", res.cause());
+                logger.error("Deployment fail reason: ", res.cause());
             }
         });
     }
