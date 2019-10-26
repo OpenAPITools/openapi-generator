@@ -100,7 +100,7 @@ All URIs are relative to */v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**123Test@$%SpecialTags**](docs/AnotherFakeApi.md#123test@$%specialtags) | **PATCH** /another-fake/dummy | To test special tags
+*AnotherFakeApi* | [**call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *FakeApi* | [**createXmlItem**](docs/FakeApi.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
@@ -117,6 +117,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
