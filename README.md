@@ -675,6 +675,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-10-12 - [OpenApi自动生成client](https://blog.csdn.net/wxid2798226/article/details/102527467) by [郑泽洲](https://me.csdn.net/wxid2798226)
 - 2019-10-16 - [How to ship APIs faster?](https://medium.com/@accounts_76224/how-to-ship-apis-faster-cabef2f819e4) by [Simon Guilliams @ PoniCode](https://ponicode.dev)
 - 2019-10-22 - [OpenAPI + Spring Boot(Kotlin)でファイルダウンロードAPIを作成する](https://qiita.com/boronngo/items/4b78b92526209daeaee9) by [Yuki Furukawa](https://twitter.com/yuki_furukawa5)
+- 2019-10-24 - [Microprofile OpenAPI - Code First or Design First?](https://github.com/pe-st/apidocs/blob/master/MicroProfile-OpenAPI-all-slides.pdf) by [Peter [pɛʃə] Steiner](https://twitter.com/pesche) at [eclipsecon Europe 2019](https://www.eclipsecon.org/europe2019/sessions/microprofile-openapi-code-first-or-design-first)
 
 ## [6 - About Us](#table-of-contents)
 
