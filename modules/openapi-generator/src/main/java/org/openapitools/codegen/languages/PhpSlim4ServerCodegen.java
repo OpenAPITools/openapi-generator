@@ -22,6 +22,8 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +45,10 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
     public PhpSlim4ServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.STABLE)
+                .build();
 
         outputFolder = "generated-code" + File.separator + "slim4";
         embeddedTemplateDir = templateDir = "php-slim4-server";
