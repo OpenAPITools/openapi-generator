@@ -3,22 +3,21 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
-import io.reactivex.Completable;
+import {{rootPackage}}.ApiResponse;
+import {{rootPackage}}.ApiException;
+
 import io.reactivex.Single;
 
 import java.util.List;
 import java.util.Map;
 
+// Implement this class
+
 public class {{classname}}Impl implements {{classname}} {
 {{#operations}}
 {{#operation}}
-    public {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Completable{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
-{{#returnType}}
-        return Single.error(new RuntimeException("Not Implemented"));
-{{/returnType}}
-{{^returnType}}
-        return Completable.error(new RuntimeException("Not Implemented"));
-{{/returnType}}
+    public Single<ApiResponse<{{{returnType}}}>> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
+        return Single.error(new ApiException("Not Implemented").setStatusCode(501));
     }
 
 {{/operation}}

@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -32,8 +31,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
@@ -75,34 +72,16 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
     }
 
-    /**
-     * Configures the type of generator.
-     *
-     * @return the CodegenType for this generator
-     * @see CodegenType
-     */
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
-    /**
-     * Configures a friendly name for the generator. This will be used by the generator to select
-     * the library with the -g flag.
-     *
-     * @return the friendly name for the generator
-     */
     public String getName() {
         return "java-vertx-web";
     }
 
-    /**
-     * Returns human-friendly help for the generator. Provide the consumer with help tips,
-     * parameters here
-     *
-     * @return A string value for the help message
-     */
     public String getHelp() {
-        return "Generates a Java Vertx-Web-Api-Contract Server.";
+        return "Generates a Java Vert.x-Web Server.";
     }
 
     @Override
@@ -126,6 +105,8 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         supportingFiles.add(new SupportingFile("supportFiles/openapi.mustache", resourceFolder, "openapi.yaml"));
         supportingFiles.add(new SupportingFile("supportFiles/HttpServerVerticle.mustache", sourcePackageFolder, "HttpServerVerticle.java"));
         supportingFiles.add(new SupportingFile("supportFiles/MainVerticle.mustache", sourcePackageFolder, "MainVerticle.java"));
+        supportingFiles.add(new SupportingFile("supportFiles/ApiResponse.mustache", sourcePackageFolder, "ApiResponse.java"));
+        supportingFiles.add(new SupportingFile("supportFiles/ApiException.mustache", sourcePackageFolder, "ApiException.java"));
         supportingFiles.add(new SupportingFile("supportFiles/ParameterCast.mustache", sourcePackageFolder, "ParameterCast.java"));
         supportingFiles.add(new SupportingFile("supportFiles/pom.mustache", "", "pom.xml"));
 
@@ -153,12 +134,8 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
             for (CodegenOperation operation : ops) {
                 operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
 
-                if ("Void".equalsIgnoreCase(operation.returnType)) {
-                    operation.returnType = null;
-                }
-
-                if (operation.getHasPathParams()) {
-                    operation.path = camelizePath(operation.path);
+                if (operation.returnType == null) {
+                    operation.returnType = "Void";
                 }
             }
         }
@@ -170,7 +147,6 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
-
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
@@ -185,30 +161,5 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
             }
         }
         return codegenOperation;
-    }
-
-    @Override
-    public CodegenModel fromModel(String name, Schema model) {
-        CodegenModel codegenModel = super.fromModel(name, model);
-        codegenModel.imports.remove("ApiModel");
-        codegenModel.imports.remove("ApiModelProperty");
-        return codegenModel;
-    }
-
-    private String camelizePath(String path) {
-        String word = path;
-        Pattern pattern = Pattern.compile("\\{([^/]*)\\}");
-        Matcher matcher = pattern.matcher(word);
-        while (matcher.find()) {
-            word = matcher.replaceFirst(":" + matcher.group(1));
-            matcher = pattern.matcher(word);
-        }
-        pattern = Pattern.compile("(_)(.)");
-        matcher = pattern.matcher(word);
-        while (matcher.find()) {
-            word = matcher.replaceFirst(matcher.group(2).toUpperCase(Locale.ROOT));
-            matcher = pattern.matcher(word);
-        }
-        return word;
     }
 }
