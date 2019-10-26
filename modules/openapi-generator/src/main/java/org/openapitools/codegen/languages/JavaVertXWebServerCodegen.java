@@ -35,10 +35,7 @@ import java.util.Map;
 public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
     protected String resourceFolder = "src/main/resources";
-    protected String rootPackage = "org.openapitools.server";
     protected String apiVersion = "1.0.0-SNAPSHOT";
-
-    public static final String ROOT_PACKAGE = "rootPackage";
 
     public JavaVertXWebServerCodegen() {
         super();
@@ -56,8 +53,9 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
         embeddedTemplateDir = templateDir = "JavaVertXWebServer";
 
-        apiPackage = rootPackage + ".api";
-        modelPackage = rootPackage + ".model";
+        invokerPackage = "org.openapitools.vertxweb.server";
+        apiPackage = invokerPackage + ".api";
+        modelPackage = invokerPackage + ".model";
         artifactId = "openapi-java-vertx-web-server";
         artifactVersion = apiVersion;
         this.setDateLibrary("java8");
@@ -67,9 +65,8 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         updateOption(CodegenConstants.ARTIFACT_VERSION, this.getArtifactVersion());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        updateOption(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         updateOption(this.DATE_LIBRARY, this.getDateLibrary());
-
-        additionalProperties.put(ROOT_PACKAGE, rootPackage);
     }
 
     public CodegenType getTag() {
@@ -100,7 +97,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
 
-        String sourcePackageFolder = sourceFolder + File.separator + rootPackage.replace(".", File.separator);
+        String sourcePackageFolder = sourceFolder + File.separator + invokerPackage.replace(".", File.separator);
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("supportFiles/openapi.mustache", resourceFolder, "openapi.yaml"));
         supportingFiles.add(new SupportingFile("supportFiles/HttpServerVerticle.mustache", sourcePackageFolder, "HttpServerVerticle.java"));

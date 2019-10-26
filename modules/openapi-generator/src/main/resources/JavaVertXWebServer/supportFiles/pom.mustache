@@ -87,7 +87,7 @@
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Main-Class>io.vertx.core.Starter</Main-Class>
-                                        <Main-Verticle>{{rootPackage}}.MainVerticle</Main-Verticle>
+                                        <Main-Verticle>{{invokerPackage}}.MainVerticle</Main-Verticle>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
