@@ -19,7 +19,7 @@ sidebar_label: java-vertx-web
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
-|scmUrl|SCM URL in generated pom.xml| |[https://github.com/openapitools/openapi-generator][]|
+|scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
@@ -40,6 +40,3 @@ sidebar_label: java-vertx-web
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd><dl>|null|
-
-
-[]: https://github.com/openapitools/openapi-generator
