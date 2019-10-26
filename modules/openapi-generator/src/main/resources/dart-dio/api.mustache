@@ -51,14 +51,14 @@ class {{classname}} {
             {{^isListContainer}}
             var serializedBody = _serializers.serialize({{paramName}});
             {{/isListContainer}}
-            var data = json.encode(serializedBody);
+            var json{{paramName}} = json.encode(serializedBody);
         {{/bodyParam}}
 
             return _dio.request(
             path,
             queryParameters: queryParams,
         {{#bodyParam}}
-                data: data,
+                data: json{{paramName}},
         {{/bodyParam}}
             options: Options(
             method: '{{httpMethod}}'.toUpperCase(),
