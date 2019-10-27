@@ -266,6 +266,9 @@
                         </goals>
                         <configuration>
                             <rules>
+                                <requireJavaVersion>
+                                  <version>1.8.0</version>
+                                </requireJavaVersion>
                                 <requireMavenVersion>
                                     <version>3.2.5</version>
                                 </requireMavenVersion>
