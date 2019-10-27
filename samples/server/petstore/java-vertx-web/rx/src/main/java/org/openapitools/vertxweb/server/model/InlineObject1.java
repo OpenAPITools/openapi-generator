@@ -3,21 +3,19 @@ package org.openapitools.vertxweb.server.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.File;
+import io.vertx.ext.web.FileUpload;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) 
 public class InlineObject1   {
   
   private String additionalMetadata;
-  private File file;
+  private FileUpload file;
 
   public InlineObject1 () {
 
   }
 
-  public InlineObject1 (String additionalMetadata, File file) {
+  public InlineObject1 (String additionalMetadata, FileUpload file) {
     this.additionalMetadata = additionalMetadata;
     this.file = file;
   }
@@ -33,10 +31,10 @@ public class InlineObject1   {
 
     
   @JsonProperty("file")
-  public File getFile() {
+  public FileUpload getFile() {
     return file;
   }
-  public void setFile(File file) {
+  public void setFile(FileUpload file) {
     this.file = file;
   }
 

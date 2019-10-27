@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -67,6 +68,9 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
         updateOption(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+
+        // Override type mapping
+        typeMapping.put("file", "FileUpload");
     }
 
     public CodegenType getTag() {
@@ -146,17 +150,10 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation codegenOperation =
-                super.fromOperation(path, httpMethod, operation, servers);
-
-        for (CodegenParameter codegenParameter : codegenOperation.allParams) {
-            if (codegenParameter.dataType.equals("File")) {
-                codegenParameter.dataType = "FileUpload";
-                codegenOperation.imports.remove("File");
-                codegenOperation.imports.add("FileUpload");
-            }
-        }
-        return codegenOperation;
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
+        codegenModel.imports.remove("ApiModel");
+        codegenModel.imports.remove("ApiModelProperty");
+        return codegenModel;
     }
 }
