@@ -1,4 +1,3 @@
-trigger build failure
 /*
  * OpenAPI Petstore
  *
