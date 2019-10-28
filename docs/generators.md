@@ -88,6 +88,7 @@ The following generators are available:
 * [java-play-framework](generators/java-play-framework.md)  
 * [java-undertow-server](generators/java-undertow-server.md)  
 * [java-vertx](generators/java-vertx.md)  
+* [java-vertx-web](generators/java-vertx-web.md)  
 * [jaxrs-cxf](generators/jaxrs-cxf.md)  
 * [jaxrs-cxf-cdi](generators/jaxrs-cxf-cdi.md)  
 * [jaxrs-cxf-extended](generators/jaxrs-cxf-extended.md)  
