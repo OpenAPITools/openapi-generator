@@ -92,13 +92,21 @@ open class ApiClient(val baseUrl: String) {
             }
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = "Bearer " + accessToken
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer " + accessToken
+            }
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = Credentials.basic(username, password)
+            username?.let { username ->
+                password?.let { password ->
+                    requestConfig.headers[Authorization] = Credentials.basic(username, password)
+                }
+            }
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = "Bearer " + accessToken
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer " + accessToken
+            }
         }
     }
 
