@@ -1203,6 +1203,7 @@
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
                 <!-- servers -->
+                <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
                 <module>samples/server/petstore/jaxrs-spec-interface</module>
