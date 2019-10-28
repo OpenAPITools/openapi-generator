@@ -59,6 +59,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
+import java.util.function.Function;
+
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
@@ -568,7 +570,7 @@ public class ApiClient {
 
         final WebClient.RequestBodySpec requestBuilder = webClient
                 .method(method)
-                .uri(uriBuilder -> buildUri(path, pathParams, queryParams, uriBuilder));
+                .uri(basePath, (Function<UriBuilder,URI>) uriBuilder -> buildUri(path, pathParams, queryParams, uriBuilder));
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
@@ -587,7 +589,6 @@ public class ApiClient {
 
     protected URI buildUri(String path, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, UriBuilder uriBuilder) {
         return uriBuilder
-                .host(basePath)
                 .path(path)
                 .queryParams(queryParams)
                 .build(pathParams);
