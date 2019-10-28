@@ -5,11 +5,14 @@
 
 
 
-tag_t *tag_create(long id, char *name) {
+tag_t *tag_create(
+    long id,
+    char *name
+    ) {
 	tag_t *tag_local_var = malloc(sizeof(tag_t));
-	if(!tag_local_var) {
-		return NULL;
-	}
+    if (!tag_local_var) {
+        return NULL;
+    }
 	tag_local_var->id = id;
 	tag_local_var->name = name;
 
@@ -18,8 +21,8 @@ tag_t *tag_create(long id, char *name) {
 
 
 void tag_free(tag_t *tag) {
-	listEntry_t *listEntry;
-	free(tag->name);
+    listEntry_t *listEntry;
+    free(tag->name);
 	free(tag);
 }
 
@@ -27,54 +30,58 @@ cJSON *tag_convertToJSON(tag_t *tag) {
 	cJSON *item = cJSON_CreateObject();
 
 	// tag->id
-	if(tag->id) {
-		if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
-			goto fail; // Numeric
-		}
-	}
+    if(tag->id) { 
+    if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
+    goto fail; //Numeric
+    }
+     } 
 
 
 	// tag->name
-	if(tag->name) {
-		if(cJSON_AddStringToObject(item, "name", tag->name) == NULL) {
-			goto fail; // String
-		}
-	}
+    if(tag->name) { 
+    if(cJSON_AddStringToObject(item, "name", tag->name) == NULL) {
+    goto fail; //String
+    }
+     } 
 
 	return item;
 fail:
-	if(item) {
-		cJSON_Delete(item);
-	}
+	if (item) {
+        cJSON_Delete(item);
+    }
 	return NULL;
 }
 
-tag_t *tag_parseFromJSON(cJSON *tagJSON) {
-	tag_t *tag_local_var = NULL;
+tag_t *tag_parseFromJSON(cJSON *tagJSON){
 
-	// tag->id
-	cJSON *id = cJSON_GetObjectItemCaseSensitive(tagJSON, "id");
-	if(id) {
-		if(!cJSON_IsNumber(id)) {
-			goto end; // Numeric
-		}
-	}
+    tag_t *tag_local_var = NULL;
 
-	// tag->name
-	cJSON *name = cJSON_GetObjectItemCaseSensitive(tagJSON, "name");
-	if(name) {
-		if(!cJSON_IsString(name)) {
-			goto end; // String
-		}
-	}
+    // tag->id
+    cJSON *id = cJSON_GetObjectItemCaseSensitive(tagJSON, "id");
+    if (id) { 
+    if(!cJSON_IsNumber(id))
+    {
+    goto end; //Numeric
+    }
+    }
+
+    // tag->name
+    cJSON *name = cJSON_GetObjectItemCaseSensitive(tagJSON, "name");
+    if (name) { 
+    if(!cJSON_IsString(name))
+    {
+    goto end; //String
+    }
+    }
 
 
-	tag_local_var = tag_create(
-		id ? id->valuedouble : 0,
-		name ? strdup(name->valuestring) : NULL
-		);
+    tag_local_var = tag_create (
+        id ? id->valuedouble : 0,
+        name ? strdup(name->valuestring) : NULL
+        );
 
-	return tag_local_var;
+    return tag_local_var;
 end:
-	return NULL;
+    return NULL;
+
 }
