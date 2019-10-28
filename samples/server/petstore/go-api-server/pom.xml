@@ -36,7 +36,7 @@
                             <executable>gofmt</executable>
                             <arguments>
                                 <argument>-w</argument>
-                                <argument>*.go</argument>
+                                <argument>./main.go</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -50,7 +50,7 @@
                             <executable>gofmt</executable>
                             <arguments>
                                 <argument>-w</argument>
-                                <argument>go/*.go</argument>
+                                <argument>./go/</argument>
                             </arguments>
                         </configuration>
                     </execution>
