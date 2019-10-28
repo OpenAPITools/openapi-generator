@@ -91,7 +91,7 @@ public class {{{classname}}}Example {
         defaultClient.setBasePath("{{{basePath}}}");
         {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         // Configure HTTP basic authorization: {{{name}}}
-        HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication();
+        HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setUsername("YOUR USERNAME");
         {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasicBasic}}{{#isBasicBearer}}
         // Configure HTTP bearer authorization: {{{name}}}
