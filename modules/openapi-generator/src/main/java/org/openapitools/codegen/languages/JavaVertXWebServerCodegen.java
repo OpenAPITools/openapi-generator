@@ -22,6 +22,8 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
@@ -37,8 +39,12 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
     public JavaVertXWebServerCodegen() {
         super();
 
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
         // set the output folder here
-        outputFolder = "generated-code" + File.separator + "javaVertXServer";
+        outputFolder = "generated-code" + File.separator + "java-vertx-web";
 
         modelTemplateFiles.clear();
         modelTemplateFiles.put("model.mustache", ".java");
@@ -78,7 +84,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
     }
 
     public String getHelp() {
-        return "Generates a Java Vert.x-Web Server.";
+        return "Generates a Java Vert.x-Web Server (beta).";
     }
 
     @Override
