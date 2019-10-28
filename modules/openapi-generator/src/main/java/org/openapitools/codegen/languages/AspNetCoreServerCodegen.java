@@ -206,10 +206,17 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+",
                 newtonsoftVersion);
 
-
         addSwitch(USE_DEFAULT_ROUTING,
                 "Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.",
                 useDefaultRouting);
+
+        addOption(CodegenConstants.ENUM_NAME_SUFFIX,
+                CodegenConstants.ENUM_NAME_SUFFIX_DESC,
+                enumNameSuffix);
+
+        addOption(CodegenConstants.ENUM_VALUE_NAME_SUFFIX,
+                CodegenConstants.ENUM_VALUE_NAME_SUFFIX_DESC,
+                enumValueNameSuffix);
 
         classModifier.addEnum("", "Keep class default with no modifier");
         classModifier.addEnum("abstract", "Make class abstract");
@@ -347,7 +354,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         } else {
             supportingFiles.add(new SupportingFile("Project.nuspec.mustache", packageFolder, packageName + ".nuspec"));
         }
-
 
         if (useSwashbuckle) {
             supportingFiles.add(new SupportingFile("Filters" + File.separator + "BasePathFilter.mustache",

@@ -34,3 +34,5 @@ sidebar_label: aspnetcore
 |operationIsAsync|Set methods to async or sync (default).| |false|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
+|enumNameSuffix|Suffix for generated enum classes| |Enum|
+|enumValueNameSuffix|Suffix for generated enum values| |Enum|
