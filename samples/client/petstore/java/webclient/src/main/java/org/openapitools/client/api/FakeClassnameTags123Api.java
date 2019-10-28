@@ -14,7 +14,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -61,7 +60,8 @@ public class FakeClassnameTags123Api {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClassname");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake_classname_test").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -80,6 +80,6 @@ public class FakeClassnameTags123Api {
         String[] authNames = new String[] { "api_key_query" };
 
         ParameterizedTypeReference<Client> returnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake_classname_test", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
 }

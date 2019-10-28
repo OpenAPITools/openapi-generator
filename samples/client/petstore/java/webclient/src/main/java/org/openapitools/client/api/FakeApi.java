@@ -22,7 +22,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -68,7 +67,8 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'xmlItem' when calling createXmlItem");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/create_xml_item").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -85,7 +85,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/create_xml_item", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
@@ -98,7 +98,8 @@ public class FakeApi {
     public Mono<Boolean> fakeOuterBooleanSerialize(Boolean body) throws RestClientException {
         Object postBody = body;
         
-        String path = UriComponentsBuilder.fromPath("/fake/outer/boolean").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -115,7 +116,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Boolean> returnType = new ParameterizedTypeReference<Boolean>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/outer/boolean", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
@@ -128,7 +129,8 @@ public class FakeApi {
     public Mono<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) throws RestClientException {
         Object postBody = body;
         
-        String path = UriComponentsBuilder.fromPath("/fake/outer/composite").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -145,7 +147,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<OuterComposite> returnType = new ParameterizedTypeReference<OuterComposite>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/outer/composite", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
@@ -158,7 +160,8 @@ public class FakeApi {
     public Mono<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) throws RestClientException {
         Object postBody = body;
         
-        String path = UriComponentsBuilder.fromPath("/fake/outer/number").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -175,7 +178,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<BigDecimal> returnType = new ParameterizedTypeReference<BigDecimal>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/outer/number", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
@@ -188,7 +191,8 @@ public class FakeApi {
     public Mono<String> fakeOuterStringSerialize(String body) throws RestClientException {
         Object postBody = body;
         
-        String path = UriComponentsBuilder.fromPath("/fake/outer/string").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -205,7 +209,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<String> returnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/outer/string", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
@@ -222,7 +226,8 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/body-with-file-schema").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -239,7 +244,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/body-with-file-schema", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
@@ -262,7 +267,8 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/body-with-query-params").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -281,7 +287,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/body-with-query-params", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * To test \&quot;client\&quot; model
@@ -299,7 +305,8 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClientModel");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -318,7 +325,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Client> returnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -364,7 +371,8 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '_byte' when calling testEndpointParameters");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -410,7 +418,7 @@ public class FakeApi {
         String[] authNames = new String[] { "http_basic_test" };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * To test enum parameters
@@ -430,7 +438,8 @@ public class FakeApi {
     public Mono<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
         Object postBody = null;
         
-        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -462,7 +471,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Fake endpoint to test group parameters (optional)
@@ -494,7 +503,8 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -519,7 +529,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.DELETE, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * test inline additionalProperties
@@ -536,7 +546,8 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/inline-additionalProperties").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -553,7 +564,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/inline-additionalProperties", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * test json serialization of form data
@@ -576,7 +587,8 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param2' when calling testJsonFormData");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/jsonFormData").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -598,7 +610,7 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/jsonFormData", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
@@ -639,7 +651,8 @@ public class FakeApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake/test-query-paramters").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -660,6 +673,6 @@ public class FakeApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/fake/test-query-paramters", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
 }

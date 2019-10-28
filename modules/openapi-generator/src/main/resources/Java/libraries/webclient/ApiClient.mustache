@@ -27,7 +27,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.http.client.reactive.ClientHttpRequest;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriBuilder;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.BodyInserter;
@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -513,6 +514,7 @@ public class ApiClient {
      * @param <T> the return type to use
      * @param path The sub-path of the HTTP URL
      * @param method The request method
+     * @param pathParams The path parameters
      * @param queryParams The query parameters
      * @param body The request body object
      * @param headerParams The header parameters
@@ -523,8 +525,8 @@ public class ApiClient {
      * @param returnType The return type into which to deserialize the response
      * @return The response body in chosen type
      */
-    public <T> Mono<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
+    public <T> Mono<T> invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, pathParams, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
         return requestBuilder.retrieve().bodyToMono(returnType);
     }
 
@@ -534,6 +536,7 @@ public class ApiClient {
      * @param <T> the return type to use
      * @param path The sub-path of the HTTP URL
      * @param method The request method
+     * @param pathParams The path parameters
      * @param queryParams The query parameters
      * @param body The request body object
      * @param headerParams The header parameters
@@ -544,15 +547,14 @@ public class ApiClient {
      * @param returnType The return type into which to deserialize the response
      * @return The response body in chosen type
      */
-    public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
+    public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, pathParams, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
         return requestBuilder.retrieve().bodyToFlux(returnType);
     }
 
-    private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {
+    private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
         if (queryParams != null) {
             //encode the query parameters in case they contain unsafe characters
             for (List<String> values : queryParams.values()) {
@@ -566,10 +568,11 @@ public class ApiClient {
                     }
                 }
             }
-            builder.queryParams(queryParams);
         }
 
-        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build(true).toUri());
+        final WebClient.RequestBodySpec requestBuilder = webClient
+                .method(method)
+                .uri(uriBuilder -> buildUri(path, pathParams, queryParams, uriBuilder));
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
@@ -584,6 +587,14 @@ public class ApiClient {
 
         requestBuilder.body(selectBody(body, formParams, contentType));
         return requestBuilder;
+    }
+
+    protected URI buildUri(String path, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, UriBuilder uriBuilder) {
+        return uriBuilder
+                .host(basePath)
+                .path(path)
+                .queryParams(queryParams)
+                .build(pathParams);
     }
 
     /**

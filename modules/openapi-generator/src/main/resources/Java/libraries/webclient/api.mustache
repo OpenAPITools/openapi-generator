@@ -15,7 +15,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -67,11 +66,10 @@ public class {{classname}} {
         if ({{paramName}} == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
         }
-        {{/required}}{{/allParams}}{{#hasPathParams}}
+        {{/required}}{{/allParams}}
         // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
-        uriVariables.put("{{baseName}}", {{{paramName}}});{{/pathParams}}{{/hasPathParams}}
-        String path = UriComponentsBuilder.fromPath("{{{path}}}"){{#hasPathParams}}.buildAndExpand(uriVariables){{/hasPathParams}}{{^hasPathParams}}.build(){{/hasPathParams}}.toUriString();
+        final Map<String, Object> pathParams = new HashMap<String, Object>();{{#hasPathParams}}{{#pathParams}}
+        pathParams.put("{{baseName}}", {{{paramName}}});{{/pathParams}}{{/hasPathParams}}
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -104,7 +102,7 @@ public class {{classname}} {
         String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
         {{#returnType}}ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}> returnType = new ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
-        return apiClient.{{#isListContainer}}invokeFluxAPI{{/isListContainer}}{{^isListContainer}}invokeAPI{{/isListContainer}}(path, HttpMethod.{{httpMethod}}, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.{{#isListContainer}}invokeFluxAPI{{/isListContainer}}{{^isListContainer}}invokeAPI{{/isListContainer}}("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     {{/operation}}
 }
