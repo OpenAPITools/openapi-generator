@@ -255,7 +255,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{/isListContainer}}
     {{#isMapContainer}}
 	list_ForEach(listEntry, {{classname}}->{{baseName}}) {
-		keyValuePair_t *localMapKeyPair = (keyValuePair_t*) listEntry->data;
+		keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
         free (localKeyValue->key);
         free (localKeyValue->value);
 	}
