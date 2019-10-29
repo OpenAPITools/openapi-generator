@@ -11,11 +11,14 @@ set GENERATOR=go-server
 set STUB_DIR=samples\server\petstore\go-api-server
 
 echo Removing files and folders under %STUB_DIR%
-del /F /S /Q %STUB_DIR%
+del /F /S /Q %STUB_DIR%\go
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
 set ags=generate -i %SPEC% -g %GENERATOR% -o %STUB_DIR% --additional-properties packageName=petstoreserver
 
 java %JAVA_OPTS% -jar %executable% %ags%
+
+gofmt -w %STUB_DIR%\main.go
+gofmt -w %STUB_DIR%\go
 
 endlocal
