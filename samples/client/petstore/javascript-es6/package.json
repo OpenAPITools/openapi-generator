@@ -7,7 +7,7 @@
   "scripts": {
     "build": "babel src -d dist",
     "prepack": "npm run build",
-    "test": "mocha --require js:@babel/register --recursive"
+    "test": "mocha --require @babel/register --recursive"
   },
   "browser": {
     "fs": false
