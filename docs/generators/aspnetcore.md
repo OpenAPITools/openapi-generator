@@ -27,6 +27,8 @@ sidebar_label: aspnetcore
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 |newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0-preview5-19227-01|
 |useDefaultRouting|Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.| |true|
+|enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
+|enumValueNameSuffix|Suffix that will be appended to all enum value names.| |Enum|
 |classModifier|Class Modifier can be empty, abstract| ||
 |operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
 |buildTarget|Target to build an application or library| |program|
@@ -34,5 +36,3 @@ sidebar_label: aspnetcore
 |operationIsAsync|Set methods to async or sync (default).| |false|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
-|enumNameSuffix|Suffix for generated enum classes| |Enum|
-|enumValueNameSuffix|Suffix for generated enum values| |Enum|
