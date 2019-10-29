@@ -622,11 +622,11 @@ class ApiClient(object):
             return data
 
         kwargs = {}
-        if klass.openapi_types is not None:
+        if (data is not None and
+                klass.openapi_types is not None and
+                isinstance(data, (list, dict))):
             for attr, attr_type in six.iteritems(klass.openapi_types):
-                if (data is not None and
-                        klass.attribute_map[attr] in data and
-                        isinstance(data, (list, dict))):
+                if klass.attribute_map[attr] in data:
                     value = data[klass.attribute_map[attr]]
                     kwargs[attr] = self.__deserialize(value, attr_type)
 
