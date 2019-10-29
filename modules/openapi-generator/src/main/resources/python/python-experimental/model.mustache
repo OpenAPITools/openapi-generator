@@ -7,14 +7,29 @@ import re  # noqa: F401
 
 import six  # noqa: F401
 
-from {{packageName}}.exceptions import ApiValueError  # noqa: F401
+from {{packageName}}.exceptions import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+)
 from {{packageName}}.model_utils import (  # noqa: F401
     ModelNormal,
     ModelSimple,
     check_allowed_values,
-    check_validations
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    get_simple_class,
+    int,
+    model_to_dict,
+    none_type,
+    str,
+    type_error_message,
+    validate_and_convert_types
 )
-
+{{#models}}{{#model}}{{#imports}}{{.}}
+{{/imports}}{{/model}}{{/models}}
 
 {{#models}}
 {{#model}}

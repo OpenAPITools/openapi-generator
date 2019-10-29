@@ -15,12 +15,26 @@ import re  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
+from petstore_api.exceptions import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+)
 from petstore_api.model_utils import (  # noqa: F401
     ModelNormal,
     ModelSimple,
     check_allowed_values,
-    check_validations
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    get_simple_class,
+    int,
+    model_to_dict,
+    none_type,
+    str,
+    type_error_message,
+    validate_and_convert_types
 )
 
 
@@ -46,6 +60,8 @@ class Capitalization(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
@@ -61,216 +77,219 @@ class Capitalization(ModelNormal):
     }
 
     openapi_types = {
-        'small_camel': 'str',
-        'capital_camel': 'str',
-        'small_snake': 'str',
-        'capital_snake': 'str',
-        'sca_eth_flow_points': 'str',
-        'att_name': 'str'
+        'small_camel': (str,),  # noqa: E501
+        'capital_camel': (str,),  # noqa: E501
+        'small_snake': (str,),  # noqa: E501
+        'capital_snake': (str,),  # noqa: E501
+        'sca_eth_flow_points': (str,),  # noqa: E501
+        'att_name': (str,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, small_camel=None, capital_camel=None, small_snake=None, capital_snake=None, sca_eth_flow_points=None, att_name=None):  # noqa: E501
-        """Capitalization - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._small_camel = None
-        self._capital_camel = None
-        self._small_snake = None
-        self._capital_snake = None
-        self._sca_eth_flow_points = None
-        self._att_name = None
-        self.discriminator = None
+    discriminator = None
 
-        if small_camel is not None:
-            self.small_camel = (
-                small_camel
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """Capitalization - a model defined in OpenAPI
+
+
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            small_camel (str): [optional]  # noqa: E501
+            capital_camel (str): [optional]  # noqa: E501
+            small_snake (str): [optional]  # noqa: E501
+            capital_snake (str): [optional]  # noqa: E501
+            sca_eth_flow_points (str): [optional]  # noqa: E501
+            att_name (str): Name of the pet . [optional]  # noqa: E501
+        """
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
+
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__set_item(var_name, var_value)
+
+    def __set_item(self, name, value):
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+
+        if name in self.openapi_types:
+            required_types_mixed = self.openapi_types[name]
+        elif self.additional_properties_type is None:
+            raise ApiKeyError(
+                "{0} has no key '{1}'".format(type(self).__name__, name),
+                path_to_item
             )
-        if capital_camel is not None:
-            self.capital_camel = (
-                capital_camel
+        elif self.additional_properties_type is not None:
+            required_types_mixed = self.additional_properties_type
+
+        if get_simple_class(name) != str:
+            error_msg = type_error_message(
+                var_name=name,
+                var_value=name,
+                valid_classes=(str,),
+                key_type=True
             )
-        if small_snake is not None:
-            self.small_snake = (
-                small_snake
+            raise ApiTypeError(
+                error_msg,
+                path_to_item=path_to_item,
+                valid_classes=(str,),
+                key_type=True
             )
-        if capital_snake is not None:
-            self.capital_snake = (
-                capital_snake
+
+        if self._check_type:
+            value = validate_and_convert_types(
+                value, required_types_mixed, path_to_item, self._from_server,
+                self._check_type, configuration=self._configuration)
+        if (name,) in self.allowed_values:
+            check_allowed_values(
+                self.allowed_values,
+                (name,),
+                value
             )
-        if sca_eth_flow_points is not None:
-            self.sca_eth_flow_points = (
-                sca_eth_flow_points
+        if (name,) in self.validations:
+            check_validations(
+                self.validations,
+                (name,),
+                value
             )
-        if att_name is not None:
-            self.att_name = (
-                att_name
-            )
+        self._data_store[name] = value
+
+    def __get_item(self, name):
+        if name in self._data_store:
+            return self._data_store[name]
+
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        raise ApiKeyError(
+            "{0} has no key '{1}'".format(type(self).__name__, name),
+            [name]
+        )
+
+    def __setitem__(self, name, value):
+        """this allows us to set values with instance[field_name] = val"""
+        self.__set_item(name, value)
+
+    def __getitem__(self, name):
+        """this allows us to get a value with val = instance[field_name]"""
+        return self.__get_item(name)
 
     @property
     def small_camel(self):
         """Gets the small_camel of this Capitalization.  # noqa: E501
 
-
-        :return: The small_camel of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The small_camel of this Capitalization.  # noqa: E501
         """
-        return self._small_camel
+        return self.__get_item('small_camel')
 
     @small_camel.setter
-    def small_camel(self, small_camel):  # noqa: E501
-        """Sets the small_camel of this Capitalization.
-
-
-        :param small_camel: The small_camel of this Capitalization.  # noqa: E501
-        :type: str
+    def small_camel(self, value):
+        """Sets the small_camel of this Capitalization.  # noqa: E501
         """
-
-        self._small_camel = (
-            small_camel
-        )
+        return self.__set_item('small_camel', value)
 
     @property
     def capital_camel(self):
         """Gets the capital_camel of this Capitalization.  # noqa: E501
 
-
-        :return: The capital_camel of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The capital_camel of this Capitalization.  # noqa: E501
         """
-        return self._capital_camel
+        return self.__get_item('capital_camel')
 
     @capital_camel.setter
-    def capital_camel(self, capital_camel):  # noqa: E501
-        """Sets the capital_camel of this Capitalization.
-
-
-        :param capital_camel: The capital_camel of this Capitalization.  # noqa: E501
-        :type: str
+    def capital_camel(self, value):
+        """Sets the capital_camel of this Capitalization.  # noqa: E501
         """
-
-        self._capital_camel = (
-            capital_camel
-        )
+        return self.__set_item('capital_camel', value)
 
     @property
     def small_snake(self):
         """Gets the small_snake of this Capitalization.  # noqa: E501
 
-
-        :return: The small_snake of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The small_snake of this Capitalization.  # noqa: E501
         """
-        return self._small_snake
+        return self.__get_item('small_snake')
 
     @small_snake.setter
-    def small_snake(self, small_snake):  # noqa: E501
-        """Sets the small_snake of this Capitalization.
-
-
-        :param small_snake: The small_snake of this Capitalization.  # noqa: E501
-        :type: str
+    def small_snake(self, value):
+        """Sets the small_snake of this Capitalization.  # noqa: E501
         """
-
-        self._small_snake = (
-            small_snake
-        )
+        return self.__set_item('small_snake', value)
 
     @property
     def capital_snake(self):
         """Gets the capital_snake of this Capitalization.  # noqa: E501
 
-
-        :return: The capital_snake of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The capital_snake of this Capitalization.  # noqa: E501
         """
-        return self._capital_snake
+        return self.__get_item('capital_snake')
 
     @capital_snake.setter
-    def capital_snake(self, capital_snake):  # noqa: E501
-        """Sets the capital_snake of this Capitalization.
-
-
-        :param capital_snake: The capital_snake of this Capitalization.  # noqa: E501
-        :type: str
+    def capital_snake(self, value):
+        """Sets the capital_snake of this Capitalization.  # noqa: E501
         """
-
-        self._capital_snake = (
-            capital_snake
-        )
+        return self.__set_item('capital_snake', value)
 
     @property
     def sca_eth_flow_points(self):
         """Gets the sca_eth_flow_points of this Capitalization.  # noqa: E501
 
-
-        :return: The sca_eth_flow_points of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The sca_eth_flow_points of this Capitalization.  # noqa: E501
         """
-        return self._sca_eth_flow_points
+        return self.__get_item('sca_eth_flow_points')
 
     @sca_eth_flow_points.setter
-    def sca_eth_flow_points(self, sca_eth_flow_points):  # noqa: E501
-        """Sets the sca_eth_flow_points of this Capitalization.
-
-
-        :param sca_eth_flow_points: The sca_eth_flow_points of this Capitalization.  # noqa: E501
-        :type: str
+    def sca_eth_flow_points(self, value):
+        """Sets the sca_eth_flow_points of this Capitalization.  # noqa: E501
         """
-
-        self._sca_eth_flow_points = (
-            sca_eth_flow_points
-        )
+        return self.__set_item('sca_eth_flow_points', value)
 
     @property
     def att_name(self):
         """Gets the att_name of this Capitalization.  # noqa: E501
-
         Name of the pet   # noqa: E501
 
-        :return: The att_name of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The att_name of this Capitalization.  # noqa: E501
         """
-        return self._att_name
+        return self.__get_item('att_name')
 
     @att_name.setter
-    def att_name(self, att_name):  # noqa: E501
-        """Sets the att_name of this Capitalization.
-
+    def att_name(self, value):
+        """Sets the att_name of this Capitalization.  # noqa: E501
         Name of the pet   # noqa: E501
-
-        :param att_name: The att_name of this Capitalization.  # noqa: E501
-        :type: str
         """
-
-        self._att_name = (
-            att_name
-        )
+        return self.__set_item('att_name', value)
 
     def to_dict(self):
         """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
+        return model_to_dict(self, serialize=False)
 
     def to_str(self):
         """Returns the string representation of the model"""
@@ -285,7 +304,22 @@ class Capitalization(ModelNormal):
         if not isinstance(other, Capitalization):
             return False
 
-        return self.__dict__ == other.__dict__
+        if not set(self._data_store.keys()) == set(other._data_store.keys()):
+            return False
+        for _var_name, this_val in six.iteritems(self._data_store):
+            that_val = other._data_store[_var_name]
+            types = set()
+            types.add(this_val.__class__)
+            types.add(that_val.__class__)
+            vals_equal = this_val == that_val
+            if (not six.PY3 and
+                    len(types) == 2 and unicode in types):  # noqa: F821
+                vals_equal = (
+                    this_val.encode('utf-8') == that_val.encode('utf-8')
+                )
+            if not vals_equal:
+                return False
+        return True
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""

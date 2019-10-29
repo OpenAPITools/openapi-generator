@@ -16,14 +16,14 @@ class {{classname}}(ModelNormal):
 {{> python-experimental/model_templates/classvar_allowed }}
 
     attribute_map = {
-{{#vars}}
+{{#allVars}}
         '{{name}}': '{{baseName}}'{{#hasMore}},{{/hasMore}}  # noqa: E501
-{{/vars}}
+{{/allVars}}
     }
 {{#discriminator}}
 
     discriminator_value_class_map = {
-        {{#children}}'{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},
+        {{#children}}'{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': {{{classname}}}{{^-last}},
         {{/-last}}{{/children}}
     }
 {{/discriminator}}
@@ -32,36 +32,19 @@ class {{classname}}(ModelNormal):
 
 {{> python-experimental/model_templates/methods_init_properties }}
 {{#discriminator}}
-    def get_real_child_model(self, data):
-        """Returns the real base class specified by the discriminator"""
-        discriminator_key = self.attribute_map[self.discriminator]
+    @classmethod
+    def get_real_child_model(cls, data):
+        """Returns the real base class specified by the discriminator
+        We assume that data has javascript keys
+        """
+        discriminator_key = cls.attribute_map[cls.discriminator]
         discriminator_value = data[discriminator_key]
-        return self.discriminator_value_class_map.get(discriminator_value)
+        return cls.discriminator_value_class_map.get(discriminator_value)
 
 {{/discriminator}}
     def to_dict(self):
         """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
+        return model_to_dict(self, serialize=False)
 
     def to_str(self):
         """Returns the string representation of the model"""
@@ -76,7 +59,22 @@ class {{classname}}(ModelNormal):
         if not isinstance(other, {{classname}}):
             return False
 
-        return self.__dict__ == other.__dict__
+        if not set(self._data_store.keys()) == set(other._data_store.keys()):
+            return False
+        for _var_name, this_val in six.iteritems(self._data_store):
+            that_val = other._data_store[_var_name]
+            types = set()
+            types.add(this_val.__class__)
+            types.add(that_val.__class__)
+            vals_equal = this_val == that_val
+            if (not six.PY3 and
+                    len(types) == 2 and unicode in types):  # noqa: F821
+                vals_equal = (
+                    this_val.encode('utf-8') == that_val.encode('utf-8')
+                )
+            if not vals_equal:
+                return False
+        return True
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
