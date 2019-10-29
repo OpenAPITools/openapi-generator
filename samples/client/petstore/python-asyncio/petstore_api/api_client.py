@@ -340,18 +340,17 @@ class ApiClient(object):
                                    response_type, auth_settings,
                                    _return_http_data_only, collection_formats,
                                    _preload_content, _request_timeout, _host)
-        else:
-            thread = self.pool.apply_async(self.__call_api, (resource_path,
-                                           method, path_params, query_params,
-                                           header_params, body,
-                                           post_params, files,
-                                           response_type, auth_settings,
-                                           _return_http_data_only,
-                                           collection_formats,
-                                           _preload_content,
-                                           _request_timeout,
-                                           _host))
-        return thread
+
+        return self.pool.apply_async(self.__call_api, (resource_path,
+                                        method, path_params, query_params,
+                                        header_params, body,
+                                        post_params, files,
+                                        response_type, auth_settings,
+                                        _return_http_data_only,
+                                        collection_formats,
+                                        _preload_content,
+                                        _request_timeout,
+                                        _host))
 
     def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None, _preload_content=True,
