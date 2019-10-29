@@ -78,8 +78,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
 
-        importMapping.put("BuiltList", "built_collection/built_collection");
-        importMapping.put("BuiltMap", "built_collection/built_collection");
+        importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
+        importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
+        importMapping.put("Uint8List", "dart:typed_data");
     }
 
     @Override
@@ -208,7 +209,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
                     modelImports.add(importMapping.get(modelImport));
                 } else {
                     if (!modelToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
-                        modelImports.add(pubName + "/model/" + underscore(modelImport));
+                        modelImports.add("package:" + pubName + "/model/" + underscore(modelImport) + ".dart");
                     }
                 }
             }
