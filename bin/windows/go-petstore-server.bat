@@ -18,7 +18,4 @@ set ags=generate -i %SPEC% -g %GENERATOR% -o %STUB_DIR% --additional-properties 
 
 java %JAVA_OPTS% -jar %executable% %ags%
 
-gofmt -w %STUB_DIR%\main.go
-gofmt -w %STUB_DIR%\go
-
 endlocal

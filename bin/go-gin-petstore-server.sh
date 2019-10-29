@@ -38,5 +38,3 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -t modules/openapi-generator/src/main/resources/go-gin-server -i $SPEC -g $GENERATOR -o $STUB_DIR --additional-properties packageName=petstoreserver --additional-properties hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags
-/usr/bin/env gofmt -w $STUB_DIR/main.go
-/usr/bin/env gofmt -w $STUB_DIR/go
