@@ -61,6 +61,7 @@ declare -a scripts=(
 "./bin/go-experimental-petstore.sh"
 "./bin/go-petstore.sh"
 "./bin/go-petstore-withxml.sh"
+"./bin/go-petstore-server.sh"
 "./bin/go-gin-petstore-server.sh"
 "./bin/groovy-petstore.sh"
 "./bin/apex-petstore.sh"

@@ -24,12 +24,12 @@ type StoreApiController struct {
 
 // NewStoreApiController creates a default api controller
 func NewStoreApiController(s StoreApiServicer) Router {
-	return &StoreApiController{service: s}
+	return &StoreApiController{ service: s }
 }
 
 // Routes returns all of the api route for the StoreApiController
 func (c *StoreApiController) Routes() Routes {
-	return Routes{
+	return Routes{ 
 		{
 			"DeleteOrder",
 			strings.ToUpper("Delete"),
@@ -58,7 +58,7 @@ func (c *StoreApiController) Routes() Routes {
 }
 
 // DeleteOrder - Delete purchase order by ID
-func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
+func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	orderId := params["orderId"]
 	result, err := c.service.DeleteOrder(orderId)
@@ -66,52 +66,52 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 		w.WriteHeader(500)
 		return
 	}
-
-	EncodeJSONResponse(result, nil, w)
+	
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // GetInventory - Returns pet inventories by status
-func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) {
+func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) { 
 	result, err := c.service.GetInventory()
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-
-	EncodeJSONResponse(result, nil, w)
+	
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // GetOrderById - Find purchase order by ID
-func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) {
+func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	orderId, err := parseIntParameter(params["orderId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-
+	
 	result, err := c.service.GetOrderById(orderId)
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-
-	EncodeJSONResponse(result, nil, w)
+	
+	EncodeJSONResponse(result, nil,  w)
 }
 
 // PlaceOrder - Place an order for a pet
-func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
+func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) { 
 	body := &Order{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		w.WriteHeader(500)
 		return
 	}
-
+	
 	result, err := c.service.PlaceOrder(*body)
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-
-	EncodeJSONResponse(result, nil, w)
+	
+	EncodeJSONResponse(result, nil,  w)
 }
