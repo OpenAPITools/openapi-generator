@@ -4,12 +4,12 @@
 #include "pet.h"
 
 
-    char* statuspet_ToString(status_e status){
+    char* pet_status_ToString(pet_status_e status){
     char *statusArray[] =  { "available","pending","sold" };
         return statusArray[status];
     }
 
-    status_e statuspet_FromString(char* status){
+    pet_status_e pet_status_FromString(char* status){
     int stringToReturn = 0;
     char *statusArray[] =  { "available","pending","sold" };
     size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
@@ -28,7 +28,7 @@ pet_t *pet_create(
     char *name,
     list_t *photoUrls,
     list_t *tags,
-    status_e status
+    pet_status_e status
     ) {
 	pet_t *pet_local_var = malloc(sizeof(pet_t));
     if (!pet_local_var) {
@@ -135,7 +135,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 
 	// pet->status
     
-    if(cJSON_AddStringToObject(item, "status", statuspet_ToString(pet->status)) == NULL)
+    if(cJSON_AddStringToObject(item, "status", pet_status_ToString(pet->status)) == NULL)
     {
     goto fail; //Enum
     }
@@ -228,13 +228,13 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(petJSON, "status");
-    status_e statusVariable;
+    pet_status_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
     {
     goto end; //Enum
     }
-    statusVariable = statuspet_FromString(status->valuestring);
+    statusVariable = pet_status_FromString(status->valuestring);
     }
 
 

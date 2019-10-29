@@ -74,12 +74,12 @@ return 0;
     {{^isContainer}}
     {{^isModel}}
     {{#isEnum}}
-    char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
+    char* {{classname}}_{{baseName}}_ToString({{classname}}_{{baseName}}_e {{baseName}}){
     char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
         return {{baseName}}Array[{{baseName}}];
     }
 
-    {{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}}){
+    {{classname}}_{{baseName}}_e {{classname}}_{{baseName}}_FromString(char* {{baseName}}){
     int stringToReturn = 0;
     char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{baseName}}Array) / sizeof({{baseName}}Array[0]);
@@ -98,14 +98,14 @@ return 0;
     {{#items}}
     {{^isModel}}
     {{#isEnum}}
-    char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
+    char* {{classname}}_{{baseName}}_ToString({{classname}}_{{baseName}}_e {{baseName}}){
         char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
         return {{baseName}}Array[{{baseName}} - 1];
     }
 
-    {{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}}){
+    {{classname}}_{{baseName}}_e {{classname}}_{{baseName}}_FromString(char* {{baseName}}){
     int stringToReturn = 0;
-    char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}} davvero"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{baseName}}Array) / sizeof({{baseName}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{baseName}}, {{baseName}}Array[stringToReturn]) == 0) {
@@ -127,7 +127,7 @@ return 0;
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{datatype}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{classname}}_{{datatype}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
     {{/isEnum}}
     {{^isEnum}}
     {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
@@ -152,7 +152,7 @@ return 0;
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{baseName}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{classname}}_{{baseName}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
@@ -293,7 +293,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{baseName}}}{{classname}}_ToString({{{classname}}}->{{{baseName}}})) == NULL)
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{classname}}_{{{baseName}}}_ToString({{{classname}}}->{{{baseName}}})) == NULL)
     {
     goto fail; //Enum
     }
@@ -491,13 +491,13 @@ fail:
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{{baseName}}}_e {{baseName}}Variable;
+    {{classname}}_{{{baseName}}}_e {{baseName}}Variable;
     {{^required}}if ({{{baseName}}}) { {{/required}}
     if(!cJSON_IsString({{{baseName}}}))
     {
     goto end; //Enum
     }
-    {{baseName}}Variable = {{baseName}}{{classname}}_FromString({{{baseName}}}->valuestring);
+    {{baseName}}Variable = {{classname}}_{{baseName}}_FromString({{{baseName}}}->valuestring);
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}

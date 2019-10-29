@@ -14,11 +14,11 @@
 #include "category.h"
 #include "tag.h"
 
-                typedef enum  {  available, pending, sold } status_e;
+                typedef enum  {  pet_AVAILABLE, pet_PENDING, pet_SOLD } pet_status_e;
 
-        char* status_ToString(status_e status);
+        char* pet_status_ToString(pet_status_e status);
 
-        status_e status_FromString(char* status);
+        pet_status_e pet_status_FromString(char* status);
 
 
 typedef struct pet_t {
@@ -27,7 +27,7 @@ typedef struct pet_t {
     char *name; // string
     list_t *photoUrls; //primitive container
     list_t *tags; //nonprimitive container
-    status_e status; //enum
+    pet_status_e status; //enum
 
 } pet_t;
 
@@ -37,7 +37,7 @@ pet_t *pet_create(
     char *name,
     list_t *photoUrls,
     list_t *tags,
-    status_e status
+    pet_status_e status
 );
 
 void pet_free(pet_t *pet);
