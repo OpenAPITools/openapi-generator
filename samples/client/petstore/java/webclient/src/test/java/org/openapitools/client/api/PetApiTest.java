@@ -93,7 +93,7 @@ public class PetApiTest {
      */
     @Test
     public void getPetByIdTest()  {
-        Long petId = null;
+        Long petId = 1234L;
         Pet response = api.getPetById(petId).block();
 
         // TODO: test validations
