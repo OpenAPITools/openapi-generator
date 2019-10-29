@@ -558,6 +558,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Angular.Schule](https://angular.schule/)
 - [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [ASKUL](https://www.askul.co.jp)
+- [Arduino](https://www.arduino.cc/)
 - [b<>com](https://b-com.com/en)
 - [Banzai Cloud](https://banzaicloud.com)
 - [BIMData.io](https://bimdata.io)
