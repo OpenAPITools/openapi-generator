@@ -5,7 +5,7 @@ Authors@R: person("OpenAPI Generator community", email = "team@openapitools.org"
 Description: This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 Depends: R (>= 3.3.3)
 Encoding: UTF-8
-License: Unlicense
+License: Apache-2.0
 LazyData: true
 Suggests: testthat
 Imports: jsonlite, httr, R6, caTools
