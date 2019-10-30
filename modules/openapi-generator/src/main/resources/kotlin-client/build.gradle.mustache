@@ -30,8 +30,10 @@ test {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{#moshi}}
     compile "com.squareup.moshi:moshi-kotlin:1.8.0"
     compile "com.squareup.moshi:moshi-adapters:1.8.0"
+    {{/moshi}}
     {{#gson}}
     implementation "com.google.code.gson:gson:2.8.5"
     {{/gson}}
