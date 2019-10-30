@@ -52,7 +52,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private final Map<String, String> frameworkToHttpLibMap;
     
     protected String modelPropertyNaming = "camelCase";
-    protected boolean supportsES6 = true;
     protected HashSet<String> languageGenericTypes;
 
     public TypeScriptClientCodegen() {
@@ -644,14 +643,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         return result;
     }
 
-    public void setSupportsES6(Boolean value) {
-        supportsES6 = value;
-    }
-
-    public Boolean getSupportsES6() {
-        return supportsES6;
-    }
-
     private void setDiscriminatorValue(CodegenModel model, String baseName, String value) {
         for (CodegenProperty prop : model.allVars) {
             if (prop.baseName.equals(baseName)) {
@@ -702,10 +693,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
-            setSupportsES6(Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString()));
-            additionalProperties.put("supportsES6", getSupportsES6());
+            // convert to boolean
+            additionalProperties.put(CodegenConstants.SUPPORTS_ES6,
+                Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString())
+            );
         }
-        
+
         // change package names
         apiPackage = this.apiPackage + ".apis";
         modelPackage = this.modelPackage + ".models";
