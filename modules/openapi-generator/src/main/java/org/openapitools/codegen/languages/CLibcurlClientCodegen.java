@@ -436,7 +436,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toEnumVarName(String name, String datatype) {
-		// the name of the elements was decorate with the class name using the templates
+        // the name of the elements was decorate with the class name using the templates
         if (name.length() == 0) {
             return "EMPTY";
         }
@@ -464,9 +464,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toEnumName(CodegenProperty property) {
-		// the name of the enum was decorate with the class name using the templates
+        // the name of the enum was decorate with the class name using the templates
 
-		String enumName = camelize(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = camelize(toModelName(property.name)).toUpperCase(Locale.ROOT);
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
