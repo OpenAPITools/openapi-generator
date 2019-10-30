@@ -11,6 +11,7 @@
 from __future__ import absolute_import
 
 import datetime
+from dateutil.parser import parse
 import json
 import mimetypes
 from multiprocessing.pool import ThreadPool
@@ -577,7 +578,6 @@ class ApiClient(object):
         :return: date.
         """
         try:
-            from dateutil.parser import parse
             return parse(string).date()
         except ImportError:
             return string
@@ -596,7 +596,6 @@ class ApiClient(object):
         :return: datetime.
         """
         try:
-            from dateutil.parser import parse
             return parse(string)
         except ImportError:
             return string
