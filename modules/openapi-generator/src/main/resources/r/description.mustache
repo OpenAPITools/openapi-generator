@@ -5,7 +5,7 @@ Authors@R: person("OpenAPI Generator community", email = "team@openapitools.org"
 Description: {{{appDescription}}}{{^appDescription}}R Package Client for {{{appName}}}{{/appDescription}}
 Depends: R (>= 3.3.3)
 Encoding: UTF-8
-License: Unlicense
+License: {{#licenseInfo}}{{licenseInfo}}{{/licenseInfo}}{{^licenseInfo}}Unlicense{{/licenseInfo}}
 LazyData: true
 Suggests: testthat
 Imports: jsonlite, httr, R6, caTools{{#useRlangExceptionHandling}}, rlang{{/useRlangExceptionHandling}}
