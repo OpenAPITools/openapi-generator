@@ -29,18 +29,19 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 
 # Generate non-browserClient
-ags="generate -t modules/openapi-generator/src/main/resources/dart -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/openapi -DhideGenerationTimestamp=true -DbrowserClient=false --additional-properties supportDart2=false $@"
+ags="generate -t modules/openapi-generator/src/main/resources/dart -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/openapi --additional-properties hideGenerationTimestamp=true,browserClient=false,supportDart2=false $@"
 
 # then options to generate the library for vm would be:
-#ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/openapi_vm -DbrowserClient=false -DpubName=openapi_vm --additional-properties supportDart2=false $@"
+#ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/openapi_vm --additional-properties browserClient=false,pubName=openapi_vm --additional-properties supportDart2=false $@"
 java $JAVA_OPTS -jar $executable $ags
 
 # Generate browserClient
-ags="generate -t modules/openapi-generator/src/main/resources/dart -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/openapi-browser-client -DhideGenerationTimestamp=true -DbrowserClient=true --additional-properties supportDart2=false $@"
+ags="generate -t modules/openapi-generator/src/main/resources/dart -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/openapi-browser-client --additional-properties hideGenerationTimestamp=true,browserClient=true,supportDart2=false $@"
 java $JAVA_OPTS -jar $executable $ags
 
+# TODO: Remove this as it duplicate output from the first example in this file.
 # Generate non-browserClient and put it to the flutter sample app
-ags="generate -t modules/openapi-generator/src/main/resources/dart -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/flutter_petstore/openapi -DhideGenerationTimestamp=true -DbrowserClient=false --additional-properties supportDart2=false $@"
+ags="generate -t modules/openapi-generator/src/main/resources/dart -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart/flutter_petstore/openapi --additional-properties hideGenerationTimestamp=true,browserClient=false,supportDart2=false $@"
 java $JAVA_OPTS -jar $executable $ags
 
 # There is a proposal to allow importing different libraries depending on the environment:

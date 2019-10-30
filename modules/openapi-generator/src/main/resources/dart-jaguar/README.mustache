@@ -39,7 +39,7 @@ version: {{pubVersion}}
 description: {{pubDescription}}
 dependencies:
   {{pubName}}:
-    git: https://github.com/{{gitUserId}}/{{gitRepoId}}.git
+    git: https://{{gitHost}}/{{gitUserId}}/{{gitRepoId}}.git
       version: 'any'
 ```
 
@@ -82,7 +82,7 @@ import 'package:{{pubName}}/api.dart';
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-final jaguarApiGen = JaguarApiGen();
+final jaguarApiGen = {{clientName}}();
 var api_instance = jaguarApiGen.get{{classname}}();
 {{#allParams}}
 var {{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}new {{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; // {{{dataType}}} | {{{description}}}

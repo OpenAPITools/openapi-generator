@@ -12,12 +12,22 @@ if [ "$NODE_INDEX" = "1" ]; then
   #cp CI/pom.xml.circleci pom.xml
   java -version
   mvn --quiet verify -Psamples.circleci
+  mvn --quiet javadoc:javadoc -Psamples.circleci
+
 elif [ "$NODE_INDEX" = "2" ]; then
   # run ensure-up-to-date sample script on SNAPSHOT version only
   project_version=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
   if [[ $project_version == *"-SNAPSHOT" ]]; then
     echo "Running node $NODE_INDEX to test ensure-up-to-date"
     java -version
+
+    # install elm-format
+    npm install -g elm-format
+
+    # clear any changes to the samples
+    git checkout -- .
+
+    # look for outdated samples
     ./bin/utils/ensure-up-to-date
   fi
 #elif [ "$NODE_INDEX" = "3" ]; then

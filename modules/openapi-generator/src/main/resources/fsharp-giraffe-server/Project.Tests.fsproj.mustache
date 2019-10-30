@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>{{packageName}}.Tests</AssemblyName>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.*" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.*" />
+    <PackageReference Include="xunit" Version="2.4.*" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\{{packageName}}\src\{{packageName}}.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="TestHelper.fs"/>
+    {{#apiInfo}}
+    {{#apis}}
+    <Compile Include="{{classname}}TestsHelper.fs" />
+    <Compile Include="{{classname}}Tests.fs" />
+    {{/apis}}
+    {{/apiInfo}}
+  </ItemGroup>
+
+</Project>

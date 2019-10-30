@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-haskell-http-client
 title: Config Options for haskell-http-client
 sidebar_label: haskell-http-client
 ---
@@ -28,6 +26,7 @@ sidebar_label: haskell-http-client
 |strictFields|Add strictness annotations to all model fields| |true|
 |useKatip|Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger| |true|
 |dateTimeFormat|format string used to parse/render a datetime| |null|
+|dateTimeParseFormat|overrides the format string used to parse a datetime| |null|
 |dateFormat|format string used to parse/render a date| |%Y-%m-%d|
 |customTestInstanceModule|test module used to provide typeclass instances for types not known by the generator| |null|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

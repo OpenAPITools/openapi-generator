@@ -1,270 +1,194 @@
 #include "PetApiTests.h"
 
-#include <QJsonDocument>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QDebug>
-
-PetApiTests::PetApiTests () {}
-
-PetApiTests::~PetApiTests () {
-
-}
-
-OAIPetApi* PetApiTests::getApi() {
-    auto api = new OAIPetApi();
-    api->host = "http://petstore.swagger.io";
-    api->basePath = "/v2";
-    return api;
-}
+#include <QTest>
+#include <QTimer>
 
 OAIPet PetApiTests::createRandomPet() {
     OAIPet pet;
     qint64 id = QDateTime::currentMSecsSinceEpoch();
-    pet.setName(QString("monster"));
+    pet.setName("monster");
     pet.setId(id);
-    pet.setStatus(QString("freaky"));
+    pet.setStatus("freaky");
     return pet;
 }
 
-void PetApiTests::runTests() {
-    PetApiTests* tests = new PetApiTests();
-    QTest::qExec(tests);
-    delete tests;
-}
-
 void PetApiTests::findPetsByStatusTest() {
-    OAIPetApi* api = getApi();
+    OAIPetApi api;
+    api.setHost(PetStoreHost);
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(14000);
-    timer.setSingleShot(true);
+    bool petFound = false;
 
-    auto validator = [this](QList<OAIPet> pets) {
+    connect(&api, &OAIPetApi::findPetsByStatusSignal, [&](QList<OAIPet> pets) {
+        petFound = true;
         foreach(OAIPet pet, pets) {
             QVERIFY(pet.getStatus().startsWith("available") || pet.getStatus().startsWith("sold"));
         }
-        emit quit();
-    };
-    auto finalizer = [&]() {
         loop.quit();
-    };
-    connect(this, &PetApiTests::quit, finalizer);
-    connect(api, &OAIPetApi::findPetsByStatusSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    });
 
-    QList<QString> status;
-    QString available("available");
-    QString sold("sold");
-    status.append(available);
-    status.append(sold);
-    api->findPetsByStatus(status);
-    timer.start();
+    api.findPetsByStatus({"available", "sold"});
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
-    delete api;
+    QVERIFY2(petFound, "didn't finish within timeout");
 }
 
 void PetApiTests::createAndGetPetTest() {
-    OAIPetApi* api = getApi();
-
+    OAIPetApi api;
+    api.setHost(PetStoreHost);
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(14000);
-    timer.setSingleShot(true);
+    bool petCreated = false;
 
-    auto validator = [this]() {
+    connect(&api, &OAIPetApi::addPetSignal, [&]() {
         // pet created
-        emit quit();
-    };
-
-    auto finalizer = [&]() {
+        petCreated = true;
         loop.quit();
-    };
-    connect(this, &PetApiTests::quit, finalizer);
-    connect(api, &OAIPetApi::addPetSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    });
 
     OAIPet pet = createRandomPet();
     qint64 id = pet.getId();
 
-    api->addPet(pet);
-    timer.start();
+    api.addPet(pet);
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
+    QVERIFY2(petCreated, "didn't finish within timeout");
 
-    timer.setInterval(1000);
-    timer.setSingleShot(true);
+    bool petFetched = false;
 
-    auto getPetValidator = [this](OAIPet pet) {
+    connect(&api, &OAIPetApi::getPetByIdSignal, [&](OAIPet pet) {
         QVERIFY(pet.getId() > 0);
         QVERIFY(pet.getStatus().compare("freaky") == 0);
-        emit quit();
-    };
+        loop.quit();
+        petFetched = true;
+    });
 
-    connect(api, &OAIPetApi::getPetByIdSignal, this, getPetValidator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
-
-    api->getPetById(id);
-    timer.start();
+    api.getPetById(id);
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
-    delete api;
+    QVERIFY2(petFetched, "didn't finish within timeout");
+
 }
 
 void PetApiTests::updatePetTest() {
-    OAIPetApi* api = getApi();
+    OAIPetApi api;
+    api.setHost(PetStoreHost);
 
     OAIPet pet = createRandomPet();
     OAIPet petToCheck;
     qint64 id = pet.getId();
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(100000);
-    timer.setSingleShot(true);
+    bool petAdded = false;
 
-    auto validator = [this]() {
-        emit quit();
-    };
-    auto finalizer = [&]() {
+    connect(&api, &OAIPetApi::addPetSignal, [&](){
+        petAdded = true;
         loop.quit();
-    };
-    connect(this, &PetApiTests::quit, finalizer);
-    connect(api, &OAIPetApi::addPetSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    });
 
     // create pet
-    api->addPet(pet);
-    timer.start();
+    api.addPet(pet);
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
+    QVERIFY2(petAdded, "didn't finish within timeout");
 
     // fetch it
-    timer.setInterval(1000);
-    timer.setSingleShot(true);
 
-    auto fetchPet = [&](OAIPet pet) {
-        petToCheck = pet;
-        emit quit();
-    };
-    connect(api, &OAIPetApi::getPetByIdSignal, this, fetchPet);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    bool petFetched = false;
+    connect(&api, &OAIPetApi::getPetByIdSignal, this, [&](OAIPet pet) {
+            petFetched = true;
+            petToCheck = pet;
+            loop.quit();
+    });
 
     // create pet
-    api->getPetById(id);
-    timer.start();
+    api.getPetById(id);
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
+    QVERIFY2(petFetched, "didn't finish within timeout");
 
     // update it
-    timer.setInterval(1000);
-    timer.setSingleShot(true);
-    auto updatePetTest = [this]() {
-        emit quit();
-    };
-
-    connect(api, &OAIPetApi::updatePetSignal, this, updatePetTest);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    bool petUpdated = false;
+    connect(&api, &OAIPetApi::updatePetSignal, [&]() {
+        petUpdated = true;
+        loop.quit();
+    });
 
     // update pet
     petToCheck.setStatus(QString("scary"));
-    api->updatePet(petToCheck);
-    timer.start();
+    api.updatePet(petToCheck);
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
+    QVERIFY2(petUpdated, "didn't finish within timeout");
 
     // check it
-    timer.setInterval(1000);
-    timer.setSingleShot(true);
-
-    auto fetchPet2 = [&](OAIPet pet) {
+    bool petFetched2 = false;
+    connect(&api, &OAIPetApi::getPetByIdSignal, [&](OAIPet pet) {
+        petFetched2 = true;
         QVERIFY(pet.getId() == petToCheck.getId());
         QVERIFY(pet.getStatus().compare(petToCheck.getStatus()) == 0);
-        emit quit();
-    };
-    connect(api, &OAIPetApi::getPetByIdSignal, this, fetchPet2);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
-    api->getPetById(id);
-    timer.start();
+        loop.quit();
+    });
+    api.getPetById(id);
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
-    delete api;
+    QVERIFY2(petFetched2, "didn't finish within timeout");
 }
 
 void PetApiTests::updatePetWithFormTest() {
-    OAIPetApi* api = getApi();
+    OAIPetApi api;
+    api.setHost(PetStoreHost);
 
     OAIPet pet = createRandomPet();
     OAIPet petToCheck;
     qint64 id = pet.getId();
     QEventLoop loop;
-    QTimer timer;
 
     // create pet
-    timer.setInterval(1000);
-    timer.setSingleShot(true);
-
-    auto validator = [this ]() {
-        emit quit();
-    };
-    auto finalizer = [&]() {
+    bool petAdded = false;
+    connect(&api, &OAIPetApi::addPetSignal, [&](){
+        petAdded = true;
         loop.quit();
-    };
-    connect(this, &PetApiTests::quit, finalizer);
-    connect(api, &OAIPetApi::addPetSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
-    api->addPet(pet);
-    timer.start();
+    });
+
+    api.addPet(pet);
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
+    QVERIFY2(petAdded, "didn't finish within timeout");
 
     // fetch it
-    timer.setInterval(1000);
-    timer.setSingleShot(true);
-
-    auto fetchPet = [&](OAIPet pet) {
+    bool petFetched = false;
+    connect(&api, &OAIPetApi::getPetByIdSignal, [&](OAIPet pet) {
+        petFetched = true;
         petToCheck = pet;
-        emit quit();
-    };
-    connect(api, &OAIPetApi::getPetByIdSignal, this, fetchPet);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+        loop.quit();
+    });
 
-    api->getPetById(id);
-    timer.start();
+    api.getPetById(id);
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
+    QVERIFY2(petFetched, "didn't finish within timeout");
 
     // update it
-    timer.setInterval(1000);
-    timer.setSingleShot(true);
-
-    connect(api, &OAIPetApi::updatePetWithFormSignal, this, [this](){emit quit();});
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    bool petUpdated = false;
+    connect(&api, &OAIPetApi::updatePetWithFormSignal, [&](){
+        petUpdated = true;
+        loop.quit();
+    });
 
     QString name("gorilla");
-    api->updatePetWithForm(id, name, nullptr);
-    timer.start();
+    api.updatePetWithForm(id, name, nullptr);
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
+    QVERIFY2(petUpdated, "didn't finish within timeout");
 
     // fetch it
-    timer.setInterval(1000);
-    timer.setSingleShot(true);
-
-    auto fetchUpdatedPet = [this](OAIPet pet) {
+    bool petUpdated2 = false;
+    connect(&api, &OAIPetApi::getPetByIdSignal, [&](OAIPet pet) {
+        petUpdated2 = true;
         QVERIFY(pet.getName().compare(QString("gorilla")) == 0);
-        emit quit();
-    };
-    connect(api, &OAIPetApi::getPetByIdSignal, this, fetchUpdatedPet);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+        loop.quit();
+    });
 
-    api->getPetById(id);
-    timer.start();
+    api.getPetById(id);
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
-    delete api;
+    QVERIFY2(petUpdated2, "didn't finish within timeout");
 }

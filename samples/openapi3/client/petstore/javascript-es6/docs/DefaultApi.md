@@ -7,13 +7,15 @@ Method | HTTP request | Description
 [**fooGet**](DefaultApi.md#fooGet) | **GET** /foo | 
 
 
-<a name="fooGet"></a>
-# **fooGet**
+
+## fooGet
+
 > InlineResponseDefault fooGet()
 
 
 
 ### Example
+
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
@@ -28,6 +30,7 @@ apiInstance.fooGet((error, data, response) => {
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -40,6 +43,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 

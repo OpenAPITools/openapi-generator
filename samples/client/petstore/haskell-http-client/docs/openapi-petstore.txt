@@ -14,8 +14,6 @@
 --   OpenAPI Petstore API version: 1.0.0
 --   
 --   OpenAPI version: 3.0.1
---   
---   category: Web
 @package openapi-petstore
 @version 0.1.0.0
 
@@ -23,56 +21,47 @@
 -- | Logging functions
 module OpenAPIPetstore.Logging
 
--- | Runs a monad-logger block with the filter predicate
+-- | Runs a Katip logging block with the Log environment
 type LogExecWithContext = forall m. MonadIO m => LogContext -> LogExec m
 
--- | A monad-logger block
-type LogExec m = forall a. LoggingT m a -> m a
+-- | A Katip logging block
+type LogExec m = forall a. KatipT m a -> m a
 
--- | A monad-logger filter predicate
-type LogContext = LogSource -> LogLevel -> Bool
+-- | A Katip Log environment
+type LogContext = LogEnv
 
--- | A monad-logger log level
-type LogLevel = LogLevel
+-- | A Katip Log severity
+type LogLevel = Severity
 
 -- | the default log environment
 initLogContext :: IO LogContext
 
--- | Runs a monad-logger block with the filter predicate
+-- | Runs a Katip logging block with the Log environment
 runDefaultLogExecWithContext :: LogExecWithContext
 
--- | Runs a monad-logger block targeting stdout, with the filter predicate
+-- | Runs a Katip logging block with the Log environment
 stdoutLoggingExec :: LogExecWithContext
 
--- | <pre>
---   pure
---   </pre>
+-- | A Katip Log environment which targets stdout
 stdoutLoggingContext :: LogContext -> IO LogContext
 
--- | Runs a monad-logger block targeting stderr, with the filter predicate
+-- | Runs a Katip logging block with the Log environment
 stderrLoggingExec :: LogExecWithContext
 
--- | <pre>
---   pure
---   </pre>
+-- | A Katip Log environment which targets stderr
 stderrLoggingContext :: LogContext -> IO LogContext
 
--- | Disables monad-logger logging
+-- | Disables Katip logging
 runNullLogExec :: LogExecWithContext
 
--- | monad-logger which does nothing
-nullLogger :: Loc -> LogSource -> LogLevel -> LogStr -> IO ()
-
--- | Log a message using the current time
-_log :: (MonadIO m, MonadLogger m) => Text -> LogLevel -> Text -> m ()
+-- | Log a katip message
+_log :: (Applicative m, Katip m) => Text -> LogLevel -> Text -> m ()
 
 -- | re-throws exceptions after logging them
-logExceptions :: (MonadLogger m, MonadCatch m, MonadIO m) => Text -> m a -> m a
+logExceptions :: (Katip m, MonadCatch m, Applicative m) => Text -> m a -> m a
 levelInfo :: LogLevel
 levelError :: LogLevel
 levelDebug :: LogLevel
-minLevelFilter :: LogLevel -> LogSource -> LogLevel -> Bool
-infoLevelFilter :: LogSource -> LogLevel -> Bool
 
 
 module OpenAPIPetstore.MimeTypes
@@ -120,17 +109,17 @@ data MimeXmlCharsetutf16
 MimeXmlCharsetutf16 :: MimeXmlCharsetutf16
 data MimeXmlCharsetutf8
 MimeXmlCharsetutf8 :: MimeXmlCharsetutf8
-data MimeTextxml
-MimeTextxml :: MimeTextxml
-data MimeTextxmlCharsetutf16
-MimeTextxmlCharsetutf16 :: MimeTextxmlCharsetutf16
-data MimeTextxmlCharsetutf8
-MimeTextxmlCharsetutf8 :: MimeTextxmlCharsetutf8
+data MimeTextXml
+MimeTextXml :: MimeTextXml
+data MimeTextXmlCharsetutf16
+MimeTextXmlCharsetutf16 :: MimeTextXmlCharsetutf16
+data MimeTextXmlCharsetutf8
+MimeTextXmlCharsetutf8 :: MimeTextXmlCharsetutf8
 instance GHC.Classes.Eq OpenAPIPetstore.MimeTypes.NoContent
 instance GHC.Show.Show OpenAPIPetstore.MimeTypes.NoContent
-instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeTextxmlCharsetutf8
-instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeTextxmlCharsetutf16
-instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeTextxml
+instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeTextXmlCharsetutf8
+instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeTextXmlCharsetutf16
+instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeTextXml
 instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeXmlCharsetutf8
 instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeXmlCharsetutf16
 instance Data.Aeson.Types.FromJSON.FromJSON a => OpenAPIPetstore.MimeTypes.MimeUnrender OpenAPIPetstore.MimeTypes.MimeJSON a
@@ -565,6 +554,9 @@ Byte :: ByteArray -> Byte
 newtype Callback
 Callback :: Text -> Callback
 [unCallback] :: Callback -> Text
+newtype Context
+Context :: [Text] -> Context
+[unContext] :: Context -> [Text]
 newtype EnumFormString
 EnumFormString :: E'EnumFormString -> EnumFormString
 [unEnumFormString] :: EnumFormString -> E'EnumFormString
@@ -592,6 +584,9 @@ EnumQueryStringArray :: [E'EnumFormStringArray] -> EnumQueryStringArray
 newtype File2
 File2 :: FilePath -> File2
 [unFile2] :: File2 -> FilePath
+newtype Http
+Http :: [Text] -> Http
+[unHttp] :: Http -> [Text]
 newtype Int32
 Int32 :: Int -> Int32
 [unInt32] :: Int32 -> Int
@@ -601,6 +596,9 @@ Int64 :: Integer -> Int64
 newtype Int64Group
 Int64Group :: Integer -> Int64Group
 [unInt64Group] :: Int64Group -> Integer
+newtype Ioutil
+Ioutil :: [Text] -> Ioutil
+[unIoutil] :: Ioutil -> [Text]
 newtype Name2
 Name2 :: Text -> Name2
 [unName2] :: Name2 -> Text
@@ -652,6 +650,9 @@ PatternWithoutDelimiter :: Text -> PatternWithoutDelimiter
 newtype PetId
 PetId :: Integer -> PetId
 [unPetId] :: PetId -> Integer
+newtype Pipe
+Pipe :: [Text] -> Pipe
+[unPipe] :: Pipe -> [Text]
 newtype Query
 Query :: Text -> Query
 [unQuery] :: Query -> Text
@@ -679,23 +680,130 @@ StringGroup :: Int -> StringGroup
 newtype Tags
 Tags :: [Text] -> Tags
 [unTags] :: Tags -> [Text]
+newtype Url
+Url :: [Text] -> Url
+[unUrl] :: Url -> [Text]
 newtype Username
 Username :: Text -> Username
 [unUsername] :: Username -> Text
 
+-- | AdditionalPropertiesAnyType
+data AdditionalPropertiesAnyType
+AdditionalPropertiesAnyType :: !Maybe Text -> AdditionalPropertiesAnyType
+
+-- | "name"
+[additionalPropertiesAnyTypeName] :: AdditionalPropertiesAnyType -> !Maybe Text
+
+-- | Construct a value of type <a>AdditionalPropertiesAnyType</a> (by
+--   applying it's required fields, if any)
+mkAdditionalPropertiesAnyType :: AdditionalPropertiesAnyType
+
+-- | AdditionalPropertiesArray
+data AdditionalPropertiesArray
+AdditionalPropertiesArray :: !Maybe Text -> AdditionalPropertiesArray
+
+-- | "name"
+[additionalPropertiesArrayName] :: AdditionalPropertiesArray -> !Maybe Text
+
+-- | Construct a value of type <a>AdditionalPropertiesArray</a> (by
+--   applying it's required fields, if any)
+mkAdditionalPropertiesArray :: AdditionalPropertiesArray
+
+-- | AdditionalPropertiesBoolean
+data AdditionalPropertiesBoolean
+AdditionalPropertiesBoolean :: !Maybe Text -> AdditionalPropertiesBoolean
+
+-- | "name"
+[additionalPropertiesBooleanName] :: AdditionalPropertiesBoolean -> !Maybe Text
+
+-- | Construct a value of type <a>AdditionalPropertiesBoolean</a> (by
+--   applying it's required fields, if any)
+mkAdditionalPropertiesBoolean :: AdditionalPropertiesBoolean
+
 -- | AdditionalPropertiesClass
 data AdditionalPropertiesClass
-AdditionalPropertiesClass :: !Maybe (Map String Text) -> !Maybe (Map String (Map String Text)) -> AdditionalPropertiesClass
+AdditionalPropertiesClass :: !Maybe (Map String Text) -> !Maybe (Map String Double) -> !Maybe (Map String Int) -> !Maybe (Map String Bool) -> !Maybe (Map String [Int]) -> !Maybe (Map String [Value]) -> !Maybe (Map String (Map String Text)) -> !Maybe (Map String (Map String Value)) -> !Maybe Value -> !Maybe Value -> !Maybe Value -> AdditionalPropertiesClass
 
--- | "map_property"
-[additionalPropertiesClassMapProperty] :: AdditionalPropertiesClass -> !Maybe (Map String Text)
+-- | "map_string"
+[additionalPropertiesClassMapString] :: AdditionalPropertiesClass -> !Maybe (Map String Text)
 
--- | "map_of_map_property"
-[additionalPropertiesClassMapOfMapProperty] :: AdditionalPropertiesClass -> !Maybe (Map String (Map String Text))
+-- | "map_number"
+[additionalPropertiesClassMapNumber] :: AdditionalPropertiesClass -> !Maybe (Map String Double)
+
+-- | "map_integer"
+[additionalPropertiesClassMapInteger] :: AdditionalPropertiesClass -> !Maybe (Map String Int)
+
+-- | "map_boolean"
+[additionalPropertiesClassMapBoolean] :: AdditionalPropertiesClass -> !Maybe (Map String Bool)
+
+-- | "map_array_integer"
+[additionalPropertiesClassMapArrayInteger] :: AdditionalPropertiesClass -> !Maybe (Map String [Int])
+
+-- | "map_array_anytype"
+[additionalPropertiesClassMapArrayAnytype] :: AdditionalPropertiesClass -> !Maybe (Map String [Value])
+
+-- | "map_map_string"
+[additionalPropertiesClassMapMapString] :: AdditionalPropertiesClass -> !Maybe (Map String (Map String Text))
+
+-- | "map_map_anytype"
+[additionalPropertiesClassMapMapAnytype] :: AdditionalPropertiesClass -> !Maybe (Map String (Map String Value))
+
+-- | "anytype_1"
+[additionalPropertiesClassAnytype1] :: AdditionalPropertiesClass -> !Maybe Value
+
+-- | "anytype_2"
+[additionalPropertiesClassAnytype2] :: AdditionalPropertiesClass -> !Maybe Value
+
+-- | "anytype_3"
+[additionalPropertiesClassAnytype3] :: AdditionalPropertiesClass -> !Maybe Value
 
 -- | Construct a value of type <a>AdditionalPropertiesClass</a> (by
 --   applying it's required fields, if any)
 mkAdditionalPropertiesClass :: AdditionalPropertiesClass
+
+-- | AdditionalPropertiesInteger
+data AdditionalPropertiesInteger
+AdditionalPropertiesInteger :: !Maybe Text -> AdditionalPropertiesInteger
+
+-- | "name"
+[additionalPropertiesIntegerName] :: AdditionalPropertiesInteger -> !Maybe Text
+
+-- | Construct a value of type <a>AdditionalPropertiesInteger</a> (by
+--   applying it's required fields, if any)
+mkAdditionalPropertiesInteger :: AdditionalPropertiesInteger
+
+-- | AdditionalPropertiesNumber
+data AdditionalPropertiesNumber
+AdditionalPropertiesNumber :: !Maybe Text -> AdditionalPropertiesNumber
+
+-- | "name"
+[additionalPropertiesNumberName] :: AdditionalPropertiesNumber -> !Maybe Text
+
+-- | Construct a value of type <a>AdditionalPropertiesNumber</a> (by
+--   applying it's required fields, if any)
+mkAdditionalPropertiesNumber :: AdditionalPropertiesNumber
+
+-- | AdditionalPropertiesObject
+data AdditionalPropertiesObject
+AdditionalPropertiesObject :: !Maybe Text -> AdditionalPropertiesObject
+
+-- | "name"
+[additionalPropertiesObjectName] :: AdditionalPropertiesObject -> !Maybe Text
+
+-- | Construct a value of type <a>AdditionalPropertiesObject</a> (by
+--   applying it's required fields, if any)
+mkAdditionalPropertiesObject :: AdditionalPropertiesObject
+
+-- | AdditionalPropertiesString
+data AdditionalPropertiesString
+AdditionalPropertiesString :: !Maybe Text -> AdditionalPropertiesString
+
+-- | "name"
+[additionalPropertiesStringName] :: AdditionalPropertiesString -> !Maybe Text
+
+-- | Construct a value of type <a>AdditionalPropertiesString</a> (by
+--   applying it's required fields, if any)
+mkAdditionalPropertiesString :: AdditionalPropertiesString
 
 -- | Animal
 data Animal
@@ -810,6 +918,17 @@ Cat :: !Text -> !Maybe Text -> !Maybe Bool -> Cat
 --   fields, if any)
 mkCat :: Text -> Cat
 
+-- | CatAllOf
+data CatAllOf
+CatAllOf :: !Maybe Bool -> CatAllOf
+
+-- | "declawed"
+[catAllOfDeclawed] :: CatAllOf -> !Maybe Bool
+
+-- | Construct a value of type <a>CatAllOf</a> (by applying it's required
+--   fields, if any)
+mkCatAllOf :: CatAllOf
+
 -- | Category
 data Category
 Category :: !Maybe Integer -> !Text -> Category
@@ -862,6 +981,17 @@ Dog :: !Text -> !Maybe Text -> !Maybe Text -> Dog
 -- | Construct a value of type <a>Dog</a> (by applying it's required
 --   fields, if any)
 mkDog :: Text -> Dog
+
+-- | DogAllOf
+data DogAllOf
+DogAllOf :: !Maybe Text -> DogAllOf
+
+-- | "breed"
+[dogAllOfBreed] :: DogAllOf -> !Maybe Text
+
+-- | Construct a value of type <a>DogAllOf</a> (by applying it's required
+--   fields, if any)
+mkDogAllOf :: DogAllOf
 
 -- | EnumArrays
 data EnumArrays
@@ -927,7 +1057,7 @@ mkFileSchemaTestClass :: FileSchemaTestClass
 
 -- | FormatTest
 data FormatTest
-FormatTest :: !Maybe Int -> !Maybe Int -> !Maybe Integer -> !Double -> !Maybe Float -> !Maybe Double -> !Maybe Text -> !ByteArray -> !Maybe FilePath -> !Date -> !Maybe DateTime -> !Maybe Text -> !Text -> FormatTest
+FormatTest :: !Maybe Int -> !Maybe Int -> !Maybe Integer -> !Double -> !Maybe Float -> !Maybe Double -> !Maybe Text -> !ByteArray -> !Maybe FilePath -> !Date -> !Maybe DateTime -> !Maybe Text -> !Text -> !Maybe Double -> FormatTest
 
 -- | "integer"
 [formatTestInteger] :: FormatTest -> !Maybe Int
@@ -967,6 +1097,9 @@ FormatTest :: !Maybe Int -> !Maybe Int -> !Maybe Integer -> !Double -> !Maybe Fl
 
 -- | <i>Required</i> "password"
 [formatTestPassword] :: FormatTest -> !Text
+
+-- | <a>BigDecimal</a>
+[formatTestBigDecimal] :: FormatTest -> !Maybe Double
 
 -- | Construct a value of type <a>FormatTest</a> (by applying it's required
 --   fields, if any)
@@ -1224,13 +1357,16 @@ mkTypeHolderDefault :: Text -> Double -> Int -> Bool -> [Int] -> TypeHolderDefau
 
 -- | TypeHolderExample
 data TypeHolderExample
-TypeHolderExample :: !Text -> !Double -> !Int -> !Bool -> ![Int] -> TypeHolderExample
+TypeHolderExample :: !Text -> !Double -> !Float -> !Int -> !Bool -> ![Int] -> TypeHolderExample
 
 -- | <i>Required</i> "string_item"
 [typeHolderExampleStringItem] :: TypeHolderExample -> !Text
 
 -- | <i>Required</i> "number_item"
 [typeHolderExampleNumberItem] :: TypeHolderExample -> !Double
+
+-- | <i>Required</i> "float_item"
+[typeHolderExampleFloatItem] :: TypeHolderExample -> !Float
 
 -- | <i>Required</i> "integer_item"
 [typeHolderExampleIntegerItem] :: TypeHolderExample -> !Int
@@ -1243,7 +1379,7 @@ TypeHolderExample :: !Text -> !Double -> !Int -> !Bool -> ![Int] -> TypeHolderEx
 
 -- | Construct a value of type <a>TypeHolderExample</a> (by applying it's
 --   required fields, if any)
-mkTypeHolderExample :: Text -> Double -> Int -> Bool -> [Int] -> TypeHolderExample
+mkTypeHolderExample :: Text -> Double -> Float -> Int -> Bool -> [Int] -> TypeHolderExample
 
 -- | User
 data User
@@ -1806,6 +1942,8 @@ instance GHC.Classes.Eq OpenAPIPetstore.Model.FileSchemaTestClass
 instance GHC.Show.Show OpenAPIPetstore.Model.FileSchemaTestClass
 instance GHC.Classes.Eq OpenAPIPetstore.Model.File
 instance GHC.Show.Show OpenAPIPetstore.Model.File
+instance GHC.Classes.Eq OpenAPIPetstore.Model.DogAllOf
+instance GHC.Show.Show OpenAPIPetstore.Model.DogAllOf
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Dog
 instance GHC.Show.Show OpenAPIPetstore.Model.Dog
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Client
@@ -1814,6 +1952,8 @@ instance GHC.Classes.Eq OpenAPIPetstore.Model.ClassModel
 instance GHC.Show.Show OpenAPIPetstore.Model.ClassModel
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Category
 instance GHC.Show.Show OpenAPIPetstore.Model.Category
+instance GHC.Classes.Eq OpenAPIPetstore.Model.CatAllOf
+instance GHC.Show.Show OpenAPIPetstore.Model.CatAllOf
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Cat
 instance GHC.Show.Show OpenAPIPetstore.Model.Cat
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Capitalization
@@ -1826,10 +1966,26 @@ instance GHC.Classes.Eq OpenAPIPetstore.Model.ApiResponse
 instance GHC.Show.Show OpenAPIPetstore.Model.ApiResponse
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Animal
 instance GHC.Show.Show OpenAPIPetstore.Model.Animal
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesString
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesString
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesObject
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesObject
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesNumber
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesNumber
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesInteger
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesInteger
 instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesClass
 instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesClass
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesBoolean
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesBoolean
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesArray
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesArray
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesAnyType
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesAnyType
 instance GHC.Show.Show OpenAPIPetstore.Model.Username
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Username
+instance GHC.Show.Show OpenAPIPetstore.Model.Url
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Url
 instance GHC.Show.Show OpenAPIPetstore.Model.Tags
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Tags
 instance GHC.Show.Show OpenAPIPetstore.Model.StringGroup
@@ -1846,6 +2002,8 @@ instance GHC.Show.Show OpenAPIPetstore.Model.RequiredBooleanGroup
 instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredBooleanGroup
 instance GHC.Show.Show OpenAPIPetstore.Model.Query
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Query
+instance GHC.Show.Show OpenAPIPetstore.Model.Pipe
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Pipe
 instance GHC.Show.Show OpenAPIPetstore.Model.PetId
 instance GHC.Classes.Eq OpenAPIPetstore.Model.PetId
 instance GHC.Show.Show OpenAPIPetstore.Model.PatternWithoutDelimiter
@@ -1881,14 +2039,20 @@ instance GHC.Show.Show OpenAPIPetstore.Model.Number
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Number
 instance GHC.Show.Show OpenAPIPetstore.Model.Name2
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Name2
+instance GHC.Show.Show OpenAPIPetstore.Model.Ioutil
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Ioutil
 instance GHC.Show.Show OpenAPIPetstore.Model.Int64Group
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Int64Group
 instance GHC.Show.Show OpenAPIPetstore.Model.Int64
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Int64
 instance GHC.Show.Show OpenAPIPetstore.Model.Int32
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Int32
+instance GHC.Show.Show OpenAPIPetstore.Model.Http
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Http
 instance GHC.Show.Show OpenAPIPetstore.Model.File2
 instance GHC.Classes.Eq OpenAPIPetstore.Model.File2
+instance GHC.Show.Show OpenAPIPetstore.Model.Context
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Context
 instance GHC.Show.Show OpenAPIPetstore.Model.Callback
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Callback
 instance GHC.Show.Show OpenAPIPetstore.Model.Byte
@@ -2025,6 +2189,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.FileSchemaTest
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.FileSchemaTestClass
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.File
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.File
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.DogAllOf
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.DogAllOf
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Dog
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Dog
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Client
@@ -2033,6 +2199,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.ClassModel
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.ClassModel
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Category
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Category
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.CatAllOf
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.CatAllOf
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Cat
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Cat
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Capitalization
@@ -2045,8 +2213,22 @@ instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.ApiResponse
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.ApiResponse
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Animal
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Animal
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.AdditionalPropertiesString
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.AdditionalPropertiesString
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.AdditionalPropertiesObject
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.AdditionalPropertiesObject
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.AdditionalPropertiesNumber
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.AdditionalPropertiesNumber
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.AdditionalPropertiesInteger
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.AdditionalPropertiesInteger
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.AdditionalPropertiesClass
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.AdditionalPropertiesClass
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.AdditionalPropertiesBoolean
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.AdditionalPropertiesBoolean
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.AdditionalPropertiesArray
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.AdditionalPropertiesArray
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.AdditionalPropertiesAnyType
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.AdditionalPropertiesAnyType
 
 
 module OpenAPIPetstore.API.User
@@ -2456,6 +2638,15 @@ data TestInlineAdditionalProperties
 --   test json serialization of form data
 testJsonFormData :: Consumes TestJsonFormData MimeFormUrlEncoded => Param -> Param2 -> OpenAPIPetstoreRequest TestJsonFormData MimeFormUrlEncoded NoContent MimeNoContent
 data TestJsonFormData
+
+-- | <pre>
+--   PUT /fake/test-query-paramters
+--   </pre>
+--   
+--   To test the collection format in query parameters
+testQueryParameterCollectionFormat :: Pipe -> Ioutil -> Http -> Url -> Context -> OpenAPIPetstoreRequest TestQueryParameterCollectionFormat MimeNoContent NoContent MimeNoContent
+data TestQueryParameterCollectionFormat
+instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.TestQueryParameterCollectionFormat OpenAPIPetstore.MimeTypes.MimeNoContent
 instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.TestJsonFormData OpenAPIPetstore.MimeTypes.MimeFormUrlEncoded
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.TestJsonFormData OpenAPIPetstore.MimeTypes.MimeNoContent
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.TestInlineAdditionalProperties OpenAPIPetstore.Model.ParamMapMapStringText
@@ -2510,9 +2701,9 @@ instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.C
 instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.FakeOuterBooleanSerialize mtype
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.Model.XmlItem
 instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeXML
-instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeTextxml
-instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeTextxmlCharsetutf8
-instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeTextxmlCharsetutf16
+instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeTextXml
+instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeTextXmlCharsetutf8
+instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeTextXmlCharsetutf16
 instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeXmlCharsetutf8
 instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeXmlCharsetutf16
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeNoContent
@@ -2539,11 +2730,59 @@ module OpenAPIPetstore.API
 
 module OpenAPIPetstore.ModelLens
 
--- | <a>additionalPropertiesClassMapProperty</a> Lens
-additionalPropertiesClassMapPropertyL :: Lens_' AdditionalPropertiesClass (Maybe (Map String Text))
+-- | <a>additionalPropertiesAnyTypeName</a> Lens
+additionalPropertiesAnyTypeNameL :: Lens_' AdditionalPropertiesAnyType (Maybe Text)
 
--- | <a>additionalPropertiesClassMapOfMapProperty</a> Lens
-additionalPropertiesClassMapOfMapPropertyL :: Lens_' AdditionalPropertiesClass (Maybe (Map String (Map String Text)))
+-- | <a>additionalPropertiesArrayName</a> Lens
+additionalPropertiesArrayNameL :: Lens_' AdditionalPropertiesArray (Maybe Text)
+
+-- | <a>additionalPropertiesBooleanName</a> Lens
+additionalPropertiesBooleanNameL :: Lens_' AdditionalPropertiesBoolean (Maybe Text)
+
+-- | <a>additionalPropertiesClassMapString</a> Lens
+additionalPropertiesClassMapStringL :: Lens_' AdditionalPropertiesClass (Maybe (Map String Text))
+
+-- | <a>additionalPropertiesClassMapNumber</a> Lens
+additionalPropertiesClassMapNumberL :: Lens_' AdditionalPropertiesClass (Maybe (Map String Double))
+
+-- | <a>additionalPropertiesClassMapInteger</a> Lens
+additionalPropertiesClassMapIntegerL :: Lens_' AdditionalPropertiesClass (Maybe (Map String Int))
+
+-- | <a>additionalPropertiesClassMapBoolean</a> Lens
+additionalPropertiesClassMapBooleanL :: Lens_' AdditionalPropertiesClass (Maybe (Map String Bool))
+
+-- | <a>additionalPropertiesClassMapArrayInteger</a> Lens
+additionalPropertiesClassMapArrayIntegerL :: Lens_' AdditionalPropertiesClass (Maybe (Map String [Int]))
+
+-- | <a>additionalPropertiesClassMapArrayAnytype</a> Lens
+additionalPropertiesClassMapArrayAnytypeL :: Lens_' AdditionalPropertiesClass (Maybe (Map String [Value]))
+
+-- | <a>additionalPropertiesClassMapMapString</a> Lens
+additionalPropertiesClassMapMapStringL :: Lens_' AdditionalPropertiesClass (Maybe (Map String (Map String Text)))
+
+-- | <a>additionalPropertiesClassMapMapAnytype</a> Lens
+additionalPropertiesClassMapMapAnytypeL :: Lens_' AdditionalPropertiesClass (Maybe (Map String (Map String Value)))
+
+-- | <a>additionalPropertiesClassAnytype1</a> Lens
+additionalPropertiesClassAnytype1L :: Lens_' AdditionalPropertiesClass (Maybe Value)
+
+-- | <a>additionalPropertiesClassAnytype2</a> Lens
+additionalPropertiesClassAnytype2L :: Lens_' AdditionalPropertiesClass (Maybe Value)
+
+-- | <a>additionalPropertiesClassAnytype3</a> Lens
+additionalPropertiesClassAnytype3L :: Lens_' AdditionalPropertiesClass (Maybe Value)
+
+-- | <a>additionalPropertiesIntegerName</a> Lens
+additionalPropertiesIntegerNameL :: Lens_' AdditionalPropertiesInteger (Maybe Text)
+
+-- | <a>additionalPropertiesNumberName</a> Lens
+additionalPropertiesNumberNameL :: Lens_' AdditionalPropertiesNumber (Maybe Text)
+
+-- | <a>additionalPropertiesObjectName</a> Lens
+additionalPropertiesObjectNameL :: Lens_' AdditionalPropertiesObject (Maybe Text)
+
+-- | <a>additionalPropertiesStringName</a> Lens
+additionalPropertiesStringNameL :: Lens_' AdditionalPropertiesString (Maybe Text)
 
 -- | <a>animalClassName</a> Lens
 animalClassNameL :: Lens_' Animal Text
@@ -2602,6 +2841,9 @@ catColorL :: Lens_' Cat (Maybe Text)
 -- | <a>catDeclawed</a> Lens
 catDeclawedL :: Lens_' Cat (Maybe Bool)
 
+-- | <a>catAllOfDeclawed</a> Lens
+catAllOfDeclawedL :: Lens_' CatAllOf (Maybe Bool)
+
 -- | <a>categoryId</a> Lens
 categoryIdL :: Lens_' Category (Maybe Integer)
 
@@ -2622,6 +2864,9 @@ dogColorL :: Lens_' Dog (Maybe Text)
 
 -- | <a>dogBreed</a> Lens
 dogBreedL :: Lens_' Dog (Maybe Text)
+
+-- | <a>dogAllOfBreed</a> Lens
+dogAllOfBreedL :: Lens_' DogAllOf (Maybe Text)
 
 -- | <a>enumArraysJustSymbol</a> Lens
 enumArraysJustSymbolL :: Lens_' EnumArrays (Maybe E'JustSymbol)
@@ -2691,6 +2936,9 @@ formatTestUuidL :: Lens_' FormatTest (Maybe Text)
 
 -- | <a>formatTestPassword</a> Lens
 formatTestPasswordL :: Lens_' FormatTest Text
+
+-- | <a>formatTestBigDecimal</a> Lens
+formatTestBigDecimalL :: Lens_' FormatTest (Maybe Double)
 
 -- | <a>hasOnlyReadOnlyBar</a> Lens
 hasOnlyReadOnlyBarL :: Lens_' HasOnlyReadOnly (Maybe Text)
@@ -2826,6 +3074,9 @@ typeHolderExampleStringItemL :: Lens_' TypeHolderExample Text
 
 -- | <a>typeHolderExampleNumberItem</a> Lens
 typeHolderExampleNumberItemL :: Lens_' TypeHolderExample Double
+
+-- | <a>typeHolderExampleFloatItem</a> Lens
+typeHolderExampleFloatItemL :: Lens_' TypeHolderExample Float
 
 -- | <a>typeHolderExampleIntegerItem</a> Lens
 typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample Int

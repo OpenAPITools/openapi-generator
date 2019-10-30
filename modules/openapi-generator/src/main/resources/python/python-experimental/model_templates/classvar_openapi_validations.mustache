@@ -1,0 +1,42 @@
+    openapi_types = {
+{{#allVars}}
+        '{{name}}': ({{{dataType}}},),  # noqa: E501
+{{/allVars}}
+    }
+
+    validations = {
+{{#allVars}}
+{{#hasValidation}}
+        ('{{name}}',): {
+{{#maxLength}}
+            'max_length': {{maxLength}},
+{{/maxLength}}
+{{#minLength}}
+            'min_length': {{minLength}},
+{{/minLength}}
+{{#maxItems}}
+            'max_items': {{maxItems}},
+{{/maxItems}}
+{{#minItems}}
+            'min_items': {{minItems}},
+{{/minItems}}
+{{#maximum}}
+            {{#exclusiveMaximum}}'exclusive_maximum'{{/exclusiveMaximum}}'inclusive_maximum'{{^exclusiveMaximum}}{{/exclusiveMaximum}}: {{maximum}},
+{{/maximum}}
+{{#minimum}}
+            {{#exclusiveMinimum}}'exclusive_minimum'{{/exclusiveMinimum}}'inclusive_minimum'{{^exclusiveMinimum}}{{/exclusiveMinimum}}: {{minimum}},
+{{/minimum}}
+{{#pattern}}
+            'regex': {
+                'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
+                {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
+            },
+{{/pattern}}
+        },
+{{/hasValidation}}
+{{/allVars}}
+    }
+
+    additional_properties_type = {{#additionalPropertiesType}}({{{additionalPropertiesType}}},)  # noqa: E501{{/additionalPropertiesType}}{{^additionalPropertiesType}}None{{/additionalPropertiesType}}
+
+    discriminator = {{#discriminator}}'{{{discriminatorName}}}'{{/discriminator}}{{^discriminator}}None{{/discriminator}}

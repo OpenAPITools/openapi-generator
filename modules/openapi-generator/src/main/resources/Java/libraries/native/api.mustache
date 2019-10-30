@@ -1,0 +1,157 @@
+{{>licenseInfo}}
+package {{package}};
+
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.Pair;
+
+{{#imports}}
+import {{import}};
+{{/imports}}
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.function.Consumer;
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.StringJoiner;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}} {
+  private final HttpClient memberVarHttpClient;
+  private final ObjectMapper memberVarObjectMapper;
+  private final String memberVarBaseUri;
+  private final Consumer<HttpRequest.Builder> memberVarInterceptor;
+  private final Duration memberVarReadTimeout;
+
+  public {{classname}}() {
+    this(new ApiClient());
+  }
+
+  public {{classname}}(ApiClient apiClient) {
+    memberVarHttpClient = apiClient.getHttpClient();
+    memberVarObjectMapper = apiClient.getObjectMapper();
+    memberVarBaseUri = apiClient.getBaseUri();
+    memberVarInterceptor = apiClient.getRequestInterceptor();
+    memberVarReadTimeout = apiClient.getReadTimeout();
+  }
+
+  {{#operation}}
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   {{/allParams}}
+   {{#returnType}}
+   * @return {{returnType}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+    {{#allParams}}
+      {{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == null) {
+      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+    }
+      {{/required}}
+    {{/allParams}}
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    {{! Switch delimiters for baseName so we can write constants like "{query}" }}
+    String localVarPath = "{{{path}}}"{{#pathParams}}
+        .replace({{=<% %>=}}"{<%baseName%>}"<%={{ }}=%>, ApiClient.urlEncode({{{paramName}}}.toString())){{/pathParams}};
+
+    {{#hasQueryParams}}
+    {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<>();
+    {{#queryParams}}
+      {{#collectionFormat}}
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
+      {{/collectionFormat}}
+      {{^collectionFormat}}
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+      {{/collectionFormat}}
+    {{/queryParams}}
+
+    if (!localVarQueryParams.isEmpty()) {
+      {{javaUtilPrefix}}StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+    {{/hasQueryParams}}
+    {{^hasQueryParams}}
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    {{/hasQueryParams}}
+
+    {{#headerParams}}
+    if ({{paramName}} != null) {
+      localVarRequestBuilder.header("{{baseName}}", {{paramName}}.toString());
+    }
+    {{/headerParams}}
+    {{#bodyParam}}
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    {{/bodyParam}}
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      {{#bodyParam}}
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes({{paramName}});
+      localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+      {{/bodyParam}}
+      {{^bodyParam}}
+      localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.noBody());
+      {{/bodyParam}}
+      if (memberVarReadTimeout != null) {
+        localVarRequestBuilder.timeout(memberVarReadTimeout);
+      }
+      if (memberVarInterceptor != null) {
+        memberVarInterceptor.accept(localVarRequestBuilder);
+      }
+
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (localVarResponse.statusCode()/ 100 != 2) {
+        throw new ApiException(localVarResponse.statusCode(),
+            "{{operationId}} call received non-success response",
+            localVarResponse.headers(),
+            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+      }
+
+      {{#returnType}}
+      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {});
+      {{/returnType}}
+    } catch (IOException | InterruptedException e) {
+      throw new ApiException(e);
+    }
+  }
+  {{/operation}}
+}
+{{/operations}}

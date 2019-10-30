@@ -76,14 +76,16 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, PREFIX + "HttpRequest.h"));
         supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, PREFIX + "HttpRequest.cpp"));
+        supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder, PREFIX + "HttpFileElement.h"));
+        supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, PREFIX + "HttpFileElement.cpp"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
-        supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, PREFIX + "Enum.h"));        
+        supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, PREFIX + "Enum.h"));
+        supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));       
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "client.pri"));
         }
-        typeMapping.put("file", PREFIX + "HttpRequestInputFileElement");
-        typeMapping.put("binary", PREFIX +"HttpRequestInputFileElement");
-        importMapping.put(PREFIX + "HttpRequestInputFileElement", "#include \"" + PREFIX + "HttpRequest.h\"");
+        typeMapping.put("file", PREFIX + "HttpFileElement");
+        importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
     }
 
     @Override
@@ -95,19 +97,22 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
         } else {
             additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
         }
-        
+
         if (additionalProperties.containsKey("modelNamePrefix")) {
             supportingFiles.clear();
             supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, modelNamePrefix + "Helpers.h"));
             supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, modelNamePrefix + "Helpers.cpp"));
             supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, modelNamePrefix + "HttpRequest.h"));
             supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, modelNamePrefix + "HttpRequest.cpp"));
+            supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.h"));
+            supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.cpp"));           
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
-            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));            
+            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));
+            supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
+           
 
-            typeMapping.put("file", modelNamePrefix + "HttpRequestInputFileElement");
-            typeMapping.put("binary", modelNamePrefix + "HttpRequestInputFileElement");
-            importMapping.put(modelNamePrefix + "HttpRequestInputFileElement", "#include \"" + modelNamePrefix + "HttpRequest.h\"");
+            typeMapping.put("file", modelNamePrefix + "HttpFileElement");
+            importMapping.put(modelNamePrefix + "HttpFileElement", "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
             if (optionalProjectFileFlag) {
                 supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, modelNamePrefix + "client.pri"));
             }

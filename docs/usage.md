@@ -38,9 +38,15 @@ NAME
         openapi-generator-cli list - Lists the available generators
 
 SYNOPSIS
-        openapi-generator-cli list [(-s | --short)]
+        openapi-generator-cli list [(-i <include> | --include <include>)]
+                [(-s | --short)]
 
 OPTIONS
+        -i <include>, --include <include>
+            comma-separated list of stability indexes to include (value:
+            all,beta,stable,experimental,deprecated). Excludes deprecated by
+            default.
+
         -s, --short
             shortened output (suitable for scripting)
 
@@ -210,13 +216,14 @@ This command takes one or more parameters representing the args list you would o
 
 ```bash
 openapi-generator completion config-help
---named-header
 -o
 --output
+--named-header
 -g
 --generator-name
--l
---lang
+-f
+--format
+--markdown-header
 ```
 
 An example bash completion script can be found in the repo at [scripts/openapi-generator-cli-completion.bash](https://github.com/OpenAPITools/openapi-generator/blob/master/scripts/openapi-generator-cli-completion.bash).
@@ -235,11 +242,12 @@ NAME
 SYNOPSIS
         openapi-generator-cli generate
                 [(-a <authorization> | --auth <authorization>)]
-                [--additional-properties <additional properties>...]
                 [--api-package <api package>] [--artifact-id <artifact id>]
                 [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...] [--enable-post-process-file]
+                [-D <system properties>...]
+                [(-e <templating engine> | --engine <templating engine>)]
+                [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
                 [--generate-alias-as-model] [--git-repo-id <git repo id>]
                 [--git-user-id <git user id>] [--group-id <group id>]
@@ -254,14 +262,15 @@ SYNOPSIS
                 [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
-                [(-o <output directory> | --output <output directory>)]
+                [(-o <output directory> | --output <output directory>)] 
+                [(-p <additional properties> | --additional-properties <additional properties>)...]
                 [--package-name <package name>] [--release-note <release note>]
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
-                [(-s | --skip-overwrite)] [--skip-validate-spec]
+                [(-s | --skip-overwrite)] [--server-variables <server variables>...]
+                [--skip-validate-spec] [--strict-spec <true/false strict behavior>]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
-
 ```
 
 <details>
@@ -274,24 +283,23 @@ OPTIONS
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
 
-        --additional-properties <additional properties>
-            sets additional properties that can be referenced by the mustache
-            templates in the format of name=value,name=value. You can also have
-            multiple occurrences of this option.
-
         --api-package <api package>
             package for generated api classes
 
         --artifact-id <artifact id>
-            artifactId in generated pom.xml
+            artifactId in generated pom.xml. This also becomes part of the
+            generated library's filename
 
         --artifact-version <artifact version>
-            artifact version in generated pom.xml
+            artifact version in generated pom.xml. This also becomes part of the
+            generated library's filename
 
         -c <configuration file>, --config <configuration file>
-            Path to json configuration file. File content should be in a json
-            format {"optionKey":"optionValue", "optionKey1":"optionValue1"...}
-            Supported options can be different for each language. Run
+            Path to configuration file configuration file. It can be json or
+            yaml.If file is json, the content should have the format
+            {"optionKey":"optionValue", "optionKey1":"optionValue1"...}.If file
+            is yaml, the content should have the format optionKey:
+            optionValueSupported options can be different for each language. Run
             config-help -g {generator name} command for language specific config
             options.
 
@@ -299,11 +307,17 @@ OPTIONS
             sets specified system properties in the format of
             name=value,name=value (or multiple options, each with name=value)
 
+        -e <templating engine>, --engine <templating engine>
+            templating engine: "mustache" (default) or "handlebars" (beta)
+
         --enable-post-process-file
             enablePostProcessFile
 
         -g <generator name>, --generator-name <generator name>
-            generator to use (see langs command for list)
+            generator to use (see list command for list)
+
+        --generate-alias-as-model
+            Generate alias to map, array as models
 
         --git-repo-id <git repo id>
             Git repo ID, e.g. openapi-generator.
@@ -354,6 +368,9 @@ OPTIONS
             piping the JSON output of debug options (e.g. `-DdebugOperations`)
             to an external parser directly while testing a generator.
 
+        --minimal-update
+            Only write output files that have changed.
+
         --model-name-prefix <model name prefix>
             Prefix that will be prepended to all model names. Default is the
             empty string.
@@ -367,6 +384,15 @@ OPTIONS
 
         -o <output directory>, --output <output directory>
             where to write the generated files (current dir by default)
+
+        -p <additional properties>, --additional-properties <additional
+        properties>
+            sets additional properties that can be referenced by the mustache
+            templates in the format of name=value,name=value. You can also have
+            multiple occurrences of this option.
+
+        --package-name <package name>
+            package for generated classes (where supported)
 
         --release-note <release note>
             Release note, default to 'Minor update'.
@@ -383,15 +409,24 @@ OPTIONS
             specifies if the existing files should be overwritten during the
             generation.
 
+        --server-variables <server variables>
+            sets server variables for spec documents which support variable
+            templating of servers.
+
         --skip-validate-spec
             Skips the default behavior of validating an input specification.
+
+        --strict-spec <true/false strict behavior>
+            'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to.
+            e.g. when false, no fixes will be applied to documents which pass
+            validation but don't follow the spec.
 
         -t <template directory>, --template-dir <template directory>
             folder containing the template files
 
         --type-mappings <type mappings>
             sets mappings between OpenAPI spec types and generated code types in
-            the format of OpenaAPIType=generatedType,OpenAPIType=generatedType.
+            the format of OpenAPIType=generatedType,OpenAPIType=generatedType.
             For example: array=List,map=Map,string=String. You can also have
             multiple occurrences of this option.
 

@@ -726,6 +726,7 @@ paths:
               properties:
                 integer:
                   description: None
+                  format: int32
                   maximum: 100
                   minimum: 10
                   type: integer
@@ -1203,17 +1204,11 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          breed:
-            type: string
-        type: object
+      - $ref: '#/components/schemas/Dog_allOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          declawed:
-            type: boolean
-        type: object
+      - $ref: '#/components/schemas/Cat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -1522,6 +1517,14 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    Dog_allOf:
+      properties:
+        breed:
+          type: string
+    Cat_allOf:
+      properties:
+        declawed:
+          type: boolean
   securitySchemes:
     petstore_auth:
       flows:

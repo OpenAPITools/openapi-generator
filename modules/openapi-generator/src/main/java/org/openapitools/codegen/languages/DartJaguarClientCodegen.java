@@ -16,15 +16,12 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.io.FilenameUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 
 import java.io.File;
@@ -37,15 +34,18 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     private static final String SERIALIZATION_FORMAT = "serialization";
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String IS_FORMAT_PROTO = "protoFormat";
+    private static final String CLIENT_NAME = "clientName";
+
     private static Set<String> modelToIgnore = new HashSet<>();
     private HashMap<String, String> protoTypeMapping = new HashMap<>();
 
     static {
         modelToIgnore.add("datetime");
         modelToIgnore.add("map");
+        modelToIgnore.add("object");
         modelToIgnore.add("list");
         modelToIgnore.add("file");
-        modelToIgnore.add("uint8list");
+        modelToIgnore.add("list<int>");
     }
 
     private static final String SERIALIZATION_JSON = "json";
@@ -63,8 +63,8 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         cliOptions.add(new CliOption(SERIALIZATION_FORMAT, "Choose serialization format JSON or PROTO is supported"));
 
-        typeMapping.put("file", "Uint8List");
-        typeMapping.put("binary", "Uint8List");
+        typeMapping.put("file", "List<int>");
+        typeMapping.put("binary", "List<int>");
 
         protoTypeMapping.put("Array", "repeated");
         protoTypeMapping.put("array", "repeated");
@@ -86,6 +86,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         protoTypeMapping.put("file", "bytes");
         protoTypeMapping.put("binary", "bytes");
         protoTypeMapping.put("UUID", "string");
+        protoTypeMapping.put("URI", "string");
         protoTypeMapping.put("ByteArray", "bytes");
 
     }
@@ -139,6 +140,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             //not set, use to be passed to template
             additionalProperties.put(PUB_NAME, pubName);
         }
+        additionalProperties.put(CLIENT_NAME, org.openapitools.codegen.utils.StringUtils.camelize(pubName));
 
         if (additionalProperties.containsKey(PUB_VERSION)) {
             this.setPubVersion((String) additionalProperties.get(PUB_VERSION));
@@ -177,6 +179,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
 
         final String authFolder = sourceFolder + File.separator + "lib" + File.separator + "auth";
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
@@ -244,19 +247,19 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             }
 
             for (CodegenParameter param : op.allParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
             }
             for (CodegenParameter param : op.formParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
             }
             for (CodegenParameter param : op.bodyParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
@@ -271,8 +274,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             for (String item : op.imports) {
                 if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
                     imports.add(underscore(item));
-                } else if (item.equalsIgnoreCase("Uint8List")) {
-                    fullImports.add("dart:typed_data");
                 }
             }
             modelImports.addAll(imports);

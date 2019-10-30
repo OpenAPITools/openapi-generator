@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-apex
 title: Config Options for apex
 sidebar_label: apex
 ---

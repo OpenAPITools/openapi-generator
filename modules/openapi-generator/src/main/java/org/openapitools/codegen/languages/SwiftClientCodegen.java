@@ -25,6 +25,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +89,11 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     public SwiftClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
+
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
@@ -129,6 +136,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "ErrorResponse",
 
                         // swift keywords
+                        // https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html Section: Keywords and Punctuation
                         "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject",
                         "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
                         "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
@@ -136,7 +144,8 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
                         "switch", "FUNCTION", "none", "public", "where", "LINE", "nonmutating", "static", "while", "optional",
                         "struct", "override", "subscript", "postfix", "typealias", "precedence", "var", "prefix", "Protocol",
-                        "required", "right", "set", "Type", "unowned", "weak", "Data")
+                        "required", "right", "set", "Type", "unowned", "weak", "Data","fileprivate", "open", "rethrows", "defer",
+                        "guard", "repeat", "Any", "catch", "throw", "throws", "try", "indirect", "willSet")
         );
 
         typeMapping = new HashMap<String, String>();
@@ -162,6 +171,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("binary", "NSURL");
         typeMapping.put("ByteArray", "NSData");
         typeMapping.put("UUID", "NSUUID");
+        typeMapping.put("URI", "String");
 
         importMapping = new HashMap<String, String>();
 

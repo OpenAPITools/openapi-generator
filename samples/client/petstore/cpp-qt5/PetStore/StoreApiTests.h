@@ -1,30 +1,16 @@
-#ifndef STOREAPITESTS_H
-#define STOREAPITESTS_H
-#include <QtTest/QtTest>
-#include <QTimer>
+#pragma once
 
 #include "../client/OAIStoreApi.h"
 
 using namespace OpenAPI;
 
 class StoreApiTests: public QObject {
-Q_OBJECT
-public:
-    StoreApiTests();
-    virtual ~StoreApiTests();
-
-    static void runTests();
-
-private:
-    OAIStoreApi* getApi();
-signals:
-    void quit();
-    bool success();
+    Q_OBJECT
 
 private slots:
     void placeOrderTest();
     void getOrderByIdTest();
     void getInventoryTest();
+private:
+    const QString PetStoreHost = QStringLiteral("http://petstore.swagger.io");
 };
-
-#endif // STOREAPITESTS_H

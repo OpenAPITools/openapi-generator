@@ -200,6 +200,13 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
 
         <!-- HTTP client: Spring RestTemplate -->
         <dependency>
@@ -229,6 +236,11 @@
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
 
             <!-- XML processing: Jackson -->
             <dependency>
@@ -253,11 +265,12 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <spring-web-version>4.3.9.RELEASE</spring-web-version>
-        <jackson-version>2.8.11</jackson-version>
-        <jackson-databind-version>2.8.11.3</jackson-databind-version>
-        <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
+        <jackson-version>2.9.10</jackson-version>
+        <jackson-databind-version>2.9.10</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
+        <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.12</junit-version>
     </properties>

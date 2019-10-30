@@ -6,6 +6,8 @@
 module OpenAPIPetstore.Types (
   ApiResponse (..),
   Category (..),
+  InlineObject (..),
+  InlineObject1 (..),
   Order (..),
   Pet (..),
   Tag (..),
@@ -18,6 +20,7 @@ import Data.List (stripPrefix)
 import Data.Maybe (fromMaybe)
 import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
 import Data.Aeson.Types (Options(..), defaultOptions)
+import Data.Set (Set)
 import Data.Text (Text)
 import Data.Time
 import Data.Swagger (ToSchema, declareNamedSchema)
@@ -60,6 +63,38 @@ instance ToSchema Category where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
     $ removeFieldLabelPrefix False "category"
+
+
+-- | 
+data InlineObject = InlineObject
+  { inlineObjectName :: Maybe Text -- ^ Updated name of the pet
+  , inlineObjectStatus :: Maybe Text -- ^ Updated status of the pet
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON InlineObject where
+  parseJSON = genericParseJSON (removeFieldLabelPrefix True "inlineObject")
+instance ToJSON InlineObject where
+  toJSON = genericToJSON (removeFieldLabelPrefix False "inlineObject")
+instance ToSchema InlineObject where
+  declareNamedSchema = Swagger.genericDeclareNamedSchema
+    $ Swagger.fromAesonOptions
+    $ removeFieldLabelPrefix False "inlineObject"
+
+
+-- | 
+data InlineObject1 = InlineObject1
+  { inlineObject1AdditionalMetadata :: Maybe Text -- ^ Additional data to pass to server
+  , inlineObject1File :: Maybe FilePath -- ^ file to upload
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON InlineObject1 where
+  parseJSON = genericParseJSON (removeFieldLabelPrefix True "inlineObject1")
+instance ToJSON InlineObject1 where
+  toJSON = genericToJSON (removeFieldLabelPrefix False "inlineObject1")
+instance ToSchema InlineObject1 where
+  declareNamedSchema = Swagger.genericDeclareNamedSchema
+    $ Swagger.fromAesonOptions
+    $ removeFieldLabelPrefix False "inlineObject1"
 
 
 -- | An order for a pets from the pet store
@@ -144,10 +179,14 @@ uncapitalize :: String -> String
 uncapitalize (first:rest) = Char.toLower first : rest
 uncapitalize [] = []
 
--- Remove a field label prefix during JSON parsing.
--- Also perform any replacements for special characters.
+-- | Remove a field label prefix during JSON parsing.
+--   Also perform any replacements for special characters.
+--   The @forParsing@ parameter is to distinguish between the cases in which we're using this
+--   to power a @FromJSON@ or a @ToJSON@ instance. In the first case we're parsing, and we want
+--   to replace special characters with their quoted equivalents (because we cannot have special
+--   chars in identifier names), while we want to do viceversa when sending data instead.
 removeFieldLabelPrefix :: Bool -> String -> Options
-removeFieldLabelPrefix _ prefix =
+removeFieldLabelPrefix forParsing prefix =
   defaultOptions
     { omitNothingFields  = True
     , fieldLabelModifier = uncapitalize . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars
@@ -190,4 +229,8 @@ removeFieldLabelPrefix _ prefix =
       , ("?", "'Question_Mark")
       , (">=", "'Greater_Than_Or_Equal_To")
       ]
-    mkCharReplacement (replaceStr, searchStr) = T.unpack . T.replace (T.tail $ T.pack searchStr) (T.pack replaceStr) . T.pack
+    mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
+    replacer =
+      if forParsing
+        then flip T.replace
+        else T.replace

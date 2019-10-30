@@ -25,7 +25,6 @@ import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.DefaultGenerator;
@@ -129,11 +128,10 @@ public class Generator {
         }
 
         ClientOptInput clientOptInput = new ClientOptInput();
-        ClientOpts clientOpts = new ClientOpts();
         String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;
         String outputFilename = outputFolder + "-bundle.zip";
 
-        clientOptInput.opts(clientOpts).openAPI(openapi);
+        clientOptInput.openAPI(openapi);
 
         CodegenConfig codegenConfig;
         try {
@@ -148,8 +146,6 @@ public class Generator {
         }
 
         codegenConfig.setOutputDir(outputFolder);
-
-        LOGGER.debug(Json.pretty(clientOpts));
 
         clientOptInput.setConfig(codegenConfig);
 

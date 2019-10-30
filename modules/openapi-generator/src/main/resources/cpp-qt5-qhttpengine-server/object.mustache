@@ -4,6 +4,7 @@
 
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QMetaType>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -14,7 +15,7 @@ class {{prefix}}Object {
     {{prefix}}Object() {
 
     }
-    
+
     {{prefix}}Object(QString jsonString) {
         fromJson(jsonString);
     }
@@ -55,5 +56,7 @@ private :
 {{#cppNamespaceDeclarations}}
 }
 {{/cppNamespaceDeclarations}}
+
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}Object)
 
 #endif // {{prefix}}_OBJECT_H

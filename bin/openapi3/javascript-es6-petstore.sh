@@ -29,6 +29,6 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -t modules/openapi-generator/src/main/resources/Javascript/es6 \
 -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -g javascript \
--o samples/openapi3/client/petstore/javascript-es6 $@"
+-o samples/openapi3/client/petstore/javascript-es6 --additional-properties appName=PetstoreClient $@"
 
-java -DappName=PetstoreClient $JAVA_OPTS -jar $executable $ags
+java $JAVA_OPTS -jar $executable $ags

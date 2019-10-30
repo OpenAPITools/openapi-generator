@@ -1,0 +1,9 @@
+{
+  "generatorName": "typescript-angular",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-angular-v7-not-provided-in-root/builds/default",
+  "additionalProperties": {
+    "ngVersion": "7.0.0",
+    "providedInRoot": false
+  }
+}

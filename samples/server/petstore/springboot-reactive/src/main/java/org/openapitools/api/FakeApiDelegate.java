@@ -219,6 +219,21 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#testQueryParameterCollectionFormat
+     */
+    default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(List<String> pipe,
+        List<String> ioutil,
+        List<String> http,
+        List<String> url,
+        List<String> context,
+        ServerWebExchange exchange) {
+        Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result.then(Mono.empty());
+
+    }
+
+    /**
      * @see FakeApi#uploadFileWithRequiredFile
      */
     default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(Long petId,

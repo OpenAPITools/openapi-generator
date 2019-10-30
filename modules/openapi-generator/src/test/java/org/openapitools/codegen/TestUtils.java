@@ -1,18 +1,29 @@
 package org.openapitools.codegen;
 
+import static org.testng.Assert.fail;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
+
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.testng.Assert;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TestUtils {
 
@@ -27,6 +38,7 @@ public class TestUtils {
     public static OpenAPI createOpenAPI() {
         OpenAPI openAPI = new OpenAPI();
         openAPI.setComponents(new Components());
+        openAPI.setPaths(new Paths());
 
         final Info info = new Info();
         info.setDescription("API under test");
@@ -52,5 +64,44 @@ public class TestUtils {
         Optional<WrittenTemplateBasedFile> optional = generator.getTemplateBasedFiles().stream().filter(f -> defaultApiFilename.equals(f.getOutputFilename())).findFirst();
         Assert.assertTrue(optional.isPresent());
         return optional.get();
+    }
+
+    public static void ensureContainsFile(Map<String, String> generatedFiles, File root, String filename) {
+        File file = new File(root, filename);
+        String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
+        if (!generatedFiles.containsKey(absoluteFilename)) {
+            fail("Could not find '" + absoluteFilename + "' file in list:\n" +
+                    generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
+        }
+        assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not found in the list of generated files");
+    }
+
+    public static void ensureDoesNotContainsFile(Map<String, String> generatedFiles, File root, String filename) {
+        File file = new File(root, filename);
+        String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
+        if (generatedFiles.containsKey(absoluteFilename)) {
+            fail("File '" + absoluteFilename + "' exists in file in list:\n" +
+                    generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
+        }
+        assertFalse(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was found in the list of generated files");
+    }
+
+    public static void validateJavaSourceFiles(Map<String, String> fileMap) {
+        fileMap.forEach( (fileName, fileContents) -> {
+                if (fileName.endsWith(".java")) {
+                    assertValidJavaSourceCode(fileContents, fileName);
+                }
+            }
+        );
+    }
+
+    public static void assertValidJavaSourceCode(String javaSourceCode, String filename) {
+        try {
+            CompilationUnit compilation = StaticJavaParser.parse(javaSourceCode);
+            assertTrue(compilation.getTypes().size() > 0, "File: " + filename);
+        }
+        catch (ParseProblemException ex) {
+            fail("Java parse problem: " + filename, ex);
+        }
     }
 }

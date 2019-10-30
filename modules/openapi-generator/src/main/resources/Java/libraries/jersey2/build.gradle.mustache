@@ -118,9 +118,10 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.21"
-    jackson_version = "2.8.11"
-    jackson_databind_version = "2.8.11.3"
+    swagger_annotations_version = "1.5.22"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10"
+    jackson_databind_nullable_version = "0.2.0"
     {{#supportJava6}}
     jersey_version = "2.6"
     commons_io_version=2.5
@@ -131,18 +132,20 @@ ext {
     {{/supportJava6}}
     junit_version = "4.12"
     {{#threetenbp}}
-    threetenbp_version = "2.6.4"
+    threetenbp_version = "2.9.10"
     {{/threetenbp}}
 }
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "org.glassfish.jersey.core:jersey-client:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{#joda}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
@@ -160,4 +163,8 @@ dependencies {
     compile "com.brsanthu:migbase64:2.2"
     {{/java8}}
     testCompile "junit:junit:$junit_version"
+}
+
+javadoc {
+    options.tags = [ "http.response.details:a:Http Response Details" ]
 }

@@ -161,8 +161,7 @@ open class Request {
         user: String,
         password: String,
         persistence: URLCredential.Persistence = .forSession)
-        -> Self
-    {
+        -> Self {
         let credential = URLCredential(user: user, password: password, persistence: persistence)
         return authenticate(usingCredential: credential)
     }
@@ -537,8 +536,7 @@ open class DownloadRequest: Request {
     open class func suggestedDownloadDestination(
         for directory: FileManager.SearchPathDirectory = .documentDirectory,
         in domain: FileManager.SearchPathDomainMask = .userDomainMask)
-        -> DownloadFileDestination
-    {
+        -> DownloadFileDestination {
         return { temporaryURL, response in
             let directoryURLs = FileManager.default.urls(for: directory, in: domain)
 

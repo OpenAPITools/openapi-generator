@@ -9,8 +9,6 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-
-
 open class AnotherFakeAPI {
     /**
      To test special tags
@@ -22,9 +20,9 @@ open class AnotherFakeAPI {
         let deferred = Promise<Client>.pending()
         call123testSpecialTagsWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }

@@ -21,7 +21,7 @@ import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +46,8 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         invokerPackage = "org.openapitools.controllers";
         artifactId = "openapi-inflector-server";
         dateLibrary = "legacy"; //TODO: add joda support
+        apiPackage = GlobalSettings.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
+        modelPackage = GlobalSettings.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -53,9 +55,13 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-
-        apiPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
-        modelPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
