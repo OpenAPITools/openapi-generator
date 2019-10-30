@@ -4,12 +4,12 @@
 #include "order.h"
 
 
-    char* order_status_ToString(order_status_e status){
+    char* statusorder_ToString(status_e status){
     char *statusArray[] =  { "placed","approved","delivered" };
         return statusArray[status];
     }
 
-    order_status_e order_status_FromString(char* status){
+    status_e statusorder_FromString(char* status){
     int stringToReturn = 0;
     char *statusArray[] =  { "placed","approved","delivered" };
     size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
@@ -27,7 +27,7 @@ order_t *order_create(
     long petId,
     int quantity,
     char *shipDate,
-    order_status_e status,
+    status_e status,
     int complete
     ) {
 	order_t *order_local_var = malloc(sizeof(order_t));
@@ -88,7 +88,7 @@ cJSON *order_convertToJSON(order_t *order) {
 
 	// order->status
     
-    if(cJSON_AddStringToObject(item, "status", order_status_ToString(order->status)) == NULL)
+    if(cJSON_AddStringToObject(item, "status", statusorder_ToString(order->status)) == NULL)
     {
     goto fail; //Enum
     }
@@ -152,13 +152,13 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(orderJSON, "status");
-    order_status_e statusVariable;
+    status_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
     {
     goto end; //Enum
     }
-    statusVariable = order_status_FromString(status->valuestring);
+    statusVariable = statusorder_FromString(status->valuestring);
     }
 
     // order->complete
