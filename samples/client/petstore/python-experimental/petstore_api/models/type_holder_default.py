@@ -84,7 +84,7 @@ class TypeHolderDefault(ModelNormal):
         'bool_item': (bool,),  # noqa: E501
         'date_item': (date,),  # noqa: E501
         'datetime_item': (datetime,),  # noqa: E501
-        'array_item': ([int],),  # noqa: E501
+        'array_item': (list[int],),  # noqa: E501
     }
 
     validations = {
@@ -98,7 +98,7 @@ class TypeHolderDefault(ModelNormal):
         """TypeHolderDefault - a model defined in OpenAPI
 
         Args:
-            array_item ([int]):
+            array_item (list[int]):
 
         Keyword Args:
             string_item (str): defaults to 'what', must be one of ['what']  # noqa: E501
@@ -299,7 +299,7 @@ class TypeHolderDefault(ModelNormal):
         """Gets the array_item of this TypeHolderDefault.  # noqa: E501
 
         Returns:
-            ([int]): The array_item of this TypeHolderDefault.  # noqa: E501
+            (list[int]): The array_item of this TypeHolderDefault.  # noqa: E501
         """
         return self.__get_item('array_item')
 

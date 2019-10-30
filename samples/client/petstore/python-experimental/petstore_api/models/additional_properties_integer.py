@@ -78,7 +78,7 @@ class AdditionalPropertiesInteger(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = (int,)  # noqa: E501
+    additional_properties_type = None
 
     discriminator = None
 

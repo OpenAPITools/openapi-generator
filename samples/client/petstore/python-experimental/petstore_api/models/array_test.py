@@ -36,7 +36,7 @@ from petstore_api.model_utils import (  # noqa: F401
     type_error_message,
     validate_and_convert_types
 )
-from petstore_api.models.read_only_first import ReadOnlyFirst
+ReadOnlyFirst
 
 
 class ArrayTest(ModelNormal):
@@ -75,9 +75,9 @@ class ArrayTest(ModelNormal):
     }
 
     openapi_types = {
-        'array_of_string': ([str],),  # noqa: E501
-        'array_array_of_integer': ([[int]],),  # noqa: E501
-        'array_array_of_model': ([[ReadOnlyFirst]],),  # noqa: E501
+        'array_of_string': (list[str],),  # noqa: E501
+        'array_array_of_integer': (list[list[int]],),  # noqa: E501
+        'array_array_of_model': (list[list[ReadOnlyFirst]],),  # noqa: E501
     }
 
     validations = {
@@ -105,9 +105,9 @@ class ArrayTest(ModelNormal):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
-            array_of_string ([str]): [optional]  # noqa: E501
-            array_array_of_integer ([[int]]): [optional]  # noqa: E501
-            array_array_of_model ([[ReadOnlyFirst]]): [optional]  # noqa: E501
+            array_of_string (list[str]): [optional]  # noqa: E501
+            array_array_of_integer (list[list[int]]): [optional]  # noqa: E501
+            array_array_of_model (list[list[ReadOnlyFirst]]): [optional]  # noqa: E501
         """
         self._data_store = {}
         self._check_type = _check_type
@@ -192,7 +192,7 @@ class ArrayTest(ModelNormal):
         """Gets the array_of_string of this ArrayTest.  # noqa: E501
 
         Returns:
-            ([str]): The array_of_string of this ArrayTest.  # noqa: E501
+            (list[str]): The array_of_string of this ArrayTest.  # noqa: E501
         """
         return self.__get_item('array_of_string')
 
@@ -207,7 +207,7 @@ class ArrayTest(ModelNormal):
         """Gets the array_array_of_integer of this ArrayTest.  # noqa: E501
 
         Returns:
-            ([[int]]): The array_array_of_integer of this ArrayTest.  # noqa: E501
+            (list[list[int]]): The array_array_of_integer of this ArrayTest.  # noqa: E501
         """
         return self.__get_item('array_array_of_integer')
 
@@ -222,7 +222,7 @@ class ArrayTest(ModelNormal):
         """Gets the array_array_of_model of this ArrayTest.  # noqa: E501
 
         Returns:
-            ([[ReadOnlyFirst]]): The array_array_of_model of this ArrayTest.  # noqa: E501
+            (list[list[ReadOnlyFirst]]): The array_array_of_model of this ArrayTest.  # noqa: E501
         """
         return self.__get_item('array_array_of_model')
 

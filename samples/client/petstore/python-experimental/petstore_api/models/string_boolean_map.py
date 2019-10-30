@@ -76,7 +76,7 @@ class StringBooleanMap(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = (bool,)  # noqa: E501
+    additional_properties_type = None
 
     discriminator = None
 

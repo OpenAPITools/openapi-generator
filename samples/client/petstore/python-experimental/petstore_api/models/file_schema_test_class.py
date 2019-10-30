@@ -36,7 +36,7 @@ from petstore_api.model_utils import (  # noqa: F401
     type_error_message,
     validate_and_convert_types
 )
-from petstore_api.models.file import File
+File
 
 
 class FileSchemaTestClass(ModelNormal):
@@ -75,7 +75,7 @@ class FileSchemaTestClass(ModelNormal):
 
     openapi_types = {
         'file': (File,),  # noqa: E501
-        'files': ([File],),  # noqa: E501
+        'files': (list[File],),  # noqa: E501
     }
 
     validations = {
@@ -104,7 +104,7 @@ class FileSchemaTestClass(ModelNormal):
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
             file (File): [optional]  # noqa: E501
-            files ([File]): [optional]  # noqa: E501
+            files (list[File]): [optional]  # noqa: E501
         """
         self._data_store = {}
         self._check_type = _check_type
@@ -204,7 +204,7 @@ class FileSchemaTestClass(ModelNormal):
         """Gets the files of this FileSchemaTestClass.  # noqa: E501
 
         Returns:
-            ([File]): The files of this FileSchemaTestClass.  # noqa: E501
+            (list[File]): The files of this FileSchemaTestClass.  # noqa: E501
         """
         return self.__get_item('files')
 

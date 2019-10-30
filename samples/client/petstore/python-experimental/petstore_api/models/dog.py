@@ -36,6 +36,8 @@ from petstore_api.model_utils import (  # noqa: F401
     type_error_message,
     validate_and_convert_types
 )
+Animal
+DogAllOf
 
 
 class Dog(ModelNormal):

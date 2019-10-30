@@ -82,17 +82,17 @@ class AdditionalPropertiesClass(ModelNormal):
     }
 
     openapi_types = {
-        'map_string': ({str: (str,)},),  # noqa: E501
-        'map_number': ({str: (float,)},),  # noqa: E501
-        'map_integer': ({str: (int,)},),  # noqa: E501
-        'map_boolean': ({str: (bool,)},),  # noqa: E501
-        'map_array_integer': ({str: ([int],)},),  # noqa: E501
-        'map_array_anytype': ({str: ([bool, date, datetime, dict, float, int, list, str],)},),  # noqa: E501
-        'map_map_string': ({str: ({str: (str,)},)},),  # noqa: E501
-        'map_map_anytype': ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)},),  # noqa: E501
-        'anytype_1': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
-        'anytype_2': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
-        'anytype_3': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+        'map_string': (dict(str, str),),  # noqa: E501
+        'map_number': (dict(str, float),),  # noqa: E501
+        'map_integer': (dict(str, int),),  # noqa: E501
+        'map_boolean': (dict(str, bool),),  # noqa: E501
+        'map_array_integer': (dict(str, list[int]),),  # noqa: E501
+        'map_array_anytype': (dict(str, list[object]),),  # noqa: E501
+        'map_map_string': (dict(str, dict(str, str)),),  # noqa: E501
+        'map_map_anytype': (dict(str, dict(str, object)),),  # noqa: E501
+        'anytype_1': (object,),  # noqa: E501
+        'anytype_2': (object,),  # noqa: E501
+        'anytype_3': (object,),  # noqa: E501
     }
 
     validations = {
@@ -120,17 +120,17 @@ class AdditionalPropertiesClass(ModelNormal):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
-            map_string ({str: (str,)}): [optional]  # noqa: E501
-            map_number ({str: (float,)}): [optional]  # noqa: E501
-            map_integer ({str: (int,)}): [optional]  # noqa: E501
-            map_boolean ({str: (bool,)}): [optional]  # noqa: E501
-            map_array_integer ({str: ([int],)}): [optional]  # noqa: E501
-            map_array_anytype ({str: ([bool, date, datetime, dict, float, int, list, str],)}): [optional]  # noqa: E501
-            map_map_string ({str: ({str: (str,)},)}): [optional]  # noqa: E501
-            map_map_anytype ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)}): [optional]  # noqa: E501
-            anytype_1 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
-            anytype_2 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
-            anytype_3 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
+            map_string (dict(str, str)): [optional]  # noqa: E501
+            map_number (dict(str, float)): [optional]  # noqa: E501
+            map_integer (dict(str, int)): [optional]  # noqa: E501
+            map_boolean (dict(str, bool)): [optional]  # noqa: E501
+            map_array_integer (dict(str, list[int])): [optional]  # noqa: E501
+            map_array_anytype (dict(str, list[object])): [optional]  # noqa: E501
+            map_map_string (dict(str, dict(str, str))): [optional]  # noqa: E501
+            map_map_anytype (dict(str, dict(str, object))): [optional]  # noqa: E501
+            anytype_1 (object): [optional]  # noqa: E501
+            anytype_2 (object): [optional]  # noqa: E501
+            anytype_3 (object): [optional]  # noqa: E501
         """
         self._data_store = {}
         self._check_type = _check_type
@@ -215,7 +215,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the map_string of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            ({str: (str,)}): The map_string of this AdditionalPropertiesClass.  # noqa: E501
+            (dict(str, str)): The map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('map_string')
 
@@ -230,7 +230,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the map_number of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            ({str: (float,)}): The map_number of this AdditionalPropertiesClass.  # noqa: E501
+            (dict(str, float)): The map_number of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('map_number')
 
@@ -245,7 +245,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the map_integer of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            ({str: (int,)}): The map_integer of this AdditionalPropertiesClass.  # noqa: E501
+            (dict(str, int)): The map_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('map_integer')
 
@@ -260,7 +260,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the map_boolean of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            ({str: (bool,)}): The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
+            (dict(str, bool)): The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('map_boolean')
 
@@ -275,7 +275,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            ({str: ([int],)}): The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
+            (dict(str, list[int])): The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('map_array_integer')
 
@@ -290,7 +290,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            ({str: ([bool, date, datetime, dict, float, int, list, str],)}): The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
+            (dict(str, list[object])): The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('map_array_anytype')
 
@@ -305,7 +305,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the map_map_string of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            ({str: ({str: (str,)},)}): The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
+            (dict(str, dict(str, str))): The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('map_map_string')
 
@@ -320,7 +320,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)}): The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
+            (dict(str, dict(str, object))): The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('map_map_anytype')
 
@@ -335,7 +335,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            (bool, date, datetime, dict, float, int, list, str): The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
+            (object): The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('anytype_1')
 
@@ -350,7 +350,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            (bool, date, datetime, dict, float, int, list, str): The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
+            (object): The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('anytype_2')
 
@@ -365,7 +365,7 @@ class AdditionalPropertiesClass(ModelNormal):
         """Gets the anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            (bool, date, datetime, dict, float, int, list, str): The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
+            (object): The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('anytype_3')
 
