@@ -22,7 +22,6 @@ VERSION = "1.0.0"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil"]
-EXTRAS = {':python_version <= "2.7"': ['future']}
 
 setup(
     name=NAME,
@@ -32,7 +31,6 @@ setup(
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"],
     install_requires=REQUIRES,
-    extras_require=EXTRAS,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
     long_description="""\

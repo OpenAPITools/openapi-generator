@@ -72,7 +72,7 @@ class ArrayOfNumberOnly(ModelNormal):
     }
 
     openapi_types = {
-        'array_number': ([float],),  # noqa: E501
+        'array_number': (list[float],),  # noqa: E501
     }
 
     validations = {
@@ -100,7 +100,7 @@ class ArrayOfNumberOnly(ModelNormal):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
-            array_number ([float]): [optional]  # noqa: E501
+            array_number (list[float]): [optional]  # noqa: E501
         """
         self._data_store = {}
         self._check_type = _check_type
@@ -185,7 +185,7 @@ class ArrayOfNumberOnly(ModelNormal):
         """Gets the array_number of this ArrayOfNumberOnly.  # noqa: E501
 
         Returns:
-            ([float]): The array_number of this ArrayOfNumberOnly.  # noqa: E501
+            (list[float]): The array_number of this ArrayOfNumberOnly.  # noqa: E501
         """
         return self.__get_item('array_number')
 

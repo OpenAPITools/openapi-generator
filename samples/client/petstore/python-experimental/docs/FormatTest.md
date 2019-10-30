@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
 **string** | **str** |  | [optional] 
-**binary** | **file_type** |  | [optional] 
+**binary** | **file** |  | [optional] 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 
 

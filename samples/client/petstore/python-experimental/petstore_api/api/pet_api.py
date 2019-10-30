@@ -277,7 +277,7 @@ class PetApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param [str] status: Status values that need to be considered for filter (required)
+            :param list[str] status: Status values that need to be considered for filter (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -296,7 +296,7 @@ class PetApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: [Pet]
+            :return: list[Pet]
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -324,7 +324,7 @@ class PetApi(object):
 
         self.find_pets_by_status = Endpoint(
             settings={
-                'response_type': ([Pet],),
+                'response_type': (list[Pet],),
                 'auth': [
                     'petstore_auth'
                 ],
@@ -360,7 +360,7 @@ class PetApi(object):
                     },
                 },
                 'openapi_types': {
-                    'status': ([str],),
+                    'status': (list[str],),
                 },
                 'attribute_map': {
                     'status': 'status',
@@ -394,7 +394,7 @@ class PetApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param [str] tags: Tags to filter by (required)
+            :param list[str] tags: Tags to filter by (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -413,7 +413,7 @@ class PetApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: [Pet]
+            :return: list[Pet]
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -441,7 +441,7 @@ class PetApi(object):
 
         self.find_pets_by_tags = Endpoint(
             settings={
-                'response_type': ([Pet],),
+                'response_type': (list[Pet],),
                 'auth': [
                     'petstore_auth'
                 ],
@@ -470,7 +470,7 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'tags': ([str],),
+                    'tags': (list[str],),
                 },
                 'attribute_map': {
                     'tags': 'tags',
@@ -838,8 +838,8 @@ class PetApi(object):
                 Default is False.
             :param int pet_id: ID of pet to update (required)
             :param str additional_metadata: Additional data to pass to server
-            :param file_type file: file to upload
-            :param [file_type] files: files to upload
+            :param file file: file to upload
+            :param list[file] files: files to upload
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -920,8 +920,8 @@ class PetApi(object):
                 'openapi_types': {
                     'pet_id': (int,),
                     'additional_metadata': (str,),
-                    'file': (file_type,),
-                    'files': ([file_type],),
+                    'file': (file,),
+                    'files': (list[file],),
                 },
                 'attribute_map': {
                     'pet_id': 'petId',
@@ -962,7 +962,7 @@ class PetApi(object):
             :param async_req bool: execute request asynchronously
                 Default is False.
             :param int pet_id: ID of pet to update (required)
-            :param file_type required_file: file to upload (required)
+            :param file required_file: file to upload (required)
             :param str additional_metadata: Additional data to pass to server
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
@@ -1044,7 +1044,7 @@ class PetApi(object):
                 },
                 'openapi_types': {
                     'pet_id': (int,),
-                    'required_file': (file_type,),
+                    'required_file': (file,),
                     'additional_metadata': (str,),
                 },
                 'attribute_map': {

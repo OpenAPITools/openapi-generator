@@ -104,31 +104,31 @@ class XmlItem(ModelNormal):
         'attribute_number': (float,),  # noqa: E501
         'attribute_integer': (int,),  # noqa: E501
         'attribute_boolean': (bool,),  # noqa: E501
-        'wrapped_array': ([int],),  # noqa: E501
+        'wrapped_array': (list[int],),  # noqa: E501
         'name_string': (str,),  # noqa: E501
         'name_number': (float,),  # noqa: E501
         'name_integer': (int,),  # noqa: E501
         'name_boolean': (bool,),  # noqa: E501
-        'name_array': ([int],),  # noqa: E501
-        'name_wrapped_array': ([int],),  # noqa: E501
+        'name_array': (list[int],),  # noqa: E501
+        'name_wrapped_array': (list[int],),  # noqa: E501
         'prefix_string': (str,),  # noqa: E501
         'prefix_number': (float,),  # noqa: E501
         'prefix_integer': (int,),  # noqa: E501
         'prefix_boolean': (bool,),  # noqa: E501
-        'prefix_array': ([int],),  # noqa: E501
-        'prefix_wrapped_array': ([int],),  # noqa: E501
+        'prefix_array': (list[int],),  # noqa: E501
+        'prefix_wrapped_array': (list[int],),  # noqa: E501
         'namespace_string': (str,),  # noqa: E501
         'namespace_number': (float,),  # noqa: E501
         'namespace_integer': (int,),  # noqa: E501
         'namespace_boolean': (bool,),  # noqa: E501
-        'namespace_array': ([int],),  # noqa: E501
-        'namespace_wrapped_array': ([int],),  # noqa: E501
+        'namespace_array': (list[int],),  # noqa: E501
+        'namespace_wrapped_array': (list[int],),  # noqa: E501
         'prefix_ns_string': (str,),  # noqa: E501
         'prefix_ns_number': (float,),  # noqa: E501
         'prefix_ns_integer': (int,),  # noqa: E501
         'prefix_ns_boolean': (bool,),  # noqa: E501
-        'prefix_ns_array': ([int],),  # noqa: E501
-        'prefix_ns_wrapped_array': ([int],),  # noqa: E501
+        'prefix_ns_array': (list[int],),  # noqa: E501
+        'prefix_ns_wrapped_array': (list[int],),  # noqa: E501
     }
 
     validations = {
@@ -160,31 +160,31 @@ class XmlItem(ModelNormal):
             attribute_number (float): [optional]  # noqa: E501
             attribute_integer (int): [optional]  # noqa: E501
             attribute_boolean (bool): [optional]  # noqa: E501
-            wrapped_array ([int]): [optional]  # noqa: E501
+            wrapped_array (list[int]): [optional]  # noqa: E501
             name_string (str): [optional]  # noqa: E501
             name_number (float): [optional]  # noqa: E501
             name_integer (int): [optional]  # noqa: E501
             name_boolean (bool): [optional]  # noqa: E501
-            name_array ([int]): [optional]  # noqa: E501
-            name_wrapped_array ([int]): [optional]  # noqa: E501
+            name_array (list[int]): [optional]  # noqa: E501
+            name_wrapped_array (list[int]): [optional]  # noqa: E501
             prefix_string (str): [optional]  # noqa: E501
             prefix_number (float): [optional]  # noqa: E501
             prefix_integer (int): [optional]  # noqa: E501
             prefix_boolean (bool): [optional]  # noqa: E501
-            prefix_array ([int]): [optional]  # noqa: E501
-            prefix_wrapped_array ([int]): [optional]  # noqa: E501
+            prefix_array (list[int]): [optional]  # noqa: E501
+            prefix_wrapped_array (list[int]): [optional]  # noqa: E501
             namespace_string (str): [optional]  # noqa: E501
             namespace_number (float): [optional]  # noqa: E501
             namespace_integer (int): [optional]  # noqa: E501
             namespace_boolean (bool): [optional]  # noqa: E501
-            namespace_array ([int]): [optional]  # noqa: E501
-            namespace_wrapped_array ([int]): [optional]  # noqa: E501
+            namespace_array (list[int]): [optional]  # noqa: E501
+            namespace_wrapped_array (list[int]): [optional]  # noqa: E501
             prefix_ns_string (str): [optional]  # noqa: E501
             prefix_ns_number (float): [optional]  # noqa: E501
             prefix_ns_integer (int): [optional]  # noqa: E501
             prefix_ns_boolean (bool): [optional]  # noqa: E501
-            prefix_ns_array ([int]): [optional]  # noqa: E501
-            prefix_ns_wrapped_array ([int]): [optional]  # noqa: E501
+            prefix_ns_array (list[int]): [optional]  # noqa: E501
+            prefix_ns_wrapped_array (list[int]): [optional]  # noqa: E501
         """
         self._data_store = {}
         self._check_type = _check_type
@@ -329,7 +329,7 @@ class XmlItem(ModelNormal):
         """Gets the wrapped_array of this XmlItem.  # noqa: E501
 
         Returns:
-            ([int]): The wrapped_array of this XmlItem.  # noqa: E501
+            (list[int]): The wrapped_array of this XmlItem.  # noqa: E501
         """
         return self.__get_item('wrapped_array')
 
@@ -404,7 +404,7 @@ class XmlItem(ModelNormal):
         """Gets the name_array of this XmlItem.  # noqa: E501
 
         Returns:
-            ([int]): The name_array of this XmlItem.  # noqa: E501
+            (list[int]): The name_array of this XmlItem.  # noqa: E501
         """
         return self.__get_item('name_array')
 
@@ -419,7 +419,7 @@ class XmlItem(ModelNormal):
         """Gets the name_wrapped_array of this XmlItem.  # noqa: E501
 
         Returns:
-            ([int]): The name_wrapped_array of this XmlItem.  # noqa: E501
+            (list[int]): The name_wrapped_array of this XmlItem.  # noqa: E501
         """
         return self.__get_item('name_wrapped_array')
 
@@ -494,7 +494,7 @@ class XmlItem(ModelNormal):
         """Gets the prefix_array of this XmlItem.  # noqa: E501
 
         Returns:
-            ([int]): The prefix_array of this XmlItem.  # noqa: E501
+            (list[int]): The prefix_array of this XmlItem.  # noqa: E501
         """
         return self.__get_item('prefix_array')
 
@@ -509,7 +509,7 @@ class XmlItem(ModelNormal):
         """Gets the prefix_wrapped_array of this XmlItem.  # noqa: E501
 
         Returns:
-            ([int]): The prefix_wrapped_array of this XmlItem.  # noqa: E501
+            (list[int]): The prefix_wrapped_array of this XmlItem.  # noqa: E501
         """
         return self.__get_item('prefix_wrapped_array')
 
@@ -584,7 +584,7 @@ class XmlItem(ModelNormal):
         """Gets the namespace_array of this XmlItem.  # noqa: E501
 
         Returns:
-            ([int]): The namespace_array of this XmlItem.  # noqa: E501
+            (list[int]): The namespace_array of this XmlItem.  # noqa: E501
         """
         return self.__get_item('namespace_array')
 
@@ -599,7 +599,7 @@ class XmlItem(ModelNormal):
         """Gets the namespace_wrapped_array of this XmlItem.  # noqa: E501
 
         Returns:
-            ([int]): The namespace_wrapped_array of this XmlItem.  # noqa: E501
+            (list[int]): The namespace_wrapped_array of this XmlItem.  # noqa: E501
         """
         return self.__get_item('namespace_wrapped_array')
 
@@ -674,7 +674,7 @@ class XmlItem(ModelNormal):
         """Gets the prefix_ns_array of this XmlItem.  # noqa: E501
 
         Returns:
-            ([int]): The prefix_ns_array of this XmlItem.  # noqa: E501
+            (list[int]): The prefix_ns_array of this XmlItem.  # noqa: E501
         """
         return self.__get_item('prefix_ns_array')
 
@@ -689,7 +689,7 @@ class XmlItem(ModelNormal):
         """Gets the prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
 
         Returns:
-            ([int]): The prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
+            (list[int]): The prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
         """
         return self.__get_item('prefix_ns_wrapped_array')
 

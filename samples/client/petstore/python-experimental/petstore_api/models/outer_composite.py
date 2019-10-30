@@ -36,7 +36,6 @@ from petstore_api.model_utils import (  # noqa: F401
     type_error_message,
     validate_and_convert_types
 )
-from petstore_api.models.outer_number import OuterNumber
 
 
 class OuterComposite(ModelNormal):

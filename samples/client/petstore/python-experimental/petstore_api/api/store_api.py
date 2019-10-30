@@ -181,7 +181,7 @@ class StoreApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: {str: (int,)}
+            :return: dict(str, int)
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -208,7 +208,7 @@ class StoreApi(object):
 
         self.get_inventory = Endpoint(
             settings={
-                'response_type': ({str: (int,)},),
+                'response_type': (dict(str, int),),
                 'auth': [
                     'api_key'
                 ],
