@@ -50,7 +50,7 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> MediaType.parse(mediaType), Serializer.gson.toJson(content, T::class.java).toRequestBody(
+            mediaType == JsonMediaType -> Serializer.gson.toJson(content, T::class.java).toRequestBody(
                 mediaType.toMediaTypeOrNull()
             )
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
