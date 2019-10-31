@@ -19,6 +19,7 @@ module {{title}}.API
   , {{title}}Backend(..)
   , create{{title}}Client
   , run{{title}}Server
+  , run{{title}}MiddlewareServer
   , run{{title}}Client
   , run{{title}}ClientWithManager
   , call{{title}}
@@ -51,6 +52,7 @@ import           GHC.Generics                       (Generic)
 import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
+import           Network.Wai                        (Middleware)
 import qualified Network.Wai.Handler.Warp           as Warp
 import           Servant                            (ServerError, serve)
 import           Servant.API
@@ -149,7 +151,7 @@ newtype {{title}}ClientError = {{title}}ClientError ClientError
 -- | Backend for {{title}}.
 -- The backend can be used both for the client and the server. The client generated from the {{title}} OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @create{{title}}Client@). Alternatively, provided
--- a backend, the API can be served using @run{{title}}Server@.
+-- a backend, the API can be served using @run{{title}}MiddlewareServer@.
 data {{title}}Backend m = {{title}}Backend
   { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-clientType}}{- ^ {{& notes}} -}{{#hasMore}}
   , {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
@@ -207,17 +209,27 @@ call{{title}} env f = do
     Right response -> pure response
 {{/apiInfo}}
 
+
 {{#apiInfo}}
+requestMiddlewareId :: Application -> Application
+requestMiddlewareId a = a
+
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}Server
+:: (MonadIO m, MonadThrow m)
+=> Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
+run{{title}}Server config backend = run{{title}}MiddlewareServer config requestMiddlewareId backend
+
+-- | Run the {{title}} server at the provided host and port.
+run{{title}}MiddlewareServer
   :: (MonadIO m, MonadThrow m)
-  => Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
-run{{title}}Server Config{..} backend = do
+  => Config -> Middleware -> {{title}}Backend (ExceptT ServerError IO) -> m ()
+run{{title}}MiddlewareServer Config{..} middleware backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
   where
     serverFromBackend {{title}}Backend{..} =
       ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{#hasMore}} :<|>

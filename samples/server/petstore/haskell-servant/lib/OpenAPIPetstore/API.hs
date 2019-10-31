@@ -19,6 +19,7 @@ module OpenAPIPetstore.API
   , OpenAPIPetstoreBackend(..)
   , createOpenAPIPetstoreClient
   , runOpenAPIPetstoreServer
+  , runOpenAPIPetstoreMiddlewareServer
   , runOpenAPIPetstoreClient
   , runOpenAPIPetstoreClientWithManager
   , callOpenAPIPetstore
@@ -51,6 +52,7 @@ import           GHC.Generics                       (Generic)
 import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
+import           Network.Wai                        (Middleware)
 import qualified Network.Wai.Handler.Warp           as Warp
 import           Servant                            (ServerError, serve)
 import           Servant.API
@@ -137,7 +139,7 @@ type OpenAPIPetstoreAPI
     =    "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] () -- 'addPet' route
     :<|> "pet" :> Capture "petId" Integer :> Header "api_key" Text :> Verb 'DELETE 200 '[JSON] () -- 'deletePet' route
     :<|> "pet" :> "findByStatus" :> QueryParam "status" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
-    :<|> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> QueryParam "maxCount" Int :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
+    :<|> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
     :<|> "pet" :> Capture "petId" Integer :> Verb 'GET 200 '[JSON] Pet -- 'getPetById' route
     :<|> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] () -- 'updatePet' route
     :<|> "pet" :> Capture "petId" Integer :> ReqBody '[FormUrlEncoded] FormUpdatePetWithForm :> Verb 'POST 200 '[JSON] () -- 'updatePetWithForm' route
@@ -171,12 +173,12 @@ newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ClientError
 -- | Backend for OpenAPIPetstore.
 -- The backend can be used both for the client and the server. The client generated from the OpenAPIPetstore OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @createOpenAPIPetstoreClient@). Alternatively, provided
--- a backend, the API can be served using @runOpenAPIPetstoreServer@.
+-- a backend, the API can be served using @runOpenAPIPetstoreMiddlewareServer@.
 data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
   { addPet :: Pet -> m (){- ^  -}
   , deletePet :: Integer -> Maybe Text -> m (){- ^  -}
   , findPetsByStatus :: Maybe [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
-  , findPetsByTags :: Maybe [Text] -> Maybe Int -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
+  , findPetsByTags :: Maybe [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
   , getPetById :: Integer -> m Pet{- ^ Returns a single pet -}
   , updatePet :: Pet -> m (){- ^  -}
   , updatePetWithForm :: Integer -> FormUpdatePetWithForm -> m (){- ^  -}
@@ -260,16 +262,26 @@ callOpenAPIPetstore env f = do
     Left err       -> throwM (OpenAPIPetstoreClientError err)
     Right response -> pure response
 
+
+requestMiddlewareId :: Application -> Application
+requestMiddlewareId a = a
+
 -- | Run the OpenAPIPetstore server at the provided host and port.
 runOpenAPIPetstoreServer
+:: (MonadIO m, MonadThrow m)
+=> Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
+runOpenAPIPetstoreServer config backend = runOpenAPIPetstoreMiddlewareServer config requestMiddlewareId backend
+
+-- | Run the OpenAPIPetstore server at the provided host and port.
+runOpenAPIPetstoreMiddlewareServer
   :: (MonadIO m, MonadThrow m)
-  => Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
-runOpenAPIPetstoreServer Config{..} backend = do
+  => Config -> Middleware -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
+runOpenAPIPetstoreMiddlewareServer Config{..} middleware backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
   where
     serverFromBackend OpenAPIPetstoreBackend{..} =
       (coerce addPet :<|>
