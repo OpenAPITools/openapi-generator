@@ -177,7 +177,12 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{/bodyParam}}
         {{/hasBodyParam}}
         {{^hasBodyParam}}
+        {{#hasFormParams}}
+        body: formData,
+        {{/hasFormParams}}
+        {{^hasFormParams}}
         body: queryParameters,
+        {{/hasFormParams}}
         {{/hasBodyParam}}
     };
 
