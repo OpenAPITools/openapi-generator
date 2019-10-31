@@ -352,7 +352,7 @@ Download https://jcenter.bintray.com/com/jcabi/jcabi-aspects/0.22.6/jcabi-aspect
 }
 </code></pre>
 <p>Lastly, create a file <code>resources/META-INF/services/org.openapitools.codegen.api.TemplatingEngineAdapter</code>, containing the full class path to the above class:</p>
-<pre><code class="hljs">org<span class="hljs-selector-class">.openapitools</span><span class="hljs-selector-class">.examples</span><span class="hljs-selector-class">.templating</span><span class="hljs-selector-class">.PebbleTemplateAdapter</span>
+<pre><code class="hljs"><span class="hljs-selector-tag">org</span><span class="hljs-selector-class">.openapitools</span><span class="hljs-selector-class">.examples</span><span class="hljs-selector-class">.templating</span><span class="hljs-selector-class">.PebbleTemplateAdapter</span>
 </code></pre>
 <p>This allows the adapter to load via ServiceLoader, and to be referenced via the identifier <code>pebble</code>. This is optional; if you don't provide the above file and contents, you'll only be able to load the engine via full class name (explained in a bit).</p>
 <p>Now, build the fatjar for this new adapter:</p>
@@ -380,11 +380,11 @@ type Generated</span><span class="hljs-template-variable">{{classname}}</span><s
 </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> item.isEnum %}</span><span class="xml">
 // TODO: enum
 </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">else</span></span> %}</span><span class="xml">
-</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> item.description is not empty %}</span><span class="xml">// </span><span class="hljs-template-variable">{{item.description}}</span><span class="xml"></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> item.description is not empty %}</span><span class="xml">// </span><span class="hljs-template-variable">{{item.description}}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">
 type </span><span class="hljs-template-variable">{{item.classname}}</span><span class="xml"> struct {
 </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">for</span></span> var <span class="hljs-keyword">in</span> item.model.vars %}</span><span class="xml">
-    </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.description is not empty %}</span><span class="xml">// </span><span class="hljs-template-variable">{{var.description}}</span><span class="xml"></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">
-    </span><span class="hljs-template-variable">{{var.name}}</span><span class="xml"> </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.isNullable %}</span><span class="xml">*</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml"></span><span class="hljs-template-variable">{{var.dataType}}</span><span class="xml"> `json:"</span><span class="hljs-template-variable">{{var.baseName}}</span><span class="xml"></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.required == false %}</span><span class="xml">,omitempty</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">"</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.withXml == true %}</span><span class="xml"> xml:"</span><span class="hljs-template-variable">{{var.baseName}}</span><span class="xml"></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.isXmlAttribute %}</span><span class="xml">,attr</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">"</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">`
+    </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.description is not empty %}</span><span class="xml">// </span><span class="hljs-template-variable">{{var.description}}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">
+    </span><span class="hljs-template-variable">{{var.name}}</span><span class="xml"> </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.isNullable %}</span><span class="xml">*</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="hljs-template-variable">{{var.dataType}}</span><span class="xml"> `json:"</span><span class="hljs-template-variable">{{var.baseName}}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.required == false %}</span><span class="xml">,omitempty</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">"</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.withXml == true %}</span><span class="xml"> xml:"</span><span class="hljs-template-variable">{{var.baseName}}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.isXmlAttribute %}</span><span class="xml">,attr</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">"</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">`
 </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endfor</span></span> %}</span><span class="xml">
 }
 </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">
@@ -410,51 +410,51 @@ type </span><span class="hljs-template-variable">{{item.classname}}</span><span 
 <h2><a class="anchor" aria-hidden="true" id="structures"></a><a href="#structures" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Structures</h2>
 <p>Aside from transforming an API document, the implementing class gets to decide how to apply the data structure to templates. We can decide which data structure to apply to which template files. You have the following structures at your disposal.</p>
 <p>Examples for the following structures will be presented using the following spec document:</p>
-<pre><code class="hljs css language-yaml"><span class="hljs-attr">  swagger:</span> <span class="hljs-string">"2.0"</span>
-<span class="hljs-attr">  info:</span>
-<span class="hljs-attr">    version:</span> <span class="hljs-string">"1.0.0"</span>
-<span class="hljs-attr">    title:</span> <span class="hljs-string">"Swagger Petstore"</span>
-<span class="hljs-attr">    description:</span> <span class="hljs-string">"A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification"</span>
-<span class="hljs-attr">    termsOfService:</span> <span class="hljs-string">"http://swagger.io/terms/"</span>
-<span class="hljs-attr">    contact:</span>
-<span class="hljs-attr">      name:</span> <span class="hljs-string">"Swagger API Team"</span>
-<span class="hljs-attr">    license:</span>
-<span class="hljs-attr">      name:</span> <span class="hljs-string">"MIT"</span>
-<span class="hljs-attr">  host:</span> <span class="hljs-string">"petstore.swagger.io"</span>
-<span class="hljs-attr">  basePath:</span> <span class="hljs-string">"/api"</span>
-<span class="hljs-attr">  schemes:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">"http"</span>
-<span class="hljs-attr">  consumes:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">"application/json"</span>
-<span class="hljs-attr">  produces:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">"application/json"</span>
-<span class="hljs-attr">  paths:</span>
+<pre><code class="hljs css language-yaml">  <span class="hljs-attr">swagger:</span> <span class="hljs-string">"2.0"</span>
+  <span class="hljs-attr">info:</span>
+    <span class="hljs-attr">version:</span> <span class="hljs-string">"1.0.0"</span>
+    <span class="hljs-attr">title:</span> <span class="hljs-string">"Swagger Petstore"</span>
+    <span class="hljs-attr">description:</span> <span class="hljs-string">"A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification"</span>
+    <span class="hljs-attr">termsOfService:</span> <span class="hljs-string">"http://swagger.io/terms/"</span>
+    <span class="hljs-attr">contact:</span>
+      <span class="hljs-attr">name:</span> <span class="hljs-string">"Swagger API Team"</span>
+    <span class="hljs-attr">license:</span>
+      <span class="hljs-attr">name:</span> <span class="hljs-string">"MIT"</span>
+  <span class="hljs-attr">host:</span> <span class="hljs-string">"petstore.swagger.io"</span>
+  <span class="hljs-attr">basePath:</span> <span class="hljs-string">"/api"</span>
+  <span class="hljs-attr">schemes:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">"http"</span>
+  <span class="hljs-attr">consumes:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">"application/json"</span>
+  <span class="hljs-attr">produces:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">"application/json"</span>
+  <span class="hljs-attr">paths:</span>
     <span class="hljs-string">/pets:</span>
-<span class="hljs-attr">      get:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">"Returns all pets from the system that the user has access to"</span>
-<span class="hljs-attr">        produces:</span>
-<span class="hljs-bullet">          -</span> <span class="hljs-string">"application/json"</span>
-<span class="hljs-attr">        responses:</span>
-          <span class="hljs-string">"200"</span><span class="hljs-string">:</span>
-<span class="hljs-attr">            description:</span> <span class="hljs-string">"A list of pets."</span>
-<span class="hljs-attr">            schema:</span>
-<span class="hljs-attr">              type:</span> <span class="hljs-string">"array"</span>
-<span class="hljs-attr">              items:</span>
+      <span class="hljs-attr">get:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">"Returns all pets from the system that the user has access to"</span>
+        <span class="hljs-attr">produces:</span>
+          <span class="hljs-bullet">-</span> <span class="hljs-string">"application/json"</span>
+        <span class="hljs-attr">responses:</span>
+          <span class="hljs-attr">"200":</span>
+            <span class="hljs-attr">description:</span> <span class="hljs-string">"A list of pets."</span>
+            <span class="hljs-attr">schema:</span>
+              <span class="hljs-attr">type:</span> <span class="hljs-string">"array"</span>
+              <span class="hljs-attr">items:</span>
                 <span class="hljs-string">$ref:</span> <span class="hljs-string">"#/definitions/Pet"</span>
-<span class="hljs-attr">  definitions:</span>
-<span class="hljs-attr">    Pet:</span>
-<span class="hljs-attr">      type:</span> <span class="hljs-string">"object"</span>
-<span class="hljs-attr">      required:</span>
-<span class="hljs-bullet">        -</span> <span class="hljs-string">"id"</span>
-<span class="hljs-bullet">        -</span> <span class="hljs-string">"name"</span>
-<span class="hljs-attr">      properties:</span>
-<span class="hljs-attr">        id:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">"integer"</span>
-<span class="hljs-attr">          format:</span> <span class="hljs-string">"int64"</span>
-<span class="hljs-attr">        name:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">"string"</span>
-<span class="hljs-attr">        tag:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">"string"</span>
+  <span class="hljs-attr">definitions:</span>
+    <span class="hljs-attr">Pet:</span>
+      <span class="hljs-attr">type:</span> <span class="hljs-string">"object"</span>
+      <span class="hljs-attr">required:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">"id"</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">"name"</span>
+      <span class="hljs-attr">properties:</span>
+        <span class="hljs-attr">id:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">"integer"</span>
+          <span class="hljs-attr">format:</span> <span class="hljs-string">"int64"</span>
+        <span class="hljs-attr">name:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">"string"</span>
+        <span class="hljs-attr">tag:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">"string"</span>
 
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="operations"></a><a href="#operations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Operations</h3>
@@ -660,11 +660,11 @@ apiTemplateFiles.put(<span class="hljs-string">"api-body.mustache"</span>, <span
       <span class="hljs-attr">"datatype"</span> : <span class="hljs-string">"string"</span>,
       <span class="hljs-attr">"iexclusiveMaximum"</span> : <span class="hljs-literal">false</span>
     } ],
-    <span class="hljs-attr">"requiredVars"</span> : [ /* id, name */ ],
-    <span class="hljs-attr">"optionalVars"</span> : [ /* tag */ ],
+    <span class="hljs-attr">"requiredVars"</span> : [ <span class="hljs-comment">/* id, name */</span> ],
+    <span class="hljs-attr">"optionalVars"</span> : [ <span class="hljs-comment">/* tag */</span> ],
     <span class="hljs-attr">"readOnlyVars"</span> : [ ],
-    <span class="hljs-attr">"readWriteVars"</span> : [ /* lists metadata for all three properties */ ],
-    <span class="hljs-attr">"allVars"</span> : [ /* lists all properties */],
+    <span class="hljs-attr">"readWriteVars"</span> : [ <span class="hljs-comment">/* lists metadata for all three properties */</span> ],
+    <span class="hljs-attr">"allVars"</span> : [ <span class="hljs-comment">/* lists all properties */</span>],
     <span class="hljs-attr">"parentVars"</span> : [ ],
     <span class="hljs-attr">"mandatory"</span> : [ <span class="hljs-string">"id"</span>, <span class="hljs-string">"name"</span> ],
     <span class="hljs-attr">"allMandatory"</span> : [ <span class="hljs-string">"id"</span>, <span class="hljs-string">"name"</span> ],
@@ -748,20 +748,20 @@ This is used for comments in the code (like javadoc if the target language is ja
 The order of the items in the list matters: their position is used to group them together.</p>
 <p>Example:</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">WeatherType:</span>
-<span class="hljs-attr">  type:</span> <span class="hljs-string">integer</span>
-<span class="hljs-attr">  format:</span> <span class="hljs-string">int32</span>
-<span class="hljs-attr">  enum:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-number">42</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-number">18</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-number">56</span>
-<span class="hljs-attr">  x-enum-descriptions:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">'Blue sky'</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">'Slightly overcast'</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">'Take an umbrella with you'</span>
-<span class="hljs-attr">  x-enum-varnames:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">Sunny</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">Cloudy</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">Rainy</span>
+  <span class="hljs-attr">type:</span> <span class="hljs-string">integer</span>
+  <span class="hljs-attr">format:</span> <span class="hljs-string">int32</span>
+  <span class="hljs-attr">enum:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-number">42</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-number">18</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-number">56</span>
+  <span class="hljs-attr">x-enum-descriptions:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">'Blue sky'</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">'Slightly overcast'</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">'Take an umbrella with you'</span>
+  <span class="hljs-attr">x-enum-varnames:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">Sunny</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">Cloudy</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">Rainy</span>
 </code></pre>
 <p>In the example for the integer value <code>42</code>, the description will be <code>Blue sky</code> and the name of the enum item will be <code>Sunny</code> (some generators changes it to <code>SUNNY</code> to respect some coding convention).</p>
 <h3><a class="anchor" aria-hidden="true" id="objc"></a><a href="#objc" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ObjC</h3>
@@ -776,15 +776,15 @@ The order of the items in the list matters: their position is used to group them
 <h4><a class="anchor" aria-hidden="true" id="x-accepts"></a><a href="#x-accepts" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>x-accepts</h4>
 <p>A single <code>Accepts</code> value as the Feign API client needs a single value for <code>Accepts</code> header, e.g.</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">consumes:</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">application/json</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">application/xml</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">application/json</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">application/xml</span>
 <span class="hljs-attr">x-accepts:</span> <span class="hljs-string">application/json</span>
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="x-content-type"></a><a href="#x-content-type" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>x-content-type</h3>
 <p>A single &quot;Content-Type&quot; value as the Feign API client needs a single value for <code>Content-Type</code> header, e.g.</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">produces:</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">application/xml</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">application/json</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">application/xml</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">application/json</span>
 <span class="hljs-attr">x-content-type:</span> <span class="hljs-string">application/json</span>
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="rust-server"></a><a href="#rust-server" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rust-server</h3>
@@ -792,52 +792,52 @@ The order of the items in the list matters: their position is used to group them
 <p>Each response may specify a unique <code>x-responseId</code>. <code>rust-server</code> will use this to name the corresponding enum variant in the code. e.g.</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">paths:</span>
   <span class="hljs-string">/ping:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      responses:</span>
-        <span class="hljs-number">200</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
-<span class="hljs-attr">          x-responseId:</span> <span class="hljs-string">Pong</span>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">200:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">OK</span>
+          <span class="hljs-attr">x-responseId:</span> <span class="hljs-string">Pong</span>
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="mysql-schema"></a><a href="#mysql-schema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MySQL Schema</h3>
 <h4><a class="anchor" aria-hidden="true" id="x-mysqlschema"></a><a href="#x-mysqlschema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>x-mysqlSchema</h4>
 <p>MySQL schema generator creates vendor extensions based on openapi <code>dataType</code> and <code>dataFormat</code>. When user defined extensions with same key already exists codegen accepts those as is. It means it won't validate properties or correct it for you. Every model in <code>definitions</code> can contain table related and column related extensions like in example below:</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">definitions:</span>
-<span class="hljs-attr">  Order:</span>
-<span class="hljs-attr">    description:</span> <span class="hljs-string">This</span> <span class="hljs-string">should</span> <span class="hljs-string">be</span> <span class="hljs-string">most</span> <span class="hljs-string">common</span> <span class="hljs-string">InnoDB</span> <span class="hljs-string">table</span>
-<span class="hljs-attr">    type:</span> <span class="hljs-string">object</span>
-<span class="hljs-attr">    properties:</span>
-<span class="hljs-attr">      id:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">&gt;-</span>
-          <span class="hljs-string">This</span> <span class="hljs-string">column</span> <span class="hljs-string">should</span> <span class="hljs-string">be</span> <span class="hljs-string">unsigned</span> <span class="hljs-string">BIGINT</span> <span class="hljs-string">with</span> <span class="hljs-string">AUTO_INCREMENT</span>
-<span class="hljs-attr">        type:</span> <span class="hljs-string">integer</span>
-<span class="hljs-attr">        format:</span> <span class="hljs-string">int64</span>
-<span class="hljs-attr">        x-mysqlSchema:</span>
-<span class="hljs-attr">          columnDefinition:</span>
-<span class="hljs-attr">            colName:</span> <span class="hljs-string">id</span>
-<span class="hljs-attr">            colDataType:</span> <span class="hljs-string">DECIMAL</span>
-<span class="hljs-attr">            colDataTypeArguments:</span>
-<span class="hljs-attr">              - argumentValue:</span> <span class="hljs-number">16</span>
-<span class="hljs-attr">                isString:</span> <span class="hljs-literal">false</span>
-<span class="hljs-attr">                hasMore:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">              - argumentValue:</span> <span class="hljs-number">4</span>
-<span class="hljs-attr">                isString:</span> <span class="hljs-literal">false</span>
-<span class="hljs-attr">                hasMore:</span> <span class="hljs-literal">false</span>
-<span class="hljs-attr">            colUnsigned:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">            colNotNull:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">            colDefault:</span>
-<span class="hljs-attr">              defaultValue:</span> <span class="hljs-string">AUTO_INCREMENT</span>
-<span class="hljs-attr">              isString:</span> <span class="hljs-literal">false</span>
-<span class="hljs-attr">              isNumeric:</span> <span class="hljs-literal">false</span>
-<span class="hljs-attr">              isKeyword:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">            colComment:</span> <span class="hljs-string">&gt;-</span>
-              <span class="hljs-string">Column</span> <span class="hljs-string">comment.</span> <span class="hljs-string">This</span> <span class="hljs-string">column</span> <span class="hljs-string">should</span> <span class="hljs-string">be</span> <span class="hljs-string">unsigned</span> <span class="hljs-string">BIGINT</span> <span class="hljs-string">with</span> <span class="hljs-string">AUTO_INCREMENT</span>
-<span class="hljs-attr">    x-mysqlSchema:</span>
-<span class="hljs-attr">      tableDefinition:</span>
-<span class="hljs-attr">        tblName:</span> <span class="hljs-string">orders</span>
-<span class="hljs-attr">        tblStorageEngine:</span> <span class="hljs-string">InnoDB</span>
-<span class="hljs-attr">        tblComment:</span> <span class="hljs-string">&gt;-</span>
-          <span class="hljs-string">Table</span> <span class="hljs-string">comment.</span> <span class="hljs-string">This</span> <span class="hljs-string">should</span> <span class="hljs-string">be</span> <span class="hljs-string">most</span> <span class="hljs-string">common</span> <span class="hljs-string">InnoDB</span> <span class="hljs-string">table</span>
-</code></pre>
+  <span class="hljs-attr">Order:</span>
+    <span class="hljs-attr">description:</span> <span class="hljs-string">This</span> <span class="hljs-string">should</span> <span class="hljs-string">be</span> <span class="hljs-string">most</span> <span class="hljs-string">common</span> <span class="hljs-string">InnoDB</span> <span class="hljs-string">table</span>
+    <span class="hljs-attr">type:</span> <span class="hljs-string">object</span>
+    <span class="hljs-attr">properties:</span>
+      <span class="hljs-attr">id:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">&gt;-
+          This column should be unsigned BIGINT with AUTO_INCREMENT
+</span>        <span class="hljs-attr">type:</span> <span class="hljs-string">integer</span>
+        <span class="hljs-attr">format:</span> <span class="hljs-string">int64</span>
+        <span class="hljs-attr">x-mysqlSchema:</span>
+          <span class="hljs-attr">columnDefinition:</span>
+            <span class="hljs-attr">colName:</span> <span class="hljs-string">id</span>
+            <span class="hljs-attr">colDataType:</span> <span class="hljs-string">DECIMAL</span>
+            <span class="hljs-attr">colDataTypeArguments:</span>
+              <span class="hljs-bullet">-</span> <span class="hljs-attr">argumentValue:</span> <span class="hljs-number">16</span>
+                <span class="hljs-attr">isString:</span> <span class="hljs-literal">false</span>
+                <span class="hljs-attr">hasMore:</span> <span class="hljs-literal">true</span>
+              <span class="hljs-bullet">-</span> <span class="hljs-attr">argumentValue:</span> <span class="hljs-number">4</span>
+                <span class="hljs-attr">isString:</span> <span class="hljs-literal">false</span>
+                <span class="hljs-attr">hasMore:</span> <span class="hljs-literal">false</span>
+            <span class="hljs-attr">colUnsigned:</span> <span class="hljs-literal">true</span>
+            <span class="hljs-attr">colNotNull:</span> <span class="hljs-literal">true</span>
+            <span class="hljs-attr">colDefault:</span>
+              <span class="hljs-attr">defaultValue:</span> <span class="hljs-string">AUTO_INCREMENT</span>
+              <span class="hljs-attr">isString:</span> <span class="hljs-literal">false</span>
+              <span class="hljs-attr">isNumeric:</span> <span class="hljs-literal">false</span>
+              <span class="hljs-attr">isKeyword:</span> <span class="hljs-literal">true</span>
+            <span class="hljs-attr">colComment:</span> <span class="hljs-string">&gt;-
+              Column comment. This column should be unsigned BIGINT with AUTO_INCREMENT
+</span>    <span class="hljs-attr">x-mysqlSchema:</span>
+      <span class="hljs-attr">tableDefinition:</span>
+        <span class="hljs-attr">tblName:</span> <span class="hljs-string">orders</span>
+        <span class="hljs-attr">tblStorageEngine:</span> <span class="hljs-string">InnoDB</span>
+        <span class="hljs-attr">tblComment:</span> <span class="hljs-string">&gt;-
+          Table comment. This should be most common InnoDB table
+</span></code></pre>
 <blockquote>
 <p>There are properties that are not implemented by now(<code>tblStorageEngine</code>), but you can see how generator can be enhanced in future.</p>
 </blockquote>
@@ -846,8 +846,8 @@ The order of the items in the list matters: their position is used to group them
 For more details on Mustache see <a href="https://mustache.github.io/mustache.5.html">mustache.5</a>. See also <a href="https://github.com/samskivert/jmustache">samskivert/jmustache</a> for implementation-specific details.</p>
 <h3><a class="anchor" aria-hidden="true" id="first-last"></a><a href="#first-last" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>First/Last</h3>
 <p>To access the first or last element in a list using Mustache:</p>
-<pre><code class="hljs css language-mustache"><span class="xml"></span><span class="hljs-template-tag">{{#<span class="hljs-name">vars</span>}}</span><span class="xml"></span><span class="hljs-template-tag">{{#<span class="hljs-name">-first</span>}}</span><span class="xml"> this is the first element </span><span class="hljs-template-variable">{{.}}</span><span class="xml"> </span><span class="hljs-template-tag">{{/<span class="hljs-name">-first</span>}}</span><span class="xml"></span><span class="hljs-template-tag">{{/<span class="hljs-name">vars</span>}}</span><span class="xml">
-</span><span class="hljs-template-tag">{{#<span class="hljs-name">vars</span>}}</span><span class="xml"></span><span class="hljs-template-tag">{{#<span class="hljs-name">-last</span>}}</span><span class="xml"> this is the last element </span><span class="hljs-template-variable">{{.}}</span><span class="xml"> </span><span class="hljs-template-tag">{{/<span class="hljs-name">-last</span>}}</span><span class="xml"></span><span class="hljs-template-tag">{{/<span class="hljs-name">vars</span>}}</span><span class="xml">
+<pre><code class="hljs css language-mustache"><span class="hljs-template-tag">{{#<span class="hljs-name">vars</span>}}</span><span class="hljs-template-tag">{{#-<span class="hljs-name">first</span>}}</span><span class="xml"> this is the first element </span><span class="hljs-template-variable">{{.}}</span><span class="xml"> </span><span class="hljs-template-tag">{{/-<span class="hljs-name">first</span>}}</span><span class="hljs-template-tag">{{/<span class="hljs-name">vars</span>}}</span><span class="xml">
+</span><span class="hljs-template-tag">{{#<span class="hljs-name">vars</span>}}</span><span class="hljs-template-tag">{{#-<span class="hljs-name">last</span>}}</span><span class="xml"> this is the last element </span><span class="hljs-template-variable">{{.}}</span><span class="xml"> </span><span class="hljs-template-tag">{{/-<span class="hljs-name">last</span>}}</span><span class="hljs-template-tag">{{/<span class="hljs-name">vars</span>}}</span><span class="xml">
 </span></code></pre>
 <h3><a class="anchor" aria-hidden="true" id="this"></a><a href="#this" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>This</h3>
 <p>Mustache evaluates template variables contextually. If the variable isn't found in the immediate object, mustache will search the parent. This is similar to JavaScript's prototype object (if you're familiar with the concept).</p>

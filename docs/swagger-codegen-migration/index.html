@@ -203,53 +203,53 @@ Concretely if you did not specify anything when you are generating java code, a 
 <p>OpenAPI Spec v3:</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">paths:</span>
   <span class="hljs-string">/pet:</span>
-<span class="hljs-attr">    post:</span>
-<span class="hljs-attr">      tags:</span>
-<span class="hljs-bullet">        -</span> <span class="hljs-string">pet</span>
-<span class="hljs-attr">      summary:</span> <span class="hljs-string">Add</span> <span class="hljs-string">a</span> <span class="hljs-string">new</span> <span class="hljs-string">pet</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">store</span>
-<span class="hljs-attr">      description:</span> <span class="hljs-string">''</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">addPet</span>
-<span class="hljs-attr">      x-codegen-request-body-name:</span> <span class="hljs-string">new_body_name</span>
-<span class="hljs-attr">      responses:</span>
-        <span class="hljs-string">'405'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Invalid</span> <span class="hljs-string">input</span>
-<span class="hljs-attr">      security:</span>
-<span class="hljs-attr">        - petstore_auth:</span>
-<span class="hljs-bullet">            -</span> <span class="hljs-string">'write:pets'</span>
-<span class="hljs-bullet">            -</span> <span class="hljs-string">'read:pets'</span>
-<span class="hljs-attr">      requestBody:</span>
+    <span class="hljs-attr">post:</span>
+      <span class="hljs-attr">tags:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">pet</span>
+      <span class="hljs-attr">summary:</span> <span class="hljs-string">Add</span> <span class="hljs-string">a</span> <span class="hljs-string">new</span> <span class="hljs-string">pet</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">store</span>
+      <span class="hljs-attr">description:</span> <span class="hljs-string">''</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">addPet</span>
+      <span class="hljs-attr">x-codegen-request-body-name:</span> <span class="hljs-string">new_body_name</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">'405':</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Invalid</span> <span class="hljs-string">input</span>
+      <span class="hljs-attr">security:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-attr">petstore_auth:</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">'write:pets'</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">'read:pets'</span>
+      <span class="hljs-attr">requestBody:</span>
         <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/requestBodies/Pet'</span>
 </code></pre>
 <p>OpenAPI Spec v2:</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">paths:</span>
   <span class="hljs-string">/pet:</span>
-<span class="hljs-attr">    post:</span>
-<span class="hljs-attr">      tags:</span>
-<span class="hljs-bullet">        -</span> <span class="hljs-string">pet</span>
-<span class="hljs-attr">      summary:</span> <span class="hljs-string">Add</span> <span class="hljs-string">a</span> <span class="hljs-string">new</span> <span class="hljs-string">pet</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">store</span>
-<span class="hljs-attr">      description:</span> <span class="hljs-string">''</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">addPet</span>
-<span class="hljs-attr">      x-codegen-request-body-name:</span> <span class="hljs-string">new_body_name</span>
-<span class="hljs-attr">      consumes:</span>
-<span class="hljs-bullet">        -</span> <span class="hljs-string">application/json</span>
-<span class="hljs-bullet">        -</span> <span class="hljs-string">application/xml</span>
-<span class="hljs-attr">      produces:</span>
-<span class="hljs-bullet">        -</span> <span class="hljs-string">application/xml</span>
-<span class="hljs-bullet">        -</span> <span class="hljs-string">application/json</span>
-<span class="hljs-attr">      parameters:</span>
-<span class="hljs-attr">        - in:</span> <span class="hljs-string">body</span>
-<span class="hljs-attr">          name:</span> <span class="hljs-string">body</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Pet</span> <span class="hljs-string">object</span> <span class="hljs-string">that</span> <span class="hljs-string">needs</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">added</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">store</span>
-<span class="hljs-attr">          required:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">          schema:</span>
+    <span class="hljs-attr">post:</span>
+      <span class="hljs-attr">tags:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">pet</span>
+      <span class="hljs-attr">summary:</span> <span class="hljs-string">Add</span> <span class="hljs-string">a</span> <span class="hljs-string">new</span> <span class="hljs-string">pet</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">store</span>
+      <span class="hljs-attr">description:</span> <span class="hljs-string">''</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">addPet</span>
+      <span class="hljs-attr">x-codegen-request-body-name:</span> <span class="hljs-string">new_body_name</span>
+      <span class="hljs-attr">consumes:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">application/json</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">application/xml</span>
+      <span class="hljs-attr">produces:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">application/xml</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">application/json</span>
+      <span class="hljs-attr">parameters:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-attr">in:</span> <span class="hljs-string">body</span>
+          <span class="hljs-attr">name:</span> <span class="hljs-string">body</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Pet</span> <span class="hljs-string">object</span> <span class="hljs-string">that</span> <span class="hljs-string">needs</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">added</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">store</span>
+          <span class="hljs-attr">required:</span> <span class="hljs-literal">true</span>
+          <span class="hljs-attr">schema:</span>
             <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/definitions/Pet'</span>
-<span class="hljs-attr">      responses:</span>
-        <span class="hljs-string">'405'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Invalid</span> <span class="hljs-string">input</span>
-<span class="hljs-attr">      security:</span>
-<span class="hljs-attr">        - petstore_auth:</span>
-<span class="hljs-bullet">            -</span> <span class="hljs-string">'write:pets'</span>
-<span class="hljs-bullet">            -</span> <span class="hljs-string">'read:pets'</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">'405':</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Invalid</span> <span class="hljs-string">input</span>
+      <span class="hljs-attr">security:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-attr">petstore_auth:</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">'write:pets'</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">'read:pets'</span>
 </code></pre>
 <p>If your API client is using named parameters in the function call (e.g. Perl required &amp; optional parameters, Ruby optional parameters), you will need to add <code>x-codegen-request-body-name</code> to the spec to restore the original body parameter name.</p>
 <h2><a class="anchor" aria-hidden="true" id="default-basepath"></a><a href="#default-basepath" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Default basePath</h2>

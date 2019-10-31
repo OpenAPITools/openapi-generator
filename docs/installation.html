@@ -125,7 +125,7 @@ You'll then need to output the generated code to this mapped volume. Everything 
 <pre><code class="hljs css language-bash">wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.3.4/openapi-generator-cli-3.3.4.jar -O openapi-generator-cli.jar
 </code></pre>
 <p>For <strong>Windows</strong> users, you will need to install <a href="http://gnuwin32.sourceforge.net/packages/wget.htm">wget</a> or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.</p>
-<pre><code class="hljs">Invoke-WebRequest -OutFile openapi-generator-<span class="hljs-keyword">cli</span>.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-<span class="hljs-keyword">cli</span>/<span class="hljs-number">3.3</span><span class="hljs-meta">.4</span>/openapi-generator-<span class="hljs-keyword">cli</span>-<span class="hljs-number">3.3</span><span class="hljs-meta">.4</span>.jar
+<pre><code class="hljs">Invoke-WebRequest -OutFile openapi-generator-<span class="hljs-keyword">cli</span>.jar http://central.maven<span class="hljs-meta">.org</span>/maven2/org/openapitools/openapi-generator-<span class="hljs-keyword">cli</span>/<span class="hljs-number">3.3</span><span class="hljs-number">.4</span>/openapi-generator-<span class="hljs-keyword">cli</span><span class="hljs-number">-3.3</span><span class="hljs-number">.4</span>.jar
 </code></pre>
 <p>After downloading the JAR, run <code>java -jar openapi-generator-cli.jar help</code> to show the usage.</p>
 <p>For Mac users, please make sure Java 8 is installed (Tips: run <code>java -version</code> to check the version), and export <code>JAVA_HOME</code> in order to use the supported Java version:</p>

@@ -110,7 +110,7 @@
 <pre><code class="hljs"><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">JAVA_OPTS</span>=<span class="hljs-string">"<span class="hljs-variable">${JAVA_OPTS}</span> -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"</span>
 </code></pre></li>
 <li>Execute the generator with your desired options. You should see the application output <em>only</em>
-<pre><code class="hljs">Listening <span class="hljs-keyword">for</span> transport dt_socket at <span class="hljs-selector-tag">address</span>: <span class="hljs-number">5005</span>
+<pre><code class="hljs"><span class="hljs-type">Listening</span> for trans<span class="hljs-keyword">port</span> dt_socket at address: 5005
 </code></pre></li>
 <li>Set breakpoints in code, and then attach your remote debugger from your IDE (see above). The generator will automatically unblock once the remote debugger is attached. You can now step through the code.</li>
 </ul>
