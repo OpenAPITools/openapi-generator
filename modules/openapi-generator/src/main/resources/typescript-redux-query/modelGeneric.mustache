@@ -14,7 +14,7 @@ import {
  * @export
  * @interface {{classname}}
  */
-export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+export interface {{classname}} {{#allParents.0}}extends{{#allParents}} {{{.}}}{{^-last}},{{/-last}}{{/allParents}}{{/allParents.0}} {
 {{#additionalPropertiesType}}
     [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
 {{/additionalPropertiesType}}
@@ -31,9 +31,9 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 export function {{classname}}FromJSON(json: any): {{classname}} {
     {{#hasVars}}
     return {
-        {{#parent}}
-            ...{{parent}}FromJSON(json),
-        {{/parent}}
+        {{#allParents}}
+        ...{{.}}FromJSON(json),
+        {{/allParents}}
         {{#additionalPropertiesType}}
             ...json,
         {{/additionalPropertiesType}}
@@ -83,9 +83,9 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         return undefined;
     }
     return {
-        {{#parent}}
-            ...{{parent}}ToJSON(value),
-        {{/parent}}
+        {{#allParents}}
+        ...{{.}}ToJSON(value),
+        {{/allParents}}
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}

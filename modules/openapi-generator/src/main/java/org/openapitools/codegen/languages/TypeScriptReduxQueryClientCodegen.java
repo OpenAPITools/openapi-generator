@@ -47,6 +47,8 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         // at the moment
         importMapping.clear();
 
+        supportsMultipleInheritance = true;
+
         outputFolder = "generated-code/typescript-redux-query";
         embeddedTemplateDir = templateDir = "typescript-redux-query";
 
