@@ -62,6 +62,7 @@ import           Servant.Client                     (ClientEnv, Scheme (Http), C
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
 import           Servant.Server                     (Handler (..))
+import           Servant.Server.StaticFiles         (serveDirectoryFileServer)
 import           Web.FormUrlEncoded
 import           Web.HttpApiData
 
@@ -156,6 +157,7 @@ type OpenAPIPetstoreAPI
     :<|> "user" :> "login" :> QueryParam "username" Text :> QueryParam "password" Text :> Verb 'GET 200 '[JSON] Text -- 'loginUser' route
     :<|> "user" :> "logout" :> Verb 'GET 200 '[JSON] () -- 'logoutUser' route
     :<|> "user" :> Capture "username" Text :> ReqBody '[JSON] User :> Verb 'PUT 200 '[JSON] () -- 'updateUser' route
+    :<|> Raw 
 
 
 -- | Server or client configuration, specifying the host and port to query or serve on.
@@ -237,7 +239,8 @@ createOpenAPIPetstoreClient = OpenAPIPetstoreBackend{..}
      (coerce -> getUserByName) :<|>
      (coerce -> loginUser) :<|>
      (coerce -> logoutUser) :<|>
-     (coerce -> updateUser)) = client (Proxy :: Proxy OpenAPIPetstoreAPI)
+     (coerce -> updateUser) :<|>
+     _) = client (Proxy :: Proxy OpenAPIPetstoreAPI)
 
 -- | Run requests in the OpenAPIPetstoreClient monad.
 runOpenAPIPetstoreClient :: Config -> OpenAPIPetstoreClient a -> ExceptT ClientError IO a
@@ -303,4 +306,5 @@ runOpenAPIPetstoreMiddlewareServer Config{..} middleware backend = do
        coerce getUserByName :<|>
        coerce loginUser :<|>
        coerce logoutUser :<|>
-       coerce updateUser)
+       coerce updateUser :<|>
+       serveDirectoryFileServer "static")
