@@ -541,9 +541,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "default.service";
         }
-        if (importMapping.containsKey(name)) {
-            return importMapping.get(name);
-        }
         return this.convertUsingFileNamingConvention(name) + serviceFileSuffix;
     }
 
