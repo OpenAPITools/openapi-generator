@@ -37,11 +37,11 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
+    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#paramNameAlternative}}: {{paramNameAlternative}}{{/paramNameAlternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
         {{#hasParams}}
         {{#allParams}}
         {{#required}}
-        throwIfNullOrUndefined({{paramName}}, '{{nickname}}');
+        throwIfNullOrUndefined({{paramNameOrAlternative}}, '{{nickname}}');
         {{/required}}
         {{/allParams}}
 
@@ -58,10 +58,10 @@ export class {{classname}} extends BaseAPI {
             {{/bodyParam}}
             {{#headerParams}}
             {{#isListContainer}}
-            ...({{paramName}} != null ? { '{{baseName}}': {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) } : undefined),
+            ...({{paramNameOrAlternative}} != null ? { '{{baseName}}': {{paramNameOrAlternative}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) } : undefined),
             {{/isListContainer}}
             {{^isListContainer}}
-            ...({{paramName}} != null ? { '{{baseName}}': String({{paramName}}) } : undefined),
+            ...({{paramNameOrAlternative}} != null ? { '{{baseName}}': String({{paramNameOrAlternative}}) } : undefined),
             {{/isListContainer}}
             {{/headerParams}}
             {{#authMethods}}
@@ -96,22 +96,22 @@ export class {{classname}} extends BaseAPI {
             {{#required}}
             {{#isListContainer}}
             {{#isCollectionFormatMulti}}
-            '{{baseName}}': {{paramName}},
+            '{{baseName}}': {{paramNameOrAlternative}},
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            '{{baseName}}': {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']),
+            '{{baseName}}': {{paramNameOrAlternative}}.join(COLLECTION_FORMATS['{{collectionFormat}}']),
             {{/isCollectionFormatMulti}}
             {{/isListContainer}}
             {{^isListContainer}}
             {{#isDateTime}}
-            '{{baseName}}': ({{paramName}} as any).toISOString(),
+            '{{baseName}}': ({{paramNameOrAlternative}} as any).toISOString(),
             {{/isDateTime}}
             {{^isDateTime}}
             {{#isDate}}
-            '{{baseName}}': ({{paramName}} as any).toISOString(),
+            '{{baseName}}': ({{paramNameOrAlternative}} as any).toISOString(),
             {{/isDate}}
             {{^isDate}}
-            '{{baseName}}': {{paramName}},
+            '{{baseName}}': {{paramNameOrAlternative}},
             {{/isDate}}
             {{/isDateTime}}
             {{/isListContainer}}
@@ -125,22 +125,22 @@ export class {{classname}} extends BaseAPI {
         {{^required}}
         {{#isListContainer}}
         {{#isCollectionFormatMulti}}
-        if ({{paramName}} != null) { query['{{baseName}}'] = {{paramName}}; }
+        if ({{paramNameOrAlternative}} != null) { query['{{baseName}}'] = {{paramNameOrAlternative}}; }
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-        if ({{paramName}} != null) { query['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']); }
+        if ({{paramNameOrAlternative}} != null) { query['{{baseName}}'] = {{paramNameOrAlternative}}.join(COLLECTION_FORMATS['{{collectionFormat}}']); }
         {{/isCollectionFormatMulti}}
         {{/isListContainer}}
         {{^isListContainer}}
         {{#isDateTime}}
-        if ({{paramName}} != null) { query['{{baseName}}'] = ({{paramName}} as any).toISOString(); }
+        if ({{paramNameOrAlternative}} != null) { query['{{baseName}}'] = ({{paramNameOrAlternative}} as any).toISOString(); }
         {{/isDateTime}}
         {{^isDateTime}}
         {{#isDate}}
-        if ({{paramName}} != null) { query['{{baseName}}'] = ({{paramName}} as any).toISOString(); }
+        if ({{paramNameOrAlternative}} != null) { query['{{baseName}}'] = ({{paramNameOrAlternative}} as any).toISOString(); }
         {{/isDate}}
         {{^isDate}}
-        if ({{paramName}} != null) { query['{{baseName}}'] = {{paramName}}; }
+        if ({{paramNameOrAlternative}} != null) { query['{{baseName}}'] = {{paramNameOrAlternative}}; }
         {{/isDate}}
         {{/isDateTime}}
         {{/isListContainer}}
@@ -160,24 +160,24 @@ export class {{classname}} extends BaseAPI {
         const formData = new FormData();
         {{#formParams}}
         {{#isListContainer}}
-        if ({{paramName}} !== undefined) {
+        if ({{paramNameOrAlternative}} !== undefined) {
             {{#isCollectionFormatMulti}}
-            {{paramName}}.forEach((element) => formData.append('{{baseName}}', element as any))
+            {{paramNameOrAlternative}}.forEach((element) => formData.append('{{baseName}}', element as any))
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formData.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            formData.append('{{baseName}}', {{paramNameOrAlternative}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
             {{/isCollectionFormatMulti}}
         }
 
         {{/isListContainer}}
         {{^isListContainer}}
-        if ({{paramName}} !== undefined) { formData.append('{{baseName}}', {{paramName}} as any); }
+        if ({{paramNameOrAlternative}} !== undefined) { formData.append('{{baseName}}', {{paramNameOrAlternative}} as any); }
         {{/isListContainer}}
         {{/formParams}}
 
         {{/hasFormParams}}
         return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
-            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI({{paramName}})){{/pathParams}},
+            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI({{paramNameOrAlternative}})){{/pathParams}},
             method: '{{httpMethod}}',
             {{#hasHttpHeaders}}
             headers,
