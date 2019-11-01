@@ -81,7 +81,9 @@ open class ApiClient(val baseUrl: String) {
             }
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = "Bearer " + accessToken
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer " + accessToken
+            }
         }
     }
 

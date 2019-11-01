@@ -585,43 +585,42 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->AddPet");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json", 
                 "application/xml"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
-
-            var response = this.Client.Post<Object>("/pet", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Object>("/pet", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("AddPet", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("AddPet", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -649,43 +648,43 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->AddPet");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json", 
                 "application/xml"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<Object>("/pet", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/pet", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("AddPet", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("AddPet", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -713,44 +712,43 @@ namespace Org.OpenAPITools.Api
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->DeletePet");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (apiKey != null)
-                requestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
-
-            var response = this.Client.Delete<Object>("/pet/{petId}", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<Object>("/pet/{petId}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("DeletePet", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("DeletePet", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -780,44 +778,44 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->DeletePet");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (apiKey != null)
-                requestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.DeleteAsync<Object>("/pet/{petId}", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/pet/{petId}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("DeletePet", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("DeletePet", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -844,30 +842,30 @@ namespace Org.OpenAPITools.Api
             if (status == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'status' when calling PetApi->FindPetsByStatus");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (status != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
@@ -876,20 +874,19 @@ namespace Org.OpenAPITools.Api
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
-
-            var response = this.Client.Get< List<Pet> >("/pet/findByStatus", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get< List<Pet> >("/pet/findByStatus", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FindPetsByStatus", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FindPetsByStatus", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -918,30 +915,30 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'status' when calling PetApi->FindPetsByStatus");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (status != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
@@ -950,20 +947,20 @@ namespace Org.OpenAPITools.Api
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.GetAsync<List<Pet>>("/pet/findByStatus", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<List<Pet>>("/pet/findByStatus", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FindPetsByStatus", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FindPetsByStatus", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -990,30 +987,30 @@ namespace Org.OpenAPITools.Api
             if (tags == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'tags' when calling PetApi->FindPetsByTags");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (tags != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
@@ -1022,20 +1019,19 @@ namespace Org.OpenAPITools.Api
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
-
-            var response = this.Client.Get< List<Pet> >("/pet/findByTags", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get< List<Pet> >("/pet/findByTags", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FindPetsByTags", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FindPetsByTags", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1064,30 +1060,30 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'tags' when calling PetApi->FindPetsByTags");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (tags != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
@@ -1096,20 +1092,20 @@ namespace Org.OpenAPITools.Api
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.GetAsync<List<Pet>>("/pet/findByTags", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<List<Pet>>("/pet/findByTags", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FindPetsByTags", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FindPetsByTags", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1136,43 +1132,42 @@ namespace Org.OpenAPITools.Api
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetById");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
 
             // authentication (api_key) required
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
-                requestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
+                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
             }
 
             // make the HTTP request
-
-            var response = this.Client.Get< Pet >("/pet/{petId}", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get< Pet >("/pet/{petId}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("GetPetById", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("GetPetById", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1201,43 +1196,43 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetById");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
 
             // authentication (api_key) required
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
-                requestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
+                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.GetAsync<Pet>("/pet/{petId}", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Pet>("/pet/{petId}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("GetPetById", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("GetPetById", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1263,43 +1258,42 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->UpdatePet");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json", 
                 "application/xml"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
-
-            var response = this.Client.Put<Object>("/pet", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<Object>("/pet", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("UpdatePet", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("UpdatePet", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1327,43 +1321,43 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->UpdatePet");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json", 
                 "application/xml"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PutAsync<Object>("/pet", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/pet", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("UpdatePet", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("UpdatePet", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1393,51 +1387,50 @@ namespace Org.OpenAPITools.Api
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (name != null)
             {
-                requestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
+                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
             }
             if (status != null)
             {
-                requestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
+                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             }
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
-
-            var response = this.Client.Post<Object>("/pet/{petId}", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Object>("/pet/{petId}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("UpdatePetWithForm", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("UpdatePetWithForm", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1469,51 +1462,51 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (name != null)
             {
-                requestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
+                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
             }
             if (status != null)
             {
-                requestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
+                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             }
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<Object>("/pet/{petId}", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/pet/{petId}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("UpdatePetWithForm", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("UpdatePetWithForm", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1544,52 +1537,51 @@ namespace Org.OpenAPITools.Api
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFile");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "multipart/form-data"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                requestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
             if (file != null)
             {
-                requestOptions.FileParameters.Add("file", file);
+                localVarRequestOptions.FileParameters.Add("file", file);
             }
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
-
-            var response = this.Client.Post< ApiResponse >("/pet/{petId}/uploadImage", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post< ApiResponse >("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("UploadFile", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("UploadFile", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1622,52 +1614,52 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFile");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "multipart/form-data"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                requestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
             if (file != null)
             {
-                requestOptions.FileParameters.Add("file", file);
+                localVarRequestOptions.FileParameters.Add("file", file);
             }
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<ApiResponse>("/pet/{petId}/uploadImage", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<ApiResponse>("/pet/{petId}/uploadImage", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("UploadFile", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("UploadFile", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1702,52 +1694,51 @@ namespace Org.OpenAPITools.Api
             if (requiredFile == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredFile' when calling PetApi->UploadFileWithRequiredFile");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "multipart/form-data"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                requestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
             if (requiredFile != null)
             {
-                requestOptions.FileParameters.Add("requiredFile", requiredFile);
+                localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
             }
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
-
-            var response = this.Client.Post< ApiResponse >("/fake/{petId}/uploadImageWithRequiredFile", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post< ApiResponse >("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("UploadFileWithRequiredFile", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("UploadFileWithRequiredFile", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1784,52 +1775,52 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredFile' when calling PetApi->UploadFileWithRequiredFile");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "multipart/form-data"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (petId != null)
-                requestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                requestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
             if (requiredFile != null)
             {
-                requestOptions.FileParameters.Add("requiredFile", requiredFile);
+                localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
             }
 
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("UploadFileWithRequiredFile", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("UploadFileWithRequiredFile", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
     }

@@ -1,36 +1,34 @@
-@Entity()
-class {{classname}} {
-  /// The underlying value of this enum member.
-  final {{dataType}} value;
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
-  const {{classname}}._internal(this.value);
+part '{{classFilename}}.g.dart';
+
+class {{classname}} extends EnumClass {
 
   {{#allowableValues}}
     {{#enumVars}}
       {{#description}}
   /// {{description}}
       {{/description}}
-  static const {{classname}} {{{name}}} = const {{classname}}._internal({{{value}}});
+  @BuiltValueEnumConst(wireName: '{{name}}')
+  static const {{classname}} {{name}} = _${{name}};
     {{/enumVars}}
   {{/allowableValues}}
+
+
+  static Serializer<{{classname}}> get serializer => _${{classVarName}}Serializer;
+
+  const {{classname}}._(String name): super(name);
+
+  static BuiltSet<{{classname}}> get values => _$values;
+  static {{classname}} valueOf(String name) => _$valueOf(name);
 }
 
-class {{classname}}TypeTransformer extends TypeTransformer<{{classname}}> {
-
-  @override
-  dynamic encode({{classname}} data) {
-    return data.value;
-  }
-
-  @override
-  {{classname}} decode(dynamic data) {
-    switch (data) {
-      {{#allowableValues}}
-        {{#enumVars}}
-      case {{{value}}}: return {{classname}}.{{{name}}};
-        {{/enumVars}}
-      {{/allowableValues}}
-      default: throw('Unknown enum value to decode: $data');
-    }
-  }
-}
+/// Optionally, enum_class can generate a mixin to go with your enum for use
+/// with Angular. It exposes your enum constants as getters. So, if you mix it
+/// in to your Dart component class, the values become available to the
+/// corresponding Angular template.
+///
+/// Trigger mixin generation by writing a line like this one next to your enum.
+abstract class {{classname}}Mixin = Object with _${{classname}}Mixin;

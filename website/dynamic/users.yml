@@ -14,6 +14,11 @@
   infoLink: "https://www.anz.com/"
   pinned: false
 -
+  caption: "Arduino"
+  image: "img/companies/arduino.png"
+  infoLink: "https://www.arduino.cc/"
+  pinned: false
+-
   caption: ASKUL
   image: "img/companies/logo-askul-01.gif"
   infoLink: "https://www.askul.co.jp/"
@@ -38,6 +43,11 @@
   image: "img/companies/bithost.svg"
   infoLink: "https://www.bithost.ch/"
   pinned: true
+-
+  caption: Bosch Connected Industry
+  image: "img/companies/bosch.png"
+  infoLink: "https://www.bosch-connected-industry.com"
+  pinned: false
 -
   caption: Boxever
   image: "img/companies/boxever.svg"
@@ -81,7 +91,12 @@
 -
   caption: "DB Systel"
   image: "img/companies/db-systel.png"
-  infoLink: "https://www.cupix.com/"
+  infoLink: "https://www.dbsystel.de"
+  pinned: false
+-
+  caption: "dwango"
+  image: "img/companies/dwango.png"
+  infoLink: "https://dwango.co.jp/"
   pinned: false
 -
   caption: "Edge Impulse"

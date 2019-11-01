@@ -46,6 +46,8 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     */
     suspend fun addPet(pet: Pet) : HttpResponse<Unit> {
 
+        val localVariableAuthNames = listOf<String>("petstore_auth")
+
         val localVariableBody = pet
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -61,7 +63,8 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -75,6 +78,8 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     * @return void
     */
     suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
@@ -93,7 +98,8 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -106,6 +112,8 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun findPetsByStatus(status: kotlin.Array<kotlin.String>) : HttpResponse<kotlin.Array<Pet>> {
+
+        val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
@@ -124,7 +132,8 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap<FindPetsByStatusResponse>().map { value.toTypedArray() }
     }
 
@@ -148,6 +157,8 @@ private class FindPetsByStatusResponse(val value: List<Pet>) {
     @Suppress("UNCHECKED_CAST")
     suspend fun findPetsByTags(tags: kotlin.Array<kotlin.String>) : HttpResponse<kotlin.Array<Pet>> {
 
+        val localVariableAuthNames = listOf<String>("petstore_auth")
+
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
 
@@ -165,7 +176,8 @@ private class FindPetsByStatusResponse(val value: List<Pet>) {
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap<FindPetsByTagsResponse>().map { value.toTypedArray() }
     }
 
@@ -189,6 +201,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
     @Suppress("UNCHECKED_CAST")
     suspend fun getPetById(petId: kotlin.Long) : HttpResponse<Pet> {
 
+        val localVariableAuthNames = listOf<String>("api_key")
+
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
 
@@ -205,7 +219,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -217,6 +232,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
     * @return void
     */
     suspend fun updatePet(pet: Pet) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = pet
 
@@ -233,7 +250,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -248,6 +266,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
     * @return void
     */
     suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = 
             ParametersBuilder().also {
@@ -268,7 +288,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
 
         return urlEncodedFormRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -283,6 +304,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?) : HttpResponse<ApiResponse> {
+
+        val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = 
             formData {
@@ -303,7 +326,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
 
         return multipartFormRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -318,6 +342,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun uploadFileWithRequiredFile(petId: kotlin.Long, requiredFile: io.ktor.client.request.forms.InputProvider, additionalMetadata: kotlin.String?) : HttpResponse<ApiResponse> {
+
+        val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = 
             formData {
@@ -338,7 +364,8 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
 
         return multipartFormRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 

@@ -45,6 +45,8 @@ class DefaultApi @UseExperimental(UnstableDefault::class) constructor(
     @Suppress("UNCHECKED_CAST")
     suspend fun fooGet() : HttpResponse<InlineResponseDefault> {
 
+        val localVariableAuthNames = listOf<String>()
+
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
 
@@ -61,7 +63,8 @@ class DefaultApi @UseExperimental(UnstableDefault::class) constructor(
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 

@@ -15,11 +15,25 @@ import time
 import unittest
 import datetime
 
+import six
+
 import petstore_api
 
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiKeyError,
+    ApiValueError,
+)
+
+from petstore_api.model_utils import (
+    file_type,
+    int,
+    str,
+)
+
+from petstore_api.rest import RESTResponse
 
 MockResponse = namedtuple('MockResponse', 'data')
-
 
 class DeserializationTests(unittest.TestCase):
 
@@ -40,7 +54,8 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'dict(str, EnumTest)')
+        deserialized = self.deserialize(response,
+            ({str: (petstore_api.EnumTest,)},), True)
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(
             isinstance(deserialized['enum_test'], petstore_api.EnumTest))
@@ -80,7 +95,8 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'dict(str, Pet)')
+        deserialized = self.deserialize(response,
+            ({str: (petstore_api.Pet,)},), True)
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['pet'], petstore_api.Pet))
 
@@ -88,15 +104,15 @@ class DeserializationTests(unittest.TestCase):
         """ deserialize dict(str, Dog), use discriminator"""
         data = {
             'dog': {
-                "id": 0,
                 "className": "Dog",
                 "color": "white",
-                "bread": "Jack Russel Terrier"
+                "breed": "Jack Russel Terrier"
             }
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'dict(str, Animal)')
+        deserialized = self.deserialize(response,
+            ({str: (petstore_api.Animal,)},), True)
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['dog'], petstore_api.Dog))
 
@@ -107,7 +123,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'dict(str, int)')
+        deserialized = self.deserialize(response, ({str: (int,)},), True)
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['integer'], int))
 
@@ -116,7 +132,7 @@ class DeserializationTests(unittest.TestCase):
         data = "test str"
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "str")
+        deserialized = self.deserialize(response, (str,), True)
         self.assertTrue(isinstance(deserialized, str))
 
     def test_deserialize_date(self):
@@ -124,7 +140,7 @@ class DeserializationTests(unittest.TestCase):
         data = "1997-07-16"
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "date")
+        deserialized = self.deserialize(response, (datetime.date,), True)
         self.assertTrue(isinstance(deserialized, datetime.date))
 
     def test_deserialize_datetime(self):
@@ -132,7 +148,7 @@ class DeserializationTests(unittest.TestCase):
         data = "1997-07-16T19:20:30.45+01:00"
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "datetime")
+        deserialized = self.deserialize(response, (datetime.datetime,), True)
         self.assertTrue(isinstance(deserialized, datetime.datetime))
 
     def test_deserialize_pet(self):
@@ -157,7 +173,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "Pet")
+        deserialized = self.deserialize(response, (petstore_api.Pet,), True)
         self.assertTrue(isinstance(deserialized, petstore_api.Pet))
         self.assertEqual(deserialized.id, 0)
         self.assertEqual(deserialized.name, "doggie")
@@ -207,7 +223,8 @@ class DeserializationTests(unittest.TestCase):
             }]
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "list[Pet]")
+        deserialized = self.deserialize(response,
+            ([petstore_api.Pet],), True)
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], petstore_api.Pet))
         self.assertEqual(deserialized[0].id, 0)
@@ -224,7 +241,8 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "dict(str, dict(str, int))")
+        deserialized = self.deserialize(response,
+            ({str: ({str: (int,)},)},), True)
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized["foo"], dict))
         self.assertTrue(isinstance(deserialized["foo"]["bar"], int))
@@ -234,7 +252,7 @@ class DeserializationTests(unittest.TestCase):
         data = [["foo"]]
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "list[list[str]]")
+        deserialized = self.deserialize(response, ([[str]],), True)
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], list))
         self.assertTrue(isinstance(deserialized[0][0], str))
@@ -243,16 +261,22 @@ class DeserializationTests(unittest.TestCase):
         """ deserialize None """
         response = MockResponse(data=json.dumps(None))
 
-        deserialized = self.deserialize(response, "datetime")
-        self.assertIsNone(deserialized)
+        error_msg = (
+            "Invalid type for variable 'received_data'. Required value type is "
+            "datetime and passed type was NoneType at ['received_data']"
+        )
+        with self.assertRaises(ApiTypeError) as exc:
+            deserialized = self.deserialize(response, (datetime.datetime,), True)
+        self.assertEqual(str(exc.exception), error_msg)
 
     def test_deserialize_OuterEnum(self):
         """ deserialize OuterEnum """
         # make sure that an exception is thrown on an invalid value
-        with self.assertRaises(petstore_api.ApiValueError):
+        with self.assertRaises(ApiValueError):
             self.deserialize(
                 MockResponse(data=json.dumps("test str")),
-                "OuterEnum"
+                (petstore_api.OuterEnum,),
+                True
             )
 
         # valid value works
@@ -260,29 +284,100 @@ class DeserializationTests(unittest.TestCase):
             petstore_api.OuterEnum.allowed_values[('value',)]["PLACED"]
         )
         response = MockResponse(data=json.dumps(placed_str))
-        outer_enum = self.deserialize(response, "OuterEnum")
+        outer_enum = self.deserialize(response,
+            (petstore_api.OuterEnum,), True)
         self.assertTrue(isinstance(outer_enum, petstore_api.OuterEnum))
         self.assertTrue(outer_enum.value == placed_str)
 
     def test_deserialize_OuterNumber(self):
         """ deserialize OuterNumber """
         # make sure that an exception is thrown on an invalid type value
-        with self.assertRaises(petstore_api.ApiValueError):
+        with self.assertRaises(ApiTypeError):
             deserialized = self.deserialize(
                 MockResponse(data=json.dumps("test str")),
-                "OuterNumber"
+                (petstore_api.OuterNumber,),
+                True
             )
 
         # make sure that an exception is thrown on an invalid value
-        with self.assertRaises(petstore_api.ApiValueError):
+        with self.assertRaises(ApiValueError):
             deserialized = self.deserialize(
-                MockResponse(data=json.dumps(21)),
-                "OuterNumber"
+                MockResponse(data=json.dumps(21.0)),
+                (petstore_api.OuterNumber,),
+                True
             )
 
         # valid value works
-        number_val = 11
+        number_val = 11.0
         response = MockResponse(data=json.dumps(number_val))
-        outer_number = self.deserialize(response, "OuterNumber")
+        outer_number = self.deserialize(response,
+            (petstore_api.OuterNumber,), True)
         self.assertTrue(isinstance(outer_number, petstore_api.OuterNumber))
         self.assertTrue(outer_number.value == number_val)
+
+    def test_deserialize_file(self):
+        """Ensures that file deserialization works"""
+        response_types_mixed = (file_type,)
+
+        # sample from http://www.jtricks.com/download-text
+        HTTPResponse = namedtuple(
+            'urllib3_response_HTTPResponse',
+            ['status', 'reason', 'data', 'getheaders', 'getheader']
+        )
+        headers = {'Content-Disposition': 'attachment; filename=content.txt'}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        file_data = (
+            "You are reading text file that was supposed to be downloaded\r\n"
+            "to your hard disk. If your browser offered to save you the file,"
+            "\r\nthen it handled the Content-Disposition header correctly."
+        )
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=file_data,
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        # response which is deserialized to a file
+        mock_response = RESTResponse(http_response)
+        file_path = None
+        try:
+            file_object = self.deserialize(
+                mock_response, response_types_mixed, True)
+            self.assertTrue(isinstance(file_object, file_type))
+            file_path = file_object.name
+            self.assertFalse(file_object.closed)
+            file_object.close()
+            if six.PY3:
+                file_data = file_data.encode('utf-8')
+            with open(file_path, 'rb') as other_file_object:
+                self.assertEqual(other_file_object.read(), file_data)
+        finally:
+            os.unlink(file_path)
+
+    def test_deserialize_string_boolean_map(self):
+        """
+        Ensures that string boolean (additional properties)
+        deserialization works
+        """
+        # make sure that an exception is thrown on an invalid type
+        with self.assertRaises(ApiTypeError):
+            deserialized = self.deserialize(
+                MockResponse(data=json.dumps("test str")),
+                (petstore_api.StringBooleanMap,),
+                True
+            )
+
+        # valid value works
+        item_val = {'some_key': True}
+        response = MockResponse(data=json.dumps(item_val))
+        model = petstore_api.StringBooleanMap(**item_val)
+        deserialized = self.deserialize(response,
+            (petstore_api.StringBooleanMap,), True)
+        self.assertTrue(isinstance(deserialized, petstore_api.StringBooleanMap))
+        self.assertTrue(deserialized['some_key'] == True)
+        self.assertTrue(deserialized == model)
+
