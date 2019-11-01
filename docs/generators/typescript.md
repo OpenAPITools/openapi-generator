@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript
 title: Config Options for typescript
 sidebar_label: typescript
 ---
