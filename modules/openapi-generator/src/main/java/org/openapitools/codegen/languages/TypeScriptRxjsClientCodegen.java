@@ -26,11 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static java.util.stream.Collectors.toList;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
@@ -257,11 +253,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         operations.put("hasEnums", hasEnums);
     }
 
-    private void setParamNameOrAlternative(CodegenParameter param, String paramName, String paramNameAlternative) {
+    private void setParamNameAlternative(CodegenParameter param, String paramName, String paramNameAlternative) {
         if (paramName == param.paramName) {
             param.paramNameAlternative = paramNameAlternative;
         }
-        param.paramNameOrAlternative = param.paramNameAlternative != null ? param.paramNameAlternative : param.paramName;
     }
 
     private void addConditionalImportInformation(Map<String, Object> operations) {
@@ -287,13 +282,13 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                     paramNameAlternative = p.paramName + "Alias";
                     LOGGER.info("param: "+p.paramName+" isReserved ––> "+paramNameAlternative);
                 }
-                setParamNameOrAlternative(p, p.paramName, paramNameAlternative);
+                setParamNameAlternative(p, p.paramName, paramNameAlternative);
 
                 for (CodegenParameter param : op.headerParams) {
                     if (param.isListContainer) {
                         hasListContainers = true;
                     }
-                    setParamNameOrAlternative(param, p.paramName, paramNameAlternative);
+                    setParamNameAlternative(param, p.paramName, paramNameAlternative);
                 }
 
                 for (CodegenParameter param : op.queryParams) {
@@ -305,18 +300,18 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                     } else {
                         op.hasOptionalQueryParams = true;
                     }
-                    setParamNameOrAlternative(param, p.paramName, paramNameAlternative);
+                    setParamNameAlternative(param, p.paramName, paramNameAlternative);
                 }
 
                 for (CodegenParameter param : op.formParams) {
                     if (param.isListContainer && !param.isCollectionFormatMulti) {
                         hasListContainers = true;
                     }
-                    setParamNameOrAlternative(param, p.paramName, paramNameAlternative);
+                    setParamNameAlternative(param, p.paramName, paramNameAlternative);
                 }
 
                 for (CodegenParameter param : op.pathParams) {
-                    setParamNameOrAlternative(param, p.paramName, paramNameAlternative);
+                    setParamNameAlternative(param, p.paramName, paramNameAlternative);
                 }
             }
 

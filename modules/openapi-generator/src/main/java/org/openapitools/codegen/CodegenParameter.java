@@ -27,7 +27,7 @@ public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
-    public String baseName, paramName, paramNameAlternative, paramNameOrAlternative, dataType, datatypeWithEnum, dataFormat,
+    public String baseName, paramName, paramNameAlternative, dataType, datatypeWithEnum, dataFormat,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
 
     public String example; // example value (x-example)
@@ -106,7 +106,6 @@ public class CodegenParameter {
         output.baseName = this.baseName;
         output.paramName = this.paramName;
         output.paramNameAlternative = this.paramNameAlternative;
-        output.paramNameOrAlternative = this.paramNameOrAlternative;
         output.dataType = this.dataType;
         output.datatypeWithEnum = this.datatypeWithEnum;
         output.enumName = this.enumName;
@@ -203,7 +202,6 @@ public class CodegenParameter {
             Objects.equals(baseName, that.baseName) &&
             Objects.equals(paramName, that.paramName) &&
             Objects.equals(paramNameAlternative, that.paramNameAlternative) &&
-            Objects.equals(paramNameOrAlternative, that.paramNameOrAlternative) &&
             Objects.equals(dataType, that.dataType) &&
             Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
             Objects.equals(enumName, that.enumName) &&
@@ -274,7 +272,6 @@ public class CodegenParameter {
             baseName,
             paramName,
             paramNameAlternative,
-            paramNameOrAlternative,
             dataType,
             datatypeWithEnum,
             enumName,
@@ -346,7 +343,6 @@ public class CodegenParameter {
                 ", baseName='" + baseName + '\'' +
                 ", paramName='" + paramName + '\'' +
                 ", paramNameAlternative='" + paramNameAlternative + '\'' +
-                ", paramNameOrAlternative='" + paramNameOrAlternative + '\'' +
                 ", dataType='" + dataType + '\'' +
                 ", datatypeWithEnum='" + datatypeWithEnum + '\'' +
                 ", dataFormat='" + dataFormat + '\'' +
