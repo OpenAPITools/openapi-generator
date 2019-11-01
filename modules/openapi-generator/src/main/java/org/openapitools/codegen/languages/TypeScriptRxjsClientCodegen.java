@@ -22,22 +22,24 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.TreeSet;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
 
     protected String npmRepository = null;
+    protected Set<String> reservedParamNames = new HashSet<>();
 
     public TypeScriptRxjsClientCodegen() {
         super();
@@ -56,6 +58,11 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+
+        // these are used in the api template for more efficient destructuring
+        this.reservedParamNames.add("headers");
+        this.reservedParamNames.add("query");
+        this.reservedParamNames.add("formData");
     }
 
     @Override
@@ -250,6 +257,13 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         operations.put("hasEnums", hasEnums);
     }
 
+    private void setParamNameOrAlternative(CodegenParameter param, String paramName, String paramNameAlternative) {
+        if (paramName == param.paramName) {
+            param.paramNameAlternative = paramNameAlternative;
+        }
+        param.paramNameOrAlternative = param.paramNameAlternative != null ? param.paramNameAlternative : param.paramName;
+    }
+
     private void addConditionalImportInformation(Map<String, Object> operations) {
         // This method will determine if there are required parameters and if there are list containers
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
@@ -265,28 +279,44 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             if (op.getHasRequiredParams()) {
                 hasRequiredParams = true;
             }
-            
-            for (CodegenParameter param : op.headerParams) {
-                if (param.isListContainer) {
-                    hasListContainers = true;
-                    break;
+
+            for (CodegenParameter p: op.allParams) {
+                String paramNameAlternative = null;
+
+                if(this.reservedParamNames.contains(p.paramName)){
+                    paramNameAlternative = p.paramName + "Alias";
+                    LOGGER.info("param: "+p.paramName+" isReserved ––> "+paramNameAlternative);
                 }
-            }
-            for (CodegenParameter param : op.queryParams) {
-                if (param.isListContainer && !param.isCollectionFormatMulti) {
-                    hasListContainers = true;
+                setParamNameOrAlternative(p, p.paramName, paramNameAlternative);
+
+                for (CodegenParameter param : op.headerParams) {
+                    if (param.isListContainer) {
+                        hasListContainers = true;
+                    }
+                    setParamNameOrAlternative(param, p.paramName, paramNameAlternative);
                 }
 
-                if (param.required) {
-                    op.hasRequiredQueryParams = true;
-                } else {
-                    op.hasOptionalQueryParams = true;
+                for (CodegenParameter param : op.queryParams) {
+                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                        hasListContainers = true;
+                    }
+                    if (param.required) {
+                        op.hasRequiredQueryParams = true;
+                    } else {
+                        op.hasOptionalQueryParams = true;
+                    }
+                    setParamNameOrAlternative(param, p.paramName, paramNameAlternative);
                 }
-            }
-            for (CodegenParameter param : op.formParams) {
-                if (param.isListContainer && !param.isCollectionFormatMulti) {
-                    hasListContainers = true;
-                    break;
+
+                for (CodegenParameter param : op.formParams) {
+                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                        hasListContainers = true;
+                    }
+                    setParamNameOrAlternative(param, p.paramName, paramNameAlternative);
+                }
+
+                for (CodegenParameter param : op.pathParams) {
+                    setParamNameOrAlternative(param, p.paramName, paramNameAlternative);
                 }
             }
 
