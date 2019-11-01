@@ -78,6 +78,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
     - [1.5 - Homebrew](#15---homebrew)
     - [1.6 - Docker](#16---docker)
     - [1.7 - NPM](#17---npm)    
+    - [1.8 - PIP](#18---pip)
   - [2 - Getting Started](#2---getting-started)
   - [3 - Usage](#3---usage)
     - [3.1 - Customization](#31---customization)
@@ -396,6 +397,27 @@ Or install it as dev-dependency:
 npm install @openapitools/openapi-generator-cli -D
 ```
 <!-- /RELEASE_VERSION -->
+
+### [1.8 - PIP](#table-of-contents)
+
+Openapi Generator also supports a [PIP package wrapper](https://pypi.org/project/openapigenerator/) available for different platforms (e.g. Linux, Mac, Windows). (JVM is still required)
+Please see the [project's README](https://github.com/openapitools/openapi-generator-cli-pip) for more information.
+
+Install it globally to get the CLI available on the command line:
+
+```sh
+pip install openapigenerator
+openapi-generator version
+```
+
+<!-- RELEASE_VERSION -->
+Or install a particular OpenAPI Generator version (e.g. v4.2.0):
+
+```sh
+pip install openapigenerator==4.2.0
+```
+<!-- /RELEASE_VERSION -->
+
 ## [2 - Getting Started](#table-of-contents)
 
 To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml), please run the following
