@@ -504,8 +504,7 @@ public class JavaClientCodegenTest {
     }
 
     /**
-     * Test to reproduce broken importMapping, see
-     * https://github.com/OpenAPITools/openapi-generator/issues/3589
+     * See https://github.com/OpenAPITools/openapi-generator/issues/3589
      */
     @Test
     public void testImportMapping() throws IOException {
@@ -524,7 +523,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.RESTEASY)
                 .setAdditionalProperties(properties)
                 .setImportMappings(importMappings)
-                .setInputSpec("src/test/resources/3_0/issue_3589.yaml")
+                .setInputSpec("src/test/resources/3_0/type-alias.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Sample API
-  description: API description in Markdown.
+  title: API using a typeAlias mapped with importMapping
+  description: See https://github.com/OpenAPITools/openapi-generator/issues/3589
   version: 1.0.0
 paths:
   /type-alias:
