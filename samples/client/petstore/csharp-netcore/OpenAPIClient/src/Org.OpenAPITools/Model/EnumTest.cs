@@ -61,8 +61,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
-        [DataMember(Name="enum_string", EmitDefaultValue=false)]
-        public EnumStringEnum? EnumString { get; set; }
+        [DataMember(Name="enum_string", EmitDefaultValue=false)]        public EnumStringEnum? EnumString { get; set; }
         /// <summary>
         /// Defines EnumStringRequired
         /// </summary>
@@ -92,8 +91,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
-        [DataMember(Name="enum_string_required", EmitDefaultValue=false)]
-        public EnumStringRequiredEnum EnumStringRequired { get; set; }
+        [DataMember(Name="enum_string_required", EmitDefaultValue=false)]        public EnumStringRequiredEnum EnumStringRequired { get; set; }
         /// <summary>
         /// Defines EnumInteger
         /// </summary>
@@ -114,8 +112,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
-        [DataMember(Name="enum_integer", EmitDefaultValue=false)]
-        public EnumIntegerEnum? EnumInteger { get; set; }
+        [DataMember(Name="enum_integer", EmitDefaultValue=false)]        public EnumIntegerEnum? EnumInteger { get; set; }
         /// <summary>
         /// Defines EnumNumber
         /// </summary>
@@ -139,13 +136,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumNumber
         /// </summary>
-        [DataMember(Name="enum_number", EmitDefaultValue=false)]
-        public EnumNumberEnum? EnumNumber { get; set; }
+        [DataMember(Name="enum_number", EmitDefaultValue=false)]        public EnumNumberEnum? EnumNumber { get; set; }
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
-        [DataMember(Name="outerEnum", EmitDefaultValue=false)]
-        public OuterEnum? OuterEnum { get; set; }
+        [DataMember(Name="outerEnum", EmitDefaultValue=false)]        public OuterEnum? OuterEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
