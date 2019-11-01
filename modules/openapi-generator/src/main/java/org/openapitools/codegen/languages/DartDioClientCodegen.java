@@ -38,6 +38,7 @@ import java.util.Set;
 
 import io.swagger.v3.oas.models.media.Schema;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartDioClientCodegen extends DartClientCodegen {
@@ -61,7 +62,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
     private static final String SERIALIZATION_JSON = "json";
 
     private boolean nullableFields = true;
-    private String serialization = SERIALIZATION_JSON;
 
     public DartDioClientCodegen() {
         super();
@@ -78,8 +78,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
 
-        importMapping.put("BuiltList", "built_collection/built_collection");
-        importMapping.put("BuiltMap", "built_collection/built_collection");
+        importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
+        importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
+        importMapping.put("Uint8List", "dart:typed_data");
     }
 
     @Override
@@ -100,6 +101,32 @@ public class DartDioClientCodegen extends DartClientCodegen {
             return "const []";
         }
         return super.toDefaultValue(p);
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "empty";
+        }
+        if ("number".equalsIgnoreCase(datatype) ||
+            "int".equalsIgnoreCase(datatype)) {
+            name = "Number" + name;
+        }
+        name = camelize(name, true);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+        return name;
     }
 
     @Override
@@ -182,7 +209,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
                     modelImports.add(importMapping.get(modelImport));
                 } else {
                     if (!modelToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
-                        modelImports.add(pubName + "/model/" + underscore(modelImport));
+                        modelImports.add("package:" + pubName + "/model/" + underscore(modelImport) + ".dart");
                     }
                 }
             }

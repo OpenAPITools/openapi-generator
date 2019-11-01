@@ -36,6 +36,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static final String NG_VERSION = "2";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String FILE_NAMING_VALUE = "camelCase";
+    public static final String API_MODULE_PREFIX = "";
     public static String SERVICE_SUFFIX = "Service";
     public static String SERVICE_FILE_SUFFIX = ".service";
     public static String MODEL_SUFFIX = "";
@@ -62,6 +63,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
                 .put(TypeScriptAngularClientCodegen.NG_VERSION, NG_VERSION)
+                .put(TypeScriptAngularClientCodegen.API_MODULE_PREFIX, API_MODULE_PREFIX)
                 .put(TypeScriptAngularClientCodegen.SERVICE_SUFFIX, SERVICE_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.SERVICE_FILE_SUFFIX, SERVICE_FILE_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, MODEL_SUFFIX)

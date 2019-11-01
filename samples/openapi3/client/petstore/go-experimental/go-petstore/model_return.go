@@ -8,16 +8,18 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // Return Model for testing reserved words
 type Return struct {
 	Return *int32 `json:"return,omitempty"`
-
 }
 
-// GetReturn returns the Return field if non-nil, zero value otherwise.
+// GetReturn returns the Return field value if set, zero value otherwise.
 func (o *Return) GetReturn() int32 {
 	if o == nil || o.Return == nil {
 		var ret int32
@@ -26,7 +28,7 @@ func (o *Return) GetReturn() int32 {
 	return *o.Return
 }
 
-// GetReturnOk returns a tuple with the Return field if it's non-nil, zero value otherwise
+// GetReturnOk returns a tuple with the Return field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Return) GetReturnOk() (int32, bool) {
 	if o == nil || o.Return == nil {
@@ -50,14 +52,26 @@ func (o *Return) SetReturn(v int32) {
 	o.Return = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Return) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Return != nil {
-		toSerialize["return"] = o.Return
-	}
-	return json.Marshal(toSerialize)
+type NullableReturn struct {
+	Value Return
+	ExplicitNull bool
 }
 
+func (v NullableReturn) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableReturn) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

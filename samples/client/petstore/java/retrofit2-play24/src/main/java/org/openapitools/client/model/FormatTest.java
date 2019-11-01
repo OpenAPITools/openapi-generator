@@ -116,7 +116,6 @@ public class FormatTest {
   }
 
 
-
   public void setInteger(Integer integer) {
     this.integer = integer;
   }
@@ -144,7 +143,6 @@ public class FormatTest {
   }
 
 
-
   public void setInt32(Integer int32) {
     this.int32 = int32;
   }
@@ -168,7 +166,6 @@ public class FormatTest {
   public Long getInt64() {
     return int64;
   }
-
 
 
   public void setInt64(Long int64) {
@@ -199,7 +196,6 @@ public class FormatTest {
   }
 
 
-
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
@@ -225,7 +221,6 @@ public class FormatTest {
   public Float getFloat() {
     return _float;
   }
-
 
 
   public void setFloat(Float _float) {
@@ -255,7 +250,6 @@ public class FormatTest {
   }
 
 
-
   public void setDouble(Double _double) {
     this._double = _double;
   }
@@ -281,7 +275,6 @@ public class FormatTest {
   }
 
 
-
   public void setString(String string) {
     this.string = string;
   }
@@ -305,7 +298,6 @@ public class FormatTest {
   public byte[] getByte() {
     return _byte;
   }
-
 
 
   public void setByte(byte[] _byte) {
@@ -334,7 +326,6 @@ public class FormatTest {
   }
 
 
-
   public void setBinary(File binary) {
     this.binary = binary;
   }
@@ -359,7 +350,6 @@ public class FormatTest {
   public LocalDate getDate() {
     return date;
   }
-
 
 
   public void setDate(LocalDate date) {
@@ -388,7 +378,6 @@ public class FormatTest {
   }
 
 
-
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -413,7 +402,6 @@ public class FormatTest {
   public UUID getUuid() {
     return uuid;
   }
-
 
 
   public void setUuid(UUID uuid) {
@@ -441,7 +429,6 @@ public class FormatTest {
   }
 
 
-
   public void setPassword(String password) {
     this.password = password;
   }
@@ -466,7 +453,6 @@ public class FormatTest {
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
-
 
 
   public void setBigDecimal(BigDecimal bigDecimal) {

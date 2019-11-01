@@ -184,6 +184,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("file", "java.io.File");
         typeMapping.put("array", "kotlin.Array");
         typeMapping.put("list", "kotlin.collections.List");
+        typeMapping.put("set", "kotlin.collections.Set");
         typeMapping.put("map", "kotlin.collections.Map");
         typeMapping.put("object", "kotlin.Any");
         typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
@@ -697,6 +698,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
         String arrayType = typeMapping.get("array");
+        if (Boolean.TRUE.equals(arr.getUniqueItems())) {
+            arrayType = typeMapping.get("set");
+        }
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema items = arr.getItems();
         String nestedType = getTypeDeclaration(items);

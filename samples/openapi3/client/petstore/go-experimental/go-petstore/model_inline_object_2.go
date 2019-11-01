@@ -8,20 +8,21 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // InlineObject2 struct for InlineObject2
 type InlineObject2 struct {
 	// Form parameter enum test (string array)
 	EnumFormStringArray *[]string `json:"enum_form_string_array,omitempty"`
-
 	// Form parameter enum test (string)
 	EnumFormString *string `json:"enum_form_string,omitempty"`
-
 }
 
-// GetEnumFormStringArray returns the EnumFormStringArray field if non-nil, zero value otherwise.
+// GetEnumFormStringArray returns the EnumFormStringArray field value if set, zero value otherwise.
 func (o *InlineObject2) GetEnumFormStringArray() []string {
 	if o == nil || o.EnumFormStringArray == nil {
 		var ret []string
@@ -30,7 +31,7 @@ func (o *InlineObject2) GetEnumFormStringArray() []string {
 	return *o.EnumFormStringArray
 }
 
-// GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field if it's non-nil, zero value otherwise
+// GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *InlineObject2) GetEnumFormStringArrayOk() ([]string, bool) {
 	if o == nil || o.EnumFormStringArray == nil {
@@ -54,7 +55,7 @@ func (o *InlineObject2) SetEnumFormStringArray(v []string) {
 	o.EnumFormStringArray = &v
 }
 
-// GetEnumFormString returns the EnumFormString field if non-nil, zero value otherwise.
+// GetEnumFormString returns the EnumFormString field value if set, zero value otherwise.
 func (o *InlineObject2) GetEnumFormString() string {
 	if o == nil || o.EnumFormString == nil {
 		var ret string
@@ -63,7 +64,7 @@ func (o *InlineObject2) GetEnumFormString() string {
 	return *o.EnumFormString
 }
 
-// GetEnumFormStringOk returns a tuple with the EnumFormString field if it's non-nil, zero value otherwise
+// GetEnumFormStringOk returns a tuple with the EnumFormString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *InlineObject2) GetEnumFormStringOk() (string, bool) {
 	if o == nil || o.EnumFormString == nil {
@@ -87,17 +88,26 @@ func (o *InlineObject2) SetEnumFormString(v string) {
 	o.EnumFormString = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o InlineObject2) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.EnumFormStringArray != nil {
-		toSerialize["enum_form_string_array"] = o.EnumFormStringArray
-	}
-	if o.EnumFormString != nil {
-		toSerialize["enum_form_string"] = o.EnumFormString
-	}
-	return json.Marshal(toSerialize)
+type NullableInlineObject2 struct {
+	Value InlineObject2
+	ExplicitNull bool
 }
 
+func (v NullableInlineObject2) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableInlineObject2) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

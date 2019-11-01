@@ -83,7 +83,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.UserApi()
-body = [petstore_api.User()] # list[User] | List of user object
+body = [petstore_api.User()] # [User] | List of user object
 
 try:
     # Creates list of users with given input array
@@ -96,7 +96,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](User.md)| List of user object |
+ **body** | [**[User]**](User.md)| List of user object |
 
 ### Return type
 
@@ -134,7 +134,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.UserApi()
-body = [petstore_api.User()] # list[User] | List of user object
+body = [petstore_api.User()] # [User] | List of user object
 
 try:
     # Creates list of users with given input array
@@ -147,7 +147,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](User.md)| List of user object |
+ **body** | [**[User]**](User.md)| List of user object |
 
 ### Return type
 

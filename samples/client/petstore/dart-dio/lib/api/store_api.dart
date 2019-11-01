@@ -150,12 +150,12 @@ class StoreApi {
             List<String> contentTypes = [];
 
             var serializedBody = _serializers.serialize(body);
-            var data = json.encode(serializedBody);
+            var jsonbody = json.encode(serializedBody);
 
             return _dio.request(
             path,
             queryParameters: queryParams,
-                data: data,
+                data: jsonbody,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,

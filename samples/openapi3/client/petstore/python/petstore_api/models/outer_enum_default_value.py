@@ -32,6 +32,8 @@ class OuterEnumDefaultValue(object):
     APPROVED = "approved"
     DELIVERED = "delivered"
 
+    allowable_values = [PLACED, APPROVED, DELIVERED]  # noqa: E501
+
     """
     Attributes:
       openapi_types (dict): The key is attribute name

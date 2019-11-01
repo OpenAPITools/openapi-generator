@@ -3123,7 +3123,15 @@ public class DefaultCodegen implements CodegenConfig {
             // set default value
             codegenParameter.defaultValue = toDefaultValue(parameterSchema);
 
-            // TDOO revise collectionFormat
+            if (parameter.getStyle() != null) {
+                codegenParameter.style = parameter.getStyle().toString();
+            }
+
+            // the default value is false
+            // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
+            codegenParameter.isExplode = parameter.getExplode() == null ? false : parameter.getExplode();
+
+            // TODO revise collectionFormat
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
@@ -3641,7 +3649,7 @@ public class DefaultCodegen implements CodegenConfig {
         co.baseName = tag;
     }
 
-    private void addParentContainer(CodegenModel model, String name, Schema schema) {
+    protected void addParentContainer(CodegenModel model, String name, Schema schema) {
         final CodegenProperty property = fromProperty(name, schema);
         addImport(model, property.complexType);
         model.parent = toInstantiationType(schema);

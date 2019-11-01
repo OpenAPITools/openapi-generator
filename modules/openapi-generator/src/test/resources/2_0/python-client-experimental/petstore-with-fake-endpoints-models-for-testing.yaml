@@ -269,6 +269,13 @@ paths:
           description: file to upload
           required: false
           type: file
+        - name: files
+          in: formData
+          description: files to upload
+          required: false
+          type: array
+          items:
+            type: file
       responses:
         '200':
           description: successful operation
