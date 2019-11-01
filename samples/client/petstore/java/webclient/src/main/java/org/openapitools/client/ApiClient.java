@@ -3,6 +3,7 @@ package org.openapitools.client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -79,6 +80,7 @@ public class ApiClient {
     }
 
     private HttpHeaders defaultHeaders = new HttpHeaders();
+    private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
     private String basePath = "http://petstore.swagger.io:80/v2";
 
@@ -94,6 +96,8 @@ public class ApiClient {
         mapper.setDateFormat(dateFormat);
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNullableModule jnm = new JsonNullableModule();
+        mapper.registerModule(jnm);
 
         this.webClient = buildWebClient(mapper);
         this.init();
@@ -288,6 +292,21 @@ public class ApiClient {
             defaultHeaders.remove(name);
         }
         defaultHeaders.add(name, value);
+        return this;
+    }
+
+    /**
+     * Add a default cookie.
+     *
+     * @param name The cookie's name
+     * @param value The cookie's value
+     * @return ApiClient this client
+     */
+    public ApiClient addDefaultCookie(String name, String value) {
+        if (defaultCookies.containsKey(name)) {
+            defaultCookies.remove(name);
+        }
+        defaultCookies.add(name, value);
         return this;
     }
 
@@ -500,8 +519,8 @@ public class ApiClient {
      * @param returnType The return type into which to deserialize the response
      * @return The response body in chosen type
      */
-    public <T> Mono<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
+    public <T> Mono<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
         return requestBuilder.retrieve().bodyToMono(returnType);
     }
 
@@ -521,13 +540,13 @@ public class ApiClient {
      * @param returnType The return type into which to deserialize the response
      * @return The response body in chosen type
      */
-    public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
+    public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
         return requestBuilder.retrieve().bodyToFlux(returnType);
     }
 
-    private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {
-        updateParamsForAuth(authNames, queryParams, headerParams);
+    private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {
+        updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
         if (queryParams != null) {
@@ -556,6 +575,8 @@ public class ApiClient {
 
         addHeadersToRequest(headerParams, requestBuilder);
         addHeadersToRequest(defaultHeaders, requestBuilder);
+        addCookiesToRequest(cookieParams, requestBuilder);
+        addCookiesToRequest(defaultCookies, requestBuilder);
 
         requestBuilder.body(selectBody(body, formParams, contentType));
         return requestBuilder;
@@ -578,19 +599,36 @@ public class ApiClient {
     }
 
     /**
+     * Add cookies to the request that is being built
+     * @param cookies The cookies to add
+     * @param requestBuilder The current request
+     */
+    protected void addCookiesToRequest(MultiValueMap<String, String> cookies, WebClient.RequestBodySpec requestBuilder) {
+        for (Entry<String, List<String>> entry : cookies.entrySet()) {
+            List<String> values = entry.getValue();
+            for(String value : values) {
+                if (value != null) {
+                    requestBuilder.cookie(entry.getKey(), value);
+                }
+            }
+        }
+    }
+
+    /**
      * Update query and header parameters based on authentication settings.
      *
      * @param authNames The authentications to apply
      * @param queryParams The query parameters
      * @param headerParams The header parameters
+     * @param cookieParams the cookie parameters
      */
-    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams) {
+    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
                 throw new RestClientException("Authentication undefined: " + authName);
             }
-            auth.applyToParams(queryParams, headerParams);
+            auth.applyToParams(queryParams, headerParams, cookieParams);
         }
     }
 

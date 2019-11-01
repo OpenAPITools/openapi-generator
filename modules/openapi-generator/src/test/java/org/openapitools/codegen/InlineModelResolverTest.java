@@ -32,6 +32,7 @@ import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import static org.testng.AssertJUnit.*;
 
@@ -94,6 +95,35 @@ public class InlineModelResolverTest {
         assertTrue(user.getProperties().get("address") instanceof Schema);
 
         Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
+        assertNotNull(address);
+        assertNotNull(address.getProperties().get("city"));
+        assertNotNull(address.getProperties().get("street"));
+    }
+
+    @Test
+    public void resolveInlineModelTestWithTitleWithSpaces() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.getComponents().addSchemas("User", new ObjectSchema()
+                .name("user")
+                .description("a common user")
+                .addProperties("name", new StringSchema())
+                .addProperties("address", new ObjectSchema()
+                        .title("User Address Title")
+                        .readOnly(false)
+                        .description("description")
+                        .name("name")
+                        .addProperties("street", new StringSchema())
+                        .addProperties("city", new StringSchema())));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Schema user = openapi.getComponents().getSchemas().get("User");
+
+        assertNotNull(user);
+        assertTrue(user.getProperties().get("address") instanceof Schema);
+
+        Schema address = openapi.getComponents().getSchemas().get("User_Address_Title");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
@@ -460,10 +490,12 @@ public class InlineModelResolverTest {
                 .getContent()
                 .get("application/json");
 
-        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
-        assertTrue(mediaType.getSchema().getAdditionalProperties() instanceof ObjectSchema);
+        assertEquals("object", mediaType.getSchema().getType());
+        Object additionalPropertiesObject = mediaType.getSchema().getAdditionalProperties();
+        assertTrue(additionalPropertiesObject instanceof Schema);
 
-        ObjectSchema additionalProperties = (ObjectSchema) mediaType.getSchema().getAdditionalProperties();
+        Schema additionalProperties = ModelUtils.getReferencedSchema(openAPI, (Schema)additionalPropertiesObject);
+        assertNotNull(additionalProperties);
         assertTrue(additionalProperties.getProperties().get("resolve_inline_object_response_with_additional_properties") instanceof StringSchema);
     }
 
@@ -676,7 +708,7 @@ public class InlineModelResolverTest {
                 .getContent()
                 .get("application/json");
 
-        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
+        assertEquals("object", mediaType.getSchema().getType());
         assertTrue(mediaType.getSchema().getAdditionalProperties() instanceof ObjectSchema);
 
         ObjectSchema additionalProperty = (ObjectSchema) mediaType.getSchema().getAdditionalProperties();
@@ -710,6 +742,30 @@ public class InlineModelResolverTest {
 
         ObjectSchema itemsProperty = (ObjectSchema) items.getProperties().get("arbitrary_object_model_with_array_inline_without_title");
         assertNull(itemsProperty.getProperties());
+    }
+
+
+    private void checkComposedChildren(OpenAPI openAPI, List<Schema> children, String key) {
+        assertNotNull(children);
+        Schema inlined = children.get(0);
+        assertEquals("#/components/schemas/ComposedObjectModelInline_" + key, inlined.get$ref());
+        Schema child = ModelUtils.getReferencedSchema(openAPI, inlined);
+        assertNotNull(child.getProperties());
+        assertNotNull(child.getProperties().get("composed_object_model_inline_" + key));
+    }
+
+    @Test
+    public void objectComposedWithInline() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        assertTrue(openAPI.getComponents().getSchemas().get("ComposedObjectModelInline") instanceof ComposedSchema);
+
+        ComposedSchema schema = (ComposedSchema) openAPI.getComponents().getSchemas().get("ComposedObjectModelInline");
+
+        checkComposedChildren(openAPI, schema.getAllOf(), "allOf");
+        checkComposedChildren(openAPI, schema.getAnyOf(), "anyOf");
+        checkComposedChildren(openAPI, schema.getOneOf(), "oneOf");
     }
 
     @Test
@@ -776,5 +832,43 @@ public class InlineModelResolverTest {
                 .get("nullable_request_body_property");
         Schema nullableRequestBodySchema = ModelUtils.getReferencedSchema(openAPI, nullableRequestBodyReference);
         assertTrue(nullableRequestBodySchema.getNullable());
+    }
+
+    @Test
+    public void callbacks() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody callbackRequestBodyReference = openAPI
+                .getPaths()
+                .get("/callback")
+                .getPost()
+                .getCallbacks()
+                .get("webhook")
+                .get("{$request.body#/callbackUri}")
+                .getPost()
+                .getRequestBody();
+        assertNotNull(callbackRequestBodyReference.get$ref());
+
+        RequestBody resolvedCallbackRequestBody = openAPI
+                .getComponents()
+                .getRequestBodies()
+                .get(ModelUtils.getSimpleRef(callbackRequestBodyReference.get$ref()));
+
+        Schema callbackRequestSchemaReference = resolvedCallbackRequestBody
+                .getContent()
+                .get("application/json")
+                .getSchema();
+        assertNotNull(callbackRequestSchemaReference.get$ref());
+
+        Schema resolvedCallbackSchema = openAPI
+                .getComponents()
+                .getSchemas()
+                .get(ModelUtils.getSimpleRef(callbackRequestSchemaReference.get$ref()));
+
+        Map properties = resolvedCallbackSchema.getProperties();
+        assertTrue(properties.get("notificationId") instanceof StringSchema);
+        assertTrue(properties.get("action") instanceof StringSchema);
+        assertTrue(properties.get("data") instanceof StringSchema);
     }
 }

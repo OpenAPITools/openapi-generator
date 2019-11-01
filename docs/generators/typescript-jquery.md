@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-jquery
 title: Config Options for typescript-jquery
 sidebar_label: typescript-jquery
 ---
@@ -13,8 +11,8 @@ sidebar_label: typescript-jquery
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |supportsES6|Generate code that conforms to ES6.| |false|
-|npmName|The name under which you want to publish generated npm package| |null|
-|npmVersion|The version of your npm package| |null|
+|npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
+|npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
+|snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
-|snapshot|When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |jqueryAlreadyImported|When using this in legacy app using mix of typescript and javascript, this will only declare jquery and not import it| |false|

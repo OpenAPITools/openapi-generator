@@ -28,9 +28,9 @@ fi
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate --artifact-id jaxrs-spec-interface-response-petstore-server -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g jaxrs-spec -o samples/server/petstore/jaxrs-spec-interface-response
--DhideGenerationTimestamp=true
--DserializableModel=true
--DinterfaceOnly=true
--DreturnResponse=true $@"
+--additional-properties hideGenerationTimestamp=true
+--additional-properties serializableModel=true
+--additional-properties interfaceOnly=true
+--additional-properties returnResponse=true $@"
 
 java $JAVA_OPTS -jar $executable $ags

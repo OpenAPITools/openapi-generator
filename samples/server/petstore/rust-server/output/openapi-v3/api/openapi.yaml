@@ -65,8 +65,61 @@ paths:
           description: OK
         400:
           description: Bad Request
+  /uuid:
+    get:
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UuidObject'
+          description: Duplicate Response long text. One.
+  /required_octet_stream:
+    put:
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: byte
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+  /responses_with_headers:
+    get:
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: String
+          description: Success
+          headers:
+            Success-Info:
+              explode: false
+              schema:
+                type: String
+              style: simple
+        412:
+          description: Precondition Failed
+          headers:
+            Further-Info:
+              explode: false
+              schema:
+                type: String
+              style: simple
+            Failure-Info:
+              explode: false
+              schema:
+                type: String
+              style: simple
 components:
   schemas:
+    UuidObject:
+      description: Test a model containing a UUID
+      format: uuid
+      type: string
     xml_array:
       items:
         $ref: '#/components/schemas/xml_inner'

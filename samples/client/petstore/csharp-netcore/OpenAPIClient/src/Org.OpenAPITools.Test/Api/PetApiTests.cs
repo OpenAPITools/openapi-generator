@@ -279,11 +279,11 @@ namespace Org.OpenAPITools.Test
             Stream _imageStream = _assembly.GetManifestResourceStream("Org.OpenAPITools.Test.linux-logo.png");
             PetApi petApi = new PetApi();
             // test file upload with form parameters
-            //petApi.UploadFile(petId, "new form name", _imageStream);
+            petApi.UploadFile(petId, "new form name", _imageStream);
 
             // test file upload without any form parameters
             // using optional parameter syntax introduced at .net 4.0
-            //petApi.UploadFile(petId: petId, file: _imageStream);
+            petApi.UploadFile(petId: petId, file: _imageStream);
         }
         
         /// <summary>

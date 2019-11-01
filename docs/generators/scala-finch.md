@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-scala-finch
 title: Config Options for scala-finch
 sidebar_label: scala-finch
 ---

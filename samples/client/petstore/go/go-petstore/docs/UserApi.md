@@ -18,6 +18,7 @@ Method | HTTP request | Description
 ## CreateUser
 
 > CreateUser(ctx, body)
+
 Create user
 
 This can only be done by the logged in user.
@@ -51,6 +52,7 @@ No authorization required
 ## CreateUsersWithArrayInput
 
 > CreateUsersWithArrayInput(ctx, body)
+
 Creates list of users with given input array
 
 ### Required Parameters
@@ -59,7 +61,7 @@ Creates list of users with given input array
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**[]User**](array.md)| List of user object | 
+**body** | [**[]User**](User.md)| List of user object | 
 
 ### Return type
 
@@ -82,6 +84,7 @@ No authorization required
 ## CreateUsersWithListInput
 
 > CreateUsersWithListInput(ctx, body)
+
 Creates list of users with given input array
 
 ### Required Parameters
@@ -90,7 +93,7 @@ Creates list of users with given input array
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**[]User**](array.md)| List of user object | 
+**body** | [**[]User**](User.md)| List of user object | 
 
 ### Return type
 
@@ -113,6 +116,7 @@ No authorization required
 ## DeleteUser
 
 > DeleteUser(ctx, username)
+
 Delete user
 
 This can only be done by the logged in user.
@@ -146,6 +150,7 @@ No authorization required
 ## GetUserByName
 
 > User GetUserByName(ctx, username)
+
 Get user by user name
 
 ### Required Parameters
@@ -177,6 +182,7 @@ No authorization required
 ## LoginUser
 
 > string LoginUser(ctx, username, password)
+
 Logs user into the system
 
 ### Required Parameters
@@ -209,6 +215,7 @@ No authorization required
 ## LogoutUser
 
 > LogoutUser(ctx, )
+
 Logs out current logged in user session
 
 ### Required Parameters
@@ -236,6 +243,7 @@ No authorization required
 ## UpdateUser
 
 > UpdateUser(ctx, username, body)
+
 Updated user
 
 This can only be done by the logged in user.

@@ -1,0 +1,10 @@
+{
+  "!include": "bin/java-petstore-retrofit2.json",
+  "generatorName": "java",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/client/petstore/java/retrofit2",
+  "templateDir": "modules/openapi-generator/src/main/resources/Java/libraries/retrofit2",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true
+  }
+}

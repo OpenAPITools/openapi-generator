@@ -3,13 +3,12 @@ use std::rc::Rc;
 use super::configuration::Configuration;
 
 pub struct APIClient {
-    configuration: Rc<Configuration>,
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
     {{#-last}}
-    {{{classFilename}}}: Box<::apis::{{{classname}}}>,
+    {{{classFilename}}}: Box<dyn crate::apis::{{{classname}}}>,
     {{/-last}}
 {{/operation}}
 {{/operations}}
@@ -22,13 +21,12 @@ impl APIClient {
         let rc = Rc::new(configuration);
 
         APIClient {
-            configuration: rc.clone(),
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
             {{#-last}}
-            {{{classFilename}}}: Box::new(::apis::{{{classname}}}Client::new(rc.clone())),
+            {{{classFilename}}}: Box::new(crate::apis::{{{classname}}}Client::new(rc.clone())),
             {{/-last}}
 {{/operation}}
 {{/operations}}
@@ -42,7 +40,7 @@ impl APIClient {
 {{#operations}}
 {{#operation}}
 {{#-last}}
-    pub fn {{{classFilename}}}(&self) -> &::apis::{{{classname}}}{
+    pub fn {{{classFilename}}}(&self) -> &dyn crate::apis::{{{classname}}}{
         self.{{{classFilename}}}.as_ref()
     }
 

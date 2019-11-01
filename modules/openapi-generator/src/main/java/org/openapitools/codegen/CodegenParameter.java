@@ -26,14 +26,14 @@ import java.util.Objects;
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
-            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel;
+            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
-            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
+            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
 
     public String example; // example value (x-example)
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary,
-            isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
+            isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
     public boolean isFile;
     public boolean isEnum;
@@ -168,10 +168,12 @@ public class CodegenParameter {
         output.isDate = this.isDate;
         output.isDateTime = this.isDateTime;
         output.isUuid = this.isUuid;
+        output.isUri = this.isUri;
         output.isEmail = this.isEmail;
         output.isFreeFormObject = this.isFreeFormObject;
         output.isListContainer = this.isListContainer;
         output.isMapContainer = this.isMapContainer;
+        output.isExplode = this.isExplode;
 
         return output;
     }
@@ -222,6 +224,7 @@ public class CodegenParameter {
             Objects.equals(isDate, that.isDate) &&
             Objects.equals(isDateTime, that.isDateTime) &&
             Objects.equals(isUuid, that.isUuid) &&
+            Objects.equals(isUri, that.isUri) &&
             Objects.equals(isEmail, that.isEmail) &&
             Objects.equals(isFreeFormObject, that.isFreeFormObject) &&
             Objects.equals(isListContainer, that.isListContainer) &&
@@ -245,7 +248,8 @@ public class CodegenParameter {
             Objects.equals(maxItems, that.maxItems) &&
             Objects.equals(minItems, that.minItems) &&
             Objects.equals(uniqueItems, that.uniqueItems) &&
-            Objects.equals(multipleOf, that.multipleOf);
+            Objects.equals(multipleOf, that.multipleOf) &&
+            Objects.equals(isExplode, that.isExplode);
     }
 
     @Override
@@ -289,6 +293,7 @@ public class CodegenParameter {
             isDate,
             isDateTime,
             isUuid,
+            isUri,
             isEmail,
             isFreeFormObject,
             isListContainer,
@@ -313,7 +318,8 @@ public class CodegenParameter {
             maxItems,
             minItems,
             uniqueItems,
-            multipleOf);
+            multipleOf,
+            isExplode);
     }
 
     @java.lang.Override
@@ -357,6 +363,7 @@ public class CodegenParameter {
                 ", isDate=" + isDate +
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
+                ", isUri=" + isUri +
                 ", isEmail=" + isEmail +
                 ", isFreeFormObject=" + isFreeFormObject +
                 ", isListContainer=" + isListContainer +
@@ -382,6 +389,7 @@ public class CodegenParameter {
                 ", minItems=" + minItems +
                 ", uniqueItems=" + uniqueItems +
                 ", multipleOf=" + multipleOf +
+                ", isExplode=" + isExplode +
                 '}';
     }
 }

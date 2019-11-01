@@ -1,0 +1,126 @@
+    def __init__(self{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}, {{name}}={{{defaultValue}}}{{/defaultValue}}{{/requiredVars}}, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """{{classname}} - a model defined in OpenAPI
+
+{{#requiredVars}}{{^hasMore}}        Args:{{/hasMore}}{{/requiredVars}}{{#requiredVars}}{{^defaultValue}}
+            {{name}} ({{{dataType}}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{^hasMore}}
+{{/hasMore}}{{/requiredVars}}
+        Keyword Args:{{#requiredVars}}{{#defaultValue}}
+            {{name}} ({{{dataType}}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]  # noqa: E501{{/defaultValue}}{{/requiredVars}}
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.{{#optionalVars}}
+            {{name}} ({{{dataType}}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501{{/optionalVars}}
+        """
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
+
+{{#requiredVars}}
+        self.__set_item('{{name}}', {{name}})
+{{/requiredVars}}
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__set_item(var_name, var_value)
+
+    def __set_item(self, name, value):
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+
+        if name in self.openapi_types:
+            required_types_mixed = self.openapi_types[name]
+        elif self.additional_properties_type is None:
+            raise ApiKeyError(
+                "{0} has no key '{1}'".format(type(self).__name__, name),
+                path_to_item
+            )
+        elif self.additional_properties_type is not None:
+            required_types_mixed = self.additional_properties_type
+
+        if get_simple_class(name) != str:
+            error_msg = type_error_message(
+                var_name=name,
+                var_value=name,
+                valid_classes=(str,),
+                key_type=True
+            )
+            raise ApiTypeError(
+                error_msg,
+                path_to_item=path_to_item,
+                valid_classes=(str,),
+                key_type=True
+            )
+
+        if self._check_type:
+            value = validate_and_convert_types(
+                value, required_types_mixed, path_to_item, self._from_server,
+                self._check_type, configuration=self._configuration)
+        if (name,) in self.allowed_values:
+            check_allowed_values(
+                self.allowed_values,
+                (name,),
+                value
+            )
+        if (name,) in self.validations:
+            check_validations(
+                self.validations,
+                (name,),
+                value
+            )
+        self._data_store[name] = value
+
+    def __get_item(self, name):
+        if name in self._data_store:
+            return self._data_store[name]
+
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        raise ApiKeyError(
+            "{0} has no key '{1}'".format(type(self).__name__, name),
+            [name]
+        )
+
+    def __setitem__(self, name, value):
+        """this allows us to set values with instance[field_name] = val"""
+        self.__set_item(name, value)
+
+    def __getitem__(self, name):
+        """this allows us to get a value with val = instance[field_name]"""
+        return self.__get_item(name)
+{{#allVars}}
+
+    @property
+    def {{name}}(self):
+        """Gets the {{name}} of this {{classname}}.  # noqa: E501
+{{#description}}
+        {{{description}}}  # noqa: E501
+{{/description}}
+
+        Returns:
+            ({{{dataType}}}): The {{name}} of this {{classname}}.  # noqa: E501
+        """
+        return self.__get_item('{{name}}')
+
+    @{{name}}.setter
+    def {{name}}(self, value):
+        """Sets the {{name}} of this {{classname}}.  # noqa: E501
+{{#description}}
+        {{{description}}}  # noqa: E501
+{{/description}}
+        """
+        return self.__set_item('{{name}}', value)
+{{/allVars}}

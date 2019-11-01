@@ -1,7 +1,10 @@
 // tslint:disable
+// eslint-disable
 {{>licenseInfo}}
 
 export const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, "");
+
+const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
 
 /**
  * This is the base class for all generated API classes.
@@ -45,13 +48,18 @@ export class BaseAPI {
             // only add the querystring to the URL if there are query parameters.
             // this is done to avoid urls ending with a "?" character which buggy webservers
             // do not handle correctly sometimes.
-            url += '?' + querystring(context.query);
+            url += '?' + this.configuration.queryParamsStringify(context.query);
         }
-        const body = context.body instanceof FormData ? context.body : JSON.stringify(context.body);
+        const body = (context.body instanceof FormData || context.body instanceof URLSearchParams || isBlob(context.body))
+	    ? context.body
+	    : JSON.stringify(context.body);
+
+        const headers = Object.assign({}, this.configuration.headers, context.headers);
         const init = {
             method: context.method,
-            headers: context.headers,
+            headers: headers,
             body,
+            credentials: this.configuration.credentials
         };
         return { url, init };
     }
@@ -106,16 +114,19 @@ export const COLLECTION_FORMATS = {
     pipes: "|",
 };
 
-export type FetchAPI = GlobalFetch['fetch'];
+export type FetchAPI = {{#typescriptThreePlus}}WindowOrWorkerGlobalScope{{/typescriptThreePlus}}{{^typescriptThreePlus}}GlobalFetch{{/typescriptThreePlus}}['fetch'];
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path
     fetchApi?: FetchAPI; // override for fetch implementation
     middleware?: Middleware[]; // middleware to apply before/after fetch requests
+    queryParamsStringify?: (params: HTTPQuery) => string; // stringify function for query strings
     username?: string; // parameter for basic security
     password?: string; // parameter for basic security
     apiKey?: string | ((name: string) => string); // parameter for apiKey security
-    accessToken?: string | ((name: string, scopes?: string[]) => string); // parameter for oauth2 security
+    accessToken?: string | ((name?: string, scopes?: string[]) => string); // parameter for oauth2 security
+    headers?: HTTPHeaders; //header params we want to use on every request
+    credentials?: RequestCredentials; //value for the credentials param we want to use on each request
 }
 
 export class Configuration {
@@ -131,6 +142,10 @@ export class Configuration {
 
     get middleware(): Middleware[] {
         return this.configuration.middleware || [];
+    }
+
+    get queryParamsStringify(): (params: HTTPQuery) => string {
+        return this.configuration.queryParamsStringify || querystring;
     }
 
     get username(): string | undefined {
@@ -156,13 +171,21 @@ export class Configuration {
         }
         return undefined;
     }
+
+    get headers():  HTTPHeaders | undefined {
+        return this.configuration.headers;
+    }
+
+    get credentials(): RequestCredentials | undefined {
+        return this.configuration.credentials;
+    }
 }
 
 export type Json = any;
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | HTTPQuery };
-export type HTTPBody = Json | FormData;
+export type HTTPBody = Json | FormData | URLSearchParams;
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export interface FetchParams {
@@ -200,6 +223,26 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
         })
         .filter(part => part.length > 0)
         .join('&');
+}
+
+export function mapValues(data: any, fn: (item: any) => any) {
+  return Object.keys(data).reduce(
+    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
+    {}
+  );
+}
+
+export function canConsumeForm(consumes: Consume[]): boolean {
+    for (const consume of consumes) {
+        if ('multipart/form-data' === consume.contentType) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export interface Consume {
+    contentType: string
 }
 
 export interface RequestContext {

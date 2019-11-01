@@ -53,7 +53,7 @@ public class RubyClientCodegenTest {
         CodegenConfig codegenConfig = new RubyClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
@@ -117,7 +117,7 @@ public class RubyClientCodegenTest {
         CodegenConfig codegenConfig = new RubyClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
@@ -520,6 +520,74 @@ public class RubyClientCodegenTest {
         cp1 = adult.getRequiredVars().get(1);
         Assert.assertEquals(cp1.name, "person_required");
     }
+
+    @Test(description = "test allOf composition")
+    public void allOfCompositionTest() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_composition.yaml");
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("SuperMan");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel superMan = codegen.fromModel("SuperMan", schema);
+        Assert.assertNotNull(superMan);
+
+        // to test all properties
+        Assert.assertEquals(superMan.getVars().size(), 6);
+        Assert.assertEquals(superMan.getAllVars().size(), 6);
+        Assert.assertEquals(superMan.getMandatory().size(), 3);
+        Assert.assertEquals(superMan.getAllMandatory().size(), 3);
+
+        CodegenProperty cp0 = superMan.getVars().get(0);
+        Assert.assertEquals(cp0.name, "id");
+        Assert.assertTrue(cp0.required);
+
+        CodegenProperty cp1 = superMan.getVars().get(1);
+        Assert.assertEquals(cp1.name, "name");
+        Assert.assertFalse(cp1.required);
+
+        CodegenProperty cp2 = superMan.getVars().get(2);
+        Assert.assertEquals(cp2.name, "reward");
+        Assert.assertFalse(cp2.required);
+
+        CodegenProperty cp3 = superMan.getVars().get(3);
+        Assert.assertEquals(cp3.name, "origin");
+        Assert.assertTrue(cp3.required);
+
+        CodegenProperty cp4 = superMan.getVars().get(4);
+        Assert.assertEquals(cp4.name, "category");
+        Assert.assertFalse(cp4.required);
+
+        CodegenProperty cp5 = superMan.getVars().get(5);
+        Assert.assertEquals(cp5.name, "level");
+        Assert.assertTrue(cp5.required);
+
+        CodegenProperty cp6 = superMan.getAllVars().get(0);
+        Assert.assertEquals(cp6.name, "id");
+        Assert.assertTrue(cp6.required);
+
+        CodegenProperty cp7 = superMan.getAllVars().get(1);
+        Assert.assertEquals(cp7.name, "name");
+        Assert.assertFalse(cp7.required);
+
+        CodegenProperty cp8 = superMan.getAllVars().get(2);
+        Assert.assertEquals(cp8.name, "reward");
+        Assert.assertFalse(cp8.required);
+
+        CodegenProperty cp9 = superMan.getAllVars().get(3);
+        Assert.assertEquals(cp9.name, "origin");
+        Assert.assertTrue(cp9.required);
+
+        CodegenProperty cp10 = superMan.getAllVars().get(4);
+        Assert.assertEquals(cp10.name, "category");
+        Assert.assertFalse(cp10.required);
+
+        CodegenProperty cp11 = superMan.getAllVars().get(5);
+        Assert.assertEquals(cp11.name, "level");
+        Assert.assertTrue(cp11.required);
+
+    }
+
 
     @Test(description = "test example string imported from x-example parameterr (OAS2)")
     public void exampleStringFromExampleParameterOAS2Test() {

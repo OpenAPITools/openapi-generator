@@ -15,7 +15,6 @@ Windows:
 ```
 build.bat
 ```
-
 ## Run in Docker
 
 ```

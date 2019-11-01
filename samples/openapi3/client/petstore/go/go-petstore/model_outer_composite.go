@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// OuterComposite struct for OuterComposite
 type OuterComposite struct {
 	MyNumber float32 `json:"my_number,omitempty"`
 	MyString string `json:"my_string,omitempty"`

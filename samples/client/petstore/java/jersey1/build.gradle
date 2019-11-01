@@ -32,6 +32,7 @@ if(hasProperty('target') && target == 'android') {
             minSdkVersion 14
             targetSdkVersion 25
         }
+
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
@@ -110,9 +111,10 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.17"
-    jackson_version = "2.6.4"
-    jackson_databind_version = "2.6.4"
+    swagger_annotations_version = "1.5.22"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10"
+    jackson_databind_nullable_version = "0.2.0"
     jersey_version = "1.19.4"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
@@ -120,12 +122,14 @@ ext {
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "com.sun.jersey:jersey-client:$jersey_version"
     compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version"
     compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"

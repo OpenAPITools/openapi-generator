@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-documentation-html
 title: Config Options for html
 sidebar_label: html
 ---
@@ -19,5 +17,5 @@ sidebar_label: html
 |licenseUrl|a URL pointing to the full license| |null|
 |invokerPackage|root package for generated code| |null|
 |groupId|groupId in generated pom.xml| |null|
-|artifactId|artifactId in generated pom.xml| |null|
-|artifactVersion|artifact version in generated pom.xml| |null|
+|artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |null|
+|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |null|

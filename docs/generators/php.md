@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-php
 title: Config Options for php
 sidebar_label: php
 ---

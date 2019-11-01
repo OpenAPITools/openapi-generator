@@ -4,16 +4,15 @@
 import { Inject, Injectable, Optional }                      from '@angular/core';
 {{#useHttpClient}}
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
+         HttpResponse, HttpEvent, HttpParameterCodec }       from '@angular/common/http';
+import { CustomHttpParameterCodec }                          from '../encoder';
 {{/useHttpClient}}
 {{^useHttpClient}}
-import { Http, Headers, URLSearchParams }                    from '@angular/http';
-import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
-import { Response, ResponseContentType }                     from '@angular/http';
+import { Http, Headers, URLSearchParams,
+        RequestMethod, RequestOptions, RequestOptionsArgs,
+        Response, ResponseContentType, QueryEncoder }        from '@angular/http';
 import { CustomQueryEncoderHelper }                          from '../encoder';
 {{/useHttpClient}}
-
 {{^useRxJS6}}
 import { Observable }                                        from 'rxjs/Observable';
 {{/useRxJS6}}
@@ -59,18 +58,32 @@ export class {{classname}} {
     protected basePath = '{{{basePath}}}';
     public defaultHeaders = new {{#useHttpClient}}Http{{/useHttpClient}}Headers();
     public configuration = new Configuration();
+{{#useHttpClient}}
+    public encoder: HttpParameterCodec;
+{{/useHttpClient}}
+{{^useHttpClient}}
+    public encoder: QueryEncoder;
+{{/useHttpClient}}
 
     constructor(protected {{#useHttpClient}}httpClient: HttpClient{{/useHttpClient}}{{^useHttpClient}}http: Http{{/useHttpClient}}, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
         }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
+        }
+{{#useHttpClient}}
+        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
+{{/useHttpClient}}
+{{^useHttpClient}}
+        this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
+{{/useHttpClient}}
     }
 
+{{#hasSomeFormParams}}
     /**
      * @param consumes string[] mime-types
      * @return true: consumes contains 'multipart/form-data', false: otherwise
@@ -84,6 +97,7 @@ export class {{classname}} {
         }
         return false;
     }
+{{/hasSomeFormParams}}
 
 {{^useHttpClient}}
 {{! Before HttpClient implementation or method overloading we relied on 2 functions, 1 to return the straight body as json
@@ -118,8 +132,12 @@ export class {{classname}} {
 
 {{#operation}}
     /**
+{{#summary}}
      * {{summary}}
+{{/summary}}
+{{#notes}}
      * {{notes}}
+{{/notes}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}{{#useHttpClient}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.{{/useHttpClient}}
@@ -143,10 +161,10 @@ export class {{classname}} {
 
 {{#hasQueryParams}}
         {{#useHttpClient}}
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        let queryParameters = new HttpParams({encoder: this.encoder});
         {{/useHttpClient}}
         {{^useHttpClient}}
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
+        let queryParameters = new URLSearchParams('', this.encoder);
         {{/useHttpClient}}
 {{#queryParams}}
         {{#isListContainer}}
@@ -245,12 +263,25 @@ export class {{classname}} {
 {{/useHttpClient}}
         }
 
+{{#bodyParam}}
+{{- duplicated below, don't forget to change}}
         // to determine the Content-Type header
         const consumes: string[] = [
             {{#consumes}}
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/consumes}}
         ];
+{{/bodyParam}}
+{{#hasFormParams}}
+{{^bodyParam}}
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            {{#consumes}}
+            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            {{/consumes}}
+        ];
+{{/bodyParam}}
+{{/hasFormParams}}
 {{#bodyParam}}
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
@@ -280,12 +311,12 @@ export class {{classname}} {
             formParams = new FormData();
         } else {
 {{#useHttpClient}}
-            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+            formParams = new HttpParams({encoder: this.encoder});
 {{/useHttpClient}}
 {{^useHttpClient}}
             // TODO: this fails if a parameter is a file, the api can't consume "multipart/form-data" and a blob is passed.
             convertFormParamsToString = true;
-            formParams = new URLSearchParams('', new CustomQueryEncoderHelper());
+            formParams = new URLSearchParams('', this.encoder);
             // set the content-type explicitly to avoid having it set to 'text/plain'
             headers.set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
 {{/useHttpClient}}
@@ -300,13 +331,19 @@ export class {{classname}} {
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])){{#useHttpClient}} as any || formParams{{/useHttpClient}};
+            if (useForm) {
+                {{paramName}}.forEach((element) => {
+                    {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', <any>element){{#useHttpClient}} as any || formParams{{/useHttpClient}};
+            })
+            } else {
+                {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])){{#useHttpClient}} as any || formParams{{/useHttpClient}};
+            }
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined) {
-            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', <any>{{paramName}}){{#useHttpClient}} as any || formParams{{/useHttpClient}};
+            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}useForm ? new Blob([JSON.stringify({{paramName}})], {type: 'application/json'}) : <any>{{paramName}}{{/isModel}}){{#useHttpClient}} as any || formParams{{/useHttpClient}};
         }
         {{/isListContainer}}
 {{/formParams}}

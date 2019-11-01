@@ -49,7 +49,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **body** | [**array**](array.md)| List of user object | 
+  **body** | [**User**](User.md)| List of user object | 
 
 ### Return type
 
@@ -74,7 +74,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **body** | [**array**](array.md)| List of user object | 
+  **body** | [**User**](User.md)| List of user object | 
 
 ### Return type
 

@@ -1,0 +1,116 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>net.wasdev.wlp.maven.parent</groupId>
+		<artifactId>liberty-maven-app-parent</artifactId>
+		<version>2.6</version>
+	</parent>
+
+	<groupId>{{groupId}}</groupId>
+	<artifactId>{{artifactId}}</artifactId>
+	<version>{{artifactVersion}}</version>
+	<packaging>war</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.microprofile</groupId>
+			<artifactId>microprofile</artifactId>
+			<version>2.0.1</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+	</dependencies>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<version.maven-war-plugin>3.2.2</version.maven-war-plugin>
+		<!-- OpenLiberty runtime -->
+		<version.openliberty-runtime>19.0.0.7</version.openliberty-runtime>
+		<http.port>9080</http.port>
+		<https.port>9443</https.port>
+		<packaging.type>usr</packaging.type>
+		<app.name>${project.artifactId}</app.name>
+		<package.file>${project.build.directory}/${app.name}.zip</package.file>
+	</properties>
+
+	<build>
+		<finalName>{{artifactId}}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.9.1</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/gen/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${version.maven-war-plugin}</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<packagingExcludes>pom.xml</packagingExcludes>
+				</configuration>
+			</plugin>
+
+			<!-- Enable liberty-maven plugin -->
+			<plugin>
+				<groupId>net.wasdev.wlp.maven.plugins</groupId>
+				<artifactId>liberty-maven-plugin</artifactId>
+				<configuration>
+					<assemblyArtifact>
+						<groupId>io.openliberty</groupId>
+						<artifactId>openliberty-runtime</artifactId>
+						<version>${version.openliberty-runtime}</version>
+						<type>zip</type>
+					</assemblyArtifact>
+					<serverName>OpenAPIGeneratorServer</serverName>
+					<stripVersion>true</stripVersion>
+					<configFile>src/main/liberty/config/server.xml</configFile>
+					<looseApplication>true</looseApplication>
+					<packageFile>${package.file}</packageFile>
+					<include>${packaging.type}</include>
+					<bootstrapProperties>
+						<default.http.port>${http.port}</default.http.port>
+						<default.https.port>${https.port}</default.https.port>
+						<app.context.root>${app.name}</app.context.root>
+					</bootstrapProperties>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

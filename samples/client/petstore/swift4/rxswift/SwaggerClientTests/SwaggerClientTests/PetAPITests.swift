@@ -34,7 +34,7 @@ class PetAPITests: XCTestCase {
 
         PetAPI.addPet(body: newPet).subscribe(onNext: {
             expectation.fulfill()
-            }, onError: { errorType in
+            }, onError: { _ in
                 XCTFail("error creating pet")
             }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
@@ -60,7 +60,7 @@ class PetAPITests: XCTestCase {
             XCTAssert(pet.photoUrls[1] == "https://petstore.com/sample/photo2.jpg")
 
             expectation.fulfill()
-            }, onError: { errorType in
+            }, onError: { _ in
                 XCTFail("error getting pet")
         }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)

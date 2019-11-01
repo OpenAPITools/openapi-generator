@@ -49,6 +49,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String sourceFolder = "";
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
+    protected String apiTestPath = "test" + File.separator;
+    protected String modelTestPath = "test" + File.separator;
 
     public DartClientCodegen() {
         super();
@@ -60,11 +62,14 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
-        embeddedTemplateDir = templateDir = "dart";
+        embeddedTemplateDir = templateDir = "dart2";
         apiPackage = "lib.api";
         modelPackage = "lib.model";
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
+        modelTestTemplateFiles.put("model_test.mustache", ".dart");
+        apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -76,7 +81,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "is", "library", "new", "null", "operator", "part", "rethrow",
                         "return", "set", "static", "super", "switch", "sync*", "this",
                         "throw", "true", "try", "typedef", "var", "void", "while",
-                        "with", "yield", "yield*")
+                        "with", "yield", "yield*", "hide", "interface", "mixin", "on",
+                        "show", "async")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -110,15 +116,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("File", "MultipartFile");
         typeMapping.put("binary", "MultipartFile");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
         typeMapping.put("ByteArray", "String");
 
-        cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based"));
+        cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based (for Dart 1.x only)"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
         cliOptions.add(new CliOption(PUB_VERSION, "Version in generated pubspec"));
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "source folder for generated code"));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "support dart2").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "Support Dart 2.x (Dart 1.x support has been deprecated)").defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -133,7 +140,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart (1.x or 2.x) client library.";
+        return "Generates a Dart (1.x (deprecated) or 2.x) client library.";
     }
 
     @Override
@@ -196,7 +203,10 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             // dart 2.x
             LOGGER.info("Dart version: 2.x");
-            embeddedTemplateDir = templateDir = "dart2";
+            // check to not overwrite a custom templateDir
+            if (templateDir == null) {
+                embeddedTemplateDir = templateDir = "dart2";
+            }
         }
 
         final String libFolder = sourceFolder + File.separator + "lib";
@@ -214,6 +224,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
     }
 
     @Override
@@ -229,6 +240,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + apiTestPath.replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separator + modelTestPath.replace('/', File.separatorChar);
     }
 
     @Override
@@ -280,6 +301,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
         // camelize the model name
         // phone_number => PhoneNumber
         return camelize(name);
@@ -293,6 +319,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiFilename(String name) {
         return underscore(toApiName(name));
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "_test";
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelFilename(name) + "_test";
     }
 
     @Override

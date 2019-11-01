@@ -8,7 +8,7 @@ jobs:
     #          SWAGGER_HOST=http://petstore.swagger.io
     #          SWAGGER_BASE_PATH=/v2
     machine:
-      docker_layer_caching: true
+      image: circleci/classic:latest
     working_directory: ~/OpenAPITools/openapi-generator
     parallelism: 3
     shell: /bin/bash --login

@@ -56,9 +56,11 @@ public class PetApi {
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
+    
     
     
     final String[] localVarAccepts = {
@@ -74,7 +76,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
 
-    apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
    * Deletes a pet
@@ -84,7 +86,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -98,12 +100,14 @@ public class PetApi {
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
     if (apiKey != null)
       localVarHeaderParams.put("api_key", apiClient.parameterToString(apiKey));
 
+    
     
     final String[] localVarAccepts = {
       
@@ -118,7 +122,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
 
-    apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
    * Finds Pets by status
@@ -128,7 +132,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'status' is set
     if (status == null) {
@@ -141,10 +145,12 @@ public class PetApi {
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "status", status));
 
+    
     
     
     final String[] localVarAccepts = {
@@ -160,7 +166,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
-    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Finds Pets by tags
@@ -172,7 +178,7 @@ public class PetApi {
    */
   @Deprecated
   public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'tags' is set
     if (tags == null) {
@@ -185,10 +191,12 @@ public class PetApi {
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "tags", tags));
 
+    
     
     
     final String[] localVarAccepts = {
@@ -204,7 +212,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
-    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Find pet by ID
@@ -214,7 +222,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public Pet getPetById(Long petId) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -228,9 +236,11 @@ public class PetApi {
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
+    
     
     
     final String[] localVarAccepts = {
@@ -246,7 +256,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "api_key" };
 
     GenericType<Pet> localVarReturnType = new GenericType<Pet>() {};
-    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Update an existing pet
@@ -268,9 +278,11 @@ public class PetApi {
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
+    
     
     
     final String[] localVarAccepts = {
@@ -286,7 +298,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
 
-    apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
    * Updates a pet in the store with form data
@@ -297,7 +309,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -311,9 +323,11 @@ public class PetApi {
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
+    
     
     if (name != null)
       localVarFormParams.put("name", name);
@@ -333,7 +347,7 @@ if (status != null)
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
 
-    apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
    * uploads an image
@@ -345,7 +359,7 @@ if (status != null)
    * @throws ApiException if fails to make API call
    */
   public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -359,9 +373,11 @@ if (status != null)
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
+    
     
     if (additionalMetadata != null)
       localVarFormParams.put("additionalMetadata", additionalMetadata);
@@ -381,7 +397,7 @@ if (file != null)
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
-    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * uploads an image (required)
@@ -393,7 +409,7 @@ if (file != null)
    * @throws ApiException if fails to make API call
    */
   public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -412,9 +428,11 @@ if (file != null)
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
+    
     
     if (additionalMetadata != null)
       localVarFormParams.put("additionalMetadata", additionalMetadata);
@@ -434,6 +452,6 @@ if (requiredFile != null)
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
-    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
 }

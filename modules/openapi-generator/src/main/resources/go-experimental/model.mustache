@@ -1,0 +1,149 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#models}}
+import (
+	"bytes"
+	"encoding/json"
+{{#imports}}
+	"{{import}}"
+{{/imports}}
+)
+
+{{#model}}
+{{#isEnum}}
+// {{{classname}}} {{#description}}{{{.}}}{{/description}}{{^description}}the model '{{{classname}}}'{{/description}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+
+// List of {{{name}}}
+const (
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{^-first}}
+	{{/-first}}
+	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = {{{value}}}
+	{{/enumVars}}
+	{{/allowableValues}}
+)
+
+type Nullable{{{classname}}} struct {
+	Value {{{classname}}}
+	ExplicitNull bool
+}
+
+func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull && v.Value != "":
+        return nil, ErrInvalidNullable
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
+
+{{/isEnum}}
+{{^isEnum}}
+// {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
+type {{classname}} struct {
+{{#vars}}
+{{^-first}}
+{{/-first}}
+{{#description}}
+	// {{{description}}}
+{{/description}}
+	{{name}} {{^required}}*{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+{{/vars}}
+}
+{{/isEnum}}
+
+{{^isEnum}}
+{{#vars}}
+{{#required}}
+// Get{{name}} returns the {{name}} field value
+func (o *{{classname}}) Get{{name}}() {{dataType}} {
+	if o == nil {
+		var ret {{dataType}}
+		return ret
+	}
+
+	return o.{{name}}
+}
+
+// Set{{name}} sets field value
+func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
+	o.{{name}} = v
+}
+
+{{/required}}
+{{^required}}
+// Get{{name}} returns the {{name}} field value if set, zero value otherwise.
+func (o *{{classname}}) Get{{name}}() {{dataType}} {
+	if o == nil || o.{{name}} == nil {
+		var ret {{dataType}}
+		return ret
+	}
+	return *o.{{name}}
+}
+
+// Get{{name}}Ok returns a tuple with the {{name}} field value if set, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool) {
+	if o == nil || o.{{name}} == nil {
+		var ret {{dataType}}
+		return ret, false
+	}
+	return *o.{{name}}, true
+}
+
+// Has{{name}} returns a boolean if a field has been set.
+func (o *{{classname}}) Has{{name}}() bool {
+	if o != nil && o.{{name}} != nil {
+		return true
+	}
+
+	return false
+}
+
+// Set{{name}} gets a reference to the given {{dataType}} and assigns it to the {{name}} field.
+func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
+	o.{{name}} = &v
+}
+
+{{/required}}
+{{/vars}}
+type Nullable{{{classname}}} struct {
+	Value {{{classname}}}
+	ExplicitNull bool
+}
+
+func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
+{{/isEnum}}
+
+{{/model}}
+{{/models}}

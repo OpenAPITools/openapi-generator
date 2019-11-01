@@ -89,6 +89,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "restbed::Bytes");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
 
         super.importMapping = new HashMap<String, String>();
@@ -193,12 +194,12 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(name);
+        return toModelName(name);
     }
 
     @Override
     public String toApiFilename(String name) {
-        return camelize(name) + "Api";
+        return toApiName(name);
     }
 
     @SuppressWarnings("unchecked")
