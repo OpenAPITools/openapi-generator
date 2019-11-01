@@ -311,7 +311,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     private void addExtraReservedWords() {
         this.reservedWords.add("BASE_PATH");
         this.reservedWords.add("BaseAPI");
-        this.reservedWords.add("RequiredError");
         this.reservedWords.add("COLLECTION_FORMATS");
         this.reservedWords.add("ConfigurationParameters");
         this.reservedWords.add("Configuration");
@@ -323,7 +322,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         this.reservedWords.add("RequestArgs");
         this.reservedWords.add("RequestOpts");
         this.reservedWords.add("ResponseArgs");
-        this.reservedWords.add("exists");
         this.reservedWords.add("Middleware");
         this.reservedWords.add("AjaxRequest");
         this.reservedWords.add("AjaxResponse");
