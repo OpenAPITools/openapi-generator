@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -39,6 +41,24 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
     public ScalazClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
+
         outputFolder = "generated-code/scalaz";
         embeddedTemplateDir = templateDir = "scalaz";
         apiPackage = "org.openapitools.client.api";
