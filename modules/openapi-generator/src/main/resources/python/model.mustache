@@ -27,6 +27,10 @@ class {{classname}}(object):
 {{/-last}}
 {{/enumVars}}{{/allowableValues}}
 
+{{#allowableValues}}
+    allowable_values = [{{#enumVars}}{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
+
+{{/allowableValues}}
     """
     Attributes:
       openapi_types (dict): The key is attribute name

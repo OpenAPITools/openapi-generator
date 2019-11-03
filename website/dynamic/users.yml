@@ -9,6 +9,16 @@
   infoLink: "https://angular.schule/"
   pinned: false
 -
+  caption: "ANZ"
+  image: "img/companies/anz.png"
+  infoLink: "https://www.anz.com/"
+  pinned: false
+-
+  caption: "Arduino"
+  image: "img/companies/arduino.png"
+  infoLink: "https://www.arduino.cc/"
+  pinned: false
+-
   caption: ASKUL
   image: "img/companies/logo-askul-01.gif"
   infoLink: "https://www.askul.co.jp/"
@@ -33,6 +43,11 @@
   image: "img/companies/bithost.svg"
   infoLink: "https://www.bithost.ch/"
   pinned: true
+-
+  caption: Bosch Connected Industry
+  image: "img/companies/bosch.png"
+  infoLink: "https://www.bosch-connected-industry.com"
+  pinned: false
 -
   caption: Boxever
   image: "img/companies/boxever.svg"
@@ -76,12 +91,27 @@
 -
   caption: "DB Systel"
   image: "img/companies/db-systel.png"
-  infoLink: "https://www.cupix.com/"
+  infoLink: "https://www.dbsystel.de"
+  pinned: false
+-
+  caption: "dwango"
+  image: "img/companies/dwango.png"
+  infoLink: "https://dwango.co.jp/"
+  pinned: false
+-
+  caption: "Edge Impulse"
+  image: "img/companies/edge_impulse.png"
+  infoLink: "https://www.edgeimpulse.com/"
   pinned: false
 -
   caption: "Element AI"
   image: "img/companies/element_ai.png"
   infoLink: "https://www.elementai.com/"
+  pinned: false
+-
+  caption: "Fenergo"
+  image: "img/companies/fenergo.png"
+  infoLink: "https://www.fenergo.com/"
   pinned: false
 -
   caption: "FormAPI"
@@ -107,6 +137,16 @@
   caption: "GoDaddy"
   image: "img/companies/godaddy.png"
   infoLink: "https://www.godaddy.com/"
+  pinned: false
+-
+  caption: "Here"
+  image: "img/companies/here.png"
+  infoLink: "https://developer.here.com/"
+  pinned: false
+-
+  caption: "IBM"
+  image: "img/companies/ibm.svg"
+  infoLink: "https://www.ibm.com"
   pinned: false
 -
   caption: JustStar
@@ -149,6 +189,11 @@
   infoLink: "https://myworkout.com/"
   pinned: false
 -
+  caption: Openet
+  image: "img/companies/openet.jpg"
+  infoLink: "https://www.openet.com/"
+  pinned: false
+-
   caption: OPTiM
   image: "img/companies/optim.png"
   infoLink: "https://www.optim.co.jp/"
@@ -179,6 +224,11 @@
   infoLink: "https://www.raiffeisen.ch/"
   pinned: false
 -
+  caption: "RedHat"
+  image: "img/companies/redhat.png"
+  infoLink: "https://www.redhat.com"
+  pinned: false
+-
   caption: "RepreZen API Studio"
   image: "img/companies/reprezen.png"
   infoLink: "https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development"
@@ -203,6 +253,11 @@
   image: "img/companies/telstra.svg"
   infoLink: "https://dev.telstra.com/"
   pinned: true
+-
+  caption: "TravelTime platform"
+  image: "img/companies/traveltime.jpg"
+  infoLink: "https://www.traveltimeplatform.com/"
+  pinned: false
 -
   caption: "TUI InfoTec GmbH"
   image: "img/companies/infotec.png"

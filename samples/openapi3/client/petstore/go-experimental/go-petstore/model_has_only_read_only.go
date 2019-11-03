@@ -8,18 +8,19 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // HasOnlyReadOnly struct for HasOnlyReadOnly
 type HasOnlyReadOnly struct {
 	Bar *string `json:"bar,omitempty"`
-
 	Foo *string `json:"foo,omitempty"`
-
 }
 
-// GetBar returns the Bar field if non-nil, zero value otherwise.
+// GetBar returns the Bar field value if set, zero value otherwise.
 func (o *HasOnlyReadOnly) GetBar() string {
 	if o == nil || o.Bar == nil {
 		var ret string
@@ -28,7 +29,7 @@ func (o *HasOnlyReadOnly) GetBar() string {
 	return *o.Bar
 }
 
-// GetBarOk returns a tuple with the Bar field if it's non-nil, zero value otherwise
+// GetBarOk returns a tuple with the Bar field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *HasOnlyReadOnly) GetBarOk() (string, bool) {
 	if o == nil || o.Bar == nil {
@@ -52,7 +53,7 @@ func (o *HasOnlyReadOnly) SetBar(v string) {
 	o.Bar = &v
 }
 
-// GetFoo returns the Foo field if non-nil, zero value otherwise.
+// GetFoo returns the Foo field value if set, zero value otherwise.
 func (o *HasOnlyReadOnly) GetFoo() string {
 	if o == nil || o.Foo == nil {
 		var ret string
@@ -61,7 +62,7 @@ func (o *HasOnlyReadOnly) GetFoo() string {
 	return *o.Foo
 }
 
-// GetFooOk returns a tuple with the Foo field if it's non-nil, zero value otherwise
+// GetFooOk returns a tuple with the Foo field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *HasOnlyReadOnly) GetFooOk() (string, bool) {
 	if o == nil || o.Foo == nil {
@@ -85,17 +86,26 @@ func (o *HasOnlyReadOnly) SetFoo(v string) {
 	o.Foo = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o HasOnlyReadOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Bar != nil {
-		toSerialize["bar"] = o.Bar
-	}
-	if o.Foo != nil {
-		toSerialize["foo"] = o.Foo
-	}
-	return json.Marshal(toSerialize)
+type NullableHasOnlyReadOnly struct {
+	Value HasOnlyReadOnly
+	ExplicitNull bool
 }
 
+func (v NullableHasOnlyReadOnly) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableHasOnlyReadOnly) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

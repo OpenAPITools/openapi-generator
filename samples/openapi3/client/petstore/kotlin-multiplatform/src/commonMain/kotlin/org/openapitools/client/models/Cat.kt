@@ -25,5 +25,7 @@ data class Cat (
     @SerialName(value = "className") @Required val className: kotlin.String,
     @SerialName(value = "declawed") val declawed: kotlin.Boolean? = null,
     @SerialName(value = "color") val color: kotlin.String? = null
-)
+) 
+
+
 

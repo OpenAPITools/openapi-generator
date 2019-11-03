@@ -22,5 +22,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class InlineResponseDefault (
     @SerialName(value = "string") val string: Foo? = null
-)
+) 
+
+
 

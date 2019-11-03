@@ -15,7 +15,7 @@ type {{classname}}Controller struct {
 }
 
 // New{{classname}}Controller creates a default api controller
-func New{{classname}}Controller(s {{classname}}Servicer) {{classname}}Router {
+func New{{classname}}Controller(s {{classname}}Servicer) Router {
 	return &{{classname}}Controller{ service: s }
 }
 

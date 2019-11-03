@@ -67,7 +67,6 @@ public class Tag {
   }
 
 
-
   public void setId(Long id) {
     this.id = id;
   }
@@ -92,7 +91,6 @@ public class Tag {
   public String getName() {
     return name;
   }
-
 
 
   public void setName(String name) {

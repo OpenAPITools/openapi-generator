@@ -22,10 +22,18 @@ from petstore_api.exceptions import (
     ApiTypeError,
     ApiValueError
 )
-from petstore_api.model_utils import (
+from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
-    check_validations
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_and_convert_types
 )
+from petstore_api.models.order import Order
 
 
 class StoreApi(object):
@@ -50,22 +58,49 @@ class StoreApi(object):
             >>> result = thread.get()
 
             :param async_req bool: execute request asynchronously
+                Default is False.
             :param str order_id: ID of the order that needs to be deleted (required)
             :param _return_http_data_only: response data without head status
-                code and headers
+                code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
                 will be returned without reading/decoding response data.
                 Default is True.
             :param _request_timeout: timeout setting for this request. If one
                 number provided, it will be total request timeout. It can also
                 be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
             :return: None
                 If the method is called asynchronously, returns the request
                 thread.
             """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
             kwargs['_return_http_data_only'] = kwargs.get(
                 '_return_http_data_only', True
             )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
             kwargs['order_id'] = order_id
             return self.call_with_http_info(**kwargs)
 
@@ -98,7 +133,7 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'order_id': 'str',
+                    'order_id': (str,),
                 },
                 'attribute_map': {
                     'order_id': 'order_id',
@@ -127,26 +162,53 @@ class StoreApi(object):
             >>> result = thread.get()
 
             :param async_req bool: execute request asynchronously
+                Default is False.
             :param _return_http_data_only: response data without head status
-                code and headers
+                code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
                 will be returned without reading/decoding response data.
                 Default is True.
             :param _request_timeout: timeout setting for this request. If one
                 number provided, it will be total request timeout. It can also
                 be a pair (tuple) of (connection, read) timeouts.
-            :return: dict(str, int)
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: {str: (int,)}
                 If the method is called asynchronously, returns the request
                 thread.
             """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
             kwargs['_return_http_data_only'] = kwargs.get(
                 '_return_http_data_only', True
             )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
             return self.call_with_http_info(**kwargs)
 
         self.get_inventory = Endpoint(
             settings={
-                'response_type': 'dict(str, int)',
+                'response_type': ({str: (int,)},),
                 'auth': [
                     'api_key'
                 ],
@@ -200,28 +262,55 @@ class StoreApi(object):
             >>> result = thread.get()
 
             :param async_req bool: execute request asynchronously
+                Default is False.
             :param int order_id: ID of pet that needs to be fetched (required)
             :param _return_http_data_only: response data without head status
-                code and headers
+                code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
                 will be returned without reading/decoding response data.
                 Default is True.
             :param _request_timeout: timeout setting for this request. If one
                 number provided, it will be total request timeout. It can also
                 be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
             :return: Order
                 If the method is called asynchronously, returns the request
                 thread.
             """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
             kwargs['_return_http_data_only'] = kwargs.get(
                 '_return_http_data_only', True
             )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
             kwargs['order_id'] = order_id
             return self.call_with_http_info(**kwargs)
 
         self.get_order_by_id = Endpoint(
             settings={
-                'response_type': 'Order',
+                'response_type': (Order,),
                 'auth': [],
                 'endpoint_path': '/store/order/{order_id}',
                 'operation_id': 'get_order_by_id',
@@ -254,7 +343,7 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'order_id': 'int',
+                    'order_id': (int,),
                 },
                 'attribute_map': {
                     'order_id': 'order_id',
@@ -285,28 +374,55 @@ class StoreApi(object):
             >>> result = thread.get()
 
             :param async_req bool: execute request asynchronously
+                Default is False.
             :param Order body: order placed for purchasing the pet (required)
             :param _return_http_data_only: response data without head status
-                code and headers
+                code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
                 will be returned without reading/decoding response data.
                 Default is True.
             :param _request_timeout: timeout setting for this request. If one
                 number provided, it will be total request timeout. It can also
                 be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
             :return: Order
                 If the method is called asynchronously, returns the request
                 thread.
             """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
             kwargs['_return_http_data_only'] = kwargs.get(
                 '_return_http_data_only', True
             )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
             kwargs['body'] = body
             return self.call_with_http_info(**kwargs)
 
         self.place_order = Endpoint(
             settings={
-                'response_type': 'Order',
+                'response_type': (Order,),
                 'auth': [],
                 'endpoint_path': '/store/order',
                 'operation_id': 'place_order',
@@ -333,7 +449,7 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': 'Order',
+                    'body': (Order,),
                 },
                 'attribute_map': {
                 },
@@ -362,7 +478,7 @@ class Endpoint(object):
 
         Args:
             settings (dict): see below key value pairs
-                'response_type' (str): response type
+                'response_type' (tuple/None): response type
                 'auth' (list): a list of auth type keys
                 'endpoint_path' (str): the endpoint path
                 'operation_id' (str): endpoint string identifier
@@ -398,11 +514,24 @@ class Endpoint(object):
             '_host_index',
             '_preload_content',
             '_request_timeout',
-            '_return_http_data_only'
+            '_return_http_data_only',
+            '_check_input_type',
+            '_check_return_type'
         ])
+        self.params_map['nullable'].extend(['_request_timeout'])
         self.validations = root_map['validations']
         self.allowed_values = root_map['allowed_values']
         self.openapi_types = root_map['openapi_types']
+        extra_types = {
+            'async_req': (bool,),
+            '_host_index': (int,),
+            '_preload_content': (bool,),
+            '_request_timeout': (none_type, int, (int,), [int]),
+            '_return_http_data_only': (bool,),
+            '_check_input_type': (bool,),
+            '_check_return_type': (bool,)
+        }
+        self.openapi_types.update(extra_types)
         self.attribute_map = root_map['attribute_map']
         self.location_map = root_map['location_map']
         self.collection_format_map = root_map['collection_format_map']
@@ -416,8 +545,7 @@ class Endpoint(object):
                 check_allowed_values(
                     self.allowed_values,
                     (param,),
-                    kwargs[param],
-                    self.validations
+                    kwargs[param]
                 )
 
         for param in self.params_map['validation']:
@@ -427,6 +555,20 @@ class Endpoint(object):
                     (param,),
                     kwargs[param]
                 )
+
+        if kwargs['_check_input_type'] is False:
+            return
+
+        for key, value in six.iteritems(kwargs):
+            fixed_val = validate_and_convert_types(
+                value,
+                self.openapi_types[key],
+                [key],
+                False,
+                kwargs['_check_input_type'],
+                configuration=self.api_client.configuration
+            )
+            kwargs[key] = fixed_val
 
     def __gather_params(self, kwargs):
         params = {
@@ -441,14 +583,20 @@ class Endpoint(object):
 
         for param_name, param_value in six.iteritems(kwargs):
             param_location = self.location_map.get(param_name)
+            if param_location is None:
+                continue
             if param_location:
                 if param_location == 'body':
                     params['body'] = param_value
                     continue
                 base_name = self.attribute_map[param_name]
                 if (param_location == 'form' and
-                        self.openapi_types[param_name] == 'file'):
-                    param_location = 'file'
+                        self.openapi_types[param_name] == (file_type,)):
+                    params['file'][param_name] = [param_value]
+                elif (param_location == 'form' and
+                        self.openapi_types[param_name] == ([file_type],)):
+                    # param_value is already a list
+                    params['file'][param_name] = param_value
                 elif param_location in {'form', 'query'}:
                     param_value_full = (base_name, param_value)
                     params[param_location].append(param_value_full)
@@ -473,20 +621,15 @@ class Endpoint(object):
 
     def call_with_http_info(self, **kwargs):
 
-        if kwargs.get('_host_index') and self.settings['servers']:
-            _host_index = kwargs.get('_host_index')
-            try:
-                _host = self.settings['servers'][_host_index]
-            except IndexError:
+        try:
+            _host = self.settings['servers'][kwargs['_host_index']]
+        except IndexError:
+            if self.settings['servers']:
                 raise ApiValueError(
                     "Invalid host index. Must be 0 <= index < %s" %
                     len(self.settings['servers'])
                 )
-        else:
-            try:
-                _host = self.settings['servers'][0]
-            except IndexError:
-                _host = None
+            _host = None
 
         for key, value in six.iteritems(kwargs):
             if key not in self.params_map['all']:
@@ -495,7 +638,11 @@ class Endpoint(object):
                     " to method `%s`" %
                     (key, self.settings['operation_id'])
                 )
-            if key not in self.params_map['nullable'] and value is None:
+            # only throw this nullable ApiValueError if _check_input_type
+            # is False, if _check_input_type==True we catch this case
+            # in self.__validate_inputs
+            if (key not in self.params_map['nullable'] and value is None
+                    and kwargs['_check_input_type'] is False):
                 raise ApiValueError(
                     "Value may not be None for non-nullable parameter `%s`"
                     " when calling `%s`" %
@@ -534,9 +681,10 @@ class Endpoint(object):
             files=params['file'],
             response_type=self.settings['response_type'],
             auth_settings=self.settings['auth'],
-            async_req=kwargs.get('async_req'),
-            _return_http_data_only=kwargs.get('_return_http_data_only'),
-            _preload_content=kwargs.get('_preload_content', True),
-            _request_timeout=kwargs.get('_request_timeout'),
+            async_req=kwargs['async_req'],
+            _check_type=kwargs['_check_return_type'],
+            _return_http_data_only=kwargs['_return_http_data_only'],
+            _preload_content=kwargs['_preload_content'],
+            _request_timeout=kwargs['_request_timeout'],
             _host=_host,
             collection_formats=params['collection_format'])

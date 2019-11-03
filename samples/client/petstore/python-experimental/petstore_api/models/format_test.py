@@ -15,12 +15,26 @@ import re  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
+from petstore_api.exceptions import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+)
 from petstore_api.model_utils import (  # noqa: F401
     ModelNormal,
     ModelSimple,
     check_allowed_values,
-    check_validations
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    get_simple_class,
+    int,
+    model_to_dict,
+    none_type,
+    str,
+    type_error_message,
+    validate_and_convert_types
 )
 
 
@@ -46,6 +60,8 @@ class FormatTest(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
@@ -68,56 +84,49 @@ class FormatTest(ModelNormal):
     }
 
     openapi_types = {
-        'integer': 'int',
-        'int32': 'int',
-        'int64': 'int',
-        'number': 'float',
-        'float': 'float',
-        'double': 'float',
-        'string': 'str',
-        'byte': 'str',
-        'binary': 'file',
-        'date': 'date',
-        'date_time': 'datetime',
-        'uuid': 'str',
-        'password': 'str'
+        'integer': (int,),  # noqa: E501
+        'int32': (int,),  # noqa: E501
+        'int64': (int,),  # noqa: E501
+        'number': (float,),  # noqa: E501
+        'float': (float,),  # noqa: E501
+        'double': (float,),  # noqa: E501
+        'string': (str,),  # noqa: E501
+        'byte': (str,),  # noqa: E501
+        'binary': (file_type,),  # noqa: E501
+        'date': (date,),  # noqa: E501
+        'date_time': (datetime,),  # noqa: E501
+        'uuid': (str,),  # noqa: E501
+        'password': (str,),  # noqa: E501
     }
 
     validations = {
         ('integer',): {
-
             'inclusive_maximum': 100,
             'inclusive_minimum': 10,
         },
         ('int32',): {
-
             'inclusive_maximum': 200,
             'inclusive_minimum': 20,
         },
         ('number',): {
-
             'inclusive_maximum': 543.2,
             'inclusive_minimum': 32.1,
         },
         ('float',): {
-
             'inclusive_maximum': 987.6,
             'inclusive_minimum': 54.3,
         },
         ('double',): {
-
             'inclusive_maximum': 123.4,
             'inclusive_minimum': 67.8,
         },
         ('string',): {
-
             'regex': {
                 'pattern': r'^[a-z]+$',  # noqa: E501
                 'flags': (re.IGNORECASE)
             },
         },
         ('byte',): {
-
             'regex': {
                 'pattern': r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$',  # noqa: E501
             },
@@ -128,435 +137,323 @@ class FormatTest(ModelNormal):
         },
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None):  # noqa: E501
-        """FormatTest - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._integer = None
-        self._int32 = None
-        self._int64 = None
-        self._number = None
-        self._float = None
-        self._double = None
-        self._string = None
-        self._byte = None
-        self._binary = None
-        self._date = None
-        self._date_time = None
-        self._uuid = None
-        self._password = None
-        self.discriminator = None
+    discriminator = None
 
-        if integer is not None:
-            self.integer = (
-                integer
+    def __init__(self, number, byte, date, password, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """FormatTest - a model defined in OpenAPI
+
+        Args:
+            number (float):
+            byte (str):
+            date (date):
+            password (str):
+
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            integer (int): [optional]  # noqa: E501
+            int32 (int): [optional]  # noqa: E501
+            int64 (int): [optional]  # noqa: E501
+            float (float): [optional]  # noqa: E501
+            double (float): [optional]  # noqa: E501
+            string (str): [optional]  # noqa: E501
+            binary (file_type): [optional]  # noqa: E501
+            date_time (datetime): [optional]  # noqa: E501
+            uuid (str): [optional]  # noqa: E501
+        """
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
+
+        self.__set_item('number', number)
+        self.__set_item('byte', byte)
+        self.__set_item('date', date)
+        self.__set_item('password', password)
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__set_item(var_name, var_value)
+
+    def __set_item(self, name, value):
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+
+        if name in self.openapi_types:
+            required_types_mixed = self.openapi_types[name]
+        elif self.additional_properties_type is None:
+            raise ApiKeyError(
+                "{0} has no key '{1}'".format(type(self).__name__, name),
+                path_to_item
             )
-        if int32 is not None:
-            self.int32 = (
-                int32
+        elif self.additional_properties_type is not None:
+            required_types_mixed = self.additional_properties_type
+
+        if get_simple_class(name) != str:
+            error_msg = type_error_message(
+                var_name=name,
+                var_value=name,
+                valid_classes=(str,),
+                key_type=True
             )
-        if int64 is not None:
-            self.int64 = (
-                int64
+            raise ApiTypeError(
+                error_msg,
+                path_to_item=path_to_item,
+                valid_classes=(str,),
+                key_type=True
             )
-        self.number = number
-        if float is not None:
-            self.float = (
-                float
+
+        if self._check_type:
+            value = validate_and_convert_types(
+                value, required_types_mixed, path_to_item, self._from_server,
+                self._check_type, configuration=self._configuration)
+        if (name,) in self.allowed_values:
+            check_allowed_values(
+                self.allowed_values,
+                (name,),
+                value
             )
-        if double is not None:
-            self.double = (
-                double
+        if (name,) in self.validations:
+            check_validations(
+                self.validations,
+                (name,),
+                value
             )
-        if string is not None:
-            self.string = (
-                string
-            )
-        self.byte = byte
-        if binary is not None:
-            self.binary = (
-                binary
-            )
-        self.date = date
-        if date_time is not None:
-            self.date_time = (
-                date_time
-            )
-        if uuid is not None:
-            self.uuid = (
-                uuid
-            )
-        self.password = password
+        self._data_store[name] = value
+
+    def __get_item(self, name):
+        if name in self._data_store:
+            return self._data_store[name]
+
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        raise ApiKeyError(
+            "{0} has no key '{1}'".format(type(self).__name__, name),
+            [name]
+        )
+
+    def __setitem__(self, name, value):
+        """this allows us to set values with instance[field_name] = val"""
+        self.__set_item(name, value)
+
+    def __getitem__(self, name):
+        """this allows us to get a value with val = instance[field_name]"""
+        return self.__get_item(name)
 
     @property
     def integer(self):
         """Gets the integer of this FormatTest.  # noqa: E501
 
-
-        :return: The integer of this FormatTest.  # noqa: E501
-        :rtype: int
+        Returns:
+            (int): The integer of this FormatTest.  # noqa: E501
         """
-        return self._integer
+        return self.__get_item('integer')
 
     @integer.setter
-    def integer(self, integer):  # noqa: E501
-        """Sets the integer of this FormatTest.
-
-
-        :param integer: The integer of this FormatTest.  # noqa: E501
-        :type: int
+    def integer(self, value):
+        """Sets the integer of this FormatTest.  # noqa: E501
         """
-        check_validations(
-            self.validations,
-            ('integer',),
-            integer
-        )
-
-        self._integer = (
-            integer
-        )
+        return self.__set_item('integer', value)
 
     @property
     def int32(self):
         """Gets the int32 of this FormatTest.  # noqa: E501
 
-
-        :return: The int32 of this FormatTest.  # noqa: E501
-        :rtype: int
+        Returns:
+            (int): The int32 of this FormatTest.  # noqa: E501
         """
-        return self._int32
+        return self.__get_item('int32')
 
     @int32.setter
-    def int32(self, int32):  # noqa: E501
-        """Sets the int32 of this FormatTest.
-
-
-        :param int32: The int32 of this FormatTest.  # noqa: E501
-        :type: int
+    def int32(self, value):
+        """Sets the int32 of this FormatTest.  # noqa: E501
         """
-        check_validations(
-            self.validations,
-            ('int32',),
-            int32
-        )
-
-        self._int32 = (
-            int32
-        )
+        return self.__set_item('int32', value)
 
     @property
     def int64(self):
         """Gets the int64 of this FormatTest.  # noqa: E501
 
-
-        :return: The int64 of this FormatTest.  # noqa: E501
-        :rtype: int
+        Returns:
+            (int): The int64 of this FormatTest.  # noqa: E501
         """
-        return self._int64
+        return self.__get_item('int64')
 
     @int64.setter
-    def int64(self, int64):  # noqa: E501
-        """Sets the int64 of this FormatTest.
-
-
-        :param int64: The int64 of this FormatTest.  # noqa: E501
-        :type: int
+    def int64(self, value):
+        """Sets the int64 of this FormatTest.  # noqa: E501
         """
-
-        self._int64 = (
-            int64
-        )
+        return self.__set_item('int64', value)
 
     @property
     def number(self):
         """Gets the number of this FormatTest.  # noqa: E501
 
-
-        :return: The number of this FormatTest.  # noqa: E501
-        :rtype: float
+        Returns:
+            (float): The number of this FormatTest.  # noqa: E501
         """
-        return self._number
+        return self.__get_item('number')
 
     @number.setter
-    def number(self, number):  # noqa: E501
-        """Sets the number of this FormatTest.
-
-
-        :param number: The number of this FormatTest.  # noqa: E501
-        :type: float
+    def number(self, value):
+        """Sets the number of this FormatTest.  # noqa: E501
         """
-        if number is None:
-            raise ApiValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
-        check_validations(
-            self.validations,
-            ('number',),
-            number
-        )
-
-        self._number = (
-            number
-        )
+        return self.__set_item('number', value)
 
     @property
     def float(self):
         """Gets the float of this FormatTest.  # noqa: E501
 
-
-        :return: The float of this FormatTest.  # noqa: E501
-        :rtype: float
+        Returns:
+            (float): The float of this FormatTest.  # noqa: E501
         """
-        return self._float
+        return self.__get_item('float')
 
     @float.setter
-    def float(self, float):  # noqa: E501
-        """Sets the float of this FormatTest.
-
-
-        :param float: The float of this FormatTest.  # noqa: E501
-        :type: float
+    def float(self, value):
+        """Sets the float of this FormatTest.  # noqa: E501
         """
-        check_validations(
-            self.validations,
-            ('float',),
-            float
-        )
-
-        self._float = (
-            float
-        )
+        return self.__set_item('float', value)
 
     @property
     def double(self):
         """Gets the double of this FormatTest.  # noqa: E501
 
-
-        :return: The double of this FormatTest.  # noqa: E501
-        :rtype: float
+        Returns:
+            (float): The double of this FormatTest.  # noqa: E501
         """
-        return self._double
+        return self.__get_item('double')
 
     @double.setter
-    def double(self, double):  # noqa: E501
-        """Sets the double of this FormatTest.
-
-
-        :param double: The double of this FormatTest.  # noqa: E501
-        :type: float
+    def double(self, value):
+        """Sets the double of this FormatTest.  # noqa: E501
         """
-        check_validations(
-            self.validations,
-            ('double',),
-            double
-        )
-
-        self._double = (
-            double
-        )
+        return self.__set_item('double', value)
 
     @property
     def string(self):
         """Gets the string of this FormatTest.  # noqa: E501
 
-
-        :return: The string of this FormatTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The string of this FormatTest.  # noqa: E501
         """
-        return self._string
+        return self.__get_item('string')
 
     @string.setter
-    def string(self, string):  # noqa: E501
-        """Sets the string of this FormatTest.
-
-
-        :param string: The string of this FormatTest.  # noqa: E501
-        :type: str
+    def string(self, value):
+        """Sets the string of this FormatTest.  # noqa: E501
         """
-        check_validations(
-            self.validations,
-            ('string',),
-            string
-        )
-
-        self._string = (
-            string
-        )
+        return self.__set_item('string', value)
 
     @property
     def byte(self):
         """Gets the byte of this FormatTest.  # noqa: E501
 
-
-        :return: The byte of this FormatTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The byte of this FormatTest.  # noqa: E501
         """
-        return self._byte
+        return self.__get_item('byte')
 
     @byte.setter
-    def byte(self, byte):  # noqa: E501
-        """Sets the byte of this FormatTest.
-
-
-        :param byte: The byte of this FormatTest.  # noqa: E501
-        :type: str
+    def byte(self, value):
+        """Sets the byte of this FormatTest.  # noqa: E501
         """
-        if byte is None:
-            raise ApiValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
-        check_validations(
-            self.validations,
-            ('byte',),
-            byte
-        )
-
-        self._byte = (
-            byte
-        )
+        return self.__set_item('byte', value)
 
     @property
     def binary(self):
         """Gets the binary of this FormatTest.  # noqa: E501
 
-
-        :return: The binary of this FormatTest.  # noqa: E501
-        :rtype: file
+        Returns:
+            (file_type): The binary of this FormatTest.  # noqa: E501
         """
-        return self._binary
+        return self.__get_item('binary')
 
     @binary.setter
-    def binary(self, binary):  # noqa: E501
-        """Sets the binary of this FormatTest.
-
-
-        :param binary: The binary of this FormatTest.  # noqa: E501
-        :type: file
+    def binary(self, value):
+        """Sets the binary of this FormatTest.  # noqa: E501
         """
-
-        self._binary = (
-            binary
-        )
+        return self.__set_item('binary', value)
 
     @property
     def date(self):
         """Gets the date of this FormatTest.  # noqa: E501
 
-
-        :return: The date of this FormatTest.  # noqa: E501
-        :rtype: date
+        Returns:
+            (date): The date of this FormatTest.  # noqa: E501
         """
-        return self._date
+        return self.__get_item('date')
 
     @date.setter
-    def date(self, date):  # noqa: E501
-        """Sets the date of this FormatTest.
-
-
-        :param date: The date of this FormatTest.  # noqa: E501
-        :type: date
+    def date(self, value):
+        """Sets the date of this FormatTest.  # noqa: E501
         """
-        if date is None:
-            raise ApiValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
-
-        self._date = (
-            date
-        )
+        return self.__set_item('date', value)
 
     @property
     def date_time(self):
         """Gets the date_time of this FormatTest.  # noqa: E501
 
-
-        :return: The date_time of this FormatTest.  # noqa: E501
-        :rtype: datetime
+        Returns:
+            (datetime): The date_time of this FormatTest.  # noqa: E501
         """
-        return self._date_time
+        return self.__get_item('date_time')
 
     @date_time.setter
-    def date_time(self, date_time):  # noqa: E501
-        """Sets the date_time of this FormatTest.
-
-
-        :param date_time: The date_time of this FormatTest.  # noqa: E501
-        :type: datetime
+    def date_time(self, value):
+        """Sets the date_time of this FormatTest.  # noqa: E501
         """
-
-        self._date_time = (
-            date_time
-        )
+        return self.__set_item('date_time', value)
 
     @property
     def uuid(self):
         """Gets the uuid of this FormatTest.  # noqa: E501
 
-
-        :return: The uuid of this FormatTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The uuid of this FormatTest.  # noqa: E501
         """
-        return self._uuid
+        return self.__get_item('uuid')
 
     @uuid.setter
-    def uuid(self, uuid):  # noqa: E501
-        """Sets the uuid of this FormatTest.
-
-
-        :param uuid: The uuid of this FormatTest.  # noqa: E501
-        :type: str
+    def uuid(self, value):
+        """Sets the uuid of this FormatTest.  # noqa: E501
         """
-
-        self._uuid = (
-            uuid
-        )
+        return self.__set_item('uuid', value)
 
     @property
     def password(self):
         """Gets the password of this FormatTest.  # noqa: E501
 
-
-        :return: The password of this FormatTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The password of this FormatTest.  # noqa: E501
         """
-        return self._password
+        return self.__get_item('password')
 
     @password.setter
-    def password(self, password):  # noqa: E501
-        """Sets the password of this FormatTest.
-
-
-        :param password: The password of this FormatTest.  # noqa: E501
-        :type: str
+    def password(self, value):
+        """Sets the password of this FormatTest.  # noqa: E501
         """
-        if password is None:
-            raise ApiValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
-        check_validations(
-            self.validations,
-            ('password',),
-            password
-        )
-
-        self._password = (
-            password
-        )
+        return self.__set_item('password', value)
 
     def to_dict(self):
         """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
+        return model_to_dict(self, serialize=False)
 
     def to_str(self):
         """Returns the string representation of the model"""
@@ -571,7 +468,22 @@ class FormatTest(ModelNormal):
         if not isinstance(other, FormatTest):
             return False
 
-        return self.__dict__ == other.__dict__
+        if not set(self._data_store.keys()) == set(other._data_store.keys()):
+            return False
+        for _var_name, this_val in six.iteritems(self._data_store):
+            that_val = other._data_store[_var_name]
+            types = set()
+            types.add(this_val.__class__)
+            types.add(that_val.__class__)
+            vals_equal = this_val == that_val
+            if (not six.PY3 and
+                    len(types) == 2 and unicode in types):  # noqa: F821
+                vals_equal = (
+                    this_val.encode('utf-8') == that_val.encode('utf-8')
+                )
+            if not vals_equal:
+                return False
+        return True
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""

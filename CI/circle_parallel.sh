@@ -24,6 +24,10 @@ elif [ "$NODE_INDEX" = "2" ]; then
     # install elm-format
     npm install -g elm-format
 
+    # clear any changes to the samples
+    git checkout -- .
+
+    # look for outdated samples
     ./bin/utils/ensure-up-to-date
   fi
 #elif [ "$NODE_INDEX" = "3" ]; then

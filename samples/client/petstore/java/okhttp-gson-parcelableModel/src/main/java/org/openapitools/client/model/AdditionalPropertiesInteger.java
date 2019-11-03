@@ -59,7 +59,6 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> implem
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }

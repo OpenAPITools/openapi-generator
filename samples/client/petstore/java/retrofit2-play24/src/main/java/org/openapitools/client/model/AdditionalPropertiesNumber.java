@@ -60,7 +60,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }

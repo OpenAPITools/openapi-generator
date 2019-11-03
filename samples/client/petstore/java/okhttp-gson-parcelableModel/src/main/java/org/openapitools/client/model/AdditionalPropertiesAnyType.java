@@ -59,7 +59,6 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }

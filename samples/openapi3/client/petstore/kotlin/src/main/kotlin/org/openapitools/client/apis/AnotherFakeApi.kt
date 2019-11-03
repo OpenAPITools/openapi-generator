@@ -36,7 +36,7 @@ class AnotherFakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2
     @Suppress("UNCHECKED_CAST")
     fun call123testSpecialTags(client: Client) : Client {
         val localVariableBody: kotlin.Any? = client
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.PATCH,
