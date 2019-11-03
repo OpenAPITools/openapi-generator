@@ -182,7 +182,7 @@ export class {{classname}} {
         {{^isListContainer}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
+            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', ({{paramName}} as any instanceof Date) ? ({{paramName}} as any).toISOString().substr(0, 10) : {{paramName}});
         {{/isDateTime}}
         {{^isDateTime}}
             {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', <any>{{paramName}});
