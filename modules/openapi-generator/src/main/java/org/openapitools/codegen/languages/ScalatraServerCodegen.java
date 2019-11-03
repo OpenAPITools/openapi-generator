@@ -18,7 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.*;
 
 import java.util.*;
 
@@ -33,6 +33,20 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
 
         featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
                 .build();
 
         outputFolder = "generated-code/scalatra";
