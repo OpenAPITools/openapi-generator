@@ -33,6 +33,6 @@ enum class OuterEnumIntegerDefaultValue(val value: kotlin.Int){
 
 
 
-    object Serializer : CommonEnumSerializer<OuterEnumIntegerDefaultValue>("OuterEnumIntegerDefaultValue", values(), values().map { it.value }.toTypedArray())
+    object Serializer : CommonEnumSerializer<OuterEnumIntegerDefaultValue>("OuterEnumIntegerDefaultValue", values(), values().map { it.value.toString() }.toTypedArray())
 }
 

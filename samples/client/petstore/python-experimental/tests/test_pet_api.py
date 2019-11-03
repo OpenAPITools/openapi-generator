@@ -11,18 +11,34 @@ $ cd petstore_api-python
 $ nosetests -v
 """
 
+from collections import namedtuple
+import json
 import os
 import unittest
 
 import petstore_api
 from petstore_api import Configuration
-from petstore_api.rest import ApiException
+from petstore_api.rest import (
+    RESTClientObject,
+    RESTResponse
+)
+
+import six
+
+from petstore_api.exceptions import (
+    ApiException,
+    ApiValueError,
+    ApiTypeError,
+)
 
 from .util import id_gen
 
-import json
-
 import urllib3
+
+if six.PY3:
+    from unittest.mock import patch
+else:
+    from mock import patch
 
 HOST = 'http://localhost/v2'
 
@@ -78,7 +94,6 @@ class PetApiTests(unittest.TestCase):
     def setUpFiles(self):
         self.test_file_dir = os.path.join(os.path.dirname(__file__), "..", "testfiles")
         self.test_file_dir = os.path.realpath(self.test_file_dir)
-        self.foo = os.path.join(self.test_file_dir, "foo.png")
 
     def test_preload_content_flag(self):
         self.pet_api.add_pet(self.pet)
@@ -173,7 +188,7 @@ class PetApiTests(unittest.TestCase):
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id("-9999999999999", async_req=True)
+        thread = self.pet_api.get_pet_by_id(-9999999999999, async_req=True)
 
         exception = None
         try:
@@ -246,21 +261,108 @@ class PetApiTests(unittest.TestCase):
 
     def test_upload_file(self):
         # upload file with form parameter
+        file_path1 = os.path.join(self.test_file_dir, "1px_pic1.png")
+        file_path2 = os.path.join(self.test_file_dir, "1px_pic2.png")
         try:
+            file = open(file_path1, "rb")
             additional_metadata = "special"
             self.pet_api.upload_file(
                 pet_id=self.pet.id,
                 additional_metadata=additional_metadata,
-                file=self.foo
+                file=file
             )
         except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file.close()
 
-        # upload only file
+        # upload only one file
         try:
-            self.pet_api.upload_file(pet_id=self.pet.id, file=self.foo)
+            file = open(file_path1, "rb")
+            self.pet_api.upload_file(pet_id=self.pet.id, file=file)
         except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file.close()
+
+        # upload multiple files
+        HTTPResponse = namedtuple(
+            'urllib3_response_HTTPResponse',
+            ['status', 'reason', 'data', 'getheaders', 'getheader']
+        )
+        headers = {}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        api_respponse = {
+            'code': 200,
+            'type': 'blah',
+            'message': 'file upload succeeded'
+        }
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=json.dumps(api_respponse),
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        mock_response = RESTResponse(http_response)
+        try:
+            file1 = open(file_path1, "rb")
+            file2 = open(file_path2, "rb")
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = mock_response
+                res = self.pet_api.upload_file(
+                    pet_id=684696917, files=[file1, file2])
+                mock_method.assert_called_with(
+                    'POST',
+                    'http://localhost/v2/pet/684696917/uploadImage',
+                    _preload_content=True,
+                    _request_timeout=None,
+                    body=None,
+                    headers={
+                        'Accept': 'application/json',
+                        'Content-Type': 'multipart/form-data',
+                        'User-Agent': 'OpenAPI-Generator/1.0.0/python',
+                        'Authorization': 'Bearer '
+                    },
+                    post_params=[
+                        ('files', ('1px_pic1.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png')),
+                        ('files', ('1px_pic2.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png'))
+                    ],
+                    query_params=[]
+                )
+        except ApiException as e:
+            self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file1.close()
+            file2.close()
+
+        # passing in an array of files to when file only allows one
+        # raises an exceptions
+        try:
+            file = open(file_path1, "rb")
+            with self.assertRaises(ApiTypeError) as exc:
+                self.pet_api.upload_file(pet_id=self.pet.id, file=[file])
+        finally:
+            file.close()
+
+        # passing in a single file when an array of file is required
+        # raises an exception
+        try:
+            file = open(file_path1, "rb")
+            with self.assertRaises(ApiTypeError) as exc:
+                self.pet_api.upload_file(pet_id=self.pet.id, files=file)
+        finally:
+            file.close()
+
+        # passing in a closed file raises an exception
+        with self.assertRaises(ApiValueError) as exc:
+            file = open(file_path1, "rb")
+            file.close()
+            self.pet_api.upload_file(pet_id=self.pet.id, file=file)
+
 
     def test_delete_pet(self):
         self.pet_api.add_pet(self.pet)

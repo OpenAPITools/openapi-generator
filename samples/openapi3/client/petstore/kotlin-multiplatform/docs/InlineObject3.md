@@ -12,8 +12,8 @@ Name | Type | Description | Notes
 **double** | **kotlin.Double** | None | 
 **string** | **kotlin.String** | None |  [optional]
 **patternWithoutDelimiter** | **kotlin.String** | None | 
-**byte** | **kotlin.ByteArray** | None | 
-**binary** | [**io.ktor.client.request.forms.InputProvider**](io.ktor.client.request.forms.InputProvider.md) | None |  [optional]
+**byte** | [**org.openapitools.client.infrastructure.Base64ByteArray**](org.openapitools.client.infrastructure.Base64ByteArray.md) | None | 
+**binary** | [**org.openapitools.client.infrastructure.OctetByteArray**](org.openapitools.client.infrastructure.OctetByteArray.md) | None |  [optional]
 **date** | **kotlin.String** | None |  [optional]
 **dateTime** | **kotlin.String** | None |  [optional]
 **password** | **kotlin.String** | None |  [optional]

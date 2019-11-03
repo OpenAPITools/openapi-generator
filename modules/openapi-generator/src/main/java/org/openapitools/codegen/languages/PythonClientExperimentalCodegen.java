@@ -50,6 +50,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public PythonClientExperimentalCodegen() {
         super();
 
+        // this may set datatype right for additional properties
+        instantiationTypes.put("map", "dict");
+
         apiTemplateFiles.remove("api.mustache");
         apiTemplateFiles.put("python-experimental/api.mustache", ".py");
 
@@ -75,6 +78,20 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
 
         supportingFiles.add(new SupportingFile("python-experimental/model_utils.mustache", packagePath(), "model_utils.py"));
+
+        Boolean generateSourceCodeOnly = false;
+        if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
+            generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
+        }
+
+        if (!generateSourceCodeOnly) {
+          supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
+          supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
+          supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+          supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
+          supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+          supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
+        }
 
         // default this to true so the python ModelSimple models will be generated
         ModelUtils.setGenerateAliasAsModel(true);
@@ -196,10 +213,20 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    @Override
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        // add regex information to property
-        postProcessPattern(property.pattern, property.vendorExtensions);
+    public void addModelImport(Map<String, Object> objs, CodegenModel cm, String otherModelName) {
+        // adds the absolute path to otherModelName as an import in CodegenModel cm
+        HashMap referencedModel = (HashMap) objs.get(otherModelName);
+        if (referencedModel == null) {
+            // this happens with a model where type=string and format=number which is a non-standard format
+            return;
+        }
+        ArrayList myModel = (ArrayList) referencedModel.get("models");
+        HashMap modelData = (HashMap) myModel.get(0);
+        String importPath = (String) modelData.get("importPath");
+        // only add importPath to parameters if it isn't in importPaths
+        if (!cm.imports.contains(importPath)) {
+            cm.imports.add(importPath);
+        }
     }
 
     // override with any special post-processing for all models
@@ -213,6 +240,41 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
+
+                // fix the imports that each model has, change them to absolute
+                // imports
+                // clear out imports so we will only include full path imports
+                cm.imports.clear();
+                CodegenDiscriminator discriminator = cm.discriminator;
+                if (discriminator != null) {
+                    Set<CodegenDiscriminator.MappedModel> mappedModels = discriminator.getMappedModels();
+                    for (CodegenDiscriminator.MappedModel mappedModel : mappedModels) {
+                        String otherModelName = mappedModel.getModelName();
+                        addModelImport(objs, cm, otherModelName);
+                    }
+                }
+                ArrayList<List<CodegenProperty>> listOfLists= new ArrayList<List<CodegenProperty>>();
+                listOfLists.add(cm.allVars);
+                listOfLists.add(cm.requiredVars);
+                listOfLists.add(cm.optionalVars);
+                listOfLists.add(cm.vars);
+                for (List<CodegenProperty> varList : listOfLists) {
+                  for (CodegenProperty cp : varList) {
+                      String otherModelName = null;
+                      if (cp.complexType != null) {
+                          otherModelName = cp.complexType;
+                      }
+                      if (cp.mostInnerItems != null) {
+                          if (cp.mostInnerItems.complexType != null) {
+                              otherModelName = cp.mostInnerItems.complexType;
+                          }
+                      }
+                      if (otherModelName != null) {
+                          addModelImport(objs, cm, otherModelName);
+                      }
+                  }
+                }
+
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
                 if (cm.isEnum || cm.isAlias) {
@@ -491,11 +553,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
-    }
-
     /**
      * Convert OAS Model object to Codegen Model object
      *
@@ -559,11 +616,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
         }
 
-        // return all models which don't need their properties connected to non-object models
-        if (propertyToModelName.isEmpty()) {
-            return result;
-        }
-
+        // set regex values, before it was only done on model.vars
         // fix all property references to non-object models, make those properties non-primitive and
         // set their dataType and complexType to the model name, so documentation will refer to the correct model
         ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<List<CodegenProperty>>();
@@ -575,6 +628,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         listOfLists.add(result.readWriteVars);
         for (List<CodegenProperty> cpList : listOfLists) {
             for (CodegenProperty cp : cpList) {
+                // set regex values, before it was only done on model.vars
+                postProcessModelProperty(result, cp);
+                // fix references to non-object models
                 if (!propertyToModelName.containsKey(cp.name)) {
                     continue;
                 }
@@ -589,4 +645,147 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return result;
     }
 
+    /**
+     * Output the type declaration of the property
+     *
+     * @param schema property schema
+     * @return a string presentation of the property type
+     */
+    public String getSimpleTypeDeclaration(Schema schema) {
+        String oasType = getSchemaType(schema);
+        if (typeMapping.containsKey(oasType)) {
+            return typeMapping.get(oasType);
+        }
+        return oasType;
+    }
+
+    public String getTypeString(Schema p, String prefix, String suffix) {
+        // this is used to set dataType, which defines a python tuple of classes
+        String fullSuffix = suffix;
+        if (")".equals(suffix)) {
+            fullSuffix = "," + suffix;
+        }
+        if (ModelUtils.isNullable(p)) {
+            fullSuffix = ", none_type" + suffix;
+        }
+        if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
+            return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
+        }
+        String baseType = getSimpleTypeDeclaration(p);
+        if (ModelUtils.isFileSchema(p)) {
+            baseType = "file_type";
+        }
+        return prefix + baseType + fullSuffix;
+    }
+
+    /**
+     * Output the type declaration of a given name
+     *
+     * @param p property schema
+     * @return a string presentation of the type
+     */
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        // this is used to set dataType, which defines a python tuple of classes
+        // in Python we will wrap this in () to make it a tuple but here we
+        // will omit the parens so the generated documentaion will not include
+        // them
+        return getTypeString(p, "", "");
+    }
+
+    @Override
+    public String toInstantiationType(Schema property) {
+        if (ModelUtils.isArraySchema(property) || ModelUtils.isMapSchema(property) || property.getAdditionalProperties() != null) {
+            return getSchemaType(property);
+        }
+        return super.toInstantiationType(property);
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        Schema addProps = ModelUtils.getAdditionalProperties(schema);
+        if (addProps != null && addProps.get$ref() == null) {
+            // if AdditionalProperties exists and is an inline definition, get its datatype and store it in m.parent
+            String typeString = getTypeDeclaration(addProps);
+            codegenModel.additionalPropertiesType = typeString;
+        } else {
+            addParentContainer(codegenModel, codegenModel.name, schema);
+        }
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        // we have a custom version of this function so we can set the file
+        // type example value
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            p.example = p.defaultValue;
+            return;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("Integer".equals(type) || "int".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "True";
+            }
+        } else if ("file".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "open('"+example+"', 'rb')";
+        } else if ("Date".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("DateTime".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = this.packageName + "." + type + "()";
+        } else {
+            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+        }
+
+        if (example == null) {
+            example = "None";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "[" + example + "]";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "{'key': " + example + "}";
+        }
+
+        p.example = example;
+    }
 }

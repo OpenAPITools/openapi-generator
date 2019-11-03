@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-go-server
 title: Config Options for go-server
 sidebar_label: go-server
 ---

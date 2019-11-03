@@ -46,7 +46,7 @@ data class Order (
         approved("approved"),
         delivered("delivered");
 
-        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value }.toTypedArray())
+        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value.toString() }.toTypedArray())
     }
 }
 

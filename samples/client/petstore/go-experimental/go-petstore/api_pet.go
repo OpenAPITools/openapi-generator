@@ -243,6 +243,7 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -330,6 +331,7 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -432,6 +434,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -694,7 +697,6 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -800,7 +802,6 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

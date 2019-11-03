@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-php-laravel
 title: Config Options for php-laravel
 sidebar_label: php-laravel
 ---

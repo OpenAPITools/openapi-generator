@@ -11,8 +11,8 @@ Name | Type | Description | Notes
 **float** | **kotlin.Float** |  |  [optional]
 **double** | **kotlin.Double** |  |  [optional]
 **string** | **kotlin.String** |  |  [optional]
-**byte** | **kotlin.ByteArray** |  | 
-**binary** | [**io.ktor.client.request.forms.InputProvider**](io.ktor.client.request.forms.InputProvider.md) |  |  [optional]
+**byte** | [**org.openapitools.client.infrastructure.Base64ByteArray**](org.openapitools.client.infrastructure.Base64ByteArray.md) |  | 
+**binary** | [**org.openapitools.client.infrastructure.OctetByteArray**](org.openapitools.client.infrastructure.OctetByteArray.md) |  |  [optional]
 **date** | **kotlin.String** |  | 
 **dateTime** | **kotlin.String** |  |  [optional]
 **uuid** | **kotlin.String** |  |  [optional]

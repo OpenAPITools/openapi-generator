@@ -71,10 +71,10 @@ before_install:
   - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
   - docker ps -a
   # Add bats test framework and cURL for Bash script integration tests
-  #- sudo add-apt-repository ppa:duggan/bats --yes
-  #- sudo apt-get update -qq
-  #- sudo apt-get install -qq bats
-  #- sudo apt-get install -qq curl
+  - sudo add-apt-repository ppa:duggan/bats --yes
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq bats
+  - sudo apt-get install -qq curl
   # install dart
   #- sudo apt-get update
   #- sudo apt-get install apt-transport-https
@@ -94,16 +94,11 @@ before_install:
   # - Rely on `kerl` for [pre-compiled versions available](https://docs.travis-ci.com/user/languages/erlang#Choosing-OTP-releases-to-test-against). Rely on installation path chosen by [`travis-erlang-builder`](https://github.com/travis-ci/travis-erlang-builder/blob/e6d016b1a91ca7ecac5a5a46395bde917ea13d36/bin/compile#L18).
   # - . ~/otp/18.2.1/activate && erl -version
   #- curl -f -L -o ./rebar3 https://s3.amazonaws.com/rebar3/rebar3 && chmod +x ./rebar3 && ./rebar3 version && export PATH="${TRAVIS_BUILD_DIR}:$PATH"
-  # install valgrind for C++ memory test
-  - sudo apt-get install valgrind
-  # install Qt 5.10
-  # comment out the following due to failure in downloading http://ppa.launchpad.net/beineri/opt-qt-5.10.1-trusty/ubuntu/dists/xenial/main/binary-amd64/Packages
-  #- sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
-  #- sudo apt-get update -qq
-  #- sudo apt-get install qt510-meta-minimal
-  #- source /opt/qt510/bin/qt510-env.sh
-  #- qmake -v
-
+  # install C++ tools 
+  - sudo apt install -y --no-install-recommends valgrind cmake build-essential 
+  # install Qt5
+  - sudo apt install -y --no-install-recommends qt5-default 
+  - cmake --version
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
   # show java version

@@ -103,7 +103,7 @@ ext {
     jersey_common_version = "2.25.1"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
-    jackson_threeten_version = "2.6.4"
+    jackson_threeten_version = "2.9.10"
 }
 
 dependencies {

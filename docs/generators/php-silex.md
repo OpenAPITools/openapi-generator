@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-php-silex
 title: Config Options for php-silex
 sidebar_label: php-silex
 ---

@@ -121,7 +121,7 @@ ext {
     swagger_annotations_version = "1.5.22"
     jackson_version = "2.9.10"
     jackson_databind_version = "2.9.10"
-    jackson-databind-nullable-version = "0.2.0"
+    jackson_databind_nullable_version = "0.2.0"
     {{#supportJava6}}
     jersey_version = "2.6"
     commons_io_version=2.5
@@ -132,7 +132,7 @@ ext {
     {{/supportJava6}}
     junit_version = "4.12"
     {{#threetenbp}}
-    threetenbp_version = "2.6.4"
+    threetenbp_version = "2.9.10"
     {{/threetenbp}}
 }
 
@@ -145,7 +145,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    compile "org.openapitools:jackson-databind-nullable:$jackson-databind-nullable-version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{#joda}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}

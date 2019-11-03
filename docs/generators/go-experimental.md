@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-go-experimental
 title: Config Options for go-experimental
 sidebar_label: go-experimental
 ---

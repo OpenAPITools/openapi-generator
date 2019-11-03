@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-cpp-tizen
 title: Config Options for cpp-tizen
 sidebar_label: cpp-tizen
 ---
