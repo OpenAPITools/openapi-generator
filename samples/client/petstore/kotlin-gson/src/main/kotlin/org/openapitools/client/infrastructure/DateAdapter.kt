@@ -3,7 +3,7 @@ package org.openapitools.client.infrastructure
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import org.json.JSONObject
+import com.google.gson.stream.JsonToken.NULL
 import java.io.IOException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -25,7 +25,7 @@ class DateAdapter(val formatter: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:
         out ?: return null
 
         when (out.peek()) {
-            JSONObject.NULL -> {
+            NULL -> {
                 out.nextNull()
                 return null
             }
