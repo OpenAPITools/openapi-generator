@@ -36,7 +36,7 @@ from petstore_api.model_utils import (  # noqa: F401
     type_error_message,
     validate_and_convert_types
 )
-StringBooleanMap
+from petstore_api.models.string_boolean_map import StringBooleanMap
 
 
 class MapTest(ModelNormal):
@@ -80,9 +80,9 @@ class MapTest(ModelNormal):
     }
 
     openapi_types = {
-        'map_map_of_string': (dict(str, dict(str, str)),),  # noqa: E501
-        'map_of_enum_string': (dict(str, str),),  # noqa: E501
-        'direct_map': (dict(str, bool),),  # noqa: E501
+        'map_map_of_string': ({str: ({str: (str,)},)},),  # noqa: E501
+        'map_of_enum_string': ({str: (str,)},),  # noqa: E501
+        'direct_map': ({str: (bool,)},),  # noqa: E501
         'indirect_map': (StringBooleanMap,),  # noqa: E501
     }
 
@@ -111,9 +111,9 @@ class MapTest(ModelNormal):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
-            map_map_of_string (dict(str, dict(str, str))): [optional]  # noqa: E501
-            map_of_enum_string (dict(str, str)): [optional]  # noqa: E501
-            direct_map (dict(str, bool)): [optional]  # noqa: E501
+            map_map_of_string ({str: ({str: (str,)},)}): [optional]  # noqa: E501
+            map_of_enum_string ({str: (str,)}): [optional]  # noqa: E501
+            direct_map ({str: (bool,)}): [optional]  # noqa: E501
             indirect_map (StringBooleanMap): [optional]  # noqa: E501
         """
         self._data_store = {}
@@ -199,7 +199,7 @@ class MapTest(ModelNormal):
         """Gets the map_map_of_string of this MapTest.  # noqa: E501
 
         Returns:
-            (dict(str, dict(str, str))): The map_map_of_string of this MapTest.  # noqa: E501
+            ({str: ({str: (str,)},)}): The map_map_of_string of this MapTest.  # noqa: E501
         """
         return self.__get_item('map_map_of_string')
 
@@ -214,7 +214,7 @@ class MapTest(ModelNormal):
         """Gets the map_of_enum_string of this MapTest.  # noqa: E501
 
         Returns:
-            (dict(str, str)): The map_of_enum_string of this MapTest.  # noqa: E501
+            ({str: (str,)}): The map_of_enum_string of this MapTest.  # noqa: E501
         """
         return self.__get_item('map_of_enum_string')
 
@@ -229,7 +229,7 @@ class MapTest(ModelNormal):
         """Gets the direct_map of this MapTest.  # noqa: E501
 
         Returns:
-            (dict(str, bool)): The direct_map of this MapTest.  # noqa: E501
+            ({str: (bool,)}): The direct_map of this MapTest.  # noqa: E501
         """
         return self.__get_item('direct_map')
 

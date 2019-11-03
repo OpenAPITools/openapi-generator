@@ -161,7 +161,7 @@ class UserApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param list[User] body: List of user object (required)
+            :param [User] body: List of user object (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -235,7 +235,7 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (list[User],),
+                    'body': ([User],),
                 },
                 'attribute_map': {
                 },
@@ -263,7 +263,7 @@ class UserApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param list[User] body: List of user object (required)
+            :param [User] body: List of user object (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -337,7 +337,7 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (list[User],),
+                    'body': ([User],),
                 },
                 'attribute_map': {
                 },

@@ -1174,7 +1174,7 @@ class FakeApi(object):
             :param int int64: None
             :param float float: None
             :param str string: None
-            :param file binary: None
+            :param file_type binary: None
             :param date date: None
             :param datetime date_time: None
             :param str password: None
@@ -1331,7 +1331,7 @@ class FakeApi(object):
                     'int64': (int,),
                     'float': (float,),
                     'string': (str,),
-                    'binary': (file,),
+                    'binary': (file_type,),
                     'date': (date,),
                     'date_time': (datetime,),
                     'password': (str,),
@@ -1393,13 +1393,13 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param list[str] enum_header_string_array: Header parameter enum test (string array)
+            :param [str] enum_header_string_array: Header parameter enum test (string array)
             :param str enum_header_string: Header parameter enum test (string)
-            :param list[str] enum_query_string_array: Query parameter enum test (string array)
+            :param [str] enum_query_string_array: Query parameter enum test (string array)
             :param str enum_query_string: Query parameter enum test (string)
             :param int enum_query_integer: Query parameter enum test (double)
             :param float enum_query_double: Query parameter enum test (double)
-            :param list[str] enum_form_string_array: Form parameter enum test (string array)
+            :param [str] enum_form_string_array: Form parameter enum test (string array)
             :param str enum_form_string: Form parameter enum test (string)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
@@ -1529,13 +1529,13 @@ class FakeApi(object):
                     },
                 },
                 'openapi_types': {
-                    'enum_header_string_array': (list[str],),
+                    'enum_header_string_array': ([str],),
                     'enum_header_string': (str,),
-                    'enum_query_string_array': (list[str],),
+                    'enum_query_string_array': ([str],),
                     'enum_query_string': (str,),
                     'enum_query_integer': (int,),
                     'enum_query_double': (float,),
-                    'enum_form_string_array': (list[str],),
+                    'enum_form_string_array': ([str],),
                     'enum_form_string': (str,),
                 },
                 'attribute_map': {
@@ -1717,7 +1717,7 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param dict(str, str) param: request body (required)
+            :param {str: (str,)} param: request body (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -1791,7 +1791,7 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'param': (dict(str, str),),
+                    'param': ({str: (str,)},),
                 },
                 'attribute_map': {
                 },

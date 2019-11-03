@@ -92,7 +92,7 @@ class FormatTest(ModelNormal):
         'double': (float,),  # noqa: E501
         'string': (str,),  # noqa: E501
         'byte': (str,),  # noqa: E501
-        'binary': (file,),  # noqa: E501
+        'binary': (file_type,),  # noqa: E501
         'date': (date,),  # noqa: E501
         'date_time': (datetime,),  # noqa: E501
         'uuid': (str,),  # noqa: E501
@@ -122,12 +122,13 @@ class FormatTest(ModelNormal):
         },
         ('string',): {
             'regex': {
-                'pattern': r'',  # noqa: E501
+                'pattern': r'^[a-z]+$',  # noqa: E501
+                'flags': (re.IGNORECASE)
             },
         },
         ('byte',): {
             'regex': {
-                'pattern': r'',  # noqa: E501
+                'pattern': r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$',  # noqa: E501
             },
         },
         ('password',): {
@@ -169,7 +170,7 @@ class FormatTest(ModelNormal):
             float (float): [optional]  # noqa: E501
             double (float): [optional]  # noqa: E501
             string (str): [optional]  # noqa: E501
-            binary (file): [optional]  # noqa: E501
+            binary (file_type): [optional]  # noqa: E501
             date_time (datetime): [optional]  # noqa: E501
             uuid (str): [optional]  # noqa: E501
         """
@@ -380,7 +381,7 @@ class FormatTest(ModelNormal):
         """Gets the binary of this FormatTest.  # noqa: E501
 
         Returns:
-            (file): The binary of this FormatTest.  # noqa: E501
+            (file_type): The binary of this FormatTest.  # noqa: E501
         """
         return self.__get_item('binary')
 

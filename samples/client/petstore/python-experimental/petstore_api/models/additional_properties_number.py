@@ -78,7 +78,7 @@ class AdditionalPropertiesNumber(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = None
+    additional_properties_type = (float,)  # noqa: E501
 
     discriminator = None
 

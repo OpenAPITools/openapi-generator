@@ -36,7 +36,7 @@ from petstore_api.model_utils import (  # noqa: F401
     type_error_message,
     validate_and_convert_types
 )
-Animal
+from petstore_api.models.animal import Animal
 
 
 class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
@@ -77,7 +77,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
     openapi_types = {
         'uuid': (str,),  # noqa: E501
         'date_time': (datetime,),  # noqa: E501
-        'map': (dict(str, Animal),),  # noqa: E501
+        'map': ({str: (Animal,)},),  # noqa: E501
     }
 
     validations = {
@@ -107,7 +107,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
                                 If omitted no type conversion is done.
             uuid (str): [optional]  # noqa: E501
             date_time (datetime): [optional]  # noqa: E501
-            map (dict(str, Animal)): [optional]  # noqa: E501
+            map ({str: (Animal,)}): [optional]  # noqa: E501
         """
         self._data_store = {}
         self._check_type = _check_type
@@ -222,7 +222,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
         """Gets the map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
 
         Returns:
-            (dict(str, Animal)): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            ({str: (Animal,)}): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self.__get_item('map')
 

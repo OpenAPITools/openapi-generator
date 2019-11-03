@@ -36,8 +36,8 @@ from petstore_api.model_utils import (  # noqa: F401
     type_error_message,
     validate_and_convert_types
 )
-Category
-Tag
+from petstore_api.models.category import Category
+from petstore_api.models.tag import Tag
 
 
 class Pet(ModelNormal):
@@ -87,8 +87,8 @@ class Pet(ModelNormal):
         'id': (int,),  # noqa: E501
         'category': (Category,),  # noqa: E501
         'name': (str,),  # noqa: E501
-        'photo_urls': (list[str],),  # noqa: E501
-        'tags': (list[Tag],),  # noqa: E501
+        'photo_urls': ([str],),  # noqa: E501
+        'tags': ([Tag],),  # noqa: E501
         'status': (str,),  # noqa: E501
     }
 
@@ -104,7 +104,7 @@ class Pet(ModelNormal):
 
         Args:
             name (str):
-            photo_urls (list[str]):
+            photo_urls ([str]):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -122,7 +122,7 @@ class Pet(ModelNormal):
                                 If omitted no type conversion is done.
             id (int): [optional]  # noqa: E501
             category (Category): [optional]  # noqa: E501
-            tags (list[Tag]): [optional]  # noqa: E501
+            tags ([Tag]): [optional]  # noqa: E501
             status (str): pet status in the store. [optional]  # noqa: E501
         """
         self._data_store = {}
@@ -255,7 +255,7 @@ class Pet(ModelNormal):
         """Gets the photo_urls of this Pet.  # noqa: E501
 
         Returns:
-            (list[str]): The photo_urls of this Pet.  # noqa: E501
+            ([str]): The photo_urls of this Pet.  # noqa: E501
         """
         return self.__get_item('photo_urls')
 
@@ -270,7 +270,7 @@ class Pet(ModelNormal):
         """Gets the tags of this Pet.  # noqa: E501
 
         Returns:
-            (list[Tag]): The tags of this Pet.  # noqa: E501
+            ([Tag]): The tags of this Pet.  # noqa: E501
         """
         return self.__get_item('tags')
 

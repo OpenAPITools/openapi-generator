@@ -82,7 +82,7 @@ class EnumArrays(ModelNormal):
 
     openapi_types = {
         'just_symbol': (str,),  # noqa: E501
-        'array_enum': (list[str],),  # noqa: E501
+        'array_enum': ([str],),  # noqa: E501
     }
 
     validations = {
@@ -111,7 +111,7 @@ class EnumArrays(ModelNormal):
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
             just_symbol (str): [optional]  # noqa: E501
-            array_enum (list[str]): [optional]  # noqa: E501
+            array_enum ([str]): [optional]  # noqa: E501
         """
         self._data_store = {}
         self._check_type = _check_type
@@ -211,7 +211,7 @@ class EnumArrays(ModelNormal):
         """Gets the array_enum of this EnumArrays.  # noqa: E501
 
         Returns:
-            (list[str]): The array_enum of this EnumArrays.  # noqa: E501
+            ([str]): The array_enum of this EnumArrays.  # noqa: E501
         """
         return self.__get_item('array_enum')
 
