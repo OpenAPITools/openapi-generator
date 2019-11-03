@@ -19,6 +19,8 @@ import Json.Decode as Decode
 import Url.Builder as Url
 
 
+
+
 basePath : String
 basePath =
     "http://petstore.swagger.io/v2"
@@ -28,17 +30,20 @@ basePath =
 -}
 createUser :
     { onSend : Result Http.Error () -> msg
+
+
     , body : User
+
+
     }
     -> Cmd msg
 createUser params =
     Http.request
         { method = "POST"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "user" ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["user"]
+            (List.filterMap identity [])
         , body = Http.jsonBody <| User.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -48,17 +53,20 @@ createUser params =
 
 createUsersWithArrayInput :
     { onSend : Result Http.Error () -> msg
+
+
     , body : User
+
+
     }
     -> Cmd msg
 createUsersWithArrayInput params =
     Http.request
         { method = "POST"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "user", "createWithArray" ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["user", "createWithArray"]
+            (List.filterMap identity [])
         , body = Http.jsonBody <| User.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -68,17 +76,20 @@ createUsersWithArrayInput params =
 
 createUsersWithListInput :
     { onSend : Result Http.Error () -> msg
+
+
     , body : User
+
+
     }
     -> Cmd msg
 createUsersWithListInput params =
     Http.request
         { method = "POST"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "user", "createWithList" ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["user", "createWithList"]
+            (List.filterMap identity [])
         , body = Http.jsonBody <| User.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -90,17 +101,20 @@ createUsersWithListInput params =
 -}
 deleteUser :
     { onSend : Result Http.Error () -> msg
+
+
+
     , username : String
+
     }
     -> Cmd msg
 deleteUser params =
     Http.request
         { method = "DELETE"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "user", identity params.username ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["user", identity params.username]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -110,17 +124,20 @@ deleteUser params =
 
 getUserByName :
     { onSend : Result Http.Error User -> msg
+
+
+
     , username : String
+
     }
     -> Cmd msg
 getUserByName params =
     Http.request
         { method = "GET"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "user", identity params.username ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["user", identity params.username]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend User.decoder
         , timeout = Just 30000
@@ -130,18 +147,20 @@ getUserByName params =
 
 loginUser :
     { onSend : Result Http.Error String -> msg
-    , username : String
-    , password : String
+
+
+
+
+    , username : String    , password : String
     }
     -> Cmd msg
 loginUser params =
     Http.request
         { method = "GET"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "user", "login" ]
-                (List.filterMap identity [ (Just << Url.string "username" << identity) params.username, (Just << Url.string "password" << identity) params.password ])
+        , url = Url.crossOrigin basePath
+            ["user", "login"]
+            (List.filterMap identity [(Just << Url.string "username" << identity) params.username, (Just << Url.string "password" << identity) params.password])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend Decode.string
         , timeout = Just 30000
@@ -151,16 +170,20 @@ loginUser params =
 
 logoutUser :
     { onSend : Result Http.Error () -> msg
+
+
+
+
+
     }
     -> Cmd msg
 logoutUser params =
     Http.request
         { method = "GET"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "user", "logout" ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["user", "logout"]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -172,18 +195,20 @@ logoutUser params =
 -}
 updateUser :
     { onSend : Result Http.Error () -> msg
+
+
     , body : User
     , username : String
+
     }
     -> Cmd msg
 updateUser params =
     Http.request
         { method = "PUT"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "user", identity params.username ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["user", identity params.username]
+            (List.filterMap identity [])
         , body = Http.jsonBody <| User.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000

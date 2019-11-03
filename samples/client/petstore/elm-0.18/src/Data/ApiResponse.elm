@@ -21,9 +21,9 @@ import Json.Encode as Encode
 {-| Describes the result of uploading an image resource
 -}
 type alias ApiResponse =
-    { code : Maybe Int
-    , type_ : Maybe String
-    , message : Maybe String
+    { code : Maybe (Int)
+    , type_ : Maybe (String)
+    , message : Maybe (String)
     }
 
 
@@ -35,15 +35,22 @@ decoder =
         |> optional "message" (Decode.nullable Decode.string) Nothing
 
 
+
 encode : ApiResponse -> Encode.Value
 encode model =
     Encode.object
         [ ( "code", Maybe.withDefault Encode.null (Maybe.map Encode.int model.code) )
         , ( "type", Maybe.withDefault Encode.null (Maybe.map Encode.string model.type_) )
         , ( "message", Maybe.withDefault Encode.null (Maybe.map Encode.string model.message) )
+
         ]
+
 
 
 toString : ApiResponse -> String
 toString =
     Encode.encode 0 << encode
+
+
+
+

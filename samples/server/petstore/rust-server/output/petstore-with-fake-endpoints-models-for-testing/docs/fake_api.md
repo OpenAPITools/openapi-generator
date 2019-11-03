@@ -10,7 +10,7 @@ Method | HTTP request | Description
 **fakeOuterStringSerialize**](fake_api.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 **testBodyWithQueryParams**](fake_api.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 **testClientModel**](fake_api.md#testClientModel) | **PATCH** /fake | To test \"client\" model
-**testEndpointParameters**](fake_api.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+**testEndpointParameters**](fake_api.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 **testEnumParameters**](fake_api.md#testEnumParameters) | **GET** /fake | To test enum parameters
 **testInlineAdditionalProperties**](fake_api.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 **testJsonFormData**](fake_api.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
@@ -207,9 +207,9 @@ No authorization required
 
 # **testEndpointParameters**
 > testEndpointParameters(ctx, number, double, pattern_without_delimiter, byte, optional)
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 ### Required Parameters
 

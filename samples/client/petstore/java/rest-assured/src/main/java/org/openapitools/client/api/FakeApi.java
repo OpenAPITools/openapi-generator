@@ -146,8 +146,8 @@ public class FakeApi {
         return new TestClientModelOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
-            notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
+    @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
+            notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
             nickname = "testEndpointParameters",
             tags = { "fake" })
     @ApiResponses(value = { 
@@ -766,8 +766,8 @@ public class FakeApi {
         }
     }
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
      * @see #numberForm None (required)
      * @see #_doubleForm None (required)
