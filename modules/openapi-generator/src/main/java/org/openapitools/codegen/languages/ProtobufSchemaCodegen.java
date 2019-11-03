@@ -72,10 +72,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeWireFormatFeatures(WireFormatFeature.PROTOBUF)
-                .excludeWireFormatFeatures(
-                        Arrays.stream(WireFormatFeature.values()).filter(i -> i != WireFormatFeature.PROTOBUF)
-                        .toArray(WireFormatFeature[]::new)
-                )
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .build();
 
