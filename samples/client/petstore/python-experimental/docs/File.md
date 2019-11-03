@@ -1,6 +1,6 @@
 # File
 
-Must be named &#x60;File&#x60; for test.
+Must be named `File` for test.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

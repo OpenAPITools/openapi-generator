@@ -40,6 +40,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
+    private static final String DEFAULT_IMPORT_PREFIX = "./";
+
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String TAGGED_UNIONS = "taggedUnions";
@@ -330,34 +332,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
 
-    @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
-            return openAPIType;
-        }
-        applyLocalTypeMapping(openAPIType);
-        return openAPIType;
-    }
-
     private String applyLocalTypeMapping(String type) {
         if (typeMapping.containsKey(type)) {
             type = typeMapping.get(type);
         }
         return type;
-    }
-
-    private boolean isLanguagePrimitive(String type) {
-        return languageSpecificPrimitives.contains(type);
-    }
-
-    private boolean isLanguageGenericType(String type) {
-        for (String genericType : languageGenericTypes) {
-            if (type.startsWith(genericType + "<")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -567,17 +546,26 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toApiImport(String name) {
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
         return apiPackage() + "/" + toApiFilename(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return DEFAULT_IMPORT_PREFIX + this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
     }
 
     @Override
     public String toModelImport(String name) {
-        return modelPackage() + "/" + toModelFilename(name);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {
