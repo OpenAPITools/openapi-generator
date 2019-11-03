@@ -111,10 +111,6 @@
         "title": "Config Options for cpp-tizen",
         "sidebar_label": "cpp-tizen"
       },
-      "generators/csharp-dotnet2": {
-        "title": "Config Options for csharp-dotnet2",
-        "sidebar_label": "csharp-dotnet2"
-      },
       "generators/csharp-nancyfx": {
         "title": "Config Options for csharp-nancyfx",
         "sidebar_label": "csharp-nancyfx"

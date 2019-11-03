@@ -34,7 +34,6 @@ labels:
     'Client: C-Sharp':
       - '\s*?-[gl] csharp(?!-)\b'
       - '\s*?[cC]-[sS]harp [cC]lient\s*?'
-      - '\s*?-[gl] csharp-dotnet2\s*?'
       - '\s*?-[gl] csharp-refactor?\s*?'
       - '\s*?\[[Cc]#\]'
       - '\s*?\[csharp\]\s*?'

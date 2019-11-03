@@ -11,7 +11,6 @@ The following generators are available:
     - [cpp-restsdk](cpp-restsdk.md)
     - [cpp-tizen](cpp-tizen.md)
     - [csharp](csharp.md)
-    - [csharp-dotnet2](csharp-dotnet2.md)
     - [csharp-refactor](csharp-refactor.md)
     - [dart](dart.md)
     - [dart-dio](dart-dio.md)

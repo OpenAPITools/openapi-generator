@@ -92,12 +92,6 @@
       ]
     },
     {
-      "input": "csharp-dotnet2-petstore.sh",
-      "matches": [
-        "Client: C-Sharp"
-      ]
-    },
-    {
       "input": "csharp-petstore-net-35.sh",
       "matches": [
         "Client: C-Sharp"
