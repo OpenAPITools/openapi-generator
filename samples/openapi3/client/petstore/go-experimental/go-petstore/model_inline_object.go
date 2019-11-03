@@ -8,20 +8,21 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // InlineObject struct for InlineObject
 type InlineObject struct {
 	// Updated name of the pet
 	Name *string `json:"name,omitempty"`
-
 	// Updated status of the pet
 	Status *string `json:"status,omitempty"`
-
 }
 
-// GetName returns the Name field if non-nil, zero value otherwise.
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *InlineObject) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
@@ -30,7 +31,7 @@ func (o *InlineObject) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *InlineObject) GetNameOk() (string, bool) {
 	if o == nil || o.Name == nil {
@@ -54,7 +55,7 @@ func (o *InlineObject) SetName(v string) {
 	o.Name = &v
 }
 
-// GetStatus returns the Status field if non-nil, zero value otherwise.
+// GetStatus returns the Status field value if set, zero value otherwise.
 func (o *InlineObject) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
@@ -63,7 +64,7 @@ func (o *InlineObject) GetStatus() string {
 	return *o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+// GetStatusOk returns a tuple with the Status field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *InlineObject) GetStatusOk() (string, bool) {
 	if o == nil || o.Status == nil {
@@ -87,17 +88,26 @@ func (o *InlineObject) SetStatus(v string) {
 	o.Status = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o InlineObject) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	if o.Status != nil {
-		toSerialize["status"] = o.Status
-	}
-	return json.Marshal(toSerialize)
+type NullableInlineObject struct {
+	Value InlineObject
+	ExplicitNull bool
 }
 
+func (v NullableInlineObject) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableInlineObject) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

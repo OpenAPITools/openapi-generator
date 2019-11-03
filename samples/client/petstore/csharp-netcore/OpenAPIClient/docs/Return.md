@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Return
+Model for testing reserved words
 ## Properties
 
 Name | Type | Description | Notes

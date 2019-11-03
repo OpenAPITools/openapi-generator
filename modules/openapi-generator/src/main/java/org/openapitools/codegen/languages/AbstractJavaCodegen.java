@@ -131,7 +131,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "object",
                         // used as internal variables, can collide with parameter names
                         "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
-                        "localVarHeaderParams", "localVarFormParams", "localVarPostBody",
+                        "localVarHeaderParams", "localVarCookieParams", "localVarFormParams", "localVarPostBody",
                         "localVarAccepts", "localVarAccept", "localVarContentTypes",
                         "localVarContentType", "localVarAuthNames", "localReturnType",
                         "ApiClient", "ApiException", "ApiResponse", "Configuration", "StringUtil",

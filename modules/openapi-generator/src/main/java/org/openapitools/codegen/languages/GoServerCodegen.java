@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
@@ -28,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
 
 public class GoServerCodegen extends AbstractGoCodegen {
 
@@ -91,6 +95,15 @@ public class GoServerCodegen extends AbstractGoCodegen {
         apiTemplateFiles.put(
                 "controller-api.mustache",   // the template to use
                 ".go");       // the extension for each file to write
+
+        /*
+         * Service templates.  You can write services for each Api file with the apiTemplateFiles map.
+            These services are skeletons built to implement the logic of your api using the 
+            expected parameters and response.
+         */
+        apiTemplateFiles.put(
+                "service.mustache",   // the template to use
+                "_service.go");       // the extension for each file to write
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -164,7 +177,48 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
+        supportingFiles.add(new SupportingFile("api.mustache", sourceFolder, "api.go"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+        @SuppressWarnings("unchecked")
+        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        if (imports == null)
+            return objs;
+
+        // override imports to only include packages for interface parameters
+        imports.clear();
+
+        boolean addedOptionalImport = false;
+        boolean addedTimeImport = false;
+        boolean addedOSImport = false;
+        boolean addedReflectImport = false;
+        for (CodegenOperation operation : operations) {
+            for (CodegenParameter param : operation.allParams) {
+                // import "os" if the operation uses files
+                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                    imports.add(createMapping("import", "os"));
+                    addedOSImport = true;
+                }
+
+                // import "time" if the operation has a required time parameter.
+                if (param.required) {
+                    if (!addedTimeImport && "time.Time".equals(param.dataType)) {
+                        imports.add(createMapping("import", "time"));
+                        addedTimeImport = true;
+                    }
+                }
+            }
+        }
+
+        return objs;
     }
 
     @Override

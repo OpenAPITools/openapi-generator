@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-cpp-restsdk
 title: Config Options for cpp-restsdk
 sidebar_label: cpp-restsdk
 ---

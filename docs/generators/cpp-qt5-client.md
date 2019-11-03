@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-cpp-qt5-client
 title: Config Options for cpp-qt5-client
 sidebar_label: cpp-qt5-client
 ---

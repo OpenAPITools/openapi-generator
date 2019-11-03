@@ -23,5 +23,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 data class ReadOnlyFirst (
     @SerialName(value = "bar") val bar: kotlin.String? = null,
     @SerialName(value = "baz") val baz: kotlin.String? = null
-)
+) 
+
+
 

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-powershell
 title: Config Options for powershell
 sidebar_label: powershell
 ---

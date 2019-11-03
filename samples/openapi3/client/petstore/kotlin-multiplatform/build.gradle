@@ -30,6 +30,7 @@ kotlin {
     jvm()
     iosArm64() { binaries { framework { freeCompilerArgs.add("-Xobjc-generics") } } }
     iosX64() { binaries { framework { freeCompilerArgs.add("-Xobjc-generics") } } }
+    js()
 
     sourceSets {
         commonMain {
@@ -37,9 +38,9 @@ kotlin {
                 implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
-                implementation "io.ktor:ktor-client-core:$ktor_version"
-                implementation "io.ktor:ktor-client-json:$ktor_version"
-                implementation "io.ktor:ktor-client-serialization:$ktor_version"
+                api "io.ktor:ktor-client-core:$ktor_version"
+                api "io.ktor:ktor-client-json:$ktor_version"
+                api "io.ktor:ktor-client-serialization:$ktor_version"
             }
         }
 
@@ -57,9 +58,9 @@ kotlin {
                 implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
-                implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
-                implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
-                implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
+                api "io.ktor:ktor-client-core-jvm:$ktor_version"
+                api "io.ktor:ktor-client-json-jvm:$ktor_version"
+                api "io.ktor:ktor-client-serialization-jvm:$ktor_version"
             }
         }
 
@@ -77,7 +78,7 @@ kotlin {
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
-                implementation "io.ktor:ktor-client-ios:$ktor_version"
+                api "io.ktor:ktor-client-ios:$ktor_version"
             }
         }
 
@@ -91,9 +92,9 @@ kotlin {
         iosArm64().compilations.main.defaultSourceSet {
             dependsOn iosMain
             dependencies {
-                implementation "io.ktor:ktor-client-ios-iosarm64:$ktor_version"
-                implementation "io.ktor:ktor-client-json-iosarm64:$ktor_version"
-                implementation "io.ktor:ktor-client-serialization-iosarm64:$ktor_version"
+                api "io.ktor:ktor-client-ios-iosarm64:$ktor_version"
+                api "io.ktor:ktor-client-json-iosarm64:$ktor_version"
+                api "io.ktor:ktor-client-serialization-iosarm64:$ktor_version"
             }
         }
 
@@ -104,9 +105,31 @@ kotlin {
         iosX64().compilations.main.defaultSourceSet {
             dependsOn iosMain
             dependencies {
-                implementation "io.ktor:ktor-client-ios-iosx64:$ktor_version"
-                implementation "io.ktor:ktor-client-json-iosx64:$ktor_version"
-                implementation "io.ktor:ktor-client-serialization-iosx64:$ktor_version"
+                api "io.ktor:ktor-client-ios-iosx64:$ktor_version"
+                api "io.ktor:ktor-client-json-iosx64:$ktor_version"
+                api "io.ktor:ktor-client-serialization-iosx64:$ktor_version"
+            }
+        }
+
+        jsMain {
+            dependsOn commonMain
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serialization_version"
+                api "io.ktor:ktor-client-js:$ktor_version"
+                api "io.ktor:ktor-client-json-js:$ktor_version"
+                api "io.ktor:ktor-client-serialization-js:$ktor_version"
+            }
+        }
+
+        jsTest {
+            dependsOn commonTest
+            dependencies {
+                implementation "io.ktor:ktor-client-mock-js:$ktor_version"
+                implementation "io.ktor:ktor-client-js:$ktor_version"
+                implementation "io.ktor:ktor-client-json:$ktor_version"
+                implementation "io.ktor:ktor-client-serialization-js:$ktor_version"
             }
         }
 

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-python-aiohttp
 title: Config Options for python-aiohttp
 sidebar_label: python-aiohttp
 ---

@@ -8,27 +8,24 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // Capitalization struct for Capitalization
 type Capitalization struct {
 	SmallCamel *string `json:"smallCamel,omitempty"`
-
 	CapitalCamel *string `json:"CapitalCamel,omitempty"`
-
 	SmallSnake *string `json:"small_Snake,omitempty"`
-
 	CapitalSnake *string `json:"Capital_Snake,omitempty"`
-
 	SCAETHFlowPoints *string `json:"SCA_ETH_Flow_Points,omitempty"`
-
 	// Name of the pet 
 	ATT_NAME *string `json:"ATT_NAME,omitempty"`
-
 }
 
-// GetSmallCamel returns the SmallCamel field if non-nil, zero value otherwise.
+// GetSmallCamel returns the SmallCamel field value if set, zero value otherwise.
 func (o *Capitalization) GetSmallCamel() string {
 	if o == nil || o.SmallCamel == nil {
 		var ret string
@@ -37,7 +34,7 @@ func (o *Capitalization) GetSmallCamel() string {
 	return *o.SmallCamel
 }
 
-// GetSmallCamelOk returns a tuple with the SmallCamel field if it's non-nil, zero value otherwise
+// GetSmallCamelOk returns a tuple with the SmallCamel field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetSmallCamelOk() (string, bool) {
 	if o == nil || o.SmallCamel == nil {
@@ -61,7 +58,7 @@ func (o *Capitalization) SetSmallCamel(v string) {
 	o.SmallCamel = &v
 }
 
-// GetCapitalCamel returns the CapitalCamel field if non-nil, zero value otherwise.
+// GetCapitalCamel returns the CapitalCamel field value if set, zero value otherwise.
 func (o *Capitalization) GetCapitalCamel() string {
 	if o == nil || o.CapitalCamel == nil {
 		var ret string
@@ -70,7 +67,7 @@ func (o *Capitalization) GetCapitalCamel() string {
 	return *o.CapitalCamel
 }
 
-// GetCapitalCamelOk returns a tuple with the CapitalCamel field if it's non-nil, zero value otherwise
+// GetCapitalCamelOk returns a tuple with the CapitalCamel field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetCapitalCamelOk() (string, bool) {
 	if o == nil || o.CapitalCamel == nil {
@@ -94,7 +91,7 @@ func (o *Capitalization) SetCapitalCamel(v string) {
 	o.CapitalCamel = &v
 }
 
-// GetSmallSnake returns the SmallSnake field if non-nil, zero value otherwise.
+// GetSmallSnake returns the SmallSnake field value if set, zero value otherwise.
 func (o *Capitalization) GetSmallSnake() string {
 	if o == nil || o.SmallSnake == nil {
 		var ret string
@@ -103,7 +100,7 @@ func (o *Capitalization) GetSmallSnake() string {
 	return *o.SmallSnake
 }
 
-// GetSmallSnakeOk returns a tuple with the SmallSnake field if it's non-nil, zero value otherwise
+// GetSmallSnakeOk returns a tuple with the SmallSnake field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetSmallSnakeOk() (string, bool) {
 	if o == nil || o.SmallSnake == nil {
@@ -127,7 +124,7 @@ func (o *Capitalization) SetSmallSnake(v string) {
 	o.SmallSnake = &v
 }
 
-// GetCapitalSnake returns the CapitalSnake field if non-nil, zero value otherwise.
+// GetCapitalSnake returns the CapitalSnake field value if set, zero value otherwise.
 func (o *Capitalization) GetCapitalSnake() string {
 	if o == nil || o.CapitalSnake == nil {
 		var ret string
@@ -136,7 +133,7 @@ func (o *Capitalization) GetCapitalSnake() string {
 	return *o.CapitalSnake
 }
 
-// GetCapitalSnakeOk returns a tuple with the CapitalSnake field if it's non-nil, zero value otherwise
+// GetCapitalSnakeOk returns a tuple with the CapitalSnake field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetCapitalSnakeOk() (string, bool) {
 	if o == nil || o.CapitalSnake == nil {
@@ -160,7 +157,7 @@ func (o *Capitalization) SetCapitalSnake(v string) {
 	o.CapitalSnake = &v
 }
 
-// GetSCAETHFlowPoints returns the SCAETHFlowPoints field if non-nil, zero value otherwise.
+// GetSCAETHFlowPoints returns the SCAETHFlowPoints field value if set, zero value otherwise.
 func (o *Capitalization) GetSCAETHFlowPoints() string {
 	if o == nil || o.SCAETHFlowPoints == nil {
 		var ret string
@@ -169,7 +166,7 @@ func (o *Capitalization) GetSCAETHFlowPoints() string {
 	return *o.SCAETHFlowPoints
 }
 
-// GetSCAETHFlowPointsOk returns a tuple with the SCAETHFlowPoints field if it's non-nil, zero value otherwise
+// GetSCAETHFlowPointsOk returns a tuple with the SCAETHFlowPoints field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetSCAETHFlowPointsOk() (string, bool) {
 	if o == nil || o.SCAETHFlowPoints == nil {
@@ -193,7 +190,7 @@ func (o *Capitalization) SetSCAETHFlowPoints(v string) {
 	o.SCAETHFlowPoints = &v
 }
 
-// GetATT_NAME returns the ATT_NAME field if non-nil, zero value otherwise.
+// GetATT_NAME returns the ATT_NAME field value if set, zero value otherwise.
 func (o *Capitalization) GetATT_NAME() string {
 	if o == nil || o.ATT_NAME == nil {
 		var ret string
@@ -202,7 +199,7 @@ func (o *Capitalization) GetATT_NAME() string {
 	return *o.ATT_NAME
 }
 
-// GetATT_NAMEOk returns a tuple with the ATT_NAME field if it's non-nil, zero value otherwise
+// GetATT_NAMEOk returns a tuple with the ATT_NAME field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetATT_NAMEOk() (string, bool) {
 	if o == nil || o.ATT_NAME == nil {
@@ -226,29 +223,26 @@ func (o *Capitalization) SetATT_NAME(v string) {
 	o.ATT_NAME = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Capitalization) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.SmallCamel != nil {
-		toSerialize["smallCamel"] = o.SmallCamel
-	}
-	if o.CapitalCamel != nil {
-		toSerialize["CapitalCamel"] = o.CapitalCamel
-	}
-	if o.SmallSnake != nil {
-		toSerialize["small_Snake"] = o.SmallSnake
-	}
-	if o.CapitalSnake != nil {
-		toSerialize["Capital_Snake"] = o.CapitalSnake
-	}
-	if o.SCAETHFlowPoints != nil {
-		toSerialize["SCA_ETH_Flow_Points"] = o.SCAETHFlowPoints
-	}
-	if o.ATT_NAME != nil {
-		toSerialize["ATT_NAME"] = o.ATT_NAME
-	}
-	return json.Marshal(toSerialize)
+type NullableCapitalization struct {
+	Value Capitalization
+	ExplicitNull bool
 }
 
+func (v NullableCapitalization) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableCapitalization) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

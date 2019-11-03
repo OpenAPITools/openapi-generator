@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-swift4
 title: Config Options for swift4
 sidebar_label: swift4
 ---

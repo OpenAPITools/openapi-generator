@@ -269,6 +269,13 @@ paths:
           description: file to upload
           required: false
           type: file
+        - name: files
+          in: formData
+          description: files to upload
+          required: false
+          type: array
+          items:
+            type: file
       responses:
         '200':
           description: successful operation
@@ -695,16 +702,14 @@ paths:
     post:
       tags:
         - fake
-      summary: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
-      description: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+      summary: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
+      description: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
       operationId: testEndpointParameters
       consumes:
         - application/x-www-form-urlencoded

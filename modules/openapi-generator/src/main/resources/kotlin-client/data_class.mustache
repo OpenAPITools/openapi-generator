@@ -71,7 +71,7 @@ import java.io.Serializable
     {{/allowableValues}}
     {{#multiplatform}}
 
-        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value }.toTypedArray())
+        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value.toString() }.toTypedArray())
     {{/multiplatform}}
     }
 {{/isEnum}}

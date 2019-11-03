@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-cpp-pistache-server
 title: Config Options for cpp-pistache-server
 sidebar_label: cpp-pistache-server
 ---

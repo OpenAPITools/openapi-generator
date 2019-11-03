@@ -111,6 +111,13 @@ public class {{classname}} {
         }
 
         {{/headerParams}}
+        {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}HashMap<String, String>();
+        {{#cookieParams}}
+        if ({{paramName}} != null) {
+            localVarCookieParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
+        }
+
+        {{/cookieParams}}
         {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
         {{#formParams}}
         if ({{paramName}} != null) {
@@ -133,7 +140,7 @@ public class {{classname}} {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
-        return localVarApiClient.buildCall(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     {{#isDeprecated}}

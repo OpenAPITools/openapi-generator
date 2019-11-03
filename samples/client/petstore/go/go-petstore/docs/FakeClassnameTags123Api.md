@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ## TestClassname
 
 > Client TestClassname(ctx, body)
+
 To test class name in snake case
 
 To test class name in snake case

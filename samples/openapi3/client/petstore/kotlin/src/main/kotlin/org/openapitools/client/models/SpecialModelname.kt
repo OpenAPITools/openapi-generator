@@ -20,7 +20,7 @@ import java.io.Serializable
  */
 
 data class SpecialModelname (
-    @Json(name = "$special[property.name]")
+    @Json(name = "\$special[property.name]")
     val dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: kotlin.Long? = null
 ) 
 : Serializable 

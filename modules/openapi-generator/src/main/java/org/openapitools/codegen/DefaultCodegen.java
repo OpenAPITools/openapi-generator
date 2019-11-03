@@ -1946,7 +1946,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            if(composed.getRequired() != null) {
+            if (composed.getRequired() != null) {
                 required.addAll(composed.getRequired());
             }
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
@@ -2055,7 +2055,7 @@ public class DefaultCodegen implements CodegenConfig {
                 addProperties(properties, required, component);
             }
 
-            if(schema.getRequired() != null) {
+            if (schema.getRequired() != null) {
                 required.addAll(schema.getRequired());
             }
 
@@ -2561,15 +2561,15 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Set op's returnBaseType, returnType, examples etc.
      *
-     * @param operation endpoint Operation
-     * @param schemas a map of the schemas in the openapi spec
-     * @param op endpoint CodegenOperation
+     * @param operation      endpoint Operation
+     * @param schemas        a map of the schemas in the openapi spec
+     * @param op             endpoint CodegenOperation
      * @param methodResponse the default ApiResponse for the endpoint
      */
     protected void handleMethodResponse(Operation operation,
-                                     Map<String, Schema> schemas,
-                                     CodegenOperation op,
-                                     ApiResponse methodResponse) {
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse) {
         Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
 
         if (responseSchema != null) {
@@ -2717,6 +2717,11 @@ public class DefaultCodegen implements CodegenConfig {
                     op.isResponseFile = Boolean.TRUE;
                 }
             }
+            op.responses.sort((a, b) -> {
+                int aDefault = "0".equals(a.code) ? 1 : 0;
+                int bDefault = "0".equals(b.code) ? 1 : 0;
+                return aDefault - bDefault;
+            });
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
@@ -3146,7 +3151,15 @@ public class DefaultCodegen implements CodegenConfig {
             // set default value
             codegenParameter.defaultValue = toDefaultValue(parameterSchema);
 
-            // TDOO revise collectionFormat
+            if (parameter.getStyle() != null) {
+                codegenParameter.style = parameter.getStyle().toString();
+            }
+
+            // the default value is false
+            // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
+            codegenParameter.isExplode = parameter.getExplode() == null ? false : parameter.getExplode();
+
+            // TODO revise collectionFormat
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
@@ -3664,7 +3677,7 @@ public class DefaultCodegen implements CodegenConfig {
         co.baseName = tag;
     }
 
-    private void addParentContainer(CodegenModel model, String name, Schema schema) {
+    protected void addParentContainer(CodegenModel model, String name, Schema schema) {
         final CodegenProperty property = fromProperty(name, schema);
         addImport(model, property.complexType);
         model.parent = toInstantiationType(schema);
@@ -4141,7 +4154,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name            string to be sanitize
      * @param removeCharRegEx a regex containing all char that will be removed
-     * @param exceptionList a list of matches which should not be sanitized (i.e expections)
+     * @param exceptionList   a list of matches which should not be sanitized (i.e expections)
      * @return sanitized string
      */
     @SuppressWarnings("static-method")
@@ -4569,8 +4582,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         for (String consume : consumesInfo) {
             if (consume != null &&
-                (consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                consume.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
+                    (consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                            consume.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
                 return true;
             }
         }
@@ -5060,7 +5073,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.minLength = codegenProperty.minLength;
                 codegenParameter.maxLength = codegenProperty.maxLength;
                 codegenParameter.pattern = codegenProperty.pattern;
-
 
 
                 if (codegenProperty.complexType != null) {

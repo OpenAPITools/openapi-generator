@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-erlang-proper
 title: Config Options for erlang-proper
 sidebar_label: erlang-proper
 ---

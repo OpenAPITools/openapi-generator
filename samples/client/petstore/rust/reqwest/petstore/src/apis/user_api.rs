@@ -10,6 +10,8 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+#[allow(unused_imports)]
+use std::option::Option;
 
 use reqwest;
 
