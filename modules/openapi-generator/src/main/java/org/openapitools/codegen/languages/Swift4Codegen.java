@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-
 public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(Swift4Codegen.class);
 
@@ -388,6 +387,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
                 "",
                 "Cartfile"));
+        supportingFiles.add(new SupportingFile("Package.swift.mustache", 
+                "", 
+                "Package.swift"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
                 "APIHelper.swift"));

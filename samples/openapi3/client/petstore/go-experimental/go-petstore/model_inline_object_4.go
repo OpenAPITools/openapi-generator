@@ -8,103 +8,70 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
-	"errors"
 )
+
 // InlineObject4 struct for InlineObject4
 type InlineObject4 struct {
 	// field1
-	Param *string `json:"param,omitempty"`
-
+	Param string `json:"param"`
 	// field2
-	Param2 *string `json:"param2,omitempty"`
-
+	Param2 string `json:"param2"`
 }
 
-// GetParam returns the Param field if non-nil, zero value otherwise.
+// GetParam returns the Param field value
 func (o *InlineObject4) GetParam() string {
-	if o == nil || o.Param == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Param
+
+	return o.Param
 }
 
-// GetParamOk returns a tuple with the Param field if it's non-nil, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *InlineObject4) GetParamOk() (string, bool) {
-	if o == nil || o.Param == nil {
-		var ret string
-		return ret, false
-	}
-	return *o.Param, true
-}
-
-// HasParam returns a boolean if a field has been set.
-func (o *InlineObject4) HasParam() bool {
-	if o != nil && o.Param != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetParam gets a reference to the given string and assigns it to the Param field.
+// SetParam sets field value
 func (o *InlineObject4) SetParam(v string) {
-	o.Param = &v
+	o.Param = v
 }
 
-// GetParam2 returns the Param2 field if non-nil, zero value otherwise.
+// GetParam2 returns the Param2 field value
 func (o *InlineObject4) GetParam2() string {
-	if o == nil || o.Param2 == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Param2
+
+	return o.Param2
 }
 
-// GetParam2Ok returns a tuple with the Param2 field if it's non-nil, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *InlineObject4) GetParam2Ok() (string, bool) {
-	if o == nil || o.Param2 == nil {
-		var ret string
-		return ret, false
-	}
-	return *o.Param2, true
-}
-
-// HasParam2 returns a boolean if a field has been set.
-func (o *InlineObject4) HasParam2() bool {
-	if o != nil && o.Param2 != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetParam2 gets a reference to the given string and assigns it to the Param2 field.
+// SetParam2 sets field value
 func (o *InlineObject4) SetParam2(v string) {
-	o.Param2 = &v
+	o.Param2 = v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o InlineObject4) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Param == nil {
-		return nil, errors.New("Param is required and not nullable, but was not set on InlineObject4")
-	}
-	if o.Param != nil {
-		toSerialize["param"] = o.Param
-	}
-	if o.Param2 == nil {
-		return nil, errors.New("Param2 is required and not nullable, but was not set on InlineObject4")
-	}
-	if o.Param2 != nil {
-		toSerialize["param2"] = o.Param2
-	}
-	return json.Marshal(toSerialize)
+type NullableInlineObject4 struct {
+	Value InlineObject4
+	ExplicitNull bool
 }
 
+func (v NullableInlineObject4) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableInlineObject4) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

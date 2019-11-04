@@ -79,6 +79,7 @@ public class ApiClient {
     private boolean debugging = false;
 
     private HttpHeaders defaultHeaders = new HttpHeaders();
+    private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
     private String basePath = "http://petstore.swagger.io:80/v2";
 
@@ -262,6 +263,21 @@ public class ApiClient {
             defaultHeaders.remove(name);
         }
         defaultHeaders.add(name, value);
+        return this;
+    }
+
+    /**
+     * Add a default cookie.
+     *
+     * @param name The cookie's name
+     * @param value The cookie's value
+     * @return ApiClient this client
+     */
+    public ApiClient addDefaultCookie(String name, String value) {
+        if (defaultCookies.containsKey(name)) {
+            defaultCookies.remove(name);
+        }
+        defaultCookies.add(name, value);
         return this;
     }
 
@@ -539,6 +555,7 @@ public class ApiClient {
      * @param queryParams The query parameters
      * @param body The request body object
      * @param headerParams The header parameters
+     * @param cookieParams The cookie parameters
      * @param formParams The form parameters
      * @param accept The request's Accept header
      * @param contentType The request's Content-Type header
@@ -546,8 +563,8 @@ public class ApiClient {
      * @param returnType The return type into which to deserialize the response
      * @return ResponseEntity&lt;T&gt; The response of the chosen type
      */
-    public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        updateParamsForAuth(authNames, queryParams, headerParams);
+    public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
         if (queryParams != null) {
@@ -583,6 +600,8 @@ public class ApiClient {
 
         addHeadersToRequest(headerParams, requestBuilder);
         addHeadersToRequest(defaultHeaders, requestBuilder);
+        addCookiesToRequest(cookieParams, requestBuilder);
+        addCookiesToRequest(defaultCookies, requestBuilder);
 
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
@@ -610,6 +629,29 @@ public class ApiClient {
                 }
             }
         }
+    }
+
+    /**
+     * Add cookies to the request that is being built
+     * @param cookies The cookies to add
+     * @param requestBuilder The current request
+     */
+    protected void addCookiesToRequest(MultiValueMap<String, String> cookies, BodyBuilder requestBuilder) {
+        if (!cookies.isEmpty()) {
+            requestBuilder.header("Cookie", buildCookieHeader(cookies));
+        }
+    }
+
+    private String buildCookieHeader(MultiValueMap<String, String> cookies) {
+        final StringBuilder cookieValue = new StringBuilder();
+        String delimiter = "";
+        for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
+            for (String value : entry.getValue()) {
+                cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
+                delimiter = "; ";
+            }
+        }
+        return cookieValue.toString();
     }
 
     /**
@@ -641,13 +683,13 @@ public class ApiClient {
      * @param queryParams The query parameters
      * @param headerParams The header parameters
      */
-    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams) {
+    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
                 throw new RestClientException("Authentication undefined: " + authName);
             }
-            auth.applyToParams(queryParams, headerParams);
+            auth.applyToParams(queryParams, headerParams, cookieParams);
         }
     }
 

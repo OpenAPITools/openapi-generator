@@ -17,7 +17,7 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>4.10.2</gradleVersion>
+        <gradleVersion>5.2.1</gradleVersion>
     </properties>
 
     <pluginRepositories>

@@ -25,7 +25,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -35,12 +35,12 @@ class UserApi {
     List<String> contentTypes = [];
 
     var serializedBody = _serializers.serialize(body);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'post'.toUpperCase(),
         headers: headerParams,
@@ -63,7 +63,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -75,12 +75,12 @@ class UserApi {
     final type = const FullType(BuiltList, const [const FullType(User)]);
     var serializedBody =
         _serializers.serialize(BuiltList<User>.from(body), specifiedType: type);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'post'.toUpperCase(),
         headers: headerParams,
@@ -103,7 +103,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -115,12 +115,12 @@ class UserApi {
     final type = const FullType(BuiltList, const [const FullType(User)]);
     var serializedBody =
         _serializers.serialize(BuiltList<User>.from(body), specifiedType: type);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'post'.toUpperCase(),
         headers: headerParams,
@@ -144,7 +144,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -179,7 +179,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -229,7 +229,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams["username"] = username;
@@ -280,7 +280,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -316,7 +316,7 @@ class UserApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -326,12 +326,12 @@ class UserApi {
     List<String> contentTypes = [];
 
     var serializedBody = _serializers.serialize(body);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'put'.toUpperCase(),
         headers: headerParams,

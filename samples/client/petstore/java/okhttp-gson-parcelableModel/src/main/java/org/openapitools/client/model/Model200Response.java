@@ -61,7 +61,6 @@ public class Model200Response implements Parcelable {
   }
 
 
-
   public void setName(Integer name) {
     this.name = name;
   }
@@ -83,7 +82,6 @@ public class Model200Response implements Parcelable {
   public String getPropertyClass() {
     return propertyClass;
   }
-
 
 
   public void setPropertyClass(String propertyClass) {

@@ -59,7 +59,6 @@ public class AdditionalPropertiesString extends HashMap<String, String> implemen
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }

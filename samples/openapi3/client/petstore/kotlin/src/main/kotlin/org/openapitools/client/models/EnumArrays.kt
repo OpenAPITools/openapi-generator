@@ -32,35 +32,23 @@ data class EnumArrays (
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
-
-
     /**
     * 
     * Values: greaterThanEqual,dollar
     */
     
     enum class JustSymbol(val value: kotlin.String){
-    
         @Json(name = ">=") greaterThanEqual(">="),
-    
         @Json(name = "$") dollar("$");
-    
-
     }
-
     /**
     * 
     * Values: fish,crab
     */
     
     enum class ArrayEnum(val value: kotlin.String){
-    
         @Json(name = "fish") fish("fish"),
-    
         @Json(name = "crab") crab("crab");
-    
-
     }
-
 }
 

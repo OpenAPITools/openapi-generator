@@ -100,7 +100,7 @@ ext {
     jackson_databind_nullable_version = "0.2.0"
     jersey_version = "2.27"
     junit_version = "4.12"
-    threetenbp_version = "2.6.4"
+    threetenbp_version = "2.9.10"
 }
 
 dependencies {

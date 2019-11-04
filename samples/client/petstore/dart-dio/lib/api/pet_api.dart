@@ -27,7 +27,7 @@ class PetApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -37,12 +37,12 @@ class PetApi {
     List<String> contentTypes = ["application/json", "application/xml"];
 
     var serializedBody = _serializers.serialize(body);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'post'.toUpperCase(),
         headers: headerParams,
@@ -67,7 +67,7 @@ class PetApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     headerParams["api_key"] = apiKey;
@@ -102,7 +102,7 @@ class PetApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams["status"] = status;
@@ -155,7 +155,7 @@ class PetApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams["tags"] = tags;
@@ -209,7 +209,7 @@ class PetApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -258,7 +258,7 @@ class PetApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -268,12 +268,12 @@ class PetApi {
     List<String> contentTypes = ["application/json", "application/xml"];
 
     var serializedBody = _serializers.serialize(body);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'put'.toUpperCase(),
         headers: headerParams,
@@ -299,7 +299,7 @@ class PetApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);
@@ -336,7 +336,7 @@ class PetApi {
 
     // query params
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers);
+    Map<String, String> headerParams = Map.from(headers ?? {});
     Map<String, String> formParams = {};
 
     queryParams.removeWhere((key, value) => value == null);

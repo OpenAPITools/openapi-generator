@@ -406,7 +406,7 @@ val apiInstance = FakeApi()
 val number : kotlin.Double = 8.14 // kotlin.Double | None
 val double : kotlin.Double = 1.2 // kotlin.Double | None
 val patternWithoutDelimiter : kotlin.String = patternWithoutDelimiter_example // kotlin.String | None
-val byte : kotlin.ByteArray = BYTE_ARRAY_DATA_HERE // kotlin.ByteArray | None
+val byte : org.openapitools.client.infrastructure.Base64ByteArray = BYTE_ARRAY_DATA_HERE // org.openapitools.client.infrastructure.Base64ByteArray | None
 val integer : kotlin.Int = 56 // kotlin.Int | None
 val int32 : kotlin.Int = 56 // kotlin.Int | None
 val int64 : kotlin.Long = 789 // kotlin.Long | None
@@ -435,7 +435,7 @@ Name | Type | Description  | Notes
  **number** | **kotlin.Double**| None |
  **double** | **kotlin.Double**| None |
  **patternWithoutDelimiter** | **kotlin.String**| None |
- **byte** | **kotlin.ByteArray**| None |
+ **byte** | **org.openapitools.client.infrastructure.Base64ByteArray**| None |
  **integer** | **kotlin.Int**| None | [optional]
  **int32** | **kotlin.Int**| None | [optional]
  **int64** | **kotlin.Long**| None | [optional]
