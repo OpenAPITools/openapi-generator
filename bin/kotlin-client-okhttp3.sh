@@ -31,4 +31,4 @@ ags="generate -t modules/openapi-generator/src/main/resources/kotlin-client -i m
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}
 
-#cp CI/samples.ci/client/petstore/kotlin-okhttp3/pom.xml samples/client/petstore/kotlin-okhttp3/pom.xml
+cp CI/samples.ci/client/petstore/kotlin-okhttp3/pom.xml samples/client/petstore/kotlin-okhttp3/pom.xml
