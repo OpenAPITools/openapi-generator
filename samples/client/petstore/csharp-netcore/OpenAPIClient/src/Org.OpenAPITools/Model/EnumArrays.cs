@@ -55,7 +55,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets JustSymbol
         /// </summary>
-        [DataMember(Name="just_symbol", EmitDefaultValue=false)]        public JustSymbolEnum? JustSymbol { get; set; }
+        [DataMember(Name="just_symbol", EmitDefaultValue=false)]
+        public JustSymbolEnum? JustSymbol { get; set; }
         /// <summary>
         /// Defines ArrayEnum
         /// </summary>
@@ -80,7 +81,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
-        [DataMember(Name="array_enum", EmitDefaultValue=false)]        public List<ArrayEnumEnum> ArrayEnum { get; set; }
+        [DataMember(Name="array_enum", EmitDefaultValue=false)]
+        public List<ArrayEnumEnum> ArrayEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>

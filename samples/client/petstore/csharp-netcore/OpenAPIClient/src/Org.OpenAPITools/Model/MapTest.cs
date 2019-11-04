@@ -56,7 +56,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MapOfEnumString
         /// </summary>
-        [DataMember(Name="map_of_enum_string", EmitDefaultValue=false)]        public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
+        [DataMember(Name="map_of_enum_string", EmitDefaultValue=false)]
+        public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>

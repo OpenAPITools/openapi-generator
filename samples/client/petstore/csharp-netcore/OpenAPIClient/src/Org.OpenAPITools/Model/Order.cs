@@ -63,7 +63,8 @@ namespace Org.OpenAPITools.Model
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
-        [DataMember(Name="status", EmitDefaultValue=false)]        public StatusEnum? Status { get; set; }
+        [DataMember(Name="status", EmitDefaultValue=false)]
+        public StatusEnum? Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
