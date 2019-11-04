@@ -8,16 +8,18 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // NumberOnly struct for NumberOnly
 type NumberOnly struct {
 	JustNumber *float32 `json:"JustNumber,omitempty"`
-
 }
 
-// GetJustNumber returns the JustNumber field if non-nil, zero value otherwise.
+// GetJustNumber returns the JustNumber field value if set, zero value otherwise.
 func (o *NumberOnly) GetJustNumber() float32 {
 	if o == nil || o.JustNumber == nil {
 		var ret float32
@@ -26,7 +28,7 @@ func (o *NumberOnly) GetJustNumber() float32 {
 	return *o.JustNumber
 }
 
-// GetJustNumberOk returns a tuple with the JustNumber field if it's non-nil, zero value otherwise
+// GetJustNumberOk returns a tuple with the JustNumber field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *NumberOnly) GetJustNumberOk() (float32, bool) {
 	if o == nil || o.JustNumber == nil {
@@ -50,14 +52,26 @@ func (o *NumberOnly) SetJustNumber(v float32) {
 	o.JustNumber = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o NumberOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.JustNumber != nil {
-		toSerialize["JustNumber"] = o.JustNumber
-	}
-	return json.Marshal(toSerialize)
+type NullableNumberOnly struct {
+	Value NumberOnly
+	ExplicitNull bool
 }
 
+func (v NullableNumberOnly) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableNumberOnly) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

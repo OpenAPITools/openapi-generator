@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-aurelia
 title: Config Options for typescript-aurelia
 sidebar_label: typescript-aurelia
 ---

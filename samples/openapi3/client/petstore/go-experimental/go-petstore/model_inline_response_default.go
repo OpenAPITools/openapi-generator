@@ -8,16 +8,18 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // InlineResponseDefault struct for InlineResponseDefault
 type InlineResponseDefault struct {
 	String *Foo `json:"string,omitempty"`
-
 }
 
-// GetString returns the String field if non-nil, zero value otherwise.
+// GetString returns the String field value if set, zero value otherwise.
 func (o *InlineResponseDefault) GetString() Foo {
 	if o == nil || o.String == nil {
 		var ret Foo
@@ -26,7 +28,7 @@ func (o *InlineResponseDefault) GetString() Foo {
 	return *o.String
 }
 
-// GetStringOk returns a tuple with the String field if it's non-nil, zero value otherwise
+// GetStringOk returns a tuple with the String field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *InlineResponseDefault) GetStringOk() (Foo, bool) {
 	if o == nil || o.String == nil {
@@ -50,14 +52,26 @@ func (o *InlineResponseDefault) SetString(v Foo) {
 	o.String = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o InlineResponseDefault) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.String != nil {
-		toSerialize["string"] = o.String
-	}
-	return json.Marshal(toSerialize)
+type NullableInlineResponseDefault struct {
+	Value InlineResponseDefault
+	ExplicitNull bool
 }
 
+func (v NullableInlineResponseDefault) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableInlineResponseDefault) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

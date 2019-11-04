@@ -8,6 +8,12 @@
  */
 
 package openapi
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
 // OuterEnumInteger the model 'OuterEnumInteger'
 type OuterEnumInteger int32
 
@@ -17,5 +23,31 @@ const (
 	_1 OuterEnumInteger = 1
 	_2 OuterEnumInteger = 2
 )
+
+type NullableOuterEnumInteger struct {
+	Value OuterEnumInteger
+	ExplicitNull bool
+}
+
+func (v NullableOuterEnumInteger) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull && v.Value != "":
+        return nil, ErrInvalidNullable
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableOuterEnumInteger) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
+
 
 

@@ -15,12 +15,26 @@ import re  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
+from petstore_api.exceptions import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+)
 from petstore_api.model_utils import (  # noqa: F401
     ModelNormal,
     ModelSimple,
     check_allowed_values,
-    check_validations
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    get_simple_class,
+    int,
+    model_to_dict,
+    none_type,
+    str,
+    type_error_message,
+    validate_and_convert_types
 )
 
 
@@ -46,6 +60,8 @@ class AdditionalPropertiesClass(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
@@ -66,359 +82,302 @@ class AdditionalPropertiesClass(ModelNormal):
     }
 
     openapi_types = {
-        'map_string': 'dict(str, str)',
-        'map_number': 'dict(str, float)',
-        'map_integer': 'dict(str, int)',
-        'map_boolean': 'dict(str, bool)',
-        'map_array_integer': 'dict(str, list[int])',
-        'map_array_anytype': 'dict(str, list[object])',
-        'map_map_string': 'dict(str, dict(str, str))',
-        'map_map_anytype': 'dict(str, dict(str, object))',
-        'anytype_1': 'object',
-        'anytype_2': 'object',
-        'anytype_3': 'object'
+        'map_string': ({str: (str,)},),  # noqa: E501
+        'map_number': ({str: (float,)},),  # noqa: E501
+        'map_integer': ({str: (int,)},),  # noqa: E501
+        'map_boolean': ({str: (bool,)},),  # noqa: E501
+        'map_array_integer': ({str: ([int],)},),  # noqa: E501
+        'map_array_anytype': ({str: ([bool, date, datetime, dict, float, int, list, str],)},),  # noqa: E501
+        'map_map_string': ({str: ({str: (str,)},)},),  # noqa: E501
+        'map_map_anytype': ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)},),  # noqa: E501
+        'anytype_1': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+        'anytype_2': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+        'anytype_3': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, anytype_1=None, anytype_2=None, anytype_3=None):  # noqa: E501
-        """AdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._map_string = None
-        self._map_number = None
-        self._map_integer = None
-        self._map_boolean = None
-        self._map_array_integer = None
-        self._map_array_anytype = None
-        self._map_map_string = None
-        self._map_map_anytype = None
-        self._anytype_1 = None
-        self._anytype_2 = None
-        self._anytype_3 = None
-        self.discriminator = None
+    discriminator = None
 
-        if map_string is not None:
-            self.map_string = (
-                map_string
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """AdditionalPropertiesClass - a model defined in OpenAPI
+
+
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            map_string ({str: (str,)}): [optional]  # noqa: E501
+            map_number ({str: (float,)}): [optional]  # noqa: E501
+            map_integer ({str: (int,)}): [optional]  # noqa: E501
+            map_boolean ({str: (bool,)}): [optional]  # noqa: E501
+            map_array_integer ({str: ([int],)}): [optional]  # noqa: E501
+            map_array_anytype ({str: ([bool, date, datetime, dict, float, int, list, str],)}): [optional]  # noqa: E501
+            map_map_string ({str: ({str: (str,)},)}): [optional]  # noqa: E501
+            map_map_anytype ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)}): [optional]  # noqa: E501
+            anytype_1 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
+            anytype_2 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
+            anytype_3 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
+        """
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
+
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__set_item(var_name, var_value)
+
+    def __set_item(self, name, value):
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+
+        if name in self.openapi_types:
+            required_types_mixed = self.openapi_types[name]
+        elif self.additional_properties_type is None:
+            raise ApiKeyError(
+                "{0} has no key '{1}'".format(type(self).__name__, name),
+                path_to_item
             )
-        if map_number is not None:
-            self.map_number = (
-                map_number
+        elif self.additional_properties_type is not None:
+            required_types_mixed = self.additional_properties_type
+
+        if get_simple_class(name) != str:
+            error_msg = type_error_message(
+                var_name=name,
+                var_value=name,
+                valid_classes=(str,),
+                key_type=True
             )
-        if map_integer is not None:
-            self.map_integer = (
-                map_integer
+            raise ApiTypeError(
+                error_msg,
+                path_to_item=path_to_item,
+                valid_classes=(str,),
+                key_type=True
             )
-        if map_boolean is not None:
-            self.map_boolean = (
-                map_boolean
+
+        if self._check_type:
+            value = validate_and_convert_types(
+                value, required_types_mixed, path_to_item, self._from_server,
+                self._check_type, configuration=self._configuration)
+        if (name,) in self.allowed_values:
+            check_allowed_values(
+                self.allowed_values,
+                (name,),
+                value
             )
-        if map_array_integer is not None:
-            self.map_array_integer = (
-                map_array_integer
+        if (name,) in self.validations:
+            check_validations(
+                self.validations,
+                (name,),
+                value
             )
-        if map_array_anytype is not None:
-            self.map_array_anytype = (
-                map_array_anytype
-            )
-        if map_map_string is not None:
-            self.map_map_string = (
-                map_map_string
-            )
-        if map_map_anytype is not None:
-            self.map_map_anytype = (
-                map_map_anytype
-            )
-        if anytype_1 is not None:
-            self.anytype_1 = (
-                anytype_1
-            )
-        if anytype_2 is not None:
-            self.anytype_2 = (
-                anytype_2
-            )
-        if anytype_3 is not None:
-            self.anytype_3 = (
-                anytype_3
-            )
+        self._data_store[name] = value
+
+    def __get_item(self, name):
+        if name in self._data_store:
+            return self._data_store[name]
+
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        raise ApiKeyError(
+            "{0} has no key '{1}'".format(type(self).__name__, name),
+            [name]
+        )
+
+    def __setitem__(self, name, value):
+        """this allows us to set values with instance[field_name] = val"""
+        self.__set_item(name, value)
+
+    def __getitem__(self, name):
+        """this allows us to get a value with val = instance[field_name]"""
+        return self.__get_item(name)
 
     @property
     def map_string(self):
         """Gets the map_string of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, str)
+        Returns:
+            ({str: (str,)}): The map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._map_string
+        return self.__get_item('map_string')
 
     @map_string.setter
-    def map_string(self, map_string):  # noqa: E501
-        """Sets the map_string of this AdditionalPropertiesClass.
-
-
-        :param map_string: The map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, str)
+    def map_string(self, value):
+        """Sets the map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._map_string = (
-            map_string
-        )
+        return self.__set_item('map_string', value)
 
     @property
     def map_number(self):
         """Gets the map_number of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The map_number of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, float)
+        Returns:
+            ({str: (float,)}): The map_number of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._map_number
+        return self.__get_item('map_number')
 
     @map_number.setter
-    def map_number(self, map_number):  # noqa: E501
-        """Sets the map_number of this AdditionalPropertiesClass.
-
-
-        :param map_number: The map_number of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, float)
+    def map_number(self, value):
+        """Sets the map_number of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._map_number = (
-            map_number
-        )
+        return self.__set_item('map_number', value)
 
     @property
     def map_integer(self):
         """Gets the map_integer of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The map_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, int)
+        Returns:
+            ({str: (int,)}): The map_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._map_integer
+        return self.__get_item('map_integer')
 
     @map_integer.setter
-    def map_integer(self, map_integer):  # noqa: E501
-        """Sets the map_integer of this AdditionalPropertiesClass.
-
-
-        :param map_integer: The map_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, int)
+    def map_integer(self, value):
+        """Sets the map_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._map_integer = (
-            map_integer
-        )
+        return self.__set_item('map_integer', value)
 
     @property
     def map_boolean(self):
         """Gets the map_boolean of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, bool)
+        Returns:
+            ({str: (bool,)}): The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._map_boolean
+        return self.__get_item('map_boolean')
 
     @map_boolean.setter
-    def map_boolean(self, map_boolean):  # noqa: E501
-        """Sets the map_boolean of this AdditionalPropertiesClass.
-
-
-        :param map_boolean: The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, bool)
+    def map_boolean(self, value):
+        """Sets the map_boolean of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._map_boolean = (
-            map_boolean
-        )
+        return self.__set_item('map_boolean', value)
 
     @property
     def map_array_integer(self):
         """Gets the map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, list[int])
+        Returns:
+            ({str: ([int],)}): The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._map_array_integer
+        return self.__get_item('map_array_integer')
 
     @map_array_integer.setter
-    def map_array_integer(self, map_array_integer):  # noqa: E501
-        """Sets the map_array_integer of this AdditionalPropertiesClass.
-
-
-        :param map_array_integer: The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, list[int])
+    def map_array_integer(self, value):
+        """Sets the map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._map_array_integer = (
-            map_array_integer
-        )
+        return self.__set_item('map_array_integer', value)
 
     @property
     def map_array_anytype(self):
         """Gets the map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, list[object])
+        Returns:
+            ({str: ([bool, date, datetime, dict, float, int, list, str],)}): The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._map_array_anytype
+        return self.__get_item('map_array_anytype')
 
     @map_array_anytype.setter
-    def map_array_anytype(self, map_array_anytype):  # noqa: E501
-        """Sets the map_array_anytype of this AdditionalPropertiesClass.
-
-
-        :param map_array_anytype: The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, list[object])
+    def map_array_anytype(self, value):
+        """Sets the map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._map_array_anytype = (
-            map_array_anytype
-        )
+        return self.__set_item('map_array_anytype', value)
 
     @property
     def map_map_string(self):
         """Gets the map_map_string of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, dict(str, str))
+        Returns:
+            ({str: ({str: (str,)},)}): The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._map_map_string
+        return self.__get_item('map_map_string')
 
     @map_map_string.setter
-    def map_map_string(self, map_map_string):  # noqa: E501
-        """Sets the map_map_string of this AdditionalPropertiesClass.
-
-
-        :param map_map_string: The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, str))
+    def map_map_string(self, value):
+        """Sets the map_map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._map_map_string = (
-            map_map_string
-        )
+        return self.__set_item('map_map_string', value)
 
     @property
     def map_map_anytype(self):
         """Gets the map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, dict(str, object))
+        Returns:
+            ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)}): The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._map_map_anytype
+        return self.__get_item('map_map_anytype')
 
     @map_map_anytype.setter
-    def map_map_anytype(self, map_map_anytype):  # noqa: E501
-        """Sets the map_map_anytype of this AdditionalPropertiesClass.
-
-
-        :param map_map_anytype: The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, object))
+    def map_map_anytype(self, value):
+        """Sets the map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._map_map_anytype = (
-            map_map_anytype
-        )
+        return self.__set_item('map_map_anytype', value)
 
     @property
     def anytype_1(self):
         """Gets the anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: object
+        Returns:
+            (bool, date, datetime, dict, float, int, list, str): The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._anytype_1
+        return self.__get_item('anytype_1')
 
     @anytype_1.setter
-    def anytype_1(self, anytype_1):  # noqa: E501
-        """Sets the anytype_1 of this AdditionalPropertiesClass.
-
-
-        :param anytype_1: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: object
+    def anytype_1(self, value):
+        """Sets the anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._anytype_1 = (
-            anytype_1
-        )
+        return self.__set_item('anytype_1', value)
 
     @property
     def anytype_2(self):
         """Gets the anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: object
+        Returns:
+            (bool, date, datetime, dict, float, int, list, str): The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._anytype_2
+        return self.__get_item('anytype_2')
 
     @anytype_2.setter
-    def anytype_2(self, anytype_2):  # noqa: E501
-        """Sets the anytype_2 of this AdditionalPropertiesClass.
-
-
-        :param anytype_2: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: object
+    def anytype_2(self, value):
+        """Sets the anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._anytype_2 = (
-            anytype_2
-        )
+        return self.__set_item('anytype_2', value)
 
     @property
     def anytype_3(self):
         """Gets the anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
 
-
-        :return: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: object
+        Returns:
+            (bool, date, datetime, dict, float, int, list, str): The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
         """
-        return self._anytype_3
+        return self.__get_item('anytype_3')
 
     @anytype_3.setter
-    def anytype_3(self, anytype_3):  # noqa: E501
-        """Sets the anytype_3 of this AdditionalPropertiesClass.
-
-
-        :param anytype_3: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: object
+    def anytype_3(self, value):
+        """Sets the anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
         """
-
-        self._anytype_3 = (
-            anytype_3
-        )
+        return self.__set_item('anytype_3', value)
 
     def to_dict(self):
         """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
+        return model_to_dict(self, serialize=False)
 
     def to_str(self):
         """Returns the string representation of the model"""
@@ -433,7 +392,22 @@ class AdditionalPropertiesClass(ModelNormal):
         if not isinstance(other, AdditionalPropertiesClass):
             return False
 
-        return self.__dict__ == other.__dict__
+        if not set(self._data_store.keys()) == set(other._data_store.keys()):
+            return False
+        for _var_name, this_val in six.iteritems(self._data_store):
+            that_val = other._data_store[_var_name]
+            types = set()
+            types.add(this_val.__class__)
+            types.add(that_val.__class__)
+            vals_equal = this_val == that_val
+            if (not six.PY3 and
+                    len(types) == 2 and unicode in types):  # noqa: F821
+                vals_equal = (
+                    this_val.encode('utf-8') == that_val.encode('utf-8')
+                )
+            if not vals_equal:
+                return False
+        return True
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""

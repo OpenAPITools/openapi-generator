@@ -29,8 +29,8 @@ SPEC="modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
 GENERATOR="go-server"
 STUB_DIR="samples/server/petstore/go-api-server"
 
-echo "Removing files and folders under $STUB_DIR"
-rm -rf $STUB_DIR
+echo "Removing auto-generated files and folders under $STUB_DIR"
+rm -rf $STUB_DIR/go
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"

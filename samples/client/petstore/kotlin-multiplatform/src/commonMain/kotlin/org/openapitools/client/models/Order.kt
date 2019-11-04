@@ -35,25 +35,18 @@ data class Order (
 ) 
 
 
-
-
-
+{
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
     @Serializable(with = Status.Serializer::class)
     enum class Status(val value: kotlin.String){
-    
         placed("placed"),
-    
         approved("approved"),
-    
         delivered("delivered");
-    
 
-        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value }.toTypedArray())
+        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value.toString() }.toTypedArray())
     }
-
-
+}
 

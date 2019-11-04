@@ -49,19 +49,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        [DataMember(Name="uuid", EmitDefaultValue=false)]
+        [DataMember(Name="uuid", EmitDefaultValue=true)]
         public Guid Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
-        [DataMember(Name="dateTime", EmitDefaultValue=false)]
+        [DataMember(Name="dateTime", EmitDefaultValue=true)]
         public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Map
         /// </summary>
-        [DataMember(Name="map", EmitDefaultValue=false)]
+        [DataMember(Name="map", EmitDefaultValue=true)]
         public Dictionary<string, Animal> Map { get; set; }
 
         /// <summary>

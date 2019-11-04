@@ -23,6 +23,7 @@ import kotlinx.serialization.json.JsonConfiguration
 
 import org.openapitools.client.apis.*
 import org.openapitools.client.models.*
+import org.openapitools.client.auth.*
 
 open class ApiClient(
         private val baseUrl: String,
@@ -46,6 +47,12 @@ open class ApiClient(
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
 
+    private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
+        mapOf(
+                "api_key" to ApiKeyAuth("header", "api_key"), 
+                "petstore_auth" to OAuth())
+    }
+
     companion object {
         protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
 
@@ -57,31 +64,100 @@ open class ApiClient(
             
             UserApi.setMappers(serializer)
             
-            serializer.setMapper(ApiResponse::class, ApiResponse.serializer())
-            serializer.setMapper(Category::class, Category.serializer())
-            serializer.setMapper(Order::class, Order.serializer())
-            serializer.setMapper(Pet::class, Pet.serializer())
-            serializer.setMapper(Tag::class, Tag.serializer())
-            serializer.setMapper(User::class, User.serializer())
+            serializer.setMapper(org.openapitools.client.models.ApiResponse::class, org.openapitools.client.models.ApiResponse.serializer())
+            serializer.setMapper(org.openapitools.client.models.Category::class, org.openapitools.client.models.Category.serializer())
+            serializer.setMapper(org.openapitools.client.models.Order::class, org.openapitools.client.models.Order.serializer())
+            serializer.setMapper(org.openapitools.client.models.Pet::class, org.openapitools.client.models.Pet.serializer())
+            serializer.setMapper(org.openapitools.client.models.Tag::class, org.openapitools.client.models.Tag.serializer())
+            serializer.setMapper(org.openapitools.client.models.User::class, org.openapitools.client.models.User.serializer())
         }
     }
 
-    protected suspend fun multipartFormRequest(requestConfig: RequestConfig, body: List<PartData>?): HttpResponse {
-        return request(requestConfig, MultiPartFormDataContent(body ?: listOf()))
+    /**
+     * Set the username for the first HTTP basic authentication.
+     *
+     * @param username Username
+     */
+    fun setUsername(username: String) {
+        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+                ?: throw Exception("No HTTP basic authentication configured")
+        auth.username = username
     }
 
-    protected suspend fun urlEncodedFormRequest(requestConfig: RequestConfig, body: Parameters?): HttpResponse {
-        return request(requestConfig, FormDataContent(body ?: Parameters.Empty))
+    /**
+     * Set the password for the first HTTP basic authentication.
+     *
+     * @param password Password
+     */
+    fun setPassword(password: String) {
+        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+                ?: throw Exception("No HTTP basic authentication configured")
+        auth.password = password
     }
 
-    protected suspend fun jsonRequest(requestConfig: RequestConfig, body: Any? = null): HttpResponse {
+    /**
+     * Set the API key value for the first API key authentication.
+     *
+     * @param apiKey API key
+     * @param paramName The name of the API key parameter, or null or set the first key.
+     */
+    fun setApiKey(apiKey: String, paramName: String? = null) {
+        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
+                ?: throw Exception("No API key authentication configured")
+        auth.apiKey = apiKey
+    }
+
+    /**
+     * Set the API key prefix for the first API key authentication.
+     *
+     * @param apiKeyPrefix API key prefix
+     * @param paramName The name of the API key parameter, or null or set the first key.
+     */
+    fun setApiKeyPrefix(apiKeyPrefix: String, paramName: String? = null) {
+        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
+                ?: throw Exception("No API key authentication configured")
+        auth.apiKeyPrefix = apiKeyPrefix
+    }
+
+    /**
+     * Set the access token for the first OAuth2 authentication.
+     *
+     * @param accessToken Access token
+     */
+    fun setAccessToken(accessToken: String) {
+        val auth = authentications.values.firstOrNull { it is OAuth } as OAuth?
+                ?: throw Exception("No OAuth2 authentication configured")
+        auth.accessToken = accessToken
+    }
+
+    /**
+     * Set the access token for the first Bearer authentication.
+     *
+     * @param bearerToken The bearer token.
+     */
+    fun setBearerToken(bearerToken: String) {
+        val auth = authentications.values.firstOrNull { it is HttpBearerAuth } as HttpBearerAuth?
+                ?: throw Exception("No Bearer authentication configured")
+        auth.bearerToken = bearerToken
+    }
+
+    protected suspend fun multipartFormRequest(requestConfig: RequestConfig, body: kotlin.collections.List<PartData>?, authNames: kotlin.collections.List<String>): HttpResponse {
+        return request(requestConfig, MultiPartFormDataContent(body ?: listOf()), authNames)
+    }
+
+    protected suspend fun urlEncodedFormRequest(requestConfig: RequestConfig, body: Parameters?, authNames: kotlin.collections.List<String>): HttpResponse {
+        return request(requestConfig, FormDataContent(body ?: Parameters.Empty), authNames)
+    }
+
+    protected suspend fun jsonRequest(requestConfig: RequestConfig, body: Any? = null, authNames: kotlin.collections.List<String>): HttpResponse {
         val contentType = (requestConfig.headers[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
                 ?: ContentType.Application.Json)
-        return if (body != null) request(requestConfig, serializer.write(body, contentType))
-        else request(requestConfig)
+        return if (body != null) request(requestConfig, serializer.write(body, contentType), authNames)
+        else request(requestConfig, authNames = authNames)
     }
 
-    protected suspend fun request(requestConfig: RequestConfig, body: OutgoingContent = EmptyContent): HttpResponse {
+    protected suspend fun request(requestConfig: RequestConfig, body: OutgoingContent = EmptyContent, authNames: kotlin.collections.List<String>): HttpResponse {
+        requestConfig.updateForAuth(authNames)
         val headers = requestConfig.headers
 
         return client.call {
@@ -102,7 +178,14 @@ open class ApiClient(
         }.response
     }
 
-    private fun URLBuilder.appendPath(components: List<String>): URLBuilder = apply {
+    private fun RequestConfig.updateForAuth(authNames: kotlin.collections.List<String>) {
+        for (authName in authNames) {
+            val auth = authentications[authName] ?: throw Exception("Authentication undefined: $authName")
+            auth.apply(query, headers)
+        }
+    }
+
+    private fun URLBuilder.appendPath(components: kotlin.collections.List<String>): URLBuilder = apply {
         encodedPath = encodedPath.trimEnd('/') + components.joinToString("/", prefix = "/") { it.encodeURLQueryComponent() }
     }
 

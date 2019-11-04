@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-erlang-server
 title: Config Options for erlang-server
 sidebar_label: erlang-server
 ---

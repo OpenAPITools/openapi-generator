@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-java-play-framework
 title: Config Options for java-play-framework
 sidebar_label: java-play-framework
 ---

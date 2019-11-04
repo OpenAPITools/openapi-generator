@@ -98,12 +98,12 @@ ext {
     swagger_annotations_version = "1.5.22"
     jackson_version = "2.9.10"
     jackson_databind_version = "2.9.10"
-    jackson-databind-nullable-version = "0.2.0"
+    jackson_databind_nullable_version = "0.2.0"
     google_api_client_version = "1.23.0"
     jersey_common_version = "2.25.1"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
-    jackson_threeten_version = "2.6.4"
+    jackson_threeten_version = "2.9.10"
 }
 
 dependencies {
@@ -115,7 +115,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
-    compile "org.openapitools:jackson-databind-nullable:$jackson-databind-nullable-version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
     testCompile "junit:junit:$junit_version"
 }

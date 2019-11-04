@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-perl
 title: Config Options for perl
 sidebar_label: perl
 ---

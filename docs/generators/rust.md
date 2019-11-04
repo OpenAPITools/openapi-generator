@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-rust
 title: Config Options for rust
 sidebar_label: rust
 ---

@@ -28,7 +28,7 @@ import java.io.Serializable
 @Parcelize
 {{/parcelizeModels}}
 {{#multiplatform}}@Serializable{{/multiplatform}}
-data class {{classname}} (
+{{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}} (
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
@@ -37,20 +37,25 @@ data class {{classname}} (
 ) {{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}
 {{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}
 {{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}
-{{#needsDataClassBody}}{{=<% %>=}}{<%={{ }}=%>{{/needsDataClassBody}}
+{{#vendorExtensions.x-has-data-class-body}}
+{
+{{/vendorExtensions.x-has-data-class-body}}
 {{#serializableModel}}
-	companion object {
+	{{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
 		private const val serialVersionUID: Long = 123
 	}
-{{/serializableModel}}{{#hasEnums}}
-{{#vars}}{{#isEnum}}
+{{/serializableModel}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
     /**
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
     {{#multiplatform}}@Serializable(with = {{nameInCamelCase}}.Serializer::class){{/multiplatform}}
-    enum class {{{nameInCamelCase}}}(val value: {{#isListContainer}}{{{ nestedType }}}{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}){
-    {{#allowableValues}}{{#enumVars}}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{#isListContainer}}{{{ nestedType }}}{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}){
+    {{#allowableValues}}
+    {{#enumVars}}
         {{#jvm}}
         {{#moshi}}
         @Json(name = {{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
@@ -62,11 +67,16 @@ data class {{classname}} (
         {{#multiplatform}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/multiplatform}}
-    {{/enumVars}}{{/allowableValues}}
-
+    {{/enumVars}}
+    {{/allowableValues}}
     {{#multiplatform}}
-        object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value }.toTypedArray())
+
+        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value.toString() }.toTypedArray())
     {{/multiplatform}}
     }
-{{/isEnum}}{{/vars}}
-{{/hasEnums}}{{#needsDataClassBody}}{{=<% %>=}}}<%={{ }}=%>{{/needsDataClassBody}}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{#vendorExtensions.x-has-data-class-body}}
+}
+{{/vendorExtensions.x-has-data-class-body}}

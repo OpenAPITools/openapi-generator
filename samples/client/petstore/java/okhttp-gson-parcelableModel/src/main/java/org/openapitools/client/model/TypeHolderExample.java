@@ -78,7 +78,6 @@ public class TypeHolderExample implements Parcelable {
   }
 
 
-
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
@@ -99,7 +98,6 @@ public class TypeHolderExample implements Parcelable {
   public BigDecimal getNumberItem() {
     return numberItem;
   }
-
 
 
   public void setNumberItem(BigDecimal numberItem) {
@@ -124,7 +122,6 @@ public class TypeHolderExample implements Parcelable {
   }
 
 
-
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
   }
@@ -147,7 +144,6 @@ public class TypeHolderExample implements Parcelable {
   }
 
 
-
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -168,7 +164,6 @@ public class TypeHolderExample implements Parcelable {
   public Boolean getBoolItem() {
     return boolItem;
   }
-
 
 
   public void setBoolItem(Boolean boolItem) {
@@ -196,7 +191,6 @@ public class TypeHolderExample implements Parcelable {
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
 
   public void setArrayItem(List<Integer> arrayItem) {

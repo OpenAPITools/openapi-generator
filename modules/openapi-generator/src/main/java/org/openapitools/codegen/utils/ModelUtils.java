@@ -90,12 +90,20 @@ public class ModelUtils {
      * @return schemas a list of used schemas
      */
     public static List<String> getAllUsedSchemas(OpenAPI openAPI) {
+        Map<String, List<String>> childrenMap = getChildrenMap(openAPI);
         List<String> allUsedSchemas = new ArrayList<String>();
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
                 if (!allUsedSchemas.contains(ref)) {
                     allUsedSchemas.add(ref);
+                }
+                if (childrenMap.containsKey(ref)) {
+                    for (String child : childrenMap.get(ref)) {
+                        if (!allUsedSchemas.contains(child)) {
+                            allUsedSchemas.add(child);
+                        }
+                    }
                 }
             }
         });
@@ -109,6 +117,7 @@ public class ModelUtils {
      * @return schemas a list of unused schemas
      */
     public static List<String> getUnusedSchemas(OpenAPI openAPI) {
+        Map<String, List<String>> childrenMap = getChildrenMap(openAPI);
         List<String> unusedSchemas = new ArrayList<String>();
 
         Map<String, Schema> schemas = getSchemas(openAPI);
@@ -116,7 +125,11 @@ public class ModelUtils {
 
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
-                unusedSchemas.remove(getSimpleRef(s.get$ref()));
+                String ref = getSimpleRef(s.get$ref());
+                unusedSchemas.remove(ref);
+                if (childrenMap.containsKey(ref)) {
+                    unusedSchemas.removeAll(childrenMap.get(ref));
+                }
             }
         });
         return unusedSchemas;
@@ -858,6 +871,18 @@ public class ModelUtils {
         }
         return null;
     }
+
+    public static Map<String, List<String>> getChildrenMap(OpenAPI openAPI) {
+        Map<String, Schema> allSchemas = getSchemas(openAPI);
+
+        Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
+            .filter(entry -> isComposedSchema(entry.getValue()))
+            .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
+
+        return groupedByParent.entrySet().stream()
+                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue().stream().map(e -> e.getKey()).collect(Collectors.toList())));
+    }
+
 
     /**
      * Get the interfaces from the schema (composed)

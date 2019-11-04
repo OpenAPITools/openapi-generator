@@ -381,8 +381,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                         final String propertyName = cm.discriminator.getPropertyName();
                         final List<CodegenProperty> allVars = child.allVars.stream()
-                            .filter(var -> !var.baseName.equals(propertyName))
-                            .collect(Collectors.toList());
+                                .filter(var -> !var.baseName.equals(propertyName))
+                                .collect(Collectors.toList());
                         child.allVars.clear();
                         child.allVars.addAll(allVars);
 
@@ -415,17 +415,17 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private static boolean anyOperationParam(final List<CodegenOperation> operations, final Predicate<CodegenParameter> predicate) {
-      return operations.stream()
-          .flatMap(operation -> Stream.of(
-                operation.bodyParams.stream(),
-                operation.queryParams.stream(),
-                operation.pathParams.stream(),
-                operation.headerParams.stream()
-          ))
-          .flatMap(a -> a)
-          .filter(predicate)
-          .findAny()
-          .isPresent();
+        return operations.stream()
+                .flatMap(operation -> Stream.of(
+                        operation.bodyParams.stream(),
+                        operation.queryParams.stream(),
+                        operation.pathParams.stream(),
+                        operation.headerParams.stream()
+                ))
+                .flatMap(a -> a)
+                .filter(predicate)
+                .findAny()
+                .isPresent();
     }
 
     @Override
@@ -437,23 +437,23 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         final Set<String> dependencies = new HashSet<>();
 
         for (CodegenOperation op : ops) {
-            if (ElmVersion.ELM_018.equals(elmVersion)) {
+            if (ElmVersion.ELM_018.equals(elmVersion)) { // elm 0.18
                 String path = op.path;
                 for (CodegenParameter param : op.pathParams) {
                     final String var = paramToString("params", param, false, null);
-                    path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
+                    path = path.replace("{" + param.baseName + "}", "\" ++ " + var + " ++ \"");
                 }
                 op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
-            } else {
+            } else { // elm 0.19 or later
                 final List<Object> pathParams = Arrays.asList(op.path.substring(1).split("/")).stream()
-                    .map(str -> {
-                        if (str.startsWith("{") && str.endsWith("}")) {
-                          return op.pathParams.stream().filter(p -> str.equals("{" + p.paramName + "}")).findFirst().orElse(null);
-                        } else {
-                          return "\"" + str + "\"";
-                        }
-                    })
-                    .collect(Collectors.toList());
+                        .map(str -> {
+                            if (str.startsWith("{") && str.endsWith("}")) {
+                                return op.pathParams.stream().filter(p -> str.equals("{" + p.baseName + "}")).findFirst().orElse(null);
+                            } else {
+                                return "\"" + str + "\"";
+                            }
+                        })
+                        .collect(Collectors.toList());
                 op.vendorExtensions.put("pathParams", pathParams);
             }
 
@@ -737,10 +737,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private enum DataTypeExposure {
-      EXPOSED,
-      INTERNAL,
-      EXTERNAL,
-      PRIMITIVE
+        EXPOSED,
+        INTERNAL,
+        EXTERNAL,
+        PRIMITIVE
     }
 
     private static class ElmImport {

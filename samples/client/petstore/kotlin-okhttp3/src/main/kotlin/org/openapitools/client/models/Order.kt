@@ -13,9 +13,6 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -25,7 +22,6 @@ import kotlinx.android.parcel.Parcelize
  * @param status Order Status
  * @param complete 
  */
-@Parcelize
 
 data class Order (
     @Json(name = "id")
@@ -41,24 +37,19 @@ data class Order (
     val status: Order.Status? = null,
     @Json(name = "complete")
     val complete: kotlin.Boolean? = null
-) : Parcelable
-{
+) 
 
+
+{
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
     
     enum class Status(val value: kotlin.String){
-    
         @Json(name = "placed") placed("placed"),
-    
         @Json(name = "approved") approved("approved"),
-    
         @Json(name = "delivered") delivered("delivered");
-    
-
     }
-
 }
 

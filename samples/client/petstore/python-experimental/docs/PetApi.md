@@ -134,7 +134,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_status**
-> list[Pet] find_pets_by_status(status)
+> [Pet] find_pets_by_status(status)
 
 Finds Pets by status
 
@@ -157,7 +157,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-status = ['status_example'] # list[str] | Status values that need to be considered for filter
+status = ['status_example'] # [str] | Status values that need to be considered for filter
 
 try:
     # Finds Pets by status
@@ -171,11 +171,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**list[str]**](str.md)| Status values that need to be considered for filter |
+ **status** | [**[str]**](str.md)| Status values that need to be considered for filter |
 
 ### Return type
 
-[**list[Pet]**](Pet.md)
+[**[Pet]**](Pet.md)
 
 ### Authorization
 
@@ -195,7 +195,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_tags**
-> list[Pet] find_pets_by_tags(tags)
+> [Pet] find_pets_by_tags(tags)
 
 Finds Pets by tags
 
@@ -218,7 +218,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-tags = ['tags_example'] # list[str] | Tags to filter by
+tags = ['tags_example'] # [str] | Tags to filter by
 
 try:
     # Finds Pets by tags
@@ -232,11 +232,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**list[str]**](str.md)| Tags to filter by |
+ **tags** | [**[str]**](str.md)| Tags to filter by |
 
 ### Return type
 
-[**list[Pet]**](Pet.md)
+[**[Pet]**](Pet.md)
 
 ### Authorization
 
@@ -464,11 +464,12 @@ configuration.host = "http://petstore.swagger.io:80/v2"
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
-file = '/path/to/file' # file | file to upload (optional)
+file = open('/path/to/file', 'rb') # file_type | file to upload (optional)
+files = open('/path/to/file', 'rb') # [file_type] | files to upload (optional)
 
 try:
     # uploads an image
-    api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
+    api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file, files=files)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->upload_file: %s\n" % e)
@@ -480,7 +481,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update |
  **additional_metadata** | **str**| Additional data to pass to server | [optional]
- **file** | **file**| file to upload | [optional]
+ **file** | **file_type**| file to upload | [optional]
+ **files** | [**[file_type]**](file_type.md)| files to upload | [optional]
 
 ### Return type
 
@@ -525,7 +527,7 @@ configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
-required_file = '/path/to/file' # file | file to upload
+required_file = open('/path/to/file', 'rb') # file_type | file to upload
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 
 try:
@@ -541,7 +543,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update |
- **required_file** | **file**| file to upload |
+ **required_file** | **file_type**| file to upload |
  **additional_metadata** | **str**| Additional data to pass to server | [optional]
 
 ### Return type

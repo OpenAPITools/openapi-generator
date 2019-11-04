@@ -11,7 +11,7 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 {{/threetenbp}}
 
-class LocalDateTimeAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}class LocalDateTimeAdapter {
     @ToJson
     fun toJson(value: LocalDateTime): String {
         return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(value)

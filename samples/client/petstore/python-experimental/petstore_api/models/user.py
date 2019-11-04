@@ -15,12 +15,26 @@ import re  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
+from petstore_api.exceptions import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+)
 from petstore_api.model_utils import (  # noqa: F401
     ModelNormal,
     ModelSimple,
     check_allowed_values,
-    check_validations
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    get_simple_class,
+    int,
+    model_to_dict,
+    none_type,
+    str,
+    type_error_message,
+    validate_and_convert_types
 )
 
 
@@ -46,6 +60,8 @@ class User(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
@@ -63,274 +79,253 @@ class User(ModelNormal):
     }
 
     openapi_types = {
-        'id': 'int',
-        'username': 'str',
-        'first_name': 'str',
-        'last_name': 'str',
-        'email': 'str',
-        'password': 'str',
-        'phone': 'str',
-        'user_status': 'int'
+        'id': (int,),  # noqa: E501
+        'username': (str,),  # noqa: E501
+        'first_name': (str,),  # noqa: E501
+        'last_name': (str,),  # noqa: E501
+        'email': (str,),  # noqa: E501
+        'password': (str,),  # noqa: E501
+        'phone': (str,),  # noqa: E501
+        'user_status': (int,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None):  # noqa: E501
-        """User - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._id = None
-        self._username = None
-        self._first_name = None
-        self._last_name = None
-        self._email = None
-        self._password = None
-        self._phone = None
-        self._user_status = None
-        self.discriminator = None
+    discriminator = None
 
-        if id is not None:
-            self.id = (
-                id
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """User - a model defined in OpenAPI
+
+
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            id (int): [optional]  # noqa: E501
+            username (str): [optional]  # noqa: E501
+            first_name (str): [optional]  # noqa: E501
+            last_name (str): [optional]  # noqa: E501
+            email (str): [optional]  # noqa: E501
+            password (str): [optional]  # noqa: E501
+            phone (str): [optional]  # noqa: E501
+            user_status (int): User Status. [optional]  # noqa: E501
+        """
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
+
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__set_item(var_name, var_value)
+
+    def __set_item(self, name, value):
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+
+        if name in self.openapi_types:
+            required_types_mixed = self.openapi_types[name]
+        elif self.additional_properties_type is None:
+            raise ApiKeyError(
+                "{0} has no key '{1}'".format(type(self).__name__, name),
+                path_to_item
             )
-        if username is not None:
-            self.username = (
-                username
+        elif self.additional_properties_type is not None:
+            required_types_mixed = self.additional_properties_type
+
+        if get_simple_class(name) != str:
+            error_msg = type_error_message(
+                var_name=name,
+                var_value=name,
+                valid_classes=(str,),
+                key_type=True
             )
-        if first_name is not None:
-            self.first_name = (
-                first_name
+            raise ApiTypeError(
+                error_msg,
+                path_to_item=path_to_item,
+                valid_classes=(str,),
+                key_type=True
             )
-        if last_name is not None:
-            self.last_name = (
-                last_name
+
+        if self._check_type:
+            value = validate_and_convert_types(
+                value, required_types_mixed, path_to_item, self._from_server,
+                self._check_type, configuration=self._configuration)
+        if (name,) in self.allowed_values:
+            check_allowed_values(
+                self.allowed_values,
+                (name,),
+                value
             )
-        if email is not None:
-            self.email = (
-                email
+        if (name,) in self.validations:
+            check_validations(
+                self.validations,
+                (name,),
+                value
             )
-        if password is not None:
-            self.password = (
-                password
-            )
-        if phone is not None:
-            self.phone = (
-                phone
-            )
-        if user_status is not None:
-            self.user_status = (
-                user_status
-            )
+        self._data_store[name] = value
+
+    def __get_item(self, name):
+        if name in self._data_store:
+            return self._data_store[name]
+
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        raise ApiKeyError(
+            "{0} has no key '{1}'".format(type(self).__name__, name),
+            [name]
+        )
+
+    def __setitem__(self, name, value):
+        """this allows us to set values with instance[field_name] = val"""
+        self.__set_item(name, value)
+
+    def __getitem__(self, name):
+        """this allows us to get a value with val = instance[field_name]"""
+        return self.__get_item(name)
 
     @property
     def id(self):
         """Gets the id of this User.  # noqa: E501
 
-
-        :return: The id of this User.  # noqa: E501
-        :rtype: int
+        Returns:
+            (int): The id of this User.  # noqa: E501
         """
-        return self._id
+        return self.__get_item('id')
 
     @id.setter
-    def id(self, id):  # noqa: E501
-        """Sets the id of this User.
-
-
-        :param id: The id of this User.  # noqa: E501
-        :type: int
+    def id(self, value):
+        """Sets the id of this User.  # noqa: E501
         """
-
-        self._id = (
-            id
-        )
+        return self.__set_item('id', value)
 
     @property
     def username(self):
         """Gets the username of this User.  # noqa: E501
 
-
-        :return: The username of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The username of this User.  # noqa: E501
         """
-        return self._username
+        return self.__get_item('username')
 
     @username.setter
-    def username(self, username):  # noqa: E501
-        """Sets the username of this User.
-
-
-        :param username: The username of this User.  # noqa: E501
-        :type: str
+    def username(self, value):
+        """Sets the username of this User.  # noqa: E501
         """
-
-        self._username = (
-            username
-        )
+        return self.__set_item('username', value)
 
     @property
     def first_name(self):
         """Gets the first_name of this User.  # noqa: E501
 
-
-        :return: The first_name of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The first_name of this User.  # noqa: E501
         """
-        return self._first_name
+        return self.__get_item('first_name')
 
     @first_name.setter
-    def first_name(self, first_name):  # noqa: E501
-        """Sets the first_name of this User.
-
-
-        :param first_name: The first_name of this User.  # noqa: E501
-        :type: str
+    def first_name(self, value):
+        """Sets the first_name of this User.  # noqa: E501
         """
-
-        self._first_name = (
-            first_name
-        )
+        return self.__set_item('first_name', value)
 
     @property
     def last_name(self):
         """Gets the last_name of this User.  # noqa: E501
 
-
-        :return: The last_name of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The last_name of this User.  # noqa: E501
         """
-        return self._last_name
+        return self.__get_item('last_name')
 
     @last_name.setter
-    def last_name(self, last_name):  # noqa: E501
-        """Sets the last_name of this User.
-
-
-        :param last_name: The last_name of this User.  # noqa: E501
-        :type: str
+    def last_name(self, value):
+        """Sets the last_name of this User.  # noqa: E501
         """
-
-        self._last_name = (
-            last_name
-        )
+        return self.__set_item('last_name', value)
 
     @property
     def email(self):
         """Gets the email of this User.  # noqa: E501
 
-
-        :return: The email of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The email of this User.  # noqa: E501
         """
-        return self._email
+        return self.__get_item('email')
 
     @email.setter
-    def email(self, email):  # noqa: E501
-        """Sets the email of this User.
-
-
-        :param email: The email of this User.  # noqa: E501
-        :type: str
+    def email(self, value):
+        """Sets the email of this User.  # noqa: E501
         """
-
-        self._email = (
-            email
-        )
+        return self.__set_item('email', value)
 
     @property
     def password(self):
         """Gets the password of this User.  # noqa: E501
 
-
-        :return: The password of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The password of this User.  # noqa: E501
         """
-        return self._password
+        return self.__get_item('password')
 
     @password.setter
-    def password(self, password):  # noqa: E501
-        """Sets the password of this User.
-
-
-        :param password: The password of this User.  # noqa: E501
-        :type: str
+    def password(self, value):
+        """Sets the password of this User.  # noqa: E501
         """
-
-        self._password = (
-            password
-        )
+        return self.__set_item('password', value)
 
     @property
     def phone(self):
         """Gets the phone of this User.  # noqa: E501
 
-
-        :return: The phone of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            (str): The phone of this User.  # noqa: E501
         """
-        return self._phone
+        return self.__get_item('phone')
 
     @phone.setter
-    def phone(self, phone):  # noqa: E501
-        """Sets the phone of this User.
-
-
-        :param phone: The phone of this User.  # noqa: E501
-        :type: str
+    def phone(self, value):
+        """Sets the phone of this User.  # noqa: E501
         """
-
-        self._phone = (
-            phone
-        )
+        return self.__set_item('phone', value)
 
     @property
     def user_status(self):
         """Gets the user_status of this User.  # noqa: E501
-
         User Status  # noqa: E501
 
-        :return: The user_status of this User.  # noqa: E501
-        :rtype: int
+        Returns:
+            (int): The user_status of this User.  # noqa: E501
         """
-        return self._user_status
+        return self.__get_item('user_status')
 
     @user_status.setter
-    def user_status(self, user_status):  # noqa: E501
-        """Sets the user_status of this User.
-
+    def user_status(self, value):
+        """Sets the user_status of this User.  # noqa: E501
         User Status  # noqa: E501
-
-        :param user_status: The user_status of this User.  # noqa: E501
-        :type: int
         """
-
-        self._user_status = (
-            user_status
-        )
+        return self.__set_item('user_status', value)
 
     def to_dict(self):
         """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
+        return model_to_dict(self, serialize=False)
 
     def to_str(self):
         """Returns the string representation of the model"""
@@ -345,7 +340,22 @@ class User(ModelNormal):
         if not isinstance(other, User):
             return False
 
-        return self.__dict__ == other.__dict__
+        if not set(self._data_store.keys()) == set(other._data_store.keys()):
+            return False
+        for _var_name, this_val in six.iteritems(self._data_store):
+            that_val = other._data_store[_var_name]
+            types = set()
+            types.add(this_val.__class__)
+            types.add(that_val.__class__)
+            vals_equal = this_val == that_val
+            if (not six.PY3 and
+                    len(types) == 2 and unicode in types):  # noqa: F821
+                vals_equal = (
+                    this_val.encode('utf-8') == that_val.encode('utf-8')
+                )
+            if not vals_equal:
+                return False
+        return True
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
