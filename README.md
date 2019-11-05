@@ -593,6 +593,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [IBM](https://www.ibm.com/)
 - [JustStar](https://www.juststarinfo.com)
 - [Klarna](https://www.klarna.com/)
+- [Kronsoft Development](https://www.kronsoft.ro/home/)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [Myworkout](https://myworkout.com)
