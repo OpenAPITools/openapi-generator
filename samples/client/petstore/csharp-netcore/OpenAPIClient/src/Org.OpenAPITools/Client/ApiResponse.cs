@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The raw content of this response
         /// </summary>
-        public string RawContent { get; }
+        string RawContent { get; }
     }
 
     /// <summary>
