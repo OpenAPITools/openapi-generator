@@ -159,6 +159,11 @@
   infoLink: "https://www.klarna.com/us/"
   pinned: false
 -
+  caption: "Kronsoft Development"
+  image: "img/companies/kronsoft.svg"
+  infoLink: "https://www.kronsoft.ro/home/"
+  pinned: false
+-
   caption: "Médiavision"
   image: "img/companies/mediavision.jpeg"
   infoLink: "https://www.mediavision.fr/"
@@ -217,6 +222,11 @@
   caption: "Prometheus/Alertmanager"
   image: "img/companies/prometheus.png"
   infoLink: "https://github.com/prometheus/alertmanager"
+  pinned: false
+-
+  caption: "Qulix Systems"
+  image: "img/companies/qulix.png"
+  infoLink: "https://www.qulix.com"
   pinned: false
 -
   caption: "Raiffeisen Schweiz Genossenschaft"
