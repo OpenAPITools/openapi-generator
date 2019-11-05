@@ -74,7 +74,7 @@ public class ApiClient {
             this.separator = separator;
         }
 
-        private String collectionToString(Collection<? extends CharSequence> collection) {
+        private String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
