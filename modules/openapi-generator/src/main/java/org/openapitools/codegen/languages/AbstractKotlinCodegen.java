@@ -460,12 +460,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     private boolean getBooleanOption(String key) {
         final Object booleanValue = additionalProperties.get(key);
+        Boolean result = Boolean.FALSE;
         if (booleanValue instanceof Boolean) {
-            return (Boolean) booleanValue;
+            result = (Boolean) booleanValue;
         } else if (booleanValue instanceof String) {
-            return Boolean.parseBoolean((String) booleanValue);
+            result = Boolean.parseBoolean((String) booleanValue);
         }
-        return false;
+        additionalProperties.put(key, result);
+        return result;
     }
 
     public void setArtifactId(String artifactId) {
