@@ -30,6 +30,12 @@ module Petstore
       }
     end
 
+    # List of attributes with nullable: true
+    def self.openapi_nullable
+      [
+      ]
+    end
+
     # List of class defined in allOf (OpenAPI v3)
     def self.openapi_all_of
       [
@@ -181,7 +187,7 @@ module Petstore
       hash = super
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
-        next if value.nil?
+        next if value.nil? && !self.class.openapi_nullable.include?(attr)
         hash[param] = _to_hash(value)
       end
       hash

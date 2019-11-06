@@ -50,6 +50,12 @@ module Petstore
       }
     end
 
+    # List of attributes with nullable: true
+    def self.openapi_nullable
+      [
+      ]
+    end
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
@@ -246,7 +252,7 @@ module Petstore
       hash = {}
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
-        next if value.nil?
+        next if value.nil? && !self.class.openapi_nullable.include?(attr)
         hash[param] = _to_hash(value)
       end
       hash

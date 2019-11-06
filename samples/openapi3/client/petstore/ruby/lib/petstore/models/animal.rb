@@ -34,6 +34,12 @@ module Petstore
       }
     end
 
+    # List of attributes with nullable: true
+    def self.openapi_nullable
+      [
+      ]
+    end
+
     # discriminator's property name in OpenAPI v3
     def self.openapi_discriminator_name
       :'class_name'
@@ -190,7 +196,7 @@ module Petstore
       hash = {}
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
-        next if value.nil?
+        next if value.nil? && !self.class.openapi_nullable.include?(attr)
         hash[param] = _to_hash(value)
       end
       hash
