@@ -33,9 +33,9 @@ module Petstore
 
     # List of attributes with nullable: true
     def self.openapi_nullable
-      [
-          :'nullable_message'
-      ]
+      Set.new([
+        :'nullable_message'
+      ])
     end
 
     # Initializes the object
@@ -177,7 +177,11 @@ module Petstore
       hash = {}
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
-        next if value.nil? && !self.class.openapi_nullable.include?(attr)
+        if value.nil?
+          is_nullable = self.class.openapi_nullable.include?(attr)
+          next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
+        end
+        
         hash[param] = _to_hash(value)
       end
       hash

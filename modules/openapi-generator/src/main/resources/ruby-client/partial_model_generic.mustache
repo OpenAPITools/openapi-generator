@@ -53,13 +53,13 @@
 
     # List of attributes with nullable: true
     def self.openapi_nullable
-      [
+      Set.new([
         {{#vars}}
         {{#isNullable}}
-          :'{{{name}}}'{{#hasMore}},{{/hasMore}}
+        :'{{{name}}}'{{#hasMore}},{{/hasMore}}
         {{/isNullable}}
         {{/vars}}
-      ]
+      ])
     end
 
     {{#anyOf}}
