@@ -193,7 +193,7 @@ public class AbstractKotlinCodegenTest {
 
     @Test
     public void processOptsBooleanFalseFromNumeric() {
-        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, 42);
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, 42L);
         codegen.processOpts();
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
     }
