@@ -55,7 +55,7 @@ public:
     virtual bool isValid() const override;
 
 private:
-    void init();
+    void initializeModel();
     
     qint64 id;
     bool m_id_isSet;

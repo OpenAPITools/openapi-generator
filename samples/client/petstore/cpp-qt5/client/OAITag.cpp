@@ -23,12 +23,12 @@
 namespace OpenAPI {
 
 OAITag::OAITag(QString json) {
-    this->init();
+    this->initializeModel();
     this->fromJson(json);
 }
 
 OAITag::OAITag() {
-    this->init();
+    this->initializeModel();
 }
 
 OAITag::~OAITag() {
@@ -36,14 +36,15 @@ OAITag::~OAITag() {
 }
 
 void
-OAITag::init() {
+OAITag::initializeModel() {
     
     m_id_isSet = false;
     m_id_isValid = false;
     
     m_name_isSet = false;
     m_name_isValid = false;
-    }
+    
+}
 
 void
 OAITag::fromJson(QString jsonString) {
@@ -57,10 +58,10 @@ void
 OAITag::fromJsonObject(QJsonObject json) {
     
     m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
-    
+    m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
     
     m_name_isValid = ::OpenAPI::fromJsonValue(name, json[QString("name")]);
-    
+    m_name_isSet = !json[QString("name")].isNull() && m_name_isValid;
     
 }
 
