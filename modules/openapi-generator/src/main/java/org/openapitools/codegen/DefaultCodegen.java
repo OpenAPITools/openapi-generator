@@ -489,6 +489,16 @@ public class DefaultCodegen implements CodegenConfig {
     // override with any special post-processing
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            if (Boolean.FALSE.equals(op.isBodyAllowed()) && op.getHasBodyParam()) {
+                LOGGER.warn(op.httpMethod + " operation '" + op.nickname + "' contains body parameter. Please, make sure your framework handles " + op.httpMethod + " method with body properly.");
+            }
+            if (Boolean.FALSE.equals(op.isBodyAllowed()) && op.getHasFormParams()) {
+                LOGGER.warn(op.httpMethod + " operation '" + op.nickname + "' contains form parameter. Please, make sure your framework handles " + op.httpMethod + " method with form properly.");
+            }
+        }
         return objs;
     }
 
