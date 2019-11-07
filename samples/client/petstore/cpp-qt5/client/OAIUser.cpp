@@ -23,12 +23,12 @@
 namespace OpenAPI {
 
 OAIUser::OAIUser(QString json) {
-    this->init();
+    this->initializeModel();
     this->fromJson(json);
 }
 
 OAIUser::OAIUser() {
-    this->init();
+    this->initializeModel();
 }
 
 OAIUser::~OAIUser() {
@@ -36,7 +36,7 @@ OAIUser::~OAIUser() {
 }
 
 void
-OAIUser::init() {
+OAIUser::initializeModel() {
     
     m_id_isSet = false;
     m_id_isValid = false;
@@ -61,7 +61,8 @@ OAIUser::init() {
     
     m_user_status_isSet = false;
     m_user_status_isValid = false;
-    }
+    
+}
 
 void
 OAIUser::fromJson(QString jsonString) {
@@ -75,28 +76,28 @@ void
 OAIUser::fromJsonObject(QJsonObject json) {
     
     m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
-    
+    m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
     
     m_username_isValid = ::OpenAPI::fromJsonValue(username, json[QString("username")]);
-    
+    m_username_isSet = !json[QString("username")].isNull() && m_username_isValid;
     
     m_first_name_isValid = ::OpenAPI::fromJsonValue(first_name, json[QString("firstName")]);
-    
+    m_first_name_isSet = !json[QString("firstName")].isNull() && m_first_name_isValid;
     
     m_last_name_isValid = ::OpenAPI::fromJsonValue(last_name, json[QString("lastName")]);
-    
+    m_last_name_isSet = !json[QString("lastName")].isNull() && m_last_name_isValid;
     
     m_email_isValid = ::OpenAPI::fromJsonValue(email, json[QString("email")]);
-    
+    m_email_isSet = !json[QString("email")].isNull() && m_email_isValid;
     
     m_password_isValid = ::OpenAPI::fromJsonValue(password, json[QString("password")]);
-    
+    m_password_isSet = !json[QString("password")].isNull() && m_password_isValid;
     
     m_phone_isValid = ::OpenAPI::fromJsonValue(phone, json[QString("phone")]);
-    
+    m_phone_isSet = !json[QString("phone")].isNull() && m_phone_isValid;
     
     m_user_status_isValid = ::OpenAPI::fromJsonValue(user_status, json[QString("userStatus")]);
-    
+    m_user_status_isSet = !json[QString("userStatus")].isNull() && m_user_status_isValid;
     
 }
 

@@ -23,12 +23,12 @@
 namespace OpenAPI {
 
 OAIOrder::OAIOrder(QString json) {
-    this->init();
+    this->initializeModel();
     this->fromJson(json);
 }
 
 OAIOrder::OAIOrder() {
-    this->init();
+    this->initializeModel();
 }
 
 OAIOrder::~OAIOrder() {
@@ -36,7 +36,7 @@ OAIOrder::~OAIOrder() {
 }
 
 void
-OAIOrder::init() {
+OAIOrder::initializeModel() {
     
     m_id_isSet = false;
     m_id_isValid = false;
@@ -55,7 +55,8 @@ OAIOrder::init() {
     
     m_complete_isSet = false;
     m_complete_isValid = false;
-    }
+    
+}
 
 void
 OAIOrder::fromJson(QString jsonString) {
@@ -69,22 +70,22 @@ void
 OAIOrder::fromJsonObject(QJsonObject json) {
     
     m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
-    
+    m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
     
     m_pet_id_isValid = ::OpenAPI::fromJsonValue(pet_id, json[QString("petId")]);
-    
+    m_pet_id_isSet = !json[QString("petId")].isNull() && m_pet_id_isValid;
     
     m_quantity_isValid = ::OpenAPI::fromJsonValue(quantity, json[QString("quantity")]);
-    
+    m_quantity_isSet = !json[QString("quantity")].isNull() && m_quantity_isValid;
     
     m_ship_date_isValid = ::OpenAPI::fromJsonValue(ship_date, json[QString("shipDate")]);
-    
+    m_ship_date_isSet = !json[QString("shipDate")].isNull() && m_ship_date_isValid;
     
     m_status_isValid = ::OpenAPI::fromJsonValue(status, json[QString("status")]);
-    
+    m_status_isSet = !json[QString("status")].isNull() && m_status_isValid;
     
     m_complete_isValid = ::OpenAPI::fromJsonValue(complete, json[QString("complete")]);
-    
+    m_complete_isSet = !json[QString("complete")].isNull() && m_complete_isValid;
     
 }
 

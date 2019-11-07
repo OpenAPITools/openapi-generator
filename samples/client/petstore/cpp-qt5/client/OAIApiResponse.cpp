@@ -23,12 +23,12 @@
 namespace OpenAPI {
 
 OAIApiResponse::OAIApiResponse(QString json) {
-    this->init();
+    this->initializeModel();
     this->fromJson(json);
 }
 
 OAIApiResponse::OAIApiResponse() {
-    this->init();
+    this->initializeModel();
 }
 
 OAIApiResponse::~OAIApiResponse() {
@@ -36,7 +36,7 @@ OAIApiResponse::~OAIApiResponse() {
 }
 
 void
-OAIApiResponse::init() {
+OAIApiResponse::initializeModel() {
     
     m_code_isSet = false;
     m_code_isValid = false;
@@ -46,7 +46,8 @@ OAIApiResponse::init() {
     
     m_message_isSet = false;
     m_message_isValid = false;
-    }
+    
+}
 
 void
 OAIApiResponse::fromJson(QString jsonString) {
@@ -60,13 +61,13 @@ void
 OAIApiResponse::fromJsonObject(QJsonObject json) {
     
     m_code_isValid = ::OpenAPI::fromJsonValue(code, json[QString("code")]);
-    
+    m_code_isSet = !json[QString("code")].isNull() && m_code_isValid;
     
     m_type_isValid = ::OpenAPI::fromJsonValue(type, json[QString("type")]);
-    
+    m_type_isSet = !json[QString("type")].isNull() && m_type_isValid;
     
     m_message_isValid = ::OpenAPI::fromJsonValue(message, json[QString("message")]);
-    
+    m_message_isSet = !json[QString("message")].isNull() && m_message_isValid;
     
 }
 
