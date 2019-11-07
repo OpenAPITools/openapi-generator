@@ -12,6 +12,7 @@ package openapi
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/json"
 )
 
 // ArrayOfNumberOnly struct for ArrayOfNumberOnly

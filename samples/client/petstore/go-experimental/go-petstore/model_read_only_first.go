@@ -12,6 +12,7 @@ package petstore
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/json"
 )
 
 // ReadOnlyFirst struct for ReadOnlyFirst

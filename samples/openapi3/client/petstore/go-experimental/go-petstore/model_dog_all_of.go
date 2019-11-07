@@ -12,6 +12,7 @@ package openapi
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/json"
 )
 
 // DogAllOf struct for DogAllOf

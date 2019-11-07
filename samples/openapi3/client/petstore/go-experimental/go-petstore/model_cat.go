@@ -12,6 +12,8 @@ package openapi
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/json"
+	"errors"
 )
 
 // Cat struct for Cat

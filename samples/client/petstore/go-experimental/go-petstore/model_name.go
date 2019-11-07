@@ -12,6 +12,8 @@ package petstore
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/json"
+	"errors"
 )
 
 // Name Model for testing model name same as property name

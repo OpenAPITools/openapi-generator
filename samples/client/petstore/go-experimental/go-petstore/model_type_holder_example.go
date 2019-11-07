@@ -12,6 +12,8 @@ package petstore
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/json"
+	"errors"
 )
 
 // TypeHolderExample struct for TypeHolderExample

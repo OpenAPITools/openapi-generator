@@ -12,17 +12,18 @@ package openapi
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/json"
 )
 
 // HealthCheckResult Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 type HealthCheckResult struct {
-	NullableMessage *NullableString `json:"NullableMessage,omitempty"`
+	NullableMessage *string `json:"NullableMessage,omitempty"`
 }
 
 // GetNullableMessage returns the NullableMessage field value if set, zero value otherwise.
-func (o *HealthCheckResult) GetNullableMessage() NullableString {
+func (o *HealthCheckResult) GetNullableMessage() string {
 	if o == nil || o.NullableMessage == nil {
-		var ret NullableString
+		var ret string
 		return ret
 	}
 	return *o.NullableMessage
@@ -30,9 +31,9 @@ func (o *HealthCheckResult) GetNullableMessage() NullableString {
 
 // GetNullableMessageOk returns a tuple with the NullableMessage field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthCheckResult) GetNullableMessageOk() (NullableString, bool) {
+func (o *HealthCheckResult) GetNullableMessageOk() (string, bool) {
 	if o == nil || o.NullableMessage == nil {
-		var ret NullableString
+		var ret string
 		return ret, false
 	}
 	return *o.NullableMessage, true
@@ -47,8 +48,8 @@ func (o *HealthCheckResult) HasNullableMessage() bool {
 	return false
 }
 
-// SetNullableMessage gets a reference to the given NullableString and assigns it to the NullableMessage field.
-func (o *HealthCheckResult) SetNullableMessage(v NullableString) {
+// SetNullableMessage gets a reference to the given string and assigns it to the NullableMessage field.
+func (o *HealthCheckResult) SetNullableMessage(v string) {
 	o.NullableMessage = &v
 }
 
