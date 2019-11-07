@@ -43,7 +43,7 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default Mono<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model" ,required=true ) @Valid @RequestBody Mono<Client> body, ServerWebExchange exchange) {
         return getDelegate().testClassname(body, exchange);
     }
 

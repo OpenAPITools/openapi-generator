@@ -48,7 +48,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody Mono<Pet> body, ServerWebExchange exchange) {
         return getDelegate().addPet(body, exchange);
     }
 
@@ -132,7 +132,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
-    default Mono<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody Mono<Pet> body, ServerWebExchange exchange) {
         return getDelegate().updatePet(body, exchange);
     }
 

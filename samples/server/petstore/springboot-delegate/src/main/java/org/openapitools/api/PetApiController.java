@@ -31,7 +31,7 @@ public class PetApiController implements PetApi {
         this.delegate = delegate;
     }
 
-    public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
+    public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody Pet body) {
         return delegate.addPet(body);
     }
 
@@ -51,7 +51,7 @@ public class PetApiController implements PetApi {
         return delegate.getPetById(petId);
     }
 
-    public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
+    public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody Pet body) {
         return delegate.updatePet(body);
     }
 

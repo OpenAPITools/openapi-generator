@@ -39,35 +39,35 @@ public class FakeApiController implements FakeApi {
         this.delegate = delegate;
     }
 
-    public ResponseEntity<Void> createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true )  @Valid @RequestBody XmlItem xmlItem) {
+    public ResponseEntity<Void> createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true ) @Valid @RequestBody XmlItem xmlItem) {
         return delegate.createXmlItem(xmlItem);
     }
 
-    public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body) {
+    public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  ) @Valid @RequestBody Boolean body) {
         return delegate.fakeOuterBooleanSerialize(body);
     }
 
-    public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body) {
+    public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  ) @Valid @RequestBody OuterComposite body) {
         return delegate.fakeOuterCompositeSerialize(body);
     }
 
-    public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body) {
+    public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  ) @Valid @RequestBody BigDecimal body) {
         return delegate.fakeOuterNumberSerialize(body);
     }
 
-    public ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body) {
+    public ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  ) @Valid @RequestBody String body) {
         return delegate.fakeOuterStringSerialize(body);
     }
 
-    public ResponseEntity<Void> testBodyWithFileSchema(@ApiParam(value = "" ,required=true )  @Valid @RequestBody FileSchemaTestClass body) {
+    public ResponseEntity<Void> testBodyWithFileSchema(@ApiParam(value = "" ,required=true ) @Valid @RequestBody FileSchemaTestClass body) {
         return delegate.testBodyWithFileSchema(body);
     }
 
-    public ResponseEntity<Void> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body) {
+    public ResponseEntity<Void> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "" ,required=true ) @Valid @RequestBody User body) {
         return delegate.testBodyWithQueryParams(query, body);
     }
 
-    public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true ) @Valid @RequestBody Client body) {
         return delegate.testClientModel(body);
     }
 
@@ -83,7 +83,7 @@ public class FakeApiController implements FakeApi {
         return delegate.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
 
-    public ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Map<String, String> param) {
+    public ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true ) @Valid @RequestBody Map<String, String> param) {
         return delegate.testInlineAdditionalProperties(param);
     }
 

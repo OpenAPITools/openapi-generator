@@ -50,7 +50,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/create_xml_item",
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" },
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true )  @Valid @RequestBody Mono<XmlItem> xmlItem, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true ) @Valid @RequestBody Mono<XmlItem> xmlItem, ServerWebExchange exchange) {
         return getDelegate().createXmlItem(xmlItem, exchange);
     }
 
@@ -61,7 +61,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/boolean",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Mono<Boolean> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  ) @Valid @RequestBody Mono<Boolean> body, ServerWebExchange exchange) {
         return getDelegate().fakeOuterBooleanSerialize(body, exchange);
     }
 
@@ -72,7 +72,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/composite",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody Mono<OuterComposite> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  ) @Valid @RequestBody Mono<OuterComposite> body, ServerWebExchange exchange) {
         return getDelegate().fakeOuterCompositeSerialize(body, exchange);
     }
 
@@ -83,7 +83,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/number",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody Mono<BigDecimal> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  ) @Valid @RequestBody Mono<BigDecimal> body, ServerWebExchange exchange) {
         return getDelegate().fakeOuterNumberSerialize(body, exchange);
     }
 
@@ -94,7 +94,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/string",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<String>> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody Mono<String> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<String>> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  ) @Valid @RequestBody Mono<String> body, ServerWebExchange exchange) {
         return getDelegate().fakeOuterStringSerialize(body, exchange);
     }
 
@@ -105,7 +105,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/body-with-file-schema",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Mono<FileSchemaTestClass> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(@ApiParam(value = "" ,required=true ) @Valid @RequestBody Mono<FileSchemaTestClass> body, ServerWebExchange exchange) {
         return getDelegate().testBodyWithFileSchema(body, exchange);
     }
 
@@ -116,7 +116,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/body-with-query-params",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    default Mono<ResponseEntity<Void>> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "" ,required=true )  @Valid @RequestBody Mono<User> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "" ,required=true ) @Valid @RequestBody Mono<User> body, ServerWebExchange exchange) {
         return getDelegate().testBodyWithQueryParams(query, body, exchange);
     }
 
@@ -128,7 +128,7 @@ public interface FakeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default Mono<ResponseEntity<Client>> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Client>> testClientModel(@ApiParam(value = "client model" ,required=true ) @Valid @RequestBody Mono<Client> body, ServerWebExchange exchange) {
         return getDelegate().testClientModel(body, exchange);
     }
 
@@ -175,7 +175,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/inline-additionalProperties",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Mono<String> param, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true ) @Valid @RequestBody Mono<String> param, ServerWebExchange exchange) {
         return getDelegate().testInlineAdditionalProperties(param, exchange);
     }
 

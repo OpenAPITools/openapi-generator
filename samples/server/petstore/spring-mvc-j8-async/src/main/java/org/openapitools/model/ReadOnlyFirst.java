@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 /**
  * ReadOnlyFirst
  */
-
 public class ReadOnlyFirst   {
   @JsonProperty("bar")
   private String bar;

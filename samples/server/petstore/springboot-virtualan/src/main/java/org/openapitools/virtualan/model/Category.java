@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 /**
  * Category
  */
-
 public class Category   {
   @JsonProperty("id")
   private Long id;

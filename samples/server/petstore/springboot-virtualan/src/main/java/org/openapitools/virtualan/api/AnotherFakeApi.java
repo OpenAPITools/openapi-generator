@@ -35,6 +35,7 @@ import java.util.Optional;
 public interface AnotherFakeApi {
 
     default Optional<NativeWebRequest> getRequest() {
+
         return Optional.empty();
     }
 
@@ -46,7 +47,7 @@ public interface AnotherFakeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    default ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true ) @Valid @RequestBody Client body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

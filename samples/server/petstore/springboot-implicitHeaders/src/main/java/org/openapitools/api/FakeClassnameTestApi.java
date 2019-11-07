@@ -32,6 +32,7 @@ import java.util.Optional;
 public interface FakeClassnameTestApi {
 
     default Optional<NativeWebRequest> getRequest() {
+
         return Optional.empty();
     }
 
@@ -46,7 +47,7 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    default ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true ) @Valid @RequestBody Client body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

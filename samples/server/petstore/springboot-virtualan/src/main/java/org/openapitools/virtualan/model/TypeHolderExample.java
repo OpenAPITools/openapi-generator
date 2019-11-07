@@ -15,7 +15,6 @@ import javax.validation.constraints.*;
 /**
  * TypeHolderExample
  */
-
 public class TypeHolderExample   {
   @JsonProperty("string_item")
   private String stringItem;
