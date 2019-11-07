@@ -33,5 +33,5 @@ dependencies {
     compile "com.squareup.moshi:moshi-kotlin:1.8.0"
     compile "com.squareup.moshi:moshi-adapters:1.8.0"
     compile "com.squareup.okhttp3:okhttp:4.2.2"
-    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.1.0"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
