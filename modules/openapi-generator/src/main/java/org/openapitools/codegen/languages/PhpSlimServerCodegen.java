@@ -141,11 +141,12 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        Map<String, Object> superClassObjs = super.postProcessOperationsWithModels(objs, allModels);
+        Map<String, Object> operations = (Map<String, Object>) superClassObjs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         addUserClassnameToOperations(operations);
         escapeMediaType(operationList);
-        return objs;
+        return superClassObjs;
     }
 
     @Override
