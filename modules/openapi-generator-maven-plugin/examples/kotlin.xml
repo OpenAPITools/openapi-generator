@@ -40,7 +40,7 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>remote</id>
+						<id>kotlin</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>generate</goal>
@@ -61,10 +61,10 @@
 								<serializableModel>true</serializableModel>
 							</configOptions>
 
-							<output>${project.build.directory}/generated-sources/remote-openapi</output>
-							<apiPackage>remote.org.openapitools.client.api</apiPackage>
-							<modelPackage>remote.org.openapitools.client.model</modelPackage>
-							<invokerPackage>remote.org.openapitools.client</invokerPackage>
+							<output>${project.build.directory}/generated-sources/kotlin</output>
+							<apiPackage>kotlin.org.openapitools.client.api</apiPackage>
+							<modelPackage>kotlin.org.openapitools.client.model</modelPackage>
+							<invokerPackage>kotlin.org.openapitools.client</invokerPackage>
 						</configuration>
 					</execution>
 				</executions>
