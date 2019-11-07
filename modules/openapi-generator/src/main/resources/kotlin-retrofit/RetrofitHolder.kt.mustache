@@ -1,12 +1,14 @@
 package {{packageName}}
 
 import com.squareup.moshi.Moshi
+import okhttp3.Call
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object RetrofitHolder {
 
@@ -22,9 +24,13 @@ object RetrofitHolder {
             }{{/-first}}{{/authMethods}}
             {{#authMethods}}
             {{>auth_method}}{{/authMethods}}
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.HEADERS
-            })
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.HEADERS
+                    })
+                }
+            }
     }
 
     val retrofitBuilder: Retrofit.Builder by lazy {
@@ -33,8 +39,14 @@ object RetrofitHolder {
             .build()
 
         Retrofit.Builder()
-            .client(clientBuilder.build())
+            .callFactory(object : Call.Factory {
+                //create client lazy on demand in background thread
+                //see https://www.zacsweers.dev/dagger-party-tricks-deferred-okhttp-init/
+                private val client by lazy { clientBuilder.build() }
+                override fun newCall(request: Request): Call = client.newCall(request)
+            })
             .baseUrl(BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(EnumRetrofitConverterFactory)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
     }
