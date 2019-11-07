@@ -39,6 +39,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     protected int serverPort = 8080;
     protected String projectName = "openapi-server";
     protected String sourceFolder = "go";
+    protected Boolean corsFeatureEnabled = false;
 
 
     public GoServerCodegen() {
@@ -54,6 +55,11 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optServerPort.setType("int");
         optServerPort.defaultValue(Integer.toString(serverPort));
         cliOptions.add(optServerPort);
+
+        CliOption optFeatureCORS = new CliOption("featureCORS", "Enable Cross-Origin Resource Sharing middleware");
+        optFeatureCORS.setType("bool");
+        optFeatureCORS.defaultValue(corsFeatureEnabled.toString());
+        cliOptions.add(optFeatureCORS);
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -140,6 +146,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
             this.setServerPort((int) additionalProperties.get("serverPort"));
         } else {
             additionalProperties.put("serverPort", serverPort);
+        }
+
+        if (additionalProperties.containsKey("featureCORS")) {
+            this.setFeatureCORS(convertPropertyToBooleanAndWriteBack("featureCORS"));
+        } else {
+            additionalProperties.put("featureCORS", corsFeatureEnabled);
         }
 
         modelPackage = packageName;
@@ -262,5 +274,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public void setServerPort(int serverPort) {
         this.serverPort = serverPort;
+    } 
+
+    public void setFeatureCORS(Boolean featureCORS) {
+        this.corsFeatureEnabled = featureCORS;
     } 
 }
