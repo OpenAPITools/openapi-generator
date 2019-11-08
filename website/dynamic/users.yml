@@ -119,6 +119,11 @@
   infoLink: "https://formapi.io/"
   pinned: false
 -
+  caption: "FreshCells"
+  image: "img/companies/freshcells.png"
+  infoLink: "https://www.freshcells.de/"
+  pinned: false
+-
   caption: "Fuse"
   image: "img/companies/fuseno.png"
   infoLink: "https://www.fuse.no/"
