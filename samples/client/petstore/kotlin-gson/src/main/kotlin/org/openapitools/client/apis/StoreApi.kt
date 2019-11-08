@@ -47,17 +47,17 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -81,17 +81,17 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<kotlin.collections.Map<kotlin.String, kotlin.Int>>(
+        val localVarResponse = request<kotlin.collections.Map<kotlin.String, kotlin.Int>>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -116,17 +116,17 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Order>(
+        val localVarResponse = request<Order>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as Order
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as Order
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -151,17 +151,17 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Order>(
+        val localVarResponse = request<Order>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as Order
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as Order
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
