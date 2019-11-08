@@ -125,7 +125,7 @@ func New{{nickname}}Handler(cmd Command) gin.HandlerFunc {
 			render(c, {{code}}, {{#isModel}}r{{/isModel}}{{^isModel}}{{#dataType}}r.Payload{{/dataType}}{{/isModel}})
 		{{/responses}}
 		default:
-			err := fmt.Sprintf("{{nickname}}() command response type mismatch. [%T] != ENUM[{{#responses}}{{nickname}}Response{{code}}, {{/responses}}]")
+			err := "{{nickname}}() command response type mismatch. [%T] != ENUM[{{#responses}}{{nickname}}Response{{code}}, {{/responses}}]"
 			c.String(http.StatusNotImplemented, err, resp)
 		}
 	}

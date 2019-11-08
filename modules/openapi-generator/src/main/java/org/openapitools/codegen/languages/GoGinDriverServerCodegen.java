@@ -1,7 +1,6 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
-import io.swagger.util.Json;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 
@@ -38,6 +37,26 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
 
     public GoGinDriverServerCodegen() {
         super();
+
+        typeMapping.clear();
+        typeMapping.put("integer", "int32");
+        typeMapping.put("long", "int64");
+        typeMapping.put("number", "float32");
+        typeMapping.put("float", "float32");
+        typeMapping.put("double", "float64");
+        typeMapping.put("BigDecimal", "float64");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("string", "string");
+        typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
+        typeMapping.put("date", "string");
+        typeMapping.put("DateTime", "time.Time");
+        typeMapping.put("password", "string");
+        typeMapping.put("File", "*multipart.FileHeader");
+        typeMapping.put("file", "*multipart.FileHeader");
+        typeMapping.put("binary", "*multipart.FileHeader");
+        typeMapping.put("ByteArray", "string");
+        typeMapping.put("object", "map[string]interface{}");
 
         outputFolder = "generated-code" + File.separator + "go";
         modelTemplateFiles.put("model.mustache", ".go");
@@ -98,8 +117,20 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
             for (Map<String, Object> model : models) {
                 CodegenModel cm = (CodegenModel) model.get("model");
 
+                boolean addedOSImport = false;
+                for (CodegenProperty param : cm.vars) {
+                    if (!addedOSImport && typeMapping.get("File").equals(param.baseType)) {
+                        imports.add(createMapping("import", "mime/multipart"));
+                        addedOSImport = true;
+                    }
+                }
+
                 if (cm.isEnum) {
                     imports.add(createMapping("import", "fmt"));
+                }
+
+                if (typeMapping.get("File").equals(cm.dataType)) {
+                    imports.add(createMapping("import", "mime/multipart"));
                 }
 
                 if (cm.hasVars) {
@@ -114,11 +145,9 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
 
                 // merge the type properties into model
                 if (!cm.isAlias && cm.isEmptyVars() && cm.getImports().size() == 1 && cm.getInterfaces().size() == 1) {
-                    CodegenModel im = ModelUtils.getModelByName(toModelName(cm.getInterfaces().get(0)), result);
+                    CodegenModel im = ModelUtils.getModelByName(toModelName(cm.parentSchema), result);
                     cm.vendorExtensions.put("inheritInterface", im);
                     LOGGER.info(String.format(Locale.ROOT, "append vendorExtensions.inheritInterface [%s] to [%s] model", im.name, cm.name));
-                    LOGGER.debug(Json.pretty(cm));
-                    LOGGER.debug(Json.pretty(im));
                 }
             }
         }
@@ -222,7 +251,7 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
 
         if (schema != null) {
             if (cm.getInterfaces() != null && cm.getInterfaces().size() == 1) {
-                CodegenModel im = fromModel(cm.getInterfaces().get(0), schema);
+                CodegenModel im = fromModel(cm.parentSchema, schema);
                 return getNestedModel(im);
             }
         } else {
@@ -239,22 +268,26 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         imports.remove(createMapping("import", "github.com/antihax/optional"));
         imports.remove(createMapping("import", "strings"));
+        imports.remove(createMapping("import", "fmt"));
 
-        // add fmt if not already imported
-        boolean importsFMT = false;
-        for(Map<String, String> imp : imports) {
-            if (imp.containsKey("import") && imp.get("import").equals("fmt")) {
-                importsFMT = true;
-            }
-        }
-
-        if (!importsFMT) {
-            imports.add(createMapping("import", "fmt"));
-        }
-
+        boolean addedOSImport = false;
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
+//          import "mime/multipart" if the operation uses files
+            if (!addedOSImport && typeMapping.get("File").equals(op.returnType)) {
+                imports.add(createMapping("import", "mime/multipart"));
+                addedOSImport = true;
+            }
+
+            for (CodegenParameter param : op.allParams) {
+                // import "mime/multipart" if the operation uses files
+                if (!addedOSImport && typeMapping.get("File").equals(param.dataType)) {
+                    imports.add(createMapping("import", "mime/multipart"));
+                    addedOSImport = true;
+                }
+            }
+
             if (op.path != null) {
                 op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");
             }
@@ -268,6 +301,7 @@ public class GoGinDriverServerCodegen extends AbstractGoCodegen {
             setExportParameterType(op.requiredParams);
             setExportParameterType(op.pathParams);
         }
+
         return objs;
     }
 }

@@ -23,7 +23,7 @@ type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{
 const (
 	{{#allowableValues}}
 	{{#enumVars}}
-	{{name}} {{{classname}}} = "{{{value}}}"
+	{{name}} {{{classname}}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
 )
@@ -33,7 +33,7 @@ func Get{{{classname}}}(name string) ({{{classname}}}, error) {
 	switch name {
 	{{#allowableValues}}
 	{{#enumVars}}
-	case "{{{value}}}":
+	case {{{value}}}:
 		return {{name}}, nil
 	{{/enumVars}}
 	{{/allowableValues}}
