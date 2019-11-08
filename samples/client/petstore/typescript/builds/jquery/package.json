@@ -25,8 +25,7 @@
     "form-data": "^2.3.2",
     "@types/form-data": "^2.2.1",
     "url-parse": "^1.4.3",
-    "rxjs": "^6.4.0",
-    "@types/rx": "^4.1.1"
+    "rxjs": "^6.4.0"
   },
   "devDependencies": {
     "typescript": "^2.9.2"

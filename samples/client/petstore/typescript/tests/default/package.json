@@ -3,7 +3,6 @@
   "dependencies": {
     "@types/form-data": "^2.2.1",
     "@types/rewire": "^2.5.28",
-    "@types/rx": "^4.1.1",
     "form-data": "^2.3.2",
     "rewire": "^4.0.1",
     "rxjs": "^6.4.0",
