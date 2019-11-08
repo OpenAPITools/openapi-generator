@@ -3,7 +3,7 @@ import * as FormData from "form-data";
 // typings of url-parse are incorrect...
 // @ts-ignore 
 import * as URLParse from "url-parse";
-import { Observable } from 'rxjs';
+import { Observable } from '../rxjsStub';
 
 export * from './jquery';
 

@@ -24,8 +24,7 @@
     "@types/isomorphic-fetch": "0.0.34",
     "btoa": "^1.2.1",
     "form-data": "^2.5.0",
-    "url-parse": "^1.4.3",
-    "rxjs": "^6.4.0"
+    "url-parse": "^1.4.3"
   },
   "devDependencies": {
     "typescript": "^2.9.2"

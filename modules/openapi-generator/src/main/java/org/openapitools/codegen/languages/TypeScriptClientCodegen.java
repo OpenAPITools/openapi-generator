@@ -716,11 +716,14 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
         supportingFiles.add(new SupportingFile("http"  + File.separator + httpLibName + ".mustache", "http", httpLibName + ".ts"));
 
+        boolean useRxJS = false;
         if (additionalProperties.containsKey(USE_RXJS_SWITCH)) {
             // convert to boolean
-            additionalProperties.put(USE_RXJS_SWITCH,
-                Boolean.valueOf(additionalProperties.get(USE_RXJS_SWITCH).toString())
-            );
+            useRxJS = Boolean.valueOf(additionalProperties.get(USE_RXJS_SWITCH).toString());
+            additionalProperties.put(USE_RXJS_SWITCH, useRxJS);
+        }
+        if (!useRxJS) {
+          supportingFiles.add(new SupportingFile("rxjsStub.mustache", "", "rxjsStub.ts"));
         }
 
     }

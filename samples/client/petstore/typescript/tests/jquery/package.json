@@ -10,7 +10,6 @@
     "qunit": "^2.9.2",
     "requirejs": "^2.3.6",
     "rewire": "^4.0.1",
-    "rxjs": "^6.4.0",
     "ts-node": "^3.3.0",
     "ts-petstore-client": "file:../../builds/jquery",
     "webpack": "^4.41.2",
