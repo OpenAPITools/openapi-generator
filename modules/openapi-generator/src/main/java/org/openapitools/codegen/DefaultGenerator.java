@@ -851,6 +851,17 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             if (hasBearerMethods(authMethods)) {
                 bundle.put("hasBearerMethods", true);
             }
+
+            if (CodegenType.SERVER.equals(config.getTag())) {
+                 // throw warning only for server generators
+                for (String key : securitySchemeMap.keySet()) {
+                    final SecurityScheme securityScheme = securitySchemeMap.get(key);
+                    if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType()) && securityScheme.getName().contains("_")) {
+                        // api key in underscored http header
+                        LOGGER.warn("Security schema '" + securityScheme.getName() + "' mapped to underscored header '" + securityScheme.getName() + "' which is forbidden in Apache and Nginx webservers by default. https://stackoverflow.com/questions/22856136/why-http-servers-forbid-underscores-in-http-header-names/22856867#22856867");
+                    }
+                }
+            }
         }
 
         List<CodegenServer> servers = config.fromServers(openAPI.getServers());
