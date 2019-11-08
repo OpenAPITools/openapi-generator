@@ -18,10 +18,28 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.exceptions import (  # noqa: F401
+from petstore_api.exceptions import (
     ApiTypeError,
     ApiValueError
 )
+from petstore_api.model_utils import (  # noqa: F401
+    check_allowed_values,
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_and_convert_types
+)
+from petstore_api.models.client import Client
+from petstore_api.models.file_schema_test_class import FileSchemaTestClass
+from petstore_api.models.outer_composite import OuterComposite
+from petstore_api.models.outer_enum import OuterEnum
+from petstore_api.models.outer_number import OuterNumber
+from petstore_api.models.user import User
+from petstore_api.models.xml_item import XmlItem
 
 
 class FakeApi(object):
@@ -36,1877 +54,2090 @@ class FakeApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def create_xml_item(self, xml_item, **kwargs):  # noqa: E501
-        """creates an XmlItem  # noqa: E501
+        def __create_xml_item(self, xml_item, **kwargs):  # noqa: E501
+            """creates an XmlItem  # noqa: E501
 
-        this route creates an XmlItem  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_xml_item(xml_item, async_req=True)
-        >>> result = thread.get()
+            this route creates an XmlItem  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.create_xml_item(xml_item, async_req=True)
+            >>> result = thread.get()
 
-        Args:
-            xml_item (XmlItem): XmlItem Body
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param XmlItem xml_item: XmlItem Body (required)
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
                 Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.create_xml_item_with_http_info(xml_item, **kwargs)  # noqa: E501
-        else:
-            (data) = self.create_xml_item_with_http_info(xml_item, **kwargs)  # noqa: E501
-            return data
-
-    def create_xml_item_with_http_info(self, xml_item, **kwargs):  # noqa: E501
-        """creates an XmlItem  # noqa: E501
-
-        this route creates an XmlItem  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_xml_item_with_http_info(xml_item, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            xml_item (XmlItem): XmlItem Body
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
                 Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['xml_item']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method create_xml_item" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'xml_item' is set
-        if ('xml_item' not in local_var_params or
-                local_var_params['xml_item'] is None):
-            raise ApiValueError("Missing the required parameter `xml_item` when calling `create_xml_item`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'xml_item' in local_var_params:
-            body_params = local_var_params['xml_item']
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake/create_xml_item', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def fake_outer_boolean_serialize(self, **kwargs):  # noqa: E501
-        """fake_outer_boolean_serialize  # noqa: E501
-
-        Test serialization of outer boolean types  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.fake_outer_boolean_serialize(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            body (bool): Input boolean as post body. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
                 Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            bool:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.fake_outer_boolean_serialize_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.fake_outer_boolean_serialize_with_http_info(**kwargs)  # noqa: E501
-            return data
-
-    def fake_outer_boolean_serialize_with_http_info(self, **kwargs):  # noqa: E501
-        """fake_outer_boolean_serialize  # noqa: E501
-
-        Test serialization of outer boolean types  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.fake_outer_boolean_serialize_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            body (bool): Input boolean as post body. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            bool:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['body']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method fake_outer_boolean_serialize" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake/outer/boolean', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='bool',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def fake_outer_composite_serialize(self, **kwargs):  # noqa: E501
-        """fake_outer_composite_serialize  # noqa: E501
-
-        Test serialization of object with outer number type  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.fake_outer_composite_serialize(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            body (OuterComposite): Input composite as post body. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            OuterComposite:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.fake_outer_composite_serialize_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.fake_outer_composite_serialize_with_http_info(**kwargs)  # noqa: E501
-            return data
-
-    def fake_outer_composite_serialize_with_http_info(self, **kwargs):  # noqa: E501
-        """fake_outer_composite_serialize  # noqa: E501
-
-        Test serialization of object with outer number type  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.fake_outer_composite_serialize_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            body (OuterComposite): Input composite as post body. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            OuterComposite:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['body']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method fake_outer_composite_serialize" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake/outer/composite', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='OuterComposite',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def fake_outer_number_serialize(self, **kwargs):  # noqa: E501
-        """fake_outer_number_serialize  # noqa: E501
-
-        Test serialization of outer number types  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.fake_outer_number_serialize(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            body (float): Input number as post body. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            float:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.fake_outer_number_serialize_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.fake_outer_number_serialize_with_http_info(**kwargs)  # noqa: E501
-            return data
-
-    def fake_outer_number_serialize_with_http_info(self, **kwargs):  # noqa: E501
-        """fake_outer_number_serialize  # noqa: E501
-
-        Test serialization of outer number types  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.fake_outer_number_serialize_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            body (float): Input number as post body. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            float:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['body']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method fake_outer_number_serialize" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake/outer/number', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='float',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def fake_outer_string_serialize(self, **kwargs):  # noqa: E501
-        """fake_outer_string_serialize  # noqa: E501
-
-        Test serialization of outer string types  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.fake_outer_string_serialize(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            body (str): Input string as post body. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            str:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.fake_outer_string_serialize_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.fake_outer_string_serialize_with_http_info(**kwargs)  # noqa: E501
-            return data
-
-    def fake_outer_string_serialize_with_http_info(self, **kwargs):  # noqa: E501
-        """fake_outer_string_serialize  # noqa: E501
-
-        Test serialization of outer string types  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.fake_outer_string_serialize_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            body (str): Input string as post body. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            str:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['body']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method fake_outer_string_serialize" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake/outer/string', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='str',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def test_body_with_file_schema(self, body, **kwargs):  # noqa: E501
-        """test_body_with_file_schema  # noqa: E501
-
-        For this test, the body for this request much reference a schema named `File`.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_file_schema(body, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            body (FileSchemaTestClass):
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_body_with_file_schema_with_http_info(body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_body_with_file_schema_with_http_info(body, **kwargs)  # noqa: E501
-            return data
-
-    def test_body_with_file_schema_with_http_info(self, body, **kwargs):  # noqa: E501
-        """test_body_with_file_schema  # noqa: E501
-
-        For this test, the body for this request much reference a schema named `File`.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_file_schema_with_http_info(body, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            body (FileSchemaTestClass):
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['body']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_body_with_file_schema" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in local_var_params or
-                local_var_params['body'] is None):
-            raise ApiValueError("Missing the required parameter `body` when calling `test_body_with_file_schema`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake/body-with-file-schema', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def test_body_with_query_params(self, query, body, **kwargs):  # noqa: E501
-        """test_body_with_query_params  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_query_params(query, body, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            query (str):            body (User):
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_body_with_query_params_with_http_info(query, body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_body_with_query_params_with_http_info(query, body, **kwargs)  # noqa: E501
-            return data
-
-    def test_body_with_query_params_with_http_info(self, query, body, **kwargs):  # noqa: E501
-        """test_body_with_query_params  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_query_params_with_http_info(query, body, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            query (str):            body (User):
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['query', 'body']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_body_with_query_params" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'query' is set
-        if ('query' not in local_var_params or
-                local_var_params['query'] is None):
-            raise ApiValueError("Missing the required parameter `query` when calling `test_body_with_query_params`")  # noqa: E501
-        # verify the required parameter 'body' is set
-        if ('body' not in local_var_params or
-                local_var_params['body'] is None):
-            raise ApiValueError("Missing the required parameter `body` when calling `test_body_with_query_params`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-        if 'query' in local_var_params:
-            query_params.append(('query', local_var_params['query']))  # noqa: E501
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake/body-with-query-params', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def test_client_model(self, body, **kwargs):  # noqa: E501
-        """To test \"client\" model  # noqa: E501
-
-        To test \"client\" model  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_client_model(body, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            body (Client): client model
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            Client:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_client_model_with_http_info(body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_client_model_with_http_info(body, **kwargs)  # noqa: E501
-            return data
-
-    def test_client_model_with_http_info(self, body, **kwargs):  # noqa: E501
-        """To test \"client\" model  # noqa: E501
-
-        To test \"client\" model  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_client_model_with_http_info(body, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            body (Client): client model
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            Client:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['body']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_client_model" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in local_var_params or
-                local_var_params['body'] is None):
-            raise ApiValueError("Missing the required parameter `body` when calling `test_client_model`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake', 'PATCH',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Client',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def test_endpoint_enums_length_one(self, query_integer=3, query_string='brillig', path_string='hello', path_integer=34, header_number=1.234, **kwargs):  # noqa: E501
-        """test_endpoint_enums_length_one  # noqa: E501
-
-        This route has required values with enums of 1  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_endpoint_enums_length_one(query_integer=3, query_string='brillig', path_string='hello', path_integer=34, header_number=1.234, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-
-            query_integer (int): defaults to 3, must be one of [3]
-            query_string (str): defaults to 'brillig', must be one of ['brillig']
-            path_string (str): defaults to 'hello', must be one of ['hello']
-            path_integer (int): defaults to 34, must be one of [34]
-            header_number (float): defaults to 1.234, must be one of [1.234]
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_endpoint_enums_length_one_with_http_info(query_integer=query_integer, query_string=query_string, path_string=path_string, path_integer=path_integer, header_number=header_number, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_endpoint_enums_length_one_with_http_info(query_integer=query_integer, query_string=query_string, path_string=path_string, path_integer=path_integer, header_number=header_number, **kwargs)  # noqa: E501
-            return data
-
-    def test_endpoint_enums_length_one_with_http_info(self, query_integer=None, query_string=None, path_string=None, path_integer=None, header_number=None, **kwargs):  # noqa: E501
-        """test_endpoint_enums_length_one  # noqa: E501
-
-        This route has required values with enums of 1  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_endpoint_enums_length_one_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        Args:
-
-            query_integer (int): defaults to 3, must be one of [3]
-            query_string (str): defaults to 'brillig', must be one of ['brillig']
-            path_string (str): defaults to 'hello', must be one of ['hello']
-            path_integer (int): defaults to 34, must be one of [34]
-            header_number (float): defaults to 1.234, must be one of [1.234]
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['query_integer', 'query_string', 'path_string', 'path_integer', 'header_number']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_endpoint_enums_length_one" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'query_integer' is set
-        if ('query_integer' not in local_var_params or
-                local_var_params['query_integer'] is None):
-            raise ApiValueError("Missing the required parameter `query_integer` when calling `test_endpoint_enums_length_one`")  # noqa: E501
-        # verify the required parameter 'query_string' is set
-        if ('query_string' not in local_var_params or
-                local_var_params['query_string'] is None):
-            raise ApiValueError("Missing the required parameter `query_string` when calling `test_endpoint_enums_length_one`")  # noqa: E501
-        # verify the required parameter 'path_string' is set
-        if ('path_string' not in local_var_params or
-                local_var_params['path_string'] is None):
-            raise ApiValueError("Missing the required parameter `path_string` when calling `test_endpoint_enums_length_one`")  # noqa: E501
-        # verify the required parameter 'path_integer' is set
-        if ('path_integer' not in local_var_params or
-                local_var_params['path_integer'] is None):
-            raise ApiValueError("Missing the required parameter `path_integer` when calling `test_endpoint_enums_length_one`")  # noqa: E501
-        # verify the required parameter 'header_number' is set
-        if ('header_number' not in local_var_params or
-                local_var_params['header_number'] is None):
-            raise ApiValueError("Missing the required parameter `header_number` when calling `test_endpoint_enums_length_one`")  # noqa: E501
-        allowed_values = [3]  # noqa: E501
-        if ('query_integer' in local_var_params and
-                local_var_params['query_integer'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `query_integer` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['query_integer'], allowed_values)
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: None
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
             )
-        allowed_values = ["brillig"]  # noqa: E501
-        if ('query_string' in local_var_params and
-                local_var_params['query_string'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `query_string` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['query_string'], allowed_values)
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
             )
-        allowed_values = ["hello"]  # noqa: E501
-        if ('path_string' in local_var_params and
-                local_var_params['path_string'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `path_string` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['path_string'], allowed_values)
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
             )
-        allowed_values = [34]  # noqa: E501
-        if ('path_integer' in local_var_params and
-                local_var_params['path_integer'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `path_integer` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['path_integer'], allowed_values)
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
             )
-        allowed_values = [1.234]  # noqa: E501
-        if ('header_number' in local_var_params and
-                local_var_params['header_number'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `header_number` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['header_number'], allowed_values)
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
             )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['xml_item'] = xml_item
+            return self.call_with_http_info(**kwargs)
 
-        collection_formats = {}
+        self.create_xml_item = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [],
+                'endpoint_path': '/fake/create_xml_item',
+                'operation_id': 'create_xml_item',
+                'http_method': 'POST',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'xml_item',
+                ],
+                'required': [
+                    'xml_item',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'xml_item': (XmlItem,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'xml_item': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [
+                    'application/xml',
+                    'application/xml; charset=utf-8',
+                    'application/xml; charset=utf-16',
+                    'text/xml',
+                    'text/xml; charset=utf-8',
+                    'text/xml; charset=utf-16'
+                ]
+            },
+            api_client=api_client,
+            callable=__create_xml_item
+        )
 
-        path_params = {}
-        if 'path_string' in local_var_params:
-            path_params['path_string'] = local_var_params['path_string']  # noqa: E501
-        if 'path_integer' in local_var_params:
-            path_params['path_integer'] = local_var_params['path_integer']  # noqa: E501
+        def __fake_outer_boolean_serialize(self, **kwargs):  # noqa: E501
+            """fake_outer_boolean_serialize  # noqa: E501
 
-        query_params = []
-        if 'query_integer' in local_var_params:
-            query_params.append(('query_integer', local_var_params['query_integer']))  # noqa: E501
-        if 'query_string' in local_var_params:
-            query_params.append(('query_string', local_var_params['query_string']))  # noqa: E501
+            Test serialization of outer boolean types  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.fake_outer_boolean_serialize(async_req=True)
+            >>> result = thread.get()
 
-        header_params = {}
-        if 'header_number' in local_var_params:
-            header_params['header_number'] = local_var_params['header_number']  # noqa: E501
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param bool body: Input boolean as post body
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: bool
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            return self.call_with_http_info(**kwargs)
 
-        form_params = []
-        local_var_files = {}
+        self.fake_outer_boolean_serialize = Endpoint(
+            settings={
+                'response_type': (bool,),
+                'auth': [],
+                'endpoint_path': '/fake/outer/boolean',
+                'operation_id': 'fake_outer_boolean_serialize',
+                'http_method': 'POST',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body': (bool,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    '*/*'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__fake_outer_boolean_serialize
+        )
 
-        body_params = None
-        # Authentication setting
-        auth_settings = []  # noqa: E501
+        def __fake_outer_composite_serialize(self, **kwargs):  # noqa: E501
+            """fake_outer_composite_serialize  # noqa: E501
 
-        return self.api_client.call_api(
-            '/fake/enums-of-length-one/{path_string}/{path_integer}', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            Test serialization of object with outer number type  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.fake_outer_composite_serialize(async_req=True)
+            >>> result = thread.get()
 
-    def test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
-        """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param OuterComposite body: Input composite as post body
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: OuterComposite
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            return self.call_with_http_info(**kwargs)
 
-        Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, async_req=True)
-        >>> result = thread.get()
+        self.fake_outer_composite_serialize = Endpoint(
+            settings={
+                'response_type': (OuterComposite,),
+                'auth': [],
+                'endpoint_path': '/fake/outer/composite',
+                'operation_id': 'fake_outer_composite_serialize',
+                'http_method': 'POST',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body': (OuterComposite,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    '*/*'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__fake_outer_composite_serialize
+        )
+
+        def __fake_outer_enum_serialize(self, **kwargs):  # noqa: E501
+            """fake_outer_enum_serialize  # noqa: E501
+
+            Test serialization of outer enum  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.fake_outer_enum_serialize(async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param OuterEnum body: Input enum as post body
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: OuterEnum
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            return self.call_with_http_info(**kwargs)
+
+        self.fake_outer_enum_serialize = Endpoint(
+            settings={
+                'response_type': (OuterEnum,),
+                'auth': [],
+                'endpoint_path': '/fake/outer/enum',
+                'operation_id': 'fake_outer_enum_serialize',
+                'http_method': 'POST',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body': (OuterEnum,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    '*/*'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__fake_outer_enum_serialize
+        )
+
+        def __fake_outer_number_serialize(self, **kwargs):  # noqa: E501
+            """fake_outer_number_serialize  # noqa: E501
+
+            Test serialization of outer number types  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.fake_outer_number_serialize(async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param OuterNumber body: Input number as post body
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: OuterNumber
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            return self.call_with_http_info(**kwargs)
+
+        self.fake_outer_number_serialize = Endpoint(
+            settings={
+                'response_type': (OuterNumber,),
+                'auth': [],
+                'endpoint_path': '/fake/outer/number',
+                'operation_id': 'fake_outer_number_serialize',
+                'http_method': 'POST',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body': (OuterNumber,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    '*/*'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__fake_outer_number_serialize
+        )
+
+        def __fake_outer_string_serialize(self, **kwargs):  # noqa: E501
+            """fake_outer_string_serialize  # noqa: E501
+
+            Test serialization of outer string types  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.fake_outer_string_serialize(async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param str body: Input string as post body
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: str
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            return self.call_with_http_info(**kwargs)
+
+        self.fake_outer_string_serialize = Endpoint(
+            settings={
+                'response_type': (str,),
+                'auth': [],
+                'endpoint_path': '/fake/outer/string',
+                'operation_id': 'fake_outer_string_serialize',
+                'http_method': 'POST',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body': (str,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    '*/*'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__fake_outer_string_serialize
+        )
+
+        def __test_body_with_file_schema(self, body, **kwargs):  # noqa: E501
+            """test_body_with_file_schema  # noqa: E501
+
+            For this test, the body for this request much reference a schema named `File`.  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.test_body_with_file_schema(body, async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param FileSchemaTestClass body: (required)
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: None
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['body'] = body
+            return self.call_with_http_info(**kwargs)
+
+        self.test_body_with_file_schema = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [],
+                'endpoint_path': '/fake/body-with-file-schema',
+                'operation_id': 'test_body_with_file_schema',
+                'http_method': 'PUT',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [
+                    'body',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body': (FileSchemaTestClass,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__test_body_with_file_schema
+        )
+
+        def __test_body_with_query_params(self, query, body, **kwargs):  # noqa: E501
+            """test_body_with_query_params  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.test_body_with_query_params(query, body, async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param str query: (required)
+            :param User body: (required)
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: None
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['query'] = query
+            kwargs['body'] = body
+            return self.call_with_http_info(**kwargs)
+
+        self.test_body_with_query_params = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [],
+                'endpoint_path': '/fake/body-with-query-params',
+                'operation_id': 'test_body_with_query_params',
+                'http_method': 'PUT',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'query',
+                    'body',
+                ],
+                'required': [
+                    'query',
+                    'body',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'query': (str,),
+                    'body': (User,),
+                },
+                'attribute_map': {
+                    'query': 'query',
+                },
+                'location_map': {
+                    'query': 'query',
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__test_body_with_query_params
+        )
+
+        def __test_client_model(self, body, **kwargs):  # noqa: E501
+            """To test \"client\" model  # noqa: E501
+
+            To test \"client\" model  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.test_client_model(body, async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param Client body: client model (required)
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: Client
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['body'] = body
+            return self.call_with_http_info(**kwargs)
+
+        self.test_client_model = Endpoint(
+            settings={
+                'response_type': (Client,),
+                'auth': [],
+                'endpoint_path': '/fake',
+                'operation_id': 'test_client_model',
+                'http_method': 'PATCH',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'body',
+                ],
+                'required': [
+                    'body',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'body': (Client,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__test_client_model
+        )
+
+        def __test_endpoint_enums_length_one(self, query_integer, query_string, path_string, path_integer, header_number, **kwargs):  # noqa: E501
+            """test_endpoint_enums_length_one  # noqa: E501
+
+            This route has required values with enums of 1  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.test_endpoint_enums_length_one(query_integer, query_string, path_string, path_integer, header_number, async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param int query_integer: (required)
+            :param str query_string: (required)
+            :param str path_string: (required)
+            :param int path_integer: (required)
+            :param float header_number: (required)
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: None
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['query_integer'] = query_integer
+            kwargs['query_string'] = query_string
+            kwargs['path_string'] = path_string
+            kwargs['path_integer'] = path_integer
+            kwargs['header_number'] = header_number
+            return self.call_with_http_info(**kwargs)
+
+        self.test_endpoint_enums_length_one = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [],
+                'endpoint_path': '/fake/enums-of-length-one/{path_string}/{path_integer}',
+                'operation_id': 'test_endpoint_enums_length_one',
+                'http_method': 'PUT',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'query_integer',
+                    'query_string',
+                    'path_string',
+                    'path_integer',
+                    'header_number',
+                ],
+                'required': [
+                    'query_integer',
+                    'query_string',
+                    'path_string',
+                    'path_integer',
+                    'header_number',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                    'query_integer',
+                    'query_string',
+                    'path_string',
+                    'path_integer',
+                    'header_number',
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                    ('query_integer',): {
+
+                        "3": 3
+                    },
+                    ('query_string',): {
+
+                        "BRILLIG": "brillig"
+                    },
+                    ('path_string',): {
+
+                        "HELLO": "hello"
+                    },
+                    ('path_integer',): {
+
+                        "34": 34
+                    },
+                    ('header_number',): {
+
+                        "1.234": 1.234
+                    },
+                },
+                'openapi_types': {
+                    'query_integer': (int,),
+                    'query_string': (str,),
+                    'path_string': (str,),
+                    'path_integer': (int,),
+                    'header_number': (float,),
+                },
+                'attribute_map': {
+                    'query_integer': 'query_integer',
+                    'query_string': 'query_string',
+                    'path_string': 'path_string',
+                    'path_integer': 'path_integer',
+                    'header_number': 'header_number',
+                },
+                'location_map': {
+                    'query_integer': 'query',
+                    'query_string': 'query',
+                    'path_string': 'path',
+                    'path_integer': 'path',
+                    'header_number': 'header',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__test_endpoint_enums_length_one
+        )
+
+        def __test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
+            """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
+
+            Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param float number: None (required)
+            :param float double: None (required)
+            :param str pattern_without_delimiter: None (required)
+            :param str byte: None (required)
+            :param int integer: None
+            :param int int32: None
+            :param int int64: None
+            :param float float: None
+            :param str string: None
+            :param file_type binary: None
+            :param date date: None
+            :param datetime date_time: None
+            :param str password: None
+            :param str param_callback: None
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: None
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['number'] = number
+            kwargs['double'] = double
+            kwargs['pattern_without_delimiter'] = pattern_without_delimiter
+            kwargs['byte'] = byte
+            return self.call_with_http_info(**kwargs)
+
+        self.test_endpoint_parameters = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'http_basic_test'
+                ],
+                'endpoint_path': '/fake',
+                'operation_id': 'test_endpoint_parameters',
+                'http_method': 'POST',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'number',
+                    'double',
+                    'pattern_without_delimiter',
+                    'byte',
+                    'integer',
+                    'int32',
+                    'int64',
+                    'float',
+                    'string',
+                    'binary',
+                    'date',
+                    'date_time',
+                    'password',
+                    'param_callback',
+                ],
+                'required': [
+                    'number',
+                    'double',
+                    'pattern_without_delimiter',
+                    'byte',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'number',
+                    'double',
+                    'pattern_without_delimiter',
+                    'integer',
+                    'int32',
+                    'float',
+                    'string',
+                    'password',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('number',): {
+
+                        'inclusive_maximum': 543.2,
+                        'inclusive_minimum': 32.1,
+                    },
+                    ('double',): {
+
+                        'inclusive_maximum': 123.4,
+                        'inclusive_minimum': 67.8,
+                    },
+                    ('pattern_without_delimiter',): {
+
+                        'regex': {
+                            'pattern': r'^[A-Z].*',  # noqa: E501
+                        },
+                    },
+                    ('integer',): {
+
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 10,
+                    },
+                    ('int32',): {
+
+                        'inclusive_maximum': 200,
+                        'inclusive_minimum': 20,
+                    },
+                    ('float',): {
+
+                        'inclusive_maximum': 987.6,
+                    },
+                    ('string',): {
+
+                        'regex': {
+                            'pattern': r'[a-z]',  # noqa: E501
+                            'flags': (re.IGNORECASE)
+                        },
+                    },
+                    ('password',): {
+                        'max_length': 64,
+                        'min_length': 10,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'number': (float,),
+                    'double': (float,),
+                    'pattern_without_delimiter': (str,),
+                    'byte': (str,),
+                    'integer': (int,),
+                    'int32': (int,),
+                    'int64': (int,),
+                    'float': (float,),
+                    'string': (str,),
+                    'binary': (file_type,),
+                    'date': (date,),
+                    'date_time': (datetime,),
+                    'password': (str,),
+                    'param_callback': (str,),
+                },
+                'attribute_map': {
+                    'number': 'number',
+                    'double': 'double',
+                    'pattern_without_delimiter': 'pattern_without_delimiter',
+                    'byte': 'byte',
+                    'integer': 'integer',
+                    'int32': 'int32',
+                    'int64': 'int64',
+                    'float': 'float',
+                    'string': 'string',
+                    'binary': 'binary',
+                    'date': 'date',
+                    'date_time': 'dateTime',
+                    'password': 'password',
+                    'param_callback': 'callback',
+                },
+                'location_map': {
+                    'number': 'form',
+                    'double': 'form',
+                    'pattern_without_delimiter': 'form',
+                    'byte': 'form',
+                    'integer': 'form',
+                    'int32': 'form',
+                    'int64': 'form',
+                    'float': 'form',
+                    'string': 'form',
+                    'binary': 'form',
+                    'date': 'form',
+                    'date_time': 'form',
+                    'password': 'form',
+                    'param_callback': 'form',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [
+                    'application/x-www-form-urlencoded'
+                ]
+            },
+            api_client=api_client,
+            callable=__test_endpoint_parameters
+        )
+
+        def __test_enum_parameters(self, **kwargs):  # noqa: E501
+            """To test enum parameters  # noqa: E501
+
+            To test enum parameters  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.test_enum_parameters(async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param [str] enum_header_string_array: Header parameter enum test (string array)
+            :param str enum_header_string: Header parameter enum test (string)
+            :param [str] enum_query_string_array: Query parameter enum test (string array)
+            :param str enum_query_string: Query parameter enum test (string)
+            :param int enum_query_integer: Query parameter enum test (double)
+            :param float enum_query_double: Query parameter enum test (double)
+            :param [str] enum_form_string_array: Form parameter enum test (string array)
+            :param str enum_form_string: Form parameter enum test (string)
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: None
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            return self.call_with_http_info(**kwargs)
+
+        self.test_enum_parameters = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [],
+                'endpoint_path': '/fake',
+                'operation_id': 'test_enum_parameters',
+                'http_method': 'GET',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'enum_header_string_array',
+                    'enum_header_string',
+                    'enum_query_string_array',
+                    'enum_query_string',
+                    'enum_query_integer',
+                    'enum_query_double',
+                    'enum_form_string_array',
+                    'enum_form_string',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                    'enum_header_string_array',
+                    'enum_header_string',
+                    'enum_query_string_array',
+                    'enum_query_string',
+                    'enum_query_integer',
+                    'enum_query_double',
+                    'enum_form_string_array',
+                    'enum_form_string',
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                    ('enum_header_string_array',): {
+
+                        "&gt;": ">",
+                        "$": "$"
+                    },
+                    ('enum_header_string',): {
+
+                        "_ABC": "_abc",
+                        "-EFG": "-efg",
+                        "(XYZ)": "(xyz)"
+                    },
+                    ('enum_query_string_array',): {
+
+                        "&gt;": ">",
+                        "$": "$"
+                    },
+                    ('enum_query_string',): {
+
+                        "_ABC": "_abc",
+                        "-EFG": "-efg",
+                        "(XYZ)": "(xyz)"
+                    },
+                    ('enum_query_integer',): {
+
+                        "1": 1,
+                        "-2": -2
+                    },
+                    ('enum_query_double',): {
+
+                        "1.1": 1.1,
+                        "-1.2": -1.2
+                    },
+                    ('enum_form_string_array',): {
+
+                        "&gt;": ">",
+                        "$": "$"
+                    },
+                    ('enum_form_string',): {
+
+                        "_ABC": "_abc",
+                        "-EFG": "-efg",
+                        "(XYZ)": "(xyz)"
+                    },
+                },
+                'openapi_types': {
+                    'enum_header_string_array': ([str],),
+                    'enum_header_string': (str,),
+                    'enum_query_string_array': ([str],),
+                    'enum_query_string': (str,),
+                    'enum_query_integer': (int,),
+                    'enum_query_double': (float,),
+                    'enum_form_string_array': ([str],),
+                    'enum_form_string': (str,),
+                },
+                'attribute_map': {
+                    'enum_header_string_array': 'enum_header_string_array',
+                    'enum_header_string': 'enum_header_string',
+                    'enum_query_string_array': 'enum_query_string_array',
+                    'enum_query_string': 'enum_query_string',
+                    'enum_query_integer': 'enum_query_integer',
+                    'enum_query_double': 'enum_query_double',
+                    'enum_form_string_array': 'enum_form_string_array',
+                    'enum_form_string': 'enum_form_string',
+                },
+                'location_map': {
+                    'enum_header_string_array': 'header',
+                    'enum_header_string': 'header',
+                    'enum_query_string_array': 'query',
+                    'enum_query_string': 'query',
+                    'enum_query_integer': 'query',
+                    'enum_query_double': 'query',
+                    'enum_form_string_array': 'form',
+                    'enum_form_string': 'form',
+                },
+                'collection_format_map': {
+                    'enum_header_string_array': 'csv',
+                    'enum_query_string_array': 'csv',
+                    'enum_form_string_array': 'csv',
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [
+                    'application/x-www-form-urlencoded'
+                ]
+            },
+            api_client=api_client,
+            callable=__test_enum_parameters
+        )
+
+        def __test_group_parameters(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
+            """Fake endpoint to test group parameters (optional)  # noqa: E501
+
+            Fake endpoint to test group parameters (optional)  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param int required_string_group: Required String in group parameters (required)
+            :param bool required_boolean_group: Required Boolean in group parameters (required)
+            :param int required_int64_group: Required Integer in group parameters (required)
+            :param int string_group: String in group parameters
+            :param bool boolean_group: Boolean in group parameters
+            :param int int64_group: Integer in group parameters
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: None
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['required_string_group'] = required_string_group
+            kwargs['required_boolean_group'] = required_boolean_group
+            kwargs['required_int64_group'] = required_int64_group
+            return self.call_with_http_info(**kwargs)
+
+        self.test_group_parameters = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [],
+                'endpoint_path': '/fake',
+                'operation_id': 'test_group_parameters',
+                'http_method': 'DELETE',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'required_string_group',
+                    'required_boolean_group',
+                    'required_int64_group',
+                    'string_group',
+                    'boolean_group',
+                    'int64_group',
+                ],
+                'required': [
+                    'required_string_group',
+                    'required_boolean_group',
+                    'required_int64_group',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'required_string_group': (int,),
+                    'required_boolean_group': (bool,),
+                    'required_int64_group': (int,),
+                    'string_group': (int,),
+                    'boolean_group': (bool,),
+                    'int64_group': (int,),
+                },
+                'attribute_map': {
+                    'required_string_group': 'required_string_group',
+                    'required_boolean_group': 'required_boolean_group',
+                    'required_int64_group': 'required_int64_group',
+                    'string_group': 'string_group',
+                    'boolean_group': 'boolean_group',
+                    'int64_group': 'int64_group',
+                },
+                'location_map': {
+                    'required_string_group': 'query',
+                    'required_boolean_group': 'header',
+                    'required_int64_group': 'query',
+                    'string_group': 'query',
+                    'boolean_group': 'header',
+                    'int64_group': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__test_group_parameters
+        )
+
+        def __test_inline_additional_properties(self, param, **kwargs):  # noqa: E501
+            """test inline additionalProperties  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.test_inline_additional_properties(param, async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param {str: (str,)} param: request body (required)
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: None
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['param'] = param
+            return self.call_with_http_info(**kwargs)
+
+        self.test_inline_additional_properties = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [],
+                'endpoint_path': '/fake/inline-additionalProperties',
+                'operation_id': 'test_inline_additional_properties',
+                'http_method': 'POST',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'param',
+                ],
+                'required': [
+                    'param',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'param': ({str: (str,)},),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'param': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__test_inline_additional_properties
+        )
+
+        def __test_json_form_data(self, param, param2, **kwargs):  # noqa: E501
+            """test json serialization of form data  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+            >>> thread = api.test_json_form_data(param, param2, async_req=True)
+            >>> result = thread.get()
+
+            :param async_req bool: execute request asynchronously
+                Default is False.
+            :param str param: field1 (required)
+            :param str param2: field2 (required)
+            :param _return_http_data_only: response data without head status
+                code and headers. Default is True.
+            :param _preload_content: if False, the urllib3.HTTPResponse object
+                will be returned without reading/decoding response data.
+                Default is True.
+            :param _request_timeout: timeout setting for this request. If one
+                number provided, it will be total request timeout. It can also
+                be a pair (tuple) of (connection, read) timeouts.
+                Default is None.
+            :param _check_input_type: boolean specifying if type checking
+                should be done one the data sent to the server.
+                Default is True.
+            :param _check_return_type: boolean specifying if type checking
+                should be done one the data received from the server.
+                Default is True.
+            :param _host_index: integer specifying the index of the server
+                that we want to use.
+                Default is 0.
+            :return: None
+                If the method is called asynchronously, returns the request
+                thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['param'] = param
+            kwargs['param2'] = param2
+            return self.call_with_http_info(**kwargs)
+
+        self.test_json_form_data = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [],
+                'endpoint_path': '/fake/jsonFormData',
+                'operation_id': 'test_json_form_data',
+                'http_method': 'GET',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                    'param',
+                    'param2',
+                ],
+                'required': [
+                    'param',
+                    'param2',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'param': (str,),
+                    'param2': (str,),
+                },
+                'attribute_map': {
+                    'param': 'param',
+                    'param2': 'param2',
+                },
+                'location_map': {
+                    'param': 'form',
+                    'param2': 'form',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [
+                    'application/x-www-form-urlencoded'
+                ]
+            },
+            api_client=api_client,
+            callable=__test_json_form_data
+        )
+
+
+class Endpoint(object):
+    def __init__(self, settings=None, params_map=None, root_map=None,
+                 headers_map=None, api_client=None, callable=None):
+        """Creates an endpoint
 
         Args:
-            number (float): None            double (float): None            pattern_without_delimiter (str): None            byte (str): None
-
-        Keyword Args:
-            integer (int): None. [optional]
-            int32 (int): None. [optional]
-            int64 (int): None. [optional]
-            float (float): None. [optional]
-            string (str): None. [optional]
-            binary (file): None. [optional]
-            date (date): None. [optional]
-            date_time (datetime): None. [optional]
-            password (str): None. [optional]
-            param_callback (str): None. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
+            settings (dict): see below key value pairs
+                'response_type' (tuple/None): response type
+                'auth' (list): a list of auth type keys
+                'endpoint_path' (str): the endpoint path
+                'operation_id' (str): endpoint string identifier
+                'http_method' (str): POST/PUT/PATCH/GET etc
+                'servers' (list): list of str servers that this endpoint is at
+            params_map (dict): see below key value pairs
+                'all' (list): list of str endpoint parameter names
+                'required' (list): list of required parameter names
+                'nullable' (list): list of nullable parameter names
+                'enum' (list): list of parameters with enum values
+                'validation' (list): list of parameters with validations
+            root_map
+                'validations' (dict): the dict mapping endpoint parameter tuple
+                    paths to their validation dictionaries
+                'allowed_values' (dict): the dict mapping endpoint parameter
+                    tuple paths to their allowed_values (enum) dictionaries
+                'openapi_types' (dict): param_name to openapi type
+                'attribute_map' (dict): param_name to camelCase name
+                'location_map' (dict): param_name to  'body', 'file', 'form',
+                    'header', 'path', 'query'
+                collection_format_map (dict): param_name to `csv` etc.
+            headers_map (dict): see below key value pairs
+                'accept' (list): list of Accept header strings
+                'content_type' (list): list of Content-Type header strings
+            api_client (ApiClient) api client instance
+            callable (function): the function which is invoked when the
+                Endpoint is called
         """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, **kwargs)  # noqa: E501
-            return data
+        self.settings = settings
+        self.params_map = params_map
+        self.params_map['all'].extend([
+            'async_req',
+            '_host_index',
+            '_preload_content',
+            '_request_timeout',
+            '_return_http_data_only',
+            '_check_input_type',
+            '_check_return_type'
+        ])
+        self.params_map['nullable'].extend(['_request_timeout'])
+        self.validations = root_map['validations']
+        self.allowed_values = root_map['allowed_values']
+        self.openapi_types = root_map['openapi_types']
+        extra_types = {
+            'async_req': (bool,),
+            '_host_index': (int,),
+            '_preload_content': (bool,),
+            '_request_timeout': (none_type, int, (int,), [int]),
+            '_return_http_data_only': (bool,),
+            '_check_input_type': (bool,),
+            '_check_return_type': (bool,)
+        }
+        self.openapi_types.update(extra_types)
+        self.attribute_map = root_map['attribute_map']
+        self.location_map = root_map['location_map']
+        self.collection_format_map = root_map['collection_format_map']
+        self.headers_map = headers_map
+        self.api_client = api_client
+        self.callable = callable
 
-    def test_endpoint_parameters_with_http_info(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
-        """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
-
-        Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            number (float): None            double (float): None            pattern_without_delimiter (str): None            byte (str): None
-
-        Keyword Args:
-            integer (int): None. [optional]
-            int32 (int): None. [optional]
-            int64 (int): None. [optional]
-            float (float): None. [optional]
-            string (str): None. [optional]
-            binary (file): None. [optional]
-            date (date): None. [optional]
-            date_time (datetime): None. [optional]
-            password (str): None. [optional]
-            param_callback (str): None. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password', 'param_callback']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_endpoint_parameters" % key
+    def __validate_inputs(self, kwargs):
+        for param in self.params_map['enum']:
+            if param in kwargs:
+                check_allowed_values(
+                    self.allowed_values,
+                    (param,),
+                    kwargs[param]
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'number' is set
-        if ('number' not in local_var_params or
-                local_var_params['number'] is None):
-            raise ApiValueError("Missing the required parameter `number` when calling `test_endpoint_parameters`")  # noqa: E501
-        # verify the required parameter 'double' is set
-        if ('double' not in local_var_params or
-                local_var_params['double'] is None):
-            raise ApiValueError("Missing the required parameter `double` when calling `test_endpoint_parameters`")  # noqa: E501
-        # verify the required parameter 'pattern_without_delimiter' is set
-        if ('pattern_without_delimiter' not in local_var_params or
-                local_var_params['pattern_without_delimiter'] is None):
-            raise ApiValueError("Missing the required parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`")  # noqa: E501
-        # verify the required parameter 'byte' is set
-        if ('byte' not in local_var_params or
-                local_var_params['byte'] is None):
-            raise ApiValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
-        if 'number' in local_var_params and local_var_params['number'] > 543.2:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value less than or equal to `543.2`")  # noqa: E501
-        if 'number' in local_var_params and local_var_params['number'] < 32.1:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value greater than or equal to `32.1`")  # noqa: E501
-        if 'double' in local_var_params and local_var_params['double'] > 123.4:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to `123.4`")  # noqa: E501
-        if 'double' in local_var_params and local_var_params['double'] < 67.8:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")  # noqa: E501
-        if 'pattern_without_delimiter' in local_var_params and not re.search(r'^[A-Z].*', local_var_params['pattern_without_delimiter']):  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")  # noqa: E501
-        if 'integer' in local_var_params and local_var_params['integer'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")  # noqa: E501
-        if 'integer' in local_var_params and local_var_params['integer'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value greater than or equal to `10`")  # noqa: E501
-        if 'int32' in local_var_params and local_var_params['int32'] > 200:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value less than or equal to `200`")  # noqa: E501
-        if 'int32' in local_var_params and local_var_params['int32'] < 20:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")  # noqa: E501
-        if 'float' in local_var_params and local_var_params['float'] > 987.6:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
-        if 'string' in local_var_params and not re.search(r'[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
-        if ('password' in local_var_params and
-                len(local_var_params['password']) > 64):
-            raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be less than or equal to `64`")  # noqa: E501
-        if ('password' in local_var_params and
-                len(local_var_params['password']) < 10):
-            raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be greater than or equal to `10`")  # noqa: E501
 
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-        if 'integer' in local_var_params:
-            form_params.append(('integer', local_var_params['integer']))  # noqa: E501
-        if 'int32' in local_var_params:
-            form_params.append(('int32', local_var_params['int32']))  # noqa: E501
-        if 'int64' in local_var_params:
-            form_params.append(('int64', local_var_params['int64']))  # noqa: E501
-        if 'number' in local_var_params:
-            form_params.append(('number', local_var_params['number']))  # noqa: E501
-        if 'float' in local_var_params:
-            form_params.append(('float', local_var_params['float']))  # noqa: E501
-        if 'double' in local_var_params:
-            form_params.append(('double', local_var_params['double']))  # noqa: E501
-        if 'string' in local_var_params:
-            form_params.append(('string', local_var_params['string']))  # noqa: E501
-        if 'pattern_without_delimiter' in local_var_params:
-            form_params.append(('pattern_without_delimiter', local_var_params['pattern_without_delimiter']))  # noqa: E501
-        if 'byte' in local_var_params:
-            form_params.append(('byte', local_var_params['byte']))  # noqa: E501
-        if 'binary' in local_var_params:
-            local_var_files['binary'] = local_var_params['binary']  # noqa: E501
-        if 'date' in local_var_params:
-            form_params.append(('date', local_var_params['date']))  # noqa: E501
-        if 'date_time' in local_var_params:
-            form_params.append(('dateTime', local_var_params['date_time']))  # noqa: E501
-        if 'password' in local_var_params:
-            form_params.append(('password', local_var_params['password']))  # noqa: E501
-        if 'param_callback' in local_var_params:
-            form_params.append(('callback', local_var_params['param_callback']))  # noqa: E501
-
-        body_params = None
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['http_basic_test']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def test_enum_parameters(self, **kwargs):  # noqa: E501
-        """To test enum parameters  # noqa: E501
-
-        To test enum parameters  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_enum_parameters(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            enum_header_string_array (list[str]): Header parameter enum test (string array). [optional]
-            enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
-            enum_query_string_array (list[str]): Query parameter enum test (string array). [optional]
-            enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
-            enum_query_integer (int): Query parameter enum test (double). [optional]
-            enum_query_double (float): Query parameter enum test (double). [optional]
-            enum_form_string_array (list[str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of '$'
-            enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_enum_parameters_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.test_enum_parameters_with_http_info(**kwargs)  # noqa: E501
-            return data
-
-    def test_enum_parameters_with_http_info(self, **kwargs):  # noqa: E501
-        """To test enum parameters  # noqa: E501
-
-        To test enum parameters  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_enum_parameters_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-
-
-        Keyword Args:
-            enum_header_string_array (list[str]): Header parameter enum test (string array). [optional]
-            enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
-            enum_query_string_array (list[str]): Query parameter enum test (string array). [optional]
-            enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
-            enum_query_integer (int): Query parameter enum test (double). [optional]
-            enum_query_double (float): Query parameter enum test (double). [optional]
-            enum_form_string_array (list[str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of '$'
-            enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['enum_header_string_array', 'enum_header_string', 'enum_query_string_array', 'enum_query_string', 'enum_query_integer', 'enum_query_double', 'enum_form_string_array', 'enum_form_string']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_enum_parameters" % key
+        for param in self.params_map['validation']:
+            if param in kwargs:
+                check_validations(
+                    self.validations,
+                    (param,),
+                    kwargs[param]
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        allowed_values = [">", "$"]  # noqa: E501
-        if ('enum_header_string_array' in local_var_params and
-                not set(local_var_params['enum_header_string_array']).issubset(set(allowed_values))):  # noqa: E501
-            raise ValueError(
-                "Invalid values for `enum_header_string_array` [{0}], must be a subset of [{1}]"  # noqa: E501
-                .format(", ".join(map(str, set(local_var_params['enum_header_string_array']) - set(allowed_values))),  # noqa: E501
-                        ", ".join(map(str, allowed_values)))
+
+        if kwargs['_check_input_type'] is False:
+            return
+
+        for key, value in six.iteritems(kwargs):
+            fixed_val = validate_and_convert_types(
+                value,
+                self.openapi_types[key],
+                [key],
+                False,
+                kwargs['_check_input_type'],
+                configuration=self.api_client.configuration
             )
-        allowed_values = ["_abc", "-efg", "(xyz)"]  # noqa: E501
-        if ('enum_header_string' in local_var_params and
-                local_var_params['enum_header_string'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `enum_header_string` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['enum_header_string'], allowed_values)
-            )
-        allowed_values = [">", "$"]  # noqa: E501
-        if ('enum_query_string_array' in local_var_params and
-                not set(local_var_params['enum_query_string_array']).issubset(set(allowed_values))):  # noqa: E501
-            raise ValueError(
-                "Invalid values for `enum_query_string_array` [{0}], must be a subset of [{1}]"  # noqa: E501
-                .format(", ".join(map(str, set(local_var_params['enum_query_string_array']) - set(allowed_values))),  # noqa: E501
-                        ", ".join(map(str, allowed_values)))
-            )
-        allowed_values = ["_abc", "-efg", "(xyz)"]  # noqa: E501
-        if ('enum_query_string' in local_var_params and
-                local_var_params['enum_query_string'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `enum_query_string` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['enum_query_string'], allowed_values)
-            )
-        allowed_values = [1, -2]  # noqa: E501
-        if ('enum_query_integer' in local_var_params and
-                local_var_params['enum_query_integer'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `enum_query_integer` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['enum_query_integer'], allowed_values)
-            )
-        allowed_values = [1.1, -1.2]  # noqa: E501
-        if ('enum_query_double' in local_var_params and
-                local_var_params['enum_query_double'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `enum_query_double` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['enum_query_double'], allowed_values)
-            )
-        allowed_values = [">", "$"]  # noqa: E501
-        if ('enum_form_string_array' in local_var_params and
-                not set(local_var_params['enum_form_string_array']).issubset(set(allowed_values))):  # noqa: E501
-            raise ValueError(
-                "Invalid values for `enum_form_string_array` [{0}], must be a subset of [{1}]"  # noqa: E501
-                .format(", ".join(map(str, set(local_var_params['enum_form_string_array']) - set(allowed_values))),  # noqa: E501
-                        ", ".join(map(str, allowed_values)))
-            )
-        allowed_values = ["_abc", "-efg", "(xyz)"]  # noqa: E501
-        if ('enum_form_string' in local_var_params and
-                local_var_params['enum_form_string'] not in allowed_values):
-            raise ValueError(
-                "Invalid value for `enum_form_string` ({0}), must be one of {1}"  # noqa: E501
-                .format(local_var_params['enum_form_string'], allowed_values)
-            )
+            kwargs[key] = fixed_val
 
-        collection_formats = {}
+    def __gather_params(self, kwargs):
+        params = {
+            'body': None,
+            'collection_format': {},
+            'file': {},
+            'form': [],
+            'header': {},
+            'path': {},
+            'query': []
+        }
 
-        path_params = {}
+        for param_name, param_value in six.iteritems(kwargs):
+            param_location = self.location_map.get(param_name)
+            if param_location is None:
+                continue
+            if param_location:
+                if param_location == 'body':
+                    params['body'] = param_value
+                    continue
+                base_name = self.attribute_map[param_name]
+                if (param_location == 'form' and
+                        self.openapi_types[param_name] == (file_type,)):
+                    params['file'][param_name] = [param_value]
+                elif (param_location == 'form' and
+                        self.openapi_types[param_name] == ([file_type],)):
+                    # param_value is already a list
+                    params['file'][param_name] = param_value
+                elif param_location in {'form', 'query'}:
+                    param_value_full = (base_name, param_value)
+                    params[param_location].append(param_value_full)
+                if param_location not in {'form', 'query'}:
+                    params[param_location][base_name] = param_value
+                collection_format = self.collection_format_map.get(param_name)
+                if collection_format:
+                    params['collection_format'][base_name] = collection_format
 
-        query_params = []
-        if 'enum_query_string_array' in local_var_params:
-            query_params.append(('enum_query_string_array', local_var_params['enum_query_string_array']))  # noqa: E501
-            collection_formats['enum_query_string_array'] = 'csv'  # noqa: E501
-        if 'enum_query_string' in local_var_params:
-            query_params.append(('enum_query_string', local_var_params['enum_query_string']))  # noqa: E501
-        if 'enum_query_integer' in local_var_params:
-            query_params.append(('enum_query_integer', local_var_params['enum_query_integer']))  # noqa: E501
-        if 'enum_query_double' in local_var_params:
-            query_params.append(('enum_query_double', local_var_params['enum_query_double']))  # noqa: E501
+        return params
 
-        header_params = {}
-        if 'enum_header_string_array' in local_var_params:
-            header_params['enum_header_string_array'] = local_var_params['enum_header_string_array']  # noqa: E501
-            collection_formats['enum_header_string_array'] = 'csv'  # noqa: E501
-        if 'enum_header_string' in local_var_params:
-            header_params['enum_header_string'] = local_var_params['enum_header_string']  # noqa: E501
-
-        form_params = []
-        local_var_files = {}
-        if 'enum_form_string_array' in local_var_params:
-            form_params.append(('enum_form_string_array', local_var_params['enum_form_string_array']))  # noqa: E501
-            collection_formats['enum_form_string_array'] = 'csv'  # noqa: E501
-        if 'enum_form_string' in local_var_params:
-            form_params.append(('enum_form_string', local_var_params['enum_form_string']))  # noqa: E501
-
-        body_params = None
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def test_group_parameters(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
-        """Fake endpoint to test group parameters (optional)  # noqa: E501
-
-        Fake endpoint to test group parameters (optional)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            required_string_group (int): Required String in group parameters            required_boolean_group (bool): Required Boolean in group parameters            required_int64_group (int): Required Integer in group parameters
-
-        Keyword Args:
-            string_group (int): String in group parameters. [optional]
-            boolean_group (bool): Boolean in group parameters. [optional]
-            int64_group (int): Integer in group parameters. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
+    def __call__(self, *args, **kwargs):
+        """ This method is invoked when endpoints are called
+        Example:
+        pet_api = PetApi()
+        pet_api.add_pet  # this is an instance of the class Endpoint
+        pet_api.add_pet()  # this invokes pet_api.add_pet.__call__()
+        which then invokes the callable functions stored in that endpoint at
+        pet_api.add_pet.callable or self.callable in this class
         """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, **kwargs)  # noqa: E501
-            return data
+        return self.callable(self, *args, **kwargs)
 
-    def test_group_parameters_with_http_info(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
-        """Fake endpoint to test group parameters (optional)  # noqa: E501
+    def call_with_http_info(self, **kwargs):
 
-        Fake endpoint to test group parameters (optional)  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            required_string_group (int): Required String in group parameters            required_boolean_group (bool): Required Boolean in group parameters            required_int64_group (int): Required Integer in group parameters
-
-        Keyword Args:
-            string_group (int): String in group parameters. [optional]
-            boolean_group (bool): Boolean in group parameters. [optional]
-            int64_group (int): Integer in group parameters. [optional]
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['required_string_group', 'required_boolean_group', 'required_int64_group', 'string_group', 'boolean_group', 'int64_group']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_group_parameters" % key
+        try:
+            _host = self.settings['servers'][kwargs['_host_index']]
+        except IndexError:
+            if self.settings['servers']:
+                raise ApiValueError(
+                    "Invalid host index. Must be 0 <= index < %s" %
+                    len(self.settings['servers'])
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'required_string_group' is set
-        if ('required_string_group' not in local_var_params or
-                local_var_params['required_string_group'] is None):
-            raise ApiValueError("Missing the required parameter `required_string_group` when calling `test_group_parameters`")  # noqa: E501
-        # verify the required parameter 'required_boolean_group' is set
-        if ('required_boolean_group' not in local_var_params or
-                local_var_params['required_boolean_group'] is None):
-            raise ApiValueError("Missing the required parameter `required_boolean_group` when calling `test_group_parameters`")  # noqa: E501
-        # verify the required parameter 'required_int64_group' is set
-        if ('required_int64_group' not in local_var_params or
-                local_var_params['required_int64_group'] is None):
-            raise ApiValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
+            _host = None
 
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-        if 'required_string_group' in local_var_params:
-            query_params.append(('required_string_group', local_var_params['required_string_group']))  # noqa: E501
-        if 'required_int64_group' in local_var_params:
-            query_params.append(('required_int64_group', local_var_params['required_int64_group']))  # noqa: E501
-        if 'string_group' in local_var_params:
-            query_params.append(('string_group', local_var_params['string_group']))  # noqa: E501
-        if 'int64_group' in local_var_params:
-            query_params.append(('int64_group', local_var_params['int64_group']))  # noqa: E501
-
-        header_params = {}
-        if 'required_boolean_group' in local_var_params:
-            header_params['required_boolean_group'] = local_var_params['required_boolean_group']  # noqa: E501
-        if 'boolean_group' in local_var_params:
-            header_params['boolean_group'] = local_var_params['boolean_group']  # noqa: E501
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def test_inline_additional_properties(self, param, **kwargs):  # noqa: E501
-        """test inline additionalProperties  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_inline_additional_properties(param, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            param (dict(str, str)): request body
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_inline_additional_properties_with_http_info(param, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_inline_additional_properties_with_http_info(param, **kwargs)  # noqa: E501
-            return data
-
-    def test_inline_additional_properties_with_http_info(self, param, **kwargs):  # noqa: E501
-        """test inline additionalProperties  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_inline_additional_properties_with_http_info(param, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            param (dict(str, str)): request body
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['param']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
+        for key, value in six.iteritems(kwargs):
+            if key not in self.params_map['all']:
                 raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_inline_additional_properties" % key
+                    "Got an unexpected parameter '%s'"
+                    " to method `%s`" %
+                    (key, self.settings['operation_id'])
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'param' is set
-        if ('param' not in local_var_params or
-                local_var_params['param'] is None):
-            raise ApiValueError("Missing the required parameter `param` when calling `test_inline_additional_properties`")  # noqa: E501
+            # only throw this nullable ApiValueError if _check_input_type
+            # is False, if _check_input_type==True we catch this case
+            # in self.__validate_inputs
+            if (key not in self.params_map['nullable'] and value is None
+                    and kwargs['_check_input_type'] is False):
+                raise ApiValueError(
+                    "Value may not be None for non-nullable parameter `%s`"
+                    " when calling `%s`" %
+                    (key, self.settings['operation_id'])
+                )
 
-        collection_formats = {}
+        for key in self.params_map['required']:
+            if key not in kwargs.keys():
+                raise ApiValueError(
+                    "Missing the required parameter `%s` when calling "
+                    "`%s`" % (key, self.settings['operation_id'])
+                )
 
-        path_params = {}
+        self.__validate_inputs(kwargs)
 
-        query_params = []
+        params = self.__gather_params(kwargs)
 
-        header_params = {}
+        accept_headers_list = self.headers_map['accept']
+        if accept_headers_list:
+            params['header']['Accept'] = self.api_client.select_header_accept(
+                accept_headers_list)
 
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'param' in local_var_params:
-            body_params = local_var_params['param']
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
+        content_type_headers_list = self.headers_map['content_type']
+        if content_type_headers_list:
+            header_list = self.api_client.select_header_content_type(
+                content_type_headers_list)
+            params['header']['Content-Type'] = header_list
 
         return self.api_client.call_api(
-            '/fake/inline-additionalProperties', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def test_json_form_data(self, param, param2, **kwargs):  # noqa: E501
-        """test json serialization of form data  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_json_form_data(param, param2, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            param (str): field1            param2 (str): field2
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
-            return data
-
-    def test_json_form_data_with_http_info(self, param, param2, **kwargs):  # noqa: E501
-        """test json serialization of form data  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_json_form_data_with_http_info(param, param2, async_req=True)
-        >>> result = thread.get()
-
-        Args:
-            param (str): field1            param2 (str): field2
-
-        Keyword Args:
-            async_req (bool): execute request asynchronously
-            param _preload_content (bool): if False, the urllib3.HTTPResponse
-                object will be returned without reading/decoding response data.
-                Default is True.
-            param _request_timeout (float/tuple): timeout setting for this
-                request. If one number provided, it will be total request
-                timeout. It can also be a pair (tuple) of (connection, read)
-                timeouts.
-
-        Returns:
-            None:
-        """
-
-        local_var_params = locals()
-
-        all_params = ['param', 'param2']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_json_form_data" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'param' is set
-        if ('param' not in local_var_params or
-                local_var_params['param'] is None):
-            raise ApiValueError("Missing the required parameter `param` when calling `test_json_form_data`")  # noqa: E501
-        # verify the required parameter 'param2' is set
-        if ('param2' not in local_var_params or
-                local_var_params['param2'] is None):
-            raise ApiValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-        if 'param' in local_var_params:
-            form_params.append(('param', local_var_params['param']))  # noqa: E501
-        if 'param2' in local_var_params:
-            form_params.append(('param2', local_var_params['param2']))  # noqa: E501
-
-        body_params = None
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake/jsonFormData', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            self.settings['endpoint_path'], self.settings['http_method'],
+            params['path'],
+            params['query'],
+            params['header'],
+            body=params['body'],
+            post_params=params['form'],
+            files=params['file'],
+            response_type=self.settings['response_type'],
+            auth_settings=self.settings['auth'],
+            async_req=kwargs['async_req'],
+            _check_type=kwargs['_check_return_type'],
+            _return_http_data_only=kwargs['_return_http_data_only'],
+            _preload_content=kwargs['_preload_content'],
+            _request_timeout=kwargs['_request_timeout'],
+            _host=_host,
+            collection_formats=params['collection_format'])

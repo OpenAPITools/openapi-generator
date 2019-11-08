@@ -81,7 +81,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "is", "library", "new", "null", "operator", "part", "rethrow",
                         "return", "set", "static", "super", "switch", "sync*", "this",
                         "throw", "true", "try", "typedef", "var", "void", "while",
-                        "with", "yield", "yield*")
+                        "with", "yield", "yield*", "hide", "interface", "mixin", "on",
+                        "show", "async")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -298,6 +299,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (isReservedWord(name)) {
             LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name

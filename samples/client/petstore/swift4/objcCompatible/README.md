@@ -39,6 +39,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**testGroupParameters**](docs/FakeAPI.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeAPI* | [**testInlineAdditionalProperties**](docs/FakeAPI.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeAPI* | [**testJsonFormData**](docs/FakeAPI.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeAPI* | [**testQueryParameterCollectionFormat**](docs/FakeAPI.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
 *FakeClassnameTags123API* | [**testClassname**](docs/FakeClassnameTags123API.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetAPI* | [**addPet**](docs/PetAPI.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetAPI* | [**deletePet**](docs/PetAPI.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet

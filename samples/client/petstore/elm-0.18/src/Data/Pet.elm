@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Pet exposing (Pet, Status(..), decoder, encode)
+module Data.Pet exposing (Pet, Status(..), decoder, encode, toString)
 
 import Data.Category as Category exposing (Category)
 import Data.Tag as Tag exposing (Tag)
@@ -23,12 +23,12 @@ import Json.Encode as Encode
 {-| A pet for sale in the pet store
 -}
 type alias Pet =
-    { id : Maybe (Int)
-    , category : Maybe (Category)
+    { id : Maybe Int
+    , category : Maybe Category
     , name : String
-    , photoUrls : (List String)
-    , tags : Maybe ((List Tag))
-    , status : Maybe (Status)
+    , photoUrls : List String
+    , tags : Maybe (List Tag)
+    , status : Maybe Status
     }
 
 
@@ -36,7 +36,6 @@ type Status
     = Available
     | Pending
     | Sold
-
 
 
 decoder : Decoder Pet
@@ -50,7 +49,6 @@ decoder =
         |> optional "status" (Decode.nullable statusDecoder) Nothing
 
 
-
 encode : Pet -> Encode.Value
 encode model =
     Encode.object
@@ -60,9 +58,12 @@ encode model =
         , ( "photoUrls", (Encode.list << List.map Encode.string) model.photoUrls )
         , ( "tags", Maybe.withDefault Encode.null (Maybe.map (Encode.list << List.map Tag.encode) model.tags) )
         , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
-
         ]
 
+
+toString : Pet -> String
+toString =
+    Encode.encode 0 << encode
 
 
 statusDecoder : Decoder Status
@@ -85,7 +86,6 @@ statusDecoder =
             )
 
 
-
 encodeStatus : Status -> Encode.Value
 encodeStatus model =
     case model of
@@ -97,6 +97,3 @@ encodeStatus model =
 
         Sold ->
             Encode.string "sold"
-
-
-

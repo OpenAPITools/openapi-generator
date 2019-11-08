@@ -75,6 +75,9 @@ components:
           type: string
         foobar:
           type: boolean
+        created_at:
+          type: string
+          format: date-time
       required:
         - id
         - try
@@ -82,3 +85,4 @@ components:
         - finally
         - lazy
         - foobar
+        - created_at

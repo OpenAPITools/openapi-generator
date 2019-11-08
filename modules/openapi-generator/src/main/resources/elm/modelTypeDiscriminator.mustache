@@ -30,3 +30,8 @@ encode model =
             {{modelName}}.encode "{{mappingName}}" subModel
 
 {{/mappedModels}}
+
+
+toString : {{classname}} -> String
+toString =
+    Encode.encode 0 << encode

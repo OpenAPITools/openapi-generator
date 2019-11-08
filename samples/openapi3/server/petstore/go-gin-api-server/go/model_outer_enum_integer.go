@@ -13,7 +13,7 @@ type OuterEnumInteger int32
 
 // List of OuterEnumInteger
 const (
-	_0 OuterEnumInteger = "0"
-	_1 OuterEnumInteger = "1"
-	_2 OuterEnumInteger = "2"
+	_0 OuterEnumInteger = 0
+	_1 OuterEnumInteger = 1
+	_2 OuterEnumInteger = 2
 )

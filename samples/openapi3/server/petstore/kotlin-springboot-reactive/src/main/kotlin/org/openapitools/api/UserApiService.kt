@@ -10,13 +10,13 @@ interface UserApiService {
 
 	suspend fun createUsersWithListInput(user: Flow<User>): Unit
 
-	suspend fun deleteUser(username: String): Unit
+	suspend fun deleteUser(username: kotlin.String): Unit
 
-	suspend fun getUserByName(username: String): User
+	suspend fun getUserByName(username: kotlin.String): User
 
-	suspend fun loginUser(username: String, password: String): String
+	suspend fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String
 
 	suspend fun logoutUser(): Unit
 
-	suspend fun updateUser(username: String, user: User): Unit
+	suspend fun updateUser(username: kotlin.String, user: User): Unit
 }

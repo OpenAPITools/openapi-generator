@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-schema-avro-schema
 title: Config Options for avro-schema
 sidebar_label: avro-schema
 ---

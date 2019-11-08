@@ -74,8 +74,8 @@ public class EnumArrays {
     }
   }
 
-  @XmlElement(name = "just_symbol")
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
+  @XmlElement(name = "just_symbol")
   private JustSymbolEnum justSymbol;
 
   /**
@@ -113,11 +113,11 @@ public class EnumArrays {
     }
   }
 
+  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   // Is a container wrapped=false
   // items.name=arrayEnum items.baseName=arrayEnum items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayEnum")
-  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   private List<ArrayEnumEnum> arrayEnum = null;
 
 
@@ -140,7 +140,6 @@ public class EnumArrays {
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
-
 
 
   public void setJustSymbol(JustSymbolEnum justSymbol) {
@@ -174,7 +173,6 @@ public class EnumArrays {
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
-
 
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {

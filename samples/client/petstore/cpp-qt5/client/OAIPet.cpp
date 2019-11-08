@@ -23,12 +23,12 @@
 namespace OpenAPI {
 
 OAIPet::OAIPet(QString json) {
-    this->init();
+    this->initializeModel();
     this->fromJson(json);
 }
 
 OAIPet::OAIPet() {
-    this->init();
+    this->initializeModel();
 }
 
 OAIPet::~OAIPet() {
@@ -36,7 +36,7 @@ OAIPet::~OAIPet() {
 }
 
 void
-OAIPet::init() {
+OAIPet::initializeModel() {
     
     m_id_isSet = false;
     m_id_isValid = false;
@@ -55,7 +55,8 @@ OAIPet::init() {
     
     m_status_isSet = false;
     m_status_isValid = false;
-    }
+    
+}
 
 void
 OAIPet::fromJson(QString jsonString) {
@@ -69,22 +70,22 @@ void
 OAIPet::fromJsonObject(QJsonObject json) {
     
     m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
-    
+    m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
     
     m_category_isValid = ::OpenAPI::fromJsonValue(category, json[QString("category")]);
-    
+    m_category_isSet = !json[QString("category")].isNull() && m_category_isValid;
     
     m_name_isValid = ::OpenAPI::fromJsonValue(name, json[QString("name")]);
-    
-    
+    m_name_isSet = !json[QString("name")].isNull() && m_name_isValid;
     
     m_photo_urls_isValid = ::OpenAPI::fromJsonValue(photo_urls, json[QString("photoUrls")]);
-    
+    m_photo_urls_isSet = !json[QString("photoUrls")].isNull() && m_photo_urls_isValid;
     
     m_tags_isValid = ::OpenAPI::fromJsonValue(tags, json[QString("tags")]);
+    m_tags_isSet = !json[QString("tags")].isNull() && m_tags_isValid;
     
     m_status_isValid = ::OpenAPI::fromJsonValue(status, json[QString("status")]);
-    
+    m_status_isSet = !json[QString("status")].isNull() && m_status_isValid;
     
 }
 

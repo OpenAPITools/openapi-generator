@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-eiffel
 title: Config Options for eiffel
 sidebar_label: eiffel
 ---

@@ -1403,6 +1403,9 @@ definitions:
         format: password
         maxLength: 64
         minLength: 10
+      BigDecimal:
+        type: string
+        format: number
   EnumClass:
     type: string
     default: '-efg'

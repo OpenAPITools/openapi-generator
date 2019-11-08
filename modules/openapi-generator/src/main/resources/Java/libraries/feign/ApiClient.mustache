@@ -3,8 +3,11 @@ package {{invokerPackage}};
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+{{#hasOAuthMethods}}
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+{{/hasOAuthMethods}}
+
 {{#threetenbp}}
 import org.threeten.bp.*;
 {{/threetenbp}}
@@ -67,7 +70,7 @@ public class ApiClient {
       {{/isBasicBasic}}
       {{/isBasic}}
       {{#isApiKey}}
-        auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
+        auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
       {{/isApiKey}}
       {{#isOAuth}}
         auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");

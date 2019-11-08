@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-scala-lagom-server
 title: Config Options for scala-lagom-server
 sidebar_label: scala-lagom-server
 ---

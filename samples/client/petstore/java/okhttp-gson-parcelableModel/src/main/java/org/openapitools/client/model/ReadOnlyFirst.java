@@ -74,7 +74,6 @@ public class ReadOnlyFirst implements Parcelable {
   }
 
 
-
   public void setBaz(String baz) {
     this.baz = baz;
   }

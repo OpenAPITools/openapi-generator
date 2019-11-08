@@ -36,7 +36,7 @@ class FakeClassnameTags123Api(basePath: kotlin.String = "http://petstore.swagger
     @Suppress("UNCHECKED_CAST")
     fun testClassname(client: Client) : Client {
         val localVariableBody: kotlin.Any? = client
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.PATCH,

@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**create_xml_item**](FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
+[**fake_outer_enum_serialize**](FakeApi.md#fake_outer_enum_serialize) | **POST** /fake/outer/enum | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
@@ -179,8 +180,61 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **fake_outer_enum_serialize**
+> OuterEnum fake_outer_enum_serialize()
+
+
+
+Test serialization of outer enum
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = petstore_api.FakeApi()
+body = OuterEnum("placed") # OuterEnum | Input enum as post body (optional)
+
+try:
+    api_response = api_instance.fake_outer_enum_serialize(body=body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling FakeApi->fake_outer_enum_serialize: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterEnum**](str.md)| Input enum as post body | [optional]
+
+### Return type
+
+[**OuterEnum**](OuterEnum.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output enum |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **fake_outer_number_serialize**
-> float fake_outer_number_serialize()
+> OuterNumber fake_outer_number_serialize()
 
 
 
@@ -197,7 +251,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-body = 3.4 # float | Input number as post body (optional)
+body = OuterNumber(3.4) # OuterNumber | Input number as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_number_serialize(body=body)
@@ -210,11 +264,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **float**| Input number as post body | [optional]
+ **body** | [**OuterNumber**](float.md)| Input number as post body | [optional]
 
 ### Return type
 
-**float**
+[**OuterNumber**](OuterNumber.md)
 
 ### Authorization
 
@@ -537,7 +591,7 @@ int32 = 56 # int | None (optional)
 int64 = 56 # int | None (optional)
 float = 3.4 # float | None (optional)
 string = 'string_example' # str | None (optional)
-binary = '/path/to/file' # file | None (optional)
+binary = open('/path/to/file', 'rb') # file_type | None (optional)
 date = '2013-10-20' # date | None (optional)
 date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
 password = 'password_example' # str | None (optional)
@@ -563,7 +617,7 @@ Name | Type | Description  | Notes
  **int64** | **int**| None | [optional]
  **float** | **float**| None | [optional]
  **string** | **str**| None | [optional]
- **binary** | **file**| None | [optional]
+ **binary** | **file_type**| None | [optional]
  **date** | **date**| None | [optional]
  **date_time** | **datetime**| None | [optional]
  **password** | **str**| None | [optional]
@@ -608,13 +662,13 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
+enum_header_string_array = ['enum_header_string_array_example'] # [str] | Header parameter enum test (string array) (optional)
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
-enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
+enum_query_string_array = ['enum_query_string_array_example'] # [str] | Query parameter enum test (string array) (optional)
 enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
+enum_form_string_array = '$' # [str] | Form parameter enum test (string array) (optional) (default to '$')
 enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
 
 try:
@@ -628,13 +682,13 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**list[str]**](str.md)| Header parameter enum test (string array) | [optional]
+ **enum_header_string_array** | [**[str]**](str.md)| Header parameter enum test (string array) | [optional]
  **enum_header_string** | **str**| Header parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
- **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional]
+ **enum_query_string_array** | [**[str]**](str.md)| Query parameter enum test (string array) | [optional]
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional]
- **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of '$'
+ **enum_form_string_array** | [**[str]**](str.md)| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of '$'
  **enum_form_string** | **str**| Form parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
 
 ### Return type
@@ -737,7 +791,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-param = {'key': 'param_example'} # dict(str, str) | request body
+param = {'key': 'param_example'} # {str: (str,)} | request body
 
 try:
     # test inline additionalProperties
@@ -750,7 +804,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**dict(str, str)**](str.md)| request body |
+ **param** | [**{str: (str,)}**](str.md)| request body |
 
 ### Return type
 

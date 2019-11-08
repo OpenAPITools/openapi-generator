@@ -1,0 +1,28 @@
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+
+part '{{classFilename}}.g.dart';
+
+abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builder> {
+
+{{#vars}}
+    {{#description}}/* {{{description}}} */{{/description}}
+    {{#isNullable}}
+        @nullable
+    {{/isNullable}}
+
+    {{#description}}/* {{{description}}} */{{/description}}
+    @BuiltValueField(wireName: '{{baseName}}')
+    {{{dataType}}} get {{name}};
+    {{#allowableValues}}
+        {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}
+    {{/allowableValues}}
+{{/vars}}
+
+    // Boilerplate code needed to wire-up generated code
+    {{classname}}._();
+
+    factory {{classname}}([updates({{classname}}Builder b)]) = _${{classname}};
+    static Serializer<{{classname}}> get serializer => _${{classVarName}}Serializer;
+
+}

@@ -35,6 +35,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.serializer.SerializerUtils;
@@ -490,10 +491,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
-                // Special handling of aliases only applies to Java
                 if (modelTemplate != null && modelTemplate.containsKey("model")) {
                     CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                    if (m.isAlias) {
+                    if (m.isAlias && !(config instanceof PythonClientExperimentalCodegen))  {
+                        // alias to number, string, enum, etc, which should not be generated as model
+                        // for PythonClientExperimentalCodegen, all aliases are generated as models
                         continue;  // Don't create user-defined classes for aliases
                     }
                 }
@@ -943,7 +945,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
      * Returns the path of a template, allowing access to the template where consuming literal contents aren't desirable or possible.
      *
      * @param name the template name (e.g. model.mustache)
-     *
      * @return The {@link Path} to the template
      */
     @Override
@@ -1283,7 +1284,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         List<CodegenSecurity> result = new ArrayList<CodegenSecurity>();
 
-        for (CodegenSecurity security : authMethods){
+        for (CodegenSecurity security : authMethods) {
             boolean filtered = false;
             if (security != null && security.scopes != null) {
                 for (SecurityRequirement requirement : securities) {

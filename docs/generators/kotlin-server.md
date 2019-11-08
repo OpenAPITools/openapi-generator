@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-kotlin-server
 title: Config Options for kotlin-server
 sidebar_label: kotlin-server
 ---
@@ -16,6 +14,7 @@ sidebar_label: kotlin-server
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
 |serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
+|serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
 |library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dl>|ktor|
 |featureAutoHead|Automatically provide responses to HEAD requests for existing routes that have the GET verb defined.| |true|
 |featureConditionalHeaders|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |false|

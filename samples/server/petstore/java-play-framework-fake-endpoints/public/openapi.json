@@ -2021,6 +2021,10 @@
             "maxLength" : 64,
             "minLength" : 10,
             "type" : "string"
+          },
+          "BigDecimal" : {
+            "format" : "number",
+            "type" : "string"
           }
         },
         "required" : [ "byte", "date", "number", "password" ],

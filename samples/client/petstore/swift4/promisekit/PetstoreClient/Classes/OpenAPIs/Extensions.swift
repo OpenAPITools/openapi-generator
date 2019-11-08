@@ -153,7 +153,7 @@ extension KeyedDecodingContainerProtocol {
     }
 
     public func decodeArrayIfPresent<T>(_ type: T.Type, forKey key: Self.Key) throws -> [T]? where T: Decodable {
-        var tmpArray: [T]? = nil
+        var tmpArray: [T]?
 
         if contains(key) {
             tmpArray = try decodeArray(T.self, forKey: key)
@@ -182,9 +182,9 @@ extension RequestBuilder {
         let deferred = Promise<Response<T>>.pending()
         self.execute { (response: Response<T>?, error: Error?) in
             if let response = response {
-                deferred.fulfill(response)
+                deferred.resolver.fulfill(response)
             } else {
-                deferred.reject(error!)
+                deferred.resolver.reject(error!)
             }
         }
         return deferred.promise

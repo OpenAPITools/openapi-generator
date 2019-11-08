@@ -30,6 +30,7 @@ import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
 
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.MediaType;
 
@@ -59,6 +60,7 @@ import org.openapitools.client.auth.OAuth;
 
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  private Map<String, String> defaultCookieMap = new HashMap<String, String>();
   private String basePath = "http://petstore.swagger.io:80/v2";
   private boolean debugging = false;
   private int connectionTimeout = 0;
@@ -230,7 +232,7 @@ public class ApiClient {
 
   /**
    * Helper method to set API key value for the first API key authentication.
-   * @param apiKey API key
+   * @param apiKey the API key
    */
   public void setApiKey(String apiKey) {
     for (Authentication auth : authentications.values()) {
@@ -241,7 +243,7 @@ public class ApiClient {
     }
     throw new RuntimeException("No API key authentication configured!");
   }
-
+  
   /**
    * Helper method to set API key prefix for the first API key authentication.
    * @param apiKeyPrefix API key prefix
@@ -304,6 +306,18 @@ public class ApiClient {
    */
   public ApiClient addDefaultHeader(String key, String value) {
     defaultHeaderMap.put(key, value);
+    return this;
+  }
+
+  /**
+   * Add a default cookie.
+   *
+   * @param key The cookie's key
+   * @param value The cookie's value
+   * @return API client
+   */
+  public ApiClient addDefaultCookie(String key, String value) {
+    defaultCookieMap.put(key, value);
     return this;
   }
 
@@ -641,12 +655,12 @@ public class ApiClient {
     return url.toString();
   }
 
-  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
     if (body != null && !formParams.isEmpty()) {
       throw new ApiException(500, "Cannot have body and form params");
     }
 
-    updateParamsForAuth(authNames, queryParams, headerParams);
+    updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     final String url = buildUrl(path, queryParams, collectionQueryParams);
     Builder builder;
@@ -662,6 +676,15 @@ public class ApiClient {
     for (Map.Entry<String,String> keyValue : defaultHeaderMap.entrySet()) {
       if (!headerParams.containsKey(keyValue.getKey())) {
         builder = builder.header(keyValue.getKey(), keyValue.getValue());
+      }
+    }
+
+    for (Entry<String, String> keyValue : cookieParams.entrySet()) {
+      builder = builder.cookie(new Cookie(keyValue.getKey(), keyValue.getValue()));
+    }
+    for (Map.Entry<String,String> keyValue : defaultCookieMap.entrySet()) {
+      if (!cookieParams.containsKey(keyValue.getKey())) {
+        builder = builder.cookie(new Cookie(keyValue.getKey(), keyValue.getValue()));
       }
     }
 
@@ -695,6 +718,7 @@ public class ApiClient {
    * @param collectionQueryParams The collection query parameters
    * @param body The request body object - if it is not binary, otherwise null
    * @param headerParams The header parameters
+   * @param cookieParams The cookie parameters
    * @param formParams The form parameters
    * @param accept The request's Accept header
    * @param contentType The request's Content-Type header
@@ -703,9 +727,9 @@ public class ApiClient {
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
 
-    ClientResponse response = getAPIResponse(path, method, queryParams, collectionQueryParams, body, headerParams, formParams, accept, contentType, authNames);
+    ClientResponse response = getAPIResponse(path, method, queryParams, collectionQueryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
 
     statusCode = response.getStatusInfo().getStatusCode();
     responseHeaders = response.getHeaders();
@@ -742,12 +766,13 @@ public class ApiClient {
    * @param authNames The authentications to apply
    * @param queryParams Query parameters
    * @param headerParams Header parameters
+   * @param cookieParams Cookie parameters
    */
-  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams) {
+  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
-      auth.applyToParams(queryParams, headerParams);
+      auth.applyToParams(queryParams, headerParams, cookieParams);
     }
   }
 

@@ -21,6 +21,13 @@ elif [ "$NODE_INDEX" = "2" ]; then
     echo "Running node $NODE_INDEX to test ensure-up-to-date"
     java -version
 
+    # install elm-format
+    npm install -g elm-format
+
+    # clear any changes to the samples
+    git checkout -- .
+
+    # look for outdated samples
     ./bin/utils/ensure-up-to-date
   fi
 #elif [ "$NODE_INDEX" = "3" ]; then
