@@ -1114,6 +1114,28 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Set<String> allImports = new TreeSet<String>();
         for (CodegenOperation op : ops) {
             allImports.addAll(op.imports);
+
+            if (CodegenType.SERVER.equals(config.getTag())) {
+                // throw warning only for server generators
+                if (op.getHasHeaderParams()) {
+                    List<CodegenParameter> headerParams = (List<CodegenParameter>) op.headerParams;
+                    for (CodegenParameter param : headerParams) {
+                        String paramBaseName = (String) param.baseName;
+                        if (paramBaseName.contains("_")) {
+                            LOGGER.warn("Request header parameter name '" + paramBaseName + "' contains underscore which is forbidden in Apache and Nginx webservers by default. https://stackoverflow.com/questions/22856136/why-http-servers-forbid-underscores-in-http-header-names/22856867#22856867");
+                        }
+                    }
+                }
+                if (op.getHasResponseHeaders()) {
+                    List<CodegenProperty> responseHeaders = (List<CodegenProperty>) op.responseHeaders;
+                    for (CodegenProperty prop : responseHeaders) {
+                        String propBaseName = (String) prop.baseName;
+                        if (propBaseName.contains("_")) {
+                            LOGGER.warn("Response header name '" + propBaseName + "' contains underscore which is forbidden in Apache and Nginx webservers by default. https://stackoverflow.com/questions/22856136/why-http-servers-forbid-underscores-in-http-header-names/22856867#22856867");
+                        }
+                    }
+                }
+            }
         }
 
         List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
