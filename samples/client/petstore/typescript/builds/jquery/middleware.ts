@@ -55,12 +55,12 @@ export interface PromiseMiddleware {
 	 * @returns an observable of the updated request context
 	 *
 	 */
-    pre(context: RequestContext): Observable<RequestContext>;
+    pre(context: RequestContext): Promise<RequestContext>;
         /**
      * Modifies the returned response before it is deserialized.
      *
      * @param context ResponseContext of a sent request
      * @returns an observable of the modified response context
      */
-    post(context: ResponseContext): Observable<ResponseContext>;
+    post(context: ResponseContext): Promise<ResponseContext>;
 }
