@@ -3473,11 +3473,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            if (Boolean.TRUE.equals(cs.isKeyInHeader) && cs.keyParamName.contains("_")) {
-                // api key in underscored http header
-                LOGGER.warn("Security schema '" + cs.name + "' mapped to underscored header '" + cs.keyParamName + "' which is forbidden in Apache and Nginx webservers by default. https://stackoverflow.com/questions/22856136/why-http-servers-forbid-underscores-in-http-header-names/22856867#22856867");
-            }
-
             codegenSecurities.add(cs);
         }
 
