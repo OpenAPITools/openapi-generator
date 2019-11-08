@@ -584,6 +584,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Element AI](https://www.elementai.com/)
 - [Fenergo](https://www.fenergo.com/)
 - [FormAPI](https://formapi.io/)
+- [FreshCells](https://www.freshcells.de/)
 - [Fuse](https://www.fuse.no/)
 - [Gantner](https://www.gantner.com)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
