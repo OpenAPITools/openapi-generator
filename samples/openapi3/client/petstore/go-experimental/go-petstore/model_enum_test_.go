@@ -12,8 +12,6 @@ package openapi
 import (
 	"bytes"
 	"encoding/json"
-	"encoding/json"
-	"errors"
 )
 
 // EnumTest struct for EnumTest
@@ -22,7 +20,7 @@ type EnumTest struct {
 	EnumStringRequired string `json:"enum_string_required"`
 	EnumInteger *int32 `json:"enum_integer,omitempty"`
 	EnumNumber *float64 `json:"enum_number,omitempty"`
-	OuterEnum *OuterEnum `json:"outerEnum,omitempty"`
+	OuterEnum *NullableOuterEnum `json:"outerEnum,omitempty"`
 	OuterEnumInteger *OuterEnumInteger `json:"outerEnumInteger,omitempty"`
 	OuterEnumDefaultValue *OuterEnumDefaultValue `json:"outerEnumDefaultValue,omitempty"`
 	OuterEnumIntegerDefaultValue *OuterEnumIntegerDefaultValue `json:"outerEnumIntegerDefaultValue,omitempty"`
@@ -143,9 +141,9 @@ func (o *EnumTest) SetEnumNumber(v float64) {
 }
 
 // GetOuterEnum returns the OuterEnum field value if set, zero value otherwise.
-func (o *EnumTest) GetOuterEnum() OuterEnum {
+func (o *EnumTest) GetOuterEnum() NullableOuterEnum {
 	if o == nil || o.OuterEnum == nil {
-		var ret OuterEnum
+		var ret NullableOuterEnum
 		return ret
 	}
 	return *o.OuterEnum
@@ -153,9 +151,9 @@ func (o *EnumTest) GetOuterEnum() OuterEnum {
 
 // GetOuterEnumOk returns a tuple with the OuterEnum field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetOuterEnumOk() (OuterEnum, bool) {
+func (o *EnumTest) GetOuterEnumOk() (NullableOuterEnum, bool) {
 	if o == nil || o.OuterEnum == nil {
-		var ret OuterEnum
+		var ret NullableOuterEnum
 		return ret, false
 	}
 	return *o.OuterEnum, true
@@ -170,8 +168,8 @@ func (o *EnumTest) HasOuterEnum() bool {
 	return false
 }
 
-// SetOuterEnum gets a reference to the given OuterEnum and assigns it to the OuterEnum field.
-func (o *EnumTest) SetOuterEnum(v OuterEnum) {
+// SetOuterEnum gets a reference to the given NullableOuterEnum and assigns it to the OuterEnum field.
+func (o *EnumTest) SetOuterEnum(v NullableOuterEnum) {
 	o.OuterEnum = &v
 }
 

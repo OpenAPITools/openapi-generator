@@ -12,7 +12,6 @@ package openapi
 import (
 	"bytes"
 	"encoding/json"
-	"encoding/json"
 )
 
 // Foo struct for Foo

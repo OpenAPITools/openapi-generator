@@ -12,7 +12,6 @@ package openapi
 import (
 	"bytes"
 	"encoding/json"
-	"encoding/json"
 )
 
 // Tag struct for Tag

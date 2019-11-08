@@ -13,7 +13,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"time"
-	"encoding/json"
 )
 
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass

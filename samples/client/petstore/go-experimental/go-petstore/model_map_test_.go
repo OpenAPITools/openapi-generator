@@ -12,7 +12,6 @@ package petstore
 import (
 	"bytes"
 	"encoding/json"
-	"encoding/json"
 )
 
 // MapTest struct for MapTest

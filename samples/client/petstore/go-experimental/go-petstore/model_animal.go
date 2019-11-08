@@ -12,8 +12,6 @@ package petstore
 import (
 	"bytes"
 	"encoding/json"
-	"encoding/json"
-	"errors"
 )
 
 // Animal struct for Animal

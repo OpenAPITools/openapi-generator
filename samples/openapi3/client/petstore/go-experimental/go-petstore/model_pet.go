@@ -12,8 +12,6 @@ package openapi
 import (
 	"bytes"
 	"encoding/json"
-	"encoding/json"
-	"errors"
 )
 
 // Pet struct for Pet

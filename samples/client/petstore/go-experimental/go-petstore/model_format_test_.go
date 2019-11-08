@@ -14,8 +14,6 @@ import (
 	"encoding/json"
 	"os"
 	"time"
-	"encoding/json"
-	"errors"
 )
 
 // FormatTest struct for FormatTest

@@ -13,8 +13,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"os"
-	"encoding/json"
-	"errors"
 )
 
 // InlineObject5 struct for InlineObject5

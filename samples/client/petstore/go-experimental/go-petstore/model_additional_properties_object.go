@@ -12,7 +12,6 @@ package petstore
 import (
 	"bytes"
 	"encoding/json"
-	"encoding/json"
 )
 
 // AdditionalPropertiesObject struct for AdditionalPropertiesObject

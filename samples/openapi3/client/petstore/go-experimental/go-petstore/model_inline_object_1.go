@@ -13,7 +13,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"os"
-	"encoding/json"
 )
 
 // InlineObject1 struct for InlineObject1
