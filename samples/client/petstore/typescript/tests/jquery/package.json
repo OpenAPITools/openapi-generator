@@ -1,11 +1,10 @@
 {
   "private": true,
   "dependencies": {
-    "@types/form-data": "^2.2.1",
     "@types/jsdom": "^12.2.3",
     "@types/qunit": "^2.9.0",
     "@types/rewire": "^2.5.28",
-    "form-data": "^2.3.2",
+    "form-data": "^2.5.1",
     "jsdom": "^15.0.0",
     "node-qunit-puppeteer": "^1.0.12",
     "qunit": "^2.9.2",

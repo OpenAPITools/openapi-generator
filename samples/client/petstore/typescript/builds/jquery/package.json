@@ -23,8 +23,7 @@
     "@types/jquery": "^3.3.29",
     "jquery": "^3.4.1",
     "btoa": "^1.2.1",
-    "form-data": "^2.3.2",
-    "@types/form-data": "^2.2.1",
+    "form-data": "^2.5.0",
     "url-parse": "^1.4.3",
     "rxjs": "^6.4.0"
   },

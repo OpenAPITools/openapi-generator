@@ -23,8 +23,7 @@
     "isomorphic-fetch": "^2.2.1",
     "@types/isomorphic-fetch": "0.0.34",
     "btoa": "^1.2.1",
-    "form-data": "^2.3.2",
-    "@types/form-data": "^2.2.1",
+    "form-data": "^2.5.0",
     "url-parse": "^1.4.3",
     "rxjs": "^6.4.0"
   },
