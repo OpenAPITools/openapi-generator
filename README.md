@@ -522,7 +522,7 @@ Please refer to [customization.md](docs/customization.md) on how to customize th
 
 ### [3.2 - Workflow Integration (Maven, Gradle, Github, CI/CD)](#table-of-contents)
 
-Please refer to [integration.md](docs/integration.md) on how to integrate OpenAPI generator with Maven, Gradle, Github and CI/CD.
+Please refer to [integration.md](docs/integration.md) on how to integrate OpenAPI generator with Maven, Gradle, sbt, Bazel, Github and CI/CD.
 
 ### [3.3 - Online OpenAPI generator](#table-of-contents)
 
