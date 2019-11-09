@@ -23,6 +23,7 @@ declare -a scripts=(
 "./bin/openapi3/jaxrs-jersey-petstore.sh"
 "./bin/spring-all-petstore.sh"
 "./bin/javascript-petstore-all.sh"
+"./bin/openapi3/kotlin-client-multiresponse.sh"
 "./bin/kotlin-client-petstore-multiplatform.sh"
 "./bin/kotlin-client-petstore.sh"
 "./bin/kotlin-client-string.sh"
