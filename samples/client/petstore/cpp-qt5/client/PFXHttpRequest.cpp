@@ -20,33 +20,33 @@
 #include <QBuffer>
 #include <QtGlobal>
 
-#include "OAIHttpRequest.h"
+#include "PFXHttpRequest.h"
 
 
-namespace OpenAPI {
+namespace test_namespace {
 
-OAIHttpRequestInput::OAIHttpRequestInput() {
+PFXHttpRequestInput::PFXHttpRequestInput() {
     initialize();
 }
 
-OAIHttpRequestInput::OAIHttpRequestInput(QString v_url_str, QString v_http_method) {
+PFXHttpRequestInput::PFXHttpRequestInput(QString v_url_str, QString v_http_method) {
     initialize();
     url_str = v_url_str;
     http_method = v_http_method;
 }
 
-void OAIHttpRequestInput::initialize() {
+void PFXHttpRequestInput::initialize() {
     var_layout = NOT_SET;
     url_str = "";
     http_method = "GET";
 }
 
-void OAIHttpRequestInput::add_var(QString key, QString value) {
+void PFXHttpRequestInput::add_var(QString key, QString value) {
     vars[key] = value;
 }
 
-void OAIHttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
-    OAIHttpFileElement file;
+void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
+    PFXHttpFileElement file;
     file.variable_name = variable_name;
     file.local_filename = local_filename;
     file.request_filename = request_filename;
@@ -55,7 +55,7 @@ void OAIHttpRequestInput::add_file(QString variable_name, QString local_filename
 }
 
 
-OAIHttpRequestWorker::OAIHttpRequestWorker(QObject *parent)
+PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent)
     : QObject(parent), manager(nullptr)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
@@ -63,10 +63,10 @@ OAIHttpRequestWorker::OAIHttpRequestWorker(QObject *parent)
     timer = new QTimer();
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();    
-    connect(manager, &QNetworkAccessManager::finished, this, &OAIHttpRequestWorker::on_manager_finished);
+    connect(manager, &QNetworkAccessManager::finished, this, &PFXHttpRequestWorker::on_manager_finished);
 }
 
-OAIHttpRequestWorker::~OAIHttpRequestWorker() {
+PFXHttpRequestWorker::~PFXHttpRequestWorker() {
     if(timer != nullptr){
         if(timer->isActive()){
             timer->stop();
@@ -80,11 +80,11 @@ OAIHttpRequestWorker::~OAIHttpRequestWorker() {
     }  
 }
 
-QMap<QString, QString> OAIHttpRequestWorker::getResponseHeaders() const {
+QMap<QString, QString> PFXHttpRequestWorker::getResponseHeaders() const {
     return headers;
 }
 
-OAIHttpFileElement OAIHttpRequestWorker::getHttpFileElement(const QString &fieldname){
+PFXHttpFileElement PFXHttpRequestWorker::getHttpFileElement(const QString &fieldname){
     if(!files.isEmpty()){
         if(fieldname.isEmpty()){
             return files.first();
@@ -92,10 +92,10 @@ OAIHttpFileElement OAIHttpRequestWorker::getHttpFileElement(const QString &field
             return files[fieldname];
         }
     }
-    return OAIHttpFileElement();
+    return PFXHttpFileElement();
 }
 
-QByteArray *OAIHttpRequestWorker::getMultiPartField(const QString &fieldname){
+QByteArray *PFXHttpRequestWorker::getMultiPartField(const QString &fieldname){
     if(!multiPartFields.isEmpty()){
         if(fieldname.isEmpty()){
             return multiPartFields.first();
@@ -106,18 +106,18 @@ QByteArray *OAIHttpRequestWorker::getMultiPartField(const QString &fieldname){
     return nullptr;
 }
 
-void OAIHttpRequestWorker::setTimeOut(int tout){
+void PFXHttpRequestWorker::setTimeOut(int tout){
     timeout = tout;
 }
 
-void OAIHttpRequestWorker::setWorkingDirectory(const QString &path){
+void PFXHttpRequestWorker::setWorkingDirectory(const QString &path){
     if(!path.isEmpty()){
         workingDirectory = path;
     }
 }
 
 
-QString OAIHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
+QString PFXHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
     // result structure follows RFC 5987
     bool need_utf_encoding = false;
     QString result = "";
@@ -165,7 +165,7 @@ QString OAIHttpRequestWorker::http_attribute_encode(QString attribute_name, QStr
     return QString("%1=\"%2\"; %1*=utf-8''%3").arg(attribute_name, result, result_utf8);
 }
 
-void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
+void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
 
     // reset variables
     QNetworkReply* reply = nullptr;
@@ -245,7 +245,7 @@ void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
         }
 
         // add files
-        for (QList<OAIHttpFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
+        for (QList<PFXHttpFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
             QFileInfo fi(file_info->local_filename);
 
             // ensure necessary variables are available
@@ -317,8 +317,8 @@ void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
     // prepare connection
 
     QNetworkRequest request = QNetworkRequest(QUrl(input->url_str));
-    if (OAIHttpRequestWorker::sslDefaultConfiguration != nullptr) {
-        request.setSslConfiguration(*OAIHttpRequestWorker::sslDefaultConfiguration);
+    if (PFXHttpRequestWorker::sslDefaultConfiguration != nullptr) {
+        request.setSslConfiguration(*PFXHttpRequestWorker::sslDefaultConfiguration);
     }
     request.setRawHeader("User-Agent", "OpenAPI-Generator/1.0.0/cpp-qt5");
     foreach(QString key, input->headers.keys()) {
@@ -375,7 +375,7 @@ void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
     }
 }
 
-void OAIHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     error_type = reply->error();
     response = reply->readAll();
     error_str = reply->errorString();
@@ -389,7 +389,7 @@ void OAIHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     emit on_execution_finished(this);
 }
 
-void OAIHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
+void PFXHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
     error_type = QNetworkReply::TimeoutError;
     response = "";
     error_str = "Timed out waiting for response";
@@ -399,7 +399,7 @@ void OAIHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
     emit on_execution_finished(this);
 }
 
-void OAIHttpRequestWorker::process_form_response() {
+void PFXHttpRequestWorker::process_form_response() {
     if(getResponseHeaders().contains(QString("Content-Disposition")) ) {
         auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
         auto contentType = getResponseHeaders().contains(QString("Content-Type")) ? getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), QString::SkipEmptyParts).first() : QString();        
@@ -411,7 +411,7 @@ void OAIHttpRequestWorker::process_form_response() {
                     break;
                 }
             }
-            OAIHttpFileElement felement;
+            PFXHttpFileElement felement;
             felement.saveToFile(QString(), workingDirectory + QDir::separator() + filename, filename, contentType, response.data());
             files.insert(filename, felement);               
         }
@@ -427,7 +427,7 @@ void OAIHttpRequestWorker::process_form_response() {
     }
 }
 
-QSslConfiguration* OAIHttpRequestWorker::sslDefaultConfiguration;
+QSslConfiguration* PFXHttpRequestWorker::sslDefaultConfiguration;
 
 
 }

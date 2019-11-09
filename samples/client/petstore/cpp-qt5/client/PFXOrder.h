@@ -11,33 +11,31 @@
  */
 
 /*
- * OAIPet.h
+ * PFXOrder.h
  *
- * A pet for sale in the pet store
+ * An order for a pets from the pet store
  */
 
-#ifndef OAIPet_H
-#define OAIPet_H
+#ifndef PFXOrder_H
+#define PFXOrder_H
 
 #include <QJsonObject>
 
 
-#include "OAICategory.h"
-#include "OAITag.h"
-#include <QList>
+#include <QDateTime>
 #include <QString>
 
-#include "OAIObject.h"
-#include "OAIEnum.h"
+#include "PFXObject.h"
+#include "PFXEnum.h"
 
 
-namespace OpenAPI {
+namespace test_namespace {
 
-class OAIPet: public OAIObject {
+class PFXOrder: public PFXObject {
 public:
-    OAIPet();
-    OAIPet(QString json);
-    ~OAIPet() override;
+    PFXOrder();
+    PFXOrder(QString json);
+    ~PFXOrder() override;
 
     QString asJson () const override;
     QJsonObject asJsonObject() const override;
@@ -49,24 +47,24 @@ public:
     void setId(const qint64 &id);
 
     
-    OAICategory getCategory() const;
-    void setCategory(const OAICategory &category);
+    qint64 getPetId() const;
+    void setPetId(const qint64 &pet_id);
 
     
-    QString getName() const;
-    void setName(const QString &name);
+    qint32 getQuantity() const;
+    void setQuantity(const qint32 &quantity);
 
     
-    QList<QString> getPhotoUrls() const;
-    void setPhotoUrls(const QList<QString> &photo_urls);
-
-    
-    QList<OAITag> getTags() const;
-    void setTags(const QList<OAITag> &tags);
+    QDateTime getShipDate() const;
+    void setShipDate(const QDateTime &ship_date);
 
     
     QString getStatus() const;
     void setStatus(const QString &status);
+
+    
+    bool isComplete() const;
+    void setComplete(const bool &complete);
 
     
 
@@ -80,30 +78,30 @@ private:
     bool m_id_isSet;
     bool m_id_isValid;
     
-    OAICategory category;
-    bool m_category_isSet;
-    bool m_category_isValid;
+    qint64 pet_id;
+    bool m_pet_id_isSet;
+    bool m_pet_id_isValid;
     
-    QString name;
-    bool m_name_isSet;
-    bool m_name_isValid;
+    qint32 quantity;
+    bool m_quantity_isSet;
+    bool m_quantity_isValid;
     
-    QList<QString> photo_urls;
-    bool m_photo_urls_isSet;
-    bool m_photo_urls_isValid;
-    
-    QList<OAITag> tags;
-    bool m_tags_isSet;
-    bool m_tags_isValid;
+    QDateTime ship_date;
+    bool m_ship_date_isSet;
+    bool m_ship_date_isValid;
     
     QString status;
     bool m_status_isSet;
     bool m_status_isValid;
     
+    bool complete;
+    bool m_complete_isSet;
+    bool m_complete_isValid;
+    
     };
 
 }
 
-Q_DECLARE_METATYPE(OpenAPI::OAIPet)
+Q_DECLARE_METATYPE(test_namespace::PFXOrder)
 
-#endif // OAIPet_H
+#endif // PFXOrder_H

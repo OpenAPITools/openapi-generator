@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../client/OAIUserApi.h"
+#include "../client/PFXUserApi.h"
 
-using namespace OpenAPI;
+using namespace test_namespace;
 
 class UserApiTests: public QObject {
     Q_OBJECT
 
-    OAIUser createRandomUser();
+    PFXUser createRandomUser();
 
 private slots:
     void createUserTest();

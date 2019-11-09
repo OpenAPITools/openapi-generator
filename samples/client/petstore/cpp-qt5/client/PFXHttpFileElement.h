@@ -10,17 +10,17 @@
  * Do not edit the class manually.
  */
 
-#ifndef OAI_HTTP_FILE_ELEMENT_H
-#define OAI_HTTP_FILE_ELEMENT_H
+#ifndef PFX_HTTP_FILE_ELEMENT_H
+#define PFX_HTTP_FILE_ELEMENT_H
 
 #include <QJsonValue>
 #include <QMetaType>
 #include <QString>
 
 
-namespace OpenAPI {
+namespace test_namespace {
 
-class OAIHttpFileElement {
+class PFXHttpFileElement {
 
 public:
     QString variable_name;
@@ -44,6 +44,6 @@ public:
 
 }
 
-Q_DECLARE_METATYPE(OpenAPI::OAIHttpFileElement)
+Q_DECLARE_METATYPE(test_namespace::PFXHttpFileElement)
 
-#endif // OAI_HTTP_FILE_ELEMENT_H
+#endif // PFX_HTTP_FILE_ELEMENT_H

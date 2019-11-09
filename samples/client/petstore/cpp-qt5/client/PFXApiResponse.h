@@ -11,30 +11,30 @@
  */
 
 /*
- * OAIApiResponse.h
+ * PFXApiResponse.h
  *
  * Describes the result of uploading an image resource
  */
 
-#ifndef OAIApiResponse_H
-#define OAIApiResponse_H
+#ifndef PFXApiResponse_H
+#define PFXApiResponse_H
 
 #include <QJsonObject>
 
 
 #include <QString>
 
-#include "OAIObject.h"
-#include "OAIEnum.h"
+#include "PFXObject.h"
+#include "PFXEnum.h"
 
 
-namespace OpenAPI {
+namespace test_namespace {
 
-class OAIApiResponse: public OAIObject {
+class PFXApiResponse: public PFXObject {
 public:
-    OAIApiResponse();
-    OAIApiResponse(QString json);
-    ~OAIApiResponse() override;
+    PFXApiResponse();
+    PFXApiResponse(QString json);
+    ~PFXApiResponse() override;
 
     QString asJson () const override;
     QJsonObject asJsonObject() const override;
@@ -77,6 +77,6 @@ private:
 
 }
 
-Q_DECLARE_METATYPE(OpenAPI::OAIApiResponse)
+Q_DECLARE_METATYPE(test_namespace::PFXApiResponse)
 
-#endif // OAIApiResponse_H
+#endif // PFXApiResponse_H
