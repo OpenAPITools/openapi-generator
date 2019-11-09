@@ -38,7 +38,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM = "jvm";
     protected static final String JVM_OKHTTP4 = "jvm-okhttp4";
     protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
-    protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
+    protected static final String RETROFIT2 = "retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
 
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -113,7 +113,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
-        supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
+        supportedLibraries.put(RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
@@ -159,19 +159,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
         }
 
-        // common (jvm/multiplatform) supporting files
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
-
         switch (getLibrary()) {
             case JVM_OKHTTP3:
             case JVM_OKHTTP4:
                 processJVMLibrary(infrastructureFolder);
+                break;
+            case RETROFIT2:
+                processRetrofit2Library(infrastructureFolder);
                 break;
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
@@ -230,7 +224,27 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put(DateLibrary.JAVA8.value, true);
     }
 
+    private void processRetrofit2Library(String infrastructureFolder) {
+        addSupportingSerializerAdapters(infrastructureFolder);
+    }
+
+    private void addSupportingSerializerAdapters(final String infrastructureFolder) {
+        supportingFiles.add(new SupportingFile("infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+
+        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.gson) {
+            supportingFiles.add(new SupportingFile("infrastructure/DateAdapter.kt.mustache", infrastructureFolder,
+                    "DateAdapter.kt"));
+        }
+    }
+
     private void processJVMLibrary(final String infrastructureFolder) {
+        commonJvmMultiplatformSupportingFiles(infrastructureFolder);
+        addSupportingSerializerAdapters(infrastructureFolder);
+
         additionalProperties.put(JVM, true);
 
         if (JVM_OKHTTP4.equals(getLibrary())) {
@@ -246,19 +260,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ResponseExtensions.kt.mustache", infrastructureFolder, "ResponseExtensions.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiInfrastructureResponse.kt.mustache", infrastructureFolder, "ApiInfrastructureResponse.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
-        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.gson) {
-            supportingFiles.add(new SupportingFile("infrastructure/DateAdapter.kt.mustache", infrastructureFolder,
-                    "DateAdapter.kt"));
-        }
     }
 
     private void processMultiplatformLibrary(final String infrastructureFolder) {
+        commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         additionalProperties.put(MULTIPLATFORM, true);
         setDateLibrary(DateLibrary.STRING.value);
 
@@ -312,6 +318,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
         supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
         supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
+    }
+
+
+    private void commonJvmMultiplatformSupportingFiles(String infrastructureFolder) {
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
     }
 
     @Override
