@@ -47,10 +47,10 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         // set the output folder here
         outputFolder = "generated-code/go";
-        
+
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
                 .defaultValue(sourceFolder));
-        
+
         CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
         optServerPort.defaultValue(Integer.toString(serverPort));
@@ -117,8 +117,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-        
-        
+
+
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
@@ -129,19 +129,19 @@ public class GoServerCodegen extends AbstractGoCodegen {
             setPackageName("openapi");
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
-        
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             this.setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         }
-        
+
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         } else {
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
         }
-        
+
         if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
             this.setServerPort((int) additionalProperties.get("serverPort"));
         } else {
@@ -263,7 +263,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     public String modelFileFolder() {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
-    
+
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
     }
@@ -274,9 +274,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public void setServerPort(int serverPort) {
         this.serverPort = serverPort;
-    } 
+    }
 
     public void setFeatureCORS(Boolean featureCORS) {
         this.corsFeatureEnabled = featureCORS;
-    } 
+    }
 }
