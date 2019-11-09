@@ -59,7 +59,7 @@ open class ApiClient(val baseUrl: String) {
         }
 
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
-        if(body == null) {
+        if(body == null || mediaType == null) {
             return null
         }
         val bodyContent = body.string()
