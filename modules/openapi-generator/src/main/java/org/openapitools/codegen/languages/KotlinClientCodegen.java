@@ -38,6 +38,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM = "jvm";
     protected static final String JVM_OKHTTP4 = "jvm-okhttp4";
     protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
+    protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
 
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -112,6 +113,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
+        supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
@@ -166,106 +168,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
 
-        if (isJVMLibrary()) {
-            additionalProperties.put(JVM, true);
-            
-            if (JVM_OKHTTP4.equals(getLibrary())) {
-                additionalProperties.put(JVM_OKHTTP4, true);
-            } else if (JVM_OKHTTP3.equals(getLibrary())) {
-                additionalProperties.put(JVM_OKHTTP3, true);
-            }
-
-            supportedLibraries.put(JVM, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
-            setLibrary(JVM);
-
-            // jvm specific supporting files
-            supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/ResponseExtensions.kt.mustache", infrastructureFolder, "ResponseExtensions.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/ApiInfrastructureResponse.kt.mustache", infrastructureFolder, "ApiInfrastructureResponse.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
-            if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.gson) {
-                supportingFiles.add(new SupportingFile("infrastructure/DateAdapter.kt.mustache", infrastructureFolder,
-                        "DateAdapter.kt"));
-            }
-
-        } else if (MULTIPLATFORM.equals(getLibrary())) {
-            additionalProperties.put(MULTIPLATFORM, true);
-            setDateLibrary(DateLibrary.STRING.value);
-
-            // multiplatform default includes
-            defaultIncludes.add("io.ktor.client.request.forms.InputProvider");
-            defaultIncludes.add(packageName + ".infrastructure.Base64ByteArray");
-            defaultIncludes.add(packageName + ".infrastructure.OctetByteArray");
-
-            // multiplatform type mapping
-            typeMapping.put("number", "kotlin.Double");
-            typeMapping.put("file", "OctetByteArray");
-            typeMapping.put("binary", "OctetByteArray");
-            typeMapping.put("ByteArray", "Base64ByteArray");
-            typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
-
-            // multiplatform import mapping
-            importMapping.put("BigDecimal", "kotlin.Double");
-            importMapping.put("UUID", "kotlin.String");
-            importMapping.put("URI", "kotlin.String");
-            importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
-            importMapping.put("File", packageName + ".infrastructure.OctetByteArray");
-            importMapping.put("Timestamp", "kotlin.String");
-            importMapping.put("LocalDateTime", "kotlin.String");
-            importMapping.put("LocalDate", "kotlin.String");
-            importMapping.put("LocalTime", "kotlin.String");
-            importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
-            importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
-
-            // multiplatform specific supporting files
-            supportingFiles.add(new SupportingFile("infrastructure/Base64ByteArray.kt.mustache", infrastructureFolder, "Base64ByteArray.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/Bytes.kt.mustache", infrastructureFolder, "Bytes.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
-            supportingFiles.add(new SupportingFile("infrastructure/OctetByteArray.kt.mustache", infrastructureFolder, "OctetByteArray.kt"));
-
-            // multiplatform specific auth
-            final String authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
-            supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
-            supportingFiles.add(new SupportingFile("auth/Authentication.kt.mustache", authFolder, "Authentication.kt"));
-            supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
-            supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
-            supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
-
-            // multiplatform specific testing files
-            supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
-            supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
-            supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "src/jsTest/kotlin/util", "Coroutine.kt"));
-            supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
-
-            // gradle wrapper supporting files
-            supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
-            supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-            supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
-            supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
+        switch (getLibrary()) {
+            case JVM_OKHTTP3:
+            case JVM_OKHTTP4:
+                processJVMLibrary(infrastructureFolder);
+                break;
+            case MULTIPLATFORM:
+                processMultiplatformLibrary(infrastructureFolder);
+                break;
+            default: break;
         }
 
-        // date library processing
-        if (DateLibrary.THREETENBP.value.equals(dateLibrary)) {
-            additionalProperties.put(DateLibrary.THREETENBP.value, true);
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "LocalDateTime");
-            importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
-            importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
-            defaultIncludes.add("org.threeten.bp.LocalDate");
-            defaultIncludes.add("org.threeten.bp.LocalDateTime");
-        } else if (DateLibrary.STRING.value.equals(dateLibrary)) {
-            typeMapping.put("date-time", "kotlin.String");
-            typeMapping.put("date", "kotlin.String");
-            typeMapping.put("Date", "kotlin.String");
-            typeMapping.put("DateTime", "kotlin.String");
-        } else if (DateLibrary.JAVA8.value.equals(dateLibrary)) {
-            additionalProperties.put(DateLibrary.JAVA8.value, true);
-        }
+        processDateLibrary();
 
         if (additionalProperties.containsKey(COLLECTION_TYPE)) {
             setCollectionType(additionalProperties.get(COLLECTION_TYPE).toString());
@@ -276,11 +190,128 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("list", "kotlin.collections.List");
             additionalProperties.put("isList", true);
         }
-
     }
 
-    private boolean isJVMLibrary() {
-        return getLibrary() != null && (getLibrary().contains(JVM_OKHTTP4) || getLibrary().contains(JVM_OKHTTP3));
+    private void processDateLibrary() {
+        DateLibrary dateLibraryEnum = DateLibrary.valueOf(dateLibrary.toUpperCase());
+        switch (dateLibraryEnum) {
+            case THREETENBP:
+                processThreeTeBpDate();
+                break;
+            case STRING:
+                processStringDate();
+                break;
+            case JAVA8:
+                processJava8Date();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void processThreeTeBpDate() {
+        additionalProperties.put(DateLibrary.THREETENBP.value, true);
+        typeMapping.put("date", "LocalDate");
+        typeMapping.put("DateTime", "LocalDateTime");
+        importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
+        importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
+        defaultIncludes.add("org.threeten.bp.LocalDate");
+        defaultIncludes.add("org.threeten.bp.LocalDateTime");
+    }
+
+    private void processStringDate() {
+        typeMapping.put("date-time", "kotlin.String");
+        typeMapping.put("date", "kotlin.String");
+        typeMapping.put("Date", "kotlin.String");
+        typeMapping.put("DateTime", "kotlin.String");
+    }
+
+    private void processJava8Date() {
+        additionalProperties.put(DateLibrary.JAVA8.value, true);
+    }
+
+    private void processJVMLibrary(final String infrastructureFolder) {
+        additionalProperties.put(JVM, true);
+
+        if (JVM_OKHTTP4.equals(getLibrary())) {
+            additionalProperties.put(JVM_OKHTTP4, true);
+        } else if (JVM_OKHTTP3.equals(getLibrary())) {
+            additionalProperties.put(JVM_OKHTTP3, true);
+        }
+
+        supportedLibraries.put(JVM, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
+        setLibrary(JVM);
+
+        // jvm specific supporting files
+        supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ResponseExtensions.kt.mustache", infrastructureFolder, "ResponseExtensions.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ApiInfrastructureResponse.kt.mustache", infrastructureFolder, "ApiInfrastructureResponse.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.gson) {
+            supportingFiles.add(new SupportingFile("infrastructure/DateAdapter.kt.mustache", infrastructureFolder,
+                    "DateAdapter.kt"));
+        }
+    }
+
+    private void processMultiplatformLibrary(final String infrastructureFolder) {
+        additionalProperties.put(MULTIPLATFORM, true);
+        setDateLibrary(DateLibrary.STRING.value);
+
+        // multiplatform default includes
+        defaultIncludes.add("io.ktor.client.request.forms.InputProvider");
+        defaultIncludes.add(packageName + ".infrastructure.Base64ByteArray");
+        defaultIncludes.add(packageName + ".infrastructure.OctetByteArray");
+
+        // multiplatform type mapping
+        typeMapping.put("number", "kotlin.Double");
+        typeMapping.put("file", "OctetByteArray");
+        typeMapping.put("binary", "OctetByteArray");
+        typeMapping.put("ByteArray", "Base64ByteArray");
+        typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
+
+        // multiplatform import mapping
+        importMapping.put("BigDecimal", "kotlin.Double");
+        importMapping.put("UUID", "kotlin.String");
+        importMapping.put("URI", "kotlin.String");
+        importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
+        importMapping.put("File", packageName + ".infrastructure.OctetByteArray");
+        importMapping.put("Timestamp", "kotlin.String");
+        importMapping.put("LocalDateTime", "kotlin.String");
+        importMapping.put("LocalDate", "kotlin.String");
+        importMapping.put("LocalTime", "kotlin.String");
+        importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
+        importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
+
+        // multiplatform specific supporting files
+        supportingFiles.add(new SupportingFile("infrastructure/Base64ByteArray.kt.mustache", infrastructureFolder, "Base64ByteArray.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/Bytes.kt.mustache", infrastructureFolder, "Bytes.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/OctetByteArray.kt.mustache", infrastructureFolder, "OctetByteArray.kt"));
+
+        // multiplatform specific auth
+        final String authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
+        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+        supportingFiles.add(new SupportingFile("auth/Authentication.kt.mustache", authFolder, "Authentication.kt"));
+        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+        supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
+        supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
+
+        // multiplatform specific testing files
+        supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "src/jsTest/kotlin/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
+
+        // gradle wrapper supporting files
+        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
     }
 
     @Override
