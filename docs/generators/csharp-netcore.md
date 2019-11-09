@@ -19,6 +19,7 @@ sidebar_label: csharp-netcore
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|
 |optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
+|optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
 |optionalProjectFile|Generate {PackageName}.csproj.| |true|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|

@@ -434,19 +434,19 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
-            this.setSerializableModel(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL)));
+            this.setSerializableModel(getBooleanOption(CodegenConstants.SERIALIZABLE_MODEL));
         } else {
             additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
-            this.setParcelizeModels(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
+            this.setParcelizeModels(getBooleanOption(CodegenConstants.PARCELIZE_MODELS));
         } else {
             additionalProperties.put(CodegenConstants.PARCELIZE_MODELS, parcelizeModels);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
-            this.setNonPublicApi(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.NON_PUBLIC_API)));
+            this.setNonPublicApi(getBooleanOption(CodegenConstants.NON_PUBLIC_API));
         } else {
             additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
         }
@@ -456,6 +456,18 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+    }
+
+    private boolean getBooleanOption(String key) {
+        final Object booleanValue = additionalProperties.get(key);
+        Boolean result = Boolean.FALSE;
+        if (booleanValue instanceof Boolean) {
+            result = (Boolean) booleanValue;
+        } else if (booleanValue instanceof String) {
+            result = Boolean.parseBoolean((String) booleanValue);
+        }
+        additionalProperties.put(key, result);
+        return result;
     }
 
     public void setArtifactId(String artifactId) {
@@ -501,7 +513,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public void setSerializableModel(boolean serializableModel) {
         this.serializableModel = serializableModel;
     }
-    
+
     public boolean nonPublicApi() {
         return nonPublicApi;
     }

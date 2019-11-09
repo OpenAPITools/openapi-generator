@@ -31,6 +31,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
@@ -215,6 +217,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
             supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
             supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+            if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.gson) {
+                supportingFiles.add(new SupportingFile("infrastructure/DateAdapter.kt.mustache", infrastructureFolder,
+                        "DateAdapter.kt"));
+            }
 
         } else if (MULTIPLATFORM.equals(getLibrary())) {
             additionalProperties.put(MULTIPLATFORM, true);
@@ -316,15 +322,20 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             CodegenModel cm = (CodegenModel) mo.get("model");
 
             // escape the variable base name for use as a string literal
-            if (cm.requiredVars != null) {
-                for (CodegenProperty var : cm.requiredVars) {
-                    var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
-                }
-            }
-            if (cm.optionalVars != null) {
-                for (CodegenProperty var : cm.optionalVars) {
-                    var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
-                }
+            List<CodegenProperty> vars = Stream.of(
+                    cm.vars,
+                    cm.allVars,
+                    cm.optionalVars,
+                    cm.requiredVars,
+                    cm.readOnlyVars,
+                    cm.readWriteVars,
+                    cm.parentVars
+                )
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+            for (CodegenProperty var : vars) {
+                var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
             }
         }
 

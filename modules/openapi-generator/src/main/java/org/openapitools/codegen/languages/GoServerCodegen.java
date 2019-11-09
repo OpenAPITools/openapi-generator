@@ -41,6 +41,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     protected int serverPort = 8080;
     protected String projectName = "openapi-server";
     protected String sourceFolder = "go";
+    protected Boolean corsFeatureEnabled = false;
 
 
     public GoServerCodegen() {
@@ -68,14 +69,19 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         // set the output folder here
         outputFolder = "generated-code/go";
-        
+
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
                 .defaultValue(sourceFolder));
-        
+
         CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
         optServerPort.defaultValue(Integer.toString(serverPort));
         cliOptions.add(optServerPort);
+
+        CliOption optFeatureCORS = new CliOption("featureCORS", "Enable Cross-Origin Resource Sharing middleware");
+        optFeatureCORS.setType("bool");
+        optFeatureCORS.defaultValue(corsFeatureEnabled.toString());
+        cliOptions.add(optFeatureCORS);
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -133,8 +139,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-        
-        
+
+
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
@@ -145,23 +151,29 @@ public class GoServerCodegen extends AbstractGoCodegen {
             setPackageName("openapi");
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
-        
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             this.setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         }
-        
+
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         } else {
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
         }
-        
+
         if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
             this.setServerPort((int) additionalProperties.get("serverPort"));
         } else {
             additionalProperties.put("serverPort", serverPort);
+        }
+
+        if (additionalProperties.containsKey("featureCORS")) {
+            this.setFeatureCORS(convertPropertyToBooleanAndWriteBack("featureCORS"));
+        } else {
+            additionalProperties.put("featureCORS", corsFeatureEnabled);
         }
 
         modelPackage = packageName;
@@ -273,7 +285,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     public String modelFileFolder() {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
-    
+
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
     }
@@ -284,5 +296,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public void setServerPort(int serverPort) {
         this.serverPort = serverPort;
-    } 
+    }
+
+    public void setFeatureCORS(Boolean featureCORS) {
+        this.corsFeatureEnabled = featureCORS;
+    }
 }

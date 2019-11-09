@@ -138,6 +138,7 @@ script:
   # test maven plugin
   - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml
   - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml
+  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml
   # test gradle plugin
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
