@@ -52,6 +52,37 @@ pub const API_VERSION: &'static str = "1.0.7";
 
 
 #[derive(Debug, PartialEq)]
+pub enum MultigetGetResponse {
+    /// JSON rsp
+    JSONRsp
+    (models::AnotherXmlObject)
+    ,
+    /// XML rsp
+    XMLRsp
+    (models::InlineResponse201)
+    ,
+    /// octet rsp
+    OctetRsp
+    (swagger::ByteArray)
+    ,
+    /// string rsp
+    StringRsp
+    (String)
+    ,
+    /// Duplicate Response long text. One.
+    DuplicateResponseLongText
+    (models::AnotherXmlObject)
+    ,
+    /// Duplicate Response long text. Two.
+    DuplicateResponseLongText_2
+    (models::AnotherXmlObject)
+    ,
+    /// Duplicate Response long text. Three.
+    DuplicateResponseLongText_3
+    (models::AnotherXmlObject)
+}
+
+#[derive(Debug, PartialEq)]
 pub enum MultipleAuthSchemeGetResponse {
     /// Check that limiting to multiple required auth schemes works
     CheckThatLimitingToMultipleRequiredAuthSchemesWorks
@@ -142,6 +173,9 @@ pub enum XmlPutResponse {
 /// API
 pub trait Api<C> {
 
+    /// Get some stuff.
+    fn multiget_get(&self, context: &C) -> Box<Future<Item=MultigetGetResponse, Error=ApiError>>;
+
 
     fn multiple_auth_scheme_get(&self, context: &C) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
 
@@ -176,6 +210,9 @@ pub trait Api<C> {
 
 /// API without a `Context`
 pub trait ApiNoContext {
+
+    /// Get some stuff.
+    fn multiget_get(&self) -> Box<Future<Item=MultigetGetResponse, Error=ApiError>>;
 
 
     fn multiple_auth_scheme_get(&self) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
@@ -222,6 +259,11 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 }
 
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
+
+    /// Get some stuff.
+    fn multiget_get(&self) -> Box<Future<Item=MultigetGetResponse, Error=ApiError>> {
+        self.api().multiget_get(&self.context())
+    }
 
 
     fn multiple_auth_scheme_get(&self) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {
