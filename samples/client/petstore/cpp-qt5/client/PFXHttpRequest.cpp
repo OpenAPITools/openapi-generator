@@ -100,7 +100,7 @@ QByteArray *PFXHttpRequestWorker::getMultiPartField(const QString &fieldname){
 }
 
 void PFXHttpRequestWorker::setTimeOut(int timeOut){
-    _timeOut = _timeOut;
+    _timeOut = timeOut;
 }
 
 void PFXHttpRequestWorker::setWorkingDirectory(const QString &path){
