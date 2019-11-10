@@ -9,13 +9,12 @@
  * Do not edit the class manually.
  */
 
-
 #include "PFXApiResponse.h"
 
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QObject>
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QObject>
 
 #include "PFXHelpers.h"
 
@@ -30,120 +29,106 @@ PFXApiResponse::PFXApiResponse() {
     this->initializeModel();
 }
 
-PFXApiResponse::~PFXApiResponse() {
+PFXApiResponse::~PFXApiResponse() {}
 
-}
-
-void
-PFXApiResponse::initializeModel() {
-    
+void PFXApiResponse::initializeModel() {
     m_code_isSet = false;
     m_code_isValid = false;
-    
+
     m_type_isSet = false;
     m_type_isValid = false;
-    
+
     m_message_isSet = false;
     m_message_isValid = false;
-    
 }
 
-void
-PFXApiResponse::fromJson(QString jsonString) {
-    QByteArray array (jsonString.toStdString().c_str());
+void PFXApiResponse::fromJson(QString jsonString) {
+    QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
     this->fromJsonObject(jsonObject);
 }
 
-void
-PFXApiResponse::fromJsonObject(QJsonObject json) {
-    
+void PFXApiResponse::fromJsonObject(QJsonObject json) {
     m_code_isValid = ::test_namespace::fromJsonValue(code, json[QString("code")]);
     m_code_isSet = !json[QString("code")].isNull() && m_code_isValid;
-    
+
     m_type_isValid = ::test_namespace::fromJsonValue(type, json[QString("type")]);
     m_type_isSet = !json[QString("type")].isNull() && m_type_isValid;
-    
+
     m_message_isValid = ::test_namespace::fromJsonValue(message, json[QString("message")]);
     m_message_isSet = !json[QString("message")].isNull() && m_message_isValid;
-    
 }
 
-QString
-PFXApiResponse::asJson () const {
+QString PFXApiResponse::asJson() const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
 }
 
-QJsonObject
-PFXApiResponse::asJsonObject() const {
+QJsonObject PFXApiResponse::asJsonObject() const {
     QJsonObject obj;
-    if(m_code_isSet){
+    if (m_code_isSet) {
         obj.insert(QString("code"), ::test_namespace::toJsonValue(code));
     }
-    if(m_type_isSet){
+    if (m_type_isSet) {
         obj.insert(QString("type"), ::test_namespace::toJsonValue(type));
     }
-    if(m_message_isSet){
+    if (m_message_isSet) {
         obj.insert(QString("message"), ::test_namespace::toJsonValue(message));
     }
     return obj;
 }
 
-
-qint32
-PFXApiResponse::getCode() const {
+qint32 PFXApiResponse::getCode() const {
     return code;
 }
-void
-PFXApiResponse::setCode(const qint32 &code) {
+void PFXApiResponse::setCode(const qint32 &code) {
     this->code = code;
     this->m_code_isSet = true;
 }
 
-
-QString
-PFXApiResponse::getType() const {
+QString PFXApiResponse::getType() const {
     return type;
 }
-void
-PFXApiResponse::setType(const QString &type) {
+void PFXApiResponse::setType(const QString &type) {
     this->type = type;
     this->m_type_isSet = true;
 }
 
-
-QString
-PFXApiResponse::getMessage() const {
+QString PFXApiResponse::getMessage() const {
     return message;
 }
-void
-PFXApiResponse::setMessage(const QString &message) {
+void PFXApiResponse::setMessage(const QString &message) {
     this->message = message;
     this->m_message_isSet = true;
 }
 
-bool
-PFXApiResponse::isSet() const {
+bool PFXApiResponse::isSet() const {
     bool isObjectUpdated = false;
-    do{ 
-        if(m_code_isSet){ isObjectUpdated = true; break;}
-    
-        if(m_type_isSet){ isObjectUpdated = true; break;}
-    
-        if(m_message_isSet){ isObjectUpdated = true; break;}
-    }while(false);
+    do {
+        if (m_code_isSet) {
+            isObjectUpdated = true;
+            break;
+        }
+
+        if (m_type_isSet) {
+            isObjectUpdated = true;
+            break;
+        }
+
+        if (m_message_isSet) {
+            isObjectUpdated = true;
+            break;
+        }
+    } while (false);
     return isObjectUpdated;
 }
 
-bool
-PFXApiResponse::isValid() const {
+bool PFXApiResponse::isValid() const {
     // only required properties are required for the object to be considered valid
     return true;
 }
 
-}
-
+} // namespace test_namespace

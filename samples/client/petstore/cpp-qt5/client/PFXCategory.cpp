@@ -9,13 +9,12 @@
  * Do not edit the class manually.
  */
 
-
 #include "PFXCategory.h"
 
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QObject>
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QObject>
 
 #include "PFXHelpers.h"
 
@@ -30,98 +29,84 @@ PFXCategory::PFXCategory() {
     this->initializeModel();
 }
 
-PFXCategory::~PFXCategory() {
+PFXCategory::~PFXCategory() {}
 
-}
-
-void
-PFXCategory::initializeModel() {
-    
+void PFXCategory::initializeModel() {
     m_id_isSet = false;
     m_id_isValid = false;
-    
+
     m_name_isSet = false;
     m_name_isValid = false;
-    
 }
 
-void
-PFXCategory::fromJson(QString jsonString) {
-    QByteArray array (jsonString.toStdString().c_str());
+void PFXCategory::fromJson(QString jsonString) {
+    QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
     this->fromJsonObject(jsonObject);
 }
 
-void
-PFXCategory::fromJsonObject(QJsonObject json) {
-    
+void PFXCategory::fromJsonObject(QJsonObject json) {
     m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
-    
+
     m_name_isValid = ::test_namespace::fromJsonValue(name, json[QString("name")]);
     m_name_isSet = !json[QString("name")].isNull() && m_name_isValid;
-    
 }
 
-QString
-PFXCategory::asJson () const {
+QString PFXCategory::asJson() const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
 }
 
-QJsonObject
-PFXCategory::asJsonObject() const {
+QJsonObject PFXCategory::asJsonObject() const {
     QJsonObject obj;
-    if(m_id_isSet){
+    if (m_id_isSet) {
         obj.insert(QString("id"), ::test_namespace::toJsonValue(id));
     }
-    if(m_name_isSet){
+    if (m_name_isSet) {
         obj.insert(QString("name"), ::test_namespace::toJsonValue(name));
     }
     return obj;
 }
 
-
-qint64
-PFXCategory::getId() const {
+qint64 PFXCategory::getId() const {
     return id;
 }
-void
-PFXCategory::setId(const qint64 &id) {
+void PFXCategory::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
-
-QString
-PFXCategory::getName() const {
+QString PFXCategory::getName() const {
     return name;
 }
-void
-PFXCategory::setName(const QString &name) {
+void PFXCategory::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
-bool
-PFXCategory::isSet() const {
+bool PFXCategory::isSet() const {
     bool isObjectUpdated = false;
-    do{ 
-        if(m_id_isSet){ isObjectUpdated = true; break;}
-    
-        if(m_name_isSet){ isObjectUpdated = true; break;}
-    }while(false);
+    do {
+        if (m_id_isSet) {
+            isObjectUpdated = true;
+            break;
+        }
+
+        if (m_name_isSet) {
+            isObjectUpdated = true;
+            break;
+        }
+    } while (false);
     return isObjectUpdated;
 }
 
-bool
-PFXCategory::isValid() const {
+bool PFXCategory::isValid() const {
     // only required properties are required for the object to be considered valid
     return true;
 }
 
-}
-
+} // namespace test_namespace

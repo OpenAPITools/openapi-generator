@@ -20,53 +20,46 @@
 
 #include <QJsonObject>
 
-
 #include <QString>
 
-#include "PFXObject.h"
 #include "PFXEnum.h"
-
+#include "PFXObject.h"
 
 namespace test_namespace {
 
-class PFXCategory: public PFXObject {
+class PFXCategory : public PFXObject {
 public:
     PFXCategory();
     PFXCategory(QString json);
     ~PFXCategory() override;
 
-    QString asJson () const override;
+    QString asJson() const override;
     QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    
     qint64 getId() const;
     void setId(const qint64 &id);
 
-    
     QString getName() const;
     void setName(const QString &name);
-
-    
 
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 
 private:
     void initializeModel();
-    
+
     qint64 id;
     bool m_id_isSet;
     bool m_id_isValid;
-    
+
     QString name;
     bool m_name_isSet;
     bool m_name_isValid;
-    
-    };
+};
 
-}
+} // namespace test_namespace
 
 Q_DECLARE_METATYPE(test_namespace::PFXCategory)
 
