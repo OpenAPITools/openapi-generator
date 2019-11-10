@@ -12,25 +12,21 @@
 #ifndef PFX_OBJECT_H
 #define PFX_OBJECT_H
 
-#include <QJsonObject>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QMetaType>
 
 namespace test_namespace {
 
 class PFXObject {
-  public:
-    PFXObject() {
-
-    }
+public:
+    PFXObject() {}
 
     PFXObject(QString jsonString) {
         fromJson(jsonString);
     }
 
-    virtual ~PFXObject(){
-
-    }
+    virtual ~PFXObject() {}
 
     virtual QJsonObject asJsonObject() const {
         return jObj;
@@ -57,11 +53,12 @@ class PFXObject {
     virtual bool isValid() const {
         return true;
     }
-private :
+
+private:
     QJsonObject jObj;
 };
 
-}
+} // namespace test_namespace
 
 Q_DECLARE_METATYPE(test_namespace::PFXObject)
 
