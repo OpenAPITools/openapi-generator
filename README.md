@@ -689,6 +689,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-10-22 - [OpenAPI + Spring Boot(Kotlin)でファイルダウンロードAPIを作成する](https://qiita.com/boronngo/items/4b78b92526209daeaee9) by [Yuki Furukawa](https://twitter.com/yuki_furukawa5)
 - 2019-10-24 - [Microprofile OpenAPI - Code First or Design First?](https://github.com/pe-st/apidocs/blob/master/MicroProfile-OpenAPI-all-slides.pdf) by [Peter [pɛʃə] Steiner](https://twitter.com/pesche) at [eclipsecon Europe 2019](https://www.eclipsecon.org/europe2019/sessions/microprofile-openapi-code-first-or-design-first)
 - 2019-11-06 - [Generating API clients based on OpenAPI v3 specifications](https://98elements.com/blog/generating-api-clients-based-on-openapi-v3-specifications) by [Dominik Jastrzębski @ 98elements](https://98elements.com)
+- 2019-11-06 - [OpenAPIを利用して自前のAPIサーバー(Sinatra)を移植した時のメモ](https://qiita.com/YasuhiroABE/items/c73920eab2d9d6e97fd9) by [Yasuhiro ABE](https://twitter.com/YasuhiroABE)
 
 ## [6 - About Us](#table-of-contents)
 
