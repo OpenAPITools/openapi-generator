@@ -18,86 +18,75 @@
 
 namespace test_namespace {
 
-PFXUserApi::PFXUserApi(const QString &scheme, const QString &host, int port, const QString& basePath, const int timeOut) :
-    _scheme(scheme),
-    _host(host),
-    _port(port),
-    _basePath(basePath),
-    _timeOut(timeOut) {
-}
+PFXUserApi::PFXUserApi(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut)
+    : _scheme(scheme),
+      _host(host),
+      _port(port),
+      _basePath(basePath),
+      _timeOut(timeOut) {}
 
 PFXUserApi::~PFXUserApi() {
 }
 
-void PFXUserApi::setScheme(const QString& scheme){
+void PFXUserApi::setScheme(const QString &scheme) {
     _scheme = scheme;
 }
 
-void PFXUserApi::setHost(const QString& host){
+void PFXUserApi::setHost(const QString &host) {
     _host = host;
 }
 
-void PFXUserApi::setPort(int port){
+void PFXUserApi::setPort(int port) {
     _port = port;
 }
 
-void PFXUserApi::setBasePath(const QString& basePath){
+void PFXUserApi::setBasePath(const QString &basePath) {
     _basePath = basePath;
 }
 
-void PFXUserApi::setTimeOut(const int timeOut){
+void PFXUserApi::setTimeOut(const int timeOut) {
     _timeOut = timeOut;
 }
 
-void PFXUserApi::setWorkingDirectory(const QString& path){
+void PFXUserApi::setWorkingDirectory(const QString &path) {
     _workingDirectory = path;
 }
 
-void PFXUserApi::addHeaders(const QString& key, const QString& value){
+void PFXUserApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
 }
 
-void
-PFXUserApi::createUser(const PFXUser& body) {
+void PFXUserApi::createUser(const PFXUser &body) {
     QString fullPath = QString("%0://%1%2%3%4")
-        .arg(_scheme)
-        .arg(_host)
-        .arg(_port ? ":" + QString::number(_port) : "")
-        .arg(_basePath)
-        .arg("/user");
-    
+                           .arg(_scheme)
+                           .arg(_host)
+                           .arg(_port ? ":" + QString::number(_port) : "")
+                           .arg(_basePath)
+                           .arg("/user");
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
-    
-    
+
     QString output = body.asJson();
     input.request_body.append(output);
-    
 
-    foreach(QString key, this->defaultHeaders.keys()) {
-        input.headers.insert(key, this->defaultHeaders.value(key));
-    }
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    connect(worker,
-            &PFXHttpRequestWorker::on_execution_finished,
-            this,
-            &PFXUserApi::createUserCallback);
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
 
     worker->execute(&input);
 }
 
-void
-PFXUserApi::createUserCallback(PFXHttpRequestWorker * worker) {
+void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
+    } else {
         msg = "Error: " + worker->error_str;
     }
     worker->deleteLater();
@@ -111,48 +100,38 @@ PFXUserApi::createUserCallback(PFXHttpRequestWorker * worker) {
     }
 }
 
-void
-PFXUserApi::createUsersWithArrayInput(const QList<PFXUser>& body) {
+void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
     QString fullPath = QString("%0://%1%2%3%4")
-        .arg(_scheme)
-        .arg(_host)
-        .arg(_port ? ":" + QString::number(_port) : "")
-        .arg(_basePath)
-        .arg("/user/createWithArray");
-    
+                           .arg(_scheme)
+                           .arg(_host)
+                           .arg(_port ? ":" + QString::number(_port) : "")
+                           .arg(_basePath)
+                           .arg("/user/createWithArray");
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
-    
-    
+
     QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
-    
 
-    foreach(QString key, this->defaultHeaders.keys()) {
-        input.headers.insert(key, this->defaultHeaders.value(key));
-    }
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    connect(worker,
-            &PFXHttpRequestWorker::on_execution_finished,
-            this,
-            &PFXUserApi::createUsersWithArrayInputCallback);
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
 
     worker->execute(&input);
 }
 
-void
-PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker * worker) {
+void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
+    } else {
         msg = "Error: " + worker->error_str;
     }
     worker->deleteLater();
@@ -166,48 +145,38 @@ PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker * worker) {
     }
 }
 
-void
-PFXUserApi::createUsersWithListInput(const QList<PFXUser>& body) {
+void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
     QString fullPath = QString("%0://%1%2%3%4")
-        .arg(_scheme)
-        .arg(_host)
-        .arg(_port ? ":" + QString::number(_port) : "")
-        .arg(_basePath)
-        .arg("/user/createWithList");
-    
+                           .arg(_scheme)
+                           .arg(_host)
+                           .arg(_port ? ":" + QString::number(_port) : "")
+                           .arg(_basePath)
+                           .arg("/user/createWithList");
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
-    
-    
+
     QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
-    
 
-    foreach(QString key, this->defaultHeaders.keys()) {
-        input.headers.insert(key, this->defaultHeaders.value(key));
-    }
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    connect(worker,
-            &PFXHttpRequestWorker::on_execution_finished,
-            this,
-            &PFXUserApi::createUsersWithListInputCallback);
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
 
     worker->execute(&input);
 }
 
-void
-PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker * worker) {
+void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
+    } else {
         msg = "Error: " + worker->error_str;
     }
     worker->deleteLater();
@@ -221,47 +190,37 @@ PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker * worker) {
     }
 }
 
-void
-PFXUserApi::deleteUser(const QString& username) {
+void PFXUserApi::deleteUser(const QString &username) {
     QString fullPath = QString("%0://%1%2%3%4")
-        .arg(_scheme)
-        .arg(_host)
-        .arg(_port ? ":" + QString::number(_port) : "")
-        .arg(_basePath)
-        .arg("/user/{username}");
+                           .arg(_scheme)
+                           .arg(_host)
+                           .arg(_port ? ":" + QString::number(_port) : "")
+                           .arg(_basePath)
+                           .arg("/user/{username}");
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
-    
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "DELETE");
-    
 
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    foreach(QString key, this->defaultHeaders.keys()) {
-        input.headers.insert(key, this->defaultHeaders.value(key));
-    }
-
-    connect(worker,
-            &PFXHttpRequestWorker::on_execution_finished,
-            this,
-            &PFXUserApi::deleteUserCallback);
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
 
     worker->execute(&input);
 }
 
-void
-PFXUserApi::deleteUserCallback(PFXHttpRequestWorker * worker) {
+void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
+    } else {
         msg = "Error: " + worker->error_str;
     }
     worker->deleteLater();
@@ -275,47 +234,37 @@ PFXUserApi::deleteUserCallback(PFXHttpRequestWorker * worker) {
     }
 }
 
-void
-PFXUserApi::getUserByName(const QString& username) {
+void PFXUserApi::getUserByName(const QString &username) {
     QString fullPath = QString("%0://%1%2%3%4")
-        .arg(_scheme)
-        .arg(_host)
-        .arg(_port ? ":" + QString::number(_port) : "")
-        .arg(_basePath)
-        .arg("/user/{username}");
+                           .arg(_scheme)
+                           .arg(_host)
+                           .arg(_port ? ":" + QString::number(_port) : "")
+                           .arg(_basePath)
+                           .arg("/user/{username}");
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
-    
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
-    
 
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    foreach(QString key, this->defaultHeaders.keys()) {
-        input.headers.insert(key, this->defaultHeaders.value(key));
-    }
-
-    connect(worker,
-            &PFXHttpRequestWorker::on_execution_finished,
-            this,
-            &PFXUserApi::getUserByNameCallback);
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
 
     worker->execute(&input);
 }
 
-void
-PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker * worker) {
+void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
+    } else {
         msg = "Error: " + worker->error_str;
     }
     PFXUser output(QString(worker->response));
@@ -330,60 +279,46 @@ PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker * worker) {
     }
 }
 
-void
-PFXUserApi::loginUser(const QString& username, const QString& password) {
+void PFXUserApi::loginUser(const QString &username, const QString &password) {
     QString fullPath = QString("%0://%1%2%3%4")
-        .arg(_scheme)
-        .arg(_host)
-        .arg(_port ? ":" + QString::number(_port) : "")
-        .arg(_basePath)
-        .arg("/user/login");
-    
+                           .arg(_scheme)
+                           .arg(_host)
+                           .arg(_port ? ":" + QString::number(_port) : "")
+                           .arg(_basePath)
+                           .arg("/user/login");
+
     if (fullPath.indexOf("?") > 0)
-      fullPath.append("&");
+        fullPath.append("&");
     else
-      fullPath.append("?");
-    fullPath.append(QUrl::toPercentEncoding("username"))
-        .append("=")
-        .append(QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
-    
+        fullPath.append("?");
+    fullPath.append(QUrl::toPercentEncoding("username")).append("=").append(QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+
     if (fullPath.indexOf("?") > 0)
-      fullPath.append("&");
+        fullPath.append("&");
     else
-      fullPath.append("?");
-    fullPath.append(QUrl::toPercentEncoding("password"))
-        .append("=")
-        .append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
-    
+        fullPath.append("?");
+    fullPath.append(QUrl::toPercentEncoding("password")).append("=").append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
-    
 
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    foreach(QString key, this->defaultHeaders.keys()) {
-        input.headers.insert(key, this->defaultHeaders.value(key));
-    }
-
-    connect(worker,
-            &PFXHttpRequestWorker::on_execution_finished,
-            this,
-            &PFXUserApi::loginUserCallback);
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
 
     worker->execute(&input);
 }
 
-void
-PFXUserApi::loginUserCallback(PFXHttpRequestWorker * worker) {
+void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
+    } else {
         msg = "Error: " + worker->error_str;
     }
     QString output;
@@ -399,44 +334,34 @@ PFXUserApi::loginUserCallback(PFXHttpRequestWorker * worker) {
     }
 }
 
-void
-PFXUserApi::logoutUser() {
+void PFXUserApi::logoutUser() {
     QString fullPath = QString("%0://%1%2%3%4")
-        .arg(_scheme)
-        .arg(_host)
-        .arg(_port ? ":" + QString::number(_port) : "")
-        .arg(_basePath)
-        .arg("/user/logout");
-    
+                           .arg(_scheme)
+                           .arg(_host)
+                           .arg(_port ? ":" + QString::number(_port) : "")
+                           .arg(_basePath)
+                           .arg("/user/logout");
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
-    
 
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    foreach(QString key, this->defaultHeaders.keys()) {
-        input.headers.insert(key, this->defaultHeaders.value(key));
-    }
-
-    connect(worker,
-            &PFXHttpRequestWorker::on_execution_finished,
-            this,
-            &PFXUserApi::logoutUserCallback);
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
 
     worker->execute(&input);
 }
 
-void
-PFXUserApi::logoutUserCallback(PFXHttpRequestWorker * worker) {
+void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
+    } else {
         msg = "Error: " + worker->error_str;
     }
     worker->deleteLater();
@@ -450,50 +375,40 @@ PFXUserApi::logoutUserCallback(PFXHttpRequestWorker * worker) {
     }
 }
 
-void
-PFXUserApi::updateUser(const QString& username, const PFXUser& body) {
+void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
     QString fullPath = QString("%0://%1%2%3%4")
-        .arg(_scheme)
-        .arg(_host)
-        .arg(_port ? ":" + QString::number(_port) : "")
-        .arg(_basePath)
-        .arg("/user/{username}");
+                           .arg(_scheme)
+                           .arg(_host)
+                           .arg(_port ? ":" + QString::number(_port) : "")
+                           .arg(_basePath)
+                           .arg("/user/{username}");
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
-    
+
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "PUT");
-    
-    
+
     QString output = body.asJson();
     input.request_body.append(output);
-    
 
-    foreach(QString key, this->defaultHeaders.keys()) {
-        input.headers.insert(key, this->defaultHeaders.value(key));
-    }
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    connect(worker,
-            &PFXHttpRequestWorker::on_execution_finished,
-            this,
-            &PFXUserApi::updateUserCallback);
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
 
     worker->execute(&input);
 }
 
-void
-PFXUserApi::updateUserCallback(PFXHttpRequestWorker * worker) {
+void PFXUserApi::updateUserCallback(PFXHttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
+    } else {
         msg = "Error: " + worker->error_str;
     }
     worker->deleteLater();
@@ -507,5 +422,4 @@ PFXUserApi::updateUserCallback(PFXHttpRequestWorker * worker) {
     }
 }
 
-
-}
+} // namespace test_namespace
