@@ -374,6 +374,7 @@ void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
             headers.insert(item.first, item.second);
         }
     }
+    disconnect(this, nullptr, nullptr, nullptr);
     reply->deleteLater();
     process_form_response();
     emit on_execution_finished(this);
@@ -383,7 +384,6 @@ void PFXHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
     error_type = QNetworkReply::TimeoutError;
     response = "";
     error_str = "Timed out waiting for response";
-    disconnect(manager, nullptr, nullptr, nullptr);
     reply->abort();
     reply->deleteLater();
     emit on_execution_finished(this);
