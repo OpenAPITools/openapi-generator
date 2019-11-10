@@ -17,7 +17,6 @@
 #include <QMetaType>
 #include <QString>
 
-
 namespace test_namespace {
 
 class PFXHttpFileElement {
@@ -34,15 +33,15 @@ public:
     bool isSet() const;
     bool fromStringValue(const QString &instr);
     bool fromJsonValue(const QJsonValue &jval);
-    bool fromByteArray(const QByteArray& bytes);
-    bool saveToFile(const QString &variable_name, const QString &local_filename, const QString &request_filename, const QString &mime, const QByteArray& bytes);
+    bool fromByteArray(const QByteArray &bytes);
+    bool saveToFile(const QString &variable_name, const QString &local_filename, const QString &request_filename, const QString &mime, const QByteArray &bytes);
     QString asJson() const;
     QJsonValue asJsonValue() const;
     QByteArray asByteArray() const;
     QByteArray loadFromFile(const QString &variable_name, const QString &local_filename, const QString &request_filename, const QString &mime);
 };
 
-}
+} // namespace test_namespace
 
 Q_DECLARE_METATYPE(test_namespace::PFXHttpFileElement)
 
