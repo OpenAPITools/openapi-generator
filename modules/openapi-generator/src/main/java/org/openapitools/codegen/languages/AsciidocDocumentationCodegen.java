@@ -81,10 +81,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             if (Files.isRegularFile(filePathToInclude)) {
                 LOGGER.debug(
                         "including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
-                out.write("\ninclude::" + relativeFileName + "[]\n");
+                out.write("\ninclude::" + relativeFileName + "[opts=optional]\n");
             } else {
                 LOGGER.debug(++notFoundCount + ". file not found, skip include for: " + filePathToInclude.toString());
-                out.write("\n// markup not found, no include ::" + relativeFileName + "[]\n");
+                out.write("\n// markup not found, no include ::" + relativeFileName + "[opts=optional]\n");
             }
         }
     }
@@ -158,6 +158,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
      */
     static String sanitize(final String name) {
         String sanitized = name == null ? "" : name.trim();
+        sanitized = sanitized.replace("//", "/");	// rest paths may or may not end with slashes, leading to redundant path separators.
         return sanitized.startsWith(File.separator) || sanitized.startsWith("/") ? sanitized.substring(1) : sanitized;
     }
 
