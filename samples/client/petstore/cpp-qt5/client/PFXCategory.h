@@ -11,30 +11,30 @@
  */
 
 /*
- * OAITag.h
+ * PFXCategory.h
  *
- * A tag for a pet
+ * A category for a pet
  */
 
-#ifndef OAITag_H
-#define OAITag_H
+#ifndef PFXCategory_H
+#define PFXCategory_H
 
 #include <QJsonObject>
 
 
 #include <QString>
 
-#include "OAIObject.h"
-#include "OAIEnum.h"
+#include "PFXObject.h"
+#include "PFXEnum.h"
 
 
-namespace OpenAPI {
+namespace test_namespace {
 
-class OAITag: public OAIObject {
+class PFXCategory: public PFXObject {
 public:
-    OAITag();
-    OAITag(QString json);
-    ~OAITag() override;
+    PFXCategory();
+    PFXCategory(QString json);
+    ~PFXCategory() override;
 
     QString asJson () const override;
     QJsonObject asJsonObject() const override;
@@ -69,6 +69,6 @@ private:
 
 }
 
-Q_DECLARE_METATYPE(OpenAPI::OAITag)
+Q_DECLARE_METATYPE(test_namespace::PFXCategory)
 
-#endif // OAITag_H
+#endif // PFXCategory_H

@@ -11,32 +11,32 @@
  */
 
 
-#include "OAITag.h"
+#include "PFXTag.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
 
-#include "OAIHelpers.h"
+#include "PFXHelpers.h"
 
-namespace OpenAPI {
+namespace test_namespace {
 
-OAITag::OAITag(QString json) {
+PFXTag::PFXTag(QString json) {
     this->initializeModel();
     this->fromJson(json);
 }
 
-OAITag::OAITag() {
+PFXTag::PFXTag() {
     this->initializeModel();
 }
 
-OAITag::~OAITag() {
+PFXTag::~PFXTag() {
 
 }
 
 void
-OAITag::initializeModel() {
+PFXTag::initializeModel() {
     
     m_id_isSet = false;
     m_id_isValid = false;
@@ -47,7 +47,7 @@ OAITag::initializeModel() {
 }
 
 void
-OAITag::fromJson(QString jsonString) {
+PFXTag::fromJson(QString jsonString) {
     QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -55,18 +55,18 @@ OAITag::fromJson(QString jsonString) {
 }
 
 void
-OAITag::fromJsonObject(QJsonObject json) {
+PFXTag::fromJsonObject(QJsonObject json) {
     
-    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
     
-    m_name_isValid = ::OpenAPI::fromJsonValue(name, json[QString("name")]);
+    m_name_isValid = ::test_namespace::fromJsonValue(name, json[QString("name")]);
     m_name_isSet = !json[QString("name")].isNull() && m_name_isValid;
     
 }
 
 QString
-OAITag::asJson () const {
+PFXTag::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -74,41 +74,41 @@ OAITag::asJson () const {
 }
 
 QJsonObject
-OAITag::asJsonObject() const {
+PFXTag::asJsonObject() const {
     QJsonObject obj;
     if(m_id_isSet){
-        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
+        obj.insert(QString("id"), ::test_namespace::toJsonValue(id));
     }
     if(m_name_isSet){
-        obj.insert(QString("name"), ::OpenAPI::toJsonValue(name));
+        obj.insert(QString("name"), ::test_namespace::toJsonValue(name));
     }
     return obj;
 }
 
 
 qint64
-OAITag::getId() const {
+PFXTag::getId() const {
     return id;
 }
 void
-OAITag::setId(const qint64 &id) {
+PFXTag::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 
 QString
-OAITag::getName() const {
+PFXTag::getName() const {
     return name;
 }
 void
-OAITag::setName(const QString &name) {
+PFXTag::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
 bool
-OAITag::isSet() const {
+PFXTag::isSet() const {
     bool isObjectUpdated = false;
     do{ 
         if(m_id_isSet){ isObjectUpdated = true; break;}
@@ -119,7 +119,7 @@ OAITag::isSet() const {
 }
 
 bool
-OAITag::isValid() const {
+PFXTag::isValid() const {
     // only required properties are required for the object to be considered valid
     return true;
 }

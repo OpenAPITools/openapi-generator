@@ -10,63 +10,63 @@
  * Do not edit the class manually.
  */
 
-#include "OAIStoreApi.h"
-#include "OAIHelpers.h"
+#include "PFXStoreApi.h"
+#include "PFXHelpers.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
 
-namespace OpenAPI {
+namespace test_namespace {
 
-OAIStoreApi::OAIStoreApi() : basePath("/v2"),
+PFXStoreApi::PFXStoreApi() : basePath("/v2"),
     host("petstore.swagger.io"),
     timeout(0){
 
 }
 
-OAIStoreApi::~OAIStoreApi() {
+PFXStoreApi::~PFXStoreApi() {
 
 }
 
-OAIStoreApi::OAIStoreApi(const QString& host, const QString& basePath, const int tout) {
+PFXStoreApi::PFXStoreApi(const QString& host, const QString& basePath, const int tout) {
     this->host = host;
     this->basePath = basePath;
     this->timeout = tout;
 }
 
-void OAIStoreApi::setBasePath(const QString& basePath){
+void PFXStoreApi::setBasePath(const QString& basePath){
     this->basePath = basePath;
 }
 
-void OAIStoreApi::setHost(const QString& host){
+void PFXStoreApi::setHost(const QString& host){
     this->host = host;
 }
 
-void OAIStoreApi::setApiTimeOutMs(const int tout){
+void PFXStoreApi::setApiTimeOutMs(const int tout){
     timeout = tout;
 }
 
-void OAIStoreApi::setWorkingDirectory(const QString& path){
+void PFXStoreApi::setWorkingDirectory(const QString& path){
     workingDirectory = path;
 }
 
-void OAIStoreApi::addHeaders(const QString& key, const QString& value){
+void PFXStoreApi::addHeaders(const QString& key, const QString& value){
     defaultHeaders.insert(key, value);
 }
 
 
 void
-OAIStoreApi::deleteOrder(const QString& order_id) {
+PFXStoreApi::deleteOrder(const QString& order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
+    fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "DELETE");
+    PFXHttpRequestInput input(fullPath, "DELETE");
     
 
 
@@ -75,15 +75,15 @@ OAIStoreApi::deleteOrder(const QString& order_id) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIStoreApi::deleteOrderCallback);
+            &PFXStoreApi::deleteOrderCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIStoreApi::deleteOrderCallback(OAIHttpRequestWorker * worker) {
+PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -106,14 +106,14 @@ OAIStoreApi::deleteOrderCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::getInventory() {
+PFXStoreApi::getInventory() {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/inventory");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "GET");
+    PFXHttpRequestInput input(fullPath, "GET");
     
 
 
@@ -122,15 +122,15 @@ OAIStoreApi::getInventory() {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIStoreApi::getInventoryCallback);
+            &PFXStoreApi::getInventoryCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIStoreApi::getInventoryCallback(OAIHttpRequestWorker * worker) {
+PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -148,7 +148,7 @@ OAIStoreApi::getInventoryCallback(OAIHttpRequestWorker * worker) {
     QJsonObject obj = doc.object();
     foreach(QString key, obj.keys()) {
         qint32 val;
-        ::OpenAPI::fromJsonValue(val, obj[key]);
+        ::test_namespace::fromJsonValue(val, obj[key]);
         output.insert(key, val);
     }
     worker->deleteLater();
@@ -163,17 +163,17 @@ OAIStoreApi::getInventoryCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::getOrderById(const qint64& order_id) {
+PFXStoreApi::getOrderById(const qint64& order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
     QString order_idPathParam("{");
     order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
+    fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "GET");
+    PFXHttpRequestInput input(fullPath, "GET");
     
 
 
@@ -182,15 +182,15 @@ OAIStoreApi::getOrderById(const qint64& order_id) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIStoreApi::getOrderByIdCallback);
+            &PFXStoreApi::getOrderByIdCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
+PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -201,7 +201,7 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-    OAIOrder output(QString(worker->response));
+    PFXOrder output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -214,14 +214,14 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::placeOrder(const OAIOrder& body) {
+PFXStoreApi::placeOrder(const PFXOrder& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "POST");
+    PFXHttpRequestInput input(fullPath, "POST");
     
     
     QString output = body.asJson();
@@ -233,15 +233,15 @@ OAIStoreApi::placeOrder(const OAIOrder& body) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIStoreApi::placeOrderCallback);
+            &PFXStoreApi::placeOrderCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIStoreApi::placeOrderCallback(OAIHttpRequestWorker * worker) {
+PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -252,7 +252,7 @@ OAIStoreApi::placeOrderCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-    OAIOrder output(QString(worker->response));
+    PFXOrder output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {

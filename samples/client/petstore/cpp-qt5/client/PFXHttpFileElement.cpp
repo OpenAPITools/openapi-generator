@@ -16,37 +16,37 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "OAIHttpFileElement.h"
+#include "PFXHttpFileElement.h"
 
-namespace OpenAPI {
+namespace test_namespace {
 
 void
-OAIHttpFileElement::setMimeType(const QString &mime){
+PFXHttpFileElement::setMimeType(const QString &mime){
     mime_type = mime;
 }
 
 void
-OAIHttpFileElement::setFileName(const QString &name){
+PFXHttpFileElement::setFileName(const QString &name){
     local_filename = name;
 }
 
 void
-OAIHttpFileElement::setVariableName(const QString &name){
+PFXHttpFileElement::setVariableName(const QString &name){
     variable_name = name;
 }
 
 void
-OAIHttpFileElement::setRequestFileName(const QString &name){
+PFXHttpFileElement::setRequestFileName(const QString &name){
     request_filename = name;
 }
 
 bool 
-OAIHttpFileElement::isSet() const {
+PFXHttpFileElement::isSet() const {
     return !local_filename.isEmpty() || !request_filename.isEmpty();
 }
 
 QString 
-OAIHttpFileElement::asJson() const{
+PFXHttpFileElement::asJson() const{
     QFile file(local_filename);
     QByteArray bArray;
     bool result = false;
@@ -62,7 +62,7 @@ OAIHttpFileElement::asJson() const{
 }
 
 QJsonValue 
-OAIHttpFileElement::asJsonValue() const{
+PFXHttpFileElement::asJsonValue() const{
     QFile file(local_filename);
     QByteArray bArray;
     bool result = false;    
@@ -78,7 +78,7 @@ OAIHttpFileElement::asJsonValue() const{
 }
 
 bool 
-OAIHttpFileElement::fromStringValue(const QString &instr){
+PFXHttpFileElement::fromStringValue(const QString &instr){
     QFile file(local_filename);
     bool result = false;
     if(file.exists()) {
@@ -94,7 +94,7 @@ OAIHttpFileElement::fromStringValue(const QString &instr){
 }
 
 bool 
-OAIHttpFileElement::fromJsonValue(const QJsonValue &jval) {
+PFXHttpFileElement::fromJsonValue(const QJsonValue &jval) {
     QFile file(local_filename);
     bool result = false;
     if(file.exists()) {
@@ -110,7 +110,7 @@ OAIHttpFileElement::fromJsonValue(const QJsonValue &jval) {
 }
 
 QByteArray
-OAIHttpFileElement::asByteArray() const {
+PFXHttpFileElement::asByteArray() const {
     QFile file(local_filename);
     QByteArray bArray;
     bool result = false;
@@ -126,7 +126,7 @@ OAIHttpFileElement::asByteArray() const {
 }
 
 bool
-OAIHttpFileElement::fromByteArray(const QByteArray& bytes){
+PFXHttpFileElement::fromByteArray(const QByteArray& bytes){
     QFile file(local_filename);
     bool result = false;
     if(file.exists()){
@@ -142,7 +142,7 @@ OAIHttpFileElement::fromByteArray(const QByteArray& bytes){
 }
 
 bool
-OAIHttpFileElement::saveToFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime, const QByteArray& bytes){
+PFXHttpFileElement::saveToFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime, const QByteArray& bytes){
     setMimeType(mime);
     setFileName(localFName);
     setVariableName(varName);
@@ -151,7 +151,7 @@ OAIHttpFileElement::saveToFile(const QString &varName, const QString &localFName
 }
 
 QByteArray
-OAIHttpFileElement::loadFromFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime){
+PFXHttpFileElement::loadFromFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime){
     setMimeType(mime);
     setFileName(localFName);
     setVariableName(varName);

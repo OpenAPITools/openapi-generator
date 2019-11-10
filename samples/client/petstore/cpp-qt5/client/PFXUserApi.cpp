@@ -10,60 +10,60 @@
  * Do not edit the class manually.
  */
 
-#include "OAIUserApi.h"
-#include "OAIHelpers.h"
+#include "PFXUserApi.h"
+#include "PFXHelpers.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
 
-namespace OpenAPI {
+namespace test_namespace {
 
-OAIUserApi::OAIUserApi() : basePath("/v2"),
+PFXUserApi::PFXUserApi() : basePath("/v2"),
     host("petstore.swagger.io"),
     timeout(0){
 
 }
 
-OAIUserApi::~OAIUserApi() {
+PFXUserApi::~PFXUserApi() {
 
 }
 
-OAIUserApi::OAIUserApi(const QString& host, const QString& basePath, const int tout) {
+PFXUserApi::PFXUserApi(const QString& host, const QString& basePath, const int tout) {
     this->host = host;
     this->basePath = basePath;
     this->timeout = tout;
 }
 
-void OAIUserApi::setBasePath(const QString& basePath){
+void PFXUserApi::setBasePath(const QString& basePath){
     this->basePath = basePath;
 }
 
-void OAIUserApi::setHost(const QString& host){
+void PFXUserApi::setHost(const QString& host){
     this->host = host;
 }
 
-void OAIUserApi::setApiTimeOutMs(const int tout){
+void PFXUserApi::setApiTimeOutMs(const int tout){
     timeout = tout;
 }
 
-void OAIUserApi::setWorkingDirectory(const QString& path){
+void PFXUserApi::setWorkingDirectory(const QString& path){
     workingDirectory = path;
 }
 
-void OAIUserApi::addHeaders(const QString& key, const QString& value){
+void PFXUserApi::addHeaders(const QString& key, const QString& value){
     defaultHeaders.insert(key, value);
 }
 
 
 void
-OAIUserApi::createUser(const OAIUser& body) {
+PFXUserApi::createUser(const PFXUser& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "POST");
+    PFXHttpRequestInput input(fullPath, "POST");
     
     
     QString output = body.asJson();
@@ -75,15 +75,15 @@ OAIUserApi::createUser(const OAIUser& body) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIUserApi::createUserCallback);
+            &PFXUserApi::createUserCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIUserApi::createUserCallback(OAIHttpRequestWorker * worker) {
+PFXUserApi::createUserCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -106,17 +106,17 @@ OAIUserApi::createUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& body) {
+PFXUserApi::createUsersWithArrayInput(const QList<PFXUser>& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "POST");
+    PFXHttpRequestInput input(fullPath, "POST");
     
     
-    QJsonDocument doc(::OpenAPI::toJsonValue(body).toArray());
+    QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
     
@@ -126,15 +126,15 @@ OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& body) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIUserApi::createUsersWithArrayInputCallback);
+            &PFXUserApi::createUsersWithArrayInputCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIUserApi::createUsersWithArrayInputCallback(OAIHttpRequestWorker * worker) {
+PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -157,17 +157,17 @@ OAIUserApi::createUsersWithArrayInputCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::createUsersWithListInput(const QList<OAIUser>& body) {
+PFXUserApi::createUsersWithListInput(const QList<PFXUser>& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "POST");
+    PFXHttpRequestInput input(fullPath, "POST");
     
     
-    QJsonDocument doc(::OpenAPI::toJsonValue(body).toArray());
+    QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
     
@@ -177,15 +177,15 @@ OAIUserApi::createUsersWithListInput(const QList<OAIUser>& body) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIUserApi::createUsersWithListInputCallback);
+            &PFXUserApi::createUsersWithListInputCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIUserApi::createUsersWithListInputCallback(OAIHttpRequestWorker * worker) {
+PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -208,17 +208,17 @@ OAIUserApi::createUsersWithListInputCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::deleteUser(const QString& username) {
+PFXUserApi::deleteUser(const QString& username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
+    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "DELETE");
+    PFXHttpRequestInput input(fullPath, "DELETE");
     
 
 
@@ -227,15 +227,15 @@ OAIUserApi::deleteUser(const QString& username) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIUserApi::deleteUserCallback);
+            &PFXUserApi::deleteUserCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIUserApi::deleteUserCallback(OAIHttpRequestWorker * worker) {
+PFXUserApi::deleteUserCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -258,17 +258,17 @@ OAIUserApi::deleteUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::getUserByName(const QString& username) {
+PFXUserApi::getUserByName(const QString& username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
+    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "GET");
+    PFXHttpRequestInput input(fullPath, "GET");
     
 
 
@@ -277,15 +277,15 @@ OAIUserApi::getUserByName(const QString& username) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIUserApi::getUserByNameCallback);
+            &PFXUserApi::getUserByNameCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIUserApi::getUserByNameCallback(OAIHttpRequestWorker * worker) {
+PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -296,7 +296,7 @@ OAIUserApi::getUserByNameCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-    OAIUser output(QString(worker->response));
+    PFXUser output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -309,7 +309,7 @@ OAIUserApi::getUserByNameCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::loginUser(const QString& username, const QString& password) {
+PFXUserApi::loginUser(const QString& username, const QString& password) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/login");
     
@@ -319,7 +319,7 @@ OAIUserApi::loginUser(const QString& username, const QString& password) {
       fullPath.append("?");
     fullPath.append(QUrl::toPercentEncoding("username"))
         .append("=")
-        .append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
+        .append(QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
     
     if (fullPath.indexOf("?") > 0)
       fullPath.append("&");
@@ -327,12 +327,12 @@ OAIUserApi::loginUser(const QString& username, const QString& password) {
       fullPath.append("?");
     fullPath.append(QUrl::toPercentEncoding("password"))
         .append("=")
-        .append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(password)));
+        .append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "GET");
+    PFXHttpRequestInput input(fullPath, "GET");
     
 
 
@@ -341,15 +341,15 @@ OAIUserApi::loginUser(const QString& username, const QString& password) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIUserApi::loginUserCallback);
+            &PFXUserApi::loginUserCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIUserApi::loginUserCallback(OAIHttpRequestWorker * worker) {
+PFXUserApi::loginUserCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -361,7 +361,7 @@ OAIUserApi::loginUserCallback(OAIHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
     QString output;
-    ::OpenAPI::fromStringValue(QString(worker->response), output);
+    ::test_namespace::fromStringValue(QString(worker->response), output);
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -374,14 +374,14 @@ OAIUserApi::loginUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::logoutUser() {
+PFXUserApi::logoutUser() {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/logout");
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "GET");
+    PFXHttpRequestInput input(fullPath, "GET");
     
 
 
@@ -390,15 +390,15 @@ OAIUserApi::logoutUser() {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIUserApi::logoutUserCallback);
+            &PFXUserApi::logoutUserCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIUserApi::logoutUserCallback(OAIHttpRequestWorker * worker) {
+PFXUserApi::logoutUserCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -421,17 +421,17 @@ OAIUserApi::logoutUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::updateUser(const QString& username, const OAIUser& body) {
+PFXUserApi::updateUser(const QString& username, const PFXUser& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
+    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
     
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(timeout);
     worker->setWorkingDirectory(workingDirectory);    
-    OAIHttpRequestInput input(fullPath, "PUT");
+    PFXHttpRequestInput input(fullPath, "PUT");
     
     
     QString output = body.asJson();
@@ -443,15 +443,15 @@ OAIUserApi::updateUser(const QString& username, const OAIUser& body) {
     }
 
     connect(worker,
-            &OAIHttpRequestWorker::on_execution_finished,
+            &PFXHttpRequestWorker::on_execution_finished,
             this,
-            &OAIUserApi::updateUserCallback);
+            &PFXUserApi::updateUserCallback);
 
     worker->execute(&input);
 }
 
 void
-OAIUserApi::updateUserCallback(OAIHttpRequestWorker * worker) {
+PFXUserApi::updateUserCallback(PFXHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;

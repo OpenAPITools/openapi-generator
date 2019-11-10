@@ -10,26 +10,26 @@
  * Do not edit the class manually.
  */
 
-#ifndef OAI_ENUM_H
-#define OAI_ENUM_H
+#ifndef PFX_ENUM_H
+#define PFX_ENUM_H
 
 #include <QString>
 #include <QJsonValue>
 #include <QMetaType>
 
-namespace OpenAPI {
+namespace test_namespace {
 
-class OAIEnum {
+class PFXEnum {
   public:
-    OAIEnum() {
+    PFXEnum() {
 
     }
 
-    OAIEnum(QString jsonString) {
+    PFXEnum(QString jsonString) {
         fromJson(jsonString);
     }
 
-    virtual ~OAIEnum(){
+    virtual ~PFXEnum(){
 
     }
 
@@ -62,6 +62,6 @@ private :
 
 }
 
-Q_DECLARE_METATYPE(OpenAPI::OAIEnum)
+Q_DECLARE_METATYPE(test_namespace::PFXEnum)
 
-#endif // OAI_ENUM_H
+#endif // PFX_ENUM_H

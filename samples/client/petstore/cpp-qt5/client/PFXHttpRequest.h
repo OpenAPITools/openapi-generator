@@ -16,8 +16,8 @@
  *
  **/
 
-#ifndef OAI_HTTPREQUESTWORKER_H
-#define OAI_HTTPREQUESTWORKER_H
+#ifndef PFX_HTTPREQUESTWORKER_H
+#define PFX_HTTPREQUESTWORKER_H
 
 #include <QObject>
 #include <QString>
@@ -27,26 +27,26 @@
 #include <QNetworkReply>
 
 
-#include "OAIHttpFileElement.h"
+#include "PFXHttpFileElement.h"
 
-namespace OpenAPI {
+namespace test_namespace {
 
-enum OAIHttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
+enum PFXHttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
 
 
-class OAIHttpRequestInput {
+class PFXHttpRequestInput {
 
 public:
     QString url_str;
     QString http_method;
-    OAIHttpRequestVarLayout var_layout;
+    PFXHttpRequestVarLayout var_layout;
     QMap<QString, QString> vars;
     QMap<QString, QString> headers;
-    QList<OAIHttpFileElement> files;
+    QList<PFXHttpFileElement> files;
     QByteArray request_body;
 
-    OAIHttpRequestInput();
-    OAIHttpRequestInput(QString v_url_str, QString v_http_method);
+    PFXHttpRequestInput();
+    PFXHttpRequestInput(QString v_url_str, QString v_http_method);
     void initialize();
     void add_var(QString key, QString value);
     void add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type);
@@ -54,7 +54,7 @@ public:
 };
 
 
-class OAIHttpRequestWorker : public QObject {
+class PFXHttpRequestWorker : public QObject {
     Q_OBJECT
 
 public:
@@ -62,24 +62,24 @@ public:
     QNetworkReply::NetworkError error_type;
     QString error_str;
     QTimer *timer;
-    explicit OAIHttpRequestWorker(QObject *parent = nullptr);
-    virtual ~OAIHttpRequestWorker();
+    explicit PFXHttpRequestWorker(QObject *parent = nullptr);
+    virtual ~PFXHttpRequestWorker();
 
     QMap<QString, QString> getResponseHeaders() const;
     QString http_attribute_encode(QString attribute_name, QString input);
-    void execute(OAIHttpRequestInput *input);
+    void execute(PFXHttpRequestInput *input);
     static QSslConfiguration* sslDefaultConfiguration;
     void setTimeOut(int tout);
     void setWorkingDirectory(const QString &path);
-    OAIHttpFileElement getHttpFileElement(const QString &fieldname = QString());
+    PFXHttpFileElement getHttpFileElement(const QString &fieldname = QString());
     QByteArray* getMultiPartField(const QString &fieldname = QString());    
 signals:
-    void on_execution_finished(OAIHttpRequestWorker *worker);
+    void on_execution_finished(PFXHttpRequestWorker *worker);
 
 private:
     QNetworkAccessManager *manager;
     QMap<QString, QString> headers;
-    QMap<QString, OAIHttpFileElement> files;
+    QMap<QString, PFXHttpFileElement> files;
     QMap<QString, QByteArray*> multiPartFields;
     QString workingDirectory;
     int timeout;
@@ -91,4 +91,4 @@ private slots:
 
 }
 
-#endif // OAI_HTTPREQUESTWORKER_H
+#endif // PFX_HTTPREQUESTWORKER_H

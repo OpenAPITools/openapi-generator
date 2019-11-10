@@ -83,7 +83,7 @@ QMap<QString, QString> {{prefix}}HttpRequestWorker::getResponseHeaders() const {
             return files[fieldname];
         }
     }
-    return OAIHttpFileElement();
+    return {{prefix}}HttpFileElement();
 }
 
 QByteArray *{{prefix}}HttpRequestWorker::getMultiPartField(const QString &fieldname){

@@ -11,32 +11,32 @@
  */
 
 
-#include "OAIUser.h"
+#include "PFXUser.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
 
-#include "OAIHelpers.h"
+#include "PFXHelpers.h"
 
-namespace OpenAPI {
+namespace test_namespace {
 
-OAIUser::OAIUser(QString json) {
+PFXUser::PFXUser(QString json) {
     this->initializeModel();
     this->fromJson(json);
 }
 
-OAIUser::OAIUser() {
+PFXUser::PFXUser() {
     this->initializeModel();
 }
 
-OAIUser::~OAIUser() {
+PFXUser::~PFXUser() {
 
 }
 
 void
-OAIUser::initializeModel() {
+PFXUser::initializeModel() {
     
     m_id_isSet = false;
     m_id_isValid = false;
@@ -65,7 +65,7 @@ OAIUser::initializeModel() {
 }
 
 void
-OAIUser::fromJson(QString jsonString) {
+PFXUser::fromJson(QString jsonString) {
     QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -73,36 +73,36 @@ OAIUser::fromJson(QString jsonString) {
 }
 
 void
-OAIUser::fromJsonObject(QJsonObject json) {
+PFXUser::fromJsonObject(QJsonObject json) {
     
-    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
     
-    m_username_isValid = ::OpenAPI::fromJsonValue(username, json[QString("username")]);
+    m_username_isValid = ::test_namespace::fromJsonValue(username, json[QString("username")]);
     m_username_isSet = !json[QString("username")].isNull() && m_username_isValid;
     
-    m_first_name_isValid = ::OpenAPI::fromJsonValue(first_name, json[QString("firstName")]);
+    m_first_name_isValid = ::test_namespace::fromJsonValue(first_name, json[QString("firstName")]);
     m_first_name_isSet = !json[QString("firstName")].isNull() && m_first_name_isValid;
     
-    m_last_name_isValid = ::OpenAPI::fromJsonValue(last_name, json[QString("lastName")]);
+    m_last_name_isValid = ::test_namespace::fromJsonValue(last_name, json[QString("lastName")]);
     m_last_name_isSet = !json[QString("lastName")].isNull() && m_last_name_isValid;
     
-    m_email_isValid = ::OpenAPI::fromJsonValue(email, json[QString("email")]);
+    m_email_isValid = ::test_namespace::fromJsonValue(email, json[QString("email")]);
     m_email_isSet = !json[QString("email")].isNull() && m_email_isValid;
     
-    m_password_isValid = ::OpenAPI::fromJsonValue(password, json[QString("password")]);
+    m_password_isValid = ::test_namespace::fromJsonValue(password, json[QString("password")]);
     m_password_isSet = !json[QString("password")].isNull() && m_password_isValid;
     
-    m_phone_isValid = ::OpenAPI::fromJsonValue(phone, json[QString("phone")]);
+    m_phone_isValid = ::test_namespace::fromJsonValue(phone, json[QString("phone")]);
     m_phone_isSet = !json[QString("phone")].isNull() && m_phone_isValid;
     
-    m_user_status_isValid = ::OpenAPI::fromJsonValue(user_status, json[QString("userStatus")]);
+    m_user_status_isValid = ::test_namespace::fromJsonValue(user_status, json[QString("userStatus")]);
     m_user_status_isSet = !json[QString("userStatus")].isNull() && m_user_status_isValid;
     
 }
 
 QString
-OAIUser::asJson () const {
+PFXUser::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -110,125 +110,125 @@ OAIUser::asJson () const {
 }
 
 QJsonObject
-OAIUser::asJsonObject() const {
+PFXUser::asJsonObject() const {
     QJsonObject obj;
     if(m_id_isSet){
-        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
+        obj.insert(QString("id"), ::test_namespace::toJsonValue(id));
     }
     if(m_username_isSet){
-        obj.insert(QString("username"), ::OpenAPI::toJsonValue(username));
+        obj.insert(QString("username"), ::test_namespace::toJsonValue(username));
     }
     if(m_first_name_isSet){
-        obj.insert(QString("firstName"), ::OpenAPI::toJsonValue(first_name));
+        obj.insert(QString("firstName"), ::test_namespace::toJsonValue(first_name));
     }
     if(m_last_name_isSet){
-        obj.insert(QString("lastName"), ::OpenAPI::toJsonValue(last_name));
+        obj.insert(QString("lastName"), ::test_namespace::toJsonValue(last_name));
     }
     if(m_email_isSet){
-        obj.insert(QString("email"), ::OpenAPI::toJsonValue(email));
+        obj.insert(QString("email"), ::test_namespace::toJsonValue(email));
     }
     if(m_password_isSet){
-        obj.insert(QString("password"), ::OpenAPI::toJsonValue(password));
+        obj.insert(QString("password"), ::test_namespace::toJsonValue(password));
     }
     if(m_phone_isSet){
-        obj.insert(QString("phone"), ::OpenAPI::toJsonValue(phone));
+        obj.insert(QString("phone"), ::test_namespace::toJsonValue(phone));
     }
     if(m_user_status_isSet){
-        obj.insert(QString("userStatus"), ::OpenAPI::toJsonValue(user_status));
+        obj.insert(QString("userStatus"), ::test_namespace::toJsonValue(user_status));
     }
     return obj;
 }
 
 
 qint64
-OAIUser::getId() const {
+PFXUser::getId() const {
     return id;
 }
 void
-OAIUser::setId(const qint64 &id) {
+PFXUser::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 
 QString
-OAIUser::getUsername() const {
+PFXUser::getUsername() const {
     return username;
 }
 void
-OAIUser::setUsername(const QString &username) {
+PFXUser::setUsername(const QString &username) {
     this->username = username;
     this->m_username_isSet = true;
 }
 
 
 QString
-OAIUser::getFirstName() const {
+PFXUser::getFirstName() const {
     return first_name;
 }
 void
-OAIUser::setFirstName(const QString &first_name) {
+PFXUser::setFirstName(const QString &first_name) {
     this->first_name = first_name;
     this->m_first_name_isSet = true;
 }
 
 
 QString
-OAIUser::getLastName() const {
+PFXUser::getLastName() const {
     return last_name;
 }
 void
-OAIUser::setLastName(const QString &last_name) {
+PFXUser::setLastName(const QString &last_name) {
     this->last_name = last_name;
     this->m_last_name_isSet = true;
 }
 
 
 QString
-OAIUser::getEmail() const {
+PFXUser::getEmail() const {
     return email;
 }
 void
-OAIUser::setEmail(const QString &email) {
+PFXUser::setEmail(const QString &email) {
     this->email = email;
     this->m_email_isSet = true;
 }
 
 
 QString
-OAIUser::getPassword() const {
+PFXUser::getPassword() const {
     return password;
 }
 void
-OAIUser::setPassword(const QString &password) {
+PFXUser::setPassword(const QString &password) {
     this->password = password;
     this->m_password_isSet = true;
 }
 
 
 QString
-OAIUser::getPhone() const {
+PFXUser::getPhone() const {
     return phone;
 }
 void
-OAIUser::setPhone(const QString &phone) {
+PFXUser::setPhone(const QString &phone) {
     this->phone = phone;
     this->m_phone_isSet = true;
 }
 
 
 qint32
-OAIUser::getUserStatus() const {
+PFXUser::getUserStatus() const {
     return user_status;
 }
 void
-OAIUser::setUserStatus(const qint32 &user_status) {
+PFXUser::setUserStatus(const qint32 &user_status) {
     this->user_status = user_status;
     this->m_user_status_isSet = true;
 }
 
 bool
-OAIUser::isSet() const {
+PFXUser::isSet() const {
     bool isObjectUpdated = false;
     do{ 
         if(m_id_isSet){ isObjectUpdated = true; break;}
@@ -251,7 +251,7 @@ OAIUser::isSet() const {
 }
 
 bool
-OAIUser::isValid() const {
+PFXUser::isValid() const {
     // only required properties are required for the object to be considered valid
     return true;
 }

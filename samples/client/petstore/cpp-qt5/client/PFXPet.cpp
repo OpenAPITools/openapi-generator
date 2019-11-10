@@ -11,32 +11,32 @@
  */
 
 
-#include "OAIPet.h"
+#include "PFXPet.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
 
-#include "OAIHelpers.h"
+#include "PFXHelpers.h"
 
-namespace OpenAPI {
+namespace test_namespace {
 
-OAIPet::OAIPet(QString json) {
+PFXPet::PFXPet(QString json) {
     this->initializeModel();
     this->fromJson(json);
 }
 
-OAIPet::OAIPet() {
+PFXPet::PFXPet() {
     this->initializeModel();
 }
 
-OAIPet::~OAIPet() {
+PFXPet::~PFXPet() {
 
 }
 
 void
-OAIPet::initializeModel() {
+PFXPet::initializeModel() {
     
     m_id_isSet = false;
     m_id_isValid = false;
@@ -59,7 +59,7 @@ OAIPet::initializeModel() {
 }
 
 void
-OAIPet::fromJson(QString jsonString) {
+PFXPet::fromJson(QString jsonString) {
     QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -67,30 +67,30 @@ OAIPet::fromJson(QString jsonString) {
 }
 
 void
-OAIPet::fromJsonObject(QJsonObject json) {
+PFXPet::fromJsonObject(QJsonObject json) {
     
-    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
     
-    m_category_isValid = ::OpenAPI::fromJsonValue(category, json[QString("category")]);
+    m_category_isValid = ::test_namespace::fromJsonValue(category, json[QString("category")]);
     m_category_isSet = !json[QString("category")].isNull() && m_category_isValid;
     
-    m_name_isValid = ::OpenAPI::fromJsonValue(name, json[QString("name")]);
+    m_name_isValid = ::test_namespace::fromJsonValue(name, json[QString("name")]);
     m_name_isSet = !json[QString("name")].isNull() && m_name_isValid;
     
-    m_photo_urls_isValid = ::OpenAPI::fromJsonValue(photo_urls, json[QString("photoUrls")]);
+    m_photo_urls_isValid = ::test_namespace::fromJsonValue(photo_urls, json[QString("photoUrls")]);
     m_photo_urls_isSet = !json[QString("photoUrls")].isNull() && m_photo_urls_isValid;
     
-    m_tags_isValid = ::OpenAPI::fromJsonValue(tags, json[QString("tags")]);
+    m_tags_isValid = ::test_namespace::fromJsonValue(tags, json[QString("tags")]);
     m_tags_isSet = !json[QString("tags")].isNull() && m_tags_isValid;
     
-    m_status_isValid = ::OpenAPI::fromJsonValue(status, json[QString("status")]);
+    m_status_isValid = ::test_namespace::fromJsonValue(status, json[QString("status")]);
     m_status_isSet = !json[QString("status")].isNull() && m_status_isValid;
     
 }
 
 QString
-OAIPet::asJson () const {
+PFXPet::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -98,99 +98,99 @@ OAIPet::asJson () const {
 }
 
 QJsonObject
-OAIPet::asJsonObject() const {
+PFXPet::asJsonObject() const {
     QJsonObject obj;
     if(m_id_isSet){
-        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
+        obj.insert(QString("id"), ::test_namespace::toJsonValue(id));
     }
     if(category.isSet()){
-        obj.insert(QString("category"), ::OpenAPI::toJsonValue(category));
+        obj.insert(QString("category"), ::test_namespace::toJsonValue(category));
     }
     if(m_name_isSet){
-        obj.insert(QString("name"), ::OpenAPI::toJsonValue(name));
+        obj.insert(QString("name"), ::test_namespace::toJsonValue(name));
     }
     
     if(photo_urls.size() > 0){
-        obj.insert(QString("photoUrls"), ::OpenAPI::toJsonValue(photo_urls));
+        obj.insert(QString("photoUrls"), ::test_namespace::toJsonValue(photo_urls));
     } 
     
     if(tags.size() > 0){
-        obj.insert(QString("tags"), ::OpenAPI::toJsonValue(tags));
+        obj.insert(QString("tags"), ::test_namespace::toJsonValue(tags));
     } 
     if(m_status_isSet){
-        obj.insert(QString("status"), ::OpenAPI::toJsonValue(status));
+        obj.insert(QString("status"), ::test_namespace::toJsonValue(status));
     }
     return obj;
 }
 
 
 qint64
-OAIPet::getId() const {
+PFXPet::getId() const {
     return id;
 }
 void
-OAIPet::setId(const qint64 &id) {
+PFXPet::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 
-OAICategory
-OAIPet::getCategory() const {
+PFXCategory
+PFXPet::getCategory() const {
     return category;
 }
 void
-OAIPet::setCategory(const OAICategory &category) {
+PFXPet::setCategory(const PFXCategory &category) {
     this->category = category;
     this->m_category_isSet = true;
 }
 
 
 QString
-OAIPet::getName() const {
+PFXPet::getName() const {
     return name;
 }
 void
-OAIPet::setName(const QString &name) {
+PFXPet::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
 
 QList<QString>
-OAIPet::getPhotoUrls() const {
+PFXPet::getPhotoUrls() const {
     return photo_urls;
 }
 void
-OAIPet::setPhotoUrls(const QList<QString> &photo_urls) {
+PFXPet::setPhotoUrls(const QList<QString> &photo_urls) {
     this->photo_urls = photo_urls;
     this->m_photo_urls_isSet = true;
 }
 
 
-QList<OAITag>
-OAIPet::getTags() const {
+QList<PFXTag>
+PFXPet::getTags() const {
     return tags;
 }
 void
-OAIPet::setTags(const QList<OAITag> &tags) {
+PFXPet::setTags(const QList<PFXTag> &tags) {
     this->tags = tags;
     this->m_tags_isSet = true;
 }
 
 
 QString
-OAIPet::getStatus() const {
+PFXPet::getStatus() const {
     return status;
 }
 void
-OAIPet::setStatus(const QString &status) {
+PFXPet::setStatus(const QString &status) {
     this->status = status;
     this->m_status_isSet = true;
 }
 
 bool
-OAIPet::isSet() const {
+PFXPet::isSet() const {
     bool isObjectUpdated = false;
     do{ 
         if(m_id_isSet){ isObjectUpdated = true; break;}
@@ -209,7 +209,7 @@ OAIPet::isSet() const {
 }
 
 bool
-OAIPet::isValid() const {
+PFXPet::isValid() const {
     // only required properties are required for the object to be considered valid
     return m_name_isValid && m_photo_urls_isValid && true;
 }

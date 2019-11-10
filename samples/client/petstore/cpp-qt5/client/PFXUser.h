@@ -11,30 +11,30 @@
  */
 
 /*
- * OAIUser.h
+ * PFXUser.h
  *
  * A User who is purchasing from the pet store
  */
 
-#ifndef OAIUser_H
-#define OAIUser_H
+#ifndef PFXUser_H
+#define PFXUser_H
 
 #include <QJsonObject>
 
 
 #include <QString>
 
-#include "OAIObject.h"
-#include "OAIEnum.h"
+#include "PFXObject.h"
+#include "PFXEnum.h"
 
 
-namespace OpenAPI {
+namespace test_namespace {
 
-class OAIUser: public OAIObject {
+class PFXUser: public PFXObject {
 public:
-    OAIUser();
-    OAIUser(QString json);
-    ~OAIUser() override;
+    PFXUser();
+    PFXUser(QString json);
+    ~PFXUser() override;
 
     QString asJson () const override;
     QJsonObject asJsonObject() const override;
@@ -117,6 +117,6 @@ private:
 
 }
 
-Q_DECLARE_METATYPE(OpenAPI::OAIUser)
+Q_DECLARE_METATYPE(test_namespace::PFXUser)
 
-#endif // OAIUser_H
+#endif // PFXUser_H

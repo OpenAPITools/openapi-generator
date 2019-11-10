@@ -11,10 +11,10 @@
  */
 
 #include <QDebug>
-#include "OAIHelpers.h"
+#include "PFXHelpers.h"
 
 
-namespace OpenAPI {
+namespace test_namespace {
 
 
 QString
@@ -65,18 +65,18 @@ toStringValue(const double &value){
 }
 
 QString 
-toStringValue(const OAIObject &value){
+toStringValue(const PFXObject &value){
     return value.asJson();
 }
 
 
 QString
-toStringValue(const OAIEnum &value){
+toStringValue(const PFXEnum &value){
     return value.asJson();
 }
 
 QString
-toStringValue(const OAIHttpFileElement &value){
+toStringValue(const PFXHttpFileElement &value){
     return value.asJson();
 }
 
@@ -127,17 +127,17 @@ toJsonValue(const double &value){
 }
 
 QJsonValue
-toJsonValue(const OAIObject &value){
+toJsonValue(const PFXObject &value){
     return value.asJsonObject();
 }
 
 QJsonValue
-toJsonValue(const OAIEnum &value){
+toJsonValue(const PFXEnum &value){
     return value.asJsonValue();
 }
 
 QJsonValue
-toJsonValue(const OAIHttpFileElement &value){
+toJsonValue(const PFXHttpFileElement &value){
     return value.asJsonValue();
 }
 
@@ -231,13 +231,13 @@ fromStringValue(const QString &inStr, double &value){
 }
 
 bool
-fromStringValue(const QString &inStr, OAIEnum &value){
+fromStringValue(const QString &inStr, PFXEnum &value){
     value.fromJson(inStr);
     return true;
 }
 
 bool
-fromStringValue(const QString &inStr, OAIHttpFileElement &value){
+fromStringValue(const QString &inStr, PFXHttpFileElement &value){
     return value.fromStringValue(inStr);
 }
 
@@ -352,7 +352,7 @@ fromJsonValue(double &value, const QJsonValue &jval){
 }
 
 bool
-fromJsonValue(OAIObject  &value, const QJsonValue &jval){
+fromJsonValue(PFXObject  &value, const QJsonValue &jval){
     bool ok = true;
     if(jval.isObject()){
         value.fromJsonObject(jval.toObject());
@@ -364,13 +364,13 @@ fromJsonValue(OAIObject  &value, const QJsonValue &jval){
 }
 
 bool
-fromJsonValue(OAIEnum &value, const QJsonValue &jval){
+fromJsonValue(PFXEnum &value, const QJsonValue &jval){
     value.fromJsonValue(jval);
     return true;
 }
 
 bool
-fromJsonValue(OAIHttpFileElement &value, const QJsonValue &jval){
+fromJsonValue(PFXHttpFileElement &value, const QJsonValue &jval){
     return value.fromJsonValue(jval);
 }
 

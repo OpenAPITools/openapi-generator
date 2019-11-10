@@ -10,26 +10,26 @@
  * Do not edit the class manually.
  */
 
-#ifndef OAI_OBJECT_H
-#define OAI_OBJECT_H
+#ifndef PFX_OBJECT_H
+#define PFX_OBJECT_H
 
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QMetaType>
 
-namespace OpenAPI {
+namespace test_namespace {
 
-class OAIObject {
+class PFXObject {
   public:
-    OAIObject() {
+    PFXObject() {
 
     }
 
-    OAIObject(QString jsonString) {
+    PFXObject(QString jsonString) {
         fromJson(jsonString);
     }
 
-    virtual ~OAIObject(){
+    virtual ~PFXObject(){
 
     }
 
@@ -64,6 +64,6 @@ private :
 
 }
 
-Q_DECLARE_METATYPE(OpenAPI::OAIObject)
+Q_DECLARE_METATYPE(test_namespace::PFXObject)
 
-#endif // OAI_OBJECT_H
+#endif // PFX_OBJECT_H

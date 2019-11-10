@@ -11,32 +11,32 @@
  */
 
 
-#include "OAICategory.h"
+#include "PFXCategory.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
 
-#include "OAIHelpers.h"
+#include "PFXHelpers.h"
 
-namespace OpenAPI {
+namespace test_namespace {
 
-OAICategory::OAICategory(QString json) {
+PFXCategory::PFXCategory(QString json) {
     this->initializeModel();
     this->fromJson(json);
 }
 
-OAICategory::OAICategory() {
+PFXCategory::PFXCategory() {
     this->initializeModel();
 }
 
-OAICategory::~OAICategory() {
+PFXCategory::~PFXCategory() {
 
 }
 
 void
-OAICategory::initializeModel() {
+PFXCategory::initializeModel() {
     
     m_id_isSet = false;
     m_id_isValid = false;
@@ -47,7 +47,7 @@ OAICategory::initializeModel() {
 }
 
 void
-OAICategory::fromJson(QString jsonString) {
+PFXCategory::fromJson(QString jsonString) {
     QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -55,18 +55,18 @@ OAICategory::fromJson(QString jsonString) {
 }
 
 void
-OAICategory::fromJsonObject(QJsonObject json) {
+PFXCategory::fromJsonObject(QJsonObject json) {
     
-    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
     
-    m_name_isValid = ::OpenAPI::fromJsonValue(name, json[QString("name")]);
+    m_name_isValid = ::test_namespace::fromJsonValue(name, json[QString("name")]);
     m_name_isSet = !json[QString("name")].isNull() && m_name_isValid;
     
 }
 
 QString
-OAICategory::asJson () const {
+PFXCategory::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -74,41 +74,41 @@ OAICategory::asJson () const {
 }
 
 QJsonObject
-OAICategory::asJsonObject() const {
+PFXCategory::asJsonObject() const {
     QJsonObject obj;
     if(m_id_isSet){
-        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
+        obj.insert(QString("id"), ::test_namespace::toJsonValue(id));
     }
     if(m_name_isSet){
-        obj.insert(QString("name"), ::OpenAPI::toJsonValue(name));
+        obj.insert(QString("name"), ::test_namespace::toJsonValue(name));
     }
     return obj;
 }
 
 
 qint64
-OAICategory::getId() const {
+PFXCategory::getId() const {
     return id;
 }
 void
-OAICategory::setId(const qint64 &id) {
+PFXCategory::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 
 QString
-OAICategory::getName() const {
+PFXCategory::getName() const {
     return name;
 }
 void
-OAICategory::setName(const QString &name) {
+PFXCategory::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
 bool
-OAICategory::isSet() const {
+PFXCategory::isSet() const {
     bool isObjectUpdated = false;
     do{ 
         if(m_id_isSet){ isObjectUpdated = true; break;}
@@ -119,7 +119,7 @@ OAICategory::isSet() const {
 }
 
 bool
-OAICategory::isValid() const {
+PFXCategory::isValid() const {
     // only required properties are required for the object to be considered valid
     return true;
 }
