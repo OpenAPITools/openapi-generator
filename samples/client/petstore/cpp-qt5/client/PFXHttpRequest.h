@@ -21,11 +21,9 @@
 
 #include <QObject>
 #include <QString>
-#include <QTimer>
 #include <QMap>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-
 
 #include "PFXHttpFileElement.h"
 
@@ -61,7 +59,6 @@ public:
     QByteArray response;
     QNetworkReply::NetworkError error_type;
     QString error_str;
-    QTimer *timer;
     explicit PFXHttpRequestWorker(QObject *parent = nullptr);
     virtual ~PFXHttpRequestWorker();
 
@@ -82,7 +79,7 @@ private:
     QMap<QString, PFXHttpFileElement> files;
     QMap<QString, QByteArray*> multiPartFields;
     QString workingDirectory;
-    int timeout;
+    int _timeOut;
     void on_manager_timeout(QNetworkReply *reply);
     void process_form_response();    
 private slots:
