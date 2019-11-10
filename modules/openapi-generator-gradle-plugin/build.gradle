@@ -218,3 +218,12 @@ tasks {
 }
 
 publishToNexus.dependsOn 'check'
+
+// if the version is -SNAPSHOT, we're building against snapshot OpenAPI Generator as well and we'll see:
+//      Signing Gradle Module Metadata is not supported for snapshot dependencies.
+// If we're snapshot, just disable GMM.
+if (!ext.isReleaseVersion) {
+    tasks.withType(GenerateModuleMetadata) {
+        enabled = false
+    }
+}
