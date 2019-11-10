@@ -19,18 +19,22 @@
 #ifndef PFX_HTTPREQUESTWORKER_H
 #define PFX_HTTPREQUESTWORKER_H
 
-#include <QObject>
-#include <QString>
 #include <QMap>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QObject>
+#include <QString>
 
 #include "PFXHttpFileElement.h"
 
 namespace test_namespace {
 
-enum PFXHttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
-
+enum PFXHttpRequestVarLayout {
+    NOT_SET,
+    ADDRESS,
+    URL_ENCODED,
+    MULTIPART
+};
 
 class PFXHttpRequestInput {
 
@@ -48,9 +52,7 @@ public:
     void initialize();
     void add_var(QString key, QString value);
     void add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type);
-
 };
-
 
 class PFXHttpRequestWorker : public QObject {
     Q_OBJECT
@@ -65,11 +67,11 @@ public:
     QMap<QString, QString> getResponseHeaders() const;
     QString http_attribute_encode(QString attribute_name, QString input);
     void execute(PFXHttpRequestInput *input);
-    static QSslConfiguration* sslDefaultConfiguration;
+    static QSslConfiguration *sslDefaultConfiguration;
     void setTimeOut(int tout);
     void setWorkingDirectory(const QString &path);
     PFXHttpFileElement getHttpFileElement(const QString &fieldname = QString());
-    QByteArray* getMultiPartField(const QString &fieldname = QString());    
+    QByteArray *getMultiPartField(const QString &fieldname = QString());
 signals:
     void on_execution_finished(PFXHttpRequestWorker *worker);
 
@@ -77,15 +79,15 @@ private:
     QNetworkAccessManager *manager;
     QMap<QString, QString> headers;
     QMap<QString, PFXHttpFileElement> files;
-    QMap<QString, QByteArray*> multiPartFields;
+    QMap<QString, QByteArray *> multiPartFields;
     QString workingDirectory;
     int _timeOut;
     void on_manager_timeout(QNetworkReply *reply);
-    void process_form_response();    
+    void process_form_response();
 private slots:
     void on_manager_finished(QNetworkReply *reply);
 };
 
-}
+} // namespace test_namespace
 
 #endif // PFX_HTTPREQUESTWORKER_H
