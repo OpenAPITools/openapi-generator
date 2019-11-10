@@ -13,25 +13,21 @@
 #ifndef PFX_ENUM_H
 #define PFX_ENUM_H
 
-#include <QString>
 #include <QJsonValue>
 #include <QMetaType>
+#include <QString>
 
 namespace test_namespace {
 
 class PFXEnum {
-  public:
-    PFXEnum() {
-
-    }
+public:
+    PFXEnum() {}
 
     PFXEnum(QString jsonString) {
         fromJson(jsonString);
     }
 
-    virtual ~PFXEnum(){
-
-    }
+    virtual ~PFXEnum() {}
 
     virtual QJsonValue asJsonValue() const {
         return QJsonValue(jstr);
@@ -56,11 +52,12 @@ class PFXEnum {
     virtual bool isValid() const {
         return true;
     }
-private :
+
+private:
     QString jstr;
 };
 
-}
+} // namespace test_namespace
 
 Q_DECLARE_METATYPE(test_namespace::PFXEnum)
 
