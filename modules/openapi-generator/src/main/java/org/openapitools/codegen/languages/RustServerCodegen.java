@@ -644,7 +644,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // provides unique descriptions.
             int idTieBreaker = 2;
             while (responseIds.contains(responseId)) {
-                String trial = String.format("%s_%d", responseId, idTieBreaker);
+                String trial = String.format(Locale.ROOT, "%s_%d", responseId, idTieBreaker);
                 if (!responseIds.contains(trial)) {
                     responseId = trial;
                 } else {
