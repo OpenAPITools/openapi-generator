@@ -9,12 +9,27 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-{{classname}}::{{classname}}(const QString& basePath, const int timeOut) :
+{{classname}}::{{classname}}(const QString &scheme, const QString &host, int port, const QString& basePath, const int timeOut) :
+    _scheme(scheme),
+    _host(host),
+    _port(port),
     _basePath(basePath),
     _timeOut(timeOut) {
 }
 
 {{classname}}::~{{classname}}() {
+}
+
+void {{classname}}::setScheme(const QString& scheme){
+    _scheme = scheme;
+}
+
+void {{classname}}::setHost(const QString& host){
+    _host = host;
+}
+
+void {{classname}}::setPort(int port){
+    _port = port;
 }
 
 void {{classname}}::setBasePath(const QString& basePath){
@@ -37,8 +52,12 @@ void {{classname}}::addHeaders(const QString& key, const QString& value){
 {{#operation}}
 void
 {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-    QString fullPath;
-    fullPath.append(_basePath).append("{{{path}}}");
+    QString fullPath = QString("%0://%1%2%3%4")
+        .arg(_scheme)
+        .arg(_host)
+        .arg(_port ? ":" + QString::number(_port) : "")
+        .arg(_basePath)
+        .arg("{{{path}}}");
     {{#pathParams}}
     QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");

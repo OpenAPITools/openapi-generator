@@ -17,9 +17,12 @@ class {{classname}}: public QObject {
     Q_OBJECT
 
 public:
-    {{classname}}(const QString& basePath = "{{basePath}}", const int timeOut = 0);
+    {{classname}}(const QString &scheme = "{{scheme}}", const QString &host = "{{serverHost}}", int port = {{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}0{{/serverPort}}, const QString& basePath = "{{basePathWithoutHost}}", const int timeOut = 0);
     ~{{classname}}();
 
+    void setScheme(const QString &scheme);
+    void setHost(const QString &host);
+    void setPort(int port);
     void setBasePath(const QString& basePath);
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString& path);
@@ -28,8 +31,8 @@ public:
     {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}const {{{dataType}}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{/operation}}{{/operations}}
 private:
-    QString _basePath;
-    int _timeOut;
+    QString _scheme, _host, _basePath;
+    int _port, _timeOut;
     QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
     {{#operations}}{{#operation}}void {{nickname}}Callback ({{prefix}}HttpRequestWorker * worker);
