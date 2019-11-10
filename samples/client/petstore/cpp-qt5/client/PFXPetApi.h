@@ -28,7 +28,7 @@ class PFXPetApi: public QObject {
     Q_OBJECT
 
 public:
-    PFXPetApi(const QString &scheme = "http", const QString &host = "petstore.swagger.io", int port = 8080, const QString& basePath = "/v2", const int timeOut = 0);
+    PFXPetApi(const QString &scheme = "http", const QString &host = "petstore.swagger.io", int port = 0, const QString& basePath = "/v2", const int timeOut = 0);
     ~PFXPetApi();
 
     void setScheme(const QString &scheme);

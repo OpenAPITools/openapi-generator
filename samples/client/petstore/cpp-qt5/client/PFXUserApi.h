@@ -27,7 +27,7 @@ class PFXUserApi: public QObject {
     Q_OBJECT
 
 public:
-    PFXUserApi(const QString &scheme = "http", const QString &host = "petstore.swagger.io", int port = 8080, const QString& basePath = "/v2", const int timeOut = 0);
+    PFXUserApi(const QString &scheme = "http", const QString &host = "petstore.swagger.io", int port = 0, const QString& basePath = "/v2", const int timeOut = 0);
     ~PFXUserApi();
 
     void setScheme(const QString &scheme);

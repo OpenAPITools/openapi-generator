@@ -27,7 +27,7 @@ class PFXStoreApi: public QObject {
     Q_OBJECT
 
 public:
-    PFXStoreApi(const QString &scheme = "http", const QString &host = "petstore.swagger.io", int port = 8080, const QString& basePath = "/v2", const int timeOut = 0);
+    PFXStoreApi(const QString &scheme = "http", const QString &host = "petstore.swagger.io", int port = 0, const QString& basePath = "/v2", const int timeOut = 0);
     ~PFXStoreApi();
 
     void setScheme(const QString &scheme);
