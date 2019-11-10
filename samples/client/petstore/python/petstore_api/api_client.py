@@ -224,12 +224,12 @@ class ApiClient(object):
             # and attributes which value is not None.
             # Convert attribute name to json key in
             # model definition for request.
-            obj_dict = {obj.attribute_map[attr]: getattr(obj, attr)
-                        for attr, _ in six.iteritems(obj.openapi_types)
-                        if getattr(obj, attr) is not None}
+            obj_dict = dict([(obj.attribute_map[attr], getattr(obj, attr))
+                             for attr, _ in six.iteritems(obj.openapi_types)
+                             if getattr(obj, attr) is not None])
 
-        return {key: self.sanitize_for_serialization(val)
-                for key, val in six.iteritems(obj_dict)}
+        return dict([(key, self.sanitize_for_serialization(val))
+                     for key, val in six.iteritems(obj_dict)])
 
     def deserialize(self, response, response_type):
         """Deserializes response into an object.
@@ -272,8 +272,8 @@ class ApiClient(object):
 
             if klass.startswith('dict('):
                 sub_kls = re.match(r'dict\(([^,]*), (.*)\)', klass).group(2)
-                return {k: self.__deserialize(v, sub_kls)
-                        for k, v in six.iteritems(data)}
+                return dict([(k, self.__deserialize(v, sub_kls))
+                             for k, v in six.iteritems(data)])
 
             # convert str to class
             if klass in self.NATIVE_TYPES_MAPPING:
