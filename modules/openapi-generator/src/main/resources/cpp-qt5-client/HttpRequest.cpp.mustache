@@ -8,7 +8,6 @@
 #include <QFileInfo>
 #include <QBuffer>
 #include <QtGlobal>
-#include <QTimer>
 
 #include "{{prefix}}HttpRequest.h"
 
@@ -48,15 +47,23 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 
 
 {{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), _timeOut(0)
+    : QObject(parent), manager(nullptr)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
+    timeout = 0;
+    timer = new QTimer();
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();    
     connect(manager, &QNetworkAccessManager::finished, this, &{{prefix}}HttpRequestWorker::on_manager_finished);
 }
 
 {{prefix}}HttpRequestWorker::~{{prefix}}HttpRequestWorker() {
+    if(timer != nullptr){
+        if(timer->isActive()){
+            timer->stop();
+        }
+        timer->deleteLater();
+    }
     for (const auto & item: multiPartFields) {
         if(item != nullptr) {
             delete item;
@@ -90,8 +97,8 @@ QByteArray *{{prefix}}HttpRequestWorker::getMultiPartField(const QString &fieldn
     return nullptr;
 }
 
-void {{prefix}}HttpRequestWorker::setTimeOut(int timeOut){
-    _timeOut = _timeOut;
+void {{prefix}}HttpRequestWorker::setTimeOut(int tout){
+    timeout = tout;
 }
 
 void {{prefix}}HttpRequestWorker::setWorkingDirectory(const QString &path){
@@ -351,8 +358,11 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if(_timeOut > 0){
-        QTimer::singleShot(_timeOut, [=](){ on_manager_timeout(reply); });
+    if(timeout > 0){
+        timer->setSingleShot(true);
+        timer->setInterval(timeout);
+        connect(timer, &QTimer::timeout, this, [=](){ on_manager_timeout(reply); });
+        timer->start();
     }
 }
 
@@ -365,7 +375,6 @@ void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
             headers.insert(item.first, item.second);
         }
     }
-    disconnect(this, nullptr, nullptr, nullptr);
     reply->deleteLater();
     process_form_response();
     emit on_execution_finished(this);
@@ -375,6 +384,7 @@ void {{prefix}}HttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
     error_type = QNetworkReply::TimeoutError;
     response = "";
     error_str = "Timed out waiting for response";
+    disconnect(manager, nullptr, nullptr, nullptr);
     reply->abort();
     reply->deleteLater();
     emit on_execution_finished(this);
