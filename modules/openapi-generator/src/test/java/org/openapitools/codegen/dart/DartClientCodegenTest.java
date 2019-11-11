@@ -17,6 +17,14 @@
 
 package org.openapitools.codegen.dart;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.DartClientCodegen;
 import org.testng.Assert;
@@ -51,6 +59,28 @@ public class DartClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+    }
+
+    @Test
+    public void testKeywords() throws Exception {
+        final DartClientCodegen codegen = new DartClientCodegen();
+
+        List<String> reservedWordsList = new ArrayList<String>();
+        try {                                                                                   
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
+            while(reader.ready()) { reservedWordsList.add(reader.readLine()); }
+            reader.close();
+        } catch (Exception e) {
+            String errorString = String.format(Locale.ROOT, "Error reading dart keywords: %s", e);
+            Assert.fail(errorString, e);
+        }
+        
+        Assert.assertEquals(reservedWordsList.size() > 20, true);
+        Assert.assertEquals(codegen.reservedWords().size() == reservedWordsList.size(), true);
+        for(String keyword : reservedWordsList) {
+            // reserved words are stored in lowercase 
+            Assert.assertEquals(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), true, String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
+        }
     }
 
 }
