@@ -11,6 +11,7 @@ gradle openApiGenerate
 gradle openApiMeta
 gradle openApiValidate
 gradle buildGoSdk
+gradle buildDotnetSdk
 gradle generateGoWithInvalidSpec
 ```
 
