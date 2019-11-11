@@ -1,0 +1,10 @@
+{
+  "generatorName": "go-gin-server",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/server/petstore/go-gin-api-server",
+  "templateDir": "modules/openapi-generator/src/main/resources/go-gin-server",
+  "additionalProperties": {
+    "packageName": "petstoreserver",
+    "hideGenerationTimestamp": true
+  }
+}

@@ -24,7 +24,6 @@ import org.openapitools.client.infrastructure.RequestMethod
 import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
-import org.threeten.bp.LocalDateTime
 
 class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
 
@@ -36,7 +35,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
     */
     fun deleteOrder(orderId: kotlin.String) : Unit {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -51,8 +50,8 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -66,7 +65,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
     @Suppress("UNCHECKED_CAST")
     fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -81,8 +80,8 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -97,7 +96,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
     @Suppress("UNCHECKED_CAST")
     fun getOrderById(orderId: kotlin.Long) : Order {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -112,8 +111,8 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as Order
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -128,7 +127,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
     @Suppress("UNCHECKED_CAST")
     fun placeOrder(body: Order) : Order {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -143,8 +142,8 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as Order
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }

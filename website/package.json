@@ -9,9 +9,11 @@
     "rename-version": "docusaurus-rename-version"
   },
   "devDependencies": {
-    "docusaurus": "^1.6.2"
+    "docusaurus": "^1.13.0"
   },
   "dependencies": {
-    "js-yaml": "^3.12.0"
+    "js-yaml": "^3.12.0",
+    "lodash.merge": "^4.6.2",
+    "lodash.template": "^4.5.0"
   }
 }

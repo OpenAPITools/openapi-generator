@@ -3,8 +3,6 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TargetFramework>{{targetFramework}}</TargetFramework>
-    <TargetFrameworkVersion>{{targetFrameworkVersion}}</TargetFrameworkVersion>
-    <TargetFrameworkIdentifier>{{targetFrameworkIdentifier}}</TargetFrameworkIdentifier>
     <AssemblyName>{{packageName}}</AssemblyName>
     <PackageId>{{packageName}}</PackageId>
     <OutputType>Library</OutputType>
@@ -18,6 +16,7 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <RootNamespace>{{packageName}}</RootNamespace>
     <Version>{{packageVersion}}</Version>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

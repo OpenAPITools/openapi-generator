@@ -34,9 +34,11 @@ import java.util.List;
 public class ArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
-  private List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
+  private List<BigDecimal> arrayNumber = null;
+
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
+    
     this.arrayNumber = arrayNumber;
     return this;
   }
@@ -53,10 +55,13 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
+
 
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

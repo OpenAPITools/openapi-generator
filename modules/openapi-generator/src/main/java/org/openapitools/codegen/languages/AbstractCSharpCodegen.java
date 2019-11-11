@@ -17,8 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
+import com.google.common.collect.ImmutableMap.Builder;
+import com.samskivert.mustache.Mustache.Lambda;
+
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -38,6 +39,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean optionalAssemblyInfoFlag = true;
+    protected boolean optionalEmitDefaultValuesFlag = false;
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
@@ -75,6 +77,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     // nullable type
     protected Set<String> nullableType = new HashSet<String>();
+
+    protected Set<String> valueTypes = new HashSet<String>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
@@ -150,13 +154,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "DateTime?",
                         "DateTime",
                         "DateTimeOffset?",
-                        "DataTimeOffset",
+                        "DateTimeOffset",
                         "Boolean",
                         "Double",
                         "Int32",
                         "Int64",
                         "Float",
                         "Guid?",
+                        "Guid",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
@@ -177,6 +182,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("long", "long?");
         typeMapping.put("double", "double?");
         typeMapping.put("number", "decimal?");
+        typeMapping.put("BigDecimal", "decimal?");
         typeMapping.put("DateTime", "DateTime?");
         typeMapping.put("date", "DateTime?");
         typeMapping.put("file", "System.IO.Stream");
@@ -185,10 +191,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
         typeMapping.put("UUID", "Guid?");
+        typeMapping.put("URI", "string");
 
         // nullable type
         nullableType = new HashSet<String>(
-                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "Guid")
+                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "DateTimeOffset", "Guid")
+        );
+        // value Types
+        valueTypes = new HashSet<String>(
+                Arrays.asList("decimal", "bool", "int", "float", "long", "double")
         );
     }
 
@@ -218,9 +229,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void useDateTimeOffset(boolean flag) {
         this.useDateTimeOffsetFlag = flag;
         if (flag) {
-            typeMapping.put("DateTime", "DateTimeOffset?");
+            typeMapping.put("DateTime", "DateTimeOffset");
         } else {
-            typeMapping.put("DateTime", "DateTime?");
+            typeMapping.put("DateTime", "DateTime");
         }
     }
 
@@ -352,32 +363,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
         additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
-
-        addMustacheLambdas(additionalProperties);
     }
 
-    private void addMustacheLambdas(Map<String, Object> objs) {
-
-        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-                .put("lowercase", new LowercaseLambda().generator(this))
-                .put("uppercase", new UppercaseLambda())
-                .put("titlecase", new TitlecaseLambda())
-                .put("camelcase", new CamelCaseLambda().generator(this))
-                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
-                .put("indented", new IndentedLambda())
-                .put("indented_8", new IndentedLambda(8, " "))
-                .put("indented_12", new IndentedLambda(12, " "))
-                .put("indented_16", new IndentedLambda(16, " "))
-                .build();
-
-        if (objs.containsKey("lambda")) {
-            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
-                    "You'll likely need to use a custom template, " +
-                    "see https://github.com/swagger-api/swagger-codegen#modifying-the-client-library-format. ");
-            objs.put("_lambda", lambdas);
-        } else {
-            objs.put("lambda", lambdas);
-        }
+    @Override
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true));
     }
 
     @Override
@@ -414,6 +405,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         final Map<String, Object> processed = super.postProcessAllModels(objs);
         postProcessEnumRefs(processed);
+        updateValueTypeProperty(processed);
         return processed;
     }
 
@@ -442,6 +434,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.allVars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+                        // while enums in many other languages are true objects.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.allowableValues = refModel.allowableValues;
+                        var.isEnum = true;
+
+                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+                        var.isPrimitiveType = true;
+                    }
+                }
+                for (CodegenProperty var : model.vars) {
                     if (enumRefs.containsKey(var.dataType)) {
                         // Handle any enum properties referred to by $ref.
                         // This is different in C# than most other generators, because enums in C# are compiled to integral types,
@@ -537,6 +542,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 var.isString = true;
                 var.isInteger = false;
                 var.isLong = false;
+            }
+        }
+    }
+
+    /**
+     * Update property if it is a C# value type
+     *
+     * @param models list of all models
+     */
+    protected void updateValueTypeProperty(Map<String, Object> models) {
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            if (model != null) {
+                for (CodegenProperty var : model.vars) {
+                    var.vendorExtensions.put("isValueType", isValueType(var));
+                }
             }
         }
     }
@@ -1055,6 +1077,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 "double".equals(dataType) || "decimal".equals(dataType) || "float".equals(dataType);
     }
 
+    /**
+     * Return true if the property being passed is a C# value type
+     *
+     * @param var property
+     * @return true if property is a value type
+     */
+
+    protected boolean isValueType(CodegenProperty var) {
+        return (valueTypes.contains(var.dataType) || var.isEnum ) ;
+    }
+
     @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter) {
 
@@ -1087,6 +1120,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             codegenParameter.example = "2013-10-20T19:20:30+01:00";
         } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
             codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+        } else if (Boolean.TRUE.equals(codegenParameter.isUri)) {
+            codegenParameter.example = "https://openapi-generator.tech";
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
         }

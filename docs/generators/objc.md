@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-objc
 title: Config Options for objc
 sidebar_label: objc
 ---

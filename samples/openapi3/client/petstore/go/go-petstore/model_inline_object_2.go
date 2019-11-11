@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// InlineObject2 struct for InlineObject2
 type InlineObject2 struct {
 	// Form parameter enum test (string array)
 	EnumFormStringArray []string `json:"enum_form_string_array,omitempty"`

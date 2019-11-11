@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-java-inflector
 title: Config Options for java-inflector
 sidebar_label: java-inflector
 ---

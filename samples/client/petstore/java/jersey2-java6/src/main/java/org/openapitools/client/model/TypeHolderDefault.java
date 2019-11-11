@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -22,28 +23,38 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * TypeHolderDefault
  */
+@JsonPropertyOrder({
+  TypeHolderDefault.JSON_PROPERTY_STRING_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_NUMBER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_INTEGER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
+})
 
 public class TypeHolderDefault {
-  @JsonProperty("string_item")
+  public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem = "what";
 
-  @JsonProperty("number_item")
+  public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
   private BigDecimal numberItem;
 
-  @JsonProperty("integer_item")
+  public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
+  public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
   private Boolean boolItem = true;
 
-  @JsonProperty("array_item")
+  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+
   public TypeHolderDefault stringItem(String stringItem) {
+    
     this.stringItem = stringItem;
     return this;
   }
@@ -53,15 +64,21 @@ public class TypeHolderDefault {
    * @return stringItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public String getStringItem() {
     return stringItem;
   }
+
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
+
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
+    
     this.numberItem = numberItem;
     return this;
   }
@@ -71,15 +88,21 @@ public class TypeHolderDefault {
    * @return numberItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public BigDecimal getNumberItem() {
     return numberItem;
   }
+
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
+
   public TypeHolderDefault integerItem(Integer integerItem) {
+    
     this.integerItem = integerItem;
     return this;
   }
@@ -89,15 +112,21 @@ public class TypeHolderDefault {
    * @return integerItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public Integer getIntegerItem() {
     return integerItem;
   }
+
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
+
   public TypeHolderDefault boolItem(Boolean boolItem) {
+    
     this.boolItem = boolItem;
     return this;
   }
@@ -107,15 +136,21 @@ public class TypeHolderDefault {
    * @return boolItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public Boolean isBoolItem() {
     return boolItem;
   }
+
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
+
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
+    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -130,9 +165,13 @@ public class TypeHolderDefault {
    * @return arrayItem
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
+
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;

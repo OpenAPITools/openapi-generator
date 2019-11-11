@@ -68,6 +68,11 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call createXmlItemCall(XmlItem xmlItem, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = xmlItem;
@@ -78,6 +83,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             
@@ -94,7 +100,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -116,6 +122,11 @@ public class FakeApi {
      * this route creates an XmlItem
      * @param xmlItem XmlItem Body (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public void createXmlItem(XmlItem xmlItem) throws ApiException {
         createXmlItemWithHttpInfo(xmlItem);
@@ -127,6 +138,11 @@ public class FakeApi {
      * @param xmlItem XmlItem Body (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Void> createXmlItemWithHttpInfo(XmlItem xmlItem) throws ApiException {
         okhttp3.Call localVarCall = createXmlItemValidateBeforeCall(xmlItem, null);
@@ -140,6 +156,11 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call createXmlItemAsync(XmlItem xmlItem, final ApiCallback<Void> _callback) throws ApiException {
 
@@ -153,6 +174,11 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output boolean </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeOuterBooleanSerializeCall(Boolean body, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
@@ -163,6 +189,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             "*/*"
@@ -179,7 +206,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -197,6 +224,11 @@ public class FakeApi {
      * @param body Input boolean as post body (optional)
      * @return Boolean
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output boolean </td><td>  -  </td></tr>
+     </table>
      */
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
         ApiResponse<Boolean> localVarResp = fakeOuterBooleanSerializeWithHttpInfo(body);
@@ -209,6 +241,11 @@ public class FakeApi {
      * @param body Input boolean as post body (optional)
      * @return ApiResponse&lt;Boolean&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output boolean </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterBooleanSerializeValidateBeforeCall(body, null);
@@ -223,6 +260,11 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output boolean </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeOuterBooleanSerializeAsync(Boolean body, final ApiCallback<Boolean> _callback) throws ApiException {
 
@@ -237,6 +279,11 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output composite </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeOuterCompositeSerializeCall(OuterComposite body, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
@@ -247,6 +294,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             "*/*"
@@ -263,7 +311,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -281,6 +329,11 @@ public class FakeApi {
      * @param body Input composite as post body (optional)
      * @return OuterComposite
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output composite </td><td>  -  </td></tr>
+     </table>
      */
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
         ApiResponse<OuterComposite> localVarResp = fakeOuterCompositeSerializeWithHttpInfo(body);
@@ -293,6 +346,11 @@ public class FakeApi {
      * @param body Input composite as post body (optional)
      * @return ApiResponse&lt;OuterComposite&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output composite </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(body, null);
@@ -307,6 +365,11 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output composite </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeOuterCompositeSerializeAsync(OuterComposite body, final ApiCallback<OuterComposite> _callback) throws ApiException {
 
@@ -321,6 +384,11 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeOuterNumberSerializeCall(BigDecimal body, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
@@ -331,6 +399,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             "*/*"
@@ -347,7 +416,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -365,6 +434,11 @@ public class FakeApi {
      * @param body Input number as post body (optional)
      * @return BigDecimal
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
+     </table>
      */
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
         ApiResponse<BigDecimal> localVarResp = fakeOuterNumberSerializeWithHttpInfo(body);
@@ -377,6 +451,11 @@ public class FakeApi {
      * @param body Input number as post body (optional)
      * @return ApiResponse&lt;BigDecimal&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterNumberSerializeValidateBeforeCall(body, null);
@@ -391,6 +470,11 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output number </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeOuterNumberSerializeAsync(BigDecimal body, final ApiCallback<BigDecimal> _callback) throws ApiException {
 
@@ -405,6 +489,11 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeOuterStringSerializeCall(String body, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
@@ -415,6 +504,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             "*/*"
@@ -431,7 +521,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -449,6 +539,11 @@ public class FakeApi {
      * @param body Input string as post body (optional)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
+     </table>
      */
     public String fakeOuterStringSerialize(String body) throws ApiException {
         ApiResponse<String> localVarResp = fakeOuterStringSerializeWithHttpInfo(body);
@@ -461,6 +556,11 @@ public class FakeApi {
      * @param body Input string as post body (optional)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterStringSerializeValidateBeforeCall(body, null);
@@ -475,6 +575,11 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call fakeOuterStringSerializeAsync(String body, final ApiCallback<String> _callback) throws ApiException {
 
@@ -489,6 +594,11 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testBodyWithFileSchemaCall(FileSchemaTestClass body, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
@@ -499,6 +609,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             
@@ -515,7 +626,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -537,6 +648,11 @@ public class FakeApi {
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      * @param body  (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
      */
     public void testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
         testBodyWithFileSchemaWithHttpInfo(body);
@@ -548,6 +664,11 @@ public class FakeApi {
      * @param body  (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass body) throws ApiException {
         okhttp3.Call localVarCall = testBodyWithFileSchemaValidateBeforeCall(body, null);
@@ -561,6 +682,11 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testBodyWithFileSchemaAsync(FileSchemaTestClass body, final ApiCallback<Void> _callback) throws ApiException {
 
@@ -575,6 +701,11 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testBodyWithQueryParamsCall(String query, User body, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
@@ -589,6 +720,7 @@ public class FakeApi {
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             
@@ -605,7 +737,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -633,6 +765,11 @@ public class FakeApi {
      * @param query  (required)
      * @param body  (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
      */
     public void testBodyWithQueryParams(String query, User body) throws ApiException {
         testBodyWithQueryParamsWithHttpInfo(query, body);
@@ -645,6 +782,11 @@ public class FakeApi {
      * @param body  (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User body) throws ApiException {
         okhttp3.Call localVarCall = testBodyWithQueryParamsValidateBeforeCall(query, body, null);
@@ -659,6 +801,11 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testBodyWithQueryParamsAsync(String query, User body, final ApiCallback<Void> _callback) throws ApiException {
 
@@ -672,6 +819,11 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testClientModelCall(Client body, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
@@ -682,6 +834,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             "application/json"
@@ -698,7 +851,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -721,6 +874,11 @@ public class FakeApi {
      * @param body client model (required)
      * @return Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public Client testClientModel(Client body) throws ApiException {
         ApiResponse<Client> localVarResp = testClientModelWithHttpInfo(body);
@@ -733,6 +891,11 @@ public class FakeApi {
      * @param body client model (required)
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Client> testClientModelWithHttpInfo(Client body) throws ApiException {
         okhttp3.Call localVarCall = testClientModelValidateBeforeCall(body, null);
@@ -747,6 +910,11 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testClientModelAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
 
@@ -774,9 +942,15 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testEndpointParametersCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = new Object();
+        Object localVarPostBody = null;
 
         // create path and map variables
         String localVarPath = "/fake";
@@ -784,6 +958,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         if (integer != null) {
             localVarFormParams.put("integer", integer);
@@ -856,7 +1031,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "http_basic_test" };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -906,6 +1081,12 @@ public class FakeApi {
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
      */
     public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
         testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
@@ -930,6 +1111,12 @@ public class FakeApi {
      * @param paramCallback None (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
         okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null);
@@ -956,6 +1143,12 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testEndpointParametersAsync(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback<Void> _callback) throws ApiException {
 
@@ -976,9 +1169,15 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid request </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testEnumParametersCall(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = new Object();
+        Object localVarPostBody = null;
 
         // create path and map variables
         String localVarPath = "/fake";
@@ -1010,6 +1209,7 @@ public class FakeApi {
             localVarHeaderParams.put("enum_header_string", localVarApiClient.parameterToString(enumHeaderString));
         }
 
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         if (enumFormStringArray != null) {
             localVarFormParams.put("enum_form_string_array", enumFormStringArray);
@@ -1034,7 +1234,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1058,6 +1258,12 @@ public class FakeApi {
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid request </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
+     </table>
      */
     public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
         testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
@@ -1076,6 +1282,12 @@ public class FakeApi {
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid request </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
         okhttp3.Call localVarCall = testEnumParametersValidateBeforeCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, null);
@@ -1096,6 +1308,12 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Invalid request </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testEnumParametersAsync(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, final ApiCallback<Void> _callback) throws ApiException {
 
@@ -1104,7 +1322,7 @@ public class FakeApi {
         return localVarCall;
     }
     private okhttp3.Call testGroupParametersCall(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = new Object();
+        Object localVarPostBody = null;
 
         // create path and map variables
         String localVarPath = "/fake";
@@ -1136,6 +1354,7 @@ public class FakeApi {
             localVarHeaderParams.put("boolean_group", localVarApiClient.parameterToString(booleanGroup));
         }
 
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             
@@ -1152,7 +1371,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1241,6 +1460,11 @@ public class FakeApi {
          * @param _callback ApiCallback API callback
          * @return Call to execute
          * @throws ApiException If fail to serialize the request body object
+         * @http.response.details
+         <table summary="Response Details" border="1">
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+         </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
             return testGroupParametersCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _callback);
@@ -1249,6 +1473,11 @@ public class FakeApi {
         /**
          * Execute testGroupParameters request
          * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         * @http.response.details
+         <table summary="Response Details" border="1">
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+         </table>
          */
         public void execute() throws ApiException {
             testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
@@ -1258,6 +1487,11 @@ public class FakeApi {
          * Execute testGroupParameters request with HTTP info returned
          * @return ApiResponse&lt;Void&gt;
          * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         * @http.response.details
+         <table summary="Response Details" border="1">
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+         </table>
          */
         public ApiResponse<Void> executeWithHttpInfo() throws ApiException {
             return testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
@@ -1268,6 +1502,11 @@ public class FakeApi {
          * @param _callback The callback to be executed when the API call finishes
          * @return The request call
          * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+         * @http.response.details
+         <table summary="Response Details" border="1">
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+         </table>
          */
         public okhttp3.Call executeAsync(final ApiCallback<Void> _callback) throws ApiException {
             return testGroupParametersAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _callback);
@@ -1281,6 +1520,11 @@ public class FakeApi {
      * @param requiredBooleanGroup Required Boolean in group parameters (required)
      * @param requiredInt64Group Required Integer in group parameters (required)
      * @return APItestGroupParametersRequest
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+     </table>
      */
     public APItestGroupParametersRequest testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group) {
         return new APItestGroupParametersRequest(requiredStringGroup, requiredBooleanGroup, requiredInt64Group);
@@ -1291,6 +1535,11 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testInlineAdditionalPropertiesCall(Map<String, String> param, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = param;
@@ -1301,6 +1550,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             
@@ -1317,7 +1567,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1339,6 +1589,11 @@ public class FakeApi {
      * 
      * @param param request body (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public void testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
         testInlineAdditionalPropertiesWithHttpInfo(param);
@@ -1350,6 +1605,11 @@ public class FakeApi {
      * @param param request body (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> param) throws ApiException {
         okhttp3.Call localVarCall = testInlineAdditionalPropertiesValidateBeforeCall(param, null);
@@ -1363,6 +1623,11 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testInlineAdditionalPropertiesAsync(Map<String, String> param, final ApiCallback<Void> _callback) throws ApiException {
 
@@ -1377,9 +1642,14 @@ public class FakeApi {
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testJsonFormDataCall(String param, String param2, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = new Object();
+        Object localVarPostBody = null;
 
         // create path and map variables
         String localVarPath = "/fake/jsonFormData";
@@ -1387,6 +1657,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         if (param != null) {
             localVarFormParams.put("param", param);
@@ -1411,7 +1682,7 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1439,6 +1710,11 @@ public class FakeApi {
      * @param param field1 (required)
      * @param param2 field2 (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public void testJsonFormData(String param, String param2) throws ApiException {
         testJsonFormDataWithHttpInfo(param, param2);
@@ -1451,6 +1727,11 @@ public class FakeApi {
      * @param param2 field2 (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public ApiResponse<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws ApiException {
         okhttp3.Call localVarCall = testJsonFormDataValidateBeforeCall(param, param2, null);
@@ -1465,10 +1746,177 @@ public class FakeApi {
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
      */
     public okhttp3.Call testJsonFormDataAsync(String param, String param2, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testJsonFormDataValidateBeforeCall(param, param2, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for testQueryParameterCollectionFormat
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testQueryParameterCollectionFormatCall(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/fake/test-query-paramters";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (pipe != null) {
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "pipe", pipe));
+        }
+
+        if (ioutil != null) {
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "ioutil", ioutil));
+        }
+
+        if (http != null) {
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("space", "http", http));
+        }
+
+        if (url != null) {
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "url", url));
+        }
+
+        if (context != null) {
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("multi", "context", context));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call testQueryParameterCollectionFormatValidateBeforeCall(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'pipe' is set
+        if (pipe == null) {
+            throw new ApiException("Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat(Async)");
+        }
+        
+        // verify the required parameter 'ioutil' is set
+        if (ioutil == null) {
+            throw new ApiException("Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat(Async)");
+        }
+        
+        // verify the required parameter 'http' is set
+        if (http == null) {
+            throw new ApiException("Missing the required parameter 'http' when calling testQueryParameterCollectionFormat(Async)");
+        }
+        
+        // verify the required parameter 'url' is set
+        if (url == null) {
+            throw new ApiException("Missing the required parameter 'url' when calling testQueryParameterCollectionFormat(Async)");
+        }
+        
+        // verify the required parameter 'context' is set
+        if (context == null) {
+            throw new ApiException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = testQueryParameterCollectionFormatCall(pipe, ioutil, http, url, context, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * 
+     * To test the collection format in query parameters
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
+     */
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
+        testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+    }
+
+    /**
+     * 
+     * To test the collection format in query parameters
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
+        okhttp3.Call localVarCall = testQueryParameterCollectionFormatValidateBeforeCall(pipe, ioutil, http, url, context, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     *  (asynchronously)
+     * To test the collection format in query parameters
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testQueryParameterCollectionFormatAsync(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = testQueryParameterCollectionFormatValidateBeforeCall(pipe, ioutil, http, url, context, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }

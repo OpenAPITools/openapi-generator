@@ -1,6 +1,7 @@
 # OpenApiPetstore.InlineObject3
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **integer** | **Number** | None | [optional] 

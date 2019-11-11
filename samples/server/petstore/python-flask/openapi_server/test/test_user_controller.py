@@ -38,7 +38,7 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        body = []
+        body = [{}]
         headers = { 
             'Content-Type': 'application/json',
         }
@@ -57,7 +57,7 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        body = []
+        body = [{}]
         headers = { 
             'Content-Type': 'application/json',
         }

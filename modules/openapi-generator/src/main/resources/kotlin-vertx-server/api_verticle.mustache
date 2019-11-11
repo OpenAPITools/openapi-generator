@@ -1,0 +1,19 @@
+package {{package}}
+import io.vertx.core.Vertx
+import io.vertx.core.AbstractVerticle
+import io.vertx.serviceproxy.ServiceBinder
+
+fun main(){
+    Vertx.vertx().deployVerticle({{classname}}Verticle())
+}
+
+class {{classname}}Verticle:AbstractVerticle() {
+
+    override fun start() {
+        val instance = (javaClass.classLoader.loadClass("{{package}}.{{classname}}Impl").newInstance() as {{classname}})
+        instance.init(vertx,config())
+        ServiceBinder(vertx)
+            .setAddress({{classname}}.address)
+            .register({{classname}}::class.java,instance)
+    }
+}

@@ -1,0 +1,45 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from setuptools import setup, find_packages  # noqa: H301
+
+NAME = "{{{projectName}}}"
+VERSION = "{{packageVersion}}"
+{{#apiInfo}}
+{{#apis}}
+{{^hasMore}}
+# To install the library, run the following
+#
+# python setup.py install
+#
+# prerequisite: setuptools
+# http://pypi.python.org/pypi/setuptools
+
+REQUIRES = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil"]
+{{#asyncio}}
+REQUIRES.append("aiohttp >= 3.0.0")
+{{/asyncio}}
+{{#tornado}}
+REQUIRES.append("tornado>=4.2,<5")
+{{/tornado}}
+EXTRAS = {':python_version <= "2.7"': ['future']}
+
+setup(
+    name=NAME,
+    version=VERSION,
+    description="{{appName}}",
+    author_email="{{infoEmail}}",
+    url="{{packageUrl}}",
+    keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
+    install_requires=REQUIRES,
+    extras_require=EXTRAS,
+    packages=find_packages(exclude=["test", "tests"]),
+    include_package_data=True,
+    long_description="""\
+    {{appDescription}}  # noqa: E501
+    """
+)
+{{/hasMore}}
+{{/apis}}
+{{/apiInfo}}

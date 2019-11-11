@@ -10,10 +10,10 @@ lazy val root = (project in file(".")).
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "io.swagger" % "swagger-annotations" % "1.5.21",
-      "io.rest-assured" % "scala-support" % "3.3.0",
+      "io.rest-assured" % "scala-support" % "4.0.0",
       "com.google.code.gson" % "gson" % "2.8.5",
       "io.gsonfire" % "gson-fire" % "1.8.3" % "compile",
-      "org.threeten" % "threetenbp" % "1.3.8" % "compile",
+      "org.threeten" % "threetenbp" % "1.4.0" % "compile",
       "com.squareup.okio" % "okio" % "1.13.0" % "compile",
       "junit" % "junit" % "4.12" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"

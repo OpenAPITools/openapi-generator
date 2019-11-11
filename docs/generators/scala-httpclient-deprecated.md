@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-scala-httpclient-deprecated
 title: Config Options for scala-httpclient-deprecated
 sidebar_label: scala-httpclient-deprecated
 ---

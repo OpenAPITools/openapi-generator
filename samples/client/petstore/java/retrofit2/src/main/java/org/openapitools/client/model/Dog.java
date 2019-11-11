@@ -35,7 +35,9 @@ public class Dog extends Animal {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
+
   public Dog breed(String breed) {
+    
     this.breed = breed;
     return this;
   }
@@ -44,10 +46,13 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getBreed() {
     return breed;
   }
+
 
   public void setBreed(String breed) {
     this.breed = breed;

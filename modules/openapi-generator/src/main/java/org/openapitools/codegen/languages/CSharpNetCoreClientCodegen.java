@@ -65,7 +65,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String modelDocPath = "docs/";
 
     // Defines TargetFrameworkVersion in csproj files
-    protected String targetFramework = defaultFramework.dotNetFrameworkVersion;
+    protected String targetFramework = defaultFramework.name;
 
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
@@ -77,6 +77,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected Map<Character, String> regexModifiers;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
+
+    protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -92,6 +94,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("long", "long");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
+        typeMapping.put("BigDecimal", "decimal");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("file", "System.IO.Stream");
@@ -100,6 +103,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
         typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
 
         setSupportNullable(Boolean.TRUE);
         hideGenerationTimestamp = Boolean.TRUE;
@@ -204,6 +208,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.VALIDATABLE,
                 CodegenConstants.VALIDATABLE_DESC,
                 this.validatable);
+
+        addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
+                CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
+                this.caseInsensitiveResponseHeaders);
 
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
@@ -469,7 +477,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
         clientPackage = "Client";
 
-        String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.dotNetFrameworkVersion);
+        String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
         FrameworkStrategy strategy = defaultFramework;
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
             if (framework.equals(frameworkStrategy.name)) {
@@ -480,7 +488,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         strategy.configureAdditionalProperties(additionalProperties);
 
         setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
-        setTargetFramework(strategy.dotNetFrameworkVersion);
+        setTargetFramework(strategy.name);
 
         if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
             LOGGER.warn("If using built-in templates-RestSharp only supports netstandard 2.0 or later.");
@@ -637,6 +645,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setValidatable(boolean validatable) {
         this.validatable = validatable;
+    }
+
+    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
+        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
     @Override
@@ -799,7 +811,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         protected void configureAdditionalProperties(final Map<String, Object> properties) {
-            properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.dotNetFrameworkVersion);
+            properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.name);
 
             // not intended to be user-settable
             properties.put(TARGET_FRAMEWORK_IDENTIFIER, this.getTargetFrameworkIdentifier());

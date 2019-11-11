@@ -21,54 +21,85 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * InlineObject3
  */
+@JsonPropertyOrder({
+  InlineObject3.JSON_PROPERTY_INTEGER,
+  InlineObject3.JSON_PROPERTY_INT32,
+  InlineObject3.JSON_PROPERTY_INT64,
+  InlineObject3.JSON_PROPERTY_NUMBER,
+  InlineObject3.JSON_PROPERTY_FLOAT,
+  InlineObject3.JSON_PROPERTY_DOUBLE,
+  InlineObject3.JSON_PROPERTY_STRING,
+  InlineObject3.JSON_PROPERTY_PATTERN_WITHOUT_DELIMITER,
+  InlineObject3.JSON_PROPERTY_BYTE,
+  InlineObject3.JSON_PROPERTY_BINARY,
+  InlineObject3.JSON_PROPERTY_DATE,
+  InlineObject3.JSON_PROPERTY_DATE_TIME,
+  InlineObject3.JSON_PROPERTY_PASSWORD,
+  InlineObject3.JSON_PROPERTY_CALLBACK
+})
 
 public class InlineObject3   {
-  @JsonProperty("integer")
+  public static final String JSON_PROPERTY_INTEGER = "integer";
+  @JsonProperty(JSON_PROPERTY_INTEGER)
   private Integer integer;
 
-  @JsonProperty("int32")
+  public static final String JSON_PROPERTY_INT32 = "int32";
+  @JsonProperty(JSON_PROPERTY_INT32)
   private Integer int32;
 
-  @JsonProperty("int64")
+  public static final String JSON_PROPERTY_INT64 = "int64";
+  @JsonProperty(JSON_PROPERTY_INT64)
   private Long int64;
 
-  @JsonProperty("number")
+  public static final String JSON_PROPERTY_NUMBER = "number";
+  @JsonProperty(JSON_PROPERTY_NUMBER)
   private BigDecimal number;
 
-  @JsonProperty("float")
+  public static final String JSON_PROPERTY_FLOAT = "float";
+  @JsonProperty(JSON_PROPERTY_FLOAT)
   private Float _float;
 
-  @JsonProperty("double")
+  public static final String JSON_PROPERTY_DOUBLE = "double";
+  @JsonProperty(JSON_PROPERTY_DOUBLE)
   private Double _double;
 
-  @JsonProperty("string")
+  public static final String JSON_PROPERTY_STRING = "string";
+  @JsonProperty(JSON_PROPERTY_STRING)
   private String string;
 
-  @JsonProperty("pattern_without_delimiter")
+  public static final String JSON_PROPERTY_PATTERN_WITHOUT_DELIMITER = "pattern_without_delimiter";
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITHOUT_DELIMITER)
   private String patternWithoutDelimiter;
 
-  @JsonProperty("byte")
+  public static final String JSON_PROPERTY_BYTE = "byte";
+  @JsonProperty(JSON_PROPERTY_BYTE)
   private byte[] _byte;
 
-  @JsonProperty("binary")
+  public static final String JSON_PROPERTY_BINARY = "binary";
+  @JsonProperty(JSON_PROPERTY_BINARY)
   private File binary;
 
-  @JsonProperty("date")
+  public static final String JSON_PROPERTY_DATE = "date";
+  @JsonProperty(JSON_PROPERTY_DATE)
   private Date date;
 
-  @JsonProperty("dateTime")
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
   private Date dateTime;
 
-  @JsonProperty("password")
+  public static final String JSON_PROPERTY_PASSWORD = "password";
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
   private String password;
 
-  @JsonProperty("callback")
+  public static final String JSON_PROPERTY_CALLBACK = "callback";
+  @JsonProperty(JSON_PROPERTY_CALLBACK)
   private String callback;
 
   public InlineObject3 integer(Integer integer) {

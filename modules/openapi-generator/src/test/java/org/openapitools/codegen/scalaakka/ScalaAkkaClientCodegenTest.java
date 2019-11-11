@@ -18,16 +18,21 @@
 package org.openapitools.codegen.scalaakka;
 
 import com.google.common.collect.Sets;
+import com.google.common.io.Resources;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScalaAkkaClientCodegenTest {
 
@@ -276,4 +281,32 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 1);
     }
 
+    @Test(description = "validate codegen output")
+    public void codeGenerationTest() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("mainPackage", "hello.world");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(codegen.getName())
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/scala_reserved_words.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 13);
+
+        final String someObjFilename = new File(output, "src/main/scala/hello/world/model/SomeObj.scala").getAbsolutePath().replace("\\", "/");
+        Assert.assertEquals(
+                generatedFiles.get(someObjFilename),
+                Resources.toString(Resources.getResource("codegen/scala/SomeObj.scala.txt"), StandardCharsets.UTF_8));
+    }
 }

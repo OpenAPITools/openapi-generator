@@ -2,6 +2,13 @@
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
 @ApiModel(description = "{{{description}}}"){{/description}}
+{{#jackson}}
+@JsonPropertyOrder({
+{{#vars}}
+  {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}
+{{/vars}}
+})
+{{/jackson}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}
@@ -16,13 +23,15 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     {{/isContainer}}
     {{/isEnum}}
   {{#jackson}}
-  @JsonProperty("{{baseName}}")
+  public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
+  @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
   {{/jackson}}
   {{#gson}}
-  @SerializedName("{{baseName}}")
+  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
+  @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
   {{#isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
+  private {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
   {{/isContainer}}
   {{^isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};

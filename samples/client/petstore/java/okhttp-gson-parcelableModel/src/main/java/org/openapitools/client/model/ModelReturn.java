@@ -38,7 +38,9 @@ public class ModelReturn implements Parcelable {
 
   public ModelReturn() {
   }
+
   public ModelReturn _return(Integer _return) {
+    
     this._return = _return;
     return this;
   }
@@ -47,10 +49,13 @@ public class ModelReturn implements Parcelable {
    * Get _return
    * @return _return
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer getReturn() {
     return _return;
   }
+
 
   public void setReturn(Integer _return) {
     this._return = _return;

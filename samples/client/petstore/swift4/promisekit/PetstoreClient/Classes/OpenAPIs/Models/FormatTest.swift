@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct FormatTest: Codable {
 
     public var integer: Int?
@@ -41,6 +39,4 @@ public struct FormatTest: Codable {
         self.password = password
     }
 
-
 }
-

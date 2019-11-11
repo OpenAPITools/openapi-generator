@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-
 public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(Swift4Codegen.class);
 
@@ -101,7 +100,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "UUID",
                         "URL",
                         "AnyObject",
-                        "Any")
+                        "Any",
+                        "Decimal")
         );
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -115,7 +115,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "Any",
                         "Empty",
                         "AnyObject",
-                        "Any")
+                        "Any",
+                        "Decimal")
         );
 
         objcReservedWords = new HashSet<>(
@@ -197,6 +198,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "String");
+        typeMapping.put("BigDecimal", "Decimal");
 
         importMapping = new HashMap<>();
 
@@ -384,6 +387,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
                 "",
                 "Cartfile"));
+        supportingFiles.add(new SupportingFile("Package.swift.mustache", 
+                "", 
+                "Package.swift"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
                 "APIHelper.swift"));
@@ -420,6 +426,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache",
                 "",
                 "README.md"));
+        supportingFiles.add(new SupportingFile("XcodeGen.mustache",
+                "",
+                "project.yml"));
 
     }
 

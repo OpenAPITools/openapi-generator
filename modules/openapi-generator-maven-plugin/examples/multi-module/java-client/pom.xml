@@ -18,7 +18,9 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>4.0.0</version>
+                <!-- RELEASE_VERSION -->
+                <version>4.1.3-SNAPSHOT</version>
+                <!-- /RELEASE_VERSION -->
                 <dependencies>
                     <dependency>
                         <groupId>${project.groupId}</groupId>
@@ -55,14 +57,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.8.1</version>
                 <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <proc>none</proc>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
     <dependencies>
          <!-- dependencies are needed for the client being generated -->
          
@@ -92,6 +101,13 @@
             <version>${jersey-version}</version>
         </dependency>
 
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
         <!-- JSON processing: jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
@@ -117,7 +133,12 @@
           <groupId>com.fasterxml.jackson.jaxrs</groupId>
           <artifactId>jackson-jaxrs-json-provider</artifactId>
           <version>${jackson-version}</version>
-        </dependency>
+      </dependency>
+      <dependency>
+          <groupId>org.openapitools</groupId>
+          <artifactId>jackson-databind-nullable</artifactId>
+          <version>${jackson-databind-nullable-version}</version>
+      </dependency>
 
         <!-- Joda time: if you use it -->
         <dependency>

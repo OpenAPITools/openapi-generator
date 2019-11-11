@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface PetApiControllerImpInterface {
-    void addPet(Pet pet) throws Exception;
+    void addPet(Pet body) throws Exception;
 
     void deletePet(Long petId, String apiKey) throws Exception;
 
@@ -25,7 +25,7 @@ public interface PetApiControllerImpInterface {
 
     CompletionStage<Pet> getPetById(Long petId) throws Exception;
 
-    void updatePet(Pet pet) throws Exception;
+    void updatePet(Pet body) throws Exception;
 
     void updatePetWithForm(Long petId, String name, String status) throws Exception;
 

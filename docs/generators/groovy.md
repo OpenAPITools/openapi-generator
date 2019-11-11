@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-groovy
 title: Config Options for groovy
 sidebar_label: groovy
 ---
@@ -17,8 +15,6 @@ sidebar_label: groovy
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-groovy|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
-|artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
-|artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|

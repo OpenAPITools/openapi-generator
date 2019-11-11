@@ -15,28 +15,37 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * OuterComposite
  */
+@JsonPropertyOrder({
+  OuterComposite.JSON_PROPERTY_MY_NUMBER,
+  OuterComposite.JSON_PROPERTY_MY_STRING,
+  OuterComposite.JSON_PROPERTY_MY_BOOLEAN
+})
 
 public class OuterComposite {
-  @JsonProperty("my_number")
+  public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   private BigDecimal myNumber;
 
-  @JsonProperty("my_string")
+  public static final String JSON_PROPERTY_MY_STRING = "my_string";
   private String myString;
 
-  @JsonProperty("my_boolean")
+  public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
   private Boolean myBoolean;
 
+
   public OuterComposite myNumber(BigDecimal myNumber) {
+    
     this.myNumber = myNumber;
     return this;
   }
@@ -45,16 +54,23 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public BigDecimal getMyNumber() {
     return myNumber;
   }
+
 
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
+
   public OuterComposite myString(String myString) {
+    
     this.myString = myString;
     return this;
   }
@@ -63,16 +79,23 @@ public class OuterComposite {
    * Get myString
    * @return myString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getMyString() {
     return myString;
   }
+
 
   public void setMyString(String myString) {
     this.myString = myString;
   }
 
+
   public OuterComposite myBoolean(Boolean myBoolean) {
+    
     this.myBoolean = myBoolean;
     return this;
   }
@@ -81,10 +104,15 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Boolean isMyBoolean() {
     return myBoolean;
   }
+
 
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;

@@ -58,7 +58,7 @@ main = do
 
 ## Creating a Server
 
-In order to create a server, you must use the `runOpenAPIPetstoreServer` function. However, you unlike the client, in which case you *got* a `OpenAPIPetstoreBackend`
+In order to create a server, you must use the `runOpenAPIPetstoreMiddlewareServer` function. However, you unlike the client, in which case you *got* a `OpenAPIPetstoreBackend`
 from the library, you must instead *provide* a `OpenAPIPetstoreBackend`. For example, if you have defined handler functions for all the
 functions in `OpenAPIPetstore.Handlers`, you can write:
 
@@ -66,14 +66,24 @@ functions in `OpenAPIPetstore.Handlers`, you can write:
 {-# LANGUAGE RecordWildCards #-}
 
 import OpenAPIPetstore.API
+-- required dependency: wai
+import Network.Wai (Middleware)
+-- required dependency: wai-extra
+import Network.Wai.Middleware.RequestLogger (logStdout)
 
 -- A module you wrote yourself, containing all handlers needed for the OpenAPIPetstoreBackend type.
 import OpenAPIPetstore.Handlers
+
+-- If you would like to not use any middlewares you could use runOpenAPIPetstoreServer instead
+
+-- Combined middlewares
+requestMiddlewares :: Middleware
+requestMiddlewares = logStdout
 
 -- Run a OpenAPIPetstore server on localhost:8080
 main :: IO ()
 main = do
   let server = OpenAPIPetstoreBackend{..}
       config = Config "http://localhost:8080/"
-  runOpenAPIPetstoreServer config server
+  runOpenAPIPetstoreMiddlewareServer config requestMiddlewares server
 ```

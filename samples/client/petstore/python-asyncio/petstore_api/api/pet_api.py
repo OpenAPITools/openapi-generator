@@ -44,18 +44,21 @@ class PetApi(object):
         >>> thread = api.add_pet(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param Pet body: Pet object that needs to be added to the store (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.add_pet_with_http_info(body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.add_pet_with_http_info(body, **kwargs)  # noqa: E501
-            return data
+        return self.add_pet_with_http_info(body, **kwargs)  # noqa: E501
 
     def add_pet_with_http_info(self, body, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
@@ -65,8 +68,17 @@ class PetApi(object):
         >>> thread = api.add_pet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param Pet body: Pet object that needs to be added to the store (required)
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -89,8 +101,8 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'body' is set
-        if ('body' not in local_var_params or
-                local_var_params['body'] is None):
+        if self.api_client.client_side_validation and ('body' not in local_var_params or  # noqa: E501
+                                                        local_var_params['body'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `body` when calling `add_pet`")  # noqa: E501
 
         collection_formats = {}
@@ -138,19 +150,22 @@ class PetApi(object):
         >>> thread = api.delete_pet(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: Pet id to delete (required)
         :param str api_key:
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.delete_pet_with_http_info(pet_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.delete_pet_with_http_info(pet_id, **kwargs)  # noqa: E501
-            return data
+        return self.delete_pet_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     def delete_pet_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
@@ -160,9 +175,18 @@ class PetApi(object):
         >>> thread = api.delete_pet_with_http_info(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: Pet id to delete (required)
         :param str api_key:
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -185,8 +209,8 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if ('pet_id' not in local_var_params or
-                local_var_params['pet_id'] is None):
+        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
+                                                        local_var_params['pet_id'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `delete_pet`")  # noqa: E501
 
         collection_formats = {}
@@ -233,18 +257,21 @@ class PetApi(object):
         >>> thread = api.find_pets_by_status(status, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param list[str] status: Status values that need to be considered for filter (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: list[Pet]
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
-        else:
-            (data) = self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
-            return data
+        return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
 
     def find_pets_by_status_with_http_info(self, status, **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
@@ -255,9 +282,18 @@ class PetApi(object):
         >>> thread = api.find_pets_by_status_with_http_info(status, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param list[str] status: Status values that need to be considered for filter (required)
-        :return: list[Pet]
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(list[Pet], status_code(int), headers(HTTPHeaderDict))
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -279,8 +315,8 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'status' is set
-        if ('status' not in local_var_params or
-                local_var_params['status'] is None):
+        if self.api_client.client_side_validation and ('status' not in local_var_params or  # noqa: E501
+                                                        local_var_params['status'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `status` when calling `find_pets_by_status`")  # noqa: E501
 
         collection_formats = {}
@@ -288,7 +324,7 @@ class PetApi(object):
         path_params = {}
 
         query_params = []
-        if 'status' in local_var_params:
+        if 'status' in local_var_params and local_var_params['status'] is not None:  # noqa: E501
             query_params.append(('status', local_var_params['status']))  # noqa: E501
             collection_formats['status'] = 'csv'  # noqa: E501
 
@@ -330,18 +366,21 @@ class PetApi(object):
         >>> thread = api.find_pets_by_tags(tags, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param list[str] tags: Tags to filter by (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: list[Pet]
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
-        else:
-            (data) = self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
-            return data
+        return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
     def find_pets_by_tags_with_http_info(self, tags, **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
@@ -352,9 +391,18 @@ class PetApi(object):
         >>> thread = api.find_pets_by_tags_with_http_info(tags, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param list[str] tags: Tags to filter by (required)
-        :return: list[Pet]
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(list[Pet], status_code(int), headers(HTTPHeaderDict))
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -376,8 +424,8 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'tags' is set
-        if ('tags' not in local_var_params or
-                local_var_params['tags'] is None):
+        if self.api_client.client_side_validation and ('tags' not in local_var_params or  # noqa: E501
+                                                        local_var_params['tags'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")  # noqa: E501
 
         collection_formats = {}
@@ -385,7 +433,7 @@ class PetApi(object):
         path_params = {}
 
         query_params = []
-        if 'tags' in local_var_params:
+        if 'tags' in local_var_params and local_var_params['tags'] is not None:  # noqa: E501
             query_params.append(('tags', local_var_params['tags']))  # noqa: E501
             collection_formats['tags'] = 'csv'  # noqa: E501
 
@@ -427,18 +475,21 @@ class PetApi(object):
         >>> thread = api.get_pet_by_id(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: ID of pet to return (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: Pet
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
-            return data
+        return self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     def get_pet_by_id_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Find pet by ID  # noqa: E501
@@ -449,9 +500,18 @@ class PetApi(object):
         >>> thread = api.get_pet_by_id_with_http_info(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: ID of pet to return (required)
-        :return: Pet
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(Pet, status_code(int), headers(HTTPHeaderDict))
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -473,8 +533,8 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if ('pet_id' not in local_var_params or
-                local_var_params['pet_id'] is None):
+        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
+                                                        local_var_params['pet_id'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")  # noqa: E501
 
         collection_formats = {}
@@ -522,18 +582,21 @@ class PetApi(object):
         >>> thread = api.update_pet(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param Pet body: Pet object that needs to be added to the store (required)
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.update_pet_with_http_info(body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.update_pet_with_http_info(body, **kwargs)  # noqa: E501
-            return data
+        return self.update_pet_with_http_info(body, **kwargs)  # noqa: E501
 
     def update_pet_with_http_info(self, body, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
@@ -543,8 +606,17 @@ class PetApi(object):
         >>> thread = api.update_pet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param Pet body: Pet object that needs to be added to the store (required)
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -567,8 +639,8 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'body' is set
-        if ('body' not in local_var_params or
-                local_var_params['body'] is None):
+        if self.api_client.client_side_validation and ('body' not in local_var_params or  # noqa: E501
+                                                        local_var_params['body'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `body` when calling `update_pet`")  # noqa: E501
 
         collection_formats = {}
@@ -616,20 +688,23 @@ class PetApi(object):
         >>> thread = api.update_pet_with_form(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: ID of pet that needs to be updated (required)
         :param str name: Updated name of the pet
         :param str status: Updated status of the pet
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.update_pet_with_form_with_http_info(pet_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.update_pet_with_form_with_http_info(pet_id, **kwargs)  # noqa: E501
-            return data
+        return self.update_pet_with_form_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     def update_pet_with_form_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
@@ -639,10 +714,19 @@ class PetApi(object):
         >>> thread = api.update_pet_with_form_with_http_info(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: ID of pet that needs to be updated (required)
         :param str name: Updated name of the pet
         :param str status: Updated status of the pet
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -665,8 +749,8 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if ('pet_id' not in local_var_params or
-                local_var_params['pet_id'] is None):
+        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
+                                                        local_var_params['pet_id'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")  # noqa: E501
 
         collection_formats = {}
@@ -718,20 +802,23 @@ class PetApi(object):
         >>> thread = api.upload_file(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server
         :param file file: file to upload
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: ApiResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.upload_file_with_http_info(pet_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.upload_file_with_http_info(pet_id, **kwargs)  # noqa: E501
-            return data
+        return self.upload_file_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     def upload_file_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
@@ -741,11 +828,20 @@ class PetApi(object):
         >>> thread = api.upload_file_with_http_info(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server
         :param file file: file to upload
-        :return: ApiResponse
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -767,8 +863,8 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if ('pet_id' not in local_var_params or
-                local_var_params['pet_id'] is None):
+        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
+                                                        local_var_params['pet_id'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file`")  # noqa: E501
 
         collection_formats = {}
@@ -824,20 +920,23 @@ class PetApi(object):
         >>> thread = api.upload_file_with_required_file(pet_id, required_file, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: ID of pet to update (required)
         :param file required_file: file to upload (required)
         :param str additional_metadata: Additional data to pass to server
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: ApiResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
-        else:
-            (data) = self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
-            return data
+        return self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
 
     def upload_file_with_required_file_with_http_info(self, pet_id, required_file, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
@@ -847,11 +946,20 @@ class PetApi(object):
         >>> thread = api.upload_file_with_required_file_with_http_info(pet_id, required_file, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
         :param int pet_id: ID of pet to update (required)
         :param file required_file: file to upload (required)
         :param str additional_metadata: Additional data to pass to server
-        :return: ApiResponse
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -873,12 +981,12 @@ class PetApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet_id' is set
-        if ('pet_id' not in local_var_params or
-                local_var_params['pet_id'] is None):
+        if self.api_client.client_side_validation and ('pet_id' not in local_var_params or  # noqa: E501
+                                                        local_var_params['pet_id'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file_with_required_file`")  # noqa: E501
         # verify the required parameter 'required_file' is set
-        if ('required_file' not in local_var_params or
-                local_var_params['required_file'] is None):
+        if self.api_client.client_side_validation and ('required_file' not in local_var_params or  # noqa: E501
+                                                        local_var_params['required_file'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
 
         collection_formats = {}

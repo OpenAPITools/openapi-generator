@@ -35,7 +35,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun createUser(body: User) : Unit {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -50,8 +50,8 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -65,7 +65,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun createUsersWithArrayInput(body: kotlin.Array<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -80,8 +80,8 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -95,7 +95,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun createUsersWithListInput(body: kotlin.Array<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -110,8 +110,8 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -125,7 +125,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun deleteUser(username: kotlin.String) : Unit {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -140,8 +140,8 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -156,7 +156,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     @Suppress("UNCHECKED_CAST")
     fun getUserByName(username: kotlin.String) : User {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -171,8 +171,8 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as User
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -188,7 +188,11 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     @Suppress("UNCHECKED_CAST")
     fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("username" to listOf("$username"), "password" to listOf("$password"))
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                put("username", listOf(username.toString()))
+                put("password", listOf(password.toString()))
+            }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -203,8 +207,8 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
 
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as kotlin.String
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -217,7 +221,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun logoutUser() : Unit {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -232,8 +236,8 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }
@@ -248,7 +252,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun updateUser(username: kotlin.String, body: User) : Unit {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
@@ -263,8 +267,8 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
         }

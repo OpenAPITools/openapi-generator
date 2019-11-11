@@ -38,7 +38,9 @@ public class ClassModel implements Parcelable {
 
   public ClassModel() {
   }
+
   public ClassModel propertyClass(String propertyClass) {
+    
     this.propertyClass = propertyClass;
     return this;
   }
@@ -47,10 +49,13 @@ public class ClassModel implements Parcelable {
    * Get propertyClass
    * @return propertyClass
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getPropertyClass() {
     return propertyClass;
   }
+
 
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

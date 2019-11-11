@@ -31,7 +31,6 @@ public class DefaultGeneratorTest {
         ClientOptInput opts = new ClientOptInput();
         opts.setOpenAPI(openAPI);
         opts.setConfig(new DefaultCodegen());
-        opts.setOpts(new ClientOpts());
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
@@ -62,7 +61,6 @@ public class DefaultGeneratorTest {
         CodegenConfig config = new DefaultCodegen();
         config.setStrictSpecBehavior(false);
         opts.setConfig(config);
-        opts.setOpts(new ClientOpts());
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
@@ -85,7 +83,6 @@ public class DefaultGeneratorTest {
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setEnableMinimalUpdate(true);
         opts.setConfig(codegen);
-        opts.setOpts(new ClientOpts());
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
         File testPath = new File("temp/overwrite.test");

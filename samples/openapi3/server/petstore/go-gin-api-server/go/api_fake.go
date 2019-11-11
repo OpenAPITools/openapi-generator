@@ -79,3 +79,8 @@ func TestInlineAdditionalProperties(c *gin.Context) {
 func TestJsonFormData(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
+
+// TestQueryParameterCollectionFormat - 
+func TestQueryParameterCollectionFormat(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{})
+}

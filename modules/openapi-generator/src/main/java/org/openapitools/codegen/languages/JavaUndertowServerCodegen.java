@@ -19,12 +19,13 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -40,7 +41,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
     public JavaUndertowServerCodegen() {
         super();
 
-        embeddedTemplateDir = templateDir = "undertow";
+        embeddedTemplateDir = templateDir = "java-undertow-server";
         invokerPackage = "org.openapitools.handler";
         artifactId = "openapi-undertow-server";
         dateLibrary = "legacy"; //TODO: add joda support
@@ -58,17 +59,17 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        if(GeneratorProperties.getProperty("swagger.codegen.undertow.apipackage") != null && GeneratorProperties.getProperty("openapi.codegen.undertow.apipackage") == null) {
-            LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'swagger.codegen.undertow.apipackage'");
-            apiPackage = GeneratorProperties.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
+        if(GlobalSettings.getProperty("swagger.codegen.undertow.apipackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.apipackage") == null) {
+            LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'openapi.codegen.undertow.apipackage'");
+            apiPackage = GlobalSettings.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
         } else {
-            apiPackage = GeneratorProperties.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
+            apiPackage = GlobalSettings.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
         }
-        if(GeneratorProperties.getProperty("swagger.codegen.undertow.modelpackage") != null && GeneratorProperties.getProperty("openapi.codegen.undertow.modelpackage") == null) {
+        if(GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.modelpackage") == null) {
             LOGGER.warn("System property 'swagger.codegen.undertow.modelpackage' was renamed to 'openapi.codegen.undertow.modelpackage'");
-            modelPackage = GeneratorProperties.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
+            modelPackage = GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
         } else {
-            modelPackage = GeneratorProperties.getProperty("openapi.codegen.undertow.modelpackage", "org.openapitools.model");
+            modelPackage = GlobalSettings.getProperty("openapi.codegen.undertow.modelpackage", "org.openapitools.model");
         }
 
         additionalProperties.put("title", title);
@@ -100,7 +101,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
         // keep the yaml in config folder for framework validation.
         supportingFiles.add(new SupportingFile("openapi.mustache", ("src.main.resources.config").replace(".", java.io.File.separator), "openapi.json"));
-        supportingFiles.add(new SupportingFile("handler.mustache", ("src.main.java.org.openapitools.handler").replace(".", java.io.File.separator), "PathHandlerProvider.java"));
+        supportingFiles.add(new SupportingFile("handler.mustache", (String.format(Locale.ROOT, "src.main.java.%s", apiPackage)).replace(".", java.io.File.separator), "PathHandlerProvider.java"));
         supportingFiles.add(new SupportingFile("service.mustache", ("src.main.resources.META-INF.services").replace(".", java.io.File.separator), "com.networknt.server.HandlerProvider"));
 
         // configuration files

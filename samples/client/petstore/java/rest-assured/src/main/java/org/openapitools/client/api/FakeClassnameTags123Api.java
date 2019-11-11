@@ -33,20 +33,28 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.openapitools.client.JSON;
-
 import static io.restassured.http.Method.*;
 
 @Api(value = "FakeClassnameTags123")
 public class FakeClassnameTags123Api {
 
-    private RequestSpecBuilder reqSpec;
+    private Supplier<RequestSpecBuilder> reqSpecSupplier;
+    private Consumer<RequestSpecBuilder> reqSpecCustomizer;
 
-    private FakeClassnameTags123Api(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
+    private FakeClassnameTags123Api(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        this.reqSpecSupplier = reqSpecSupplier;
     }
 
-    public static FakeClassnameTags123Api fakeClassnameTags123(RequestSpecBuilder reqSpec) {
-        return new FakeClassnameTags123Api(reqSpec);
+    public static FakeClassnameTags123Api fakeClassnameTags123(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        return new FakeClassnameTags123Api(reqSpecSupplier);
+    }
+
+    private RequestSpecBuilder createReqSpec() {
+        RequestSpecBuilder reqSpec = reqSpecSupplier.get();
+        if(reqSpecCustomizer != null) {
+            reqSpecCustomizer.accept(reqSpec);
+        }
+        return reqSpec;
     }
 
 
@@ -57,16 +65,16 @@ public class FakeClassnameTags123Api {
     @ApiResponses(value = { 
             @ApiResponse(code = 200, message = "successful operation")  })
     public TestClassnameOper testClassname() {
-        return new TestClassnameOper(reqSpec);
+        return new TestClassnameOper(createReqSpec());
     }
 
     /**
-     * Customise request specification
-     * @param consumer consumer
+     * Customize request specification
+     * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
      * @return api
      */
-    public FakeClassnameTags123Api reqSpec(Consumer<RequestSpecBuilder> consumer) {
-        consumer.accept(reqSpec);
+    public FakeClassnameTags123Api reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+        this.reqSpecCustomizer = reqSpecCustomizer;
         return this;
     }
 
@@ -122,22 +130,22 @@ public class FakeClassnameTags123Api {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public TestClassnameOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public TestClassnameOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public TestClassnameOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public TestClassnameOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }

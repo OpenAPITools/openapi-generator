@@ -33,7 +33,9 @@ public class CatAllOf {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
+
   public CatAllOf declawed(Boolean declawed) {
+    
     this.declawed = declawed;
     return this;
   }
@@ -42,10 +44,13 @@ public class CatAllOf {
    * Get declawed
    * @return declawed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Boolean getDeclawed() {
     return declawed;
   }
+
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;

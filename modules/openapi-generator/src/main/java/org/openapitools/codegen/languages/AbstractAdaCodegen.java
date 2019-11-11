@@ -140,6 +140,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("object", "Swagger.Object");
         typeMapping.put("number", "Swagger.Number");
         typeMapping.put("UUID", "Swagger.UString");
+        typeMapping.put("URI", "Swagger.UString");
         typeMapping.put("file", "Swagger.Http_Content_Type");
         typeMapping.put("binary", "Swagger.Binary");
 
@@ -330,7 +331,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         if (typeMapping.containsKey(schemaType)) {
             return typeMapping.get(schemaType);
         }
-        //  LOGGER.info("Swagger type " + schemaType);
+        //  LOGGER.info("OpenAPI type " + schemaType);
         if (languageSpecificPrimitives.contains(schemaType)) {
             return schemaType;
         }

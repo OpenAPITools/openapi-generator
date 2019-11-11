@@ -1,13 +1,14 @@
 # EnumTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EnumString** | **string** |  | [optional] 
 **EnumStringRequired** | **string** |  | 
 **EnumInteger** | **int32** |  | [optional] 
 **EnumNumber** | **float64** |  | [optional] 
-**OuterEnum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
+**OuterEnum** | Pointer to [**OuterEnum**](OuterEnum.md) |  | [optional] 
 **OuterEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
 **OuterEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
 **OuterEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 

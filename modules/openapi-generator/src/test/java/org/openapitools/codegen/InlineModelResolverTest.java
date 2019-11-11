@@ -101,6 +101,35 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void resolveInlineModelTestWithTitleWithSpaces() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.getComponents().addSchemas("User", new ObjectSchema()
+                .name("user")
+                .description("a common user")
+                .addProperties("name", new StringSchema())
+                .addProperties("address", new ObjectSchema()
+                        .title("User Address Title")
+                        .readOnly(false)
+                        .description("description")
+                        .name("name")
+                        .addProperties("street", new StringSchema())
+                        .addProperties("city", new StringSchema())));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Schema user = openapi.getComponents().getSchemas().get("User");
+
+        assertNotNull(user);
+        assertTrue(user.getProperties().get("address") instanceof Schema);
+
+        Schema address = openapi.getComponents().getSchemas().get("User_Address_Title");
+        assertNotNull(address);
+        assertNotNull(address.getProperties().get("city"));
+        assertNotNull(address.getProperties().get("street"));
+    }
+
+    @Test
     public void resolveInlineModel2EqualInnerModels() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
@@ -803,5 +832,43 @@ public class InlineModelResolverTest {
                 .get("nullable_request_body_property");
         Schema nullableRequestBodySchema = ModelUtils.getReferencedSchema(openAPI, nullableRequestBodyReference);
         assertTrue(nullableRequestBodySchema.getNullable());
+    }
+
+    @Test
+    public void callbacks() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody callbackRequestBodyReference = openAPI
+                .getPaths()
+                .get("/callback")
+                .getPost()
+                .getCallbacks()
+                .get("webhook")
+                .get("{$request.body#/callbackUri}")
+                .getPost()
+                .getRequestBody();
+        assertNotNull(callbackRequestBodyReference.get$ref());
+
+        RequestBody resolvedCallbackRequestBody = openAPI
+                .getComponents()
+                .getRequestBodies()
+                .get(ModelUtils.getSimpleRef(callbackRequestBodyReference.get$ref()));
+
+        Schema callbackRequestSchemaReference = resolvedCallbackRequestBody
+                .getContent()
+                .get("application/json")
+                .getSchema();
+        assertNotNull(callbackRequestSchemaReference.get$ref());
+
+        Schema resolvedCallbackSchema = openAPI
+                .getComponents()
+                .getSchemas()
+                .get(ModelUtils.getSimpleRef(callbackRequestSchemaReference.get$ref()));
+
+        Map properties = resolvedCallbackSchema.getProperties();
+        assertTrue(properties.get("notificationId") instanceof StringSchema);
+        assertTrue(properties.get("action") instanceof StringSchema);
+        assertTrue(properties.get("data") instanceof StringSchema);
     }
 }
