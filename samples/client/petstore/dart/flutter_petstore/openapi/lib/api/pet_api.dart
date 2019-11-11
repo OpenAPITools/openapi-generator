@@ -10,12 +10,12 @@ class PetApi {
   /// Add a new pet to the store
   ///
   /// 
-  Future addPet(Pet body) async {
-    Object postBody = body;
+  Future addPet(Pet pet) async {
+    Object postBody = pet;
 
     // verify required params are set
-    if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+    if(pet == null) {
+     throw new ApiException(400, "Missing required param: pet");
     }
 
     // create path and map variables
@@ -261,12 +261,12 @@ class PetApi {
   /// Update an existing pet
   ///
   /// 
-  Future updatePet(Pet body) async {
-    Object postBody = body;
+  Future updatePet(Pet pet) async {
+    Object postBody = pet;
 
     // verify required params are set
-    if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+    if(pet == null) {
+     throw new ApiException(400, "Missing required param: pet");
     }
 
     // create path and map variables

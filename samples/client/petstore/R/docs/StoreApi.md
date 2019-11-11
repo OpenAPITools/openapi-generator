@@ -140,7 +140,7 @@ No authorization required
 | **404** | Order not found |  -  |
 
 # **PlaceOrder**
-> Order PlaceOrder(body)
+> Order PlaceOrder(order)
 
 Place an order for a pet
 
@@ -148,11 +148,11 @@ Place an order for a pet
 ```R
 library(petstore)
 
-var.body <- Order$new(123, 123, 123, "shipDate_example", "status_example", "complete_example") # Order | order placed for purchasing the pet
+var.order <- Order$new(123, 123, 123, "shipDate_example", "status_example", "complete_example") # Order | order placed for purchasing the pet
 
 #Place an order for a pet
 api.instance <- StoreApi$new()
-result <- api.instance$PlaceOrder(var.body)
+result <- api.instance$PlaceOrder(var.order)
 dput(result)
 ```
 
@@ -160,7 +160,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -172,7 +172,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
 
 ### HTTP response details

@@ -141,3 +141,15 @@ let test_json_form_data ~param ~param2 =
     Cohttp_lwt_unix.Client.call `GET uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
+let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context =
+    let open Lwt in
+    let uri = Request.build_uri "/fake/test-query-paramters" in
+    let headers = Request.default_headers in
+    let uri = Request.add_query_param_list uri "pipe" (List.map (fun x -> x)) pipe in
+    let uri = Request.add_query_param_list uri "ioutil" (List.map (fun x -> x)) ioutil in
+    let uri = Request.add_query_param_list uri "http" (List.map (fun x -> x)) http in
+    let uri = Request.add_query_param_list uri "url" (List.map (fun x -> x)) url in
+    let uri = Request.add_query_param_list uri "context" (List.map (fun x -> x)) context in
+    Cohttp_lwt_unix.Client.call `PUT uri ~headers >>= fun (resp, body) ->
+    Request.handle_unit_response resp
+

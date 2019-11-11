@@ -53,7 +53,7 @@ function Invoke-StoreApiPlaceOrder {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Org.OpenAPITools.Model.Order]
-        ${body}
+        ${order}
     )
 
     Process {
@@ -61,7 +61,7 @@ function Invoke-StoreApiPlaceOrder {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $Script:StoreApi.PlaceOrder(
-            ${body}
+            ${order}
         )
     }
 }

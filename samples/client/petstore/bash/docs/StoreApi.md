@@ -20,7 +20,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ### Example
 
 ```bash
-petstore-cli deleteOrder order_id=value
+ deleteOrder order_id=value
 ```
 
 ### Parameters
@@ -55,7 +55,7 @@ Returns a map of status codes to quantities
 ### Example
 
 ```bash
-petstore-cli getInventory
+ getInventory
 ```
 
 ### Parameters
@@ -87,7 +87,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example
 
 ```bash
-petstore-cli getOrderById order_id=value
+ getOrderById order_id=value
 ```
 
 ### Parameters
@@ -120,7 +120,7 @@ Place an order for a pet
 ### Example
 
 ```bash
-petstore-cli placeOrder
+ placeOrder
 ```
 
 ### Parameters
@@ -128,7 +128,7 @@ petstore-cli placeOrder
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md) | order placed for purchasing the pet |
+ **order** | [**Order**](Order.md) | order placed for purchasing the pet |
 
 ### Return type
 
@@ -140,7 +140,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

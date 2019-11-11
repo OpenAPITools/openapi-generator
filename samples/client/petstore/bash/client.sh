@@ -95,7 +95,7 @@ declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$
 # 0 - optional
 # 1 - required
 declare -A operation_parameters_minimum_occurrences
-operation_parameters_minimum_occurrences["123Test@$%SpecialTags:::Client"]=1
+operation_parameters_minimum_occurrences["call123TestSpecialTags:::Client"]=1
 operation_parameters_minimum_occurrences["fakeOuterBooleanSerialize:::body"]=0
 operation_parameters_minimum_occurrences["fakeOuterCompositeSerialize:::OuterComposite"]=0
 operation_parameters_minimum_occurrences["fakeOuterNumberSerialize:::body"]=0
@@ -135,6 +135,11 @@ operation_parameters_minimum_occurrences["testGroupParameters:::int64_group"]=0
 operation_parameters_minimum_occurrences["testInlineAdditionalProperties:::request_body"]=1
 operation_parameters_minimum_occurrences["testJsonFormData:::param"]=1
 operation_parameters_minimum_occurrences["testJsonFormData:::param2"]=1
+operation_parameters_minimum_occurrences["testQueryParameterCollectionFormat:::pipe"]=1
+operation_parameters_minimum_occurrences["testQueryParameterCollectionFormat:::ioutil"]=1
+operation_parameters_minimum_occurrences["testQueryParameterCollectionFormat:::http"]=1
+operation_parameters_minimum_occurrences["testQueryParameterCollectionFormat:::url"]=1
+operation_parameters_minimum_occurrences["testQueryParameterCollectionFormat:::context"]=1
 operation_parameters_minimum_occurrences["testClassname:::Client"]=1
 operation_parameters_minimum_occurrences["addPet:::Pet"]=1
 operation_parameters_minimum_occurrences["deletePet:::petId"]=1
@@ -172,7 +177,7 @@ operation_parameters_minimum_occurrences["updateUser:::User"]=1
 # N - N values
 # 0 - unlimited
 declare -A operation_parameters_maximum_occurrences
-operation_parameters_maximum_occurrences["123Test@$%SpecialTags:::Client"]=0
+operation_parameters_maximum_occurrences["call123TestSpecialTags:::Client"]=0
 operation_parameters_maximum_occurrences["fakeOuterBooleanSerialize:::body"]=0
 operation_parameters_maximum_occurrences["fakeOuterCompositeSerialize:::OuterComposite"]=0
 operation_parameters_maximum_occurrences["fakeOuterNumberSerialize:::body"]=0
@@ -212,6 +217,11 @@ operation_parameters_maximum_occurrences["testGroupParameters:::int64_group"]=0
 operation_parameters_maximum_occurrences["testInlineAdditionalProperties:::request_body"]=0
 operation_parameters_maximum_occurrences["testJsonFormData:::param"]=0
 operation_parameters_maximum_occurrences["testJsonFormData:::param2"]=0
+operation_parameters_maximum_occurrences["testQueryParameterCollectionFormat:::pipe"]=0
+operation_parameters_maximum_occurrences["testQueryParameterCollectionFormat:::ioutil"]=0
+operation_parameters_maximum_occurrences["testQueryParameterCollectionFormat:::http"]=0
+operation_parameters_maximum_occurrences["testQueryParameterCollectionFormat:::url"]=0
+operation_parameters_maximum_occurrences["testQueryParameterCollectionFormat:::context"]=0
 operation_parameters_maximum_occurrences["testClassname:::Client"]=0
 operation_parameters_maximum_occurrences["addPet:::Pet"]=0
 operation_parameters_maximum_occurrences["deletePet:::petId"]=0
@@ -246,7 +256,7 @@ operation_parameters_maximum_occurrences["updateUser:::User"]=0
 # The type of collection for specifying multiple values for parameter:
 # - multi, csv, ssv, tsv
 declare -A operation_parameters_collection_type
-operation_parameters_collection_type["123Test@$%SpecialTags:::Client"]=""
+operation_parameters_collection_type["call123TestSpecialTags:::Client"]=""
 operation_parameters_collection_type["fakeOuterBooleanSerialize:::body"]=""
 operation_parameters_collection_type["fakeOuterCompositeSerialize:::OuterComposite"]=""
 operation_parameters_collection_type["fakeOuterNumberSerialize:::body"]=""
@@ -286,6 +296,11 @@ operation_parameters_collection_type["testGroupParameters:::int64_group"]=""
 operation_parameters_collection_type["testInlineAdditionalProperties:::request_body"]=
 operation_parameters_collection_type["testJsonFormData:::param"]=""
 operation_parameters_collection_type["testJsonFormData:::param2"]=""
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::pipe"]="multi"
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::ioutil"]="csv"
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::http"]=
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::url"]="csv"
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::context"]="multi"
 operation_parameters_collection_type["testClassname:::Client"]=""
 operation_parameters_collection_type["addPet:::Pet"]=""
 operation_parameters_collection_type["deletePet:::petId"]=""
@@ -718,7 +733,7 @@ EOF
     echo ""
     echo -e "${BOLD}${WHITE}[anotherFake]${OFF}"
 read -r -d '' ops <<EOF
-  ${CYAN}123Test@$%SpecialTags${OFF};To test special tags
+  ${CYAN}call123TestSpecialTags${OFF};To test special tags
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
@@ -746,6 +761,7 @@ read -r -d '' ops <<EOF
   ${CYAN}testGroupParameters${OFF};Fake endpoint to test group parameters (optional) (AUTH)
   ${CYAN}testInlineAdditionalProperties${OFF};test inline additionalProperties
   ${CYAN}testJsonFormData${OFF};test json serialization of form data
+  ${CYAN}testQueryParameterCollectionFormat${OFF};
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
@@ -843,12 +859,12 @@ print_version() {
 
 ##############################################################################
 #
-# Print help for 123Test@$%SpecialTags operation
+# Print help for call123TestSpecialTags operation
 #
 ##############################################################################
-print_123Test@$%SpecialTags_help() {
+print_call123TestSpecialTags_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}123Test@$%SpecialTags - To test special tags${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}call123TestSpecialTags - To test special tags${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "To test special tags and operation ID starting with number" | paste -sd' ' | fold -sw 80
     echo -e ""
@@ -1133,6 +1149,33 @@ print_testJsonFormData_help() {
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for testQueryParameterCollectionFormat operation
+#
+##############################################################################
+print_testQueryParameterCollectionFormat_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}testQueryParameterCollectionFormat - ${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "To test the collection format in query parameters" | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}pipe${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: pipe=value1 pipe=value2 pipe=...${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}ioutil${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: ioutil="value1,value2,..."${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}http${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: ${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}url${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: url="value1,value2,..."${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}context${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: context=value1 context=value2 context=...${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Success${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1554,10 +1597,10 @@ print_updateUser_help() {
 
 ##############################################################################
 #
-# Call 123Test@$%SpecialTags operation
+# Call call123TestSpecialTags operation
 #
 ##############################################################################
-call_123Test@$%SpecialTags() {
+call_call123TestSpecialTags() {
     # ignore error about 'path_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
     local path_parameter_names=()
@@ -2453,6 +2496,42 @@ call_testJsonFormData() {
         exit 1
     fi
     local method="GET"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call testQueryParameterCollectionFormat operation
+#
+##############################################################################
+call_testQueryParameterCollectionFormat() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(pipe ioutil http url context)
+    local path
+
+    if ! path=$(build_request_path "/v2/fake/test-query-paramters" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="PUT"
     local headers_curl
     headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3691,8 +3770,8 @@ case $key in
         OFF=""
         result_color_table=( "" "" "" "" "" "" "" )
     ;;
-    123Test@$%SpecialTags)
-    operation="123Test@$%SpecialTags"
+    call123TestSpecialTags)
+    operation="call123TestSpecialTags"
     ;;
     fooGet)
     operation="fooGet"
@@ -3735,6 +3814,9 @@ case $key in
     ;;
     testJsonFormData)
     operation="testJsonFormData"
+    ;;
+    testQueryParameterCollectionFormat)
+    operation="testQueryParameterCollectionFormat"
     ;;
     testClassname)
     operation="testClassname"
@@ -3886,8 +3968,8 @@ fi
 
 # Run cURL command based on the operation ID
 case $operation in
-    123Test@$%SpecialTags)
-    call_123Test@$%SpecialTags
+    call123TestSpecialTags)
+    call_call123TestSpecialTags
     ;;
     fooGet)
     call_fooGet
@@ -3930,6 +4012,9 @@ case $operation in
     ;;
     testJsonFormData)
     call_testJsonFormData
+    ;;
+    testQueryParameterCollectionFormat)
+    call_testQueryParameterCollectionFormat
     ;;
     testClassname)
     call_testClassname

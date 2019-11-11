@@ -10,7 +10,7 @@ description:    .
                 .
                 OpenAPI Petstore API version: 1.0.0
                 .
-                OpenAPI version: 3.0.1
+                OpenAPI version: 3.0.0
                 .
 category:       Web
 homepage:       https://openapi-generator.tech
@@ -65,6 +65,7 @@ library
       OpenAPIPetstore
       OpenAPIPetstore.API
       OpenAPIPetstore.API.AnotherFake
+      OpenAPIPetstore.API.ApiDefault
       OpenAPIPetstore.API.Fake
       OpenAPIPetstore.API.FakeClassnameTags123
       OpenAPIPetstore.API.Pet

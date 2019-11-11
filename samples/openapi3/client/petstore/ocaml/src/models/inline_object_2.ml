@@ -7,9 +7,9 @@
 
 type t = {
     (* Form parameter enum test (string array) *)
-        enum_form_string_array: Enums.enum_form_string_array list;
+    enum_form_string_array: Enums.enum_form_string_array list;
     (* Form parameter enum test (string) *)
-        enum_form_string: Enums.enumclass option [@default Some(`Minusefg)];
+    enum_form_string: Enums.enumclass option [@default Some(`Minusefg)];
 } [@@deriving yojson { strict = false }, show ];;
 
 let create () : t = {

@@ -210,7 +210,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **findPetsByTags**
-> OpenAPI\Server\Model\Pet findPetsByTags($tags, $maxCount)
+> OpenAPI\Server\Model\Pet findPetsByTags($tags)
 
 Finds Pets by tags
 
@@ -241,7 +241,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByTags
      */
-    public function findPetsByTags(array $tags, $maxCount = null)
+    public function findPetsByTags(array $tags)
     {
         // Implement the operation ...
     }
@@ -255,7 +255,6 @@ class PetApi implements PetApiInterface
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**string**](../Model/string.md)| Tags to filter by |
- **maxCount** | **int**| Maximum number of items to return | [optional]
 
 ### Return type
 

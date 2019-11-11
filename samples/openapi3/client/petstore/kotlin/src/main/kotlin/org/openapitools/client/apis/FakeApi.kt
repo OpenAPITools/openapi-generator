@@ -35,8 +35,12 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * Health check endpoint
     * 
     * @return HealthCheckResult
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun fakeHealthGet() : HealthCheckResult {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -47,17 +51,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<HealthCheckResult>(
+        val localVarResponse = request<HealthCheckResult>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as HealthCheckResult
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as HealthCheckResult
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -66,8 +70,12 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * Test serialization of outer boolean types
     * @param body Input boolean as post body (optional)
     * @return kotlin.Boolean
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun fakeOuterBooleanSerialize(body: kotlin.Boolean?) : kotlin.Boolean {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -78,17 +86,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<kotlin.Boolean>(
+        val localVarResponse = request<kotlin.Boolean>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Boolean
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Boolean
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -97,8 +105,12 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * Test serialization of object with outer number type
     * @param outerComposite Input composite as post body (optional)
     * @return OuterComposite
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun fakeOuterCompositeSerialize(outerComposite: OuterComposite?) : OuterComposite {
         val localVariableBody: kotlin.Any? = outerComposite
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -109,17 +121,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<OuterComposite>(
+        val localVarResponse = request<OuterComposite>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as OuterComposite
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as OuterComposite
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -128,8 +140,12 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * Test serialization of outer number types
     * @param body Input number as post body (optional)
     * @return java.math.BigDecimal
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun fakeOuterNumberSerialize(body: java.math.BigDecimal?) : java.math.BigDecimal {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -140,17 +156,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<java.math.BigDecimal>(
+        val localVarResponse = request<java.math.BigDecimal>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as java.math.BigDecimal
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as java.math.BigDecimal
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -159,8 +175,12 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * Test serialization of outer string types
     * @param body Input string as post body (optional)
     * @return kotlin.String
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun fakeOuterStringSerialize(body: kotlin.String?) : kotlin.String {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -171,17 +191,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<kotlin.String>(
+        val localVarResponse = request<kotlin.String>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.String
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -190,7 +210,11 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
     * @param fileSchemaTestClass  
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass) : Unit {
         val localVariableBody: kotlin.Any? = fileSchemaTestClass
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -201,17 +225,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -221,7 +245,11 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * @param query  
     * @param user  
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testBodyWithQueryParams(query: kotlin.String, user: User) : Unit {
         val localVariableBody: kotlin.Any? = user
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
@@ -235,17 +263,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -254,8 +282,12 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * To test \&quot;client\&quot; model
     * @param client client model 
     * @return Client
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testClientModel(client: Client) : Client {
         val localVariableBody: kotlin.Any? = client
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -266,17 +298,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Client>(
+        val localVarResponse = request<Client>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as Client
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as Client
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -298,7 +330,11 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * @param password None (optional)
     * @param paramCallback None (optional)
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testEndpointParameters(number: java.math.BigDecimal, double: kotlin.Double, patternWithoutDelimiter: kotlin.String, byte: kotlin.ByteArray, integer: kotlin.Int?, int32: kotlin.Int?, int64: kotlin.Long?, float: kotlin.Float?, string: kotlin.String?, binary: java.io.File?, date: java.time.LocalDate?, dateTime: java.time.LocalDateTime?, password: kotlin.String?, paramCallback: kotlin.String?) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("integer" to "$integer", "int32" to "$int32", "int64" to "$int64", "number" to "$number", "float" to "$float", "double" to "$double", "string" to "$string", "pattern_without_delimiter" to "$patternWithoutDelimiter", "byte" to "$byte", "binary" to "$binary", "date" to "$date", "dateTime" to "$dateTime", "password" to "$password", "callback" to "$paramCallback")
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -309,17 +345,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -335,7 +371,11 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to '$')
     * @param enumFormString Form parameter enum test (string) (optional, default to '-efg')
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testEnumParameters(enumHeaderStringArray: kotlin.Array<kotlin.String>?, enumHeaderString: kotlin.String?, enumQueryStringArray: kotlin.Array<kotlin.String>?, enumQueryString: kotlin.String?, enumQueryInteger: kotlin.Int?, enumQueryDouble: kotlin.Double?, enumFormStringArray: kotlin.Array<kotlin.String>?, enumFormString: kotlin.String?) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("enum_form_string_array" to "$enumFormStringArray", "enum_form_string" to "$enumFormString")
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
@@ -360,17 +400,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -384,7 +424,11 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * @param booleanGroup Boolean in group parameters (optional)
     * @param int64Group Integer in group parameters (optional)
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testGroupParameters(requiredStringGroup: kotlin.Int, requiredBooleanGroup: kotlin.Boolean, requiredInt64Group: kotlin.Long, stringGroup: kotlin.Int?, booleanGroup: kotlin.Boolean?, int64Group: kotlin.Long?) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
@@ -405,17 +449,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -424,7 +468,11 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * 
     * @param requestBody request body 
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testInlineAdditionalProperties(requestBody: kotlin.collections.Map<kotlin.String, kotlin.String>) : Unit {
         val localVariableBody: kotlin.Any? = requestBody
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -435,17 +483,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -455,7 +503,11 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * @param param field1 
     * @param param2 field2 
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testJsonFormData(param: kotlin.String, param2: kotlin.String) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("param" to "$param", "param2" to "$param2")
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -466,17 +518,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 
@@ -489,7 +541,11 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     * @param url  
     * @param context  
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun testQueryParameterCollectionFormat(pipe: kotlin.Array<kotlin.String>, ioutil: kotlin.Array<kotlin.String>, http: kotlin.Array<kotlin.String>, url: kotlin.Array<kotlin.String>, context: kotlin.Array<kotlin.String>) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
@@ -507,17 +563,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
         }
     }
 

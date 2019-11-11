@@ -1,4 +1,4 @@
-# SwaggerClient
+# OpenAPIClient
 
 This is a sample server Petstore server. For this sample, you can use the api key \"special-key\" to test the authorization filters
 
@@ -18,7 +18,7 @@ The SDK requires [**ARC (Automatic Reference Counting)**](http://stackoverflow.c
 Add the following to the Podfile:
 
 ```ruby
-pod 'SwaggerClient', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
+pod 'OpenAPIClient', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
 ```
 
 To specify a particular branch, append `, :branch => 'branch-name-here'`
@@ -27,10 +27,10 @@ To specify a particular commit, append `, :commit => '11aa22'`
 
 ### Install from local path using [CocoaPods](https://cocoapods.org/)
 
-Put the SDK under your project folder (e.g. /path/to/objc_project/Vendor/SwaggerClient) and then add the following to the Podfile:
+Put the SDK under your project folder (e.g. /path/to/objc_project/Vendor/OpenAPIClient) and then add the following to the Podfile:
 
 ```ruby
-pod 'SwaggerClient', :path => 'Vendor/SwaggerClient'
+pod 'OpenAPIClient', :path => 'Vendor/OpenAPIClient'
 ```
 
 ### Usage
@@ -38,18 +38,20 @@ pod 'SwaggerClient', :path => 'Vendor/SwaggerClient'
 Import the following:
 
 ```objc
-#import <SwaggerClient/SWGApiClient.h>
-#import <SwaggerClient/SWGDefaultConfiguration.h>
+#import <OpenAPIClient/OAIApiClient.h>
+#import <OpenAPIClient/OAIDefaultConfiguration.h>
 // load models
-#import <SwaggerClient/SWGCategory.h>
-#import <SwaggerClient/SWGOrder.h>
-#import <SwaggerClient/SWGPet.h>
-#import <SwaggerClient/SWGTag.h>
-#import <SwaggerClient/SWGUser.h>
+#import <OpenAPIClient/OAICategory.h>
+#import <OpenAPIClient/OAIInlineObject.h>
+#import <OpenAPIClient/OAIInlineObject1.h>
+#import <OpenAPIClient/OAIOrder.h>
+#import <OpenAPIClient/OAIPet.h>
+#import <OpenAPIClient/OAITag.h>
+#import <OpenAPIClient/OAIUser.h>
 // load API classes for accessing endpoints
-#import <SwaggerClient/SWGPetApi.h>
-#import <SwaggerClient/SWGStoreApi.h>
-#import <SwaggerClient/SWGUserApi.h>
+#import <OpenAPIClient/OAIPetApi.h>
+#import <OpenAPIClient/OAIStoreApi.h>
+#import <OpenAPIClient/OAIUserApi.h>
 
 ```
 
@@ -63,15 +65,15 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```objc
 
-SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
+OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* *pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
+OAIPet* *pet = [[OAIPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
-SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
+OAIPetApi *apiInstance = [[OAIPetApi alloc] init];
 
 // Add a new pet to the store
 [apiInstance addPetWithPet:pet
@@ -89,35 +91,37 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*SWGPetApi* | [**addPet**](docs/SWGPetApi.md#addpet) | **POST** /pet | Add a new pet to the store
-*SWGPetApi* | [**deletePet**](docs/SWGPetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
-*SWGPetApi* | [**findPetsByStatus**](docs/SWGPetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
-*SWGPetApi* | [**findPetsByTags**](docs/SWGPetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
-*SWGPetApi* | [**getPetById**](docs/SWGPetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
-*SWGPetApi* | [**updatePet**](docs/SWGPetApi.md#updatepet) | **PUT** /pet | Update an existing pet
-*SWGPetApi* | [**updatePetWithForm**](docs/SWGPetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
-*SWGPetApi* | [**uploadFile**](docs/SWGPetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
-*SWGStoreApi* | [**deleteOrder**](docs/SWGStoreApi.md#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-*SWGStoreApi* | [**getInventory**](docs/SWGStoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
-*SWGStoreApi* | [**getOrderById**](docs/SWGStoreApi.md#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
-*SWGStoreApi* | [**placeOrder**](docs/SWGStoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
-*SWGUserApi* | [**createUser**](docs/SWGUserApi.md#createuser) | **POST** /user | Create user
-*SWGUserApi* | [**createUsersWithArrayInput**](docs/SWGUserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
-*SWGUserApi* | [**createUsersWithListInput**](docs/SWGUserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
-*SWGUserApi* | [**deleteUser**](docs/SWGUserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user
-*SWGUserApi* | [**getUserByName**](docs/SWGUserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name
-*SWGUserApi* | [**loginUser**](docs/SWGUserApi.md#loginuser) | **GET** /user/login | Logs user into the system
-*SWGUserApi* | [**logoutUser**](docs/SWGUserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
-*SWGUserApi* | [**updateUser**](docs/SWGUserApi.md#updateuser) | **PUT** /user/{username} | Updated user
+*OAIPetApi* | [**addPet**](docs/OAIPetApi.md#addpet) | **POST** /pet | Add a new pet to the store
+*OAIPetApi* | [**deletePet**](docs/OAIPetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+*OAIPetApi* | [**findPetsByStatus**](docs/OAIPetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+*OAIPetApi* | [**findPetsByTags**](docs/OAIPetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+*OAIPetApi* | [**getPetById**](docs/OAIPetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+*OAIPetApi* | [**updatePet**](docs/OAIPetApi.md#updatepet) | **PUT** /pet | Update an existing pet
+*OAIPetApi* | [**updatePetWithForm**](docs/OAIPetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*OAIPetApi* | [**uploadFile**](docs/OAIPetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*OAIStoreApi* | [**deleteOrder**](docs/OAIStoreApi.md#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*OAIStoreApi* | [**getInventory**](docs/OAIStoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
+*OAIStoreApi* | [**getOrderById**](docs/OAIStoreApi.md#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
+*OAIStoreApi* | [**placeOrder**](docs/OAIStoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
+*OAIUserApi* | [**createUser**](docs/OAIUserApi.md#createuser) | **POST** /user | Create user
+*OAIUserApi* | [**createUsersWithArrayInput**](docs/OAIUserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
+*OAIUserApi* | [**createUsersWithListInput**](docs/OAIUserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
+*OAIUserApi* | [**deleteUser**](docs/OAIUserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user
+*OAIUserApi* | [**getUserByName**](docs/OAIUserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name
+*OAIUserApi* | [**loginUser**](docs/OAIUserApi.md#loginuser) | **GET** /user/login | Logs user into the system
+*OAIUserApi* | [**logoutUser**](docs/OAIUserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
+*OAIUserApi* | [**updateUser**](docs/OAIUserApi.md#updateuser) | **PUT** /user/{username} | Updated user
 
 
 ## Documentation For Models
 
- - [SWGCategory](docs/SWGCategory.md)
- - [SWGOrder](docs/SWGOrder.md)
- - [SWGPet](docs/SWGPet.md)
- - [SWGTag](docs/SWGTag.md)
- - [SWGUser](docs/SWGUser.md)
+ - [OAICategory](docs/OAICategory.md)
+ - [OAIInlineObject](docs/OAIInlineObject.md)
+ - [OAIInlineObject1](docs/OAIInlineObject1.md)
+ - [OAIOrder](docs/OAIOrder.md)
+ - [OAIPet](docs/OAIPet.md)
+ - [OAITag](docs/OAITag.md)
+ - [OAIUser](docs/OAIUser.md)
 
 
 ## Documentation For Authorization

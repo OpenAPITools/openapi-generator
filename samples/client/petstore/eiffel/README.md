@@ -21,17 +21,21 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ANOTHERFAKE_API* | [**test_special_tags**](docs/ANOTHERFAKE_API.md#test_special_tags) | **Patch** /another-fake/dummy | To test special tags
+*ANOTHERFAKE_API* | [**123_test_special_tags**](docs/ANOTHERFAKE_API.md#123_test_special_tags) | **Patch** /another-fake/dummy | To test special tags
+*FAKE_API* | [**create_xml_item**](docs/FAKE_API.md#create_xml_item) | **Post** /fake/create_xml_item | creates an XmlItem
 *FAKE_API* | [**fake_outer_boolean_serialize**](docs/FAKE_API.md#fake_outer_boolean_serialize) | **Post** /fake/outer/boolean | 
 *FAKE_API* | [**fake_outer_composite_serialize**](docs/FAKE_API.md#fake_outer_composite_serialize) | **Post** /fake/outer/composite | 
 *FAKE_API* | [**fake_outer_number_serialize**](docs/FAKE_API.md#fake_outer_number_serialize) | **Post** /fake/outer/number | 
 *FAKE_API* | [**fake_outer_string_serialize**](docs/FAKE_API.md#fake_outer_string_serialize) | **Post** /fake/outer/string | 
+*FAKE_API* | [**test_body_with_file_schema**](docs/FAKE_API.md#test_body_with_file_schema) | **Put** /fake/body-with-file-schema | 
 *FAKE_API* | [**test_body_with_query_params**](docs/FAKE_API.md#test_body_with_query_params) | **Put** /fake/body-with-query-params | 
 *FAKE_API* | [**test_client_model**](docs/FAKE_API.md#test_client_model) | **Patch** /fake | To test \&quot;client\&quot; model
 *FAKE_API* | [**test_endpoint_parameters**](docs/FAKE_API.md#test_endpoint_parameters) | **Post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FAKE_API* | [**test_enum_parameters**](docs/FAKE_API.md#test_enum_parameters) | **Get** /fake | To test enum parameters
+*FAKE_API* | [**test_group_parameters**](docs/FAKE_API.md#test_group_parameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 *FAKE_API* | [**test_inline_additional_properties**](docs/FAKE_API.md#test_inline_additional_properties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 *FAKE_API* | [**test_json_form_data**](docs/FAKE_API.md#test_json_form_data) | **Get** /fake/jsonFormData | test json serialization of form data
+*FAKE_API* | [**test_query_parameter_collection_format**](docs/FAKE_API.md#test_query_parameter_collection_format) | **Put** /fake/test-query-paramters | 
 *FAKECLASSNAMETAGS123_API* | [**test_classname**](docs/FAKECLASSNAMETAGS123_API.md#test_classname) | **Patch** /fake_classname_test | To test class name in snake case
 *PET_API* | [**add_pet**](docs/PET_API.md#add_pet) | **Post** /pet | Add a new pet to the store
 *PET_API* | [**delete_pet**](docs/PET_API.md#delete_pet) | **Delete** /pet/{petId} | Deletes a pet
@@ -41,6 +45,7 @@ Class | Method | HTTP request | Description
 *PET_API* | [**update_pet**](docs/PET_API.md#update_pet) | **Put** /pet | Update an existing pet
 *PET_API* | [**update_pet_with_form**](docs/PET_API.md#update_pet_with_form) | **Post** /pet/{petId} | Updates a pet in the store with form data
 *PET_API* | [**upload_file**](docs/PET_API.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
+*PET_API* | [**upload_file_with_required_file**](docs/PET_API.md#upload_file_with_required_file) | **Post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *STORE_API* | [**delete_order**](docs/STORE_API.md#delete_order) | **Delete** /store/order/{order_id} | Delete purchase order by ID
 *STORE_API* | [**inventory**](docs/STORE_API.md#inventory) | **Get** /store/inventory | Returns pet inventories by status
 *STORE_API* | [**order_by_id**](docs/STORE_API.md#order_by_id) | **Get** /store/order/{order_id} | Find purchase order by ID
@@ -57,9 +62,15 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [ADDITIONAL_PROPERTIES_ANY_TYPE](docs/ADDITIONAL_PROPERTIES_ANY_TYPE.md)
+ - [ADDITIONAL_PROPERTIES_ARRAY](docs/ADDITIONAL_PROPERTIES_ARRAY.md)
+ - [ADDITIONAL_PROPERTIES_BOOLEAN](docs/ADDITIONAL_PROPERTIES_BOOLEAN.md)
  - [ADDITIONAL_PROPERTIES_CLASS](docs/ADDITIONAL_PROPERTIES_CLASS.md)
+ - [ADDITIONAL_PROPERTIES_INTEGER](docs/ADDITIONAL_PROPERTIES_INTEGER.md)
+ - [ADDITIONAL_PROPERTIES_NUMBER](docs/ADDITIONAL_PROPERTIES_NUMBER.md)
+ - [ADDITIONAL_PROPERTIES_OBJECT](docs/ADDITIONAL_PROPERTIES_OBJECT.md)
+ - [ADDITIONAL_PROPERTIES_STRING](docs/ADDITIONAL_PROPERTIES_STRING.md)
  - [ANIMAL](docs/ANIMAL.md)
- - [ANIMAL_FARM](docs/ANIMAL_FARM.md)
  - [API_RESPONSE](docs/API_RESPONSE.md)
  - [ARRAY_OF_ARRAY_OF_NUMBER_ONLY](docs/ARRAY_OF_ARRAY_OF_NUMBER_ONLY.md)
  - [ARRAY_OF_NUMBER_ONLY](docs/ARRAY_OF_NUMBER_ONLY.md)
@@ -67,12 +78,15 @@ Class | Method | HTTP request | Description
  - [CAPITALIZATION](docs/CAPITALIZATION.md)
  - [CAT](docs/CAT.md)
  - [CATEGORY](docs/CATEGORY.md)
+ - [CAT_ALL_OF](docs/CAT_ALL_OF.md)
  - [CLASS_MODEL](docs/CLASS_MODEL.md)
  - [CLIENT](docs/CLIENT.md)
  - [DOG](docs/DOG.md)
+ - [DOG_ALL_OF](docs/DOG_ALL_OF.md)
  - [ENUM_ARRAYS](docs/ENUM_ARRAYS.md)
  - [ENUM_CLASS](docs/ENUM_CLASS.md)
  - [ENUM_TEST](docs/ENUM_TEST.md)
+ - [FILE_SCHEMA_TEST_CLASS](docs/FILE_SCHEMA_TEST_CLASS.md)
  - [FORMAT_TEST](docs/FORMAT_TEST.md)
  - [HAS_ONLY_READ_ONLY](docs/HAS_ONLY_READ_ONLY.md)
  - [MAP_TEST](docs/MAP_TEST.md)
@@ -88,7 +102,10 @@ Class | Method | HTTP request | Description
  - [RETURN](docs/RETURN.md)
  - [SPECIAL_MODEL_NAME](docs/SPECIAL_MODEL_NAME.md)
  - [TAG](docs/TAG.md)
+ - [TYPE_HOLDER_DEFAULT](docs/TYPE_HOLDER_DEFAULT.md)
+ - [TYPE_HOLDER_EXAMPLE](docs/TYPE_HOLDER_EXAMPLE.md)
  - [USER](docs/USER.md)
+ - [XML_ITEM](docs/XML_ITEM.md)
 
 
 ## Documentation For Authorization

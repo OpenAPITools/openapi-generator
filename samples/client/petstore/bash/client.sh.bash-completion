@@ -68,7 +68,7 @@ _()
     # The list of available operation in the REST service
     # It's modelled as an associative array for efficient key lookup
     declare -A operations
-    operations["123Test@$%SpecialTags"]=1
+    operations["call123TestSpecialTags"]=1
     operations["fooGet"]=1
     operations["fakeHealthGet"]=1
     operations["fakeOuterBooleanSerialize"]=1
@@ -83,6 +83,7 @@ _()
     operations["testGroupParameters"]=1
     operations["testInlineAdditionalProperties"]=1
     operations["testJsonFormData"]=1
+    operations["testQueryParameterCollectionFormat"]=1
     operations["testClassname"]=1
     operations["addPet"]=1
     operations["deletePet"]=1
@@ -109,7 +110,7 @@ _()
     # An associative array of operations to their parameters
     # Only include path, query and header parameters
     declare -A operation_parameters
-    operation_parameters["123Test@$%SpecialTags"]=""
+    operation_parameters["call123TestSpecialTags"]=""
     operation_parameters["fooGet"]=""
     operation_parameters["fakeHealthGet"]=""
     operation_parameters["fakeOuterBooleanSerialize"]=""
@@ -124,6 +125,7 @@ _()
     operation_parameters["testGroupParameters"]="required_string_group= required_int64_group= string_group= int64_group= required_boolean_group: boolean_group: "
     operation_parameters["testInlineAdditionalProperties"]=""
     operation_parameters["testJsonFormData"]=""
+    operation_parameters["testQueryParameterCollectionFormat"]="pipe= ioutil= http= url= context= "
     operation_parameters["testClassname"]=""
     operation_parameters["addPet"]=""
     operation_parameters["deletePet"]="petId= api_key: "

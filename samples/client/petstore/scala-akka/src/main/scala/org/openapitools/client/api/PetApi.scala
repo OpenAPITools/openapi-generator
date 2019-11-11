@@ -29,11 +29,11 @@ class PetApi(baseUrl: String) {
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param pet Pet object that needs to be added to the store
    */
-  def addPet(body: Pet): ApiRequest[Unit] =
+  def addPet(pet: Pet): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, baseUrl, "/pet", "application/json")
-      .withBody(body)
+      .withBody(pet)
       .withErrorResponse[Unit](405)
       
 
@@ -111,11 +111,11 @@ class PetApi(baseUrl: String) {
    *   code 404 :  (Pet not found)
    *   code 405 :  (Validation exception)
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param pet Pet object that needs to be added to the store
    */
-  def updatePet(body: Pet): ApiRequest[Unit] =
+  def updatePet(pet: Pet): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.PUT, baseUrl, "/pet", "application/json")
-      .withBody(body)
+      .withBody(pet)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](405)

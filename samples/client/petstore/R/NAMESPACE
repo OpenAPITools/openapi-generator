@@ -7,6 +7,8 @@ export(ApiResponse)
 
 # Models
 export(Category)
+export(InlineObject)
+export(InlineObject1)
 export(ModelApiResponse)
 export(Order)
 export(Pet)

@@ -17,7 +17,7 @@ To test special tags and operation ID starting with number
 ### Example
 
 ```bash
-petstore-cli call123TestSpecialTags
+ call123TestSpecialTags
 ```
 
 ### Parameters
@@ -25,7 +25,7 @@ petstore-cli call123TestSpecialTags
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md) | client model |
+ **client** | [**Client**](Client.md) | client model |
 
 ### Return type
 

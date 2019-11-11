@@ -113,20 +113,20 @@ export class StoreService {
     /**
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      
      */
-    public placeOrder(body: Order, observe?: 'body', headers?: Headers): Observable<Order>;
-    public placeOrder(body: Order, observe?: 'response', headers?: Headers): Observable<HttpResponse<Order>>;
-    public placeOrder(body: Order, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (body === null || body === undefined){
-            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
+    public placeOrder(order: Order, observe?: 'body', headers?: Headers): Observable<Order>;
+    public placeOrder(order: Order, observe?: 'response', headers?: Headers): Observable<HttpResponse<Order>>;
+    public placeOrder(order: Order, observe: any = 'body', headers: Headers = {}): Observable<any> {
+        if (order === null || order === undefined){
+            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
 
         headers['Accept'] = 'application/xml, application/json';
         headers['Content-Type'] = 'application/json';
 
-        const response: Observable<HttpResponse<Order>> = this.httpClient.post(`${this.basePath}/store/order`, body , headers);
+        const response: Observable<HttpResponse<Order>> = this.httpClient.post(`${this.basePath}/store/order`, order , headers);
         if (observe == 'body') {
                return response.pipe(
                    map(httpResponse => <Order>(httpResponse.response))

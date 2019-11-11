@@ -4,7 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateXmlItem**](FakeApi.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
+[**FakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 [**FakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -21,13 +21,11 @@ Method | HTTP request | Description
 
 
 
-## CreateXmlItem
+## FakeHealthGet
 
-> void CreateXmlItem (XmlItem xmlItem)
+> HealthCheckResult FakeHealthGet ()
 
-creates an XmlItem
-
-this route creates an XmlItem
+Health check endpoint
 
 ### Example
 
@@ -40,22 +38,22 @@ using Org.OpenAPITools.Model;
 
 namespace Example
 {
-    public class CreateXmlItemExample
+    public class FakeHealthGetExample
     {
         public static void Main()
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(Configuration.Default);
-            var xmlItem = new XmlItem(); // XmlItem | XmlItem Body
 
             try
             {
-                // creates an XmlItem
-                apiInstance.CreateXmlItem(xmlItem);
+                // Health check endpoint
+                HealthCheckResult result = apiInstance.FakeHealthGet();
+                Debug.WriteLine(result);
             }
             catch (ApiException e)
             {
-                Debug.Print("Exception when calling FakeApi.CreateXmlItem: " + e.Message );
+                Debug.Print("Exception when calling FakeApi.FakeHealthGet: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -66,14 +64,11 @@ namespace Example
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
+This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+[**HealthCheckResult**](HealthCheckResult.md)
 
 ### Authorization
 
@@ -81,13 +76,13 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
-- **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | The instance started successfully |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -155,7 +150,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -171,7 +166,7 @@ No authorization required
 
 ## FakeOuterCompositeSerialize
 
-> OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null)
+> OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
 
 
 
@@ -194,11 +189,11 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(Configuration.Default);
-            var body = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
+            var outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
 
             try
             {
-                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(body);
+                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(outerComposite);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
@@ -217,7 +212,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -229,7 +224,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -303,7 +298,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -377,7 +372,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -393,7 +388,7 @@ No authorization required
 
 ## TestBodyWithFileSchema
 
-> void TestBodyWithFileSchema (FileSchemaTestClass body)
+> void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
 
 
 
@@ -416,11 +411,11 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(Configuration.Default);
-            var body = new FileSchemaTestClass(); // FileSchemaTestClass | 
+            var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
 
             try
             {
-                apiInstance.TestBodyWithFileSchema(body);
+                apiInstance.TestBodyWithFileSchema(fileSchemaTestClass);
             }
             catch (ApiException e)
             {
@@ -438,7 +433,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -466,7 +461,7 @@ No authorization required
 
 ## TestBodyWithQueryParams
 
-> void TestBodyWithQueryParams (string query, User body)
+> void TestBodyWithQueryParams (string query, User user)
 
 
 
@@ -488,11 +483,11 @@ namespace Example
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(Configuration.Default);
             var query = query_example;  // string | 
-            var body = new User(); // User | 
+            var user = new User(); // User | 
 
             try
             {
-                apiInstance.TestBodyWithQueryParams(query, body);
+                apiInstance.TestBodyWithQueryParams(query, user);
             }
             catch (ApiException e)
             {
@@ -511,7 +506,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  | 
- **body** | [**User**](User.md)|  | 
+ **user** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -539,7 +534,7 @@ No authorization required
 
 ## TestClientModel
 
-> ModelClient TestClientModel (ModelClient body)
+> ModelClient TestClientModel (ModelClient modelClient)
 
 To test \"client\" model
 
@@ -562,12 +557,12 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(Configuration.Default);
-            var body = new ModelClient(); // ModelClient | client model
+            var modelClient = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test \"client\" model
-                ModelClient result = apiInstance.TestClientModel(body);
+                ModelClient result = apiInstance.TestClientModel(modelClient);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
@@ -586,7 +581,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
@@ -830,6 +825,10 @@ namespace Example
         public static void Main()
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            // Configure HTTP basic authorization: bearer_test
+            Configuration.Default.Username = "YOUR_USERNAME";
+            Configuration.Default.Password = "YOUR_PASSWORD";
+
             var apiInstance = new FakeApi(Configuration.Default);
             var requiredStringGroup = 56;  // int | Required String in group parameters
             var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
@@ -872,7 +871,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -892,7 +891,7 @@ No authorization required
 
 ## TestInlineAdditionalProperties
 
-> void TestInlineAdditionalProperties (Dictionary<string, string> param)
+> void TestInlineAdditionalProperties (Dictionary<string, string> requestBody)
 
 test inline additionalProperties
 
@@ -913,12 +912,12 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(Configuration.Default);
-            var param = new Dictionary<string, string>(); // Dictionary<string, string> | request body
+            var requestBody = new Dictionary<string, string>(); // Dictionary<string, string> | request body
 
             try
             {
                 // test inline additionalProperties
-                apiInstance.TestInlineAdditionalProperties(param);
+                apiInstance.TestInlineAdditionalProperties(requestBody);
             }
             catch (ApiException e)
             {
@@ -936,7 +935,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
+ **requestBody** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
 
 ### Return type
 

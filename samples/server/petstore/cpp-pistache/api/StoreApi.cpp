@@ -94,11 +94,11 @@ void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pista
 
     // Getting the body param
     
-    Order body;
+    Order order;
     
     try {
-      nlohmann::json::parse(request.body()).get_to(body);
-      this->place_order(body, response);
+      nlohmann::json::parse(request.body()).get_to(order);
+      this->place_order(order, response);
     } catch (nlohmann::detail::exception &e) {
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());

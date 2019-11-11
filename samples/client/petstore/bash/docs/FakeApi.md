@@ -4,7 +4,7 @@ All URIs are relative to */v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
+[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -24,28 +24,23 @@ Method | HTTP request | Description
 
 
 
-## createXmlItem
+## fakeHealthGet
 
-creates an XmlItem
-
-this route creates an XmlItem
+Health check endpoint
 
 ### Example
 
 ```bash
-petstore-cli createXmlItem
+ fakeHealthGet
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xmlItem** | [**XmlItem**](XmlItem.md) | XmlItem Body |
+This endpoint does not need any parameter.
 
 ### Return type
 
-(empty response body)
+[**HealthCheckResult**](HealthCheckResult.md)
 
 ### Authorization
 
@@ -53,8 +48,8 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
-- **Accept**: Not Applicable
+- **Content-Type**: Not Applicable
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -68,7 +63,7 @@ Test serialization of outer boolean types
 ### Example
 
 ```bash
-petstore-cli fakeOuterBooleanSerialize
+ fakeOuterBooleanSerialize
 ```
 
 ### Parameters
@@ -88,7 +83,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -103,7 +98,7 @@ Test serialization of object with outer number type
 ### Example
 
 ```bash
-petstore-cli fakeOuterCompositeSerialize
+ fakeOuterCompositeSerialize
 ```
 
 ### Parameters
@@ -111,7 +106,7 @@ petstore-cli fakeOuterCompositeSerialize
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional]
+ **outerComposite** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional]
 
 ### Return type
 
@@ -123,7 +118,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -138,7 +133,7 @@ Test serialization of outer number types
 ### Example
 
 ```bash
-petstore-cli fakeOuterNumberSerialize
+ fakeOuterNumberSerialize
 ```
 
 ### Parameters
@@ -158,7 +153,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -173,7 +168,7 @@ Test serialization of outer string types
 ### Example
 
 ```bash
-petstore-cli fakeOuterStringSerialize
+ fakeOuterStringSerialize
 ```
 
 ### Parameters
@@ -193,7 +188,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -208,7 +203,7 @@ For this test, the body for this request much reference a schema named 'File'.
 ### Example
 
 ```bash
-petstore-cli testBodyWithFileSchema
+ testBodyWithFileSchema
 ```
 
 ### Parameters
@@ -216,7 +211,7 @@ petstore-cli testBodyWithFileSchema
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  |
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  |
 
 ### Return type
 
@@ -241,7 +236,7 @@ No authorization required
 ### Example
 
 ```bash
-petstore-cli testBodyWithQueryParams  query=value
+ testBodyWithQueryParams  query=value
 ```
 
 ### Parameters
@@ -250,7 +245,7 @@ petstore-cli testBodyWithQueryParams  query=value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string** |  | [default to null]
- **body** | [**User**](User.md) |  |
+ **user** | [**User**](User.md) |  |
 
 ### Return type
 
@@ -277,7 +272,7 @@ To test \"client\" model
 ### Example
 
 ```bash
-petstore-cli testClientModel
+ testClientModel
 ```
 
 ### Parameters
@@ -285,7 +280,7 @@ petstore-cli testClientModel
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md) | client model |
+ **client** | [**Client**](Client.md) | client model |
 
 ### Return type
 
@@ -318,7 +313,7 @@ Fake endpoint for testing various parameters
 ### Example
 
 ```bash
-petstore-cli testEndpointParameters
+ testEndpointParameters
 ```
 
 ### Parameters
@@ -366,7 +361,7 @@ To test enum parameters
 ### Example
 
 ```bash
-petstore-cli testEnumParameters enum_header_string_array:value enum_header_string:value  Specify as:  enum_query_string_array="value1,value2,..."  enum_query_string=value  enum_query_integer=value  enum_query_double=value
+ testEnumParameters enum_header_string_array:value enum_header_string:value  Specify as:  enum_query_string_array=value1 enum_query_string_array=value2 enum_query_string_array=...  enum_query_string=value  enum_query_integer=value  enum_query_double=value
 ```
 
 ### Parameters
@@ -408,7 +403,7 @@ Fake endpoint to test group parameters (optional)
 ### Example
 
 ```bash
-petstore-cli testGroupParameters  required_string_group=value required_boolean_group:value  required_int64_group=value  string_group=value boolean_group:value  int64_group=value
+ testGroupParameters  required_string_group=value required_boolean_group:value  required_int64_group=value  string_group=value boolean_group:value  int64_group=value
 ```
 
 ### Parameters
@@ -429,7 +424,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -446,7 +441,7 @@ test inline additionalProperties
 ### Example
 
 ```bash
-petstore-cli testInlineAdditionalProperties
+ testInlineAdditionalProperties
 ```
 
 ### Parameters
@@ -454,7 +449,7 @@ petstore-cli testInlineAdditionalProperties
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**map[String, string]**](string.md) | request body |
+ **requestBody** | [**map[String, string]**](string.md) | request body |
 
 ### Return type
 
@@ -479,7 +474,7 @@ test json serialization of form data
 ### Example
 
 ```bash
-petstore-cli testJsonFormData
+ testJsonFormData
 ```
 
 ### Parameters
@@ -515,7 +510,7 @@ To test the collection format in query parameters
 ### Example
 
 ```bash
-petstore-cli testQueryParameterCollectionFormat  Specify as:  pipe="value1,value2,..."  Specify as:  ioutil="value1,value2,..."  Specify as:   Specify as:  url="value1,value2,..."  Specify as:  context=value1 context=value2 context=...
+ testQueryParameterCollectionFormat  Specify as:  pipe=value1 pipe=value2 pipe=...  Specify as:  ioutil="value1,value2,..."  Specify as:   Specify as:  url="value1,value2,..."  Specify as:  context=value1 context=value2 context=...
 ```
 
 ### Parameters

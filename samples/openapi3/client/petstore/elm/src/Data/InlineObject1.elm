@@ -10,7 +10,7 @@
 -}
 
 
-module Data.InlineObject1 exposing (InlineObject1, decoder, encode)
+module Data.InlineObject1 exposing (InlineObject1, decoder, encode, toString)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -39,5 +39,13 @@ encode model =
         , ( "file", Maybe.withDefault Encode.null (Maybe.map Encode.string model.file) )
 
         ]
+
+
+
+toString : InlineObject1 -> String
+toString =
+    Encode.encode 0 << encode
+
+
 
 

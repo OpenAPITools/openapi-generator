@@ -78,11 +78,11 @@ class UserApi(
    * Create user
    * This can only be done by the logged in user.
    *
-   * @param body Created user object 
+   * @param user Created user object 
    * @return void
    */
-  def createUser(body: User) = {
-    val await = Try(Await.result(createUserAsync(body), Duration.Inf))
+  def createUser(user: User) = {
+    val await = Try(Await.result(createUserAsync(user), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -93,22 +93,22 @@ class UserApi(
    * Create user asynchronously
    * This can only be done by the logged in user.
    *
-   * @param body Created user object 
+   * @param user Created user object 
    * @return Future(void)
    */
-  def createUserAsync(body: User) = {
-      helper.createUser(body)
+  def createUserAsync(user: User) = {
+      helper.createUser(user)
   }
 
   /**
    * Creates list of users with given input array
    * 
    *
-   * @param body List of user object 
+   * @param user List of user object 
    * @return void
    */
-  def createUsersWithArrayInput(body: List[User]) = {
-    val await = Try(Await.result(createUsersWithArrayInputAsync(body), Duration.Inf))
+  def createUsersWithArrayInput(user: List[User]) = {
+    val await = Try(Await.result(createUsersWithArrayInputAsync(user), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -119,22 +119,22 @@ class UserApi(
    * Creates list of users with given input array asynchronously
    * 
    *
-   * @param body List of user object 
+   * @param user List of user object 
    * @return Future(void)
    */
-  def createUsersWithArrayInputAsync(body: List[User]) = {
-      helper.createUsersWithArrayInput(body)
+  def createUsersWithArrayInputAsync(user: List[User]) = {
+      helper.createUsersWithArrayInput(user)
   }
 
   /**
    * Creates list of users with given input array
    * 
    *
-   * @param body List of user object 
+   * @param user List of user object 
    * @return void
    */
-  def createUsersWithListInput(body: List[User]) = {
-    val await = Try(Await.result(createUsersWithListInputAsync(body), Duration.Inf))
+  def createUsersWithListInput(user: List[User]) = {
+    val await = Try(Await.result(createUsersWithListInputAsync(user), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -145,11 +145,11 @@ class UserApi(
    * Creates list of users with given input array asynchronously
    * 
    *
-   * @param body List of user object 
+   * @param user List of user object 
    * @return Future(void)
    */
-  def createUsersWithListInputAsync(body: List[User]) = {
-      helper.createUsersWithListInput(body)
+  def createUsersWithListInputAsync(user: List[User]) = {
+      helper.createUsersWithListInput(user)
   }
 
   /**
@@ -261,11 +261,11 @@ class UserApi(
    * This can only be done by the logged in user.
    *
    * @param username name that need to be deleted 
-   * @param body Updated user object 
+   * @param user Updated user object 
    * @return void
    */
-  def updateUser(username: String, body: User) = {
-    val await = Try(Await.result(updateUserAsync(username, body), Duration.Inf))
+  def updateUser(username: String, user: User) = {
+    val await = Try(Await.result(updateUserAsync(username, user), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -277,18 +277,18 @@ class UserApi(
    * This can only be done by the logged in user.
    *
    * @param username name that need to be deleted 
-   * @param body Updated user object 
+   * @param user Updated user object 
    * @return Future(void)
    */
-  def updateUserAsync(username: String, body: User) = {
-      helper.updateUser(username, body)
+  def updateUserAsync(username: String, user: User) = {
+      helper.updateUser(username, user)
   }
 
 }
 
 class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
 
-  def createUser(body: User)(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[User]): Future[Unit] = {
+  def createUser(user: User)(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[User]): Future[Unit] = {
     // create path and map variables
     val path = (addFmt("/user"))
 
@@ -296,9 +296,9 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUser")
+    if (user == null) throw new Exception("Missing required parameter 'user' when calling UserApi->createUser")
 
-    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(user))
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
@@ -308,7 +308,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     }
   }
 
-  def createUsersWithArrayInput(body: List[User])(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[List[User]]): Future[Unit] = {
+  def createUsersWithArrayInput(user: List[User])(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[List[User]]): Future[Unit] = {
     // create path and map variables
     val path = (addFmt("/user/createWithArray"))
 
@@ -316,9 +316,9 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUsersWithArrayInput")
+    if (user == null) throw new Exception("Missing required parameter 'user' when calling UserApi->createUsersWithArrayInput")
 
-    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(user))
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
@@ -328,7 +328,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     }
   }
 
-  def createUsersWithListInput(body: List[User])(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[List[User]]): Future[Unit] = {
+  def createUsersWithListInput(user: List[User])(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[List[User]]): Future[Unit] = {
     // create path and map variables
     val path = (addFmt("/user/createWithList"))
 
@@ -336,9 +336,9 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUsersWithListInput")
+    if (user == null) throw new Exception("Missing required parameter 'user' when calling UserApi->createUsersWithListInput")
 
-    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(user))
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
@@ -438,7 +438,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
   }
 
   def updateUser(username: String,
-    body: User)(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[User]): Future[Unit] = {
+    user: User)(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[User]): Future[Unit] = {
     // create path and map variables
     val path = (addFmt("/user/{username}")
       replaceAll("\\{" + "username" + "\\}", username.toString))
@@ -449,9 +449,9 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
 
     if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->updateUser")
 
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->updateUser")
+    if (user == null) throw new Exception("Missing required parameter 'user' when calling UserApi->updateUser")
 
-    val resFuture = client.submit("PUT", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    val resFuture = client.submit("PUT", path, queryParams.toMap, headerParams.toMap, writer.write(user))
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {

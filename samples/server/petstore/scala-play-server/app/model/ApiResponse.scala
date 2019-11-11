@@ -5,7 +5,7 @@ import play.api.libs.json._
 /**
   * Describes the result of uploading an image resource
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T16:21:58.590+08:00[Asia/Hong_Kong]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-11-11T22:50:38.054870Z[Europe/London]")
 case class ApiResponse(
   code: Option[Int],
   `type`: Option[String],

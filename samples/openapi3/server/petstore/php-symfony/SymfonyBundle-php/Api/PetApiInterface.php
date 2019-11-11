@@ -119,14 +119,13 @@ interface PetApiInterface
      * Finds Pets by tags
      *
      * @param  string[] $tags  Tags to filter by (required)
-     * @param  int $maxCount  Maximum number of items to return (optional)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return OpenAPI\Server\Model\Pet[]
      *
      */
-    public function findPetsByTags(array $tags, $maxCount = null, &$responseCode, array &$responseHeaders);
+    public function findPetsByTags(array $tags, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation getPetById

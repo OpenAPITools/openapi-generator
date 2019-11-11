@@ -87,7 +87,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link[petstore:Order]{ Order }
+#' \item \emph{ @param } order \link[petstore:Order]{ Order }
 #' \item \emph{ @returnType } \link[petstore:Order]{ Order }   \cr
 #'
 #'
@@ -150,12 +150,12 @@
 #' ####################  PlaceOrder  ####################
 #'
 #' library(petstore)
-#' var.body <- Order$new() # Order | order placed for purchasing the pet
+#' var.order <- Order$new() # Order | order placed for purchasing the pet
 #'
 #' #Place an order for a pet
 #' api.instance <- StoreApi$new()
 #'
-#' result <- api.instance$PlaceOrder(var.body)
+#' result <- api.instance$PlaceOrder(var.order)
 #'
 #'
 #' }
@@ -320,8 +320,8 @@ StoreApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    PlaceOrder = function(body, ...){
-      apiResponse <- self$PlaceOrderWithHttpInfo(body, ...)
+    PlaceOrder = function(order, ...){
+      apiResponse <- self$PlaceOrderWithHttpInfo(order, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -334,17 +334,17 @@ StoreApi <- R6::R6Class(
       }
     },
 
-    PlaceOrderWithHttpInfo = function(body, ...){
+    PlaceOrderWithHttpInfo = function(order, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`order`)) {
+        stop("Missing required parameter `order`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`order`)) {
+        body <- `order`$toJSONString()
       } else {
         body <- NULL
       }

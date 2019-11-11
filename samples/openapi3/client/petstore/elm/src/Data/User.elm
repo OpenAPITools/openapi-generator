@@ -10,7 +10,7 @@
 -}
 
 
-module Data.User exposing (User, decoder, encode)
+module Data.User exposing (User, decoder, encode, toString)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -59,5 +59,13 @@ encode model =
         , ( "userStatus", Maybe.withDefault Encode.null (Maybe.map Encode.int model.userStatus) )
 
         ]
+
+
+
+toString : User -> String
+toString =
+    Encode.encode 0 << encode
+
+
 
 

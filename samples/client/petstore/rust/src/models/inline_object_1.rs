@@ -10,6 +10,7 @@
 
 
 
+
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct InlineObject1 {
     /// Additional data to pass to server

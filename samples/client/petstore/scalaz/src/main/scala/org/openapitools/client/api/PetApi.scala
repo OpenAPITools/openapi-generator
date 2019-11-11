@@ -65,7 +65,7 @@ object PetApi {
     } yield resp
   }
   
-  def findPetsByStatus(host: String, status: List[String])(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
+  def findPetsByStatus(host: String, status: List[String] = new ListBuffer[String]() )(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByStatus"
@@ -86,7 +86,7 @@ object PetApi {
     } yield resp
   }
   
-  def findPetsByTags(host: String, tags: List[String])(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
+  def findPetsByTags(host: String, tags: List[String] = new ListBuffer[String]() )(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByTags"
@@ -232,7 +232,7 @@ class HttpServicePetApi(service: HttpService) {
     } yield resp
   }
   
-  def findPetsByStatus(status: List[String])(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
+  def findPetsByStatus(status: List[String] = new ListBuffer[String]() )(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByStatus"
@@ -253,7 +253,7 @@ class HttpServicePetApi(service: HttpService) {
     } yield resp
   }
   
-  def findPetsByTags(tags: List[String])(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
+  def findPetsByTags(tags: List[String] = new ListBuffer[String]() )(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByTags"

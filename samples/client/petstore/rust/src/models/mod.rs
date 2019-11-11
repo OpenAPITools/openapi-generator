@@ -1,0 +1,16 @@
+pub mod api_response;
+pub use self::api_response::ApiResponse;
+pub mod category;
+pub use self::category::Category;
+pub mod inline_object;
+pub use self::inline_object::InlineObject;
+pub mod inline_object_1;
+pub use self::inline_object_1::InlineObject1;
+pub mod order;
+pub use self::order::Order;
+pub mod pet;
+pub use self::pet::Pet;
+pub mod tag;
+pub use self::tag::Tag;
+pub mod user;
+pub use self::user::User;

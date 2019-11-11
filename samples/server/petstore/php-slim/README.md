@@ -93,7 +93,7 @@ Switch on option in `./index.php`:
 
 ## API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 > Important! Do not modify abstract API controllers directly! Instead extend them by implementation classes like:
 
@@ -119,22 +119,6 @@ For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you 
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AbstractAnotherFakeApi* | **call123TestSpecialTags** | **PATCH** /another-fake/dummy | To test special tags
-*AbstractFakeApi* | **createXmlItem** | **POST** /fake/create_xml_item | creates an XmlItem
-*AbstractFakeApi* | **fakeOuterBooleanSerialize** | **POST** /fake/outer/boolean | 
-*AbstractFakeApi* | **fakeOuterCompositeSerialize** | **POST** /fake/outer/composite | 
-*AbstractFakeApi* | **fakeOuterNumberSerialize** | **POST** /fake/outer/number | 
-*AbstractFakeApi* | **fakeOuterStringSerialize** | **POST** /fake/outer/string | 
-*AbstractFakeApi* | **testBodyWithFileSchema** | **PUT** /fake/body-with-file-schema | 
-*AbstractFakeApi* | **testBodyWithQueryParams** | **PUT** /fake/body-with-query-params | 
-*AbstractFakeApi* | **testClientModel** | **PATCH** /fake | To test \"client\" model
-*AbstractFakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-*AbstractFakeApi* | **testEnumParameters** | **GET** /fake | To test enum parameters
-*AbstractFakeApi* | **testGroupParameters** | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-*AbstractFakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-*AbstractFakeApi* | **testJsonFormData** | **GET** /fake/jsonFormData | test json serialization of form data
-*AbstractFakeApi* | **testQueryParameterCollectionFormat** | **PUT** /fake/test-query-paramters | 
-*AbstractFakeClassnameTags123Api* | **testClassname** | **PATCH** /fake_classname_test | To test class name in snake case
 *AbstractPetApi* | **addPet** | **POST** /pet | Add a new pet to the store
 *AbstractPetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
 *AbstractPetApi* | **findPetsByTags** | **GET** /pet/findByTags | Finds Pets by tags
@@ -143,11 +127,10 @@ Class | Method | HTTP request | Description
 *AbstractPetApi* | **getPetById** | **GET** /pet/{petId} | Find pet by ID
 *AbstractPetApi* | **updatePetWithForm** | **POST** /pet/{petId} | Updates a pet in the store with form data
 *AbstractPetApi* | **uploadFile** | **POST** /pet/{petId}/uploadImage | uploads an image
-*AbstractPetApi* | **uploadFileWithRequiredFile** | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *AbstractStoreApi* | **getInventory** | **GET** /store/inventory | Returns pet inventories by status
 *AbstractStoreApi* | **placeOrder** | **POST** /store/order | Place an order for a pet
-*AbstractStoreApi* | **deleteOrder** | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-*AbstractStoreApi* | **getOrderById** | **GET** /store/order/{order_id} | Find purchase order by ID
+*AbstractStoreApi* | **deleteOrder** | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*AbstractStoreApi* | **getOrderById** | **GET** /store/order/{orderId} | Find purchase order by ID
 *AbstractUserApi* | **createUser** | **POST** /user | Create user
 *AbstractUserApi* | **createUsersWithArrayInput** | **POST** /user/createWithArray | Creates list of users with given input array
 *AbstractUserApi* | **createUsersWithListInput** | **POST** /user/createWithList | Creates list of users with given input array
@@ -160,52 +143,14 @@ Class | Method | HTTP request | Description
 
 ## Models
 
-* OpenAPIServer\Model\AdditionalPropertiesAnyType
-* OpenAPIServer\Model\AdditionalPropertiesArray
-* OpenAPIServer\Model\AdditionalPropertiesBoolean
-* OpenAPIServer\Model\AdditionalPropertiesClass
-* OpenAPIServer\Model\AdditionalPropertiesInteger
-* OpenAPIServer\Model\AdditionalPropertiesNumber
-* OpenAPIServer\Model\AdditionalPropertiesObject
-* OpenAPIServer\Model\AdditionalPropertiesString
-* OpenAPIServer\Model\Animal
 * OpenAPIServer\Model\ApiResponse
-* OpenAPIServer\Model\ArrayOfArrayOfNumberOnly
-* OpenAPIServer\Model\ArrayOfNumberOnly
-* OpenAPIServer\Model\ArrayTest
-* OpenAPIServer\Model\Capitalization
-* OpenAPIServer\Model\Cat
-* OpenAPIServer\Model\CatAllOf
 * OpenAPIServer\Model\Category
-* OpenAPIServer\Model\ClassModel
-* OpenAPIServer\Model\Client
-* OpenAPIServer\Model\Dog
-* OpenAPIServer\Model\DogAllOf
-* OpenAPIServer\Model\EnumArrays
-* OpenAPIServer\Model\EnumClass
-* OpenAPIServer\Model\EnumTest
-* OpenAPIServer\Model\File
-* OpenAPIServer\Model\FileSchemaTestClass
-* OpenAPIServer\Model\FormatTest
-* OpenAPIServer\Model\HasOnlyReadOnly
-* OpenAPIServer\Model\MapTest
-* OpenAPIServer\Model\MixedPropertiesAndAdditionalPropertiesClass
-* OpenAPIServer\Model\Model200Response
-* OpenAPIServer\Model\ModelList
-* OpenAPIServer\Model\ModelReturn
-* OpenAPIServer\Model\Name
-* OpenAPIServer\Model\NumberOnly
+* OpenAPIServer\Model\InlineObject
+* OpenAPIServer\Model\InlineObject1
 * OpenAPIServer\Model\Order
-* OpenAPIServer\Model\OuterComposite
-* OpenAPIServer\Model\OuterEnum
 * OpenAPIServer\Model\Pet
-* OpenAPIServer\Model\ReadOnlyFirst
-* OpenAPIServer\Model\SpecialModelName
 * OpenAPIServer\Model\Tag
-* OpenAPIServer\Model\TypeHolderDefault
-* OpenAPIServer\Model\TypeHolderExample
 * OpenAPIServer\Model\User
-* OpenAPIServer\Model\XmlItem
 
 
 ## Authentication
@@ -213,11 +158,8 @@ Class | Method | HTTP request | Description
 ### Security schema `api_key`
 > Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
 
-### Security schema `api_key_query`
+### Security schema `auth_cookie`
 > Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
-
-### Security schema `http_basic_test`
-> Important! To make Basic authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\BasicAuthenticator](./src/Auth/BasicAuthenticator.php) class.
 
 ### Security schema `petstore_auth`
 > Important! To make OAuth authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.

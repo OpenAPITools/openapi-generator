@@ -18,3 +18,4 @@ val test_enum_parameters : ?enum_header_string_array:Enums.enum_form_string_arra
 val test_group_parameters : required_string_group:int32 -> required_boolean_group:bool -> required_int64_group:int64 -> ?string_group:int32 -> ?boolean_group:bool -> ?int64_group:int64 -> unit -> unit Lwt.t
 val test_inline_additional_properties : request_body:(string * string) list -> unit Lwt.t
 val test_json_form_data : param:string -> param2:string -> unit Lwt.t
+val test_query_parameter_collection_format : pipe:string list -> ioutil:string list -> http:string list -> url:string list -> context:string list -> unit Lwt.t

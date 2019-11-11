@@ -7,7 +7,7 @@
 
 type t = {
     map_map_of_string: (string * (string * string) list) list;
-        map_of_enum_string: (string * Enums.map_of_enum_string) list;
+    map_of_enum_string: (string * Enums.map_of_enum_string) list;
     direct_map: (string * bool) list;
     indirect_map: (string * bool) list;
 } [@@deriving yojson { strict = false }, show ];;

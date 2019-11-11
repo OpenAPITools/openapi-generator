@@ -54,8 +54,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateTime">dateTime.</param>
         /// <param name="uuid">uuid.</param>
         /// <param name="password">password (required).</param>
-        /// <param name="bigDecimal">bigDecimal.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), decimal bigDecimal = default(decimal))
+        /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
+        /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
+        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
         {
             // to ensure "number" is required (not null)
             if (number == null)
@@ -106,7 +107,8 @@ namespace Org.OpenAPITools.Model
             this.Binary = binary;
             this.DateTime = dateTime;
             this.Uuid = uuid;
-            this.BigDecimal = bigDecimal;
+            this.PatternWithDigits = patternWithDigits;
+            this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
         }
         
         /// <summary>
@@ -189,10 +191,18 @@ namespace Org.OpenAPITools.Model
         public string Password { get; set; }
 
         /// <summary>
-        /// Gets or Sets BigDecimal
+        /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
-        [DataMember(Name="BigDecimal", EmitDefaultValue=true)]
-        public decimal BigDecimal { get; set; }
+        /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
+        [DataMember(Name="pattern_with_digits", EmitDefaultValue=true)]
+        public string PatternWithDigits { get; set; }
+
+        /// <summary>
+        /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+        /// </summary>
+        /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
+        [DataMember(Name="pattern_with_digits_and_delimiter", EmitDefaultValue=true)]
+        public string PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -215,7 +225,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
-            sb.Append("  BigDecimal: ").Append(BigDecimal).Append("\n");
+            sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
+            sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -316,9 +327,14 @@ namespace Org.OpenAPITools.Model
                     this.Password.Equals(input.Password))
                 ) && 
                 (
-                    this.BigDecimal == input.BigDecimal ||
-                    (this.BigDecimal != null &&
-                    this.BigDecimal.Equals(input.BigDecimal))
+                    this.PatternWithDigits == input.PatternWithDigits ||
+                    (this.PatternWithDigits != null &&
+                    this.PatternWithDigits.Equals(input.PatternWithDigits))
+                ) && 
+                (
+                    this.PatternWithDigitsAndDelimiter == input.PatternWithDigitsAndDelimiter ||
+                    (this.PatternWithDigitsAndDelimiter != null &&
+                    this.PatternWithDigitsAndDelimiter.Equals(input.PatternWithDigitsAndDelimiter))
                 );
         }
 
@@ -357,8 +373,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
                     hashCode = hashCode * 59 + this.Password.GetHashCode();
-                if (this.BigDecimal != null)
-                    hashCode = hashCode * 59 + this.BigDecimal.GetHashCode();
+                if (this.PatternWithDigits != null)
+                    hashCode = hashCode * 59 + this.PatternWithDigits.GetHashCode();
+                if (this.PatternWithDigitsAndDelimiter != null)
+                    hashCode = hashCode * 59 + this.PatternWithDigitsAndDelimiter.GetHashCode();
                 return hashCode;
             }
         }
@@ -467,6 +485,20 @@ namespace Org.OpenAPITools.Model
             if(this.Password != null && this.Password.Length < 10)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
+            }
+
+            // PatternWithDigits (string) pattern
+            Regex regexPatternWithDigits = new Regex(@"^\\d{10}$", RegexOptions.CultureInvariant);
+            if (false == regexPatternWithDigits.Match(this.PatternWithDigits).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
+            }
+
+            // PatternWithDigitsAndDelimiter (string) pattern
+            Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
             }
 
             yield break;

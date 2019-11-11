@@ -9,7 +9,7 @@ class PetApi {
     String versionPath = ""
     ApiUtils apiUtils = new ApiUtils();
 
-    def addPet ( Pet body, Closure onSuccess, Closure onFailure)  {
+    def addPet ( Pet pet, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/pet"
 
         // params
@@ -19,14 +19,14 @@ class PetApi {
         def contentType
 
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (pet == null) {
+            throw new RuntimeException("missing required params pet")
         }
 
 
 
         contentType = 'application/json';
-        bodyParams = body
+        bodyParams = pet
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -140,7 +140,7 @@ class PetApi {
 
     }
 
-    def updatePet ( Pet body, Closure onSuccess, Closure onFailure)  {
+    def updatePet ( Pet pet, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/pet"
 
         // params
@@ -150,14 +150,14 @@ class PetApi {
         def contentType
 
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (pet == null) {
+            throw new RuntimeException("missing required params pet")
         }
 
 
 
         contentType = 'application/json';
-        bodyParams = body
+        bodyParams = pet
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,

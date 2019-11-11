@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **addPet**
-> addPet(body)
+> addPet(pet)
 
 Add a new pet to the store
 
@@ -31,10 +31,10 @@ import 'package:openapi/api.dart';
 //openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.addPet(body);
+    api_instance.addPet(pet);
 } catch (e) {
     print("Exception when calling PetApi->addPet: $e\n");
 }
@@ -44,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -243,7 +243,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePet**
-> updatePet(body)
+> updatePet(pet)
 
 Update an existing pet
 
@@ -254,10 +254,10 @@ import 'package:openapi/api.dart';
 //openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.updatePet(body);
+    api_instance.updatePet(pet);
 } catch (e) {
     print("Exception when calling PetApi->updatePet: $e\n");
 }
@@ -267,7 +267,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 

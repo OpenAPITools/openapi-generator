@@ -10,6 +10,7 @@
 
 
 
+
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct InlineObject {
     /// Updated name of the pet
