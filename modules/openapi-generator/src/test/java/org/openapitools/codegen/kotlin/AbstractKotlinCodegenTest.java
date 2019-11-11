@@ -16,6 +16,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -221,10 +222,9 @@ public class AbstractKotlinCodegenTest {
                 .addAllOfItem(new Schema().$ref("Parent"))
                 .addAllOfItem(new ObjectSchema()
                         .addProperties("c", new StringSchema())
-                        .addProperties("d", new StringSchema()))
-                .name("Child")
-                .addRequiredItem("a")
-                .addRequiredItem("c");
+                        .addProperties("d", new StringSchema())
+                        .addRequiredItem("c"))
+                .name("Child");
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.getComponents().addSchemas(parent.getName(), parent);
         openAPI.getComponents().addSchemas(child.getName(), child);
@@ -239,8 +239,16 @@ public class AbstractKotlinCodegenTest {
         for (CodegenProperty p : pm.requiredVars) {
             Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
         }
+        Assert.assertEqualsNoOrder(
+            pm.requiredVars.stream().map(CodegenProperty::getBaseName).toArray(),
+            new String[] {"a", "c"}
+        );
         for (CodegenProperty p : pm.optionalVars) {
             Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
         }
+        Assert.assertEqualsNoOrder(
+            pm.optionalVars.stream().map(CodegenProperty::getBaseName).toArray(),
+            new String[] {"b", "d"}
+        );
     }
 }
