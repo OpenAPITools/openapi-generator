@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace {{packageName}}.Client
 {
@@ -89,5 +91,15 @@ namespace {{packageName}}.Client
         /// <param name="apiKeyIdentifier">API key identifier (authentication scheme).</param>
         /// <returns>API key with prefix.</returns>
         string GetApiKeyWithPrefix(string apiKeyIdentifier);
+		
+		/// <summary>
+		/// Gets the json serializer settings
+		/// </summary>
+		JsonSerializerSettings SerializerSettings { get; }
+		
+		/// <summary>
+		/// Gets the proxy
+		/// </summary>
+		WebProxy Proxy { get; }
     }
 }

@@ -8,7 +8,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace {{packageName}}.Client
 {
@@ -223,6 +225,13 @@ namespace {{packageName}}.Client
         /// <value>The access token.</value>
         public virtual string AccessToken { get; set; }
 
+
+        /// <inheritdoc />
+        public JsonSerializerSettings SerializerSettings { get; set; } = new JsonSerializerSettings();
+
+        /// <inheritdoc />
+        public WebProxy Proxy { get; set; }
+
         /// <summary>
         /// Gets or sets the temporary folder path to store the files downloaded from the server.
         /// </summary>
@@ -408,7 +417,9 @@ namespace {{packageName}}.Client
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+				Proxy = second.Proxy ?? first.Proxy,
+                SerializerSettings = second.SerializerSettings ?? first.SerializerSettings
             };
             return config;
         }

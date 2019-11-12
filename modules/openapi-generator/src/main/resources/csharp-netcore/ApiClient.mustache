@@ -248,7 +248,7 @@ namespace {{packageName}}.Client
             RestRequest request = new RestRequest(Method(method))
             {
                 Resource = path,
-                JsonSerializer = new CustomJsonCodec(configuration)
+                JsonSerializer = new CustomJsonCodec(configuration.SerializerSettings,configuration)
             };
 
             if (options.PathParameters != null)
@@ -380,7 +380,10 @@ namespace {{packageName}}.Client
 
         private {{#supportsAsync}}async Task<ApiResponse<T>>{{/supportsAsync}}{{^supportsAsync}}ApiResponse<T>{{/supportsAsync}} Exec<T>(RestRequest req, IReadableConfiguration configuration)
         {
-            RestClient client = new RestClient(_baseUrl);
+            RestClient client = new RestClient(_baseUrl)
+			{
+				Proxy = configuration.Proxy
+			};
 
             client.ClearHandlers();
             var existingDeserializer = req.JsonSerializer as IDeserializer;
