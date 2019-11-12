@@ -11,6 +11,4 @@ private slots:
     void placeOrderTest();
     void getOrderByIdTest();
     void getInventoryTest();
-private:
-    const QString PetStoreHost = QStringLiteral("http://petstore.swagger.io");
 };
