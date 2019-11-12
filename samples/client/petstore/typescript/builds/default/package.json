@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "es6-promise": "^4.2.4",
+    "@types/node": "*",
     "isomorphic-fetch": "^2.2.1",
     "@types/isomorphic-fetch": "0.0.34",
     "btoa": "^1.2.1",
