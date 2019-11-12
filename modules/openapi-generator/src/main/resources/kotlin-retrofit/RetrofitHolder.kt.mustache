@@ -12,6 +12,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object RetrofitHolder {
 
+    {{#version}}const val API_VERSION = "{{{version}}}"{{/version}}
     const val BASE_URL = "{{basePath}}/"
 
     val clientBuilder: OkHttpClient.Builder by lazy {
