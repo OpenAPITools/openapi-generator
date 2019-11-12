@@ -90,7 +90,7 @@ import java.io.File
         }
 
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
-        if(body == null || mediaType == null) {
+        if(body == null) {
             return null
         }
         val bodyContent = body.string()
