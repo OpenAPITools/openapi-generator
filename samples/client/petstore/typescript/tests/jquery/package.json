@@ -13,7 +13,9 @@
     "rewire": "^4.0.1",
     "rxjs": "^6.4.0",
     "ts-node": "^3.3.0",
-    "ts-petstore-client": "file:../../builds/jquery"
+    "ts-petstore-client": "file:../../builds/jquery",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "scripts": {
     "test": "node ./dist/test-runner.js",
