@@ -25,7 +25,6 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 
 
-
 @Injectable()
 export class StoreService {
 
@@ -51,7 +50,6 @@ export class StoreService {
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
-     
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrder(orderId: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -68,7 +66,6 @@ export class StoreService {
     /**
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
-     
      */
     public getInventory(extraHttpRequestParams?: RequestOptionsArgs): Observable<{ [key: string]: number; }> {
         return this.getInventoryWithHttpInfo(extraHttpRequestParams)
@@ -84,7 +81,6 @@ export class StoreService {
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * @summary Find purchase order by ID
-     
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById(orderId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
@@ -101,11 +97,10 @@ export class StoreService {
     /**
      * 
      * @summary Place an order for a pet
-     
-     * @param order order placed for purchasing the pet
+     * @param body order placed for purchasing the pet
      */
-    public placeOrder(order: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
-        return this.placeOrderWithHttpInfo(order, extraHttpRequestParams)
+    public placeOrder(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
+        return this.placeOrderWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -120,6 +115,7 @@ export class StoreService {
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
+     
      */
     public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (orderId === null || orderId === undefined) {
@@ -153,6 +149,7 @@ export class StoreService {
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
+     
      */
     public getInventoryWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
 
@@ -190,6 +187,7 @@ export class StoreService {
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
+     
      */
     public getOrderByIdWithHttpInfo(orderId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (orderId === null || orderId === undefined) {
@@ -224,11 +222,12 @@ export class StoreService {
 
     /**
      * Place an order for a pet
-     * @param order order placed for purchasing the pet
+     * @param body order placed for purchasing the pet
+     
      */
-    public placeOrderWithHttpInfo(order: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
-        if (order === null || order === undefined) {
-            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
+    public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -246,7 +245,6 @@ export class StoreService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
@@ -256,7 +254,7 @@ export class StoreService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: order == null ? '' : JSON.stringify(order), // https://github.com/angular/angular/issues/10612
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
