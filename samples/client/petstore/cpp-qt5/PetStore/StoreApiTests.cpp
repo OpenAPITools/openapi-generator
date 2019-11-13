@@ -6,7 +6,6 @@
 
 void StoreApiTests::placeOrderTest() {
     PFXStoreApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool orderPlaced = false;
 
@@ -33,12 +32,10 @@ void StoreApiTests::placeOrderTest() {
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(orderPlaced, "didn't finish within timeout");
-
 }
 
 void StoreApiTests::getOrderByIdTest() {
     PFXStoreApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool orderFetched = false;
 
@@ -54,12 +51,10 @@ void StoreApiTests::getOrderByIdTest() {
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(orderFetched, "didn't finish within timeout");
-
 }
 
 void StoreApiTests::getInventoryTest() {
     PFXStoreApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool inventoryFetched = false;
 
@@ -75,5 +70,4 @@ void StoreApiTests::getInventoryTest() {
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(inventoryFetched, "didn't finish within timeout");
-
 }

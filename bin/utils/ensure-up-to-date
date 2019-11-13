@@ -8,7 +8,6 @@ declare root="$(cd "$cwd" && cd ../../ && pwd)"
 declare executable="${root}/modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 declare batch_mode="false"
 
-
 echo "# START SCRIPT: $0"
 
 echo "IMPORTANT: this script should be run by the CI (e.g. Shippable) to ensure that the 'samples/' folder is up to date."
@@ -29,17 +28,13 @@ declare -a scripts=(
 "${root}/bin/ruby-client-petstore-faraday.sh"
 "${root}/bin/openapi3/ruby-client-petstore.sh"
 "${root}/bin/openapi3/ruby-client-faraday-petstore.sh"
-
 "${root}/bin/java-petstore-all.sh"
 "${root}/bin/java-jaxrs-petstore-server-all.sh"
 "${root}/bin/java-msf4j-petstore-server.sh"
 "${root}/bin/openapi3/jaxrs-jersey-petstore.sh"
 "${root}/bin/spring-all-petstore.sh"
 "${root}/bin/javascript-petstore-all.sh"
-"${root}/bin/kotlin-client-petstore-multiplatform.sh"
-"${root}/bin/kotlin-client-petstore.sh"
-"${root}/bin/kotlin-client-string.sh"
-"${root}/bin/kotlin-client-threetenbp.sh"
+"${root}/bin/kotlin-client-all.sh"
 "${root}/bin/kotlin-server-petstore.sh"
 "${root}/bin/kotlin-springboot-petstore-server.sh"
 "${root}/bin/kotlin-springboot-petstore-server-reactive.sh"

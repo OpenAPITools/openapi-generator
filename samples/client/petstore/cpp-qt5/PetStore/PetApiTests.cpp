@@ -14,7 +14,6 @@ PFXPet PetApiTests::createRandomPet() {
 
 void PetApiTests::findPetsByStatusTest() {
     PFXPetApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool petFound = false;
 
@@ -34,7 +33,6 @@ void PetApiTests::findPetsByStatusTest() {
 
 void PetApiTests::createAndGetPetTest() {
     PFXPetApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool petCreated = false;
 
@@ -65,12 +63,10 @@ void PetApiTests::createAndGetPetTest() {
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(petFetched, "didn't finish within timeout");
-
 }
 
 void PetApiTests::updatePetTest() {
     PFXPetApi api;
-    api.setHost(PetStoreHost);
 
     PFXPet pet = createRandomPet();
     PFXPet petToCheck;
@@ -134,7 +130,6 @@ void PetApiTests::updatePetTest() {
 
 void PetApiTests::updatePetWithFormTest() {
     PFXPetApi api;
-    api.setHost(PetStoreHost);
 
     PFXPet pet = createRandomPet();
     PFXPet petToCheck;

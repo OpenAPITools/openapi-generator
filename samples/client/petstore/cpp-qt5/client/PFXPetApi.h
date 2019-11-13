@@ -28,13 +28,14 @@ class PFXPetApi: public QObject {
     Q_OBJECT
 
 public:
-    PFXPetApi();
-    PFXPetApi(const QString& host, const QString& basePath, const int toutMs = 0);
+    PFXPetApi(const QString &scheme = "http", const QString &host = "petstore.swagger.io", int port = 0, const QString& basePath = "/v2", const int timeOut = 0);
     ~PFXPetApi();
 
+    void setScheme(const QString &scheme);
+    void setHost(const QString &host);
+    void setPort(int port);
     void setBasePath(const QString& basePath);
-    void setHost(const QString& host);
-    void setApiTimeOutMs(const int tout);
+    void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString& path);
     void addHeaders(const QString& key, const QString& value);
 
@@ -48,10 +49,9 @@ public:
     void uploadFile(const qint64& pet_id, const QString& additional_metadata, const PFXHttpFileElement& file);
     
 private:
-    QString basePath;
-    QString host;
-    QString workingDirectory;
-    int timeout;
+    QString _scheme, _host, _basePath;
+    int _port, _timeOut;
+    QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
     void addPetCallback (PFXHttpRequestWorker * worker);
     void deletePetCallback (PFXHttpRequestWorker * worker);

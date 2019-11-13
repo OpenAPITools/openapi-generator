@@ -14,6 +14,4 @@ private slots:
     void createAndGetPetTest();
     void updatePetTest();
     void updatePetWithFormTest();
-private:
-    const QString PetStoreHost = QStringLiteral("http://petstore.swagger.io");
 };

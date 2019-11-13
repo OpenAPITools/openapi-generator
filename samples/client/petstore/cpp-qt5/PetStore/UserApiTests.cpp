@@ -19,7 +19,6 @@ PFXUser UserApiTests::createRandomUser() {
 
 void UserApiTests::createUserTest(){
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userCreated = false;
 
@@ -36,7 +35,6 @@ void UserApiTests::createUserTest(){
 
 void UserApiTests::createUsersWithArrayInputTest(){
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool usersCreated = false;
 
@@ -57,7 +55,6 @@ void UserApiTests::createUsersWithArrayInputTest(){
 
 void UserApiTests::createUsersWithListInputTest(){
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool usersCreated = false;
 
@@ -82,7 +79,6 @@ void UserApiTests::createUsersWithListInputTest(){
 
 void UserApiTests::deleteUserTest(){
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userDeleted = false;
 
@@ -99,7 +95,6 @@ void UserApiTests::deleteUserTest(){
 
 void UserApiTests::getUserByNameTest(){
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userFetched = false;
 
@@ -118,7 +113,6 @@ void UserApiTests::getUserByNameTest(){
 
 void UserApiTests::loginUserTest(){
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userLogged = false;
 
@@ -136,7 +130,6 @@ void UserApiTests::loginUserTest(){
 
 void UserApiTests::logoutUserTest(){
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userLoggedOut = false;
 
@@ -153,7 +146,6 @@ void UserApiTests::logoutUserTest(){
 
 void UserApiTests::updateUserTest(){
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userUpdated = false;
 
