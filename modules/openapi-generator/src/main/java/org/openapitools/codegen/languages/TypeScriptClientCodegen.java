@@ -46,6 +46,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String FRAMEWORK_SWITCH = "framework";
     private static final String FRAMEWORK_SWITCH_DESC = "Specify the framework which should be used in the client code.";
     private static final String[] FRAMEWORKS = { "fetch-api", "jquery" };
+    private static final String PLATFORM_SWITCH = "platform";
+    private static final String PLATFORM_SWITCH_DESC = "Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.";
+    private static final String[] PLATFORMS = { "browser", "node" };
     private static final String FILE_CONTENT_DATA_TYPE= "fileContentDataType";
     private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser) / Buffer (node)";
     private static final String USE_RXJS_SWITCH = "useRxJS";
@@ -142,6 +145,14 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         frameworkOption.defaultValue(FRAMEWORKS[0]);
 
+        cliOptions.add(new CliOption(TypeScriptClientCodegen.PLATFORM_SWITCH, TypeScriptClientCodegen.PLATFORM_SWITCH_DESC));
+        CliOption platformOption = new CliOption(TypeScriptClientCodegen.PLATFORM_SWITCH, TypeScriptClientCodegen.PLATFORM_SWITCH_DESC);
+        for (String option: TypeScriptClientCodegen.PLATFORMS) {
+            // TODO: improve description?
+            platformOption.addEnum(option, option);
+        }
+        platformOption.defaultValue(PLATFORMS[0]);
+
         cliOptions.add(frameworkOption);
                 
         
@@ -191,16 +202,17 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {      
+        final Object propFramework = additionalProperties.get(FRAMEWORK_SWITCH);
+
         Map<String, Boolean> frameworks = new HashMap<>();
         for (String framework: FRAMEWORKS) {
-            frameworks.put(framework, framework.equals(additionalProperties.get(FRAMEWORK_SWITCH)));
+            frameworks.put(framework, framework.equals(propFramework));
         }
-        objs.put("framework", additionalProperties.get(FRAMEWORK_SWITCH));
+        objs.put("framework", propFramework);
         objs.put("frameworks", frameworks);
-        
-        Object propDataType = additionalProperties.get(FILE_CONTENT_DATA_TYPE);
-        objs.put("fileContentDataType", propDataType == null ? "Buffer" : propDataType);
-        
+
+        objs.put("fileContentDataType", additionalProperties.get(FILE_CONTENT_DATA_TYPE));
+
         return objs;
     }
     
@@ -707,14 +719,31 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         modelPackage = this.modelPackage + ".models";
         testPackage = this.testPackage + ".tests";
 
-        if (additionalProperties.containsKey(FRAMEWORK_SWITCH)) {
-            supportingFiles.add(new SupportingFile("generators/" + additionalProperties.get(FRAMEWORK_SWITCH) + ".mustache", "index.ts"));            
-        } else {
-            additionalProperties.put(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
-            supportingFiles.add(new SupportingFile("generators" + File.separator + FRAMEWORKS[0] + ".mustache", "index.ts"));            
-        }
+        additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
+        supportingFiles.add(new SupportingFile(
+              "generators" + File.separator + additionalProperties.get(FRAMEWORK_SWITCH) + ".mustache",
+              "index.ts"
+        ));
+
         String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
-        supportingFiles.add(new SupportingFile("http"  + File.separator + httpLibName + ".mustache", "http", httpLibName + ".ts"));
+        supportingFiles.add(new SupportingFile(
+              "http"  + File.separator + httpLibName + ".mustache",
+              "http", httpLibName + ".ts"
+        ));
+
+        Object propPlatform = additionalProperties.get(PLATFORM_SWITCH);
+        if (propPlatform == null) {
+            propPlatform = "browser";
+            additionalProperties.put("platform", propPlatform);
+        }
+
+        Map<String, Boolean> platforms = new HashMap<>();
+        for (String platform: PLATFORMS) {
+            platforms.put(platform, platform.equals(propPlatform));
+        }
+        additionalProperties.put("platforms", platforms);
+
+        additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, propPlatform.equals("node") ? "Buffer" : "Blob");
 
         boolean useRxJS = false;
         if (additionalProperties.containsKey(USE_RXJS_SWITCH)) {
