@@ -26,3 +26,4 @@ sidebar_label: typescript-angular
 |modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
 |fileNaming|Naming convention for the output files: 'camelCase', 'kebab-case'.| |camelCase|
 |stringEnums|Generate string enums instead of objects for enum values.| |false|
+|useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
