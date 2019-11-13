@@ -23,7 +23,10 @@ import { User } from '../model/user';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { UserServiceInterface }                            from './user.serviceInterface';
+import {
+    UserServiceInterface
+} from './user.serviceInterface';
+
 
 
 @Injectable()
@@ -51,6 +54,7 @@ export class UserService implements UserServiceInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Create user
+     
      * @param body Created user object
      */
     public createUser(body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -67,6 +71,7 @@ export class UserService implements UserServiceInterface {
     /**
      * 
      * @summary Creates list of users with given input array
+     
      * @param body List of user object
      */
     public createUsersWithArrayInput(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -83,6 +88,7 @@ export class UserService implements UserServiceInterface {
     /**
      * 
      * @summary Creates list of users with given input array
+     
      * @param body List of user object
      */
     public createUsersWithListInput(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -99,6 +105,7 @@ export class UserService implements UserServiceInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Delete user
+     
      * @param username The name that needs to be deleted
      */
     public deleteUser(username: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -115,6 +122,7 @@ export class UserService implements UserServiceInterface {
     /**
      * 
      * @summary Get user by user name
+     
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public getUserByName(username: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<User> {
@@ -131,6 +139,7 @@ export class UserService implements UserServiceInterface {
     /**
      * 
      * @summary Logs user into the system
+     
      * @param username The user name for login
      * @param password The password for login in clear text
      */
@@ -148,6 +157,7 @@ export class UserService implements UserServiceInterface {
     /**
      * 
      * @summary Logs out current logged in user session
+     
      */
     public logoutUser(extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
         return this.logoutUserWithHttpInfo(extraHttpRequestParams)
@@ -163,6 +173,7 @@ export class UserService implements UserServiceInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Updated user
+     
      * @param username name that need to be deleted
      * @param body Updated user object
      */
@@ -182,7 +193,6 @@ export class UserService implements UserServiceInterface {
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object
-     
      */
     public createUserWithHttpInfo(body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {
@@ -225,7 +235,6 @@ export class UserService implements UserServiceInterface {
     /**
      * Creates list of users with given input array
      * @param body List of user object
-     
      */
     public createUsersWithArrayInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {
@@ -268,7 +277,6 @@ export class UserService implements UserServiceInterface {
     /**
      * Creates list of users with given input array
      * @param body List of user object
-     
      */
     public createUsersWithListInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {
@@ -312,7 +320,6 @@ export class UserService implements UserServiceInterface {
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
-     
      */
     public deleteUserWithHttpInfo(username: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (username === null || username === undefined) {
@@ -346,7 +353,6 @@ export class UserService implements UserServiceInterface {
     /**
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
-     
      */
     public getUserByNameWithHttpInfo(username: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (username === null || username === undefined) {
@@ -383,7 +389,6 @@ export class UserService implements UserServiceInterface {
      * Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
-     
      */
     public loginUserWithHttpInfo(username: string, password: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (username === null || username === undefined) {
@@ -430,7 +435,6 @@ export class UserService implements UserServiceInterface {
 
     /**
      * Logs out current logged in user session
-     
      */
     public logoutUserWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
 
@@ -463,7 +467,6 @@ export class UserService implements UserServiceInterface {
      * This can only be done by the logged in user.
      * @param username name that need to be deleted
      * @param body Updated user object
-     
      */
     public updateUserWithHttpInfo(username: string, body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (username === null || username === undefined) {
