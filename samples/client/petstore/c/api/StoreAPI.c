@@ -111,7 +111,8 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 	list_t *elementToReturn = list_create();
 	cJSON_ArrayForEach(VarJSON, localVarJSON) {
 		keyValuePair_t *keyPair =
-			keyValuePair_create(strdup(VarJSON->string), cJSON_Print(
+			keyValuePair_create(strdup(
+						    VarJSON->string), cJSON_Print(
 						    VarJSON));
 		list_addElement(elementToReturn, keyPair);
 	}
@@ -191,7 +192,7 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	// nonprimitive not container
 	cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
 	order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
-    cJSON_Delete(StoreAPIlocalVarJSON);
+	cJSON_Delete(StoreAPIlocalVarJSON);
 	if(elementToReturn == NULL) {
 		// return 0;
 	}
@@ -259,7 +260,7 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *body) {
 	// nonprimitive not container
 	cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
 	order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
-    cJSON_Delete(StoreAPIlocalVarJSON);
+	cJSON_Delete(StoreAPIlocalVarJSON);
 	if(elementToReturn == NULL) {
 		// return 0;
 	}

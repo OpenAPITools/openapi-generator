@@ -331,7 +331,7 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	// nonprimitive not container
 	cJSON *UserAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
 	user_t *elementToReturn = user_parseFromJSON(UserAPIlocalVarJSON);
-    cJSON_Delete(UserAPIlocalVarJSON);
+	cJSON_Delete(UserAPIlocalVarJSON);
 	if(elementToReturn == NULL) {
 		// return 0;
 	}
