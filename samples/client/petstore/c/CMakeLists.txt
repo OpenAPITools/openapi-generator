@@ -52,10 +52,14 @@ set(HDRS
 
 )
 
+# Add library with project file with projectname as library name
 add_library(${pkgName} SHARED ${SRCS} ${HDRS})
+# Link dependent libraries
 target_link_libraries(${pkgName} ${CURL_LIBRARIES} )
+#install library to destination
 install(TARGETS ${pkgName} DESTINATION ${CMAKE_INSTALL_PREFIX})
 
+# Setting file variables to null
 set(SRCS "")
 set(HDRS "")
 

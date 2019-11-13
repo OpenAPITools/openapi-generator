@@ -10,7 +10,7 @@ package {{packageName}}.infrastructure
 }
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class Success<T>(
-    val data: T,
+    val data: T{{#nullableReturnType}}?{{/nullableReturnType}},
     override val statusCode: Int = -1,
     override val headers: Map<String, List<String>> = mapOf()
 ): ApiInfrastructureResponse<T>(ResponseType.Success)
