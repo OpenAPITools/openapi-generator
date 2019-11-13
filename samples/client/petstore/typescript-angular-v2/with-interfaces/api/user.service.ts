@@ -189,6 +189,47 @@ export class UserService implements UserServiceInterface {
     }
 
 
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            if (this.isArrayLike(value)) {
+                (value as []).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    httpParams.append(key,
+                        (value as Date).toISOString().substr(0, 10));
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+
+    private isArrayLike(obj: any): boolean {
+        return (Array.isArray(obj) ||
+            typeof obj === "object" &&
+            typeof (obj.length) === "number" &&
+            (obj.length === 0 ||
+                (obj.length > 0 && (obj.length - 1) in obj))
+        );
+  }
+
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -420,10 +461,12 @@ export class UserService implements UserServiceInterface {
 
         let queryParameters = new URLSearchParams('', this.encoder);
         if (username !== undefined && username !== null) {
-            queryParameters.set('username', <any>username);
+          this.addToHttpParams(queryParameters,
+            <any>username, 'username');
         }
         if (password !== undefined && password !== null) {
-            queryParameters.set('password', <any>password);
+          this.addToHttpParams(queryParameters,
+            <any>password, 'password');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845

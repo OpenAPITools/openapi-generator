@@ -63,6 +63,47 @@ export class PetService {
     }
 
 
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            if (this.isArrayLike(value)) {
+                (value as []).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    httpParams = httpParams.append(key,
+                        (value as Date).toISOString().substr(0, 10));
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            httpParams = httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+
+    private isArrayLike(obj: any): boolean {
+        return (Array.isArray(obj) ||
+            typeof obj === "object" &&
+            typeof (obj.length) === "number" &&
+            (obj.length === 0 ||
+                (obj.length > 0 && (obj.length - 1) in obj))
+        );
+  }
+
     /**
      * Add a new pet to the store
      * @param body Pet object that needs to be added to the store
@@ -199,7 +240,8 @@ export class PetService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (status) {
-            queryParameters = queryParameters.set('status', status.join(COLLECTION_FORMATS['csv']));
+            queryParameters = this.addToHttpParams(queryParameters,
+              <any>status, 'status');
         }
 
         let headers = this.defaultHeaders;
@@ -260,7 +302,8 @@ export class PetService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (tags) {
-            queryParameters = queryParameters.set('tags', tags.join(COLLECTION_FORMATS['csv']));
+            queryParameters = this.addToHttpParams(queryParameters,
+              <any>tags, 'tags');
         }
 
         let headers = this.defaultHeaders;
