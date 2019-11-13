@@ -63,6 +63,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
@@ -4251,12 +4252,14 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
-                cs.isBasic = cs.isOAuth = false;
+                cs.isBasic = cs.isOAuth = cs.isOpenIdConnect = false;
                 cs.isApiKey = true;
                 cs.keyParamName = securityScheme.getName();
                 cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
                 cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
                 cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
+
+                codegenSecurities.add(cs);
             } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
                 cs.isBasic = true;
@@ -4274,13 +4277,17 @@ public class DefaultCodegen implements CodegenConfig {
                     cs.isHttpSignature = true;
                     once(LOGGER).warn("Security scheme 'HTTP signature' is a draft IETF RFC and subject to change.");
                 }
+
+                codegenSecurities.add(cs);
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
+                cs.isOpenIdConnect = false;
                 cs.isOAuth = true;
                 final OAuthFlows flows = securityScheme.getFlows();
                 if (securityScheme.getFlows() == null) {
                     throw new RuntimeException("missing oauth flow in " + cs.name);
                 }
+                // TODO: Like in the openIdConnect case this could be more that one flow
                 if (flows.getPassword() != null) {
                     setOauth2Info(cs, flows.getPassword());
                     cs.isPassword = true;
@@ -4300,9 +4307,24 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     throw new RuntimeException("Could not identify any oauth2 flow in " + cs.name);
                 }
-            }
 
-            codegenSecurities.add(cs);
+                codegenSecurities.add(cs);
+            } else if (SecurityScheme.Type.OPENIDCONNECT.equals(securityScheme.getType())) {
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
+                cs.isOAuth = cs.isOpenIdConnect = true;
+                // https://swagger.io/docs/specification/authentication/openid-connect-discovery/
+                // we need to implement https://openid.net/specs/openid-connect-discovery-1_0.html
+                // and fill out our standard oauth2 stuff https://swagger.io/docs/specification/authentication/oauth2/
+                // from .well-known/openid-configuration
+                try {
+                    OpenIdConnect openIdConnect = new OpenIdConnect(this,
+                            securityScheme.getOpenIdConnectUrl()).retrieve();
+                    List<CodegenSecurity> securities = openIdConnect.getCodegenSecurities(cs);
+                    codegenSecurities.addAll(securities);
+                } catch (IOException e) {
+                    throw new RuntimeException("openIdConnect error: " + e, e);
+                }
+            }
         }
 
         // sort auth methods to maintain the same order
@@ -5323,7 +5345,7 @@ public class DefaultCodegen implements CodegenConfig {
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
     }
 
-    private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
+    void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
         codegenSecurity.authorizationUrl = flow.getAuthorizationUrl();
         codegenSecurity.tokenUrl = flow.getTokenUrl();
 

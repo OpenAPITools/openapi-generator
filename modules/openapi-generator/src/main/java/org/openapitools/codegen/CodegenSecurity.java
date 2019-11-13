@@ -28,7 +28,8 @@ public class CodegenSecurity {
     public String name;
     public String type;
     public String scheme;
-    public Boolean hasMore, isBasic, isOAuth, isApiKey;
+    // if isOpenIdConnect is true => isOAuth is also true, as Oidc is a (more) standardized way of OAuth2
+    public Boolean hasMore, isBasic, isOAuth, isOpenIdConnect, isApiKey;
     // is Basic is true for all http authentication type.
     // Those are to differentiate basic and bearer authentication
     // isHttpSignature is to support HTTP signature authorization scheme.
@@ -44,6 +45,36 @@ public class CodegenSecurity {
     public List<Map<String, Object>> scopes;
     public Boolean isCode, isPassword, isApplication, isImplicit;
 
+    public static CodegenSecurity copy(CodegenSecurity toCopy) {
+        CodegenSecurity result = new CodegenSecurity();
+        if (toCopy.vendorExtensions != null) {
+            result.vendorExtensions = new HashMap<>(toCopy.vendorExtensions);
+        }
+        result.scopes = new ArrayList<>();
+        if (toCopy.scopes != null) {
+            for (Map<String, Object> m : toCopy.scopes) {
+                result.scopes.add(new HashMap<>(m));
+            }
+        }
+
+        result.authorizationUrl = toCopy.authorizationUrl;
+        result.flow = toCopy.flow;
+        result.tokenUrl = toCopy.tokenUrl;
+
+        result.name = toCopy.name;
+        result.isImplicit = toCopy.isImplicit;
+        result.isCode = toCopy.isCode;
+        result.isOpenIdConnect = toCopy.isOpenIdConnect;
+        result.isOAuth = toCopy.isOAuth;
+        result.isBasic = toCopy.isBasic;
+        result.isApiKey = toCopy.isApiKey;
+
+        return result;
+    }
+
+    public CodegenSecurity() {
+    }
+
     // Return a copy of the security object, filtering out any scopes from the passed-in list.
     public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
         CodegenSecurity filteredSecurity = new CodegenSecurity();
@@ -56,6 +87,7 @@ public class CodegenSecurity {
         filteredSecurity.isHttpSignature = isHttpSignature;
         filteredSecurity.isBasicBearer = isBasicBearer;
         filteredSecurity.isApiKey = isApiKey;
+        filteredSecurity.isOpenIdConnect = isOpenIdConnect;
         filteredSecurity.isOAuth = isOAuth;
         filteredSecurity.keyParamName = keyParamName;
         filteredSecurity.isCode = isCode;
@@ -99,6 +131,7 @@ public class CodegenSecurity {
                 Objects.equals(hasMore, that.hasMore) &&
                 Objects.equals(isBasic, that.isBasic) &&
                 Objects.equals(isOAuth, that.isOAuth) &&
+                Objects.equals(isOpenIdConnect, that.isOpenIdConnect) &&
                 Objects.equals(isApiKey, that.isApiKey) &&
                 Objects.equals(isBasicBasic, that.isBasicBasic) &&
                 Objects.equals(isHttpSignature, that.isHttpSignature) &&
@@ -122,7 +155,7 @@ public class CodegenSecurity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, type, scheme, hasMore, isBasic, isOAuth, isApiKey,
+        return Objects.hash(name, type, scheme, hasMore, isBasic, isOAuth, isOpenIdConnect, isApiKey,
                 isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
                 keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
                 authorizationUrl, tokenUrl, scopes, isCode, isPassword, isApplication, isImplicit);
@@ -137,6 +170,7 @@ public class CodegenSecurity {
         sb.append(", hasMore=").append(hasMore);
         sb.append(", isBasic=").append(isBasic);
         sb.append(", isOAuth=").append(isOAuth);
+        sb.append(", isOpenIdConnect=").append(isOpenIdConnect);
         sb.append(", isApiKey=").append(isApiKey);
         sb.append(", isBasicBasic=").append(isBasicBasic);
         sb.append(", isHttpSignature=").append(isHttpSignature);
