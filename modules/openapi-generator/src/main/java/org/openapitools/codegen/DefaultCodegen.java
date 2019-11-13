@@ -1787,6 +1787,17 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Schema> allProperties = new LinkedHashMap<String, Schema>();
             List<String> allRequired = new ArrayList<String>();
 
+            // if schema has properties outside of allOf/oneOf/anyOf also add them to m
+            if (schema.getProperties() != null) {
+                addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+            }
+
+            // uncomment this when https://github.com/swagger-api/swagger-parser/issues/1252 is resolved
+            // if schema has additionalproperties outside of allOf/oneOf/anyOf also add it to m
+            // if (schema.getAdditionalProperties() != null) {
+            //     addAdditionPropertiesToCodeGenModel(m, schema);
+            // }
+
             // parent model
             final String parentName = ModelUtils.getParentName(composed, allDefinitions);
             final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions);
