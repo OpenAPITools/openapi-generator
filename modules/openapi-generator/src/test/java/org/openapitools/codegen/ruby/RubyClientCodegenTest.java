@@ -355,6 +355,7 @@ public class RubyClientCodegenTest {
         oneOf.add("Apple");
         oneOf.add("Banana");
         Assert.assertEquals(fruit.oneOf, oneOf);
+        // make sure that fruit has the property color
     }
 
     @Test(description = "test allOf (OAS3)")
