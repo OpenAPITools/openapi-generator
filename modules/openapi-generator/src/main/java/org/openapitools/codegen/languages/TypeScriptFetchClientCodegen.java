@@ -54,14 +54,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         outputFolder = "generated-code/typescript-fetch";
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            this.apiPackage = "src" + File.separator +"apis";
-            this.modelPackage = "src" + File.separator + "models";
-        } else {
-            this.apiPackage = "apis";
-            this.modelPackage = "models";
-        }
-
         this.apiTemplateFiles.put("apis.mustache", ".ts");
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
@@ -107,8 +99,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         String sourceDir = "";
         if (additionalProperties.containsKey(NPM_NAME)) {
-            sourceDir = "src";
+            sourceDir = "src" + File.separator;
         }
+
+        this.apiPackage = sourceDir + "apis";
+        this.modelPackage = sourceDir + "models";
+
         supportingFiles.add(new SupportingFile("index.mustache", sourceDir, "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", sourceDir, "runtime.ts"));
 
