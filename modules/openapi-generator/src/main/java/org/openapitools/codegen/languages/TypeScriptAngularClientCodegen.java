@@ -90,7 +90,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 false));
         this.cliOptions.add(CliOption.newBoolean(USE_SINGLE_REQUEST_PARAMETER,
         		"Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.",
-        		false));
+                false));
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
