@@ -219,9 +219,9 @@ requestMiddlewareId a = a
 
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}Server
-:: (MonadIO m, MonadThrow m)
-=> Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
-run{{title}}Server config backend = run{{title}}MiddlewareServer config requestMiddlewareId backend
+  :: (MonadIO m, MonadThrow m)
+  => Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
+  run{{title}}Server config backend = run{{title}}MiddlewareServer config requestMiddlewareId backend
 
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}MiddlewareServer
