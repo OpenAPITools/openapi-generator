@@ -528,7 +528,7 @@ class EnumTest implements ModelInterface, ArrayAccess
      */
     public function setOuterEnum($outer_enum)
     {
-        $allowedValues = $\OpenAPI\Client\Model\OuterEnum::getAllowableEnumValues();
+        $allowedValues = \OpenAPI\Client\Model\OuterEnum::getAllowableEnumValues();
         if (!is_null($outer_enum) && !in_array($outer_enum, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
@@ -561,7 +561,7 @@ class EnumTest implements ModelInterface, ArrayAccess
      */
     public function setOuterEnumInteger($outer_enum_integer)
     {
-        $allowedValues = $\OpenAPI\Client\Model\OuterEnumInteger::getAllowableEnumValues();
+        $allowedValues = \OpenAPI\Client\Model\OuterEnumInteger::getAllowableEnumValues();
         if (!is_null($outer_enum_integer) && !in_array($outer_enum_integer, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
@@ -594,7 +594,7 @@ class EnumTest implements ModelInterface, ArrayAccess
      */
     public function setOuterEnumDefaultValue($outer_enum_default_value)
     {
-        $allowedValues = $\OpenAPI\Client\Model\OuterEnumDefaultValue::getAllowableEnumValues();
+        $allowedValues = \OpenAPI\Client\Model\OuterEnumDefaultValue::getAllowableEnumValues();
         if (!is_null($outer_enum_default_value) && !in_array($outer_enum_default_value, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
@@ -627,7 +627,7 @@ class EnumTest implements ModelInterface, ArrayAccess
      */
     public function setOuterEnumIntegerDefaultValue($outer_enum_integer_default_value)
     {
-        $allowedValues = $\OpenAPI\Client\Model\OuterEnumIntegerDefaultValue::getAllowableEnumValues();
+        $allowedValues = \OpenAPI\Client\Model\OuterEnumIntegerDefaultValue::getAllowableEnumValues();
         if (!is_null($outer_enum_integer_default_value) && !in_array($outer_enum_integer_default_value, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(

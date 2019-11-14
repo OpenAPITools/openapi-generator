@@ -316,7 +316,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         {{/isContainer}}
         {{/isEnum}}
         {{#referencedEnumType}}
-        $allowedValues = ${{{dataType}}}::getAllowableEnumValues();
+        $allowedValues = {{{dataType}}}::getAllowableEnumValues();
         if ({{^required}}!is_null(${{name}}) && {{/required}}!in_array(${{{name}}}, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
