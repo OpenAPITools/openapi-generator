@@ -218,7 +218,7 @@ export class PetService implements PetServiceInterface {
 
     private addToHttpParamsRecursive(httpParams: HttpParams, value: any, key?: string): HttpParams {
         if (typeof value === "object") {
-            if (this.isArrayLike(value)) {
+            if (Array.isArray(value)) {
                 (value as []).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
@@ -238,15 +238,6 @@ export class PetService implements PetServiceInterface {
         }
         return httpParams;
     }
-
-    private isArrayLike(obj: any): boolean {
-        return (Array.isArray(obj) ||
-            typeof obj === "object" &&
-            typeof (obj.length) === "number" &&
-            (obj.length === 0 ||
-                (obj.length > 0 && (obj.length - 1) in obj))
-        );
-  }
 
     /**
      * Add a new pet to the store
