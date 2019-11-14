@@ -331,7 +331,7 @@ class EnumTest implements ModelInterface, ArrayAccess
         }
 
             $outer_enumAllowedValues = \OpenAPI\Client\Model\OuterEnum::getAllowableEnumValues();
-            if (!is_null($this->container['outer_enum']) && !in_array($this->container['outer_enum'], $outer_enumAllowedValues}}, true)) {
+            if (!is_null($this->container['outer_enum']) && !in_array($this->container['outer_enum'], $outer_enumAllowedValues, true)) {
                 $invalidProperties[] = sprintf(
                     "invalid value for 'outer_enum', must be one of '%s'",
                     implode("', '", $allowedValues)
@@ -339,7 +339,7 @@ class EnumTest implements ModelInterface, ArrayAccess
             }
 
             $outer_enum_integerAllowedValues = \OpenAPI\Client\Model\OuterEnumInteger::getAllowableEnumValues();
-            if (!is_null($this->container['outer_enum_integer']) && !in_array($this->container['outer_enum_integer'], $outer_enum_integerAllowedValues}}, true)) {
+            if (!is_null($this->container['outer_enum_integer']) && !in_array($this->container['outer_enum_integer'], $outer_enum_integerAllowedValues, true)) {
                 $invalidProperties[] = sprintf(
                     "invalid value for 'outer_enum_integer', must be one of '%s'",
                     implode("', '", $allowedValues)
@@ -347,7 +347,7 @@ class EnumTest implements ModelInterface, ArrayAccess
             }
 
             $outer_enum_default_valueAllowedValues = \OpenAPI\Client\Model\OuterEnumDefaultValue::getAllowableEnumValues();
-            if (!is_null($this->container['outer_enum_default_value']) && !in_array($this->container['outer_enum_default_value'], $outer_enum_default_valueAllowedValues}}, true)) {
+            if (!is_null($this->container['outer_enum_default_value']) && !in_array($this->container['outer_enum_default_value'], $outer_enum_default_valueAllowedValues, true)) {
                 $invalidProperties[] = sprintf(
                     "invalid value for 'outer_enum_default_value', must be one of '%s'",
                     implode("', '", $allowedValues)
@@ -355,7 +355,7 @@ class EnumTest implements ModelInterface, ArrayAccess
             }
 
             $outer_enum_integer_default_valueAllowedValues = \OpenAPI\Client\Model\OuterEnumIntegerDefaultValue::getAllowableEnumValues();
-            if (!is_null($this->container['outer_enum_integer_default_value']) && !in_array($this->container['outer_enum_integer_default_value'], $outer_enum_integer_default_valueAllowedValues}}, true)) {
+            if (!is_null($this->container['outer_enum_integer_default_value']) && !in_array($this->container['outer_enum_integer_default_value'], $outer_enum_integer_default_valueAllowedValues, true)) {
                 $invalidProperties[] = sprintf(
                     "invalid value for 'outer_enum_integer_default_value', must be one of '%s'",
                     implode("', '", $allowedValues)
