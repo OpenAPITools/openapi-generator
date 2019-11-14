@@ -273,7 +273,7 @@ requestMiddlewareId a = a
 runOpenAPIPetstoreServer
   :: (MonadIO m, MonadThrow m)
   => Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
-  runOpenAPIPetstoreServer config backend = runOpenAPIPetstoreMiddlewareServer config requestMiddlewareId backend
+runOpenAPIPetstoreServer config backend = runOpenAPIPetstoreMiddlewareServer config requestMiddlewareId backend
 
 -- | Run the OpenAPIPetstore server at the provided host and port.
 runOpenAPIPetstoreMiddlewareServer
