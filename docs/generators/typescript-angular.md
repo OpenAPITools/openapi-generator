@@ -16,6 +16,7 @@ sidebar_label: typescript-angular
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
 |providedInRoot|Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).| |false|
 |ngVersion|The version of Angular.| |8.0.0|
@@ -26,4 +27,3 @@ sidebar_label: typescript-angular
 |modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
 |fileNaming|Naming convention for the output files: 'camelCase', 'kebab-case'.| |camelCase|
 |stringEnums|Generate string enums instead of objects for enum values.| |false|
-|useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
