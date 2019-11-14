@@ -312,13 +312,13 @@ class EnumTest implements ModelInterface, ArrayAccess
             );
         }
 
-            $outer_enumAllowedValues = \OpenAPI\Client\Model\OuterEnum::getAllowableEnumValues();
-            if (!is_null($this->container['outer_enum']) && !in_array($this->container['outer_enum'], $outer_enumAllowedValues, true)) {
-                $invalidProperties[] = sprintf(
-                    "invalid value for 'outer_enum', must be one of '%s'",
-                    implode("', '", $allowedValues)
-                );
-            }
+        $outer_enumAllowedValues = \OpenAPI\Client\Model\OuterEnum::getAllowableEnumValues();
+        if (!is_null($this->container['outer_enum']) && !in_array($this->container['outer_enum'], $outer_enumAllowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'outer_enum', must be one of '%s'",
+                implode("', '", $outer_enumAllowedValues)
+            );
+        }
 
         return $invalidProperties;
     }
