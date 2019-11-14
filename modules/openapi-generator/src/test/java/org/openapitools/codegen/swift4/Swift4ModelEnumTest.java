@@ -54,7 +54,31 @@ public class Swift4ModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "String");
         Assert.assertEquals(enumVar.datatypeWithEnum, "Name");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, ".VALUE2");
+        Assert.assertEquals(enumVar.defaultValue, ".value2");
+        Assert.assertEquals(enumVar.baseType, "String");
+        Assert.assertTrue(enumVar.isEnum);
+    }
+
+    @Test(description = "convert a java model with an reserved word string enum and a default value")
+    public void convertReservedWordStringDefaultValueTest() {
+        final StringSchema enumSchema = new StringSchema();
+        enumSchema.setEnum(Arrays.asList("1st", "2nd", "3rd"));
+        enumSchema.setDefault("2nd");
+        final Schema model = new Schema().type("object").addProperties("name", enumSchema);
+
+        final DefaultCodegen codegen = new Swift4Codegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty enumVar = cm.vars.get(0);
+        Assert.assertEquals(enumVar.baseName, "name");
+        Assert.assertEquals(enumVar.dataType, "String");
+        Assert.assertEquals(enumVar.datatypeWithEnum, "Name");
+        Assert.assertEquals(enumVar.name, "name");
+        Assert.assertEquals(enumVar.defaultValue, "._2nd");
         Assert.assertEquals(enumVar.baseType, "String");
         Assert.assertTrue(enumVar.isEnum);
     }
