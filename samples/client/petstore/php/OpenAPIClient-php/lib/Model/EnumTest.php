@@ -470,7 +470,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Gets outer_enum
      *
-     * @return \OpenAPI\Client\Model\OuterEnum|null
+     * @return string|null
      */
     public function getOuterEnum()
     {

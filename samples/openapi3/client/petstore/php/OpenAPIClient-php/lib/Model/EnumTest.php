@@ -512,7 +512,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Gets outer_enum
      *
-     * @return \OpenAPI\Client\Model\OuterEnum|null
+     * @return string|null
      */
     public function getOuterEnum()
     {
@@ -545,7 +545,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Gets outer_enum_integer
      *
-     * @return \OpenAPI\Client\Model\OuterEnumInteger|null
+     * @return int|null
      */
     public function getOuterEnumInteger()
     {
@@ -578,7 +578,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Gets outer_enum_default_value
      *
-     * @return \OpenAPI\Client\Model\OuterEnumDefaultValue|null
+     * @return string|null
      */
     public function getOuterEnumDefaultValue()
     {
@@ -611,7 +611,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Gets outer_enum_integer_default_value
      *
-     * @return \OpenAPI\Client\Model\OuterEnumIntegerDefaultValue|null
+     * @return int|null
      */
     public function getOuterEnumIntegerDefaultValue()
     {

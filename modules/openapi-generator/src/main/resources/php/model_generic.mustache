@@ -276,7 +276,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
     /**
      * Gets {{name}}
      *
-     * @return {{dataType}}{{^required}}|null{{/required}}
+     * @return {{#referencedEnumType}}{{referencedEnumType}}{{/referencedEnumType}}{{^referencedEnumType}}{{dataType}}{{/referencedEnumType}}{{^required}}|null{{/required}}
      */
     public function {{getter}}()
     {
