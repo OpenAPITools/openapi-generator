@@ -466,6 +466,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param value    enum variable name
      * @param datatype data type
+     * @param isModel  true if this enum is on a dedicated/referenced model
      * @return the sanitized variable name for enum
      */
     public String toEnumVarName(String value, String datatype, boolean isModel) {
