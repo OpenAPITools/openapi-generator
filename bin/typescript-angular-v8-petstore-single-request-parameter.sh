@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-angular -c bin/typescript-angular-v8-petstore-provided-in-root-with-npm.json -o samples/client/petstore/typescript-angular-v8-provided-in-root/builds/use-single-request-parameter --additional-properties ngVersion=8.0.0,useSingleRequestParameter=true $@"
+ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-angular -c bin/typescript-angular-v8-petstore-provided-in-root-with-npm.json -o samples/client/petstore/typescript-angular-v8-provided-in-root/builds/single-request-parameter --additional-properties ngVersion=8.0.0,useSingleRequestParameter=true $@"
 
 java $JAVA_OPTS -jar $executable $ags
