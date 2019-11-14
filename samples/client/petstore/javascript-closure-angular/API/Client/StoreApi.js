@@ -151,11 +151,11 @@ API.Client.StoreApi.prototype.getOrderById = function(orderId, opt_extraHttpRequ
 /**
  * Place an order for a pet
  * 
- * @param {!Order} order order placed for purchasing the pet
+ * @param {!Order} body order placed for purchasing the pet
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise<!API.Client.Order>}
  */
-API.Client.StoreApi.prototype.placeOrder = function(order, opt_extraHttpRequestParams) {
+API.Client.StoreApi.prototype.placeOrder = function(body, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/store/order';
 
@@ -164,16 +164,16 @@ API.Client.StoreApi.prototype.placeOrder = function(order, opt_extraHttpRequestP
 
   /** @type {!Object} */
   var headerParams = angular.extend({}, this.defaultHeaders_);
-  // verify required parameter 'order' is set
-  if (!order) {
-    throw new Error('Missing required parameter order when calling placeOrder');
+  // verify required parameter 'body' is set
+  if (!body) {
+    throw new Error('Missing required parameter body when calling placeOrder');
   }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'POST',
     url: path,
     json: true,
-    data: order,
+    data: body,
         params: queryParameters,
     headers: headerParams
   };

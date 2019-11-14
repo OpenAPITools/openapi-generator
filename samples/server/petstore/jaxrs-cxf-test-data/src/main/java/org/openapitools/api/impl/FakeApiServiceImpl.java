@@ -43,7 +43,7 @@ public class FakeApiServiceImpl implements FakeApi {
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "/home/tduperron/git/zomzog/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
+                    "/c/Source/github.com/OpenAPITools/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/FakeApi");
         } catch (CacheException e) {
             e.printStackTrace();
@@ -175,6 +175,11 @@ public class FakeApiServiceImpl implements FakeApi {
      */
     @Override
     public void testJsonFormData(String param, String param2) {
+
+    }
+
+    @Override
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) {
 
     }
 

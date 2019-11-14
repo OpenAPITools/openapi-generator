@@ -115,6 +115,13 @@ Route::post('/v2/fake/outer/number', 'FakeController@fakeOuterNumberSerialize');
  */
 Route::post('/v2/fake/outer/string', 'FakeController@fakeOuterStringSerialize');
 /**
+ * put testQueryParameterCollectionFormat
+ * Summary: 
+ * Notes: To test the collection format in query parameters
+
+ */
+Route::put('/v2/fake/test-query-paramters', 'FakeController@testQueryParameterCollectionFormat');
+/**
  * patch testClassname
  * Summary: To test class name in snake case
  * Notes: To test class name in snake case

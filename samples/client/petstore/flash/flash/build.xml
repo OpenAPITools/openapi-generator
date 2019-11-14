@@ -15,7 +15,7 @@
     <!-- Flex Ant Tasks used to perform compc and mxml compiling more info at http://labs.adobe.com/wiki/index.php/Flex_Ant_Tasks -->
     <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
 
-    <target name="setup" description="perform an setup operations"/>
+    <target name="setup" description="perform setup operations"/>
 
     <!-- Execute the ASDoc Compile which runs 3 separate tasks in a series -->
     <target name="compile" description="series of tasks to create docs and swc">
@@ -28,7 +28,7 @@
 
     </target>
 
-    <target name="deploy" description="perform an deployment operations"/>
+    <target name="deploy" description="perform deployment operations"/>
 
     <target name="install" description="perform an installation operations"/>
 

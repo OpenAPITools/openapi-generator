@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 public struct EnumArrays: Codable {
 
     public enum JustSymbol: String, Codable {
@@ -25,9 +27,11 @@ public struct EnumArrays: Codable {
         self.arrayEnum = arrayEnum
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case justSymbol = "just_symbol"
         case arrayEnum = "array_enum"
     }
 
+
 }
+

@@ -441,4 +441,48 @@ class FakeController extends Controller
 
         return response('How about implementing fakeOuterStringSerialize as a post method ?');
     }
+    /**
+     * Operation testQueryParameterCollectionFormat
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function testQueryParameterCollectionFormat()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['pipe'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $pipe when calling testQueryParameterCollectionFormat');
+        }
+        $pipe = $input['pipe'];
+
+        if (!isset($input['ioutil'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $ioutil when calling testQueryParameterCollectionFormat');
+        }
+        $ioutil = $input['ioutil'];
+
+        if (!isset($input['http'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $http when calling testQueryParameterCollectionFormat');
+        }
+        $http = $input['http'];
+
+        if (!isset($input['url'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $url when calling testQueryParameterCollectionFormat');
+        }
+        $url = $input['url'];
+
+        if (!isset($input['context'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $context when calling testQueryParameterCollectionFormat');
+        }
+        $context = $input['context'];
+
+
+        return response('How about implementing testQueryParameterCollectionFormat as a put method ?');
+    }
 }

@@ -8,6 +8,8 @@
 import Foundation
 import Alamofire
 
+
+
 open class Swift4TestAPI {
     /**
      Get all of the models
@@ -15,7 +17,7 @@ open class Swift4TestAPI {
      - parameter clientId: (query) id that represent the Api client 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAllModels(clientId: String, completion: @escaping ((_ data: GetAllModelsResult?, _ error: Error?) -> Void)) {
+    open class func getAllModels(clientId: String, completion: @escaping ((_ data: GetAllModelsResult?,_ error: Error?) -> Void)) {
         getAllModelsWithRequestBuilder(clientId: clientId).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -31,8 +33,8 @@ open class Swift4TestAPI {
     open class func getAllModelsWithRequestBuilder(clientId: String) -> RequestBuilder<GetAllModelsResult> {
         let path = "/allModels"
         let URLString = TestClientAPI.basePath + path
-        let parameters: [String: Any]? = nil
-
+        let parameters: [String:Any]? = nil
+        
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
             "client_id": clientId

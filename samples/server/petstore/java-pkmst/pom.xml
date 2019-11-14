@@ -3,7 +3,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.prokarma</groupId>
    <artifactId>pkmst-microservice</artifactId>
-   <version>1.0.0</version>
+   <version></version>
    <packaging>jar</packaging>
    <name>pkmst-microservice</name>
    <description>Demo project for Spring Boot Microservices</description>
@@ -232,7 +232,7 @@
       <dependency>
             <groupId>org.threeten</groupId>
             <artifactId>threetenbp</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.0</version>
       </dependency>
    </dependencies>
    <dependencyManagement>

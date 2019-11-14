@@ -35,7 +35,7 @@ public class FakeClassnameTags123ApiServiceImpl implements FakeClassnameTags123A
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "/home/tduperron/git/zomzog/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
+                    "/c/Source/github.com/OpenAPITools/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/FakeClassnameTags123Api");
         } catch (CacheException e) {
             e.printStackTrace();

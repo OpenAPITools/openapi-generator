@@ -32,6 +32,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         405:
           content: {}
           description: Invalid input
@@ -42,6 +45,9 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: pet
     put:
@@ -57,6 +63,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid ID supplied
@@ -73,6 +82,9 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /pet/findByStatus:
@@ -119,12 +131,14 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      description: Multiple tags can be provided with comma separated strings. Use
+        tag1, tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -161,6 +175,7 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /pet/{petId}:
@@ -179,6 +194,9 @@ paths:
           format: int64
           type: integer
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid pet value
@@ -189,6 +207,7 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
+      x-accepts: application/json
       x-tags:
       - tag: pet
     get:
@@ -223,6 +242,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
+      x-accepts: application/json
       x-tags:
       - tag: pet
     post:
@@ -257,6 +277,8 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
+      x-contentType: application/x-www-form-urlencoded
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /pet/{petId}/uploadImage:
@@ -296,6 +318,8 @@ paths:
       summary: uploads an image
       tags:
       - pet
+      x-contentType: multipart/form-data
+      x-accepts: application/json
       x-tags:
       - tag: pet
   /store/inventory:
@@ -317,6 +341,7 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
+      x-accepts: application/json
       x-tags:
       - tag: store
   /store/order:
@@ -345,11 +370,15 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: store
   /store/order/{order_id}:
     delete:
-      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+      description: For valid response try integer IDs with value < 1000. Anything
+        above 1000 or nonintegers will generate API errors
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
@@ -368,10 +397,12 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
+      x-accepts: application/json
       x-tags:
       - tag: store
     get:
-      description: For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+      description: For valid response try integer IDs with value <= 5 or > 10. Other
+        values will generated exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -402,6 +433,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
+      x-accepts: application/json
       x-tags:
       - tag: store
   /user:
@@ -422,6 +454,9 @@ paths:
       summary: Create user
       tags:
       - user
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/createWithArray:
@@ -443,6 +478,9 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/createWithList:
@@ -464,6 +502,9 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/login:
@@ -509,6 +550,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/logout:
@@ -521,6 +563,7 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
+      x-accepts: application/json
       x-tags:
       - tag: user
   /user/{username}:
@@ -544,6 +587,7 @@ paths:
       summary: Delete user
       tags:
       - user
+      x-accepts: application/json
       x-tags:
       - tag: user
     get:
@@ -574,6 +618,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
+      x-accepts: application/json
       x-tags:
       - tag: user
     put:
@@ -603,6 +648,9 @@ paths:
       summary: Updated user
       tags:
       - user
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
       x-tags:
       - tag: user
   /fake_classname_test:
@@ -628,9 +676,62 @@ paths:
       summary: To test class name in snake case
       tags:
       - fake_classname_tags 123#$%^
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: fake_classname_tags 123#$%^
   /fake:
+    delete:
+      description: Fake endpoint to test group parameters (optional)
+      operationId: testGroupParameters
+      parameters:
+      - description: Required String in group parameters
+        in: query
+        name: required_string_group
+        required: true
+        schema:
+          type: integer
+      - description: Required Boolean in group parameters
+        in: header
+        name: required_boolean_group
+        required: true
+        schema:
+          type: boolean
+      - description: Required Integer in group parameters
+        in: query
+        name: required_int64_group
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - description: String in group parameters
+        in: query
+        name: string_group
+        schema:
+          type: integer
+      - description: Boolean in group parameters
+        in: header
+        name: boolean_group
+        schema:
+          type: boolean
+      - description: Integer in group parameters
+        in: query
+        name: int64_group
+        schema:
+          format: int64
+          type: integer
+      responses:
+        400:
+          content: {}
+          description: Someting wrong
+      summary: Fake endpoint to test group parameters (optional)
+      tags:
+      - fake
+      x-group-parameters: true
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
     get:
       description: To test enum parameters
       operationId: testEnumParameters
@@ -731,6 +832,8 @@ paths:
       summary: To test enum parameters
       tags:
       - fake
+      x-contentType: application/x-www-form-urlencoded
+      x-accepts: application/json
       x-tags:
       - tag: fake
     patch:
@@ -753,6 +856,9 @@ paths:
       summary: To test "client" model
       tags:
       - fake
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: fake
     post:
@@ -769,6 +875,7 @@ paths:
               properties:
                 integer:
                   description: None
+                  format: int32
                   maximum: 100
                   minimum: 10
                   type: integer
@@ -853,6 +960,8 @@ paths:
         가짜 엔드 포인트
       tags:
       - fake
+      x-contentType: application/x-www-form-urlencoded
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /fake/outer/number:
@@ -875,6 +984,9 @@ paths:
           description: Output number
       tags:
       - fake
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: '*/*'
       x-tags:
       - tag: fake
   /fake/outer/string:
@@ -897,6 +1009,9 @@ paths:
           description: Output string
       tags:
       - fake
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: '*/*'
       x-tags:
       - tag: fake
   /fake/outer/boolean:
@@ -919,6 +1034,9 @@ paths:
           description: Output boolean
       tags:
       - fake
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: '*/*'
       x-tags:
       - tag: fake
   /fake/outer/composite:
@@ -941,6 +1059,9 @@ paths:
           description: Output composite
       tags:
       - fake
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: '*/*'
       x-tags:
       - tag: fake
   /fake/jsonFormData:
@@ -968,6 +1089,8 @@ paths:
       summary: test json serialization of form data
       tags:
       - fake
+      x-contentType: application/x-www-form-urlencoded
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /fake/inline-additionalProperties:
@@ -989,6 +1112,9 @@ paths:
       summary: test inline additionalProperties
       tags:
       - fake
+      x-codegen-request-body-name: param
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /fake/body-with-query-params:
@@ -1012,6 +1138,47 @@ paths:
           description: Success
       tags:
       - fake
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
+  /fake/create_xml_item:
+    post:
+      description: this route creates an XmlItem
+      operationId: createXmlItem
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          application/xml; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          application/xml; charset=utf-16:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml; charset=utf-16:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+        description: XmlItem Body
+        required: true
+      responses:
+        200:
+          content: {}
+          description: successful operation
+      summary: creates an XmlItem
+      tags:
+      - fake
+      x-codegen-request-body-name: XmlItem
+      x-contentType: application/xml
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /another-fake/dummy:
@@ -1035,11 +1202,15 @@ paths:
       summary: To test special tags
       tags:
       - $another-fake?
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
       x-tags:
       - tag: $another-fake?
   /fake/body-with-file-schema:
     put:
-      description: For this test, the body for this request much reference a schema named `File`.
+      description: For this test, the body for this request much reference a schema
+        named `File`.
       operationId: testBodyWithFileSchema
       requestBody:
         content:
@@ -1053,6 +1224,65 @@ paths:
           description: Success
       tags:
       - fake
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
+  /fake/test-query-paramters:
+    put:
+      description: To test the collection format in query parameters
+      operationId: testQueryParameterCollectionFormat
+      parameters:
+      - explode: false
+        in: query
+        name: pipe
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - in: query
+        name: ioutil
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      - in: query
+        name: http
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: spaceDelimited
+      - explode: false
+        in: query
+        name: url
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: context
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        200:
+          content: {}
+          description: Success
+      tags:
+      - fake
+      x-accepts: application/json
       x-tags:
       - tag: fake
   /fake/{petId}/uploadImageWithRequiredFile:
@@ -1095,20 +1325,59 @@ paths:
       summary: uploads an image (required)
       tags:
       - pet
+      x-contentType: multipart/form-data
+      x-accepts: application/json
       x-tags:
       - tag: pet
 components:
   schemas:
+    Order:
+      example:
+        petId: 6
+        quantity: 1
+        id: 0
+        shipDate: 2000-01-23T04:56:07.000+00:00
+        complete: false
+        status: placed
+      properties:
+        id:
+          format: int64
+          type: integer
+        petId:
+          format: int64
+          type: integer
+        quantity:
+          format: int32
+          type: integer
+        shipDate:
+          format: date-time
+          type: string
+        status:
+          description: Order Status
+          enum:
+          - placed
+          - approved
+          - delivered
+          type: string
+        complete:
+          default: false
+          type: boolean
+      type: object
+      xml:
+        name: Order
     Category:
       example:
-        name: name
+        name: default-name
         id: 6
       properties:
         id:
           format: int64
           type: integer
         name:
+          default: default-name
           type: string
+      required:
+      - name
       type: object
       xml:
         name: Category
@@ -1146,45 +1415,72 @@ components:
       type: object
       xml:
         name: User
-    OuterNumber:
-      type: number
-    ArrayOfNumberOnly:
+    Tag:
+      example:
+        name: name
+        id: 1
       properties:
-        ArrayNumber:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
+      xml:
+        name: Tag
+    Pet:
+      example:
+        photoUrls:
+        - photoUrls
+        - photoUrls
+        name: doggie
+        id: 0
+        category:
+          name: default-name
+          id: 6
+        tags:
+        - name: name
+          id: 1
+        - name: name
+          id: 1
+        status: available
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
           items:
-            type: number
+            type: string
           type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
       type: object
-    Capitalization:
-      properties:
-        smallCamel:
-          type: string
-        CapitalCamel:
-          type: string
-        small_Snake:
-          type: string
-        Capital_Snake:
-          type: string
-        SCA_ETH_Flow_Points:
-          type: string
-        ATT_NAME:
-          description: |
-            Name of the pet
-          type: string
-      type: object
-    MixedPropertiesAndAdditionalPropertiesClass:
-      properties:
-        uuid:
-          format: uuid
-          type: string
-        dateTime:
-          format: date-time
-          type: string
-        map:
-          additionalProperties:
-            $ref: '#/components/schemas/Animal'
-          type: object
-      type: object
+      xml:
+        name: Pet
     ApiResponse:
       example:
         code: 0
@@ -1199,6 +1495,23 @@ components:
         message:
           type: string
       type: object
+    $special[model.name]:
+      properties:
+        $special[property.name]:
+          format: int64
+          type: integer
+      type: object
+      xml:
+        name: $special[model.name]
+    Return:
+      description: Model for testing reserved words
+      properties:
+        return:
+          format: int32
+          type: integer
+      type: object
+      xml:
+        name: Return
     Name:
       description: Model for testing model name same as property name
       properties:
@@ -1219,25 +1532,6 @@ components:
       type: object
       xml:
         name: Name
-    EnumClass:
-      default: -efg
-      enum:
-      - _abc
-      - -efg
-      - (xyz)
-      type: string
-    List:
-      example:
-        123-list: 123-list
-      properties:
-        123-list:
-          type: string
-      type: object
-    NumberOnly:
-      properties:
-        JustNumber:
-          type: number
-      type: object
     200_response:
       description: Model for testing model name starting with number
       properties:
@@ -1249,172 +1543,36 @@ components:
       type: object
       xml:
         name: Name
-    Client:
-      example:
-        client: client
+    ClassModel:
+      description: Model for testing model with "_class" property
       properties:
-        client:
+        _class:
           type: string
       type: object
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          breed:
-            type: string
-        type: object
-    Enum_Test:
+      - $ref: '#/components/schemas/Dog_allOf'
+    Cat:
+      allOf:
+      - $ref: '#/components/schemas/Animal'
+      - $ref: '#/components/schemas/Cat_allOf'
+    Animal:
+      discriminator:
+        propertyName: className
       properties:
-        enum_string:
-          enum:
-          - UPPER
-          - lower
-          - ""
+        className:
           type: string
-        enum_string_required:
-          enum:
-          - UPPER
-          - lower
-          - ""
+        color:
+          default: red
           type: string
-        enum_integer:
-          enum:
-          - 1
-          - -1
-          format: int32
-          type: integer
-        enum_number:
-          enum:
-          - 1.1
-          - -1.2
-          format: double
-          type: number
-        outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
       required:
-      - enum_string_required
+      - className
       type: object
-    Order:
-      example:
-        petId: 6
-        quantity: 1
-        id: 0
-        shipDate: 2000-01-23T04:56:07.000+00:00
-        complete: false
-        status: placed
-      properties:
-        id:
-          format: int64
-          type: integer
-        petId:
-          format: int64
-          type: integer
-        quantity:
-          format: int32
-          type: integer
-        shipDate:
-          format: date-time
-          type: string
-        status:
-          description: Order Status
-          enum:
-          - placed
-          - approved
-          - delivered
-          type: string
-        complete:
-          default: false
-          type: boolean
-      type: object
-      xml:
-        name: Order
-    AdditionalPropertiesClass:
-      properties:
-        map_property:
-          additionalProperties:
-            type: string
-          type: object
-        map_of_map_property:
-          additionalProperties:
-            additionalProperties:
-              type: string
-            type: object
-          type: object
-      type: object
-    $special[model.name]:
-      properties:
-        $special[property.name]:
-          format: int64
-          type: integer
-      type: object
-      xml:
-        name: $special[model.name]
-    Return:
-      description: Model for testing reserved words
-      properties:
-        return:
-          format: int32
-          type: integer
-      type: object
-      xml:
-        name: Return
-    ReadOnlyFirst:
-      properties:
-        bar:
-          readOnly: true
-          type: string
-        baz:
-          type: string
-      type: object
-    ArrayOfArrayOfNumberOnly:
-      properties:
-        ArrayArrayNumber:
-          items:
-            items:
-              type: number
-            type: array
-          type: array
-      type: object
-    OuterEnum:
-      enum:
-      - placed
-      - approved
-      - delivered
-      type: string
-    ArrayTest:
-      properties:
-        array_of_string:
-          items:
-            type: string
-          type: array
-        array_array_of_integer:
-          items:
-            items:
-              format: int64
-              type: integer
-            type: array
-          type: array
-        array_array_of_model:
-          items:
-            items:
-              $ref: '#/components/schemas/ReadOnlyFirst'
-            type: array
-          type: array
-      type: object
-    OuterComposite:
-      example:
-        my_string: my_string
-        my_number: 0.80082819046101150206595775671303272247314453125
-        my_boolean: true
-      properties:
-        my_number:
-          type: number
-        my_string:
-          type: string
-        my_boolean:
-          type: boolean
-          x-codegen-body-parameter-name: boolean_post_body
-      type: object
+    AnimalFarm:
+      items:
+        $ref: '#/components/schemas/Animal'
+      type: array
     format_test:
       properties:
         integer:
@@ -1460,6 +1618,7 @@ components:
           format: date-time
           type: string
         uuid:
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           format: uuid
           type: string
         password:
@@ -1467,76 +1626,221 @@ components:
           maxLength: 64
           minLength: 10
           type: string
+        BigDecimal:
+          format: number
+          type: string
       required:
       - byte
       - date
       - number
       - password
       type: object
-    EnumArrays:
-      properties:
-        just_symbol:
-          enum:
-          - '>='
-          - $
-          type: string
-        array_enum:
-          items:
-            enum:
-            - fish
-            - crab
-            type: string
-          type: array
-      type: object
-    OuterString:
+    EnumClass:
+      default: -efg
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
       type: string
-    ClassModel:
-      description: Model for testing model with "_class" property
+    Enum_Test:
       properties:
-        _class:
+        enum_string:
+          enum:
+          - UPPER
+          - lower
+          - ""
           type: string
-      type: object
-    OuterBoolean:
-      type: boolean
-      x-codegen-body-parameter-name: boolean_post_body
-    FileSchemaTestClass:
-      example:
-        file:
-          sourceURI: sourceURI
-        files:
-        - sourceURI: sourceURI
-        - sourceURI: sourceURI
-      properties:
-        file:
-          $ref: '#/components/schemas/File'
-        files:
-          items:
-            $ref: '#/components/schemas/File'
-          type: array
-      type: object
-    Animal:
-      discriminator:
-        propertyName: className
-      properties:
-        className:
+        enum_string_required:
+          enum:
+          - UPPER
+          - lower
+          - ""
           type: string
-        color:
-          default: red
-          type: string
+        enum_integer:
+          enum:
+          - 1
+          - -1
+          format: int32
+          type: integer
+        enum_number:
+          enum:
+          - 1.1
+          - -1.2
+          format: double
+          type: number
+        outerEnum:
+          $ref: '#/components/schemas/OuterEnum'
       required:
-      - className
+      - enum_string_required
       type: object
-    StringBooleanMap:
+    AdditionalPropertiesClass:
+      properties:
+        map_string:
+          additionalProperties:
+            type: string
+          type: object
+        map_number:
+          additionalProperties:
+            type: number
+          type: object
+        map_integer:
+          additionalProperties:
+            type: integer
+          type: object
+        map_boolean:
+          additionalProperties:
+            type: boolean
+          type: object
+        map_array_integer:
+          additionalProperties:
+            items:
+              type: integer
+            type: array
+          type: object
+        map_array_anytype:
+          additionalProperties:
+            items:
+              properties: {}
+              type: object
+            type: array
+          type: object
+        map_map_string:
+          additionalProperties:
+            additionalProperties:
+              type: string
+            type: object
+          type: object
+        map_map_anytype:
+          additionalProperties:
+            additionalProperties:
+              properties: {}
+              type: object
+            type: object
+          type: object
+        anytype_1:
+          properties: {}
+          type: object
+        anytype_2:
+          type: object
+        anytype_3:
+          properties: {}
+          type: object
+      type: object
+    AdditionalPropertiesString:
+      additionalProperties:
+        type: string
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesInteger:
+      additionalProperties:
+        type: integer
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesNumber:
+      additionalProperties:
+        type: number
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesBoolean:
       additionalProperties:
         type: boolean
+      properties:
+        name:
+          type: string
       type: object
-    Cat:
-      allOf:
-      - $ref: '#/components/schemas/Animal'
-      - properties:
-          declawed:
-            type: boolean
+    AdditionalPropertiesArray:
+      additionalProperties:
+        items:
+          properties: {}
+          type: object
+        type: array
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesObject:
+      additionalProperties:
+        additionalProperties:
+          properties: {}
+          type: object
         type: object
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesAnyType:
+      additionalProperties:
+        properties: {}
+        type: object
+      properties:
+        name:
+          type: string
+      type: object
+    MixedPropertiesAndAdditionalPropertiesClass:
+      properties:
+        uuid:
+          format: uuid
+          type: string
+        dateTime:
+          format: date-time
+          type: string
+        map:
+          additionalProperties:
+            $ref: '#/components/schemas/Animal'
+          type: object
+      type: object
+    List:
+      properties:
+        123-list:
+          type: string
+      type: object
+    Client:
+      example:
+        client: client
+      properties:
+        client:
+          type: string
+      type: object
+    ReadOnlyFirst:
+      properties:
+        bar:
+          readOnly: true
+          type: string
+        baz:
+          type: string
+      type: object
+    hasOnlyReadOnly:
+      properties:
+        bar:
+          readOnly: true
+          type: string
+        foo:
+          readOnly: true
+          type: string
+      type: object
+    Capitalization:
+      properties:
+        smallCamel:
+          type: string
+        CapitalCamel:
+          type: string
+        small_Snake:
+          type: string
+        Capital_Snake:
+          type: string
+        SCA_ETH_Flow_Points:
+          type: string
+        ATT_NAME:
+          description: |
+            Name of the pet
+          type: string
+      type: object
     MapTest:
       properties:
         map_map_of_string:
@@ -1557,25 +1861,112 @@ components:
             type: boolean
           type: object
         indirect_map:
-          $ref: '#/components/schemas/StringBooleanMap'
+          additionalProperties:
+            type: boolean
+          type: object
       type: object
-    Tag:
-      example:
-        name: name
-        id: 1
+    ArrayTest:
       properties:
-        id:
-          format: int64
-          type: integer
-        name:
-          type: string
+        array_of_string:
+          items:
+            type: string
+          type: array
+        array_array_of_integer:
+          items:
+            items:
+              format: int64
+              type: integer
+            type: array
+          type: array
+        array_array_of_model:
+          items:
+            items:
+              $ref: '#/components/schemas/ReadOnlyFirst'
+            type: array
+          type: array
       type: object
-      xml:
-        name: Tag
-    AnimalFarm:
-      items:
-        $ref: '#/components/schemas/Animal'
-      type: array
+    NumberOnly:
+      properties:
+        JustNumber:
+          type: number
+      type: object
+    ArrayOfNumberOnly:
+      properties:
+        ArrayNumber:
+          items:
+            type: number
+          type: array
+      type: object
+    ArrayOfArrayOfNumberOnly:
+      properties:
+        ArrayArrayNumber:
+          items:
+            items:
+              type: number
+            type: array
+          type: array
+      type: object
+    EnumArrays:
+      properties:
+        just_symbol:
+          enum:
+          - '>='
+          - $
+          type: string
+        array_enum:
+          items:
+            enum:
+            - fish
+            - crab
+            type: string
+          type: array
+      type: object
+    OuterEnum:
+      enum:
+      - placed
+      - approved
+      - delivered
+      type: string
+    OuterComposite:
+      example:
+        my_string: my_string
+        my_number: 0.8008281904610115
+        my_boolean: true
+      properties:
+        my_number:
+          type: number
+        my_string:
+          type: string
+        my_boolean:
+          type: boolean
+          x-codegen-body-parameter-name: boolean_post_body
+      type: object
+    OuterNumber:
+      type: number
+    OuterString:
+      type: string
+    OuterBoolean:
+      type: boolean
+      x-codegen-body-parameter-name: boolean_post_body
+    StringBooleanMap:
+      additionalProperties:
+        type: boolean
+      type: object
+    FileSchemaTestClass:
+      example:
+        file:
+          sourceURI: sourceURI
+        files:
+        - sourceURI: sourceURI
+        - sourceURI: sourceURI
+      properties:
+        file:
+          $ref: '#/components/schemas/File'
+        files:
+          items:
+            $ref: '#/components/schemas/File'
+          type: array
+      type: object
     File:
       description: Must be named `File` for test.
       example:
@@ -1585,68 +1976,251 @@ components:
           description: Test capitalization
           type: string
       type: object
-    Pet:
-      example:
-        photoUrls:
-        - photoUrls
-        - photoUrls
-        name: doggie
-        id: 0
-        category:
-          name: name
-          id: 6
-        tags:
-        - name: name
-          id: 1
-        - name: name
-          id: 1
-        status: available
+    TypeHolderDefault:
       properties:
-        id:
-          format: int64
+        string_item:
+          default: what
+          type: string
+        number_item:
+          type: number
+        integer_item:
           type: integer
-          x-is-unique: true
-        category:
-          $ref: '#/components/schemas/Category'
-        name:
-          example: doggie
-          type: string
-        photoUrls:
+        bool_item:
+          default: true
+          type: boolean
+        array_item:
           items:
-            type: string
+            type: integer
           type: array
-          xml:
-            name: photoUrl
-            wrapped: true
-        tags:
-          items:
-            $ref: '#/components/schemas/Tag'
-          type: array
-          xml:
-            name: tag
-            wrapped: true
-        status:
-          description: pet status in the store
-          enum:
-          - available
-          - pending
-          - sold
-          type: string
       required:
-      - name
-      - photoUrls
+      - array_item
+      - bool_item
+      - integer_item
+      - number_item
+      - string_item
+      type: object
+    TypeHolderExample:
+      properties:
+        string_item:
+          example: what
+          type: string
+        number_item:
+          example: 1.234
+          type: number
+        float_item:
+          example: 1.234
+          format: float
+          type: number
+        integer_item:
+          example: -2
+          type: integer
+        bool_item:
+          example: true
+          type: boolean
+        array_item:
+          example:
+          - 0
+          - 1
+          - 2
+          - 3
+          items:
+            type: integer
+          type: array
+      required:
+      - array_item
+      - bool_item
+      - float_item
+      - integer_item
+      - number_item
+      - string_item
+      type: object
+    XmlItem:
+      properties:
+        attribute_string:
+          example: string
+          type: string
+          xml:
+            attribute: true
+        attribute_number:
+          example: 1.234
+          type: number
+          xml:
+            attribute: true
+        attribute_integer:
+          example: -2
+          type: integer
+          xml:
+            attribute: true
+        attribute_boolean:
+          example: true
+          type: boolean
+          xml:
+            attribute: true
+        wrapped_array:
+          items:
+            type: integer
+          type: array
+          xml:
+            wrapped: true
+        name_string:
+          example: string
+          type: string
+          xml:
+            name: xml_name_string
+        name_number:
+          example: 1.234
+          type: number
+          xml:
+            name: xml_name_number
+        name_integer:
+          example: -2
+          type: integer
+          xml:
+            name: xml_name_integer
+        name_boolean:
+          example: true
+          type: boolean
+          xml:
+            name: xml_name_boolean
+        name_array:
+          items:
+            type: integer
+            xml:
+              name: xml_name_array_item
+          type: array
+        name_wrapped_array:
+          items:
+            type: integer
+            xml:
+              name: xml_name_wrapped_array_item
+          type: array
+          xml:
+            name: xml_name_wrapped_array
+            wrapped: true
+        prefix_string:
+          example: string
+          type: string
+          xml:
+            prefix: ab
+        prefix_number:
+          example: 1.234
+          type: number
+          xml:
+            prefix: cd
+        prefix_integer:
+          example: -2
+          type: integer
+          xml:
+            prefix: ef
+        prefix_boolean:
+          example: true
+          type: boolean
+          xml:
+            prefix: gh
+        prefix_array:
+          items:
+            type: integer
+            xml:
+              prefix: ij
+          type: array
+        prefix_wrapped_array:
+          items:
+            type: integer
+            xml:
+              prefix: mn
+          type: array
+          xml:
+            prefix: kl
+            wrapped: true
+        namespace_string:
+          example: string
+          type: string
+          xml:
+            namespace: http://a.com/schema
+        namespace_number:
+          example: 1.234
+          type: number
+          xml:
+            namespace: http://b.com/schema
+        namespace_integer:
+          example: -2
+          type: integer
+          xml:
+            namespace: http://c.com/schema
+        namespace_boolean:
+          example: true
+          type: boolean
+          xml:
+            namespace: http://d.com/schema
+        namespace_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://e.com/schema
+          type: array
+        namespace_wrapped_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://g.com/schema
+          type: array
+          xml:
+            namespace: http://f.com/schema
+            wrapped: true
+        prefix_ns_string:
+          example: string
+          type: string
+          xml:
+            namespace: http://a.com/schema
+            prefix: a
+        prefix_ns_number:
+          example: 1.234
+          type: number
+          xml:
+            namespace: http://b.com/schema
+            prefix: b
+        prefix_ns_integer:
+          example: -2
+          type: integer
+          xml:
+            namespace: http://c.com/schema
+            prefix: c
+        prefix_ns_boolean:
+          example: true
+          type: boolean
+          xml:
+            namespace: http://d.com/schema
+            prefix: d
+        prefix_ns_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://e.com/schema
+              prefix: e
+          type: array
+        prefix_ns_wrapped_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://g.com/schema
+              prefix: g
+          type: array
+          xml:
+            namespace: http://f.com/schema
+            prefix: f
+            wrapped: true
       type: object
       xml:
-        name: Pet
-    hasOnlyReadOnly:
+        namespace: http://a.com/schema
+        prefix: pre
+    Dog_allOf:
       properties:
-        bar:
-          readOnly: true
+        breed:
           type: string
-        foo:
-          readOnly: true
-          type: string
-      type: object
+    Cat_allOf:
+      properties:
+        declawed:
+          type: boolean
   securitySchemes:
     petstore_auth:
       flows:
@@ -1656,9 +2230,6 @@ components:
             write:pets: modify pets in your account
             read:pets: read your pets
       type: oauth2
-    http_basic_test:
-      scheme: basic
-      type: http
     api_key:
       in: header
       name: api_key
@@ -1667,3 +2238,6 @@ components:
       in: query
       name: api_key_query
       type: apiKey
+    http_basic_test:
+      scheme: basic
+      type: http

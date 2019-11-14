@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 public struct FormatTest: Codable {
 
     public var integer: Int?
@@ -41,7 +43,7 @@ public struct FormatTest: Codable {
         self.bigDecimal = bigDecimal
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case integer
         case int32
         case int64
@@ -58,4 +60,6 @@ public struct FormatTest: Codable {
         case bigDecimal = "BigDecimal"
     }
 
+
 }
+

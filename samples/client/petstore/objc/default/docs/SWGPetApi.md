@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **addPet**
 ```objc
--(NSURLSessionTask*) addPetWithPet: (SWGPet*) pet
+-(NSURLSessionTask*) addPetWithBody: (SWGPet*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -30,12 +30,12 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 // Add a new pet to the store
-[apiInstance addPetWithPet:pet
+[apiInstance addPetWithBody:body
           completionHandler: ^(NSError* error) {
                         if (error) {
                             NSLog(@"Error calling SWGPetApi->addPet: %@", error);
@@ -47,7 +47,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
+ **body** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -290,7 +290,7 @@ Name | Type | Description  | Notes
 
 # **updatePet**
 ```objc
--(NSURLSessionTask*) updatePetWithPet: (SWGPet*) pet
+-(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -304,12 +304,12 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 // Update an existing pet
-[apiInstance updatePetWithPet:pet
+[apiInstance updatePetWithBody:body
           completionHandler: ^(NSError* error) {
                         if (error) {
                             NSLog(@"Error calling SWGPetApi->updatePet: %@", error);
@@ -321,7 +321,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
+ **body** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 

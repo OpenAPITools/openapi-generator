@@ -15,7 +15,8 @@ Name | Type | Description | Notes
 **date** | [**DATE**](DATE.md) |  | [default to null]
 **date_time** | [**DATE_TIME**](DATE_TIME.md) |  | [optional] [default to null]
 **uuid** | [**UUID**](UUID.md) |  | [optional] [default to null]
-**password** | [**STRING_32**](STRING_32.md) |  | [default to null]
+**password** | [**STRING**](STRING.md) |  | [default to null]
+**big_decimal** | [**BIG_DECIMAL**](BigDecimal.md) |  | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
