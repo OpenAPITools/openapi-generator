@@ -204,7 +204,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         {{/isEnum}}
         {{#referencedEnumType}}
             ${{name}}AllowedValues = {{{dataType}}}::getAllowableEnumValues();
-            if (!is_null($this->container['{{name}}']) && !in_array($this->container['{{name}}'], ${{name}}AllowedValues}}, true)) {
+            if (!is_null($this->container['{{name}}']) && !in_array($this->container['{{name}}'], ${{name}}AllowedValues, true)) {
                 $invalidProperties[] = sprintf(
                     "invalid value for '{{name}}', must be one of '%s'",
                     implode("', '", $allowedValues)
