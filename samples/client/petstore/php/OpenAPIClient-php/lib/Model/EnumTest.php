@@ -61,7 +61,7 @@ class EnumTest implements ModelInterface, ArrayAccess
         'enum_string_required' => 'string',
         'enum_integer' => 'int',
         'enum_number' => 'double',
-        'outer_enum' => 'string'
+        'outer_enum' => '\OpenAPI\Client\Model\OuterEnum'
     ];
 
     /**

@@ -15,7 +15,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
       * @var string[]
       */
     protected static $openAPITypes = [
-        {{#vars}}'{{name}}' => '{{#referencedEnumType}}{{{referencedEnumType}}}{{/referencedEnumType}}{{^referencedEnumType}}{{{dataType}}}{{/referencedEnumType}}'{{#hasMore}},
+        {{#vars}}'{{name}}' => '{{{dataType}}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     ];
 
