@@ -221,7 +221,7 @@ requestMiddlewareId a = a
 run{{title}}Server
   :: (MonadIO m, MonadThrow m)
   => Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
-run{{title}}MiddlewareServer config backend = run{{title}}MiddlewareServer config requestMiddlewareId backend
+run{{title}}Server config backend = run{{title}}MiddlewareServer config requestMiddlewareId backend
 
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}MiddlewareServer
