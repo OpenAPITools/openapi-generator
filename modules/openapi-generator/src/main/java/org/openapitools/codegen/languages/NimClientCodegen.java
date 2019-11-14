@@ -318,7 +318,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toEnumVarName(String name, String datatype) {
+    public String toEnumVarName(String name, String datatype, boolean isModel) {
         name = name.replace(" ", "_");
         name = StringUtils.camelize(name, false);
 

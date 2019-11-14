@@ -366,11 +366,11 @@ public class PhpModelTest {
     @Test(description = "test enum variable names for reserved words")
     public void testReservedWord() throws Exception {
         final DefaultCodegen codegen = new PhpClientCodegen();
-        Assert.assertEquals(codegen.toEnumVarName("public", null), "_PUBLIC");
-        Assert.assertEquals(codegen.toEnumVarName("Private", null), "_PRIVATE");
-        Assert.assertEquals(codegen.toEnumVarName("IF", null), "_IF");
+        Assert.assertEquals(codegen.toEnumVarName("public", null, false), "_PUBLIC");
+        Assert.assertEquals(codegen.toEnumVarName("Private", null, false), "_PRIVATE");
+        Assert.assertEquals(codegen.toEnumVarName("IF", null, false), "_IF");
         // should not escape non-reserved
-        Assert.assertEquals(codegen.toEnumVarName("hello", null), "HELLO");
+        Assert.assertEquals(codegen.toEnumVarName("hello", null, false), "HELLO");
     }
 
     // datetime (or primitive type) not yet supported in HTTP request body

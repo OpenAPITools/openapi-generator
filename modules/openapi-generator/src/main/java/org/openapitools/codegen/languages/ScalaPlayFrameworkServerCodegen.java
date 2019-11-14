@@ -368,7 +368,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     }
 
     @Override
-    public String toEnumVarName(String value, String datatype) {
+    public String toEnumVarName(String value, String datatype, boolean isModel) {
         if (value.length() == 0) {
             return "EMPTY";
         }
