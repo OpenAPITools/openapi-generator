@@ -61,7 +61,7 @@ import           Servant.Client                     (ClientEnv, Scheme (Http), C
                                                      mkClientEnv, parseBaseUrl)
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
-import           Servant.Server                     (Handler (..))
+import           Servant.Server                     (Handler (..), Application)
 import           Servant.Server.StaticFiles         (serveDirectoryFileServer)
 import           Web.FormUrlEncoded
 import           Web.HttpApiData
