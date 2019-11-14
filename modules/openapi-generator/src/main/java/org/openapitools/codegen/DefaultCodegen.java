@@ -2233,19 +2233,23 @@ public class DefaultCodegen implements CodegenConfig {
 
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
-        //Referenced enum case:
-        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
-            List<Object> _enum = referencedSchema.getEnum();
+        if (referencedSchema != p) {
+            //Referenced enum case:
+            if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+                List<Object> _enum = referencedSchema.getEnum();
 
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
-            allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
+                property.referencedEnumType = getTypeDeclaration(referencedSchema);
+
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                if (allowableValues.size() > 0) {
+                    property.allowableValues = allowableValues;
+                }
             }
-        }
 
-        if (referencedSchema.getNullable() != null) {
-            property.isNullable = referencedSchema.getNullable();
+            if (referencedSchema.getNullable() != null) {
+                property.isNullable = referencedSchema.getNullable();
+            }
         }
 
         property.dataType = getTypeDeclaration(p);

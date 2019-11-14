@@ -61,10 +61,10 @@ class EnumTest implements ModelInterface, ArrayAccess
         'enum_string_required' => 'string',
         'enum_integer' => 'int',
         'enum_number' => 'double',
-        'outer_enum' => '\OpenAPI\Client\Model\OuterEnum',
-        'outer_enum_integer' => '\OpenAPI\Client\Model\OuterEnumInteger',
-        'outer_enum_default_value' => '\OpenAPI\Client\Model\OuterEnumDefaultValue',
-        'outer_enum_integer_default_value' => '\OpenAPI\Client\Model\OuterEnumIntegerDefaultValue'
+        'outer_enum' => 'string',
+        'outer_enum_integer' => 'int',
+        'outer_enum_default_value' => 'string',
+        'outer_enum_integer_default_value' => 'int'
     ];
 
     /**
@@ -330,6 +330,38 @@ class EnumTest implements ModelInterface, ArrayAccess
             );
         }
 
+            $outer_enumAllowedValues = \OpenAPI\Client\Model\OuterEnum::getAllowableEnumValues();
+            if (!is_null($this->container['outer_enum']) && !in_array($this->container['outer_enum'], $outer_enumAllowedValues}}, true)) {
+                $invalidProperties[] = sprintf(
+                    "invalid value for 'outer_enum', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                );
+            }
+
+            $outer_enum_integerAllowedValues = \OpenAPI\Client\Model\OuterEnumInteger::getAllowableEnumValues();
+            if (!is_null($this->container['outer_enum_integer']) && !in_array($this->container['outer_enum_integer'], $outer_enum_integerAllowedValues}}, true)) {
+                $invalidProperties[] = sprintf(
+                    "invalid value for 'outer_enum_integer', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                );
+            }
+
+            $outer_enum_default_valueAllowedValues = \OpenAPI\Client\Model\OuterEnumDefaultValue::getAllowableEnumValues();
+            if (!is_null($this->container['outer_enum_default_value']) && !in_array($this->container['outer_enum_default_value'], $outer_enum_default_valueAllowedValues}}, true)) {
+                $invalidProperties[] = sprintf(
+                    "invalid value for 'outer_enum_default_value', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                );
+            }
+
+            $outer_enum_integer_default_valueAllowedValues = \OpenAPI\Client\Model\OuterEnumIntegerDefaultValue::getAllowableEnumValues();
+            if (!is_null($this->container['outer_enum_integer_default_value']) && !in_array($this->container['outer_enum_integer_default_value'], $outer_enum_integer_default_valueAllowedValues}}, true)) {
+                $invalidProperties[] = sprintf(
+                    "invalid value for 'outer_enum_integer_default_value', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                );
+            }
+
         return $invalidProperties;
     }
 
@@ -490,12 +522,21 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets outer_enum
      *
-     * @param \OpenAPI\Client\Model\OuterEnum|null $outer_enum outer_enum
+     * @param string|null $outer_enum outer_enum
      *
      * @return $this
      */
     public function setOuterEnum($outer_enum)
     {
+        $allowedValues = $\OpenAPI\Client\Model\OuterEnum::getAllowableEnumValues();
+        if (!is_null($outer_enum) && !in_array($outer_enum, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'outer_enum', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['outer_enum'] = $outer_enum;
 
         return $this;
@@ -514,12 +555,21 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets outer_enum_integer
      *
-     * @param \OpenAPI\Client\Model\OuterEnumInteger|null $outer_enum_integer outer_enum_integer
+     * @param int|null $outer_enum_integer outer_enum_integer
      *
      * @return $this
      */
     public function setOuterEnumInteger($outer_enum_integer)
     {
+        $allowedValues = $\OpenAPI\Client\Model\OuterEnumInteger::getAllowableEnumValues();
+        if (!is_null($outer_enum_integer) && !in_array($outer_enum_integer, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'outer_enum_integer', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['outer_enum_integer'] = $outer_enum_integer;
 
         return $this;
@@ -538,12 +588,21 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets outer_enum_default_value
      *
-     * @param \OpenAPI\Client\Model\OuterEnumDefaultValue|null $outer_enum_default_value outer_enum_default_value
+     * @param string|null $outer_enum_default_value outer_enum_default_value
      *
      * @return $this
      */
     public function setOuterEnumDefaultValue($outer_enum_default_value)
     {
+        $allowedValues = $\OpenAPI\Client\Model\OuterEnumDefaultValue::getAllowableEnumValues();
+        if (!is_null($outer_enum_default_value) && !in_array($outer_enum_default_value, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'outer_enum_default_value', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['outer_enum_default_value'] = $outer_enum_default_value;
 
         return $this;
@@ -562,12 +621,21 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets outer_enum_integer_default_value
      *
-     * @param \OpenAPI\Client\Model\OuterEnumIntegerDefaultValue|null $outer_enum_integer_default_value outer_enum_integer_default_value
+     * @param int|null $outer_enum_integer_default_value outer_enum_integer_default_value
      *
      * @return $this
      */
     public function setOuterEnumIntegerDefaultValue($outer_enum_integer_default_value)
     {
+        $allowedValues = $\OpenAPI\Client\Model\OuterEnumIntegerDefaultValue::getAllowableEnumValues();
+        if (!is_null($outer_enum_integer_default_value) && !in_array($outer_enum_integer_default_value, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'outer_enum_integer_default_value', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['outer_enum_integer_default_value'] = $outer_enum_integer_default_value;
 
         return $this;

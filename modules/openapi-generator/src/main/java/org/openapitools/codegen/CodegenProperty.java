@@ -58,6 +58,7 @@ public class CodegenProperty implements Cloneable {
             isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
+    public String referencedEnumType;
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
@@ -435,6 +436,7 @@ public class CodegenProperty implements Cloneable {
             hasMoreNonReadOnly,
             isContainer,
             isEnum,
+            referencedEnumType,
             isPrimitiveType,
             isModel,
             isReadOnly,
@@ -533,6 +535,7 @@ public class CodegenProperty implements Cloneable {
             Objects.equals(isModel, other.isModel) &&
             Objects.equals(isContainer, other.isContainer) &&
             Objects.equals(isEnum, other.isEnum) &&
+            Objects.equals(referencedEnumType, other.referencedEnumType) &&
             Objects.equals(isReadOnly, other.isReadOnly) &&
             Objects.equals(isWriteOnly, other.isWriteOnly) &&
             Objects.equals(isNullable, other.isNullable) &&
@@ -657,6 +660,7 @@ public class CodegenProperty implements Cloneable {
                 ", isListContainer=" + isListContainer +
                 ", isMapContainer=" + isMapContainer +
                 ", isEnum=" + isEnum +
+                ", referencedEnumType=" + referencedEnumType +
                 ", isReadOnly=" + isReadOnly +
                 ", isWriteOnly=" + isWriteOnly +
                 ", isNullable=" + isNullable +
