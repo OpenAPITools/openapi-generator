@@ -1,6 +1,6 @@
 package {{packageName}}.infrastructure
 
-typealias MultiValueMap = MutableMap<String,List<String>>
+{{#nonPublicApi}}internal {{/nonPublicApi}}typealias MultiValueMap = MutableMap<String,List<String>>
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}fun collectionDelimiter(collectionFormat: String) = when(collectionFormat) {
     "csv" -> ","
