@@ -588,6 +588,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Fuse](https://www.fuse.no/)
 - [Gantner](https://www.gantner.com)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
+- [GetYourGuide](https://www.getyourguide.com/)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [GoDaddy](https://godaddy.com)
 - [Here](https://developer.here.com/)
