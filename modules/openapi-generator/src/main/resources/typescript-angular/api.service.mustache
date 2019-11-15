@@ -385,20 +385,32 @@ export class {{classname}} {
 
 {{/hasFormParams}}
 {{#useHttpClient}}
+    {{^isResponseFile}}
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+    {{/isResponseFile}}
+        const httpClientParams: any = {
+    {{#hasQueryParams}}
+            params: queryParameters,
+    {{/hasQueryParams}}
+    {{#isResponseFile}}
+            responseType: "blob",
+    {{/isResponseFile}}
+    {{^isResponseFile}}
+            responseType: responseType,
+    {{/isResponseFile}}
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
             {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
-            {
-{{#hasQueryParams}}
-                params: queryParameters,
-{{/hasQueryParams}}
-{{#isResponseFile}}
-                responseType: "blob",
-{{/isResponseFile}}
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
 {{/useHttpClient}}
 {{^useHttpClient}}
@@ -413,6 +425,9 @@ export class {{classname}} {
 {{/hasFormParams}}
 {{#isResponseFile}}
             responseType: ResponseContentType.Blob,
+{{/isResponseFile}}
+{{^isResponseFile}}
+            responseType: httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
 {{/isResponseFile}}
 {{#hasQueryParams}}
             search: queryParameters,

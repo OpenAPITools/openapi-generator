@@ -140,6 +140,7 @@ export class StoreService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
+            responseType: httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -176,6 +177,7 @@ export class StoreService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            responseType: httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -212,6 +214,7 @@ export class StoreService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            responseType: httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -256,6 +259,7 @@ export class StoreService {
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            responseType: httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037

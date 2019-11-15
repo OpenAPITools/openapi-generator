@@ -75,13 +75,21 @@ export class StoreService {
         }
 
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -113,13 +121,21 @@ export class StoreService {
         }
 
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}/store/inventory`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -151,13 +167,21 @@ export class StoreService {
         }
 
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.get<Order>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -196,14 +220,22 @@ export class StoreService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.post<Order>(`${this.configuration.basePath}/store/order`,
             body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 

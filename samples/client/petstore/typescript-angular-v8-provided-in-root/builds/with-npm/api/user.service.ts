@@ -83,14 +83,22 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/user`,
             body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -127,14 +135,22 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithArray`,
             body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -171,14 +187,22 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithList`,
             body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -208,13 +232,21 @@ export class UserService {
         }
 
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -245,13 +277,21 @@ export class UserService {
         }
 
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -294,14 +334,22 @@ export class UserService {
         }
 
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            params: queryParameters,
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -326,13 +374,21 @@ export class UserService {
         }
 
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
@@ -374,14 +430,22 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        let responseType: string = undefined;
+        if(httpHeaderAcceptSelected !== undefined) {
+            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        }
+
+        const httpClientParams: any = {
+            responseType: responseType,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress
+        }
+
         return this.httpClient.put<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            httpClientParams
         );
     }
 
