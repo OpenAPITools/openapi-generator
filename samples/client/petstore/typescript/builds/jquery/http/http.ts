@@ -1,5 +1,3 @@
-// TODO: evaluate if we can easily get rid of this library
-import * as FormData from "form-data";
 // typings of url-parse are incorrect...
 // @ts-ignore 
 import * as URLParse from "url-parse";

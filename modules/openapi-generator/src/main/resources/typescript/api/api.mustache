@@ -2,7 +2,11 @@
 import { BaseAPIRequestFactory, RequiredError } from './baseapi';
 import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
+{{#platforms}}
+{{#node}}
 import * as FormData from "form-data";
+{{/node}}
+{{/platforms}}
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
 import {isCodeInRange} from '../util';

@@ -18,12 +18,10 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "es6-promise": "^4.2.4",
-    "@types/node": "*",
     "@types/jquery": "^3.3.29",
     "jquery": "^3.4.1",
     "btoa": "^1.2.1",
-    "form-data": "^2.5.0",
+    "es6-promise": "^4.2.4",
     "url-parse": "^1.4.3"
   },
   "devDependencies": {

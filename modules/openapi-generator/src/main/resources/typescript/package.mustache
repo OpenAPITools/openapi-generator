@@ -18,8 +18,6 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "es6-promise": "^4.2.4",
-    "@types/node": "*",
     {{#frameworks}}
     {{#fetch-api}}
     "isomorphic-fetch": "^2.2.1",
@@ -30,11 +28,17 @@
     "jquery": "^3.4.1",
     {{/jquery}}
     {{/frameworks}}
-    "btoa": "^1.2.1",
+    {{#platforms}}
+    {{#node}}
+    "@types/node": "*",
     "form-data": "^2.5.0",
+    {{/node}}
+    {{/platforms}}
     {{#useRxJS}}
       "rxjs": "^6.4.0",
     {{/useRxJS}}
+    "btoa": "^1.2.1",
+    "es6-promise": "^4.2.4",
     "url-parse": "^1.4.3"
   },
   "devDependencies": {
