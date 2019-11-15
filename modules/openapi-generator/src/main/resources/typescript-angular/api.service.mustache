@@ -244,7 +244,7 @@ export class {{classname}} {
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
             {{#useHttpClient}}queryParameters = {{/useHttpClient}}this.addToHttpParams(queryParameters,
-                {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])), '{{baseName}}');
+                {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}

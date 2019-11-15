@@ -354,7 +354,7 @@ export class PetService {
         let queryParameters = new URLSearchParams('', this.encoder);
         if (status) {
             this.addToHttpParams(queryParameters,
-              <any>status, 'status');
+                status.join(COLLECTION_FORMATS['csv']), 'status');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -409,7 +409,7 @@ export class PetService {
         let queryParameters = new URLSearchParams('', this.encoder);
         if (tags) {
             this.addToHttpParams(queryParameters,
-              <any>tags, 'tags');
+                tags.join(COLLECTION_FORMATS['csv']), 'tags');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845

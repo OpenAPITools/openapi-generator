@@ -230,7 +230,7 @@ export class PetService {
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (status) {
             queryParameters = this.addToHttpParams(queryParameters,
-              <any>status, 'status');
+                status.join(COLLECTION_FORMATS['csv']), 'status');
         }
 
         let headers = this.defaultHeaders;
@@ -292,7 +292,7 @@ export class PetService {
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (tags) {
             queryParameters = this.addToHttpParams(queryParameters,
-              <any>tags, 'tags');
+                tags.join(COLLECTION_FORMATS['csv']), 'tags');
         }
 
         let headers = this.defaultHeaders;
