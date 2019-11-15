@@ -41,6 +41,7 @@ public class PetApiHandler {
         HttpServerResponse response = routingContext.response();
 
         Single.defer( () -> {
+
             String jsonString = routingContext.getBodyAsString();
             Pet pet = jsonString == null ? null : Json.decodeValue(jsonString, new TypeReference<Pet>(){});
             logger.info("Parameter pet is {}", pet);
@@ -68,6 +69,7 @@ public class PetApiHandler {
         Single.defer( () -> {
             Long petId = ParameterCast.toLong(routingContext.pathParams().get("petId"));
             String apiKey = ParameterCast.toString(routingContext.request().getHeader("api_key"));
+
             logger.info("Parameter petId is {}", petId);
             logger.info("Parameter apiKey is {}", apiKey);
             return apiImpl.deletePet(petId, apiKey);
@@ -93,6 +95,7 @@ public class PetApiHandler {
 
         Single.defer( () -> {
             List<String> status = routingContext.request().params().getAll("status");
+
             logger.info("Parameter status is {}", status);
             return apiImpl.findPetsByStatus(status);
         })
@@ -117,6 +120,7 @@ public class PetApiHandler {
 
         Single.defer( () -> {
             List<String> tags = routingContext.request().params().getAll("tags");
+
             logger.info("Parameter tags is {}", tags);
             return apiImpl.findPetsByTags(tags);
         })
@@ -141,6 +145,7 @@ public class PetApiHandler {
 
         Single.defer( () -> {
             Long petId = ParameterCast.toLong(routingContext.pathParams().get("petId"));
+
             logger.info("Parameter petId is {}", petId);
             return apiImpl.getPetById(petId);
         })
@@ -164,6 +169,7 @@ public class PetApiHandler {
         HttpServerResponse response = routingContext.response();
 
         Single.defer( () -> {
+
             String jsonString = routingContext.getBodyAsString();
             Pet pet = jsonString == null ? null : Json.decodeValue(jsonString, new TypeReference<Pet>(){});
             logger.info("Parameter pet is {}", pet);
@@ -192,6 +198,7 @@ public class PetApiHandler {
             Long petId = ParameterCast.toLong(routingContext.pathParams().get("petId"));
             String name = ParameterCast.toString(routingContext.request().getFormAttribute("name"));
             String status = ParameterCast.toString(routingContext.request().getFormAttribute("status"));
+
             logger.info("Parameter petId is {}", petId);
             logger.info("Parameter name is {}", name);
             logger.info("Parameter status is {}", status);
@@ -220,6 +227,7 @@ public class PetApiHandler {
             Long petId = ParameterCast.toLong(routingContext.pathParams().get("petId"));
             String additionalMetadata = ParameterCast.toString(routingContext.request().getFormAttribute("additionalMetadata"));
             FileUpload file = routingContext.fileUploads().iterator().next();
+
             logger.info("Parameter petId is {}", petId);
             logger.info("Parameter additionalMetadata is {}", additionalMetadata);
             logger.info("Parameter file is {}", file);

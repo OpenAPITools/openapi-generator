@@ -119,6 +119,11 @@
   infoLink: "https://formapi.io/"
   pinned: false
 -
+  caption: "FreshCells"
+  image: "img/companies/freshcells.png"
+  infoLink: "https://www.freshcells.de/"
+  pinned: false
+-
   caption: "Fuse"
   image: "img/companies/fuseno.png"
   infoLink: "https://www.fuse.no/"
@@ -157,6 +162,11 @@
   caption: Klarna
   image: "img/companies/klarna.svg"
   infoLink: "https://www.klarna.com/us/"
+  pinned: false
+-
+  caption: "Kronsoft Development"
+  image: "img/companies/kronsoft.svg"
+  infoLink: "https://www.kronsoft.ro/home/"
   pinned: false
 -
   caption: "Médiavision"
@@ -217,6 +227,11 @@
   caption: "Prometheus/Alertmanager"
   image: "img/companies/prometheus.png"
   infoLink: "https://github.com/prometheus/alertmanager"
+  pinned: false
+-
+  caption: "Qulix Systems"
+  image: "img/companies/qulix.png"
+  infoLink: "https://www.qulix.com"
   pinned: false
 -
   caption: "Raiffeisen Schweiz Genossenschaft"
