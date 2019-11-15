@@ -707,12 +707,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
-            // convert to boolean
-            additionalProperties.put(CodegenConstants.SUPPORTS_ES6,
-                Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString())
-            );
-        }
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6);
 
         // change package names
         apiPackage = this.apiPackage + ".apis";
@@ -745,12 +740,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, propPlatform.equals("node") ? "Buffer" : "Blob");
 
-        boolean useRxJS = false;
-        if (additionalProperties.containsKey(USE_RXJS_SWITCH)) {
-            // convert to boolean
-            useRxJS = Boolean.valueOf(additionalProperties.get(USE_RXJS_SWITCH).toString());
-            additionalProperties.put(USE_RXJS_SWITCH, useRxJS);
-        }
+        final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
         if (!useRxJS) {
           supportingFiles.add(new SupportingFile("rxjsStub.mustache", "", "rxjsStub.ts"));
         }
