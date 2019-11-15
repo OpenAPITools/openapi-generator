@@ -45,6 +45,7 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
         importMapping = new HashMap<>();
         importMapping.put("JsonElement", "kotlinx.serialization.json.JsonElement");
+        importMapping.put("URI", "kotlin.String");
 
         addSwitch(CodegenConstants.NON_PUBLIC_API, CodegenConstants.NON_PUBLIC_API_DESC, this.nonPublicApi);
     }

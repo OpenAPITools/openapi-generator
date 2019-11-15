@@ -5,9 +5,9 @@ import {{packageName}}.infrastructure.ByteArrayBase64Serializer
 
 /**
  * {{{description}}}
-{{#vars}}
+{{#allVars}}
  * @param {{name}} {{{description}}}
-{{/vars}}
+{{/allVars}}
  */
 @Serializable
 {{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}} (
@@ -17,7 +17,7 @@ import {{packageName}}.infrastructure.ByteArrayBase64Serializer
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ){{#hasEnums}} {
-    {{#vars}}{{#isEnum}}
+    {{#allVars}}{{#isEnum}}
     /**
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
@@ -26,5 +26,5 @@ import {{packageName}}.infrastructure.ByteArrayBase64Serializer
         {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},
         {{/-last}}{{/enumVars}}{{/allowableValues}}
     }
-    {{/isEnum}}{{/vars}}
+    {{/isEnum}}{{/allVars}}
 }{{/hasEnums}}
