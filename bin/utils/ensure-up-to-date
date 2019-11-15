@@ -73,6 +73,7 @@ declare -a scripts=(
 "./bin/java-play-framework-petstore-server-all.sh"
 "./bin/elm-petstore-all.sh"
 "./bin/meta-codegen.sh"
+"./bin/typescript.sh"
 # OTHERS
 "./bin/utils/export_docs_generators.sh"
 "./bin/utils/copy-to-website.sh"
