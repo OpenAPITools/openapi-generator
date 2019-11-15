@@ -4401,14 +4401,15 @@ public class DefaultCodegen implements CodegenConfig {
      * @return property value as boolean
      */
     public boolean convertPropertyToBooleanAndWriteBack(String propertyKey) {
-        boolean booleanValue = false;
-        if (additionalProperties.containsKey(propertyKey)) {
-            booleanValue = convertPropertyToBoolean(propertyKey);
-            // write back as boolean
-            writePropertyBack(propertyKey, booleanValue);
+        final Object booleanValue = additionalProperties.get(propertyKey);
+        Boolean result = Boolean.FALSE;
+        if (booleanValue instanceof Boolean) {
+            result = (Boolean) booleanValue;
+        } else if (booleanValue instanceof String) {
+            result = Boolean.parseBoolean((String) booleanValue);
         }
-
-        return booleanValue;
+        writePropertyBack(propertyKey, result);
+        return result;
     }
 
     /**
