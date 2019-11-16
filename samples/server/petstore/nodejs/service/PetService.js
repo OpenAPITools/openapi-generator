@@ -4,10 +4,10 @@
 /**
  * Add a new pet to the store
  *
- * pet Pet Pet object that needs to be added to the store
+ * body Pet Pet object that needs to be added to the store
  * no response value expected for this operation
  **/
-exports.addPet = function(pet) {
+exports.addPet = function(body) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -69,10 +69,9 @@ exports.findPetsByStatus = function(status) {
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  *
  * tags List Tags to filter by
- * maxCount Integer Maximum number of items to return (optional)
  * returns List
  **/
-exports.findPetsByTags = function(tags,maxCount) {
+exports.findPetsByTags = function(tags) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -140,10 +139,10 @@ exports.getPetById = function(petId) {
 /**
  * Update an existing pet
  *
- * pet Pet Pet object that needs to be added to the store
+ * body Pet Pet object that needs to be added to the store
  * no response value expected for this operation
  **/
-exports.updatePet = function(pet) {
+exports.updatePet = function(body) {
   return new Promise(function(resolve, reject) {
     resolve();
   });

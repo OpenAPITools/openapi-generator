@@ -86,13 +86,13 @@
 (defn-spec place-order-with-http-info any?
   "Place an order for a pet"
   ([] (place-order-with-http-info nil))
-  ([{:keys [order]} (s/map-of keyword? any?)]
+  ([{:keys [body]} (s/map-of keyword? any?)]
    (call-api "/store/order" :post
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    order
+              :body-param    body
               :content-types []
               :accepts       ["application/json" "application/xml"]
               :auth-names    []})))

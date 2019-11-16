@@ -47,11 +47,11 @@ API.Client.PetApi.$inject = ['$http', '$httpParamSerializer', '$injector'];
 /**
  * Add a new pet to the store
  * 
- * @param {!Pet} pet Pet object that needs to be added to the store
+ * @param {!Pet} body Pet object that needs to be added to the store
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise}
  */
-API.Client.PetApi.prototype.addPet = function(pet, opt_extraHttpRequestParams) {
+API.Client.PetApi.prototype.addPet = function(body, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/pet';
 
@@ -60,16 +60,16 @@ API.Client.PetApi.prototype.addPet = function(pet, opt_extraHttpRequestParams) {
 
   /** @type {!Object} */
   var headerParams = angular.extend({}, this.defaultHeaders_);
-  // verify required parameter 'pet' is set
-  if (!pet) {
-    throw new Error('Missing required parameter pet when calling addPet');
+  // verify required parameter 'body' is set
+  if (!body) {
+    throw new Error('Missing required parameter body when calling addPet');
   }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'POST',
     url: path,
     json: true,
-    data: pet,
+    data: body,
         params: queryParameters,
     headers: headerParams
   };
@@ -165,11 +165,10 @@ API.Client.PetApi.prototype.findPetsByStatus = function(status, opt_extraHttpReq
  * Finds Pets by tags
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * @param {!Array<!string>} tags Tags to filter by
- * @param {!number=} opt_maxCount Maximum number of items to return
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise<!Array<!API.Client.Pet>>}
  */
-API.Client.PetApi.prototype.findPetsByTags = function(tags, opt_maxCount, opt_extraHttpRequestParams) {
+API.Client.PetApi.prototype.findPetsByTags = function(tags, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/pet/findByTags';
 
@@ -184,10 +183,6 @@ API.Client.PetApi.prototype.findPetsByTags = function(tags, opt_maxCount, opt_ex
   }
   if (tags !== undefined) {
     queryParameters['tags'] = tags;
-  }
-
-  if (opt_maxCount !== undefined) {
-    queryParameters['maxCount'] = opt_maxCount;
   }
 
   /** @type {!Object} */
@@ -246,11 +241,11 @@ API.Client.PetApi.prototype.getPetById = function(petId, opt_extraHttpRequestPar
 /**
  * Update an existing pet
  * 
- * @param {!Pet} pet Pet object that needs to be added to the store
+ * @param {!Pet} body Pet object that needs to be added to the store
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise}
  */
-API.Client.PetApi.prototype.updatePet = function(pet, opt_extraHttpRequestParams) {
+API.Client.PetApi.prototype.updatePet = function(body, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/pet';
 
@@ -259,16 +254,16 @@ API.Client.PetApi.prototype.updatePet = function(pet, opt_extraHttpRequestParams
 
   /** @type {!Object} */
   var headerParams = angular.extend({}, this.defaultHeaders_);
-  // verify required parameter 'pet' is set
-  if (!pet) {
-    throw new Error('Missing required parameter pet when calling updatePet');
+  // verify required parameter 'body' is set
+  if (!body) {
+    throw new Error('Missing required parameter body when calling updatePet');
   }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'PUT',
     url: path,
     json: true,
-    data: pet,
+    data: body,
         params: queryParameters,
     headers: headerParams
   };

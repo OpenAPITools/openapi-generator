@@ -15,7 +15,7 @@ Feature | HTTP request | Description
 
 
 # **create_user**
-> create_user (user: USER )
+> create_user (body: USER )
 	
 
 Create user
@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**USER**](USER.md)| Created user object | 
+ **body** | [**USER**](USER.md)| Created user object | 
 
 ### Return type
 
@@ -45,7 +45,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_array_input**
-> create_users_with_array_input (user: LIST [USER] )
+> create_users_with_array_input (body: LIST [USER] )
 	
 
 Creates list of users with given input array
@@ -55,7 +55,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**LIST [USER]**](LIST.md)| List of user object | 
+ **body** | [**LIST [USER]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -73,7 +73,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_list_input**
-> create_users_with_list_input (user: LIST [USER] )
+> create_users_with_list_input (body: LIST [USER] )
 	
 
 Creates list of users with given input array
@@ -83,7 +83,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**LIST [USER]**](LIST.md)| List of user object | 
+ **body** | [**LIST [USER]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -113,7 +113,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| The name that needs to be deleted | 
+ **username** | **STRING_32**| The name that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -141,8 +141,8 @@ Logs user into the system
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| The user name for login | 
- **password** | **STRING_32**| The password for login in clear text | 
+ **username** | **STRING_32**| The user name for login | [default to null]
+ **password** | **STRING_32**| The password for login in clear text | [default to null]
 
 ### Return type
 
@@ -185,7 +185,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_user**
-> update_user (username: STRING_32 ; user: USER )
+> update_user (username: STRING_32 ; body: USER )
 	
 
 Updated user
@@ -197,8 +197,8 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| name that need to be deleted | 
- **user** | [**USER**](USER.md)| Updated user object | 
+ **username** | **STRING_32**| name that need to be deleted | [default to null]
+ **body** | [**USER**](USER.md)| Updated user object | 
 
 ### Return type
 
@@ -226,7 +226,7 @@ Get user by user name
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **STRING_32**| The name that needs to be fetched. Use user1 for testing. | [default to null]
 
 ### Return type
 

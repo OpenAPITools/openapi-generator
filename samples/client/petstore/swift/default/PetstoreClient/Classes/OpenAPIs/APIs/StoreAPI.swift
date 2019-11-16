@@ -105,14 +105,14 @@ public class StoreAPI: APIBase {
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : true,
   "status" : "placed"
-}}, {contentType=application/xml, example=<Order>
+}, statusCode=200}, {contentType=application/xml, example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}]
+</Order>, statusCode=200}]
      - examples: [{contentType=application/json, example={
   "petId" : 6,
   "quantity" : 1,
@@ -120,14 +120,14 @@ public class StoreAPI: APIBase {
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : true,
   "status" : "placed"
-}}, {contentType=application/xml, example=<Order>
+}, statusCode=200}, {contentType=application/xml, example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}]
+</Order>, statusCode=200}]
      - parameter orderId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<Order> 
@@ -151,11 +151,11 @@ public class StoreAPI: APIBase {
     /**
      Place an order for a pet
      
-     - parameter order: (body) order placed for purchasing the pet (optional)
+     - parameter body: (body) order placed for purchasing the pet (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func placeOrder(order order: Order? = nil, completion: ((data: Order?, error: ErrorType?) -> Void)) {
-        placeOrderWithRequestBuilder(order: order).execute { (response, error) -> Void in
+    public class func placeOrder(body body: Order? = nil, completion: ((data: Order?, error: ErrorType?) -> Void)) {
+        placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -170,14 +170,14 @@ public class StoreAPI: APIBase {
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : true,
   "status" : "placed"
-}}, {contentType=application/xml, example=<Order>
+}, statusCode=200}, {contentType=application/xml, example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}]
+</Order>, statusCode=200}]
      - examples: [{contentType=application/json, example={
   "petId" : 6,
   "quantity" : 1,
@@ -185,22 +185,22 @@ public class StoreAPI: APIBase {
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : true,
   "status" : "placed"
-}}, {contentType=application/xml, example=<Order>
+}, statusCode=200}, {contentType=application/xml, example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}]
-     - parameter order: (body) order placed for purchasing the pet (optional)
+</Order>, statusCode=200}]
+     - parameter body: (body) order placed for purchasing the pet (optional)
 
      - returns: RequestBuilder<Order> 
      */
-    public class func placeOrderWithRequestBuilder(order order: Order? = nil) -> RequestBuilder<Order> {
+    public class func placeOrderWithRequestBuilder(body body: Order? = nil) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = order?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  

@@ -1,7 +1,9 @@
 
+
 # Order
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **Long** |  |  [optional]
@@ -12,10 +14,11 @@ Name | Type | Description | Notes
 **complete** | **Boolean** |  |  [optional]
 
 
-<a name="StatusEnum"></a>
 ## Enum: StatusEnum
+
 Name | Value
 ---- | -----
+
 
 
 

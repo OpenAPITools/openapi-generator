@@ -25,20 +25,6 @@ class InitTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table "inline_object".pluralize.to_sym, id: false do |t|
-      t.string :name
-      t.string :status
-
-      t.timestamps
-    end
-
-    create_table "inline_object_1".pluralize.to_sym, id: false do |t|
-      t.string :additional_metadata
-      t.File :file
-
-      t.timestamps
-    end
-
     create_table "order".pluralize.to_sym, id: false do |t|
       t.integer :id
       t.integer :pet_id

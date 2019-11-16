@@ -69,12 +69,12 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* *pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet* *body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
 
 // Add a new pet to the store
-[apiInstance addPetWithPet:pet
+[apiInstance addPetWithBody:body
               completionHandler: ^(NSError* error) {
                             if (error) {
                                 NSLog(@"Error: %@", error);

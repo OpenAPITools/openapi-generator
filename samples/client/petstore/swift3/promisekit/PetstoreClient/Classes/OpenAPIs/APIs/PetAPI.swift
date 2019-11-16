@@ -13,23 +13,23 @@ import PromiseKit
 open class PetAPI: APIBase {
     /**
      Add a new pet to the store
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addPet(pet: Pet, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        addPetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+    open class func addPet(body: Pet, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error)
         }
     }
 
     /**
      Add a new pet to the store
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: Promise<Void>
      */
-    open class func addPet( pet: Pet) -> Promise<Void> {
+    open class func addPet( body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        addPet(pet: pet) { error in
+        addPet(body: body) { error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -45,13 +45,13 @@ open class PetAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: RequestBuilder<Void> 
      */
-    open class func addPetWithRequestBuilder(pet: Pet) -> RequestBuilder<Void> {
+    open class func addPetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = pet.encodeToJSON()
+        let parameters = body.encodeToJSON()
 
         let url = URLComponents(string: URLString)
 
@@ -289,23 +289,23 @@ open class PetAPI: APIBase {
 
     /**
      Update an existing pet
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updatePet(pet: Pet, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        updatePetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+    open class func updatePet(body: Pet, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error)
         }
     }
 
     /**
      Update an existing pet
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: Promise<Void>
      */
-    open class func updatePet( pet: Pet) -> Promise<Void> {
+    open class func updatePet( body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePet(pet: pet) { error in
+        updatePet(body: body) { error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -321,13 +321,13 @@ open class PetAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: RequestBuilder<Void> 
      */
-    open class func updatePetWithRequestBuilder(pet: Pet) -> RequestBuilder<Void> {
+    open class func updatePetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = pet.encodeToJSON()
+        let parameters = body.encodeToJSON()
 
         let url = URLComponents(string: URLString)
 
@@ -452,6 +452,70 @@ open class PetAPI: APIBase {
         let formParams: [String:Any?] = [
             "additionalMetadata": additionalMetadata,
             "file": file
+        ]
+
+        let nonNullParameters = APIHelper.rejectNil(formParams)
+        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+        
+        let url = URLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     uploads an image (required)
+     - parameter petId: (path) ID of pet to update 
+     - parameter requiredFile: (form) file to upload 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping ((_ data: ApiResponse?, _ error: ErrorResponse?) -> Void)) {
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+    /**
+     uploads an image (required)
+     - parameter petId: (path) ID of pet to update 
+     - parameter requiredFile: (form) file to upload 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - returns: Promise<ApiResponse>
+     */
+    open class func uploadFileWithRequiredFile( petId: Int64,  requiredFile: URL,  additionalMetadata: String? = nil) -> Promise<ApiResponse> {
+        let deferred = Promise<ApiResponse>.pending()
+        uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata) { data, error in
+            if let error = error {
+                deferred.reject(error)
+            } else {
+                deferred.fulfill(data!)
+            }
+        }
+        return deferred.promise
+    }
+
+    /**
+     uploads an image (required)
+     - POST /fake/{petId}/uploadImageWithRequiredFile
+     - OAuth:
+       - type: oauth2
+       - name: petstore_auth
+     - parameter petId: (path) ID of pet to update 
+     - parameter requiredFile: (form) file to upload 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - returns: RequestBuilder<ApiResponse> 
+     */
+    open class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> RequestBuilder<ApiResponse> {
+        var path = "/fake/{petId}/uploadImageWithRequiredFile"
+        let petIdPreEscape = "\(petId)"
+        let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
+        let URLString = PetstoreClientAPI.basePath + path
+        let formParams: [String:Any?] = [
+            "additionalMetadata": additionalMetadata,
+            "requiredFile": requiredFile
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)

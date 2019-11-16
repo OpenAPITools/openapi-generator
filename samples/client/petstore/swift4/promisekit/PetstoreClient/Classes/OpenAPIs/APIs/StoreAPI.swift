@@ -9,6 +9,8 @@ import Foundation
 import Alamofire
 import PromiseKit
 
+
+
 open class StoreAPI {
     /**
      Delete purchase order by ID
@@ -18,7 +20,7 @@ open class StoreAPI {
      */
     open class func deleteOrder( orderId: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
             if let error = error {
                 deferred.resolver.reject(error)
             } else {
@@ -41,8 +43,8 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String: Any]? = nil
-
+        let parameters: [String:Any]? = nil
+        
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -55,8 +57,8 @@ open class StoreAPI {
      
      - returns: Promise<[String:Int]>
      */
-    open class func getInventory() -> Promise<[String: Int]> {
-        let deferred = Promise<[String: Int]>.pending()
+    open class func getInventory() -> Promise<[String:Int]> {
+        let deferred = Promise<[String:Int]>.pending()
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
             if let error = error {
                 deferred.resolver.reject(error)
@@ -78,14 +80,14 @@ open class StoreAPI {
        - name: api_key
      - returns: RequestBuilder<[String:Int]> 
      */
-    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int]> {
+    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int]> {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String: Any]? = nil
-
+        let parameters: [String:Any]? = nil
+        
         let url = URLComponents(string: URLString)
 
-        let requestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<[String:Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -123,8 +125,8 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String: Any]? = nil
-
+        let parameters: [String:Any]? = nil
+        
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()

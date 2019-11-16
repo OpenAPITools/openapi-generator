@@ -7,19 +7,23 @@
 
 import Foundation
 
+
+
 public struct AdditionalPropertiesClass: Codable {
 
-    public var mapString: [String: String]?
-    public var mapMapString: [String: [String: String]]?
+    public var mapString: [String:String]?
+    public var mapMapString: [String:[String:String]]?
 
-    public init(mapString: [String: String]?, mapMapString: [String: [String: String]]?) {
+    public init(mapString: [String:String]?, mapMapString: [String:[String:String]]?) {
         self.mapString = mapString
         self.mapMapString = mapMapString
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case mapString = "map_string"
         case mapMapString = "map_map_string"
     }
 
+
 }
+

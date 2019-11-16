@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 public struct AdditionalPropertiesArray: Codable {
 
     public var name: String?
@@ -14,7 +16,7 @@ public struct AdditionalPropertiesArray: Codable {
     public init(name: String?) {
         self.name = name
     }
-    public var additionalProperties: [String: Array] = [:]
+    public var additionalProperties: [String:Array] = [:]
 
     public subscript(key: String) -> Array? {
         get {
@@ -50,4 +52,7 @@ public struct AdditionalPropertiesArray: Codable {
         additionalProperties = try container.decodeMap(Array.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 
+
+
 }
+

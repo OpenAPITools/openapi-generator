@@ -1,46 +1,64 @@
-import 'package:built_value/built_value.dart';
+        import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'user.g.dart';
 
 abstract class User implements Built<User, UserBuilder> {
-  @nullable
-  @BuiltValueField(wireName: 'id')
-  int get id;
 
-  @nullable
-  @BuiltValueField(wireName: 'username')
-  String get username;
+    
+        @nullable
 
-  @nullable
-  @BuiltValueField(wireName: 'firstName')
-  String get firstName;
+    
+    @BuiltValueField(wireName: 'id')
+    int get id;
+    
+        @nullable
 
-  @nullable
-  @BuiltValueField(wireName: 'lastName')
-  String get lastName;
+    
+    @BuiltValueField(wireName: 'username')
+    String get username;
+    
+        @nullable
 
-  @nullable
-  @BuiltValueField(wireName: 'email')
-  String get email;
+    
+    @BuiltValueField(wireName: 'firstName')
+    String get firstName;
+    
+        @nullable
 
-  @nullable
-  @BuiltValueField(wireName: 'password')
-  String get password;
+    
+    @BuiltValueField(wireName: 'lastName')
+    String get lastName;
+    
+        @nullable
 
-  @nullable
-  @BuiltValueField(wireName: 'phone')
-  String get phone;
-  /* User Status */
-  @nullable
+    
+    @BuiltValueField(wireName: 'email')
+    String get email;
+    
+        @nullable
 
-  /* User Status */
-  @BuiltValueField(wireName: 'userStatus')
-  int get userStatus;
+    
+    @BuiltValueField(wireName: 'password')
+    String get password;
+    
+        @nullable
 
-  // Boilerplate code needed to wire-up generated code
-  User._();
+    
+    @BuiltValueField(wireName: 'phone')
+    String get phone;
+    /* User Status */
+        @nullable
 
-  factory User([updates(UserBuilder b)]) = _$User;
-  static Serializer<User> get serializer => _$userSerializer;
+    /* User Status */
+    @BuiltValueField(wireName: 'userStatus')
+    int get userStatus;
+
+    // Boilerplate code needed to wire-up generated code
+    User._();
+
+    factory User([updates(UserBuilder b)]) = _$User;
+    static Serializer<User> get serializer => _$userSerializer;
+
 }
+
