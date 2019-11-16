@@ -48,8 +48,11 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
     {{/allParams}}
     let queryParameters = null;
 
-    {{#queryParams}}
+    {{#queryParams.0}}
     queryParameters = {};
+    {{/queryParams.0}}
+
+    {{#queryParams}}
 
     {{#isListContainer}}
     if (requestParameters.{{paramName}}) {
