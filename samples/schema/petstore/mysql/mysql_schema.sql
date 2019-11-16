@@ -143,6 +143,25 @@ CREATE TABLE IF NOT EXISTS `ArrayTest` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `BigCat` generated from model 'BigCat'
+--
+
+CREATE TABLE IF NOT EXISTS `BigCat` (
+  `className` TEXT NOT NULL,
+  `color` TEXT,
+  `declawed` TINYINT(1) DEFAULT NULL,
+  `kind` ENUM('lions', 'tigers', 'leopards', 'jaguars') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `BigCat_allOf` generated from model 'BigCatUnderscoreallOf'
+--
+
+CREATE TABLE IF NOT EXISTS `BigCat_allOf` (
+  `kind` ENUM('lions', 'tigers', 'leopards', 'jaguars') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Capitalization` generated from model 'Capitalization'
 --
 
