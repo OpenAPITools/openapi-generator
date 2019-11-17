@@ -7,6 +7,10 @@ import argonaut.DecodeJson._
 import org.http4s.{EntityDecoder, EntityEncoder}
 import org.http4s.argonaut._
 import org.joda.time.DateTime
+
+{{#imports}}import {{import}}
+{{/imports}}
+
 {{#models}}
 {{#model}}
 import {{classname}}._

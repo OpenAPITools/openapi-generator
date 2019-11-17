@@ -1086,6 +1086,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         reservedWords = new HashSet<String>();
 
+        // TODO: Move Java specific import mappings out of DefaultCodegen.
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
