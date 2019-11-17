@@ -84,7 +84,6 @@ declare -a samples=(
 # Docs should always be run, regardless of batch or operation.
 declare -a always_iterate=(
 "${root}/bin/meta-codegen.sh"
-"${root}/bin/meta-codegen-kotlin.sh"
 "${root}/bin/utils/export_docs_generators.sh"
 "${root}/bin/utils/copy-to-website.sh"
 "${root}/bin/utils/export_generators_readme.sh"
@@ -111,7 +110,7 @@ else
 fi
 
 for i in "${always_iterate[@]}"; do
-    if eval "$i" 2>&1; then
+    if eval "$i" > /dev/null 2>&1; then
       echo "Executed $i successfully!"
     else
       echo "ERROR: Failed to run $i"
