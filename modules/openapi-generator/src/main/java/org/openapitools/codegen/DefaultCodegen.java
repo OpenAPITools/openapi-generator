@@ -4434,7 +4434,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (booleanValue instanceof String) {
             result = Boolean.parseBoolean((String) booleanValue);
         } else {
-            throw new RuntimeException("The value must be either boolean or string.");
+            LOGGER.warn("The value (generator's option) must be either boolean or string. Default to `false`.");
         }
         return result;
     }
