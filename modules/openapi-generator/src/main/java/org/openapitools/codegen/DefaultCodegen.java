@@ -1899,6 +1899,13 @@ public class DefaultCodegen implements CodegenConfig {
             }
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
+            // Composed Schema can have properties on its own
+            if (properties.isEmpty()) {
+                if (composed.getProperties() != null) {
+                    addVars(m, unaliasPropertySchema(composed.getProperties()), schema.getRequired(), null, null);
+                }
+            }
+
             // end of code block for composed schema
         } else {
             m.dataType = getSchemaType(schema);
