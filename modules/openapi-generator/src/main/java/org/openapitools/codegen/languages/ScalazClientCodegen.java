@@ -19,8 +19,11 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +66,8 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
         additionalProperties.put("apiPackage", apiPackage);
 
+        // Explicitly defining bulid.properties helps guarantee our sample remains compilable against the embedded target 2.11 scala
+        supportingFiles.add(new SupportingFile("build.properties.mustache", "", "project/build.properties"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("dateTimeCodecs.mustache", (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "DateTimeCodecs.scala"));
         supportingFiles.add(new SupportingFile("HelperCodecs.mustache", (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "HelperCodecs.scala"));
@@ -71,9 +76,15 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
-
-        importMapping.put("Date", "java.util.Date");
+        
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
+
+        // Overrides defaults applied in DefaultCodegen which don't apply cleanly to Scala.
+        importMapping.put("Date", "java.util.Date");
+        importMapping.put("DateTime", "org.joda.time.DateTime");
+        importMapping.put("LocalDateTime", "org.joda.time.LocalDateTime");
+        importMapping.put("LocalDate", "org.joda.time.LocalDate");
+        importMapping.put("LocalTime", "org.joda.time.LocalTime");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
@@ -177,6 +188,42 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
                         "'PascalCase' or 'snake_case'");
         }
 
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (p.getDefault() != null) {
+            return p.getDefault().toString();
+        }
+
+        // comment out the following as the default value is no handled differently
+        if (ModelUtils.isBooleanSchema(p)) {
+            return null;
+        } else if (ModelUtils.isDateSchema(p)) {
+            return null;
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            return null;
+        } else if (ModelUtils.isNumberSchema(p)) {
+            return null;
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            return null;
+        } else if (ModelUtils.isMapSchema(p)) {
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+
+            return "Map.empty[String, " + inner + "] ";
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
+            String collectionType = typeMapping.get("array");
+
+            // We assume that users would map these collections to a monoid with an identity function
+            // There's no reason to assume mutable structure here (which may make consumption more difficult)
+            return collectionType + ".empty[" + inner + "] ";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return null;
+        } else {
+            return null;
+        }
     }
 
     @Override
