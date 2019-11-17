@@ -29,6 +29,7 @@ import org.openapitools.codegen.SupportingFile;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -188,7 +189,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processDateLibrary() {
-        DateLibrary dateLibraryEnum = DateLibrary.valueOf(dateLibrary.toUpperCase());
+        DateLibrary dateLibraryEnum = DateLibrary.valueOf(dateLibrary.toUpperCase(Locale.ROOT));
         switch (dateLibraryEnum) {
             case THREETENBP:
                 processThreeTeBpDate();
