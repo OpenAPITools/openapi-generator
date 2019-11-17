@@ -111,7 +111,7 @@ else
 fi
 
 for i in "${always_iterate[@]}"; do
-    if eval "$i" > /dev/null 2>&1; then
+    if eval "$i" 2>&1; then
       echo "Executed $i successfully!"
     else
       echo "ERROR: Failed to run $i"
