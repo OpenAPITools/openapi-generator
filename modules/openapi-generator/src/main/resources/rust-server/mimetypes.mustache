@@ -1,28 +1,19 @@
 /// mime types for requests and responses
 
 pub mod responses {
-    use hyper::mime::*;
 
-    // The macro is called per-operation to beat the recursion limit
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#responses}}{{#produces}}{{#-first}}{{#dataType}}
-    lazy_static! {
-        /// Create Mime objects for the response content types for {{{operationId}}}
-        pub static ref {{#vendorExtensions}}{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}: Mime = "{{{mimeType}}}".parse().unwrap();{{/vendorExtensions}}
-    }
+    /// Create &str objects for the response content types for {{{operationId}}}
+    pub static {{#vendorExtensions}}{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}: &str = "{{{mimeType}}}";{{/vendorExtensions}}
 {{/dataType}}{{/-first}}{{/produces}}{{/responses}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
 
 pub mod requests {
-    use hyper::mime::*;
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#bodyParam}}
-    lazy_static! {
-        /// Create Mime objects for the request content types for {{{operationId}}}
-        pub static ref {{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}}: Mime = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}".parse().unwrap();
-    }
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{^vendorExtensions.consumesMultipart}}{{#bodyParam}}
+    /// Create &str objects for the request content types for {{{operationId}}}
+    pub static {{{vendorExtensions.uppercase_operation_id}}}: &str = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
 {{/bodyParam}}{{^bodyParam}}{{#vendorExtensions}}{{#formParams}}{{#-first}}
-    lazy_static! {
-        /// Create Mime objects for the request content types for {{{operationId}}}
-        pub static ref {{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}}: Mime = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/x-www-form-urlencoded{{/consumes}}".parse().unwrap();
-    }
-{{/-first}}{{/formParams}}{{/vendorExtensions}}{{/bodyParam}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+    /// Create &str objects for the request content types for {{{operationId}}}
+    pub static {{{uppercase_operation_id}}}: &str = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/x-www-form-urlencoded{{/consumes}}";
+{{/-first}}{{/formParams}}{{/vendorExtensions}}{{/bodyParam}}{{/vendorExtensions.consumesMultipart}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }

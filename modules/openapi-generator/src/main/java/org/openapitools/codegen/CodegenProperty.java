@@ -91,6 +91,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
     public boolean isInherited;
     public String discriminatorValue;
+    public String nameInLowerCase; // property name in lower case
     public String nameInCamelCase; // property name in camel case
     public String nameInSnakeCase; // property name in upper snake case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
@@ -391,6 +392,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public void setVendorExtensions(Map<String, Object> vendorExtensions) {
         this.vendorExtensions = vendorExtensions;
+    }
+
+    public String getNameInLowerCase() {
+        return nameInLowerCase;
+    }
+
+    public void setNameInLowerCase(String nameInLowerCase) {
+        this.nameInLowerCase = nameInLowerCase;
     }
 
     public String getNameInCamelCase() {
