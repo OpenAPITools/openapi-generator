@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Alamofire
 import RxSwift
 
 open class UserAPI {
