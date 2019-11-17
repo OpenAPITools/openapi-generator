@@ -1098,8 +1098,7 @@
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
-                <!-- CI containers are failing on Java version Unsupported major.minor version 52.0 -->
-                <!-- <module>samples/client/petstore/scalaz</module>-->
+                <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/feign10x</module>
@@ -1191,8 +1190,7 @@
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
-                <!-- CI containers are failing on Java version Unsupported major.minor version 52.0 -->
-                <!-- <module>samples/client/petstore/scalaz</module>-->
+                <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2</module>
