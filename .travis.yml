@@ -6,9 +6,9 @@ before_install:
   - rvm list
   #- rvm use 2.3.3
   - gem environment
-  - gem install bundler -N --no-ri --no-rdoc
-  - gem install cocoapods -v 1.2.1 -N --no-ri --no-rdoc
-  - gem install xcpretty -N --no-ri --no-rdoc
+  - gem install bundler -N --no-rdoc
+  - gem install cocoapods -v 1.2.1 -N --no-rdoc
+  - gem install xcpretty -N --no-rdoc
   - pod --version
   # comment out below to avoid errors
   #- pod repo update
