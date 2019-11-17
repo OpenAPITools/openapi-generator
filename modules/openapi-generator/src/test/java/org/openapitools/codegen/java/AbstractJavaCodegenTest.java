@@ -372,6 +372,60 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(defaultValue, "Object");
     }
 
+    @Test
+    public void processOptsBooleanTrueFromString() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanTrueFromBoolean() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromString() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromBoolean() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromGarbage() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromNumeric() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
     private static Schema<?> createObjectSchemaWithMinItems() {
         return new ObjectSchema()
                 .addProperties("id", new IntegerSchema().format("int32"))

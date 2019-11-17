@@ -1031,5 +1031,50 @@ public class DefaultCodegenTest {
             CodegenParameter parameter = codegenParameter("/set_should_explode");
             assertTrue(parameter.isExplode);
         }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_Boolean_true() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, true);
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertTrue(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_Boolean_false() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, false);
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertFalse(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_String_true() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "true");
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertTrue(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_String_false() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "false");
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertFalse(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_String_blibb() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "blibb");
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertFalse(result);
+        }
     }
 }

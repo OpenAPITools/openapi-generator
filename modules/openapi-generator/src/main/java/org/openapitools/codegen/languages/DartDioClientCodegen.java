@@ -80,6 +80,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
+        importMapping.put("JsonObject", "package:built_value/json_object.dart");
         importMapping.put("Uint8List", "dart:typed_data");
     }
 
@@ -127,6 +128,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
             name = escapeReservedWord(name);
         }
         return name;
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        //super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
+        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+        addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
     @Override
@@ -230,9 +238,16 @@ public class DartDioClientCodegen extends DartClientCodegen {
             //Updates any List properties on a model to a BuiltList. This happens in post processing rather
             //than type mapping as we only want this to apply to models, not every other class.
             if ("List".equals(property.baseType)) {
-                property.setDatatype(property.dataType.replaceAll(property.baseType, "BuiltList"));
+                property.setDatatype(
+                    property.dataType.replaceAll(property.baseType, "BuiltList"));
                 property.setBaseType("BuiltList");
                 model.imports.add("BuiltList");
+                if ("Object".equals(property.items.baseType)) {
+                    property.setDatatype(
+                        property.dataType.replaceAll("Object", "JsonObject"));
+                    property.items.setDatatype("JsonObject");
+                    model.imports.add("JsonObject");
+                }
             }
         }
         if (property.isMapContainer) {
@@ -242,6 +257,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
                 property.setDatatype(property.dataType.replaceAll(property.baseType, "BuiltMap"));
                 property.setBaseType("BuiltMap");
                 model.imports.add("BuiltMap");
+                if ("Object".equals(property.items.baseType)) {
+                    property.setDatatype(property.dataType.replaceAll("Object", "JsonObject"));
+                    property.items.setDatatype("JsonObject");
+                    model.imports.add("JsonObject");
+                }
             }
         }
 

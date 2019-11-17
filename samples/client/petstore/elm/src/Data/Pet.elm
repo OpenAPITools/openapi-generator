@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Pet exposing (Pet, Status(..), decoder, encode, toString)
+module Data.Pet exposing (Pet, Status(..), decoder, encode, encodeWithTag, toString)
 
 import Data.Category as Category exposing (Category)
 import Data.Tag as Tag exposing (Tag)
@@ -50,15 +50,24 @@ decoder =
 
 
 encode : Pet -> Encode.Value
-encode model =
-    Encode.object
-        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
-        , ( "category", Maybe.withDefault Encode.null (Maybe.map Category.encode model.category) )
-        , ( "name", Encode.string model.name )
-        , ( "photoUrls", Encode.list Encode.string model.photoUrls )
-        , ( "tags", Maybe.withDefault Encode.null (Maybe.map (Encode.list Tag.encode) model.tags) )
-        , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
-        ]
+encode =
+    Encode.object << encodePairs
+
+
+encodeWithTag : ( String, String ) -> Pet -> Encode.Value
+encodeWithTag ( tagField, tag ) model =
+    Encode.object <| encodePairs model ++ [ ( tagField, Encode.string tag ) ]
+
+
+encodePairs : Pet -> List ( String, Encode.Value )
+encodePairs model =
+    [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
+    , ( "category", Maybe.withDefault Encode.null (Maybe.map Category.encode model.category) )
+    , ( "name", Encode.string model.name )
+    , ( "photoUrls", Encode.list Encode.string model.photoUrls )
+    , ( "tags", Maybe.withDefault Encode.null (Maybe.map (Encode.list Tag.encode) model.tags) )
+    , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
+    ]
 
 
 toString : Pet -> String
