@@ -351,7 +351,7 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	// nonprimitive not container
 	cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
 	pet_t *elementToReturn = pet_parseFromJSON(PetAPIlocalVarJSON);
-    cJSON_Delete(PetAPIlocalVarJSON);
+	cJSON_Delete(PetAPIlocalVarJSON);
 	if(elementToReturn == NULL) {
 		// return 0;
 	}
@@ -606,7 +606,7 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 	cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
 	api_response_t *elementToReturn = api_response_parseFromJSON(
 		PetAPIlocalVarJSON);
-    cJSON_Delete(PetAPIlocalVarJSON);
+	cJSON_Delete(PetAPIlocalVarJSON);
 	if(elementToReturn == NULL) {
 		// return 0;
 	}

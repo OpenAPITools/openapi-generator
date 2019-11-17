@@ -170,7 +170,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
                 break;
-            default: break;
+            default:
+                break;
         }
 
         processDateLibrary();
@@ -351,9 +352,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     cm.readOnlyVars,
                     cm.readWriteVars,
                     cm.parentVars
-                )
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+            )
+                    .flatMap(List::stream)
+                    .collect(Collectors.toList());
 
             for (CodegenProperty var : vars) {
                 var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));

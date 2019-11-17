@@ -4,8 +4,8 @@
 #include <QTimer>
 #include <QDebug>
 
-OAIUser UserApiTests::createRandomUser() {
-    OAIUser user;
+PFXUser UserApiTests::createRandomUser() {
+    PFXUser user;
     user.setId(QDateTime::currentMSecsSinceEpoch());
     user.setEmail("Jane.Doe@openapitools.io");
     user.setFirstName("Jane");
@@ -18,12 +18,11 @@ OAIUser UserApiTests::createRandomUser() {
 }
 
 void UserApiTests::createUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+    PFXUserApi api;
     QEventLoop loop;
     bool userCreated = false;
 
-    connect(&api, &OAIUserApi::createUserSignal, [&](){
+    connect(&api, &PFXUserApi::createUserSignal, [&](){
             userCreated = true;
             loop.quit();
     });
@@ -35,17 +34,16 @@ void UserApiTests::createUserTest(){
 }
 
 void UserApiTests::createUsersWithArrayInputTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+    PFXUserApi api;
     QEventLoop loop;
     bool usersCreated = false;
 
-    connect(&api, &OAIUserApi::createUsersWithArrayInputSignal, [&](){
+    connect(&api, &PFXUserApi::createUsersWithArrayInputSignal, [&](){
             usersCreated = true;
             loop.quit();
     });
 
-    QList<OAIUser> users;
+    QList<PFXUser> users;
     users.append(createRandomUser());
     users.append(createRandomUser());
     users.append(createRandomUser());
@@ -56,17 +54,16 @@ void UserApiTests::createUsersWithArrayInputTest(){
 }
 
 void UserApiTests::createUsersWithListInputTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+    PFXUserApi api;
     QEventLoop loop;
     bool usersCreated = false;
 
-    connect(&api, &OAIUserApi::createUsersWithListInputSignal, [&](){
+    connect(&api, &PFXUserApi::createUsersWithListInputSignal, [&](){
             usersCreated = true;
             loop.quit();
     });
 
-    QList<OAIUser> users;
+    QList<PFXUser> users;
     auto johndoe = createRandomUser();
     johndoe.setUsername("johndoe");
     auto rambo = createRandomUser();
@@ -81,12 +78,11 @@ void UserApiTests::createUsersWithListInputTest(){
 }
 
 void UserApiTests::deleteUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+    PFXUserApi api;
     QEventLoop loop;
     bool userDeleted = false;
 
-    connect(&api, &OAIUserApi::deleteUserSignal, [&](){
+    connect(&api, &PFXUserApi::deleteUserSignal, [&](){
             userDeleted = true;
             loop.quit();
     });
@@ -98,12 +94,11 @@ void UserApiTests::deleteUserTest(){
 }
 
 void UserApiTests::getUserByNameTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+    PFXUserApi api;
     QEventLoop loop;
     bool userFetched = false;
 
-    connect(&api, &OAIUserApi::getUserByNameSignal, [&](OAIUser summary) {
+    connect(&api, &PFXUserApi::getUserByNameSignal, [&](PFXUser summary) {
         userFetched = true;
         qDebug() << summary.getUsername();
         QVERIFY(summary.getUsername() == "johndoe");
@@ -117,12 +112,11 @@ void UserApiTests::getUserByNameTest(){
 }
 
 void UserApiTests::loginUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+    PFXUserApi api;
     QEventLoop loop;
     bool userLogged = false;
 
-    connect(&api, &OAIUserApi::loginUserSignal, [&](QString summary) {
+    connect(&api, &PFXUserApi::loginUserSignal, [&](QString summary) {
         userLogged = true;
         qDebug() << summary;
         loop.quit();
@@ -135,12 +129,11 @@ void UserApiTests::loginUserTest(){
 }
 
 void UserApiTests::logoutUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+    PFXUserApi api;
     QEventLoop loop;
     bool userLoggedOut = false;
 
-    connect(&api, &OAIUserApi::logoutUserSignal, [&](){
+    connect(&api, &PFXUserApi::logoutUserSignal, [&](){
         userLoggedOut = true;
         loop.quit();
     });
@@ -152,12 +145,11 @@ void UserApiTests::logoutUserTest(){
 }
 
 void UserApiTests::updateUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+    PFXUserApi api;
     QEventLoop loop;
     bool userUpdated = false;
 
-    connect(&api, &OAIUserApi::updateUserSignal, [&]() {
+    connect(&api, &PFXUserApi::updateUserSignal, [&]() {
             userUpdated = true;
             loop.quit();
     });
