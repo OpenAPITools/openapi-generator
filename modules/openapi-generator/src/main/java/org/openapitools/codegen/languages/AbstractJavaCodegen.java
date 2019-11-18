@@ -1040,19 +1040,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // TODO: Setting additionalProperties is not the responsibility of this method. These side-effects should be moved elsewhere to prevent unexpected behaviors.
         if(artifactVersion == null) {
             // If no artifactVersion is provided in additional properties, version from API specification is used.
             // If none of them is provided then fallbacks to default version
-            if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION) && additionalProperties.get(CodegenConstants.ARTIFACT_VERSION) != null) {
                 this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
             } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
                 this.setArtifactVersion(openAPI.getInfo().getVersion());
             } else {
                 this.setArtifactVersion(ARTIFACT_VERSION_DEFAULT_VALUE);
             }
-        } else {
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
             if (convertPropertyToBooleanAndWriteBack(CodegenConstants.SNAPSHOT_VERSION)) {

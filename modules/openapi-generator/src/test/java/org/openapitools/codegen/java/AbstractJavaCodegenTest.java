@@ -303,6 +303,7 @@ public class AbstractJavaCodegenTest {
     @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
     public void defaultVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setArtifactVersion(null);
 
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
@@ -339,6 +340,55 @@ public class AbstractJavaCodegenTest {
 
         Assert.assertEquals(codegen.getArtifactVersion(), "2.0-SNAPSHOT");
     }
+
+    @Test(description = "tests if setting an artifact version programmatically persists to additional properties, when openapi version is null")
+    public void allowsProgrammaticallySettingArtifactVersionWithNullOpenApiVersion() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final String version = "9.8.7-rc1";
+        codegen.setArtifactVersion(version);
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion(null);
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), version);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
+    }
+
+    @Test(description = "tests if setting an artifact version programmatically persists to additional properties, even when openapi version is specified")
+    public void allowsProgrammaticallySettingArtifactVersionWithSpecifiedOpenApiVersion() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final String version = "9.8.7-rc1";
+        codegen.setArtifactVersion(version);
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion("1.2.3-SNAPSHOT");
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), version);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
+    }
+
+    @Test(description = "tests if a null in addition properties artifactVersion results in default version")
+    public void usesDefaultVersionWhenAdditionalPropertiesVersionIsNull() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final String version = "1.0.0";
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion(null);
+        codegen.setArtifactVersion(null);
+        codegen.additionalProperties().put(CodegenConstants.ARTIFACT_VERSION, null);
+
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), version);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
+    }
+
+
 
     @Test(description = "tests if default version with snapshot is used when setArtifactVersion is used")
     public void snapshotVersionAlreadySnapshotTest() {
