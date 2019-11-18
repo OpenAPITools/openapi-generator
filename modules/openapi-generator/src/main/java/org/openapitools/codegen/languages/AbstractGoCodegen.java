@@ -278,10 +278,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "[]" + getTypeDeclaration(inner);
+            if (ModelUtils.isGenerateAliasAsModel())
+                return "[]" + getTypeDeclaration(inner);
+            else
+                return "[]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
+            if (ModelUtils.isGenerateAliasAsModel())
+                return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
+            else
+                return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
         }
         //return super.getTypeDeclaration(p);
 
