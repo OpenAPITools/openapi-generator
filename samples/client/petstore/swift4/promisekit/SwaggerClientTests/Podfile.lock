@@ -2,14 +2,14 @@ PODS:
   - Alamofire (4.9.0)
   - PetstoreClient (1.0.0):
     - Alamofire (~> 4.9.0)
-    - PromiseKit/CorePromise (~> 4.4.0)
-  - PromiseKit/CorePromise (4.4.4)
+    - PromiseKit/CorePromise (~> 6.11.0)
+  - PromiseKit/CorePromise (6.11.0)
 
 DEPENDENCIES:
   - PetstoreClient (from `../`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - Alamofire
     - PromiseKit
 
@@ -19,9 +19,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
-  PetstoreClient: 16d0f56d050fe19acef55197555f60526cf4a71b
-  PromiseKit: 6178219c4c7457ae90d7d8b34b7ac5eb36916519
+  PetstoreClient: 57248512c92ab99e6079feab8d035215a58535c5
+  PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
 
-PODFILE CHECKSUM: cedb3058b02f4776d7c31f6d92ae2f674fdf424d
+PODFILE CHECKSUM: 509bec696cc1d8641751b52e4fe4bef04ac4542c
 
-COCOAPODS: 1.8.0.beta.2
+COCOAPODS: 1.8.4
