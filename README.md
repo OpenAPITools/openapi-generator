@@ -691,6 +691,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-10-24 - [Microprofile OpenAPI - Code First or Design First?](https://github.com/pe-st/apidocs/blob/master/MicroProfile-OpenAPI-all-slides.pdf) by [Peter [pɛʃə] Steiner](https://twitter.com/pesche) at [eclipsecon Europe 2019](https://www.eclipsecon.org/europe2019/sessions/microprofile-openapi-code-first-or-design-first)
 - 2019-11-06 - [Generating API clients based on OpenAPI v3 specifications](https://98elements.com/blog/generating-api-clients-based-on-openapi-v3-specifications) by [Dominik Jastrzębski @ 98elements](https://98elements.com)
 - 2019-11-06 - [OpenAPIを利用して自前のAPIサーバー(Sinatra)を移植した時のメモ](https://qiita.com/YasuhiroABE/items/c73920eab2d9d6e97fd9) by [Yasuhiro ABE](https://twitter.com/YasuhiroABE)
+- 2019-11-07 - [API First development with OpenAPI - You should you practise it !?] by [Nick Van Hoof](https://www.nickvanhoof.com/) at [Devoxx Belgium 2019](https://devoxx.be/)
 - 2019-11-11 - [TypeScript REST APIクライアント](https://qiita.com/unhurried/items/7b74f7d3c43545dadd2b) by [@unhurried](https://qiita.com/unhurried)
 
 ## [6 - About Us](#table-of-contents)
