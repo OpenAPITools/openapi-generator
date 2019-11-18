@@ -49,8 +49,10 @@ public:
     void uploadFile(const qint64& pet_id, const QString& additional_metadata, const PFXHttpFileElement& file);
     
 private:
-    QString _scheme, _host, _basePath;
-    int _port, _timeOut;
+    QString _scheme, _host;
+    int _port;
+    QString _basePath;
+    int _timeOut;
     QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
     void addPetCallback (PFXHttpRequestWorker * worker);
