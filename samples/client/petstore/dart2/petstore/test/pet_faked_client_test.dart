@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:http/http.dart';
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 import 'package:test/test.dart';
 
 import 'fake_client.dart';

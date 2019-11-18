@@ -169,13 +169,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.8"
-  openapi:
-    dependency: "direct main"
-    description:
-      path: "../petstore_client_lib"
-      relative: true
-    source: path
-    version: "1.0.0"
   package_config:
     dependency: transitive
     description:
@@ -204,6 +197,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0+1"
+  petstore_client_lib:
+    dependency: "direct main"
+    description:
+      path: "../petstore_client_lib"
+      relative: true
+    source: path
+    version: "1.0.0"
   pool:
     dependency: transitive
     description:

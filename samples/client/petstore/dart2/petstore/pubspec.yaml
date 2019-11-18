@@ -4,7 +4,7 @@ description: Petstore client using OpenAPI library
 environment:
   sdk: '>=2.5.0 <3.0.0'
 dependencies:
-  openapi:
+  petstore_client_lib:
     path: ../petstore_client_lib
 dev_dependencies:
   test: ^1.8.0

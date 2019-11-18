@@ -1,7 +1,10 @@
-part of {{pubName}}.api;
+import 'package:http/http.dart';
+import 'package:{{pubName}}/api.dart';
+import 'package:{{pubName}}/api_client.dart';
+import 'package:{{pubName}}/api_exception.dart';
+import 'package:{{pubName}}/api_helper.dart';
 
 {{#operations}}
-
 
 class {{classname}} {
   final ApiClient apiClient;
@@ -35,7 +38,7 @@ class {{classname}} {
     {{^required}}
     if({{paramName}} != null) {
     {{/required}}
-      queryParams.addAll(_convertParametersForCollectionFormat("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+      queryParams.addAll(convertParametersForCollectionFormat("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
     {{^required}}
     }
     {{/required}}
@@ -96,22 +99,22 @@ class {{classname}} {
   {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     Response response = await {{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
       {{#isListContainer}}
         {{#returnType}}
-      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();
+      return (apiClient.deserialize(decodeBodyBytes(response), '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();
         {{/returnType}}
       {{/isListContainer}}
       {{^isListContainer}}
         {{#isMapContainer}}
           {{#returnType}}
-      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
+      return {{{returnType}}}.from(apiClient.deserialize(decodeBodyBytes(response), '{{{returnType}}}'));
           {{/returnType}};
         {{/isMapContainer}}
         {{^isMapContainer}}
           {{#returnType}}
-      return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
+      return apiClient.deserialize(decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
           {{/returnType}}
         {{/isMapContainer}}
       {{/isListContainer}}

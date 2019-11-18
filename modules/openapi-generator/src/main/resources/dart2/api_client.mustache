@@ -1,4 +1,21 @@
-part of {{pubName}}.api;
+import 'dart:convert';
+
+import 'package:http/http.dart';
+import 'package:{{pubName}}/auth/authentication.dart';
+import 'package:{{pubName}}/auth/api_key_auth.dart';
+import 'package:{{pubName}}/auth/oauth.dart';
+import 'package:{{pubName}}/api_exception.dart';
+
+{{#models}}
+  {{#model}}
+    {{#isEnum}}
+import 'package:{{pubName}}/model/{{classFilename}}.dart'; // enum
+    {{/isEnum}}
+    {{^isEnum}}
+import 'package:{{pubName}}/model/{{classFilename}}.dart';
+    {{/isEnum}}
+  {{/model}}
+{{/models}}
 
 class QueryParam {
   String name;

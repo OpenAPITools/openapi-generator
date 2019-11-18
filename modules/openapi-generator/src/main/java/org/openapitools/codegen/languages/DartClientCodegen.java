@@ -36,37 +36,6 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-// import static org.openapitools.codegen.utils.StringUtils.camelize;
-// import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-// import java.io.BufferedReader;
-// import java.io.File;
-// import java.io.FileInputStream;
-// import java.io.InputStreamReader;
-// import java.nio.charset.Charset;
-// import java.util.ArrayList;
-// import java.util.Arrays;
-// import java.util.HashMap;
-// import java.util.HashSet;
-// import java.util.List;
-// import java.util.Map;
-// import java.util.Set;
-
-// import javax.xml.validation.Schema;
-
-// import org.apache.commons.io.FilenameUtils;
-// import org.openapitools.codegen.CodegenConfig;
-// import org.openapitools.codegen.CodegenConstants;
-// import org.openapitools.codegen.CodegenModel;
-// import org.openapitools.codegen.CodegenProperty;
-// import org.openapitools.codegen.CodegenType;
-// import org.openapitools.codegen.DefaultCodegen;
-// import org.openapitools.codegen.utils.ModelUtils;
-// import org.openapitools.codegen.utils.StringUtils;
-// import org.slf4j.LoggerFactory;
-
-// import io.swagger.v3.oas.models.media.ArraySchema;
-
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
@@ -86,6 +55,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String modelDocPath = "docs" + File.separator;
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
+
+    private static Set<String> modelImportsToIgnore = new HashSet<>();
+    static {
+        modelImportsToIgnore.add("datetime");
+        modelImportsToIgnore.add("map");
+        modelImportsToIgnore.add("object");
+        modelImportsToIgnore.add("list");
+        modelImportsToIgnore.add("file");
+        modelImportsToIgnore.add("uint8list");
+    }
 
     public DartClientCodegen() {
         super();
@@ -410,20 +389,28 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        return postProcessModelsEnum(objs);
-    }
-
-    @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
+            // get the CodegenModel object 
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            boolean succes = buildEnumFromVendorExtension(cm) ||
-                    buildEnumFromValues(cm);
+            // post process models for enums
+            boolean succes = buildEnumFromVendorExtension(cm) || buildEnumFromValues(cm);
             for (CodegenProperty var : cm.vars) {
                 updateCodegenPropertyEnum(var);
             }
+            // post process models for imports
+            Set<String> modelImports = new HashSet<>();
+            for (String modelImport : cm.imports) {
+                if (importMapping.containsKey(modelImport)) {
+                    modelImports.add(importMapping.get(modelImport));
+                } else {
+                    if (!modelImportsToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
+                        modelImports.add("package:" + pubName + "/model/" + underscore(modelImport) + ".dart");
+                    }
+                }
+            }
+            cm.imports = modelImports;
         }
         return objs;
     }
