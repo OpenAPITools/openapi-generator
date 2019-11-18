@@ -888,7 +888,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Groovy    |  |
 | Haskell   |  |
 | Java      | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) |
-| Kotlin    | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) |
+| Kotlin    | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) |
 | Lua       | @daurnimator (2017/08) |
 | Nim       |  |
 | NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
@@ -897,7 +897,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Perl      | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06) |
 | PHP       | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), @ackintosh (2017/09) [:heart:](https://www.patreon.com/ackintosh/overview), @ybelenko (2018/07), @renepardon (2018/12) |
 | PowerShell | |
-| Python    | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) @slash-arun (2019/11) |
+| Python    | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) @slash-arun (2019/11) @spacether (2019/11)|
 | R         | @Ramanth (2019/07) @saigiridhar21 (2019/07) |
 | Ruby      | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02) |
 | Rust      | @frol (2017/07) @farcaller (2017/08) @bjgill (2017/12) @richardwhiuk (2019/07) |
