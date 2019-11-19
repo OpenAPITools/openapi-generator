@@ -8,7 +8,7 @@ team@openapitools.org
 :keywords: openapi, rest, OpenAPI Petstore 
 :specDir: modules\openapi-generator\src\main\resources\asciidoc-documentation
 :snippetDir: .
-:generator-template: v1 2019-11-17
+:generator-template: v1 2019-11-19
 :info-url: https://openapi-generator.tech
 :app-name: OpenAPI Petstore
 
@@ -23,10 +23,8 @@ This is a sample server Petstore server. For this sample, you can use the api ke
 == Access
 
 
-
 * *APIKey* KeyParamName:     _api_key_,     KeyInQuery: _false_, KeyInHeader: _true_
-
-*  *OAuth*  AuthorizationUrl: _http://petstore.swagger.io/api/oauth/dialog_, TokenUrl:   __ 
+* *OAuth*  AuthorizationUrl: _http://petstore.swagger.io/api/oauth/dialog_, TokenUrl:   __ 
 
 
 

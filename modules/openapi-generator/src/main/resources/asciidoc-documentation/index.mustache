@@ -8,7 +8,7 @@
 :keywords: openapi, rest, {{appName}} 
 :specDir: {{specDir}}
 :snippetDir: {{snippetDir}}
-:generator-template: v1 2019-11-17
+:generator-template: v1 2019-11-19
 :info-url: {{infoUrl}}
 :app-name: {{appName}}
 
@@ -22,8 +22,11 @@
 == Access
 
 {{#authMethods}}
-{{#isBasic}}*  *HTTP Basic* Authentication {{/isBasic}}
-{{#isOAuth}}*  *OAuth*  AuthorizationUrl: _{{authorizationUrl}}_, TokenUrl:   _{{tokenUrl}}_ {{/isOAuth}}
+{{#isBasic}}
+{{^isBasicBearer}}* *HTTP Basic* Authentication _{{{name}}}_{{/isBasicBearer}}
+{{#isBasicBearer}}* *Bearer* Authentication {{/isBasicBearer}}
+{{/isBasic}}
+{{#isOAuth}}* *OAuth*  AuthorizationUrl: _{{authorizationUrl}}_, TokenUrl:   _{{tokenUrl}}_ {{/isOAuth}}
 {{#isApiKey}}* *APIKey* KeyParamName:     _{{keyParamName}}_,     KeyInQuery: _{{isKeyInQuery}}_, KeyInHeader: _{{isKeyInHeader}}_{{/isApiKey}}
 {{/authMethods}}
 
