@@ -6,11 +6,10 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.MockDefaultGenerator;
-import org.openapitools.codegen.TestUtils;
+import org.apache.commons.io.FileUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
@@ -21,36 +20,30 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class KotlinSpringServerCodegenTest {
 
-    @Test(description = "test embedded enum array")
+    @Test(description = "test embedded enum array", enabled = false) //TODO fix me
     public void embeddedEnumArrayTest() throws Exception {
+        String baseModelPackage = "zz";
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        System.out.println(output.getAbsolutePath());
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue______kotlinArrayEnumEmbedded.yaml");
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "zz.yyyy.model.xxxx");
-
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, baseModelPackage + ".yyyy.model.xxxx");
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
         input.config(codegen);
-
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
-
-        String filePath = new File(output, "src/main/kotlin/zz/yyyy/model/xxxx/EmbeddedEnumArray.kt").getAbsolutePath().replace("\\", "/");
-        String kotlinEmbArray = generator.getFiles().get(filePath);
-        System.out.println("=====================");
-        System.out.println(kotlinEmbArray);
-        System.out.println("=====================");
-
-
-
+        File resultSourcePath = new File(output, "src/main/kotlin");
+        File outputModel = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        FileUtils.copyDirectory(new File(resultSourcePath, baseModelPackage), new File(outputModel, baseModelPackage));
+        KotlinTestUtils.buildModule(Collections.singletonList(outputModel.getAbsolutePath()), Thread.currentThread().getContextClassLoader());
     }
 
     @Test
