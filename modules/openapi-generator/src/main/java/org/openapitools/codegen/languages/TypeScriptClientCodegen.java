@@ -48,11 +48,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String[] FRAMEWORKS = { "fetch-api", "jquery" };
     private static final String FILE_CONTENT_DATA_TYPE= "fileContentDataType";
     private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser) / Buffer (node)";
-    
+    private static final String USE_RXJS_SWITCH = "useRxJS";
+    private static final String USE_RXJS_SWITCH_DESC = "Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.";
+
     private final Map<String, String> frameworkToHttpLibMap;
     
     protected String modelPropertyNaming = "camelCase";
-    protected boolean supportsES6 = true;
     protected HashSet<String> languageGenericTypes;
 
     public TypeScriptClientCodegen() {
@@ -132,6 +133,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE, TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE_DESC).defaultValue("Buffer"));
+        cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_RXJS_SWITCH, TypeScriptClientCodegen.USE_RXJS_SWITCH_DESC).defaultValue("false"));
         
         CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
         for (String option: TypeScriptClientCodegen.FRAMEWORKS) {
@@ -644,14 +646,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         return result;
     }
 
-    public void setSupportsES6(Boolean value) {
-        supportsES6 = value;
-    }
-
-    public Boolean getSupportsES6() {
-        return supportsES6;
-    }
-
     private void setDiscriminatorValue(CodegenModel model, String baseName, String value) {
         for (CodegenProperty prop : model.allVars) {
             if (prop.baseName.equals(baseName)) {
@@ -702,10 +696,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
-            setSupportsES6(Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString()));
-            additionalProperties.put("supportsES6", getSupportsES6());
+            // convert to boolean
+            additionalProperties.put(CodegenConstants.SUPPORTS_ES6,
+                Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString())
+            );
         }
-        
+
         // change package names
         apiPackage = this.apiPackage + ".apis";
         modelPackage = this.modelPackage + ".models";
@@ -719,6 +715,17 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
         supportingFiles.add(new SupportingFile("http"  + File.separator + httpLibName + ".mustache", "http", httpLibName + ".ts"));
+
+        boolean useRxJS = false;
+        if (additionalProperties.containsKey(USE_RXJS_SWITCH)) {
+            // convert to boolean
+            useRxJS = Boolean.valueOf(additionalProperties.get(USE_RXJS_SWITCH).toString());
+            additionalProperties.put(USE_RXJS_SWITCH, useRxJS);
+        }
+        if (!useRxJS) {
+          supportingFiles.add(new SupportingFile("rxjsStub.mustache", "", "rxjsStub.ts"));
+        }
+
     }
 
     private String getHttpLibForFramework(String object) {

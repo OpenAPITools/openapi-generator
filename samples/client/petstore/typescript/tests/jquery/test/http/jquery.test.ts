@@ -17,7 +17,7 @@ for (let libName in libs) {
         let requestContext = new petstore.http.RequestContext("http://httpbin.org/get", petstore.http.HttpMethod.GET);
         requestContext.setHeaderParam("X-Test-Token", "Test-Token");
         return new Promise((resolve, reject) => {
-            lib.send(requestContext).subscribe((resp: petstore.http.ResponseContext) => {
+            lib.send(requestContext).toPromise().then((resp: petstore.http.ResponseContext) => {
                 assert.ok(resp.httpStatusCode, 200, "Expected status code to be 200");
                 let body = JSON.parse(resp.body);
                 assert.ok(body["headers"]);
@@ -43,7 +43,7 @@ for (let libName in libs) {
 
         requestContext.setBody(formData);
         return new Promise((resolve, reject) => {
-            lib.send(requestContext).subscribe(
+            lib.send(requestContext).toPromise().then(
                 (resp: petstore.http.ResponseContext) => {
                 assert.ok(resp.httpStatusCode, 200, "Expected status code to be 200");
                 let body = JSON.parse(resp.body);
@@ -66,7 +66,7 @@ for (let libName in libs) {
         requestContext.addCookie("test", "test2");
         return new Promise((resolve, reject) => {
             try {
-                lib.send(requestContext).subscribe(
+                lib.send(requestContext).toPromise().then(
                     (resp: petstore.http.ResponseContext) => {
                     assert.ok(false, "Expected this request to fail!")
                     reject("Successful request with Cookie Header!")

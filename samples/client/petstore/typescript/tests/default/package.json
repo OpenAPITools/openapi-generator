@@ -1,12 +1,9 @@
 {
   "private": true,
   "dependencies": {
-    "@types/form-data": "^2.2.1",
     "@types/rewire": "^2.5.28",
-    "@types/rx": "^4.1.1",
-    "form-data": "^2.3.2",
+    "form-data": "^2.5.0",
     "rewire": "^4.0.1",
-    "rxjs": "^6.4.0",
     "ts-node": "^3.3.0",
     "ts-petstore-client": "file:../../builds/default"
   },

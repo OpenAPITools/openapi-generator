@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "es6-promise": "^4.2.4",
+    "@types/node": "*",
     {{#frameworks}}
     {{#fetch-api}}
     "isomorphic-fetch": "^2.2.1",
@@ -30,11 +31,11 @@
     {{/jquery}}
     {{/frameworks}}
     "btoa": "^1.2.1",
-    "form-data": "^2.3.2",
-    "@types/form-data": "^2.2.1",
-    "url-parse": "^1.4.3",
-    "rxjs": "^6.4.0",
-    "@types/rx": "^4.1.1"
+    "form-data": "^2.5.0",
+    {{#useRxJS}}
+      "rxjs": "^6.4.0",
+    {{/useRxJS}}
+    "url-parse": "^1.4.3"
   },
   "devDependencies": {
     "typescript": "^2.9.2"
