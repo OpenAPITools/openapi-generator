@@ -40,8 +40,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
+    private static final String DEFAULT_IMPORT_PREFIX = "./";
+
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
@@ -56,6 +59,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     protected String ngVersion = "8.0.0";
     protected String npmRepository = null;
+    private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
@@ -83,6 +87,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
                 "Setting this property to true will generate interfaces next to the default class implementations.",
+                false));
+        this.cliOptions.add(CliOption.newBoolean(USE_SINGLE_REQUEST_PARAMETER,
+                "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.",
                 false));
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
@@ -161,6 +168,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
+        
+        if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
+            this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
+        }
+        writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
@@ -330,34 +342,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
 
-    @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
-            return openAPIType;
-        }
-        applyLocalTypeMapping(openAPIType);
-        return openAPIType;
-    }
-
     private String applyLocalTypeMapping(String type) {
         if (typeMapping.containsKey(type)) {
             type = typeMapping.get(type);
         }
         return type;
-    }
-
-    private boolean isLanguagePrimitive(String type) {
-        return languageSpecificPrimitives.contains(type);
-    }
-
-    private boolean isLanguageGenericType(String type) {
-        for (String genericType : languageGenericTypes) {
-            if (type.startsWith(genericType + "<")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -567,17 +556,26 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toApiImport(String name) {
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
         return apiPackage() + "/" + toApiFilename(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return DEFAULT_IMPORT_PREFIX + this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
     }
 
     @Override
     public String toModelImport(String name) {
-        return modelPackage() + "/" + toModelFilename(name);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {
@@ -586,6 +584,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     public void setNpmRepository(String npmRepository) {
         this.npmRepository = npmRepository;
+    }
+
+    private boolean getUseSingleRequestParameter() {
+        return useSingleRequestParameter;
+    }
+
+    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
+        this.useSingleRequestParameter = useSingleRequestParameter;
     }
 
     private String getApiFilenameFromClassname(String classname) {

@@ -303,6 +303,7 @@ public class AbstractJavaCodegenTest {
     @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
     public void defaultVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setArtifactVersion(null);
 
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
@@ -340,6 +341,55 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getArtifactVersion(), "2.0-SNAPSHOT");
     }
 
+    @Test(description = "tests if setting an artifact version programmatically persists to additional properties, when openapi version is null")
+    public void allowsProgrammaticallySettingArtifactVersionWithNullOpenApiVersion() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final String version = "9.8.7-rc1";
+        codegen.setArtifactVersion(version);
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion(null);
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), version);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
+    }
+
+    @Test(description = "tests if setting an artifact version programmatically persists to additional properties, even when openapi version is specified")
+    public void allowsProgrammaticallySettingArtifactVersionWithSpecifiedOpenApiVersion() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final String version = "9.8.7-rc1";
+        codegen.setArtifactVersion(version);
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion("1.2.3-SNAPSHOT");
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), version);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
+    }
+
+    @Test(description = "tests if a null in addition properties artifactVersion results in default version")
+    public void usesDefaultVersionWhenAdditionalPropertiesVersionIsNull() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final String version = "1.0.0";
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion(null);
+        codegen.setArtifactVersion(null);
+        codegen.additionalProperties().put(CodegenConstants.ARTIFACT_VERSION, null);
+
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), version);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
+    }
+
+
+
     @Test(description = "tests if default version with snapshot is used when setArtifactVersion is used")
     public void snapshotVersionAlreadySnapshotTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -370,6 +420,60 @@ public class AbstractJavaCodegenTest {
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Object");
+    }
+
+    @Test
+    public void processOptsBooleanTrueFromString() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanTrueFromBoolean() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromString() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromBoolean() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromGarbage() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromNumeric() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

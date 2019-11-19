@@ -98,7 +98,10 @@ public class FakeClassnameTags123Api {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }

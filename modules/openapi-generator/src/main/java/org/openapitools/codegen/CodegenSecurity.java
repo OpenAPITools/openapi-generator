@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -38,7 +39,7 @@ public class CodegenSecurity {
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl;
     public List<Map<String, Object>> scopes;
-    public Boolean isCode, isPassword, isApplication, isImplicit, hasScopes;
+    public Boolean isCode, isPassword, isApplication, isImplicit;
 
     @Override
     public String toString() {
@@ -99,5 +100,48 @@ public class CodegenSecurity {
             isApplication,
             isImplicit,
             scopes);
+    }
+
+    // Return a copy of the security object, filtering out any scopes from the passed-in list.
+    public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
+        CodegenSecurity filteredSecurity = new CodegenSecurity();
+        // Copy all fields except the scopes.
+        filteredSecurity.name = name;
+        filteredSecurity.type = type;
+        filteredSecurity.hasMore = false;
+        filteredSecurity.isBasic = isBasic;
+        filteredSecurity.isBasicBasic = isBasicBasic;
+        filteredSecurity.isBasicBearer = isBasicBearer;
+        filteredSecurity.isApiKey = isApiKey;
+        filteredSecurity.isOAuth = isOAuth;
+        filteredSecurity.keyParamName = keyParamName;
+        filteredSecurity.isCode = isCode;
+        filteredSecurity.isImplicit = isImplicit;
+        filteredSecurity.isApplication = isApplication;
+        filteredSecurity.isPassword = isPassword;
+        filteredSecurity.isKeyInCookie = isKeyInCookie;
+        filteredSecurity.isKeyInHeader = isKeyInHeader;
+        filteredSecurity.isKeyInQuery = isKeyInQuery;
+        filteredSecurity.flow = flow;
+        filteredSecurity.tokenUrl = tokenUrl;
+        filteredSecurity.authorizationUrl = authorizationUrl;
+        // It is not possible to deep copy the extensions, as we have no idea what types they are.
+        // So the filtered method *will* refer to the original extensions, if any.
+        filteredSecurity.vendorExtensions = new HashMap<String, Object>(vendorExtensions);
+        List<Map<String, Object>> returnedScopes = new ArrayList<Map<String, Object>>();
+        Map<String, Object> lastScope = null;
+        for (String filterScopeName : filterScopes) {
+            for (Map<String, Object> scope : scopes) {
+                String name = (String) scope.get("scope");
+                if (filterScopeName.equals(name)) {
+                    returnedScopes.add(scope);
+                    lastScope = scope;
+                    break;
+                }
+            }
+        }
+        filteredSecurity.scopes = returnedScopes;
+
+        return filteredSecurity;
     }
 }

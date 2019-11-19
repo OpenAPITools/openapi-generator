@@ -22,7 +22,7 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.additionalProperties().put("modelSuffix", "MySuffix");
         codegen.processOpts();
 
-        Assert.assertEquals("testNameMySuffix", codegen.toModelFilename("testName"));
+        Assert.assertEquals("./testNameMySuffix", codegen.toModelFilename("testName"));
     }
 
     @Test

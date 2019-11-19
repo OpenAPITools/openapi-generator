@@ -5,6 +5,7 @@
   "outputDir": "samples/server/petstore/springboot",
   "templateDir": "modules/openapi-generator/src/main/resources/JavaSpring",
   "additionalProperties": {
-    "hideGenerationTimestamp": true
+    "hideGenerationTimestamp": true,
+    "snapshotVersion": true
   }
 }

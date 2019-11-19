@@ -54,8 +54,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         outputFolder = "generated-code/typescript-fetch";
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
-        this.apiPackage = "src" + File.separator +"apis";
-        this.modelPackage = "src" + File.separator + "models";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
@@ -98,10 +96,17 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         super.processOpts();
         additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
-        supportingFiles.add(new SupportingFile("index.mustache", "src", "index.ts"));
-        supportingFiles.add(new SupportingFile("runtime.mustache", "src", "runtime.ts"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+
+        String sourceDir = "";
+        if (additionalProperties.containsKey(NPM_NAME)) {
+            sourceDir = "src" + File.separator;
+        }
+
+        this.apiPackage = sourceDir + "apis";
+        this.modelPackage = sourceDir + "models";
+
+        supportingFiles.add(new SupportingFile("index.mustache", sourceDir, "index.ts"));
+        supportingFiles.add(new SupportingFile("runtime.mustache", sourceDir, "runtime.ts"));
 
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
             this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
@@ -211,7 +216,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
     @Override
