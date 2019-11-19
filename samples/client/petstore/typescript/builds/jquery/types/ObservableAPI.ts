@@ -1,8 +1,8 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
 import * as models from '../models/all';
 import { Configuration} from '../configuration'
-import { Observable, of } from 'rxjs';
-import {mergeMap, map} from  'rxjs/operators';
+import { Observable, of } from '../rxjsStub';
+import {mergeMap, map} from  '../rxjsStub';
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Category } from '../models/Category';

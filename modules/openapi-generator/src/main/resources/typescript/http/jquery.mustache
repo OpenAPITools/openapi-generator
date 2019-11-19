@@ -1,6 +1,6 @@
 import {HttpLibrary, RequestContext, ResponseContext, HttpException} from './http';
 import * as e6p from 'es6-promise'
-import { from, Observable } from 'rxjs';
+import { from, Observable } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
 e6p.polyfill();
 import * as $ from 'jquery';
 import * as FormData from "form-data";
