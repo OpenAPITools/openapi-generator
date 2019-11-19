@@ -160,6 +160,10 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         url: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: '{{httpMethod}}',
             headers: headerParameters,
