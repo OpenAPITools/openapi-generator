@@ -6,7 +6,7 @@
 #' @description {{classname}} Class
 #' @format An \code{R6Class} generator object
 {{#vars}}
-#' @field {{baseName}} {{title}} {{^isPrimitiveType}} \link[{{packageName}}:{{complexType}}]{ {{/isPrimitiveType}} {{#isContainer}} {{#isListContainer}}list({{#items}}{{dataType}}{{/items}}){{/isListContainer}}{{#isMapContainer}}named list({{#items}}{{dataType}}{{/items}}){{/isMapContainer}} {{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}} {{^isPrimitiveType}} } {{/isPrimitiveType}} {{^required}}[optional]{{/required}}
+#' @field {{baseName}} {{title}} {{^isPrimitiveType}} \link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#isListContainer}}{{#items}}{{dataType}}{{/items}}{{/isListContainer}}{{#isMapContainer}}named list({{#items}}{{dataType}}{{/items}}){{/isMapContainer}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%><%={{ }}=%>}{{/isPrimitiveType}} {{^required}}[optional]{{/required}}
 #'
 {{/vars}}
 #'
