@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Order_ exposing (Order_, Status(..), decoder, encode)
+module Data.Order_ exposing (Order_, Status(..), decoder, encode, encodeWithTag, toString)
 
 import DateTime exposing (DateTime)
 import Dict exposing (Dict)
@@ -22,12 +22,12 @@ import Json.Encode as Encode
 {-| An order for a pets from the pet store
 -}
 type alias Order_ =
-    { id : Maybe (Int)
-    , petId : Maybe (Int)
-    , quantity : Maybe (Int)
-    , shipDate : Maybe (DateTime)
-    , status : Maybe (Status)
-    , complete : Maybe (Bool)
+    { id : Maybe Int
+    , petId : Maybe Int
+    , quantity : Maybe Int
+    , shipDate : Maybe DateTime
+    , status : Maybe Status
+    , complete : Maybe Bool
     }
 
 
@@ -35,7 +35,6 @@ type Status
     = Placed
     | Approved
     | Delivered
-
 
 
 decoder : Decoder Order_
@@ -49,19 +48,30 @@ decoder =
         |> optional "complete" (Decode.nullable Decode.bool) (Just False)
 
 
-
 encode : Order_ -> Encode.Value
-encode model =
-    Encode.object
-        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
-        , ( "petId", Maybe.withDefault Encode.null (Maybe.map Encode.int model.petId) )
-        , ( "quantity", Maybe.withDefault Encode.null (Maybe.map Encode.int model.quantity) )
-        , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encode model.shipDate) )
-        , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
-        , ( "complete", Maybe.withDefault Encode.null (Maybe.map Encode.bool model.complete) )
+encode =
+    Encode.object << encodePairs
 
-        ]
 
+encodeWithTag : ( String, String ) -> Order_ -> Encode.Value
+encodeWithTag ( tagField, tag ) model =
+    Encode.object <| encodePairs model ++ [ ( tagField, Encode.string tag ) ]
+
+
+encodePairs : Order_ -> List ( String, Encode.Value )
+encodePairs model =
+    [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
+    , ( "petId", Maybe.withDefault Encode.null (Maybe.map Encode.int model.petId) )
+    , ( "quantity", Maybe.withDefault Encode.null (Maybe.map Encode.int model.quantity) )
+    , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encode model.shipDate) )
+    , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
+    , ( "complete", Maybe.withDefault Encode.null (Maybe.map Encode.bool model.complete) )
+    ]
+
+
+toString : Order_ -> String
+toString =
+    Encode.encode 0 << encode
 
 
 statusDecoder : Decoder Status
@@ -84,7 +94,6 @@ statusDecoder =
             )
 
 
-
 encodeStatus : Status -> Encode.Value
 encodeStatus model =
     case model of
@@ -96,6 +105,3 @@ encodeStatus model =
 
         Delivered ->
             Encode.string "delivered"
-
-
-

@@ -48,6 +48,7 @@ import org.openapitools.client.auth.OAuth;
 
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  private Map<String, String> defaultCookieMap = new HashMap<String, String>();
   private String basePath = "http://petstore.swagger.io:80/v2";
   private boolean debugging = false;
 
@@ -601,6 +602,7 @@ public class ApiClient {
    * @param queryParams The query parameters
    * @param body The request body object
    * @param headerParams The header parameters
+   * @param cookieParams The cookie parameters
    * @param formParams The form parameters
    * @param accept The request's Accept header
    * @param contentType The request's Content-Type header
@@ -609,8 +611,8 @@ public class ApiClient {
    * @return The response body in type of string
    * @throws ApiException if the invocation failed
    */
-  public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
-    updateParamsForAuth(authNames, queryParams, headerParams);
+  public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+    updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(this.basePath).path(path)` below,
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
@@ -638,6 +640,22 @@ public class ApiClient {
         String value = defaultHeaderEnrty.getValue();
         if (value != null) {
           invocationBuilder = invocationBuilder.header(defaultHeaderEnrty.getKey(), value);
+        }
+      }
+    }
+
+    for (Entry<String, String> cookieParamsEntry : cookieParams.entrySet()) {
+      String value = cookieParamsEntry.getValue();
+      if (value != null) {
+        invocationBuilder = invocationBuilder.cookie(cookieParamsEntry.getKey(), value);
+      }
+    }
+
+    for (Entry<String, String> defaultCookieEntry: defaultHeaderMap.entrySet()) {
+      if (!cookieParams.containsKey(defaultCookieEntry.getKey())) {
+        String value = defaultCookieEntry.getValue();
+        if (value != null) {
+          invocationBuilder = invocationBuilder.cookie(defaultCookieEntry.getKey(), value);
         }
       }
     }
@@ -724,11 +742,11 @@ public class ApiClient {
    *
    * @param authNames The authentications to apply
    */
-  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams) {
+  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
-      auth.applyToParams(queryParams, headerParams);
+      auth.applyToParams(queryParams, headerParams, cookieParams);
     }
   }
 }

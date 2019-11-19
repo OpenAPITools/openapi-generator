@@ -182,9 +182,9 @@ extension RequestBuilder {
         let deferred = Promise<Response<T>>.pending()
         self.execute { (response: Response<T>?, error: Error?) in
             if let response = response {
-                deferred.fulfill(response)
+                deferred.resolver.fulfill(response)
             } else {
-                deferred.reject(error!)
+                deferred.resolver.reject(error!)
             }
         }
         return deferred.promise

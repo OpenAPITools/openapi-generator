@@ -36,11 +36,14 @@ public class Example {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("{{{basePath}}}");
         {{#hasAuthMethods}}
-        {{#authMethods}}{{#isBasic}}
+        {{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         // Configure HTTP basic authorization: {{{name}}}
         HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setUsername("YOUR USERNAME");
-        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isApiKey}}
+        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasicBasic}}{{#isBasicBearer}}
+        // Configure HTTP bearer authorization: {{{name}}}
+        HttpBearerAuth {{{name}}} = (HttpBearerAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setBearerToken("BEARER TOKEN");{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         // Configure API key authorization: {{{name}}}
         ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setApiKey("YOUR API KEY");

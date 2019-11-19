@@ -347,7 +347,9 @@ namespace {{packageName}}.Client
         private ApiResponse<T> toApiResponse<T>({{#supportsAsync}}IRestResponse<T> response{{/supportsAsync}}{{^supportsAsync}}IRestResponse response, CustomJsonCodec des{{/supportsAsync}})
         {
             T result = {{#supportsAsync}}response.Data{{/supportsAsync}}{{^supportsAsync}}(T)des.Deserialize(response, typeof(T)){{/supportsAsync}};
-            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>({{#caseInsensitiveResponseHeaders}}StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}), result)
+            string rawContent = response.Content;
+
+            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>({{#caseInsensitiveResponseHeaders}}StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}), result, rawContent)
             {
                 ErrorText = response.ErrorMessage,
                 Cookies = new List<Cookie>()

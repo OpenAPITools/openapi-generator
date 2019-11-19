@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-android
 title: Config Options for android
 sidebar_label: android
 ---

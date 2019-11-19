@@ -20,9 +20,9 @@ open class StoreAPI {
         let deferred = Promise<Void>.pending()
         deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -59,9 +59,9 @@ open class StoreAPI {
         let deferred = Promise<[String: Int]>.pending()
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -100,9 +100,9 @@ open class StoreAPI {
         let deferred = Promise<Order>.pending()
         getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -142,9 +142,9 @@ open class StoreAPI {
         let deferred = Promise<Order>.pending()
         placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }

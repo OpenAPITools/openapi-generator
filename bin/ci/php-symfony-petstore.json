@@ -1,0 +1,6 @@
+{
+  "generatorName": "php-symfony",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/server/petstore/php-symfony/SymfonyBundle-php",
+  "templateDir": "modules/openapi-generator/src/main/resources/php-symfony"
+}

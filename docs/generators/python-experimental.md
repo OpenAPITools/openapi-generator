@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-python-experimental
 title: Config Options for python-experimental
 sidebar_label: python-experimental
 ---

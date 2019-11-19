@@ -1,4 +1,5 @@
 // tslint:disable
+// eslint-disable
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -60,7 +61,7 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
-        const body = (context.body instanceof FormData || isBlob(context.body))
+        const body = (context.body instanceof FormData || context.body instanceof URLSearchParams || isBlob(context.body))
 	    ? context.body
 	    : JSON.stringify(context.body);
 

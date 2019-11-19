@@ -19,7 +19,10 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 
@@ -27,14 +30,20 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected static final String JVM = "jvm";
+    protected static final String JVM_OKHTTP4 = "jvm-okhttp4";
+    protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
     protected static final String MULTIPLATFORM = "multiplatform";
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String COLLECTION_TYPE = "collectionType";
+
+    protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String collectionType = CollectionType.ARRAY.value;
@@ -101,14 +110,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         collectionType.setDefault(this.collectionType);
         cliOptions.add(collectionType);
 
-        supportedLibraries.put(JVM, "Platform: Java Virtual Machine. HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.8.1.");
+        supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
+        supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
-        libraryOption.setDefault(JVM);
+        libraryOption.setDefault(JVM_OKHTTP4);
         cliOptions.add(libraryOption);
-        setLibrary(JVM);
+        setLibrary(JVM_OKHTTP4);
     }
 
     public CodegenType getTag() {
@@ -156,8 +166,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
 
-        if (JVM.equals(getLibrary())) {
+        if (isJVMLibrary()) {
             additionalProperties.put(JVM, true);
+
+            if (JVM_OKHTTP4.equals(getLibrary())) {
+                additionalProperties.put(JVM_OKHTTP4, true);
+            } else if (JVM_OKHTTP3.equals(getLibrary())) {
+                additionalProperties.put(JVM_OKHTTP3, true);
+            }
+
+            supportedLibraries.put(JVM, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
+            setLibrary(JVM);
 
             // jvm specific supporting files
             supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
@@ -169,6 +188,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
             supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
             supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+            if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.gson) {
+                supportingFiles.add(new SupportingFile("infrastructure/DateAdapter.kt.mustache", infrastructureFolder,
+                        "DateAdapter.kt"));
+            }
 
         } else if (MULTIPLATFORM.equals(getLibrary())) {
             additionalProperties.put(MULTIPLATFORM, true);
@@ -176,29 +199,48 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
             // multiplatform default includes
             defaultIncludes.add("io.ktor.client.request.forms.InputProvider");
+            defaultIncludes.add(packageName + ".infrastructure.Base64ByteArray");
+            defaultIncludes.add(packageName + ".infrastructure.OctetByteArray");
 
             // multiplatform type mapping
             typeMapping.put("number", "kotlin.Double");
-            typeMapping.put("file", "InputProvider");
+            typeMapping.put("file", "OctetByteArray");
+            typeMapping.put("binary", "OctetByteArray");
+            typeMapping.put("ByteArray", "Base64ByteArray");
+            typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
 
             // multiplatform import mapping
             importMapping.put("BigDecimal", "kotlin.Double");
             importMapping.put("UUID", "kotlin.String");
             importMapping.put("URI", "kotlin.String");
             importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
-            importMapping.put("File", "io.ktor.client.request.forms.InputProvider");
+            importMapping.put("File", packageName + ".infrastructure.OctetByteArray");
             importMapping.put("Timestamp", "kotlin.String");
             importMapping.put("LocalDateTime", "kotlin.String");
             importMapping.put("LocalDate", "kotlin.String");
             importMapping.put("LocalTime", "kotlin.String");
+            importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
+            importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
 
             // multiplatform specific supporting files
+            supportingFiles.add(new SupportingFile("infrastructure/Base64ByteArray.kt.mustache", infrastructureFolder, "Base64ByteArray.kt"));
+            supportingFiles.add(new SupportingFile("infrastructure/Bytes.kt.mustache", infrastructureFolder, "Bytes.kt"));
             supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
+            supportingFiles.add(new SupportingFile("infrastructure/OctetByteArray.kt.mustache", infrastructureFolder, "OctetByteArray.kt"));
+
+            // multiplatform specific auth
+            final String authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
+            supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+            supportingFiles.add(new SupportingFile("auth/Authentication.kt.mustache", authFolder, "Authentication.kt"));
+            supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+            supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
+            supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
 
             // multiplatform specific testing files
-            supportingFiles.add(new SupportingFile("commonTest/coroutine.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
-            supportingFiles.add(new SupportingFile("iosTest/coroutine.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
-            supportingFiles.add(new SupportingFile("jvmTest/coroutine.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
+            supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
+            supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
+            supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "src/jsTest/kotlin/util", "Coroutine.kt"));
+            supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
 
             // gradle wrapper supporting files
             supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
@@ -234,6 +276,41 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("list", "kotlin.collections.List");
             additionalProperties.put("isList", true);
         }
+
+    }
+
+    private boolean isJVMLibrary() {
+        return getLibrary() != null && (getLibrary().contains(JVM_OKHTTP4) || getLibrary().contains(JVM_OKHTTP3));
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        Map<String, Object> objects = super.postProcessModels(objs);
+        @SuppressWarnings("unchecked") List<Object> models = (List<Object>) objs.get("models");
+
+        for (Object model : models) {
+            @SuppressWarnings("unchecked") Map<String, Object> mo = (Map<String, Object>) model;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // escape the variable base name for use as a string literal
+            List<CodegenProperty> vars = Stream.of(
+                    cm.vars,
+                    cm.allVars,
+                    cm.optionalVars,
+                    cm.requiredVars,
+                    cm.readOnlyVars,
+                    cm.readWriteVars,
+                    cm.parentVars
+            )
+                    .flatMap(List::stream)
+                    .collect(Collectors.toList());
+
+            for (CodegenProperty var : vars) {
+                var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
+            }
+        }
+
+        return objects;
     }
 
     @Override
@@ -244,9 +321,20 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
+
+                // set multipart against all relevant operations
                 if (operation.hasConsumes == Boolean.TRUE) {
                     if (isMultipartType(operation.consumes)) {
                         operation.isMultipart = Boolean.TRUE;
+                    }
+                }
+
+                // modify the data type of binary form parameters to a more friendly type for multiplatform builds
+                if (MULTIPLATFORM.equals(getLibrary()) && operation.allParams != null) {
+                    for (CodegenParameter param : operation.allParams) {
+                        if (param.dataFormat != null && param.dataFormat.equals("binary")) {
+                            param.baseType = param.dataType = "io.ktor.client.request.forms.InputProvider";
+                        }
                     }
                 }
             }

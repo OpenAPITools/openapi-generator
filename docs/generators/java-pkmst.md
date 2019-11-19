@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-java-pkmst
 title: Config Options for java-pkmst
 sidebar_label: java-pkmst
 ---

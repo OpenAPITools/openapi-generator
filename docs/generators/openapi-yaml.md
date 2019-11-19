@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-documentation-openapi-yaml
 title: Config Options for openapi-yaml
 sidebar_label: openapi-yaml
 ---

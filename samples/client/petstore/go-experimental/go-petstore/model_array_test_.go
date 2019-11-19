@@ -8,20 +8,20 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // ArrayTest struct for ArrayTest
 type ArrayTest struct {
 	ArrayOfString *[]string `json:"array_of_string,omitempty"`
-
 	ArrayArrayOfInteger *[][]int64 `json:"array_array_of_integer,omitempty"`
-
 	ArrayArrayOfModel *[][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
-
 }
 
-// GetArrayOfString returns the ArrayOfString field if non-nil, zero value otherwise.
+// GetArrayOfString returns the ArrayOfString field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayOfString() []string {
 	if o == nil || o.ArrayOfString == nil {
 		var ret []string
@@ -30,7 +30,7 @@ func (o *ArrayTest) GetArrayOfString() []string {
 	return *o.ArrayOfString
 }
 
-// GetArrayOfStringOk returns a tuple with the ArrayOfString field if it's non-nil, zero value otherwise
+// GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
 	if o == nil || o.ArrayOfString == nil {
@@ -54,7 +54,7 @@ func (o *ArrayTest) SetArrayOfString(v []string) {
 	o.ArrayOfString = &v
 }
 
-// GetArrayArrayOfInteger returns the ArrayArrayOfInteger field if non-nil, zero value otherwise.
+// GetArrayArrayOfInteger returns the ArrayArrayOfInteger field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 	if o == nil || o.ArrayArrayOfInteger == nil {
 		var ret [][]int64
@@ -63,7 +63,7 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 	return *o.ArrayArrayOfInteger
 }
 
-// GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field if it's non-nil, zero value otherwise
+// GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
 	if o == nil || o.ArrayArrayOfInteger == nil {
@@ -87,7 +87,7 @@ func (o *ArrayTest) SetArrayArrayOfInteger(v [][]int64) {
 	o.ArrayArrayOfInteger = &v
 }
 
-// GetArrayArrayOfModel returns the ArrayArrayOfModel field if non-nil, zero value otherwise.
+// GetArrayArrayOfModel returns the ArrayArrayOfModel field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 	if o == nil || o.ArrayArrayOfModel == nil {
 		var ret [][]ReadOnlyFirst
@@ -96,7 +96,7 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 	return *o.ArrayArrayOfModel
 }
 
-// GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field if it's non-nil, zero value otherwise
+// GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
 	if o == nil || o.ArrayArrayOfModel == nil {
@@ -120,20 +120,26 @@ func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
 	o.ArrayArrayOfModel = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o ArrayTest) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.ArrayOfString != nil {
-		toSerialize["array_of_string"] = o.ArrayOfString
-	}
-	if o.ArrayArrayOfInteger != nil {
-		toSerialize["array_array_of_integer"] = o.ArrayArrayOfInteger
-	}
-	if o.ArrayArrayOfModel != nil {
-		toSerialize["array_array_of_model"] = o.ArrayArrayOfModel
-	}
-	return json.Marshal(toSerialize)
+type NullableArrayTest struct {
+	Value ArrayTest
+	ExplicitNull bool
 }
 
+func (v NullableArrayTest) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableArrayTest) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-go
 title: Config Options for go
 sidebar_label: go
 ---

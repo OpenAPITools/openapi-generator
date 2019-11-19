@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-spring
 title: Config Options for spring
 sidebar_label: spring
 ---

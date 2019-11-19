@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-kotlin-spring
 title: Config Options for kotlin-spring
 sidebar_label: kotlin-spring
 ---
@@ -30,4 +28,5 @@ sidebar_label: kotlin-spring
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
 |reactive|use coroutines for reactive behavior| |false|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
+|delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dl>|spring-boot|

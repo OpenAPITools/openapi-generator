@@ -121,12 +121,31 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void testSettingInvokerPackageToBasePackage() throws Exception {
+    public void testSettingInvokerPackageToBasePackage() {
         final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.bbbb.invoker");
         codegen.processOpts();
 
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.bbbb.invoker");
         Assert.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.invoker");
+    }
+
+    @Test
+    public void testDelegatePattern() {
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.DELEGATE_PATTERN), true);
+        Assert.assertEquals(codegen.additionalProperties().get("isDelegate"), "true");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), false);
+        Assert.assertTrue(codegen.getSwaggerAnnotations());
+
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiController.mustache"), "Controller.kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiDelegate.mustache"), "Delegate.kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
+
+        Assert.assertTrue(codegen.supportingFiles().stream().anyMatch(supportingFile -> supportingFile.templateFile.equals("apiUtil.mustache")));
     }
 }

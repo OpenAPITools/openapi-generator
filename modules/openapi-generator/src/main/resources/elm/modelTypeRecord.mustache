@@ -14,6 +14,13 @@ type alias {{classname}} =
 
 
 {{>recordEncoder}}
+
+
+toString : {{classname}} -> String
+toString =
+    Encode.encode 0 << encode
+
+
 {{#vars}}
 {{#isEnum}}
 

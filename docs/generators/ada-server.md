@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-ada-server
 title: Config Options for ada-server
 sidebar_label: ada-server
 ---

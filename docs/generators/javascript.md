@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-javascript
 title: Config Options for javascript
 sidebar_label: javascript
 ---

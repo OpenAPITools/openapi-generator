@@ -151,7 +151,7 @@ export const COLLECTION_FORMATS = {
 export type Json = any;
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
 export type HttpHeaders = { [key: string]: string };
-export type HttpQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> };
+export type HttpQuery = Partial<{ [key: string]: string | number | null | boolean | Array<string | number | null | boolean> }>; // partial is needed for strict mode
 export type HttpBody = Json | FormData;
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
