@@ -21,9 +21,11 @@ import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
@@ -803,6 +805,43 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.toDefaultValue(p);
     }
 
+@Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+    if (parameter.getExample() != null) {
+        codegenParameter.example = "\"" + parameter.getExample() + "\"";
+        return;
+    }
+
+    if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+        Example example = parameter.getExamples().values().iterator().next();
+        if (example.getValue() != null) {
+            codegenParameter.example = "\"" + example.getValue() + "\"";
+            return;
+        }
+    }
+
+    Schema schema = parameter.getSchema();
+    if (schema != null && schema.getExample() != null) {
+        codegenParameter.example = "\"" + schema.getExample()+"\"" ;
+        return;
+    }
+    if (StringUtils.isNotBlank(schema.get$ref())) {
+        Schema ref = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
+            String enumExample = codegenParameter.dataType + ".";
+            if (null != ref.getExample()) {
+                enumExample += ref.getExample();
+            } else {
+                enumExample +=  ref.getEnum().get(0);
+            }
+            codegenParameter.example = enumExample;
+            return;
+        }
+    }
+
+    setParameterExampleValue(codegenParameter);
+    }
+
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         String example;
@@ -817,8 +856,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (type == null) {
             type = p.dataType;
         }
-
-        if ("String".equals(type)) {
+        if (p.isEnum) {
+            if (example == null || !p._enum.contains(example)) {
+                example = p._enum.get(0);
+            }
+        } else if ("String".equals(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
             }

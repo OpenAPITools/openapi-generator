@@ -32,7 +32,13 @@ class {{classname}}Test {
     void {{operationId}}{{code}}Test() throws Exception {
     {{#allParams}}
     {{^isFile}}
+        {{#isEnum}}
         {{{dataType}}} {{paramName}} = {{{example}}};
+        {{/isEnum}}
+        {{^isEnum}}
+        {{{dataType}}} {{paramName}} = {{{example}}};
+
+        {{/isEnum}}
     {{/isFile}}
     {{#isFile}}
         org.springframework.web.multipart.MultipartFile {{paramName}} = null;
