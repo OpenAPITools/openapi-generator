@@ -53,7 +53,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateTime">dateTime.</param>
         /// <param name="uuid">uuid.</param>
         /// <param name="password">password (required).</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string))
+        /// <param name="bigDecimal">bigDecimal.</param>
+        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), decimal bigDecimal = default(decimal))
         {
             // to ensure "number" is required (not null)
             if (number == null)
@@ -104,6 +105,7 @@ namespace Org.OpenAPITools.Model
             this.Binary = binary;
             this.DateTime = dateTime;
             this.Uuid = uuid;
+            this.BigDecimal = bigDecimal;
         }
         
         /// <summary>
@@ -186,6 +188,12 @@ namespace Org.OpenAPITools.Model
         public string Password { get; set; }
 
         /// <summary>
+        /// Gets or Sets BigDecimal
+        /// </summary>
+        [DataMember(Name="BigDecimal", EmitDefaultValue=false)]
+        public decimal BigDecimal { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -206,6 +214,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  BigDecimal: ").Append(BigDecimal).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -268,6 +277,7 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
                     hashCode = hashCode * 59 + this.Password.GetHashCode();
+                hashCode = hashCode * 59 + this.BigDecimal.GetHashCode();
                 return hashCode;
             }
         }

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-dart
 title: Config Options for dart
 sidebar_label: dart
 ---

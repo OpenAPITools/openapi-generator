@@ -161,6 +161,13 @@ var routes = Routes{
 	},
 
 	{
+		"TestQueryParameterCollectionFormat",
+		strings.ToUpper("Put"),
+		"/v2/fake/test-query-paramters",
+		TestQueryParameterCollectionFormat,
+	},
+
+	{
 		"TestClassname",
 		strings.ToUpper("Patch"),
 		"/v2/fake_classname_test",

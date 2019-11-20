@@ -1,4 +1,5 @@
 // tslint:disable
+// eslint-disable
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -59,10 +60,10 @@ export class StoreApi extends runtime.BaseAPI {
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-    * Delete purchase order by ID
-    */
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * Delete purchase order by ID
+     */
     async deleteOrder(requestParameters: DeleteOrderRequest): Promise<void> {
         await this.deleteOrderRaw(requestParameters);
     }
@@ -90,10 +91,10 @@ export class StoreApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse<any>(response);
     }
 
-   /**
-    * Returns a map of status codes to quantities
-    * Returns pet inventories by status
-    */
+    /**
+     * Returns a map of status codes to quantities
+     * Returns pet inventories by status
+     */
     async getInventory(): Promise<{ [key: string]: number; }> {
         const response = await this.getInventoryRaw();
         return await response.value();
@@ -122,10 +123,10 @@ export class StoreApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
     }
 
-   /**
-    * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-    * Find purchase order by ID
-    */
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * Find purchase order by ID
+     */
     async getOrderById(requestParameters: GetOrderByIdRequest): Promise<Order> {
         const response = await this.getOrderByIdRaw(requestParameters);
         return await response.value();
@@ -156,9 +157,9 @@ export class StoreApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
     }
 
-   /**
-    * Place an order for a pet
-    */
+    /**
+     * Place an order for a pet
+     */
     async placeOrder(requestParameters: PlaceOrderRequest): Promise<Order> {
         const response = await this.placeOrderRaw(requestParameters);
         return await response.value();

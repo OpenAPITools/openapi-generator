@@ -35,7 +35,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
     */
     fun deleteOrder(orderId: kotlin.String) : Unit {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -65,7 +65,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
     @Suppress("UNCHECKED_CAST")
     fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -96,7 +96,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
     @Suppress("UNCHECKED_CAST")
     fun getOrderById(orderId: kotlin.Long) : Order {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -127,7 +127,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
     @Suppress("UNCHECKED_CAST")
     fun placeOrder(body: Order) : Order {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,

@@ -161,6 +161,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val library = project.objects.property<String?>()
 
     /**
+     * Git host, e.g. gitlab.com.
+     */
+    val gitHost = project.objects.property<String?>()
+
+    /**
      * Git user ID, e.g. openapitools.
      */
     val gitUserId = project.objects.property<String?>()

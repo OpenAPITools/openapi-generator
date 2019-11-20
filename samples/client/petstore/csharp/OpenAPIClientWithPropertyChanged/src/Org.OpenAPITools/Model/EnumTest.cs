@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
-        [DataMember(Name="enum_string", EmitDefaultValue=false)]
+        [DataMember(Name="enum_string", EmitDefaultValue=true)]
         public EnumStringEnum? EnumString { get; set; }
         /// <summary>
         /// Defines EnumStringRequired
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
-        [DataMember(Name="enum_string_required", EmitDefaultValue=false)]
+        [DataMember(Name="enum_string_required", EmitDefaultValue=true)]
         public EnumStringRequiredEnum EnumStringRequired { get; set; }
         /// <summary>
         /// Defines EnumInteger
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
-        [DataMember(Name="enum_integer", EmitDefaultValue=false)]
+        [DataMember(Name="enum_integer", EmitDefaultValue=true)]
         public EnumIntegerEnum? EnumInteger { get; set; }
         /// <summary>
         /// Defines EnumNumber
@@ -140,12 +140,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumNumber
         /// </summary>
-        [DataMember(Name="enum_number", EmitDefaultValue=false)]
+        [DataMember(Name="enum_number", EmitDefaultValue=true)]
         public EnumNumberEnum? EnumNumber { get; set; }
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
-        [DataMember(Name="outerEnum", EmitDefaultValue=false)]
+        [DataMember(Name="outerEnum", EmitDefaultValue=true)]
         public OuterEnum? OuterEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.

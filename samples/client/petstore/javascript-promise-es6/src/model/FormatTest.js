@@ -94,6 +94,9 @@ class FormatTest {
             if (data.hasOwnProperty('password')) {
                 obj['password'] = ApiClient.convertToType(data['password'], 'String');
             }
+            if (data.hasOwnProperty('BigDecimal')) {
+                obj['BigDecimal'] = ApiClient.convertToType(data['BigDecimal'], 'Number');
+            }
         }
         return obj;
     }
@@ -165,6 +168,11 @@ FormatTest.prototype['uuid'] = undefined;
  * @member {String} password
  */
 FormatTest.prototype['password'] = undefined;
+
+/**
+ * @member {Number} BigDecimal
+ */
+FormatTest.prototype['BigDecimal'] = undefined;
 
 
 

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-scala-akka
 title: Config Options for scala-akka
 sidebar_label: scala-akka
 ---

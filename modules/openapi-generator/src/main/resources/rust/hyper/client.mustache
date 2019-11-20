@@ -9,7 +9,7 @@ pub struct APIClient {
 {{#operations}}
 {{#operation}}
     {{#-last}}
-    {{{classFilename}}}: Box<crate::apis::{{{classname}}}>,
+    {{{classFilename}}}: Box<dyn crate::apis::{{{classname}}}>,
     {{/-last}}
 {{/operation}}
 {{/operations}}
@@ -41,7 +41,7 @@ impl APIClient {
 {{#operations}}
 {{#operation}}
 {{#-last}}
-    pub fn {{{classFilename}}}(&self) -> &crate::apis::{{{classname}}}{
+    pub fn {{{classFilename}}}(&self) -> &dyn crate::apis::{{{classname}}}{
         self.{{{classFilename}}}.as_ref()
     }
 

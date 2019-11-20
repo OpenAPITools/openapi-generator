@@ -31,6 +31,8 @@ const siteConfig = {
 
   gaTrackingId: 'UA-132927057-1',
 
+  docsSideNavCollapsible: true,
+
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     {doc: 'installation', label: 'Get Started'},
@@ -100,6 +102,11 @@ const siteConfig = {
 
   // Show documentation's last update time.
   enableUpdateTime: true,
+
+  scrollToTop: true,
+  scrollToTopOptions: {
+    zIndex: 100,
+  },
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...

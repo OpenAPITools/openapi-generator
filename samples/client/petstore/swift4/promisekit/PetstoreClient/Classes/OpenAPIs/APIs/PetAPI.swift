@@ -18,11 +18,11 @@ open class PetAPI {
      */
     open class func addPet( body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        addPetWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -58,11 +58,11 @@ open class PetAPI {
      */
     open class func deletePet( petId: Int64, apiKey: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (response, error) -> Void in
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -116,9 +116,9 @@ open class PetAPI {
         let deferred = Promise<[Pet]>.pending()
         findPetsByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -161,9 +161,9 @@ open class PetAPI {
         let deferred = Promise<[Pet]>.pending()
         findPetsByTagsWithRequestBuilder(tags: tags).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -206,9 +206,9 @@ open class PetAPI {
         let deferred = Promise<Pet>.pending()
         getPetByIdWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -249,11 +249,11 @@ open class PetAPI {
      */
     open class func updatePet( body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        updatePetWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -290,11 +290,11 @@ open class PetAPI {
      */
     open class func updatePetWithForm( petId: Int64, name: String? = nil, status: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -344,9 +344,9 @@ open class PetAPI {
         let deferred = Promise<ApiResponse>.pending()
         uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -398,9 +398,9 @@ open class PetAPI {
         let deferred = Promise<ApiResponse>.pending()
         uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }

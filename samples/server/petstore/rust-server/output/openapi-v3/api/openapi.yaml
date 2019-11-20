@@ -86,6 +86,34 @@ paths:
       responses:
         200:
           description: OK
+  /responses_with_headers:
+    get:
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: String
+          description: Success
+          headers:
+            Success-Info:
+              explode: false
+              schema:
+                type: String
+              style: simple
+        412:
+          description: Precondition Failed
+          headers:
+            Further-Info:
+              explode: false
+              schema:
+                type: String
+              style: simple
+            Failure-Info:
+              explode: false
+              schema:
+                type: String
+              style: simple
 components:
   schemas:
     UuidObject:

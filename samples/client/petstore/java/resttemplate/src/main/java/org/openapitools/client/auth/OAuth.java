@@ -16,7 +16,7 @@ public class OAuth implements Authentication {
     }
 
     @Override
-    public void applyToParams(MultiValueMap<String, String> queryParams, HttpHeaders headerParams) {
+    public void applyToParams(MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         if (accessToken != null) {
             headerParams.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
         }

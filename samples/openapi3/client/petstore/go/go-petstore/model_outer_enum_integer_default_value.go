@@ -8,11 +8,12 @@
  */
 
 package petstore
+// OuterEnumIntegerDefaultValue the model 'OuterEnumIntegerDefaultValue'
 type OuterEnumIntegerDefaultValue int32
 
 // List of OuterEnumIntegerDefaultValue
 const (
-	_0 OuterEnumIntegerDefaultValue = "0"
-	_1 OuterEnumIntegerDefaultValue = "1"
-	_2 OuterEnumIntegerDefaultValue = "2"
+	_0 OuterEnumIntegerDefaultValue = 0
+	_1 OuterEnumIntegerDefaultValue = 1
+	_2 OuterEnumIntegerDefaultValue = 2
 )

@@ -14,6 +14,7 @@ The following generators are available:
     - [csharp-dotnet2](csharp-dotnet2.md)
     - [csharp-refactor](csharp-refactor.md)
     - [dart](dart.md)
+    - [dart-dio](dart-dio.md)
     - [dart-jaguar](dart-jaguar.md)
     - [eiffel](eiffel.md)
     - [elixir](elixir.md)

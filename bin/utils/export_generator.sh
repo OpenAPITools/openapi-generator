@@ -14,4 +14,4 @@ fi
 
 executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
-java -jar ${executable} config-help -g ${NAME} --named-header --format markdown --markdown-header -o docs/generators/${NAME}.md
+java -jar ${executable} config-help -g "${NAME}" --named-header --format markdown --markdown-header -o "docs/generators/${NAME}.md"

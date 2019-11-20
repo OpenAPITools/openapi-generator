@@ -35,9 +35,14 @@ dependencies {
     {{#gson}}
     implementation "com.google.code.gson:gson:2.8.5"
     {{/gson}}
-    compile "com.squareup.okhttp3:okhttp:4.0.1"
+    {{#jvm-okhttp3}}
+    compile "com.squareup.okhttp3:okhttp:3.12.4"
+    {{/jvm-okhttp3}}
+    {{#jvm-okhttp4}}
+    compile "com.squareup.okhttp3:okhttp:4.2.0"
+    {{/jvm-okhttp4}}
     {{#threetenbp}}
-    compile "org.threeten:threetenbp:1.3.8"
+    compile "org.threeten:threetenbp:1.4.0"
     {{/threetenbp}}
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-php-symfony
 title: Config Options for php-symfony
 sidebar_label: php-symfony
 ---

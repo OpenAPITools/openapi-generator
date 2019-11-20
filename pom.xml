@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.1.2-SNAPSHOT</version>
+    <version>4.2.1-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -266,6 +266,9 @@
                         </goals>
                         <configuration>
                             <rules>
+                                <requireJavaVersion>
+                                  <version>1.8.0</version>
+                                </requireJavaVersion>
                                 <requireMavenVersion>
                                     <version>3.2.5</version>
                                 </requireMavenVersion>
@@ -1034,12 +1037,13 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/server/petstore/python-aiohttp</module>
                 <!-- clients -->
+                <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
-                <!-- <module>samples/client/petstore/cpp-qt5</module> -->
+                <module>samples/client/petstore/cpp-qt5</module>
                 <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/rust</module>
-                <module>samples/client/petstore/rust-reqwest</module>
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
@@ -1072,9 +1076,7 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
-                <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/server/petstore/rust-server</module>
-                <module>samples/server/petstore/python-aiohttp</module>
                 <module>samples/server/petstore/python-flask</module>
                 <module>samples/server/petstore/python-flask-python2</module>
             </modules>
@@ -1165,7 +1167,9 @@
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scalatra</module>
+                <module>samples/server/petstore/java-vertx-web/rx</module>
                 <module>samples/server/petstore/scala-finch</module>
+                <module>samples/server/petstore/kotlin/vertx</module>
                 <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
@@ -1179,6 +1183,8 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/server/petstore/go-api-server</module>
+                <module>samples/server/petstore/go-gin-api-server</module>
                 <!-- clients -->
                 <module>samples/openapi3/client/petstore/ruby</module>
                 <!-- test java-related projects -->
@@ -1243,7 +1249,9 @@
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
+                <module>samples/client/petstore/kotlin-multiplatform</module>
                 <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-okhttp3/</module>
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
                 <!-- servers -->
@@ -1307,18 +1315,6 @@
                 <!-- comment out objc tests as it's timing out
                 <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>-->
-            </modules>
-        </profile>
-        <profile>
-            <id>samples.bash</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.bash</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/bash</module>
             </modules>
         </profile>
     </profiles>
@@ -1394,9 +1390,9 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-core-version>2.0.9</swagger-core-version>
-        <swagger-parser-version>2.0.14-OpenAPITools.org-1</swagger-parser-version>
+        <swagger-core-version>2.0.10</swagger-core-version>
+        <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
+        <swagger-parser-version>2.0.15</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>

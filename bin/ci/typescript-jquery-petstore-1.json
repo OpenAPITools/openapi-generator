@@ -1,0 +1,6 @@
+{
+  "!include": "bin/typescript-jquery-petstore-npm.json",
+  "generatorName": "typescript-jquery",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-jquery/npm"
+}

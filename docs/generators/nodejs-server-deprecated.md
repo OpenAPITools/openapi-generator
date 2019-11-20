@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-nodejs-server-deprecated
 title: Config Options for nodejs-server-deprecated
 sidebar_label: nodejs-server-deprecated
 ---

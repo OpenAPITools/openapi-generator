@@ -73,7 +73,7 @@ public class EnumTest {
 
       @Override
       public EnumStringEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return EnumStringEnum.fromValue(value);
       }
     }
@@ -126,7 +126,7 @@ public class EnumTest {
 
       @Override
       public EnumStringRequiredEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return EnumStringRequiredEnum.fromValue(value);
       }
     }
@@ -177,7 +177,7 @@ public class EnumTest {
 
       @Override
       public EnumIntegerEnum read(final JsonReader jsonReader) throws IOException {
-        Integer value = jsonReader.nextInt();
+        Integer value =  jsonReader.nextInt();
         return EnumIntegerEnum.fromValue(value);
       }
     }
@@ -228,7 +228,7 @@ public class EnumTest {
 
       @Override
       public EnumNumberEnum read(final JsonReader jsonReader) throws IOException {
-        Double value = jsonReader.nextDouble();
+        Double value =  jsonReader.nextDouble();
         return EnumNumberEnum.fromValue(value);
       }
     }
@@ -261,7 +261,6 @@ public class EnumTest {
   }
 
 
-
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
@@ -282,7 +281,6 @@ public class EnumTest {
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
-
 
 
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
@@ -308,7 +306,6 @@ public class EnumTest {
   }
 
 
-
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
@@ -332,7 +329,6 @@ public class EnumTest {
   }
 
 
-
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
@@ -354,7 +350,6 @@ public class EnumTest {
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
-
 
 
   public void setOuterEnum(OuterEnum outerEnum) {

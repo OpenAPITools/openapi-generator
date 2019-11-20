@@ -104,14 +104,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         languageSpecificPrimitives.add("string");
 
         // remove modelPackage and apiPackage added by default
-        Iterator<CliOption> itr = cliOptions.iterator();
-        while (itr.hasNext()) {
-            CliOption opt = itr.next();
-            if (CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
-                    CodegenConstants.API_PACKAGE.equals(opt.getOpt())) {
-                itr.remove();
-            }
-        }
+        cliOptions.removeIf(opt -> CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
+                CodegenConstants.API_PACKAGE.equals(opt.getOpt()));
 
         cliOptions.add(new CliOption(CodegenConstants.GEM_NAME, CodegenConstants.GEM_NAME_DESC).
                 defaultValue("openapi_client"));
@@ -342,33 +336,34 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+    public String toModelName(final String name) {
+        String modelName;
+        modelName = sanitizeName(name);
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
+            modelName = modelNamePrefix + "_" + modelName;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
+            modelName = modelName + "_" + modelNameSuffix;
         }
 
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            String modelName = camelize("Model" + name);
+        if (isReservedWord(modelName)) {
+            modelName = camelize("Model" + modelName);
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        if (modelName.matches("^\\d.*")) {
+            LOGGER.warn(modelName + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + modelName));
+            modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return camelize(modelName);
     }
 
     @Override
@@ -382,12 +377,17 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toApiFilename(String name) {
+    public String toApiFilename(final String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        String filename = name;
+        if (apiNameSuffix != null && apiNameSuffix.length() > 0) {
+            filename = filename + "_"  + apiNameSuffix;
+        }
+
+        filename = filename.replaceAll("-", "_");
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
-        return underscore(name) + "_api";
+        return underscore(filename);
     }
 
     @Override
@@ -407,11 +407,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
-            return "DefaultApi";
-        }
-        // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "Api";
+        return super.toApiName(name);
     }
 
     @Override

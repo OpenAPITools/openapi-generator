@@ -19,6 +19,7 @@ package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.languages.HaskellServantCodegen;
 
 import java.util.Map;
 
@@ -44,6 +45,7 @@ public class HaskellServantOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(HaskellServantCodegen.PROP_SERVE_STATIC, HaskellServantCodegen.PROP_SERVE_STATIC_DEFAULT.toString())
                 .build();
     }
 

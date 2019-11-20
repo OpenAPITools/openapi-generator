@@ -15,10 +15,12 @@ import org.openapitools.client.models.Animal
 import org.openapitools.client.models.CatAllOf
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 /**
  * 
  * @param declawed 
  */
+
 data class Cat (
     @Json(name = "className")
     val className: kotlin.String,
@@ -26,6 +28,12 @@ data class Cat (
     val declawed: kotlin.Boolean? = null,
     @Json(name = "color")
     val color: kotlin.String? = null
-)
+) 
+: Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

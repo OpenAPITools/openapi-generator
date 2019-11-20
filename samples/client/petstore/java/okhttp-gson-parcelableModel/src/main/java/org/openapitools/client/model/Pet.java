@@ -98,7 +98,7 @@ public class Pet implements Parcelable {
 
       @Override
       public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return StatusEnum.fromValue(value);
       }
     }
@@ -129,7 +129,6 @@ public class Pet implements Parcelable {
   }
 
 
-
   public void setId(Long id) {
     this.id = id;
   }
@@ -153,7 +152,6 @@ public class Pet implements Parcelable {
   }
 
 
-
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -174,7 +172,6 @@ public class Pet implements Parcelable {
   public String getName() {
     return name;
   }
-
 
 
   public void setName(String name) {
@@ -202,7 +199,6 @@ public class Pet implements Parcelable {
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
-
 
 
   public void setPhotoUrls(List<String> photoUrls) {
@@ -236,7 +232,6 @@ public class Pet implements Parcelable {
   }
 
 
-
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -258,7 +253,6 @@ public class Pet implements Parcelable {
   public StatusEnum getStatus() {
     return status;
   }
-
 
 
   public void setStatus(StatusEnum status) {

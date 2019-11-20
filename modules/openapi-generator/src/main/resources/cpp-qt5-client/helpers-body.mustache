@@ -55,10 +55,22 @@ toStringValue(const double &value){
     return QString::number(value);
 }
 
+QString 
+toStringValue(const {{prefix}}Object &value){
+    return value.asJson();
+}
+
+
 QString
 toStringValue(const {{prefix}}Enum &value){
     return value.asJson();
 }
+
+QString
+toStringValue(const {{prefix}}HttpFileElement &value){
+    return value.asJson();
+}
+
 
 QJsonValue
 toJsonValue(const QString &value){
@@ -114,6 +126,12 @@ QJsonValue
 toJsonValue(const {{prefix}}Enum &value){
     return value.asJsonValue();
 }
+
+QJsonValue
+toJsonValue(const {{prefix}}HttpFileElement &value){
+    return value.asJsonValue();
+}
+
 
 bool
 fromStringValue(const QString &inStr, QString &value){
@@ -207,6 +225,11 @@ bool
 fromStringValue(const QString &inStr, {{prefix}}Enum &value){
     value.fromJson(inStr);
     return true;
+}
+
+bool
+fromStringValue(const QString &inStr, {{prefix}}HttpFileElement &value){
+    return value.fromStringValue(inStr);
 }
 
 bool
@@ -335,6 +358,11 @@ bool
 fromJsonValue({{prefix}}Enum &value, const QJsonValue &jval){
     value.fromJsonValue(jval);
     return true;
+}
+
+bool
+fromJsonValue({{prefix}}HttpFileElement &value, const QJsonValue &jval){
+    return value.fromJsonValue(jval);
 }
 
 {{#cppNamespaceDeclarations}}

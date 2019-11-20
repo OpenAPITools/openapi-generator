@@ -52,7 +52,6 @@ public class CatAllOf {
   }
 
 
-
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }

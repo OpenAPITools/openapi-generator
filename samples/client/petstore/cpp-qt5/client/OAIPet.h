@@ -30,6 +30,7 @@
 #include "OAIObject.h"
 #include "OAIEnum.h"
 
+
 namespace OpenAPI {
 
 class OAIPet: public OAIObject {

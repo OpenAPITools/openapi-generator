@@ -8,16 +8,18 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
 
+// ArrayOfArrayOfNumberOnly struct for ArrayOfArrayOfNumberOnly
 type ArrayOfArrayOfNumberOnly struct {
 	ArrayArrayNumber *[][]float32 `json:"ArrayArrayNumber,omitempty"`
-
 }
 
-// GetArrayArrayNumber returns the ArrayArrayNumber field if non-nil, zero value otherwise.
+// GetArrayArrayNumber returns the ArrayArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumber() [][]float32 {
 	if o == nil || o.ArrayArrayNumber == nil {
 		var ret [][]float32
@@ -26,7 +28,7 @@ func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumber() [][]float32 {
 	return *o.ArrayArrayNumber
 }
 
-// GetArrayArrayNumberOk returns a tuple with the ArrayArrayNumber field if it's non-nil, zero value otherwise
+// GetArrayArrayNumberOk returns a tuple with the ArrayArrayNumber field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumberOk() ([][]float32, bool) {
 	if o == nil || o.ArrayArrayNumber == nil {
@@ -50,13 +52,26 @@ func (o *ArrayOfArrayOfNumberOnly) SetArrayArrayNumber(v [][]float32) {
 	o.ArrayArrayNumber = &v
 }
 
-
-func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.ArrayArrayNumber != nil {
-		toSerialize["ArrayArrayNumber"] = o.ArrayArrayNumber
-	}
-	return json.Marshal(toSerialize)
+type NullableArrayOfArrayOfNumberOnly struct {
+	Value ArrayOfArrayOfNumberOnly
+	ExplicitNull bool
 }
 
+func (v NullableArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableArrayOfArrayOfNumberOnly) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

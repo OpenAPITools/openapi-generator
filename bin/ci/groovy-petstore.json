@@ -1,0 +1,9 @@
+{
+  "generatorName": "groovy",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/groovy",
+  "templateDir": "modules/openapi-generator/src/main/resources/Groovy/",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true
+  }
+}

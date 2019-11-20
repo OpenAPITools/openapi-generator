@@ -13,7 +13,7 @@ import {
 {{#discriminator}}
 import {
 {{#discriminator.mappedModels}}
-     {{modelName}}FromJSONTyped
+     {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
 {{/discriminator.mappedModels}}
 } from './';
 
@@ -49,7 +49,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 {{#discriminator}}
     if (!ignoreDiscriminator) {
 {{#discriminator.mappedModels}}
-        if (json['{{discriminator.propertyName}}'] === '{{modelName}}') {
+        if (json['{{discriminator.propertyName}}'] === '{{mappingName}}') {
             return {{modelName}}FromJSONTyped(json, true);
         }
 {{/discriminator.mappedModels}}
@@ -100,7 +100,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/hasVars}}
 }
 
-export function {{classname}}ToJSON(value?: {{classname}}): any {
+export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     {{#hasVars}}
     if (value === undefined) {
         return undefined;
@@ -116,14 +116,14 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         {{#vars}}
         {{^isReadOnly}}
         {{#isPrimitiveType}}
-        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString().substr(0,10){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
+        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} == null ? undefined : {{/required}}value.{{name}}.toISOString().substr(0,10){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} == null ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isListContainer}}
-        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
+        '{{baseName}}': {{^required}}value.{{name}} == null ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
         {{/isListContainer}}
         {{#isMapContainer}}
-        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}mapValues(value.{{name}}, {{#items}}{{datatype}}{{/items}}ToJSON),
+        '{{baseName}}': {{^required}}value.{{name}} == null ? undefined : {{/required}}mapValues(value.{{name}}, {{#items}}{{datatype}}{{/items}}ToJSON),
         {{/isMapContainer}}
         {{^isListContainer}}
         {{^isMapContainer}}

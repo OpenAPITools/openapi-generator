@@ -72,7 +72,7 @@ public class EnumArrays {
 
       @Override
       public JustSymbolEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return JustSymbolEnum.fromValue(value);
       }
     }
@@ -123,7 +123,7 @@ public class EnumArrays {
 
       @Override
       public ArrayEnumEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return ArrayEnumEnum.fromValue(value);
       }
     }
@@ -150,7 +150,6 @@ public class EnumArrays {
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
-
 
 
   public void setJustSymbol(JustSymbolEnum justSymbol) {
@@ -182,7 +181,6 @@ public class EnumArrays {
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
-
 
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {

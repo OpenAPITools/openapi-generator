@@ -53,223 +53,223 @@ pub const API_VERSION: &'static str = "0.0.1";
 #[derive(Debug, PartialEq)]
 pub enum Op10GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op11GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op12GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op13GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op14GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op15GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op16GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op17GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op18GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op19GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op1GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op20GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op21GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op22GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op23GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op24GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op25GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op26GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op27GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op28GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op29GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op2GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op30GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op31GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op32GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op33GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op34GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op35GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op36GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op37GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op3GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op4GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op5GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op6GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op7GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op8GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Op9GetResponse {
     /// OK
-    OK ,
+    OK
 }
 
 

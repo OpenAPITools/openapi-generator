@@ -1,4 +1,5 @@
 // tslint:disable
+// eslint-disable
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -86,7 +87,7 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
     };
 }
 
-export function PetToJSON(value?: Pet): any {
+export function PetToJSON(value?: Pet | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -99,7 +100,7 @@ export function PetToJSON(value?: Pet): any {
         'category': CategoryToJSON(value.category),
         'name': value.name,
         'photoUrls': value.photoUrls,
-        'tags': value.tags === undefined ? undefined : (value.tags as Array<any>).map(TagToJSON),
+        'tags': value.tags == null ? undefined : (value.tags as Array<any>).map(TagToJSON),
         'status': value.status,
     };
 }

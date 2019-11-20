@@ -286,4 +286,30 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         output.deleteOnExit();
     }
+
+    @Test
+    public void testGenerateApiWithPreceedingPathParameter_issue1347() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_1347.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        validateJavaSourceFiles(generatedFiles);
+        TestUtils.ensureContainsFile(generatedFiles, output, "openapi.yml");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
+
+        output.deleteOnExit();
+    }
 }

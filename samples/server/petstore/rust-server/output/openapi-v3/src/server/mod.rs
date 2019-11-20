@@ -36,6 +36,7 @@ use swagger::auth::Scopes;
 
 use {Api,
      RequiredOctetStreamPutResponse,
+     ResponsesWithHeadersGetResponse,
      UuidGetResponse,
      XmlExtraPostResponse,
      XmlOtherPostResponse,
@@ -56,6 +57,7 @@ mod paths {
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/required_octet_stream$",
+            r"^/responses_with_headers$",
             r"^/uuid$",
             r"^/xml$",
             r"^/xml_extra$",
@@ -63,10 +65,11 @@ mod paths {
         ]).unwrap();
     }
     pub static ID_REQUIRED_OCTET_STREAM: usize = 0;
-    pub static ID_UUID: usize = 1;
-    pub static ID_XML: usize = 2;
-    pub static ID_XML_EXTRA: usize = 3;
-    pub static ID_XML_OTHER: usize = 4;
+    pub static ID_RESPONSES_WITH_HEADERS: usize = 1;
+    pub static ID_UUID: usize = 2;
+    pub static ID_XML: usize = 3;
+    pub static ID_XML_EXTRA: usize = 4;
+    pub static ID_XML_OTHER: usize = 5;
 }
 
 pub struct NewService<T, C> {
@@ -181,6 +184,69 @@ where
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
+            },
+
+            // ResponsesWithHeadersGet - GET /responses_with_headers
+            &hyper::Method::Get if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
+                Box::new({
+                        {{
+                                Box::new(api_impl.responses_with_headers_get(&context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                ResponsesWithHeadersGetResponse::Success
+
+                                                    {
+                                                        body,
+                                                        success_info
+                                                    }
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    header! { (ResponseSuccessInfo, "Success-Info") => [String] }
+                                                    response.headers_mut().set(ResponseSuccessInfo(success_info));
+
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::RESPONSES_WITH_HEADERS_GET_SUCCESS.clone()));
+
+
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+
+                                                    response.set_body(body);
+                                                },
+                                                ResponsesWithHeadersGetResponse::PreconditionFailed
+
+
+                                                    {
+                                                        further_info, 
+                                                        failure_info
+                                                    }
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(412).unwrap());
+                                                    header! { (ResponseFurtherInfo, "Further-Info") => [String] }
+                                                    response.headers_mut().set(ResponseFurtherInfo(further_info));
+                                                    header! { (ResponseFailureInfo, "Failure-Info") => [String] }
+                                                    response.headers_mut().set(ResponseFailureInfo(failure_info));
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.set_status(StatusCode::InternalServerError);
+                                                response.set_body("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Box<Future<Item=Response, Error=Error>>
             },
 
             // UuidGet - GET /uuid
@@ -580,6 +646,9 @@ impl RequestParser for ApiRequestParser {
 
             // RequiredOctetStreamPut - PUT /required_octet_stream
             &hyper::Method::Put if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Ok("RequiredOctetStreamPut"),
+
+            // ResponsesWithHeadersGet - GET /responses_with_headers
+            &hyper::Method::Get if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Ok("ResponsesWithHeadersGet"),
 
             // UuidGet - GET /uuid
             &hyper::Method::Get if path.matched(paths::ID_UUID) => Ok("UuidGet"),

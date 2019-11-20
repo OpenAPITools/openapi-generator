@@ -66,13 +66,14 @@ export class {{classname}} {
 {{/useHttpClient}}
 
     constructor(protected {{#useHttpClient}}httpClient: HttpClient{{/useHttpClient}}{{^useHttpClient}}http: Http{{/useHttpClient}}, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
+        }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
         }
 {{#useHttpClient}}
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
@@ -181,7 +182,7 @@ export class {{classname}} {
         {{^isListContainer}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
+            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', ({{paramName}} as any instanceof Date) ? ({{paramName}} as any).toISOString().substr(0, 10) : {{paramName}});
         {{/isDateTime}}
         {{^isDateTime}}
             {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', <any>{{paramName}});

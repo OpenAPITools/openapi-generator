@@ -96,7 +96,7 @@ public class ListGenerators implements Runnable {
                 GeneratorMetadata meta = generator.getGeneratorMetadata();
                 if (docusaurus) {
                     sb.append("* ");
-                    String id = "generators/" + generator.getName();
+                    String id = "generators/" + generator.getName() + ".md";
                     sb.append("[").append(generator.getName());
 
                     if (meta != null && meta.getStability() != null && meta.getStability() != Stability.STABLE) {

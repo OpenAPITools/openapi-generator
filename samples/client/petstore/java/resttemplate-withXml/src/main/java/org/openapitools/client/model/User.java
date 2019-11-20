@@ -43,36 +43,36 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "User")
 public class User {
-  @XmlElement(name = "id")
   public static final String JSON_PROPERTY_ID = "id";
+  @XmlElement(name = "id")
   private Long id;
 
-  @XmlElement(name = "username")
   public static final String JSON_PROPERTY_USERNAME = "username";
+  @XmlElement(name = "username")
   private String username;
 
-  @XmlElement(name = "firstName")
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
+  @XmlElement(name = "firstName")
   private String firstName;
 
-  @XmlElement(name = "lastName")
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
+  @XmlElement(name = "lastName")
   private String lastName;
 
-  @XmlElement(name = "email")
   public static final String JSON_PROPERTY_EMAIL = "email";
+  @XmlElement(name = "email")
   private String email;
 
-  @XmlElement(name = "password")
   public static final String JSON_PROPERTY_PASSWORD = "password";
+  @XmlElement(name = "password")
   private String password;
 
-  @XmlElement(name = "phone")
   public static final String JSON_PROPERTY_PHONE = "phone";
+  @XmlElement(name = "phone")
   private String phone;
 
-  @XmlElement(name = "userStatus")
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
+  @XmlElement(name = "userStatus")
   private Integer userStatus;
 
 
@@ -95,7 +95,6 @@ public class User {
   public Long getId() {
     return id;
   }
-
 
 
   public void setId(Long id) {
@@ -124,7 +123,6 @@ public class User {
   }
 
 
-
   public void setUsername(String username) {
     this.username = username;
   }
@@ -149,7 +147,6 @@ public class User {
   public String getFirstName() {
     return firstName;
   }
-
 
 
   public void setFirstName(String firstName) {
@@ -178,7 +175,6 @@ public class User {
   }
 
 
-
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
@@ -203,7 +199,6 @@ public class User {
   public String getEmail() {
     return email;
   }
-
 
 
   public void setEmail(String email) {
@@ -232,7 +227,6 @@ public class User {
   }
 
 
-
   public void setPassword(String password) {
     this.password = password;
   }
@@ -259,7 +253,6 @@ public class User {
   }
 
 
-
   public void setPhone(String phone) {
     this.phone = phone;
   }
@@ -284,7 +277,6 @@ public class User {
   public Integer getUserStatus() {
     return userStatus;
   }
-
 
 
   public void setUserStatus(Integer userStatus) {
