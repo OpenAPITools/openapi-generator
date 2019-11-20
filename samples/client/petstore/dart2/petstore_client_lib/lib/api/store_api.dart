@@ -1,5 +1,8 @@
-part of openapi.api;
-
+import 'package:http/http.dart';
+import 'package:petstore_client_lib/api.dart';
+import 'package:petstore_client_lib/api_client.dart';
+import 'package:petstore_client_lib/api_exception.dart';
+import 'package:petstore_client_lib/api_helper.dart';
 
 
 class StoreApi {
@@ -57,7 +60,7 @@ class StoreApi {
   Future deleteOrder(String orderId) async {
     Response response = await deleteOrderWithHttpInfo(orderId);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -111,9 +114,9 @@ class StoreApi {
   Future<Map<String, int>> getInventory() async {
     Response response = await getInventoryWithHttpInfo();
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
-      return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
+      return Map<String, int>.from(apiClient.deserialize(decodeBodyBytes(response), 'Map<String, int>'));
           ;
     } else {
       return null;
@@ -170,9 +173,9 @@ class StoreApi {
   Future<Order> getOrderById(int orderId) async {
     Response response = await getOrderByIdWithHttpInfo(orderId);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
+      return apiClient.deserialize(decodeBodyBytes(response), 'Order') as Order;
     } else {
       return null;
     }
@@ -228,9 +231,9 @@ class StoreApi {
   Future<Order> placeOrder(Order body) async {
     Response response = await placeOrderWithHttpInfo(body);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
+      return apiClient.deserialize(decodeBodyBytes(response), 'Order') as Order;
     } else {
       return null;
     }

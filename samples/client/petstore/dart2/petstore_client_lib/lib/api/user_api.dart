@@ -1,5 +1,8 @@
-part of openapi.api;
-
+import 'package:http/http.dart';
+import 'package:petstore_client_lib/api.dart';
+import 'package:petstore_client_lib/api_client.dart';
+import 'package:petstore_client_lib/api_exception.dart';
+import 'package:petstore_client_lib/api_helper.dart';
 
 
 class UserApi {
@@ -57,7 +60,7 @@ class UserApi {
   Future createUser(User body) async {
     Response response = await createUserWithHttpInfo(body);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -114,7 +117,7 @@ class UserApi {
   Future createUsersWithArrayInput(List<User> body) async {
     Response response = await createUsersWithArrayInputWithHttpInfo(body);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -171,7 +174,7 @@ class UserApi {
   Future createUsersWithListInput(List<User> body) async {
     Response response = await createUsersWithListInputWithHttpInfo(body);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -228,7 +231,7 @@ class UserApi {
   Future deleteUser(String username) async {
     Response response = await deleteUserWithHttpInfo(username);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -285,9 +288,9 @@ class UserApi {
   Future<User> getUserByName(String username) async {
     Response response = await getUserByNameWithHttpInfo(username);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
+      return apiClient.deserialize(decodeBodyBytes(response), 'User') as User;
     } else {
       return null;
     }
@@ -314,8 +317,8 @@ class UserApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-      queryParams.addAll(_convertParametersForCollectionFormat("", "username", username));
-      queryParams.addAll(_convertParametersForCollectionFormat("", "password", password));
+      queryParams.addAll(convertParametersForCollectionFormat("", "username", username));
+      queryParams.addAll(convertParametersForCollectionFormat("", "password", password));
 
     List<String> contentTypes = [];
 
@@ -348,9 +351,9 @@ class UserApi {
   Future<String> loginUser(String username, String password) async {
     Response response = await loginUserWithHttpInfo(username, password);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+      return apiClient.deserialize(decodeBodyBytes(response), 'String') as String;
     } else {
       return null;
     }
@@ -403,7 +406,7 @@ class UserApi {
   Future logoutUser() async {
     Response response = await logoutUserWithHttpInfo();
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -463,7 +466,7 @@ class UserApi {
   Future updateUser(String username, User body) async {
     Response response = await updateUserWithHttpInfo(username, body);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;

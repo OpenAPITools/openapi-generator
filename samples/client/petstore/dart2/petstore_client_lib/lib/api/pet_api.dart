@@ -1,5 +1,8 @@
-part of openapi.api;
-
+import 'package:http/http.dart';
+import 'package:petstore_client_lib/api.dart';
+import 'package:petstore_client_lib/api_client.dart';
+import 'package:petstore_client_lib/api_exception.dart';
+import 'package:petstore_client_lib/api_helper.dart';
 
 
 class PetApi {
@@ -57,7 +60,7 @@ class PetApi {
   Future addPet(Pet body) async {
     Response response = await addPetWithHttpInfo(body);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -115,7 +118,7 @@ class PetApi {
   Future deletePet(int petId, { String apiKey }) async {
     Response response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -140,7 +143,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-      queryParams.addAll(_convertParametersForCollectionFormat("csv", "status", status));
+      queryParams.addAll(convertParametersForCollectionFormat("csv", "status", status));
 
     List<String> contentTypes = [];
 
@@ -173,9 +176,9 @@ class PetApi {
   Future<List<Pet>> findPetsByStatus(List<String> status) async {
     Response response = await findPetsByStatusWithHttpInfo(status);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
+      return (apiClient.deserialize(decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
       return null;
     }
@@ -199,7 +202,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-      queryParams.addAll(_convertParametersForCollectionFormat("csv", "tags", tags));
+      queryParams.addAll(convertParametersForCollectionFormat("csv", "tags", tags));
 
     List<String> contentTypes = [];
 
@@ -232,9 +235,9 @@ class PetApi {
   Future<List<Pet>> findPetsByTags(List<String> tags) async {
     Response response = await findPetsByTagsWithHttpInfo(tags);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
+      return (apiClient.deserialize(decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
       return null;
     }
@@ -290,9 +293,9 @@ class PetApi {
   Future<Pet> getPetById(int petId) async {
     Response response = await getPetByIdWithHttpInfo(petId);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
+      return apiClient.deserialize(decodeBodyBytes(response), 'Pet') as Pet;
     } else {
       return null;
     }
@@ -348,7 +351,7 @@ class PetApi {
   Future updatePet(Pet body) async {
     Response response = await updatePetWithHttpInfo(body);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -417,7 +420,7 @@ class PetApi {
   Future updatePetWithForm(int petId, { String name, String status }) async {
     Response response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
@@ -485,9 +488,9 @@ class PetApi {
   Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
     Response response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
+      return apiClient.deserialize(decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
     } else {
       return null;
     }

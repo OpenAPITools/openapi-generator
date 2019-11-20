@@ -1,4 +1,5 @@
-part of openapi.api;
+import 'package:petstore_client_lib/api_client.dart';
+import 'package:petstore_client_lib/auth/authentication.dart';
 
 class OAuth implements Authentication {
   String _accessToken;

@@ -1,4 +1,4 @@
-part of openapi.api;
+import 'package:petstore_client_lib/api_client.dart';
 
 abstract class Authentication {
 

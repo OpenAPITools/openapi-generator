@@ -1,4 +1,4 @@
-name: openapi
+name: petstore_client_lib
 version: 1.0.0
 description: OpenAPI API client
 environment:

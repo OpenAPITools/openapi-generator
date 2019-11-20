@@ -1,4 +1,17 @@
-part of openapi.api;
+import 'dart:convert';
+
+import 'package:http/http.dart';
+import 'package:petstore_client_lib/auth/authentication.dart';
+import 'package:petstore_client_lib/auth/api_key_auth.dart';
+import 'package:petstore_client_lib/auth/oauth.dart';
+import 'package:petstore_client_lib/api_exception.dart';
+
+import 'package:petstore_client_lib/model/api_response.dart';
+import 'package:petstore_client_lib/model/category.dart';
+import 'package:petstore_client_lib/model/order.dart';
+import 'package:petstore_client_lib/model/pet.dart';
+import 'package:petstore_client_lib/model/tag.dart';
+import 'package:petstore_client_lib/model/user.dart';
 
 class QueryParam {
   String name;
@@ -137,6 +150,8 @@ class ApiClient {
           return client.delete(url, headers: headerParams);
         case "PATCH":
           return client.patch(url, headers: headerParams, body: msgBody);
+        case "HEAD":
+          return client.head(url, headers: headerParams);
         default:
           return client.get(url, headers: headerParams);
       }

@@ -1,6 +1,4 @@
-part of openapi.api;
-
-class Tag {
+        class Tag {
   
   int id = null;
   

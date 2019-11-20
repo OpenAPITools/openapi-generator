@@ -1,8 +1,8 @@
-# openapi.model.ApiResponse
+# petstore_client_lib.model.ApiResponse
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 ```
 
 ## Properties

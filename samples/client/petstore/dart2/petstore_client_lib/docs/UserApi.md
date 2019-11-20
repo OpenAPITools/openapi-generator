@@ -1,8 +1,8 @@
-# openapi.api.UserApi
+# petstore_client_lib.api.UserApi
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 ```
 
 All URIs are relative to *http://petstore.swagger.io/v2*
@@ -28,7 +28,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 
 var api_instance = UserApi();
 var body = User(); // User | Created user object
@@ -68,7 +68,7 @@ Creates list of users with given input array
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 
 var api_instance = UserApi();
 var body = [List&lt;User&gt;()]; // List<User> | List of user object
@@ -108,7 +108,7 @@ Creates list of users with given input array
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 
 var api_instance = UserApi();
 var body = [List&lt;User&gt;()]; // List<User> | List of user object
@@ -150,7 +150,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 
 var api_instance = UserApi();
 var username = username_example; // String | The name that needs to be deleted
@@ -190,7 +190,7 @@ Get user by user name
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 
 var api_instance = UserApi();
 var username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
@@ -231,7 +231,7 @@ Logs user into the system
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 
 var api_instance = UserApi();
 var username = username_example; // String | The user name for login
@@ -274,7 +274,7 @@ Logs out current logged in user session
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 
 var api_instance = UserApi();
 
@@ -312,7 +312,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:petstore_client_lib/api.dart';
 
 var api_instance = UserApi();
 var username = username_example; // String | name that need to be deleted
