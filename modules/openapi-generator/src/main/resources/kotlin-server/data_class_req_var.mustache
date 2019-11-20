@@ -1,4 +1,4 @@
 {{#description}}
     /* {{{description}}} */
 {{/description}}
-    {{>property}} {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}
+    {{>modelMutable}} {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}
