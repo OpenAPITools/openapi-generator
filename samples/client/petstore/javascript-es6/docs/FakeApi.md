@@ -391,7 +391,7 @@ No authorization required
 
 ## testEndpointParameters
 
-> testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts)
+> testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, opts)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -408,7 +408,7 @@ http_basic_test.username = 'YOUR USERNAME';
 http_basic_test.password = 'YOUR PASSWORD';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let _number = 3.4; // Number | None
+let number = 3.4; // Number | None
 let _double = 3.4; // Number | None
 let patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 let _byte = null; // Blob | None
@@ -417,14 +417,14 @@ let opts = {
   'int32': 56, // Number | None
   'int64': 789, // Number | None
   '_float': 3.4, // Number | None
-  '_string': "_string_example", // String | None
+  'string': "string_example", // String | None
   'binary': "/path/to/file", // File | None
-  '_date': new Date("2013-10-20"), // Date | None
+  'date': new Date("2013-10-20"), // Date | None
   'dateTime': new Date("2013-10-20T19:20:30+01:00"), // Date | None
   'password': "password_example", // String | None
   'callback': "callback_example" // String | None
 };
-apiInstance.testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts, (error, data, response) => {
+apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -438,7 +438,7 @@ apiInstance.testEndpointParameters(_number, _double, patternWithoutDelimiter, _b
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **_number** | **Number**| None | 
+ **number** | **Number**| None | 
  **_double** | **Number**| None | 
  **patternWithoutDelimiter** | **String**| None | 
  **_byte** | **Blob**| None | 
@@ -446,9 +446,9 @@ Name | Type | Description  | Notes
  **int32** | **Number**| None | [optional] 
  **int64** | **Number**| None | [optional] 
  **_float** | **Number**| None | [optional] 
- **_string** | **String**| None | [optional] 
+ **string** | **String**| None | [optional] 
  **binary** | **File**| None | [optional] 
- **_date** | **Date**| None | [optional] 
+ **date** | **Date**| None | [optional] 
  **dateTime** | **Date**| None | [optional] 
  **password** | **String**| None | [optional] 
  **callback** | **String**| None | [optional] 
