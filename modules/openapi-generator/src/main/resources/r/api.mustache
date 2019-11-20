@@ -23,25 +23,25 @@
 {{#isListContainer}}
 {{#items}}
 {{#isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} {{dataType}}
+#' \item \emph{ @param } {{paramName}} list {{dataType}}
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%>
+#' \item \emph{ @param } {{paramName}} \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> list()
 {{/isPrimitiveType}}
 {{/items}}
 {{/isListContainer}}
 {{#isMapContainer}}
 {{#isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} named {{dataType}}
+#' \item \emph{ @param } {{paramName}} {{dataType}} named list()
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} named \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%>
+#' \item \emph{ @param } {{paramName}} \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> named list()
 {{/isPrimitiveType}}
 {{/isMapContainer}}
 {{/isContainer}}
 {{^isContainer}}
 {{#isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} {{dataType}}
+#' \item \emph{ @param } {{paramName}} {{dataType}} list()
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
 #' \item \emph{ @param } {{paramName}} \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%>
@@ -51,7 +51,7 @@
 {{/allParams}}
 {{#returnType}}
 {{^returnTypeIsPrimitive}}
-#' \item \emph{ @returnType } \link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{#isListContainer}}{{returnBaseType}}{{/isListContainer}}{{#isMapContainer}}named list({{returnBaseType}}){{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>   \cr
+#' \item \emph{ @returnType } \link{{=<% %>=}}{<%returnType%>}<%={{ }}=%> \cr
 {{/returnTypeIsPrimitive}}
 {{/returnType}}
 #'
